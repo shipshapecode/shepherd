@@ -17,7 +17,6 @@ extend = (out={}) ->
   args = []
   Array::push.apply(args, arguments)
 
-  console.log args
   for obj in args[1..] when obj
     for own key, val of obj
       out[key] = val
@@ -148,7 +147,7 @@ class Step extends Evented
     if not Tether?
       throw new Error "Using the attachment feature of Shepherd requires the Tether library"
 
-    opts = parseShorthand @options.attachTo, ['element']
+    opts = parseShorthand @options.attachTo, ['element', 'on']
     opts ?= {}
 
     if typeof opts.element is 'string'
@@ -211,7 +210,6 @@ class Step extends Evented
       @destroy()
 
     @el = createFromHTML "<div class='shepherd-step #{ @options.classes ? '' }' data-id='#{ @id }'></div>"
-    console.log 'rendering', @el
 
     content = document.createElement 'div'
     content.className = 'drop-content'
@@ -279,12 +277,12 @@ class Tour
     @steps = @options.steps ? []
 
   addStep: (name, step) ->
-    step = extend {}, @options.defaults, step
-
     if not step?
       step = name
     else
       step.id = name
+
+    step = extend {}, @options.defaults, step
 
     @steps.push new Step(@, step)
 
@@ -293,11 +291,20 @@ class Tour
       return step
 
   next: =>
-    index = -1
-    if @currentStep
-      index = @steps.indexOf(@currentStep)
+    index = @steps.indexOf(@currentStep)
 
     @show(index + 1)
+
+  back: =>
+    index = @steps.indexOf(@currentStep)
+
+    @show(index - 1)
+
+  cancel: =>
+    @currentStep?.cancel()
+
+  hide: =>
+    @currentStep?.hide()
 
   show: (key=0) ->
     if @currentStep
@@ -308,7 +315,6 @@ class Tour
     else
       next = @steps[key]
 
-    console.log 'next', next
     if next
       @currentStep = next
       next.show()
@@ -346,9 +352,9 @@ tour.addStep 'seller-start',
     "Selling is the ultimate way to unload your useless 'art'.",
     "Begin by clicking the 'Start Selling' button."
   ]
-  attachTo: 'bottom a.small.button:first-of-type'
+  attachTo: 'a.small.button:first-of-type bottom'
   advanceOn: 'click button.start-selling'
-  classes: 'tour-wide'
+  classes: 'tour-wide drop drop-open drop-theme-arrows'
   
 tour.addStep 'wmp-start',
   text: [
