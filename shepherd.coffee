@@ -13,6 +13,17 @@ uniqueId = do ->
   ->
     id++
 
+extend = (out={}) ->
+  args = []
+  Array::push.apply(args, arguments)
+
+  console.log args
+  for obj in args[1..] when obj
+    for own key, val of obj
+      out[key] = val
+
+  out
+
 createFromHTML = (html) ->
   el = document.createElement('div')
   el.innerHTML = html
@@ -50,7 +61,9 @@ matchesSelector = (el, sel) ->
     return false
 
 parseShorthand = (obj, props) ->
-  if typeof obj is 'object'
+  if not obj?
+    return obj
+  else if typeof obj is 'object'
     return obj
   else
     vals = obj.split(' ')
@@ -71,7 +84,7 @@ class Evented
     @on(event, handler, ctx, true)
 
   off: (event, handler) ->
-    return unless @bindings?
+    return unless @bindings?[event]?
 
     if not handler?
       delete @bindings[event]
@@ -84,7 +97,7 @@ class Evented
           i++
 
   trigger: (event, args...) ->
-    if @bindings[event]
+    if @bindings?[event]
       i = 0
       while i < @bindings[event].length
         {handler, ctx, once} = @bindings[event][i]
@@ -97,17 +110,22 @@ class Evented
           i++
 
 class Step extends Evented
-  constructor: (options) ->
+  constructor: (@tour, options) ->
     @setOptions options
 
   setOptions: (@options={}) ->
     @destroy()
 
-    @id = @options.id or @id or uniqueId()
+    @id = @options.id or @id or "step-#{ uniqueId() }"
 
     if @options.when
       for event, handler of @options.when
         @on event, handler, @
+
+    @options.buttons ?= [
+      text: 'Next'
+      action: @tour.next
+    ]
 
   bindAdvance: ->
     # An empty selector matches the step element
@@ -131,15 +149,26 @@ class Step extends Evented
       throw new Error "Using the attachment feature of Shepherd requires the Tether library"
 
     opts = parseShorthand @options.attachTo, ['element']
+    opts ?= {}
 
     if typeof opts.element is 'string'
       opts.element = document.querySelector opts.element
 
-    @tether = new Tether
+      if not opts.element?
+        throw new Error "Shepherd step's attachTo was not found in the page"
+
+    attachment = ATTACHMENT[opts.on or 'right']
+    if not opts.element?
+      opts.element = 'viewport'
+      attachment = 'middle center'
+
+    tetherOpts =
       element: @el
       target: opts.element
       offset: opts.offset or '0 0'
-      attachment: ATTACHMENT[opts.on or 'right']
+      attachment: attachment
+
+    @tether = new Tether extend(tetherOpts, @options.tetherOptions)
 
   show: =>
     if not @el?
@@ -182,30 +211,35 @@ class Step extends Evented
       @destroy()
 
     @el = createFromHTML "<div class='shepherd-step #{ @options.classes ? '' }' data-id='#{ @id }'></div>"
+    console.log 'rendering', @el
+
+    content = document.createElement 'div'
+    content.className = 'drop-content'
+    @el.appendChild content
 
     if @options.title?
       header = document.createElement 'header'
       header.innerHTML = "<h3 class='shepherd-title'>#{ @options.title }</h3>"
-      @el.appendChild header
+      content.appendChild header
 
     if @options.text?
-      content = createFromHTML "<div class='shepherd-text'></div>"
+      text = createFromHTML "<div class='shepherd-text'></div>"
 
       paragraphs = @options.text
       if typeof paragraphs is 'string'
         paragraphs = [paragraphs]
 
       for paragraph in paragraphs
-        content.innerHTML += "<p>#{ paragraph }</p>"
+        text.innerHTML += "<p>#{ paragraph }</p>"
 
-      @el.appendChild content
+      content.appendChild text
 
     footer = document.createElement 'footer'
 
     if @options.buttons
       buttons = createFromHTML "<ul class='shepherd-buttons'></ul>"
 
-      for cfg in @options.button
+      for cfg in @options.buttons
         button = createFromHTML "<li><a class='shepherd-button #{ cfg.classes ? '' }'>#{ cfg.text }</a>"
         buttons.appendChild button
 
@@ -213,12 +247,11 @@ class Step extends Evented
 
       footer.appendChild buttons
 
-    @el.appendChild footer
+    content.appendChild footer
 
     document.body.appendChild @el
 
-    if @options.attachTo
-      @setupTether()
+    @setupTether()
 
     if @options.advanceOn
       @bindAdvance()
@@ -230,6 +263,11 @@ class Step extends Evented
       cfg.events.click = cfg.action
 
     for event, handler of cfg.events
+      if typeof handler is 'string'
+        page = handler
+        handler = =>
+          @tour.show page
+
       addEventListener el, event, handler
 
     @on 'destroy', ->
@@ -237,28 +275,61 @@ class Step extends Evented
         removeEventListener el, event, handler
 
 class Tour
-  initialize: (@options={}) ->
+  constructor: (@options={}) ->
     @steps = @options.steps ? []
 
-  addStep: (step) ->
-    @steps.push step
+  addStep: (name, step) ->
+    step = extend {}, @options.defaults, step
 
-  next: ->
-    index = 0
+    if not step?
+      step = name
+    else
+      step.id = name
+
+    @steps.push new Step(@, step)
+
+  getById: (id) ->
+    for step in @steps when step.id is id
+      return step
+
+  next: =>
+    index = -1
     if @currentStep
       index = @steps.indexOf(@currentStep)
 
-    @currentStep = @steps[index]
+    @show(index + 1)
 
-    @currentStep.show @
+  show: (key=0) ->
+    if @currentStep
+      @currentStep.hide()
+
+    if typeof key is 'string'
+      next = @getById key
+    else
+      next = @steps[key]
+
+    console.log 'next', next
+    if next
+      @currentStep = next
+      next.show()
+
+  start: ->
+    @currentStep = null
+    @next()
 
 tour = new Tour
+  defaults:
+    classes: 'drop drop-open drop-theme-arrows'
+
 tour.addStep 'start',
   title: "Welcome to KaPow!"
   text: "KaPow is the ultimate comic book marketplace.  We supply over six
   hundred tons of comic books to the waste management industry each year.  The
   burning of these books supplies enough energy to power eight hundred American
   homes."
+  tetherOptions:
+    attachment: 'middle center'
+    targetAttachment: 'middle center'
   
 tour.addStep
   title: "Are you a seller, or a waste management professional?"
@@ -275,7 +346,7 @@ tour.addStep 'seller-start',
     "Selling is the ultimate way to unload your useless 'art'.",
     "Begin by clicking the 'Start Selling' button."
   ]
-  attachTo: 'bottom button.start-selling'
+  attachTo: 'bottom a.small.button:first-of-type'
   advanceOn: 'click button.start-selling'
   classes: 'tour-wide'
   
@@ -286,7 +357,7 @@ tour.addStep 'wmp-start',
     "Begin by entering your Waste Management Licence number below."
   ]
   attachTo:
-    element: 'form.wmp-start'
+    element: 'input[placeholder="large-12.columns"]'
     on: 'bottom'
     classes: 'tour-highlight'
     offset: '2px 0'
@@ -310,4 +381,4 @@ tour.addStep 'wmp-start',
 tour.start
   hash: true
 
-tour.completed 'seller-start'
+#tour.completed 'seller-start'
