@@ -143,10 +143,7 @@ class Step extends Evented
     @on 'destroy', ->
       removeEventListener document.body, event, handler
 
-  setupTether: ->
-    if not Tether?
-      throw new Error "Using the attachment feature of Shepherd requires the Tether library"
-
+  getAttachTo: ->
     opts = parseShorthand @options.attachTo, ['element', 'on']
     opts ?= {}
 
@@ -155,6 +152,14 @@ class Step extends Evented
 
       if not opts.element?
         throw new Error "Shepherd step's attachTo was not found in the page"
+
+    opts
+
+  setupTether: ->
+    if not Tether?
+      throw new Error "Using the attachment feature of Shepherd requires the Tether library"
+
+    opts = @getAttachTo()
 
     attachment = ATTACHMENT[opts.on or 'right']
     if not opts.element?
@@ -177,6 +182,10 @@ class Step extends Evented
 
     @tether?.enable()
 
+    if @options.scrollTo
+      setTimeout =>
+        @scrollTo()
+
     @trigger 'show'
 
   hide: =>
@@ -195,6 +204,25 @@ class Step extends Evented
     @hide()
 
     @trigger 'complete'
+
+  scrollTo: =>
+    {element} = @getAttachTo()
+    return unless element?
+
+    $attachTo = jQuery element
+
+    {top, left} = $attachTo.offset()
+    height = $attachTo.outerHeight()
+
+    offset = $(@el).offset()
+    elTop = offset.top
+    elLeft = offset.left
+    elHeight = $(@el).outerHeight()
+
+    if top < pageYOffset or elTop < pageYOffset
+      jQuery(document.body).scrollTop(Math.min(top, elTop) - 10)
+    else if (top + height) > (pageYOffset + innerHeight) or (elTop + elHeight) > (pageYOffset + innerHeight)
+      jQuery(document.body).scrollTop(Math.max(top + height, elTop + elHeight) - innerHeight + 10)
 
   destroy: =>
     if @el?
@@ -326,6 +354,7 @@ class Tour
 tour = new Tour
   defaults:
     classes: 'drop drop-open drop-theme-arrows'
+    scrollTo: true
 
 tour.addStep 'start',
   title: "Welcome to KaPow!"
