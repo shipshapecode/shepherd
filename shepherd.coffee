@@ -67,6 +67,10 @@ parseShorthand = (obj, props) ->
   else
     vals = obj.split(' ')
 
+    if vals.length > props.length
+      vals[0] = vals[0..vals.length - props.length].join(' ')
+      vals.splice 1, (vals.length - props.length)
+
     out = {}
     for prop, i in props
       out[prop] = vals[i]

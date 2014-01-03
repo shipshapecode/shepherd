@@ -105,6 +105,10 @@
       return obj;
     } else {
       vals = obj.split(' ');
+      if (vals.length > props.length) {
+        vals[0] = vals.slice(0, +(vals.length - props.length) + 1 || 9e9).join(' ');
+        vals.splice(1, vals.length - props.length);
+      }
       out = {};
       for (i = _i = 0, _len = props.length; _i < _len; i = ++_i) {
         prop = props[i];

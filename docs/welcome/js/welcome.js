@@ -16,19 +16,11 @@
     tour.addStep('start', {
       title: 'This is Shepherd',
       text: 'Shepherd is amazing...',
-      attachTo: '.hero-inner>h1',
-      tetherOptions: {
-        attachment: 'middle left',
-        targetAttachment: 'middle right'
-      }
+      attachTo: '.hero-inner h1 right'
     });
     tour.addStep('buttons', {
       text: 'Here are the actions you can take...',
-      attachTo: '.hero-inner>p',
-      tetherOptions: {
-        attachment: 'middle left',
-        targetAttachment: 'middle right'
-      }
+      attachTo: '.hero-inner p right'
     });
     return tour.start({
       hash: true

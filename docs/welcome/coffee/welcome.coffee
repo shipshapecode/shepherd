@@ -10,17 +10,11 @@ setupTour = ->
   tour.addStep 'start',
     title: 'This is Shepherd'
     text: 'Shepherd is amazing...'
-    attachTo: '.hero-inner>h1' # Todo fix bug in which spaces in selector make it not work
-    tetherOptions:
-      attachment: 'middle left'
-      targetAttachment: 'middle right'
+    attachTo: '.hero-inner h1 right'
 
   tour.addStep 'buttons',
     text: 'Here are the actions you can take...'
-    attachTo: '.hero-inner>p' # Todo fix bug in which spaces in selector make it not work
-    tetherOptions:
-      attachment: 'middle left'
-      targetAttachment: 'middle right'
+    attachTo: '.hero-inner p right'
 
   tour.start
     hash: true

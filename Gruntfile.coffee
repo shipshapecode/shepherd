@@ -45,4 +45,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-compass'
   grunt.loadNpmTasks 'grunt-bower-task'
 
-  grunt.registerTask 'default', ['coffee', 'uglify', 'compass', 'bower']
+  grunt.registerTask 'default', ['bower', 'coffee', 'uglify', 'compass']
