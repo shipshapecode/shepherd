@@ -353,69 +353,69 @@ class Tour
 
 window.Tour = Tour
 
-tour = new Tour
-  defaults:
-    classes: 'drop drop-open drop-theme-arrows'
-    scrollTo: true
+# tour = new Tour
+#   defaults:
+#     classes: 'drop drop-open drop-theme-arrows'
+#     scrollTo: true
 
-tour.addStep 'start',
-  title: "Welcome to KaPow!"
-  text: "KaPow is the ultimate comic book marketplace.  We supply over six
-  hundred tons of comic books to the waste management industry each year.  The
-  burning of these books supplies enough energy to power eight hundred American
-  homes."
-  tetherOptions:
-    attachment: 'middle center'
-    targetAttachment: 'middle center'
-  
-tour.addStep
-  title: "Are you a seller, or a waste management professional?"
-  buttons: [
-    text: "Seller"
-    action: 'seller-start'
-  ,
-    text: "Waste Management Pro"
-    action: 'wmp-start'
-  ]
+# tour.addStep 'start',
+#   title: "Welcome to KaPow!"
+#   text: "KaPow is the ultimate comic book marketplace.  We supply over six
+#   hundred tons of comic books to the waste management industry each year.  The
+#   burning of these books supplies enough energy to power eight hundred American
+#   homes."
+#   tetherOptions:
+#     attachment: 'middle center'
+#     targetAttachment: 'middle center'
 
-tour.addStep 'seller-start',
-  text: [
-    "Selling is the ultimate way to unload your useless 'art'.",
-    "Begin by clicking the 'Start Selling' button."
-  ]
-  attachTo: 'a.small.button:first-of-type bottom'
-  advanceOn: 'click button.start-selling'
-  classes: 'tour-wide drop drop-open drop-theme-arrows'
-  
-tour.addStep 'wmp-start',
-  text: [
-    "Thousands of pounds of priceless memories can be in your furnaces in
-    as little as three days!",
-    "Begin by entering your Waste Management Licence number below."
-  ]
-  attachTo:
-    element: 'input[placeholder="large-12.columns"]'
-    on: 'bottom'
-    classes: 'tour-highlight'
-    offset: '2px 0'
-  advanceOn: 'submit form.wmp-start'
-  when:
-    shown: ->
-    completed: ->
-    cancelled: ->
-    hidden: ->
-  buttons: [
-    text: "Back"
-    action: tour.back
-  ,
-    text: "Cancel"
-    action: tour.cancel
-  ,
-    text: "Skip"
-    action: tour.next
-  ]
+# tour.addStep
+#   title: "Are you a seller, or a waste management professional?"
+#   buttons: [
+#     text: "Seller"
+#     action: 'seller-start'
+#   ,
+#     text: "Waste Management Pro"
+#     action: 'wmp-start'
+#   ]
 
-tour.start
-  hash: true
+# tour.addStep 'seller-start',
+#   text: [
+#     "Selling is the ultimate way to unload your useless 'art'.",
+#     "Begin by clicking the 'Start Selling' button."
+#   ]
+#   attachTo: 'a.small.button:first-of-type bottom'
+#   advanceOn: 'click button.start-selling'
+#   classes: 'tour-wide drop drop-open drop-theme-arrows'
+
+# tour.addStep 'wmp-start',
+#   text: [
+#     "Thousands of pounds of priceless memories can be in your furnaces in
+#     as little as three days!",
+#     "Begin by entering your Waste Management Licence number below."
+#   ]
+#   attachTo:
+#     element: 'input[placeholder="large-12.columns"]'
+#     on: 'bottom'
+#     classes: 'tour-highlight'
+#     offset: '2px 0'
+#   advanceOn: 'submit form.wmp-start'
+#   when:
+#     shown: ->
+#     completed: ->
+#     cancelled: ->
+#     hidden: ->
+#   buttons: [
+#     text: "Back"
+#     action: tour.back
+#   ,
+#     text: "Cancel"
+#     action: tour.cancel
+#   ,
+#     text: "Skip"
+#     action: tour.next
+#   ]
+
+# tour.start
+#   hash: true
 
 #tour.completed 'seller-start'
