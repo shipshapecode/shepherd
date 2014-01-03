@@ -1,0 +1,5 @@
+title: "shepherd"
+description: "Guide your users through a tour of your app."
+source: "shepherd.coffee"
+examples: "**/*.md"
+assets: "{shepherd.js,deps/**/*,*.js,*.coffee,css/*.css,docs/css/*.css,docs/js/*,js,docs/welcome/*,examples/*}"

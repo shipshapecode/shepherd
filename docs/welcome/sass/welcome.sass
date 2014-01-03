@@ -1,0 +1,39 @@
+@import compass/css3
+
+html, body
+    height: 100%
+
+body
+    margin: 0
+    font-family: "proxima-nova", "Helvetica Neue", sans-serif
+
+.button
+    display: inline-block
+    border: 2px solid #333
+    color: #333
+    padding: 1em 1.25em
+    font-weight: 500
+    text-transform: uppercase
+    letter-spacing: 3px
+    text-decoration: none
+    cursor: pointer
+    width: 140px
+    font-size: .8em
+    line-height: 1.3em
+
+    &.dark
+        background: #333
+        color: #fff
+
+.hero-outer
+    height: 100%
+    width: 100%
+    display: table
+
+    .hero-inner
+        display: table-cell
+        text-align: center
+        vertical-align: middle
+
+        h1, h2, p
+            +inline-block
