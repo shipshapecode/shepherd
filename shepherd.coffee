@@ -351,6 +351,8 @@ class Tour
     @currentStep = null
     @next()
 
+window.Tour = Tour
+
 tour = new Tour
   defaults:
     classes: 'drop drop-open drop-theme-arrows'
