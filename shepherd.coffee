@@ -1,7 +1,7 @@
 class Sheep
   # This is not actually used for anything
   # Just wanted to name a class Sheep
-  
+
 ATTACHMENT =
   'top': 'top center'
   'left': 'middle right'
