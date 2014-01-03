@@ -1,0 +1,53 @@
+/* line 3, ../sass/welcome.sass */
+html, body {
+  height: 100%;
+}
+
+/* line 6, ../sass/welcome.sass */
+body {
+  margin: 0;
+  font-family: "proxima-nova", "Helvetica Neue", sans-serif;
+}
+
+/* line 10, ../sass/welcome.sass */
+.button {
+  display: inline-block;
+  border: 2px solid #333333;
+  color: #333333;
+  padding: 1em 1.25em;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  width: 140px;
+  font-size: 0.8em;
+  line-height: 1.3em;
+}
+/* line 24, ../sass/welcome.sass */
+.button.dark {
+  background: #333333;
+  color: white;
+}
+
+/* line 28, ../sass/welcome.sass */
+.hero-outer {
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+/* line 33, ../sass/welcome.sass */
+.hero-outer .hero-inner {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 38, ../sass/welcome.sass */
+.hero-outer .hero-inner h1, .hero-outer .hero-inner h2, .hero-outer .hero-inner p {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
