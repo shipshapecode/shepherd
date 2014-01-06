@@ -269,7 +269,15 @@
         attachment = 'middle center';
       }
       tetherOpts = {
+        classPrefix: 'shepherd',
         element: this.el,
+        constraints: [
+          {
+            to: 'window',
+            pin: true,
+            attachment: 'together'
+          }
+        ],
         target: opts.element,
         offset: opts.offset || '0 0',
         attachment: attachment
@@ -353,7 +361,7 @@
       }
       this.el = createFromHTML("<div class='shepherd-step " + ((_ref = this.options.classes) != null ? _ref : '') + "' data-id='" + this.id + "'></div>");
       content = document.createElement('div');
-      content.className = 'drop-content';
+      content.className = 'shepherd-content';
       this.el.appendChild(content);
       if (this.options.title != null) {
         header = document.createElement('header');
@@ -380,7 +388,7 @@
           cfg = _ref1[_j];
           button = createFromHTML("<li><a class='shepherd-button " + ((_ref2 = cfg.classes) != null ? _ref2 : '') + "'>" + cfg.text + "</a>");
           buttons.appendChild(button);
-          this.bindButtonEvents(cfg, button);
+          this.bindButtonEvents(cfg, button.querySelector('a'));
         }
         footer.appendChild(buttons);
       }
