@@ -283,7 +283,7 @@
       if (this.el == null) {
         this.render();
       }
-      removeClass(this.el, 'shepherd-hidden');
+      addClass(this.el, 'shepherd-open');
       if ((_ref = this.tether) != null) {
         _ref.enable();
       }
@@ -297,7 +297,7 @@
 
     Step.prototype.hide = function() {
       var _ref;
-      addClass(this.el, 'shepherd-hidden');
+      removeClass(this.el, 'shepherd-open');
       if ((_ref = this.tether) != null) {
         _ref.disable();
       }

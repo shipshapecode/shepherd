@@ -182,7 +182,7 @@ class Step extends Evented
     if not @el?
       @render()
 
-    removeClass @el, 'shepherd-hidden'
+    addClass @el, 'shepherd-open'
 
     @tether?.enable()
 
@@ -193,7 +193,7 @@ class Step extends Evented
     @trigger 'show'
 
   hide: =>
-    addClass @el, 'shepherd-hidden'
+    removeClass @el, 'shepherd-open'
 
     @tether?.disable()
 
