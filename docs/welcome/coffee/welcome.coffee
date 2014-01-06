@@ -9,11 +9,11 @@ setupTour = ->
 
   tour.addStep 'start',
     title: 'This is Shepherd'
-    text: 'Shepherd is amazing...'
-    attachTo: '.hero-inner h1 right'
+    text: 'Shepherd is a library for guiding users through your interface.'
+    attachTo: '.hero-inner h1 bottom'
 
   tour.addStep 'buttons',
-    text: 'Here are the actions you can take...'
+    text: 'Check us out on GitHub or download the latest release.'
     attachTo: '.hero-inner p right'
 
   tour.start
