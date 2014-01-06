@@ -4,7 +4,7 @@ init = ->
 setupTour = ->
   tour = new Tour
     defaults:
-      classes: 'drop drop-open drop-theme-arrows'
+      classes: 'shepherd shepherd-open shepherd-theme-arrows'
       scrollTo: true
 
   tour.addStep 'start',
