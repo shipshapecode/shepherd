@@ -273,7 +273,7 @@ class Step extends Evented
         button = createFromHTML "<li><a class='shepherd-button #{ cfg.classes ? '' }'>#{ cfg.text }</a>"
         buttons.appendChild button
 
-        @bindButtonEvents cfg, button
+        @bindButtonEvents cfg, button.querySelector('a')
 
       footer.appendChild buttons
 
