@@ -172,21 +172,19 @@
   border-right-color: white;
 }
 
-/* line 22, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows {
-  -webkit-pointer-events: none;
-  -moz-pointer-events: none;
-  pointer-events: none;
+/* line 29, ../sass/shepherd-theme-arrows.sass */
+.shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content:before {
+  border-bottom-color: #eeeeee;
 }
-/* line 25, ../sass/shepherd-theme-arrows.sass */
+/* line 32, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content {
   padding: 0;
 }
-/* line 28, ../sass/shepherd-theme-arrows.sass */
+/* line 35, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content * {
   font-size: inherit;
 }
-/* line 31, ../sass/shepherd-theme-arrows.sass */
+/* line 38, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content header {
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
@@ -196,37 +194,42 @@
   background: #eeeeee;
   padding: 1em;
 }
-/* line 36, ../sass/shepherd-theme-arrows.sass */
+/* line 43, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content header h3 {
   margin: 0;
   line-height: 1;
+  font-weight: normal;
 }
-/* line 40, ../sass/shepherd-theme-arrows.sass */
+/* line 48, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text {
   padding: 1em;
 }
-/* line 43, ../sass/shepherd-theme-arrows.sass */
+/* line 51, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p {
   margin: 0 0 0.5em 0;
   line-height: 1.3em;
 }
-/* line 47, ../sass/shepherd-theme-arrows.sass */
+/* line 55, ../sass/shepherd-theme-arrows.sass */
+.shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
+  margin-bottom: 0;
+}
+/* line 58, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer {
   padding: 0 1em 1em;
 }
-/* line 50, ../sass/shepherd-theme-arrows.sass */
+/* line 61, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
   text-align: right;
   list-style: none;
   padding: 0;
   margin: 0;
 }
-/* line 56, ../sass/shepherd-theme-arrows.sass */
+/* line 67, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
   padding: 0;
   margin: 0;
 }
-/* line 60, ../sass/shepherd-theme-arrows.sass */
+/* line 71, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
   display: -moz-inline-stack;
   display: inline-block;
@@ -251,7 +254,7 @@
   background: #3288e6;
   color: white;
 }
-/* line 75, ../sass/shepherd-theme-arrows.sass */
+/* line 86, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
   margin-right: 0;
 }
