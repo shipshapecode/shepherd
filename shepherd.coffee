@@ -173,6 +173,11 @@ class Step extends Evented
     tetherOpts =
       classPrefix: 'shepherd'
       element: @el
+      constraints: [
+        to: 'window'
+        pin: true
+        attachment: 'together'
+      ]
       target: opts.element
       offset: opts.offset or '0 0'
       attachment: attachment
