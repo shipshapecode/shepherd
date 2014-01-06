@@ -1,0 +1,76 @@
+@import compass/css3
+@import compass/utilities/general/clearfix
+
+@import ../deps/tether/sass/mixins/pointer-events
+
+// Bring in base shepherd styles come from a tether helpers
+
+@import ../deps/tether/sass/helpers/tether
+@import ../deps/tether/sass/helpers/tether-theme-arrows
+
+$themePrefix: "shepherd"
+$arrowSize: 16px
+$backgroundColor: #fff
+$color: inherit
+$useDropShadow: true
+
++tether($themePrefix: $themePrefix)
++tether-theme-arrows($themePrefix: $themePrefix, $arrowSize: $arrowSize, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow)
+
+// Shepherd specific styles
+
+.#{ $themePrefix }.#{ $themePrefix }-theme-arrows
+    +pointer-events(none)
+
+    .#{ $themePrefix }-content
+        padding: 0
+
+        *
+            font-size: inherit
+
+        header
+            +border-radius(5px 5px 0 0)
+            background: #eee
+            padding: 1em
+
+            h3
+                margin: 0
+                line-height: 1
+
+        .#{ $themePrefix }-text
+            padding: 1em
+
+            p
+                margin: 0 0 .5em 0
+                line-height: 1.3em
+
+        footer
+            padding: 0 1em 1em
+
+            .#{ $themePrefix }-buttons
+                text-align: right
+                list-style: none
+                padding: 0
+                margin: 0
+
+                li
+                    padding: 0
+                    margin: 0
+
+                    .shepherd-button
+                        +inline-block
+                        +border-radius(3px)
+                        cursor: pointer
+                        border: 0
+                        margin: 0 .5em 0 0
+                        font-family: inherit
+                        text-transform: uppercase
+                        letter-spacing: .1em
+                        font-size: .8em
+                        line-height: 1em
+                        padding: .75em 2em
+                        background: #3288e6
+                        color: #fff
+
+                    &:last-child .shepherd-button
+                        margin-right: 0
