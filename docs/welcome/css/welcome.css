@@ -73,7 +73,7 @@ body {
   opacity: 0.3;
 }
 /* line 52, ../sass/welcome.sass */
-.hero-outer .hero-inner *.shepherd-target.shepherd-enabled {
+.hero-outer .hero-inner .shepherd-target.shepherd-enabled {
   opacity: 1;
 }
 
