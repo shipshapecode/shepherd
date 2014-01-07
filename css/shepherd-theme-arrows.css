@@ -226,10 +226,11 @@
 }
 /* line 67, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
+  display: inline;
   padding: 0;
   margin: 0;
 }
-/* line 71, ../sass/shepherd-theme-arrows.sass */
+/* line 72, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
   display: -moz-inline-stack;
   display: inline-block;
@@ -254,7 +255,7 @@
   background: #3288e6;
   color: white;
 }
-/* line 86, ../sass/shepherd-theme-arrows.sass */
+/* line 87, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
   margin-right: 0;
 }
