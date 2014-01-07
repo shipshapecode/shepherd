@@ -15,6 +15,13 @@ setupTour = ->
   tour.addStep 'buttons',
     text: 'Check us out on GitHub or download the latest release.'
     attachTo: '.hero-inner p right'
+    buttons: [
+      text: "Back"
+      action: tour.back
+    ,
+      text: "Done"
+      action: tour.cancel
+    ]
 
   tour.start
     hash: true

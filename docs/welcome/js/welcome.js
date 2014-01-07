@@ -20,7 +20,16 @@
     });
     tour.addStep('buttons', {
       text: 'Check us out on GitHub or download the latest release.',
-      attachTo: '.hero-inner p right'
+      attachTo: '.hero-inner p right',
+      buttons: [
+        {
+          text: "Back",
+          action: tour.back
+        }, {
+          text: "Done",
+          action: tour.cancel
+        }
+      ]
     });
     return tour.start({
       hash: true
