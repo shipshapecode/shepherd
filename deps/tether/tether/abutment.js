@@ -34,17 +34,17 @@
         }
       }
       sides = ['left', 'top', 'right', 'bottom'];
-      this.removeClass("tether-abutted");
+      this.removeClass(this.getClass('abutted'));
       for (_k = 0, _len2 = sides.length; _k < _len2; _k++) {
         side = sides[_k];
-        this.removeClass("tether-abutted-" + side);
+        this.removeClass("" + (this.getClass('abutted')) + "-" + side);
       }
       if (abutted.length) {
-        this.addClass("tether-abutted");
+        this.addClass(this.getClass('abutted'));
       }
       for (_l = 0, _len3 = abutted.length; _l < _len3; _l++) {
         side = abutted[_l];
-        this.addClass("tether-abutted-" + side);
+        this.addClass("" + (this.getClass('abutted')) + "-" + side);
       }
       return true;
     }

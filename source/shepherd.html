@@ -124,6 +124,10 @@ uniqueId = <span class="keyword">do</span> -&gt;
   <span class="keyword">else</span>
     vals = obj.split(<span class="string">' '</span>)
 
+    <span class="keyword">if</span> vals.length &gt; props.length
+      vals[<span class="number">0</span>] = vals[<span class="number">0.</span>.vals.length - props.length].join(<span class="string">' '</span>)
+      vals.splice <span class="number">1</span>, (vals.length - props.length)
+
     out = {}
     <span class="keyword">for</span> prop, i <span class="keyword">in</span> props
       out[prop] = vals[i]
@@ -250,7 +254,13 @@ uniqueId = <span class="keyword">do</span> -&gt;
       attachment = <span class="string">'middle center'</span>
 
     tetherOpts =
+      classPrefix: <span class="string">'shepherd'</span>
       element: <span class="property">@el</span>
+      constraints: [
+        to: <span class="string">'window'</span>
+        pin: <span class="literal">true</span>
+        attachment: <span class="string">'together'</span>
+      ]
       target: opts.element
       offset: opts.offset <span class="keyword">or</span> <span class="string">'0 0'</span>
       attachment: attachment
@@ -261,7 +271,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="keyword">if</span> <span class="keyword">not</span> <span class="property">@el</span>?
       <span class="property">@render</span>()
 
-    removeClass <span class="property">@el</span>, <span class="string">'shepherd-hidden'</span>
+    addClass <span class="property">@el</span>, <span class="string">'shepherd-open'</span>
 
     <span class="property">@tether</span>?.enable()
 
@@ -272,7 +282,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="property">@trigger</span> <span class="string">'show'</span>
 
   hide: =&gt;
-    addClass <span class="property">@el</span>, <span class="string">'shepherd-hidden'</span>
+    removeClass <span class="property">@el</span>, <span class="string">'shepherd-open'</span>
 
     <span class="property">@tether</span>?.disable()
 
@@ -323,7 +333,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="property">@el</span> = createFromHTML <span class="string">"&lt;div class='shepherd-step <span class="subst">#{ @options.classes ? '' }</span>' data-id='<span class="subst">#{ @id }</span>'&gt;&lt;/div&gt;"</span>
 
     content = document.createElement <span class="string">'div'</span>
-    content.className = <span class="string">'drop-content'</span>
+    content.className = <span class="string">'shepherd-content'</span>
     <span class="property">@el</span>.appendChild content
 
     <span class="keyword">if</span> <span class="property">@options</span>.title?
@@ -352,7 +362,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
         button = createFromHTML <span class="string">"&lt;li&gt;&lt;a class='shepherd-button <span class="subst">#{ cfg.classes ? '' }</span>'&gt;<span class="subst">#{ cfg.text }</span>&lt;/a&gt;"</span>
         buttons.appendChild button
 
-        <span class="property">@bindButtonEvents</span> cfg, button
+        <span class="property">@bindButtonEvents</span> cfg, button.querySelector(<span class="string">'a'</span>)
 
       footer.appendChild buttons
 
@@ -460,7 +470,7 @@ window.Tour = Tour</pre></div></div>
               </div>
               <p>tour = new Tour
   defaults:
-    classes: &#39;drop drop-open drop-theme-arrows&#39;
+    classes: &#39;shepherd shepherd-open shepherd-theme-arrows&#39;
     scrollTo: true</p>
 <p>tour.addStep &#39;start&#39;,
   title: &quot;Welcome to KaPow!&quot;
@@ -487,7 +497,7 @@ window.Tour = Tour</pre></div></div>
   ]
   attachTo: &#39;a.small.button:first-of-type bottom&#39;
   advanceOn: &#39;click button.start-selling&#39;
-  classes: &#39;tour-wide drop drop-open drop-theme-arrows&#39;</p>
+  classes: &#39;tour-wide shepherd shepherd-open shepherd-theme-arrows&#39;</p>
 <p>tour.addStep &#39;wmp-start&#39;,
   text: [
     &quot;Thousands of pounds of priceless memories can be in your furnaces in

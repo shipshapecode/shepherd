@@ -5,12 +5,14 @@ html, body
 
 body
     margin: 0
+    background-color: rgb(98, 196, 98)
+    +background-image(linear-gradient(-45deg, rgb(98, 196, 98), rgb(117, 190, 170)))
     font-family: "proxima-nova", "Helvetica Neue", sans-serif
 
 .button
     display: inline-block
-    border: 2px solid #333
-    color: #333
+    border: 2px solid #fff
+    color: #fff
     padding: 1em 1.25em
     font-weight: 500
     text-transform: uppercase
@@ -22,8 +24,11 @@ body
     line-height: 1.3em
 
     &.dark
-        background: #333
-        color: #fff
+        background: #fff
+        color: rgb(117, 190, 170)
+
+        @media (max-width: 568px)
+            display: none
 
 .hero-outer
     height: 100%
@@ -37,3 +42,18 @@ body
 
         h1, h2, p
             +inline-block
+            color: #fff
+            font-weight: normal
+
+        > *
+            +transition(opacity .4s)
+            opacity: 0.3
+
+        .shepherd-target.shepherd-enabled
+            opacity: 1
+
+.shepherd.shepherd-theme-arrows
+
+    .shepherd-content
+        width: 400px
+        max-width: 100%

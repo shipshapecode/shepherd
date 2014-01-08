@@ -1,0 +1,156 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box; }
+
+body {
+  position: relative; }
+
+.yellow-box {
+  width: 100px;
+  height: 100px;
+  background-color: #ffee88;
+  pointer-events: none; }
+
+.green-box {
+  margin-top: 65px;
+  margin-left: 100px;
+  width: 200px;
+  height: 50px;
+  background-color: #44ee99; }
+
+.scroll-box {
+  height: 150px;
+  border: 10px solid #eeeeee;
+  background: #fbfbfb;
+  overflow: auto;
+  position: relative; }
+
+.scroll-content {
+  height: 2000px;
+  width: 2000px;
+  padding: 910px 809px; }
+
+pre {
+  margin: 0;
+  width: 50%;
+  float: left; }
+  pre code mark {
+    background: #b8daff;
+    color: black; }
+
+p, h2, h3 {
+  clear: both; }
+
+output {
+  display: block;
+  position: relative;
+  width: 50%;
+  float: right;
+  margin-bottom: 15px; }
+  output:after {
+    content: "↕ scroll this area ↕";
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    font-variant: small-caps;
+    color: #777777;
+    opacity: 1;
+    transition: opacity 0.2s; }
+  output.scrolled:after {
+    opacity: 0; }
+
+.attachment-mark, .tether-marker-dot {
+  position: relative; }
+  .attachment-mark:after, .tether-marker-dot:after {
+    content: "A";
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    display: inline-block;
+    line-height: 10px;
+    font-size: 9px;
+    color: white;
+    text-align: center;
+    position: absolute; }
+
+span.attachment-mark:after, span.tether-marker-dot:after {
+  position: relative;
+  top: -1px;
+  margin-right: 1px; }
+
+.tether-marker-dot {
+  position: absolute; }
+  .tether-marker-dot:after {
+    top: -5px;
+    left: -5px; }
+
+.tether-target-marker {
+  position: absolute; }
+  .tether-target-attached-left .tether-target-marker {
+    left: 0; }
+  .tether-target-attached-top .tether-target-marker {
+    top: 0; }
+  .tether-target-attached-bottom .tether-target-marker {
+    bottom: 0; }
+  .tether-target-attached-right .tether-target-marker {
+    right: 0; }
+  .tether-target-attached-center .tether-target-marker {
+    left: 50%; }
+
+.tether-element-marker {
+  position: absolute; }
+  .tether-element-attached-left .tether-element-marker {
+    left: 0; }
+  .tether-element-attached-top .tether-element-marker {
+    top: 0; }
+  .tether-element-attached-bottom .tether-element-marker {
+    bottom: 0; }
+  .tether-element-attached-right .tether-element-marker {
+    right: 0; }
+  .tether-element-attached-center .tether-element-marker {
+    left: 50%; }
+
+.tether-element-attached-middle .tether-element-marker {
+  top: 50px; }
+
+.tether-target-attached-middle .tether-target-marker {
+  top: 25px; }
+
+.tether-element {
+  position: relative; }
+  .tether-element.tether-pinned-left {
+    box-shadow: inset 2px 0 0 0 red; }
+  .tether-element.tether-pinned-right {
+    box-shadow: inset -2px 0 0 0 red; }
+  .tether-element.tether-pinned-top {
+    box-shadow: inset 0 2px 0 0 red; }
+  .tether-element.tether-pinned-bottom {
+    box-shadow: inset 0 -2px 0 0 red; }
+
+.tether-target {
+  position: relative; }
+
+.tether-element.tether-out-of-bounds[data-example="hide"] {
+  display: none; }
+
+[data-example^="optimizer"].lang-javascript {
+  /* This should just be a `code` selector, but sass doesn't allow that with & */
+  min-height: 220px; }
+[data-example^="optimizer"].tether-element:before {
+  margin-top: 26px;
+  display: block;
+  text-align: center;
+  content: "I'm in the body";
+  line-height: 1.2;
+  font-size: 15px;
+  padding: 4px;
+  color: #666666; }
+[data-example^="optimizer"] .scroll-box .tether-element:before {
+  content: "I'm in my scroll parent!"; }
+
+output[data-example="window"] .scroll-box {
+  overflow: hidden; }
+output[data-example="window"]:after {
+  content: "↕ scroll the page ↕"; }

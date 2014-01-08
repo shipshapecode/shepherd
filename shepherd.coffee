@@ -67,6 +67,10 @@ parseShorthand = (obj, props) ->
   else
     vals = obj.split(' ')
 
+    if vals.length > props.length
+      vals[0] = vals[0..vals.length - props.length].join(' ')
+      vals.splice 1, (vals.length - props.length)
+
     out = {}
     for prop, i in props
       out[prop] = vals[i]
@@ -167,7 +171,13 @@ class Step extends Evented
       attachment = 'middle center'
 
     tetherOpts =
+      classPrefix: 'shepherd'
       element: @el
+      constraints: [
+        to: 'window'
+        pin: true
+        attachment: 'together'
+      ]
       target: opts.element
       offset: opts.offset or '0 0'
       attachment: attachment
@@ -178,7 +188,7 @@ class Step extends Evented
     if not @el?
       @render()
 
-    removeClass @el, 'shepherd-hidden'
+    addClass @el, 'shepherd-open'
 
     @tether?.enable()
 
@@ -189,7 +199,7 @@ class Step extends Evented
     @trigger 'show'
 
   hide: =>
-    addClass @el, 'shepherd-hidden'
+    removeClass @el, 'shepherd-open'
 
     @tether?.disable()
 
@@ -240,7 +250,7 @@ class Step extends Evented
     @el = createFromHTML "<div class='shepherd-step #{ @options.classes ? '' }' data-id='#{ @id }'></div>"
 
     content = document.createElement 'div'
-    content.className = 'drop-content'
+    content.className = 'shepherd-content'
     @el.appendChild content
 
     if @options.title?
@@ -269,7 +279,7 @@ class Step extends Evented
         button = createFromHTML "<li><a class='shepherd-button #{ cfg.classes ? '' }'>#{ cfg.text }</a>"
         buttons.appendChild button
 
-        @bindButtonEvents cfg, button
+        @bindButtonEvents cfg, button.querySelector('a')
 
       footer.appendChild buttons
 
@@ -355,7 +365,7 @@ window.Tour = Tour
 
 # tour = new Tour
 #   defaults:
-#     classes: 'drop drop-open drop-theme-arrows'
+#     classes: 'shepherd shepherd-open shepherd-theme-arrows'
 #     scrollTo: true
 
 # tour.addStep 'start',
@@ -385,7 +395,7 @@ window.Tour = Tour
 #   ]
 #   attachTo: 'a.small.button:first-of-type bottom'
 #   advanceOn: 'click button.start-selling'
-#   classes: 'tour-wide drop drop-open drop-theme-arrows'
+#   classes: 'tour-wide shepherd shepherd-open shepherd-theme-arrows'
 
 # tour.addStep 'wmp-start',
 #   text: [

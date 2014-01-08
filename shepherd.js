@@ -105,6 +105,10 @@
       return obj;
     } else {
       vals = obj.split(' ');
+      if (vals.length > props.length) {
+        vals[0] = vals.slice(0, +(vals.length - props.length) + 1 || 9e9).join(' ');
+        vals.splice(1, vals.length - props.length);
+      }
       out = {};
       for (i = _i = 0, _len = props.length; _i < _len; i = ++_i) {
         prop = props[i];
@@ -265,7 +269,15 @@
         attachment = 'middle center';
       }
       tetherOpts = {
+        classPrefix: 'shepherd',
         element: this.el,
+        constraints: [
+          {
+            to: 'window',
+            pin: true,
+            attachment: 'together'
+          }
+        ],
         target: opts.element,
         offset: opts.offset || '0 0',
         attachment: attachment
@@ -279,7 +291,7 @@
       if (this.el == null) {
         this.render();
       }
-      removeClass(this.el, 'shepherd-hidden');
+      addClass(this.el, 'shepherd-open');
       if ((_ref = this.tether) != null) {
         _ref.enable();
       }
@@ -293,7 +305,7 @@
 
     Step.prototype.hide = function() {
       var _ref;
-      addClass(this.el, 'shepherd-hidden');
+      removeClass(this.el, 'shepherd-open');
       if ((_ref = this.tether) != null) {
         _ref.disable();
       }
@@ -349,7 +361,7 @@
       }
       this.el = createFromHTML("<div class='shepherd-step " + ((_ref = this.options.classes) != null ? _ref : '') + "' data-id='" + this.id + "'></div>");
       content = document.createElement('div');
-      content.className = 'drop-content';
+      content.className = 'shepherd-content';
       this.el.appendChild(content);
       if (this.options.title != null) {
         header = document.createElement('header');
@@ -376,7 +388,7 @@
           cfg = _ref1[_j];
           button = createFromHTML("<li><a class='shepherd-button " + ((_ref2 = cfg.classes) != null ? _ref2 : '') + "'>" + cfg.text + "</a>");
           buttons.appendChild(button);
-          this.bindButtonEvents(cfg, button);
+          this.bindButtonEvents(cfg, button.querySelector('a'));
         }
         footer.appendChild(buttons);
       }

@@ -6,14 +6,19 @@ html, body {
 /* line 6, ../sass/welcome.sass */
 body {
   margin: 0;
+  background-color: #62c462;
+  background-image: -webkit-linear-gradient(-45deg, #62c462, #75beaa);
+  background-image: -moz-linear-gradient(-45deg, #62c462, #75beaa);
+  background-image: -o-linear-gradient(-45deg, #62c462, #75beaa);
+  background-image: linear-gradient(-45deg, #62c462, #75beaa);
   font-family: "proxima-nova", "Helvetica Neue", sans-serif;
 }
 
-/* line 10, ../sass/welcome.sass */
+/* line 12, ../sass/welcome.sass */
 .button {
   display: inline-block;
-  border: 2px solid #333333;
-  color: #333333;
+  border: 2px solid white;
+  color: white;
   padding: 1em 1.25em;
   font-weight: 500;
   text-transform: uppercase;
@@ -24,25 +29,31 @@ body {
   font-size: 0.8em;
   line-height: 1.3em;
 }
-/* line 24, ../sass/welcome.sass */
+/* line 26, ../sass/welcome.sass */
 .button.dark {
-  background: #333333;
-  color: white;
+  background: white;
+  color: #75beaa;
+}
+@media (max-width: 568px) {
+  /* line 26, ../sass/welcome.sass */
+  .button.dark {
+    display: none;
+  }
 }
 
-/* line 28, ../sass/welcome.sass */
+/* line 33, ../sass/welcome.sass */
 .hero-outer {
   height: 100%;
   width: 100%;
   display: table;
 }
-/* line 33, ../sass/welcome.sass */
+/* line 38, ../sass/welcome.sass */
 .hero-outer .hero-inner {
   display: table-cell;
   text-align: center;
   vertical-align: middle;
 }
-/* line 38, ../sass/welcome.sass */
+/* line 43, ../sass/welcome.sass */
 .hero-outer .hero-inner h1, .hero-outer .hero-inner h2, .hero-outer .hero-inner p {
   display: -moz-inline-stack;
   display: inline-block;
@@ -50,4 +61,24 @@ body {
   *vertical-align: auto;
   zoom: 1;
   *display: inline;
+  color: white;
+  font-weight: normal;
+}
+/* line 48, ../sass/welcome.sass */
+.hero-outer .hero-inner > * {
+  -webkit-transition: opacity 0.4s;
+  -moz-transition: opacity 0.4s;
+  -o-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+  opacity: 0.3;
+}
+/* line 52, ../sass/welcome.sass */
+.hero-outer .hero-inner .shepherd-target.shepherd-enabled {
+  opacity: 1;
+}
+
+/* line 57, ../sass/welcome.sass */
+.shepherd.shepherd-theme-arrows .shepherd-content {
+  width: 400px;
+  max-width: 100%;
 }

@@ -154,6 +154,21 @@
       this.position();
     }
 
+    _Tether.prototype.getClass = function(key) {
+      var _ref2, _ref3;
+      if ((_ref2 = this.options.classes) != null ? _ref2[key] : void 0) {
+        return this.options.classes[key];
+      } else if (((_ref3 = this.options.classes) != null ? _ref3[key] : void 0) !== false) {
+        if (this.options.classPrefix) {
+          return "" + this.options.classPrefix + "-" + key;
+        } else {
+          return key;
+        }
+      } else {
+        return '';
+      }
+    };
+
     _Tether.prototype.setOptions = function(options, position) {
       var defaults, key, _j, _len1, _ref2, _ref3;
       this.options = options;
@@ -163,7 +178,8 @@
       defaults = {
         offset: '0 0',
         targetOffset: '0 0',
-        targetAttachment: 'auto auto'
+        targetAttachment: 'auto auto',
+        classPrefix: 'tether'
       };
       this.options = extend(defaults, this.options);
       _ref2 = this.options, this.element = _ref2.element, this.target = _ref2.target, this.targetModifier = _ref2.targetModifier;
@@ -186,8 +202,8 @@
           throw new Error("Tether Error: Both element and target must be defined");
         }
       }
-      addClass(this.element, 'tether-element');
-      addClass(this.target, 'tether-target');
+      addClass(this.element, this.getClass('element'));
+      addClass(this.target, this.getClass('target'));
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
@@ -239,19 +255,22 @@
     };
 
     _Tether.prototype.enable = function(position) {
+      var _this = this;
       if (position == null) {
         position = true;
       }
-      this.addClass('tether-enabled');
+      this.addClass(this.getClass('enabled'));
       this.enabled = true;
       this.scrollParent.addEventListener('scroll', this.position);
       if (position) {
-        return this.position();
+        return setTimeout(function() {
+          return _this.position();
+        });
       }
     };
 
     _Tether.prototype.disable = function() {
-      this.removeClass('tether-enabled');
+      this.removeClass(this.getClass('enabled'));
       this.enabled = false;
       if (this.scrollParent != null) {
         return this.scrollParent.removeEventListener('scroll', this.position);
@@ -285,23 +304,23 @@
       sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
       for (_j = 0, _len1 = sides.length; _j < _len1; _j++) {
         side = sides[_j];
-        this.removeClass("tether-element-attached-" + side);
+        this.removeClass("" + (this.getClass('element-attached')) + "-" + side);
       }
       if (elementAttach.top) {
-        this.addClass("tether-element-attached-" + elementAttach.top);
+        this.addClass("" + (this.getClass('element-attached')) + "-" + elementAttach.top);
       }
       if (elementAttach.left) {
-        this.addClass("tether-element-attached-" + elementAttach.left);
+        this.addClass("" + (this.getClass('element-attached')) + "-" + elementAttach.left);
       }
       for (_k = 0, _len2 = sides.length; _k < _len2; _k++) {
         side = sides[_k];
-        this.removeClass("tether-target-attached-" + side);
+        this.removeClass("" + (this.getClass('target-attached')) + "-" + side);
       }
       if (targetAttach.top) {
-        this.addClass("tether-target-attached-" + targetAttach.top);
+        this.addClass("" + (this.getClass('target-attached')) + "-" + targetAttach.top);
       }
       if (targetAttach.left) {
-        return this.addClass("tether-target-attached-" + targetAttach.left);
+        return this.addClass("" + (this.getClass('target-attached')) + "-" + targetAttach.left);
       }
     };
 

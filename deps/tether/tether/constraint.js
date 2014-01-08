@@ -65,7 +65,7 @@
       targetWidth = targetSize.width;
       tAttachment = {};
       eAttachment = {};
-      removeClasses = ['tether-pinned', 'tether-out-of-bounds'];
+      removeClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
       _ref2 = this.options.constraints;
       for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
         constraint = _ref2[_i];
@@ -240,7 +240,7 @@
           }
         }
         if (pinned.length) {
-          pinnedClass = (_ref5 = this.options.pinnedClass) != null ? _ref5 : 'tether-pinned';
+          pinnedClass = (_ref5 = this.options.pinnedClass) != null ? _ref5 : this.getClass('pinned');
           this.addClass(pinnedClass);
           for (_l = 0, _len3 = pinned.length; _l < _len3; _l++) {
             side = pinned[_l];
@@ -248,7 +248,7 @@
           }
         }
         if (oob.length) {
-          oobClass = (_ref6 = this.options.outOfBoundsClass) != null ? _ref6 : 'tether-out-of-bounds';
+          oobClass = (_ref6 = this.options.outOfBoundsClass) != null ? _ref6 : this.getClass('out-of-bounds');
           this.addClass(oobClass);
           for (_m = 0, _len4 = oob.length; _m < _len4; _m++) {
             side = oob[_m];
