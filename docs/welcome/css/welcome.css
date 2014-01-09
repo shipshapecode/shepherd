@@ -101,7 +101,7 @@ body.shepherd-completed .hero-outer .hero-inner > * {
 /* line 75, ../sass/welcome.sass */
 .hero-outer .hero-inner pre {
   width: 500px;
-  margin: 0 auto 2em;
+  margin: 0 auto 1em;
 }
 @media (max-width: 500px) {
   /* line 75, ../sass/welcome.sass */
@@ -115,13 +115,25 @@ body.shepherd-completed .hero-outer .hero-inner > * {
     width: 200px;
   }
 }
+/* line 85, ../sass/welcome.sass */
+.hero-outer .hero-inner .hero-followup {
+  padding-top: 20px;
+}
 
-/* line 87, ../sass/welcome.sass */
+/* line 90, ../sass/welcome.sass */
+.shepherd.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
+  color: #3b744f;
+}
+/* line 93, ../sass/welcome.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content {
   width: 400px;
   max-width: 100%;
 }
-/* line 91, ../sass/welcome.sass */
+/* line 97, ../sass/welcome.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content a {
   color: inherit;
+}
+/* line 100, ../sass/welcome.sass */
+.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+  background: #55a892;
 }
