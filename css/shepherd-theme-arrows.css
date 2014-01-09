@@ -30,13 +30,14 @@
   position: relative;
   font-family: inherit;
   background: white;
-  color: inherit;
+  color: #444444;
   padding: 1em;
   font-size: 1.1em;
   line-height: 1.5em;
   -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  -webkit-transform: translateZ(0);
 }
-/* line 21, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 22, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content:before {
   content: "";
   display: block;
@@ -47,144 +48,144 @@
   border-width: 16px;
   border-style: solid;
 }
-/* line 33, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 34, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content {
   margin-bottom: 16px;
 }
-/* line 36, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 37, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content:before {
   top: 100%;
   left: 50%;
   margin-left: -16px;
   border-top-color: white;
 }
-/* line 42, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 43, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content {
   margin-top: 16px;
 }
-/* line 45, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 46, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before {
   bottom: 100%;
   left: 50%;
   margin-left: -16px;
   border-bottom-color: white;
 }
-/* line 51, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 52, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content {
   margin-right: 16px;
 }
-/* line 54, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 55, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content:before {
   left: 100%;
   top: 50%;
   margin-top: -16px;
   border-left-color: white;
 }
-/* line 60, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 61, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-left.shepherd-element-attached-middle .shepherd-content {
   margin-left: 16px;
 }
-/* line 63, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 64, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-left.shepherd-element-attached-middle .shepherd-content:before {
   right: 100%;
   top: 50%;
   margin-top: -16px;
   border-right-color: white;
 }
-/* line 71, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 72, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content {
   margin-top: 16px;
 }
-/* line 74, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 75, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content:before {
   bottom: 100%;
   left: 16px;
   border-bottom-color: white;
 }
-/* line 79, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 80, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content {
   margin-top: 16px;
 }
-/* line 82, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 83, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content:before {
   bottom: 100%;
   right: 16px;
   border-bottom-color: white;
 }
-/* line 87, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 88, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-top .shepherd-content {
   margin-bottom: 16px;
 }
-/* line 90, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 91, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-top .shepherd-content:before {
   top: 100%;
   left: 16px;
   border-top-color: white;
 }
-/* line 95, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 96, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-top .shepherd-content {
   margin-bottom: 16px;
 }
-/* line 98, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 99, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-top .shepherd-content:before {
   top: 100%;
   right: 16px;
   border-top-color: white;
 }
-/* line 105, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 106, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content {
   margin-right: 16px;
 }
-/* line 108, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 109, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content:before {
   top: 16px;
   left: 100%;
   border-left-color: white;
 }
-/* line 113, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 114, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content {
   margin-left: 16px;
 }
-/* line 116, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 117, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content:before {
   top: 16px;
   right: 100%;
   border-right-color: white;
 }
-/* line 121, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 122, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content {
   margin-right: 16px;
 }
-/* line 124, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 125, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content:before {
   bottom: 16px;
   left: 100%;
   border-left-color: white;
 }
-/* line 129, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 130, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content {
   margin-left: 16px;
 }
-/* line 132, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
+/* line 133, ../deps/tether/sass/helpers/_tether-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content:before {
   bottom: 16px;
   right: 100%;
   border-right-color: white;
 }
 
-/* line 29, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content:before {
+/* line 30, ../sass/shepherd-theme-arrows.sass */
+.shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eeeeee;
 }
-/* line 32, ../sass/shepherd-theme-arrows.sass */
+/* line 33, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content {
   padding: 0;
 }
-/* line 35, ../sass/shepherd-theme-arrows.sass */
+/* line 36, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content * {
   font-size: inherit;
 }
-/* line 38, ../sass/shepherd-theme-arrows.sass */
+/* line 39, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content header {
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
@@ -194,43 +195,43 @@
   background: #eeeeee;
   padding: 1em;
 }
-/* line 43, ../sass/shepherd-theme-arrows.sass */
+/* line 44, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content header h3 {
   margin: 0;
   line-height: 1;
   font-weight: normal;
 }
-/* line 48, ../sass/shepherd-theme-arrows.sass */
+/* line 49, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text {
   padding: 1em;
 }
-/* line 51, ../sass/shepherd-theme-arrows.sass */
+/* line 52, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p {
   margin: 0 0 0.5em 0;
   line-height: 1.3em;
 }
-/* line 55, ../sass/shepherd-theme-arrows.sass */
+/* line 56, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
   margin-bottom: 0;
 }
-/* line 58, ../sass/shepherd-theme-arrows.sass */
+/* line 59, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer {
   padding: 0 1em 1em;
 }
-/* line 61, ../sass/shepherd-theme-arrows.sass */
+/* line 62, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
   text-align: right;
   list-style: none;
   padding: 0;
   margin: 0;
 }
-/* line 67, ../sass/shepherd-theme-arrows.sass */
+/* line 68, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
   display: inline;
   padding: 0;
   margin: 0;
 }
-/* line 72, ../sass/shepherd-theme-arrows.sass */
+/* line 73, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
   display: -moz-inline-stack;
   display: inline-block;
@@ -255,7 +256,12 @@
   background: #3288e6;
   color: white;
 }
-/* line 87, ../sass/shepherd-theme-arrows.sass */
+/* line 88, ../sass/shepherd-theme-arrows.sass */
+.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+  background: #eeeeee;
+  color: #888888;
+}
+/* line 92, ../sass/shepherd-theme-arrows.sass */
 .shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
   margin-right: 0;
 }
