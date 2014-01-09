@@ -11,6 +11,8 @@ module.exports = (grunt) ->
       coffee:
         files: ['*.coffee', 'sass/*', 'docs/**/*']
         tasks: ['coffee', 'uglify', 'compass']
+      options:
+        atBegin: true
 
     uglify:
       shepherd:
