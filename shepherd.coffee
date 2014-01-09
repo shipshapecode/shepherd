@@ -258,6 +258,7 @@ class Shepherd extends Evented
     index = @steps.indexOf(@currentStep)
 
     if index is @steps.length - 1
+      @hide index
       @trigger 'complete'
     else
       @show(index + 1)

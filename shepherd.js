@@ -342,6 +342,7 @@
       var index;
       index = this.steps.indexOf(this.currentStep);
       if (index === this.steps.length - 1) {
+        this.hide(index);
         return this.trigger('complete');
       } else {
         return this.show(index + 1);
