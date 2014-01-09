@@ -58,8 +58,8 @@
   Step = (function(_super) {
     __extends(Step, _super);
 
-    function Step(tour, options) {
-      this.tour = tour;
+    function Step(shepherd, options) {
+      this.shepherd = shepherd;
       this.destroy = __bind(this.destroy, this);
       this.scrollTo = __bind(this.scrollTo, this);
       this.complete = __bind(this.complete, this);
@@ -84,7 +84,7 @@
       return (_base = this.options).buttons != null ? (_base = this.options).buttons : _base.buttons = [
         {
           text: 'Next',
-          action: this.tour.next
+          action: this.shepherd.next
         }
       ];
     };
@@ -96,11 +96,11 @@
       handler = function(e) {
         if (selector != null) {
           if (matchesSelector(e.target, selector)) {
-            return _this.tour.advance();
+            return _this.shepherd.advance();
           }
         } else {
           if (_this.el && e.target === _this.el) {
-            return _this.tour.advance();
+            return _this.shepherd.advance();
           }
         }
       };
@@ -283,7 +283,7 @@
         if (typeof handler === 'string') {
           page = handler;
           handler = function() {
-            return _this.tour.show(page);
+            return _this.shepherd.show(page);
           };
         }
         el.addEventListener(event, handler);

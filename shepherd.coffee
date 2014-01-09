@@ -39,7 +39,7 @@ parseShorthand = (obj, props) ->
     out
 
 class Step extends Evented
-  constructor: (@tour, options) ->
+  constructor: (@shepherd, options) ->
     @setOptions options
 
   setOptions: (@options={}) ->
@@ -53,7 +53,7 @@ class Step extends Evented
 
     @options.buttons ?= [
       text: 'Next'
-      action: @tour.next
+      action: @shepherd.next
     ]
 
   bindAdvance: ->
@@ -63,10 +63,10 @@ class Step extends Evented
     handler = (e) =>
       if selector?
         if matchesSelector(e.target, selector)
-          @tour.advance()
+          @shepherd.advance()
       else
         if @el and e.target is @el
-          @tour.advance()
+          @shepherd.advance()
 
     document.body.addEventListener event, handler
     # TODO: this should also bind/unbind on show/hide
@@ -228,7 +228,7 @@ class Step extends Evented
       if typeof handler is 'string'
         page = handler
         handler = =>
-          @tour.show page
+          @shepherd.show page
 
       el.addEventListener event, handler
 
@@ -298,12 +298,12 @@ class Shepherd extends Evented
 
 window.Shepherd = Shepherd
 
-# tour = new Shepherd
+# shepherd = new Shepherd
 #   defaults:
 #     classes: 'shepherd shepherd-open shepherd-theme-arrows'
 #     scrollTo: true
 
-# tour.addStep 'start',
+# shepherd.addStep 'start',
 #   title: "Welcome to KaPow!"
 #   text: "KaPow is the ultimate comic book marketplace.  We supply over six
 #   hundred tons of comic books to the waste management industry each year.  The
@@ -313,7 +313,7 @@ window.Shepherd = Shepherd
 #     attachment: 'middle center'
 #     targetAttachment: 'middle center'
 
-# tour.addStep
+# shepherd.addStep
 #   title: "Are you a seller, or a waste management professional?"
 #   buttons: [
 #     text: "Seller"
@@ -323,16 +323,16 @@ window.Shepherd = Shepherd
 #     action: 'wmp-start'
 #   ]
 
-# tour.addStep 'seller-start',
+# shepherd.addStep 'seller-start',
 #   text: [
 #     "Selling is the ultimate way to unload your useless 'art'.",
 #     "Begin by clicking the 'Start Selling' button."
 #   ]
 #   attachTo: 'a.small.button:first-of-type bottom'
 #   advanceOn: 'click button.start-selling'
-#   classes: 'tour-wide shepherd shepherd-open shepherd-theme-arrows'
+#   classes: 'shepherd-wide shepherd shepherd-open shepherd-theme-arrows'
 
-# tour.addStep 'wmp-start',
+# shepherd.addStep 'wmp-start',
 #   text: [
 #     "Thousands of pounds of priceless memories can be in your furnaces in
 #     as little as three days!",
@@ -341,7 +341,7 @@ window.Shepherd = Shepherd
 #   attachTo:
 #     element: 'input[placeholder="large-12.columns"]'
 #     on: 'bottom'
-#     classes: 'tour-highlight'
+#     classes: 'shepherd-highlight'
 #     offset: '2px 0'
 #   advanceOn: 'submit form.wmp-start'
 #   when:
@@ -351,16 +351,16 @@ window.Shepherd = Shepherd
 #     hide: ->
 #   buttons: [
 #     text: "Back"
-#     action: tour.back
+#     action: shepherd.back
 #   ,
 #     text: "Cancel"
-#     action: tour.cancel
+#     action: shepherd.cancel
 #   ,
 #     text: "Skip"
-#     action: tour.next
+#     action: shepherd.next
 #   ]
 
-# tour.start
+# shepherd.start
 #   hash: true
 
-#tour.completed 'seller-start'
+#shepherd.completed 'seller-start'
