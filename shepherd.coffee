@@ -182,6 +182,7 @@ class Step extends Evented
     if @options.title?
       header = document.createElement 'header'
       header.innerHTML = "<h3 class='shepherd-title'>#{ @options.title }</h3>"
+      @el.className += ' shepherd-has-title'
       content.appendChild header
 
     if @options.text?

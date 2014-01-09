@@ -234,6 +234,7 @@
       if (this.options.title != null) {
         header = document.createElement('header');
         header.innerHTML = "<h3 class='shepherd-title'>" + this.options.title + "</h3>";
+        this.el.className += ' shepherd-has-title';
         content.appendChild(header);
       }
       if (this.options.text != null) {
