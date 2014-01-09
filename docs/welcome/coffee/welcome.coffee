@@ -64,8 +64,7 @@ setupShepherd = ->
         shepherd.next()
     ]
 
-  shepherd.start
-    hash: true
+  shepherd.start()
 
 completeShepherd = ->
   $('body').addClass('shepherd-completed')
