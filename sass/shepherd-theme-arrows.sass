@@ -24,9 +24,10 @@ $headerBackgroundColor: #eee
 .#{ $themePrefix }.#{ $themePrefix }-theme-arrows
 
     // Make the arrow 5color the same as the header color when the arrow is on the top
+
     &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom
 
-        .#{ $themePrefix }-content:before
+        &.#{ $themePrefix }-has-title .#{ $themePrefix }-content:before
             border-bottom-color: $headerBackgroundColor
 
     .#{ $themePrefix }-content
