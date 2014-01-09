@@ -1,16 +1,10 @@
 (function() {
-  var ATTACHMENT, Evented, Sheep, Step, Tour, addClass, addEventListener, createFromHTML, extend, matchesSelector, parseShorthand, removeClass, removeEventListener, uniqueId,
-    __hasProp = {}.hasOwnProperty,
-    __slice = [].slice,
+  var ATTACHMENT, Evented, Shepherd, Step, addClass, createFromHTML, extend, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  Sheep = (function() {
-    function Sheep() {}
-
-    return Sheep;
-
-  })();
+  _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, Evented = _ref.Evented;
 
   ATTACHMENT = {
     'top': 'top center',
@@ -27,27 +21,6 @@
     };
   })();
 
-  extend = function(out) {
-    var args, key, obj, val, _i, _len, _ref;
-    if (out == null) {
-      out = {};
-    }
-    args = [];
-    Array.prototype.push.apply(args, arguments);
-    _ref = args.slice(1);
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      obj = _ref[_i];
-      if (obj) {
-        for (key in obj) {
-          if (!__hasProp.call(obj, key)) continue;
-          val = obj[key];
-          out[key] = val;
-        }
-      }
-    }
-    return out;
-  };
-
   createFromHTML = function(html) {
     var el;
     el = document.createElement('div');
@@ -55,46 +28,10 @@
     return el.children[0];
   };
 
-  removeClass = function(el, name) {
-    return el.className = el.className.replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' ');
-  };
-
-  addClass = function(el, name) {
-    removeClass(el, name);
-    return el.className += " " + name;
-  };
-
-  addEventListener = function(el, event, handler) {
-    if (el.addEventListener != null) {
-      return el.addEventListener(event, handler, false);
-    } else {
-      return el.attachEvent("on" + event, handler);
-    }
-  };
-
-  removeEventListener = function(el, event, handler) {
-    if (el.removeEventListener != null) {
-      return el.removeEventListener(event, handler, false);
-    } else {
-      return el.detachEvent("on" + event, handler);
-    }
-  };
-
   matchesSelector = function(el, sel) {
-    var element, list, matches, _i, _len, _ref, _ref1, _ref2, _ref3;
-    matches = (_ref = (_ref1 = (_ref2 = (_ref3 = el.matches) != null ? _ref3 : el.matchesSelector) != null ? _ref2 : el.webkitMatchesSelector) != null ? _ref1 : el.mozMatchesSelector) != null ? _ref : el.oMatchesSelector;
-    if (matches != null) {
-      return matches.call(el, sel);
-    } else {
-      list = document.querySelectorAll(sel);
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        element = list[_i];
-        if (element === el) {
-          return true;
-        }
-      }
-      return false;
-    }
+    var matches, _ref1, _ref2, _ref3, _ref4;
+    matches = (_ref1 = (_ref2 = (_ref3 = (_ref4 = el.matches) != null ? _ref4 : el.matchesSelector) != null ? _ref3 : el.webkitMatchesSelector) != null ? _ref2 : el.mozMatchesSelector) != null ? _ref1 : el.oMatchesSelector;
+    return matches.call(el, sel);
   };
 
   parseShorthand = function(obj, props) {
@@ -118,75 +55,6 @@
     }
   };
 
-  Evented = (function() {
-    function Evented() {}
-
-    Evented.prototype.on = function(event, handler, ctx, once) {
-      var _base;
-      if (once == null) {
-        once = false;
-      }
-      if (this.bindings == null) {
-        this.bindings = {};
-      }
-      if ((_base = this.bindings)[event] == null) {
-        _base[event] = [];
-      }
-      return this.bindings[event].push({
-        handler: handler,
-        ctx: ctx,
-        once: once
-      });
-    };
-
-    Evented.prototype.once = function(event, handler, ctx) {
-      return this.on(event, handler, ctx, true);
-    };
-
-    Evented.prototype.off = function(event, handler) {
-      var i, _ref, _results;
-      if (((_ref = this.bindings) != null ? _ref[event] : void 0) == null) {
-        return;
-      }
-      if (handler == null) {
-        return delete this.bindings[event];
-      } else {
-        i = 0;
-        _results = [];
-        while (i < this.bindings[event].length) {
-          if (this.bindings[event][i].handler === handler) {
-            _results.push(this.bindings[event].splice(i, 1));
-          } else {
-            _results.push(i++);
-          }
-        }
-        return _results;
-      }
-    };
-
-    Evented.prototype.trigger = function() {
-      var args, ctx, event, handler, i, once, _ref, _ref1, _results;
-      event = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-      if ((_ref = this.bindings) != null ? _ref[event] : void 0) {
-        i = 0;
-        _results = [];
-        while (i < this.bindings[event].length) {
-          _ref1 = this.bindings[event][i], handler = _ref1.handler, ctx = _ref1.ctx, once = _ref1.once;
-          handler.apply(ctx != null ? ctx : this, args);
-          if (once) {
-            _results.push(this.bindings[event].splice(i, 1));
-          } else {
-            _results.push(i++);
-          }
-        }
-        return _results;
-      }
-    };
-
-    return Evented;
-
-  })();
-
   Step = (function(_super) {
     __extends(Step, _super);
 
@@ -202,14 +70,14 @@
     }
 
     Step.prototype.setOptions = function(options) {
-      var event, handler, _base, _ref;
+      var event, handler, _base, _ref1;
       this.options = options != null ? options : {};
       this.destroy();
       this.id = this.options.id || this.id || ("step-" + (uniqueId()));
       if (this.options.when) {
-        _ref = this.options.when;
-        for (event in _ref) {
-          handler = _ref[event];
+        _ref1 = this.options.when;
+        for (event in _ref1) {
+          handler = _ref1[event];
           this.on(event, handler, this);
         }
       }
@@ -222,9 +90,9 @@
     };
 
     Step.prototype.bindAdvance = function() {
-      var event, handler, selector, _ref,
+      var event, handler, selector, _ref1,
         _this = this;
-      _ref = parseShorthand(this.options.advanceOn, ['event', 'selector']), event = _ref.event, selector = _ref.selector;
+      _ref1 = parseShorthand(this.options.advanceOn, ['event', 'selector']), event = _ref1.event, selector = _ref1.selector;
       handler = function(e) {
         if (selector != null) {
           if (matchesSelector(e.target, selector)) {
@@ -236,9 +104,9 @@
           }
         }
       };
-      addEventListener(document.body, event, handler);
+      document.body.addEventListener(event, handler);
       return this.on('destroy', function() {
-        return removeEventListener(document.body, event, handler);
+        return document.body.removeEventListener(event, handler);
       });
     };
 
@@ -286,14 +154,14 @@
     };
 
     Step.prototype.show = function() {
-      var _ref,
+      var _ref1,
         _this = this;
       if (this.el == null) {
         this.render();
       }
       addClass(this.el, 'shepherd-open');
-      if ((_ref = this.tether) != null) {
-        _ref.enable();
+      if ((_ref1 = this.tether) != null) {
+        _ref1.enable();
       }
       if (this.options.scrollTo) {
         setTimeout(function() {
@@ -304,10 +172,10 @@
     };
 
     Step.prototype.hide = function() {
-      var _ref;
+      var _ref1;
       removeClass(this.el, 'shepherd-open');
-      if ((_ref = this.tether) != null) {
-        _ref.disable();
+      if ((_ref1 = this.tether) != null) {
+        _ref1.disable();
       }
       return this.trigger('hide');
     };
@@ -323,13 +191,13 @@
     };
 
     Step.prototype.scrollTo = function() {
-      var $attachTo, elHeight, elLeft, elTop, element, height, left, offset, top, _ref;
+      var $attachTo, elHeight, elLeft, elTop, element, height, left, offset, top, _ref1;
       element = this.getAttachTo().element;
       if (element == null) {
         return;
       }
       $attachTo = jQuery(element);
-      _ref = $attachTo.offset(), top = _ref.top, left = _ref.left;
+      _ref1 = $attachTo.offset(), top = _ref1.top, left = _ref1.left;
       height = $attachTo.outerHeight();
       offset = $(this.el).offset();
       elTop = offset.top;
@@ -343,23 +211,23 @@
     };
 
     Step.prototype.destroy = function() {
-      var _ref;
+      var _ref1;
       if (this.el != null) {
         document.body.removeChild(this.el);
         delete this.el;
       }
-      if ((_ref = this.tether) != null) {
-        _ref.destroy();
+      if ((_ref1 = this.tether) != null) {
+        _ref1.destroy();
       }
       return this.trigger('destroy');
     };
 
     Step.prototype.render = function() {
-      var button, buttons, cfg, content, footer, header, paragraph, paragraphs, text, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+      var button, buttons, cfg, content, footer, header, paragraph, paragraphs, text, _i, _j, _len, _len1, _ref1, _ref2, _ref3;
       if (this.el != null) {
         this.destroy();
       }
-      this.el = createFromHTML("<div class='shepherd-step " + ((_ref = this.options.classes) != null ? _ref : '') + "' data-id='" + this.id + "'></div>");
+      this.el = createFromHTML("<div class='shepherd-step " + ((_ref1 = this.options.classes) != null ? _ref1 : '') + "' data-id='" + this.id + "'></div>");
       content = document.createElement('div');
       content.className = 'shepherd-content';
       this.el.appendChild(content);
@@ -383,10 +251,10 @@
       footer = document.createElement('footer');
       if (this.options.buttons) {
         buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
-        _ref1 = this.options.buttons;
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          cfg = _ref1[_j];
-          button = createFromHTML("<li><a class='shepherd-button " + ((_ref2 = cfg.classes) != null ? _ref2 : '') + "'>" + cfg.text + "</a>");
+        _ref2 = this.options.buttons;
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+          cfg = _ref2[_j];
+          button = createFromHTML("<li><a class='shepherd-button " + ((_ref3 = cfg.classes) != null ? _ref3 : '') + "'>" + cfg.text + "</a>");
           buttons.appendChild(button);
           this.bindButtonEvents(cfg, button.querySelector('a'));
         }
@@ -401,7 +269,7 @@
     };
 
     Step.prototype.bindButtonEvents = function(cfg, el) {
-      var event, handler, page, _ref,
+      var event, handler, page, _ref1,
         _this = this;
       if (cfg.events == null) {
         cfg.events = {};
@@ -409,24 +277,24 @@
       if (cfg.action != null) {
         cfg.events.click = cfg.action;
       }
-      _ref = cfg.events;
-      for (event in _ref) {
-        handler = _ref[event];
+      _ref1 = cfg.events;
+      for (event in _ref1) {
+        handler = _ref1[event];
         if (typeof handler === 'string') {
           page = handler;
           handler = function() {
             return _this.tour.show(page);
           };
         }
-        addEventListener(el, event, handler);
+        el.addEventListener(event, handler);
       }
       return this.on('destroy', function() {
-        var _ref1, _results;
-        _ref1 = cfg.events;
+        var _ref2, _results;
+        _ref2 = cfg.events;
         _results = [];
-        for (event in _ref1) {
-          handler = _ref1[event];
-          _results.push(removeEventListener(el, event, handler));
+        for (event in _ref2) {
+          handler = _ref2[event];
+          _results.push(el.removeEventListener(event, handler));
         }
         return _results;
       });
@@ -436,18 +304,20 @@
 
   })(Evented);
 
-  Tour = (function() {
-    function Tour(options) {
-      var _ref;
+  Shepherd = (function(_super) {
+    __extends(Shepherd, _super);
+
+    function Shepherd(options) {
+      var _ref1;
       this.options = options != null ? options : {};
       this.hide = __bind(this.hide, this);
       this.cancel = __bind(this.cancel, this);
       this.back = __bind(this.back, this);
       this.next = __bind(this.next, this);
-      this.steps = (_ref = this.options.steps) != null ? _ref : [];
+      this.steps = (_ref1 = this.options.steps) != null ? _ref1 : [];
     }
 
-    Tour.prototype.addStep = function(name, step) {
+    Shepherd.prototype.addStep = function(name, step) {
       if (step == null) {
         step = name;
       } else {
@@ -457,40 +327,50 @@
       return this.steps.push(new Step(this, step));
     };
 
-    Tour.prototype.getById = function(id) {
-      var step, _i, _len, _ref;
-      _ref = this.steps;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        step = _ref[_i];
+    Shepherd.prototype.getById = function(id) {
+      var step, _i, _len, _ref1;
+      _ref1 = this.steps;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        step = _ref1[_i];
         if (step.id === id) {
           return step;
         }
       }
     };
 
-    Tour.prototype.next = function() {
+    Shepherd.prototype.next = function() {
       var index;
       index = this.steps.indexOf(this.currentStep);
-      return this.show(index + 1);
+      if (index === this.steps.length - 1) {
+        return this.trigger('complete');
+      } else {
+        return this.show(index + 1);
+      }
     };
 
-    Tour.prototype.back = function() {
+    Shepherd.prototype.back = function() {
       var index;
       index = this.steps.indexOf(this.currentStep);
       return this.show(index - 1);
     };
 
-    Tour.prototype.cancel = function() {
-      var _ref;
-      return (_ref = this.currentStep) != null ? _ref.cancel() : void 0;
+    Shepherd.prototype.cancel = function() {
+      var _ref1;
+      if ((_ref1 = this.currentStep) != null) {
+        _ref1.cancel();
+      }
+      return this.trigger('cancel');
     };
 
-    Tour.prototype.hide = function() {
-      var _ref;
-      return (_ref = this.currentStep) != null ? _ref.hide() : void 0;
+    Shepherd.prototype.hide = function() {
+      var _ref1;
+      if ((_ref1 = this.currentStep) != null) {
+        _ref1.hide();
+      }
+      return this.trigger('hide');
     };
 
-    Tour.prototype.show = function(key) {
+    Shepherd.prototype.show = function(key) {
       var next;
       if (key == null) {
         key = 0;
@@ -504,20 +384,24 @@
         next = this.steps[key];
       }
       if (next) {
+        this.trigger('shown', {
+          step: next,
+          previous: this.currentStep
+        });
         this.currentStep = next;
         return next.show();
       }
     };
 
-    Tour.prototype.start = function() {
+    Shepherd.prototype.start = function() {
       this.currentStep = null;
       return this.next();
     };
 
-    return Tour;
+    return Shepherd;
 
-  })();
+  })(Evented);
 
-  window.Tour = Tour;
+  window.Shepherd = Shepherd;
 
 }).call(this);
