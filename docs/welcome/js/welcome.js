@@ -80,9 +80,7 @@
         }
       ]
     });
-    return shepherd.start({
-      hash: true
-    });
+    return shepherd.start();
   };
 
   completeShepherd = function() {
