@@ -4,7 +4,7 @@ init = ->
 setupShepherd = ->
   shepherd = new Shepherd
     defaults:
-      classes: 'shepherd shepherd-open shepherd-theme-arrows'
+      classes: 'shepherd shepherd-element shepherd-open shepherd-theme-arrows'
       scrollTo: true
 
   shepherd.addStep 'welcome',
