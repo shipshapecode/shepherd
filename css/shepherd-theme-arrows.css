@@ -6,12 +6,12 @@
 }
 
 /* line 9, ../deps/tether/sass/helpers/_tether.sass */
-.shepherd {
+.shepherd-element {
   position: absolute;
   display: none;
 }
 /* line 13, ../deps/tether/sass/helpers/_tether.sass */
-.shepherd.shepherd-open {
+.shepherd-element.shepherd-open {
   display: block;
 }
 
