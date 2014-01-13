@@ -1,6 +1,4 @@
-class Sheep
-  # This is not actually used for anything
-  # Just wanted to name a class Sheep
+{extend, removeClass, addClass, Evented} = Tether.Utils
 
 ATTACHMENT =
   'top': 'top center'
@@ -13,51 +11,14 @@ uniqueId = do ->
   ->
     id++
 
-extend = (out={}) ->
-  args = []
-  Array::push.apply(args, arguments)
-
-  for obj in args[1..] when obj
-    for own key, val of obj
-      out[key] = val
-
-  out
-
 createFromHTML = (html) ->
   el = document.createElement('div')
   el.innerHTML = html
   el.children[0]
 
-removeClass = (el, name) ->
-  el.className = el.className.replace new RegExp("(^| )#{ name.split(' ').join('|') }( |$)", 'gi'), ' '
-
-addClass = (el, name) ->
-  removeClass el, name
-  el.className += " #{ name }"
-
-addEventListener = (el, event, handler) ->
-  if el.addEventListener?
-    el.addEventListener event, handler, false
-  else
-    el.attachEvent "on#{ event }", handler
-
-removeEventListener = (el, event, handler) ->
-  if el.removeEventListener?
-    el.removeEventListener event, handler, false
-  else
-    el.detachEvent "on#{ event }", handler
-
 matchesSelector = (el, sel) ->
   matches = el.matches ? el.matchesSelector ? el.webkitMatchesSelector ? el.mozMatchesSelector ? el.oMatchesSelector
-  if matches?
-    return matches.call(el, sel)
-  else
-    # IE 8
-    list = document.querySelectorAll(sel)
-    for element in list when element is el
-      return true
-
-    return false
+  return matches.call(el, sel)
 
 parseShorthand = (obj, props) ->
   if not obj?
@@ -77,43 +38,8 @@ parseShorthand = (obj, props) ->
 
     out
 
-class Evented
-  on: (event, handler, ctx, once=false) ->
-    @bindings ?= {}
-    @bindings[event] ?= []
-    @bindings[event].push {handler, ctx, once}
-
-  once: (event, handler, ctx) ->
-    @on(event, handler, ctx, true)
-
-  off: (event, handler) ->
-    return unless @bindings?[event]?
-
-    if not handler?
-      delete @bindings[event]
-    else
-      i = 0
-      while i < @bindings[event].length
-        if @bindings[event][i].handler is handler
-          @bindings[event].splice i, 1
-        else
-          i++
-
-  trigger: (event, args...) ->
-    if @bindings?[event]
-      i = 0
-      while i < @bindings[event].length
-        {handler, ctx, once} = @bindings[event][i]
-
-        handler.apply(ctx ? @, args)
-
-        if once
-          @bindings[event].splice i, 1
-        else
-          i++
-
 class Step extends Evented
-  constructor: (@tour, options) ->
+  constructor: (@shepherd, options) ->
     @setOptions options
 
   setOptions: (@options={}) ->
@@ -127,7 +53,7 @@ class Step extends Evented
 
     @options.buttons ?= [
       text: 'Next'
-      action: @tour.next
+      action: @shepherd.next
     ]
 
   bindAdvance: ->
@@ -137,15 +63,15 @@ class Step extends Evented
     handler = (e) =>
       if selector?
         if matchesSelector(e.target, selector)
-          @tour.advance()
+          @shepherd.advance()
       else
         if @el and e.target is @el
-          @tour.advance()
+          @shepherd.advance()
 
-    addEventListener document.body, event, handler
+    document.body.addEventListener event, handler
     # TODO: this should also bind/unbind on show/hide
     @on 'destroy', ->
-      removeEventListener document.body, event, handler
+      document.body.removeEventListener event, handler
 
   getAttachTo: ->
     opts = parseShorthand @options.attachTo, ['element', 'on']
@@ -256,6 +182,7 @@ class Step extends Evented
     if @options.title?
       header = document.createElement 'header'
       header.innerHTML = "<h3 class='shepherd-title'>#{ @options.title }</h3>"
+      @el.className += ' shepherd-has-title'
       content.appendChild header
 
     if @options.text?
@@ -302,15 +229,15 @@ class Step extends Evented
       if typeof handler is 'string'
         page = handler
         handler = =>
-          @tour.show page
+          @shepherd.show page
 
-      addEventListener el, event, handler
+      el.addEventListener event, handler
 
     @on 'destroy', ->
       for event, handler of cfg.events
-        removeEventListener el, event, handler
+        el.removeEventListener event, handler
 
-class Tour
+class Shepherd extends Evented
   constructor: (@options={}) ->
     @steps = @options.steps ? []
 
@@ -331,7 +258,11 @@ class Tour
   next: =>
     index = @steps.indexOf(@currentStep)
 
-    @show(index + 1)
+    if index is @steps.length - 1
+      @hide index
+      @trigger 'complete'
+    else
+      @show(index + 1)
 
   back: =>
     index = @steps.indexOf(@currentStep)
@@ -341,8 +272,12 @@ class Tour
   cancel: =>
     @currentStep?.cancel()
 
+    @trigger 'cancel'
+
   hide: =>
     @currentStep?.hide()
+
+    @trigger 'hide'
 
   show: (key=0) ->
     if @currentStep
@@ -354,6 +289,8 @@ class Tour
       next = @steps[key]
 
     if next
+      @trigger 'shown', {step: next, previous: @currentStep}
+
       @currentStep = next
       next.show()
 
@@ -361,71 +298,4 @@ class Tour
     @currentStep = null
     @next()
 
-window.Tour = Tour
-
-# tour = new Tour
-#   defaults:
-#     classes: 'shepherd shepherd-open shepherd-theme-arrows'
-#     scrollTo: true
-
-# tour.addStep 'start',
-#   title: "Welcome to KaPow!"
-#   text: "KaPow is the ultimate comic book marketplace.  We supply over six
-#   hundred tons of comic books to the waste management industry each year.  The
-#   burning of these books supplies enough energy to power eight hundred American
-#   homes."
-#   tetherOptions:
-#     attachment: 'middle center'
-#     targetAttachment: 'middle center'
-
-# tour.addStep
-#   title: "Are you a seller, or a waste management professional?"
-#   buttons: [
-#     text: "Seller"
-#     action: 'seller-start'
-#   ,
-#     text: "Waste Management Pro"
-#     action: 'wmp-start'
-#   ]
-
-# tour.addStep 'seller-start',
-#   text: [
-#     "Selling is the ultimate way to unload your useless 'art'.",
-#     "Begin by clicking the 'Start Selling' button."
-#   ]
-#   attachTo: 'a.small.button:first-of-type bottom'
-#   advanceOn: 'click button.start-selling'
-#   classes: 'tour-wide shepherd shepherd-open shepherd-theme-arrows'
-
-# tour.addStep 'wmp-start',
-#   text: [
-#     "Thousands of pounds of priceless memories can be in your furnaces in
-#     as little as three days!",
-#     "Begin by entering your Waste Management Licence number below."
-#   ]
-#   attachTo:
-#     element: 'input[placeholder="large-12.columns"]'
-#     on: 'bottom'
-#     classes: 'tour-highlight'
-#     offset: '2px 0'
-#   advanceOn: 'submit form.wmp-start'
-#   when:
-#     shown: ->
-#     completed: ->
-#     cancelled: ->
-#     hidden: ->
-#   buttons: [
-#     text: "Back"
-#     action: tour.back
-#   ,
-#     text: "Cancel"
-#     action: tour.cancel
-#   ,
-#     text: "Skip"
-#     action: tour.next
-#   ]
-
-# tour.start
-#   hash: true
-
-#tour.completed 'seller-start'
+window.Shepherd = Shepherd

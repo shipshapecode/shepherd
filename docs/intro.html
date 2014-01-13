@@ -28,23 +28,40 @@
         </div>
     </div>
 </div>
-<div class="hs-page-width-normal"><div class="row-fluid"><div class="span6"><h1 class="hs-doc-page-header"><a class="hs-doc-homepage-link" href="../">shepherd</a></h1></div><div class="span6 hidden-phone"><div class="hs-doc-slim-github-link-wrapper"><a class="hs-doc-slim-github-link" href="http://github.com/HubSpot/shepherd">On GitHub</a></div></div></div></div><div class="hs-page-width-normal"><div class="row-fluid"><div class="span3"><div class="hs-doc-sidenav"><nav><ul class="hs-public-sidenav"><li class=""><a href="../">Home</a></li><li><b>Annotated source</b></li><li><a target="_blank" href="../source/shepherd.html">shepherd.coffee</a></li></ul></nav></div></div><div class="span9"><div class="hs-doc-content"><p><link rel="stylesheet" href="/shepherd/css/shepherd-theme-default.css" /></p>
+<div class="hs-page-width-normal"><div class="row-fluid"><div class="span6"><h1 class="hs-doc-page-header"><a class="hs-doc-homepage-link" href="../">shepherd</a></h1></div><div class="span6 hidden-phone"><div class="hs-doc-slim-github-link-wrapper"><a class="hs-doc-slim-github-link" href="http://github.com/HubSpot/shepherd">On GitHub</a></div></div></div></div><div class="hs-page-width-normal"><div class="row-fluid"><div class="span3"><div class="hs-doc-sidenav"><nav><ul class="hs-public-sidenav"><li class=""><a href="../">Home</a></li><li><b>Annotated source</b></li><li><a target="_blank" href="../source/shepherd.html">shepherd.coffee</a></li></ul></nav></div></div><div class="span9"><div class="hs-doc-content"><p><link rel="stylesheet" href="/shepherd/css/shepherd-theme-arrows.css" /></p>
 <script src="/shepherd/deps/tether/tether.min.js"></script>
-<script src="/shepherd/deps/drop/drop.min.js"></script>
 <script src="/shepherd/shepherd.min.js"></script>
 
 <h2 id="shepherd">Shepherd</h2>
-<blockquote>
 <p>Guide your users through a tour of your app.</p>
-</blockquote>
-<p>Shepherd uses <a href="http://github.hubspot.com/tether/docs/welcome">Tether</a> and <a href="http://github.com/HubSpot/drop">Drop</a> to create and position its element container.</p>
 <h3 id="dependencies">Dependencies</h3>
-<ul>
-<li>Tether – <a href="https://github.com/HubSpot/tether">GitHub</a>, <a href="https://github.com/HubSpot/tether/releases">Download</a></li>
-<li>Drop – <a href="https://github.com/HubSpot/drop">GitHub</a>, <a href="https://github.com/HubSpot/drop/releases">Download</a></li>
-</ul>
+<p>Shepherd uses <a href="http://github.hubspot.com/tether/docs/welcome">Tether</a> to
+position each step container. You can <a href="https://github.com/HubSpot/tether/releases">download Tether here</a>.</p>
 <h3 id="usage">Usage</h3>
-<p>Coming soon...</p>
+<p>Using <code>Shepherd</code> is really easy.</p>
+<p>First create a new <code>Shepherd</code> instance.</p>
+<pre><code class="lang-coffeescript">shepherd = <span class="keyword">new</span> Shepherd
+  defaults:
+    classes: <span class="string">'shepherd shepherd-open shepherd-theme-arrows'</span>
+    scrollTo: <span class="literal">true</span></code></pre>
+<p> The main options you&#39;ll want to
+set are the class names to be added to each step. To use the default
+theme <code>shepherd-theme-arrows</code>, set <code>classes</code> to <code>&quot;shepherd shepherd-open shepherd-theme-arrows&quot;</code>.
+Also, you&#39;ll want to set <code>scrollTo</code> to <code>true</code> if you want Shepherd to try to
+scroll to step targets when it advances from one step to another.</p>
+<p>After creating an instance to work with, you&#39;ll add steps for each target you want. You can name steps if you want to be able shortcut to them later.</p>
+<pre><code class="lang-coffeescript">shepherd.addStep <span class="string">'example-step'</span>,
+  text: <span class="string">'This step is attached to the bottom of the &lt;code&gt;.example-css-selector&lt;/code&gt; element.'</span>
+  attachTo: <span class="string">'.example-css-selector bottom'</span>
+  classes: <span class="string">'example-step-extra-class'</span>
+  buttons: [
+    text: <span class="string">'Next'</span>
+    action: shepherd.next
+  ]</code></pre>
+<p>Finally, to start the tour, just call <code>start</code>.</p>
+<pre><code class="lang-coffeescript">shepherd.start()</code></pre>
+<h3 id="browser-support">Browser Support</h3>
+<p>Same as Tether: IE9+, Chrome, Firefox, Opera.</p>
 </div></div></div></div><div class="hs3-public-footer"><div class="row-fluid hs-page-width-normal"><div class="span3 hidden-phone"><h3>HubSpot</h3><ul><li><a href="http://www.hubspot.com">Home</a></li><li><a href="http://www.hubspot.com/software">Products</a></li><li><a href="http://www.hubspot.com/internet-marketing-company/">About</a></li></ul></div><div class="span3"><h3>Projects</h3><ul><li><a href="http://github.hubspot.com/messenger">Messenger</a></li><li><a href="http://github.hubspot.com/facewall">Facewall</a></li><li><a href="http://github.hubspot.com/jquery-zoomer">jQuery Zoomer</a></li><li><a href="http://github.hubspot.com/humanize">Humanize</a></li><li><a href="http://github.hubspot.com/teeble">Teeble</a></li></ul></div><div class="span3"><h3>Development Team</h3><ul><li><a href="http://dev.hubspot.com">Home</a></li><li><a href="http://dev.hubspot.com/teams">Teams</a></li><li><a href="http://dev.hubspot.com/people">People</a></li><li><a href="http://dev.hubspot.com/jobs">Jobs</a></li></ul></div><div class="span3 hidden-phone"><h3>Developer API</h3><ul><li><a href="http://developers.hubspot.com/">Developer Documentation</a></li></ul></div></div></div><!-- Start of Async HubSpot Analytics Code -->
 <script type="text/javascript">
     (function(d,s,i,r) {

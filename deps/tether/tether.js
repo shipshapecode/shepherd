@@ -1,7 +1,205 @@
+/*! tether v0.2.8-10-gc7da4d5 */
+(function() {
+  var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
+    __hasProp = {}.hasOwnProperty,
+    __slice = [].slice;
+
+  if (window.Tether == null) {
+    window.Tether = {};
+  }
+
+  getScrollParent = function(el) {
+    var parent, position, scrollParent, style, _ref;
+    position = getComputedStyle(el).position;
+    if (position === 'fixed') {
+      return el;
+    }
+    scrollParent = void 0;
+    parent = el;
+    while (parent = parent.parentNode) {
+      if (!(style = getComputedStyle(parent))) {
+        return parent;
+      }
+      if (/(auto|scroll)/.test(style['overflow'] + style['overflow-y'] + style['overflow-x'])) {
+        if (position !== 'absolute' || ((_ref = style['position']) === 'relative' || _ref === 'absolute' || _ref === 'fixed')) {
+          return parent;
+        }
+      }
+    }
+    return document.body;
+  };
+
+  getBounds = function(el) {
+    var box, doc, docEl, style;
+    doc = el.ownerDocument;
+    docEl = doc.documentElement;
+    box = extend({}, el.getBoundingClientRect());
+    box.top = box.top + window.pageYOffset - docEl.clientTop;
+    box.left = box.left + window.pageXOffset - docEl.clientLeft;
+    box.right = doc.body.clientWidth - box.width - box.left;
+    box.bottom = doc.body.clientHeight - box.height - box.top;
+    if (!box.height || !box.width) {
+      style = getComputedStyle(el);
+      box.height || (box.height = parseFloat(style.height));
+      box.width || (box.width = parseFloat(style.width));
+    }
+    return box;
+  };
+
+  getOffsetParent = function(el) {
+    return el.offsetParent || document.documentElement;
+  };
+
+  extend = function(out) {
+    var args, key, obj, val, _i, _len, _ref;
+    if (out == null) {
+      out = {};
+    }
+    args = [];
+    Array.prototype.push.apply(args, arguments);
+    _ref = args.slice(1);
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      obj = _ref[_i];
+      if (obj) {
+        for (key in obj) {
+          if (!__hasProp.call(obj, key)) continue;
+          val = obj[key];
+          out[key] = val;
+        }
+      }
+    }
+    return out;
+  };
+
+  removeClass = function(el, name) {
+    var cls, _i, _len, _ref, _results;
+    if (el.classList != null) {
+      _ref = name.split(' ');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cls = _ref[_i];
+        _results.push(el.classList.remove(cls));
+      }
+      return _results;
+    } else {
+      return el.className = el.className.replace(new RegExp("(^| )" + (name.split(' ').join('|')) + "( |$)", 'gi'), ' ');
+    }
+  };
+
+  addClass = function(el, name) {
+    var cls, _i, _len, _ref, _results;
+    if (el.classList != null) {
+      _ref = name.split(' ');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cls = _ref[_i];
+        _results.push(el.classList.add(cls));
+      }
+      return _results;
+    } else {
+      removeClass(el, name);
+      return el.className += " " + name;
+    }
+  };
+
+  hasClass = function(el, name) {
+    if (el.classList != null) {
+      return el.classList.contains(name);
+    } else {
+      return new RegExp("(^| )" + name + "( |$)", 'gi').test(el.className);
+    }
+  };
+
+  Evented = (function() {
+    function Evented() {}
+
+    Evented.prototype.on = function(event, handler, ctx, once) {
+      var _base;
+      if (once == null) {
+        once = false;
+      }
+      if (this.bindings == null) {
+        this.bindings = {};
+      }
+      if ((_base = this.bindings)[event] == null) {
+        _base[event] = [];
+      }
+      return this.bindings[event].push({
+        handler: handler,
+        ctx: ctx,
+        once: once
+      });
+    };
+
+    Evented.prototype.once = function(event, handler, ctx) {
+      return this.on(event, handler, ctx, true);
+    };
+
+    Evented.prototype.off = function(event, handler) {
+      var i, _ref, _results;
+      if (((_ref = this.bindings) != null ? _ref[event] : void 0) == null) {
+        return;
+      }
+      if (handler == null) {
+        return delete this.bindings[event];
+      } else {
+        i = 0;
+        _results = [];
+        while (i < this.bindings[event].length) {
+          if (this.bindings[event][i].handler === handler) {
+            _results.push(this.bindings[event].splice(i, 1));
+          } else {
+            _results.push(i++);
+          }
+        }
+        return _results;
+      }
+    };
+
+    Evented.prototype.trigger = function() {
+      var args, ctx, event, handler, i, once, _ref, _ref1, _results;
+      event = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      if ((_ref = this.bindings) != null ? _ref[event] : void 0) {
+        i = 0;
+        _results = [];
+        while (i < this.bindings[event].length) {
+          _ref1 = this.bindings[event][i], handler = _ref1.handler, ctx = _ref1.ctx, once = _ref1.once;
+          handler.apply(ctx != null ? ctx : this, args);
+          if (once) {
+            _results.push(this.bindings[event].splice(i, 1));
+          } else {
+            _results.push(i++);
+          }
+        }
+        return _results;
+      }
+    };
+
+    return Evented;
+
+  })();
+
+  Tether.Utils = {
+    getScrollParent: getScrollParent,
+    getBounds: getBounds,
+    getOffsetParent: getOffsetParent,
+    extend: extend,
+    addClass: addClass,
+    removeClass: removeClass,
+    hasClass: hasClass,
+    Evented: Evented
+  };
+
+}).call(this);
+
 (function() {
   var MIRROR_LR, MIRROR_TB, OFFSET_MAP, addClass, addOffset, attachmentToOffset, autoToFixedAttachment, debounce, event, extend, getBounds, getOffsetParent, getOuterSize, getScrollParent, getSize, lastCall, offsetToPx, parseAttachment, parseOffset, position, removeClass, tethers, _Tether, _i, _len, _ref, _ref1,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+  if (typeof Tether === "undefined" || Tether === null) {
+    throw new Error("You must include the utils.js file before tether.js");
+  }
 
   _ref = Tether.Utils, getScrollParent = _ref.getScrollParent, getSize = _ref.getSize, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getOffsetParent = _ref.getOffsetParent, extend = _ref.extend, addClass = _ref.addClass, removeClass = _ref.removeClass;
 
@@ -64,8 +262,8 @@
   };
 
   OFFSET_MAP = {
-    top: '0',
-    left: '0',
+    top: 0,
+    left: 0,
     middle: '50%',
     center: '50%',
     bottom: '100%',
@@ -204,6 +402,9 @@
       }
       addClass(this.element, this.getClass('element'));
       addClass(this.target, this.getClass('target'));
+      if (!this.options.attachment) {
+        throw new Error("Tether Error: You must provide an attachment");
+      }
       this.targetAttachment = parseAttachment(this.options.targetAttachment);
       this.attachment = parseAttachment(this.options.attachment);
       this.offset = parseOffset(this.options.offset);
@@ -361,7 +562,6 @@
       });
       manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
       offset = addOffset(offset, manualOffset);
-      targetOffset = addOffset(targetOffset, manualTargetOffset);
       left = targetPos.left + targetOffset.left - offset.left;
       top = targetPos.top + targetOffset.top - offset.top;
       _ref2 = Tether.modules;
@@ -443,6 +643,9 @@
     _Tether.prototype.move = function(position) {
       var css, found, key, moved, offset, offsetParent, offsetParentStyle, point, same, side, transcribe, type, val, write, _j, _k, _len1, _len2, _ref2, _ref3, _ref4,
         _this = this;
+      if (this.element.parentNode == null) {
+        return;
+      }
       same = {};
       for (type in position) {
         same[type] = {};
@@ -531,5 +734,374 @@
   })();
 
   window.Tether = extend(_Tether, Tether);
+
+}).call(this);
+
+(function() {
+  var BOUNDS_FORMAT, MIRROR_ATTACH, extend, getBoundingRect, getBounds, getOuterSize, getSize, _ref,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  _ref = Tether.Utils, getOuterSize = _ref.getOuterSize, getBounds = _ref.getBounds, getSize = _ref.getSize, extend = _ref.extend;
+
+  MIRROR_ATTACH = {
+    left: 'right',
+    right: 'left',
+    top: 'bottom',
+    bottom: 'top',
+    middle: 'middle'
+  };
+
+  BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+
+  getBoundingRect = function(tether, to) {
+    var i, pos, side, size, style, _i, _len;
+    if (to === 'scrollParent') {
+      to = tether.scrollParent;
+    } else if (to === 'window') {
+      to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
+    }
+    if (to.nodeType != null) {
+      pos = size = getBounds(to);
+      style = getComputedStyle(to);
+      to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
+      for (i = _i = 0, _len = BOUNDS_FORMAT.length; _i < _len; i = ++_i) {
+        side = BOUNDS_FORMAT[i];
+        if (side === 'top' || side === 'left') {
+          to[i] += parseFloat(style["border-" + side + "-width"]);
+        } else {
+          to[i] -= parseFloat(style["border-" + side + "-width"]);
+        }
+      }
+    }
+    return to;
+  };
+
+  Tether.modules.push({
+    position: function(_arg) {
+      var attachment, bounds, changeAttachX, changeAttachY, cls, constraint, eAttachment, height, left, oob, oobClass, p, pin, pinned, pinnedClass, removeClass, removeClasses, side, tAttachment, targetAttachment, targetHeight, targetSize, targetWidth, to, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _m, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6,
+        _this = this;
+      top = _arg.top, left = _arg.left, targetAttachment = _arg.targetAttachment;
+      if (!this.options.constraints) {
+        return true;
+      }
+      removeClass = function(prefix) {
+        var side, _i, _len, _results;
+        _this.removeClass(prefix);
+        _results = [];
+        for (_i = 0, _len = BOUNDS_FORMAT.length; _i < _len; _i++) {
+          side = BOUNDS_FORMAT[_i];
+          _results.push(_this.removeClass("" + prefix + "-" + side));
+        }
+        return _results;
+      };
+      _ref1 = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
+      }), height = _ref1.height, width = _ref1.width;
+      targetSize = this.cache('target-bounds', function() {
+        return _this.getTargetBounds();
+      });
+      targetHeight = targetSize.height;
+      targetWidth = targetSize.width;
+      tAttachment = {};
+      eAttachment = {};
+      removeClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+      _ref2 = this.options.constraints;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        constraint = _ref2[_i];
+        if (constraint.outOfBoundsClass) {
+          removeClasses.push(constraint.outOfBoundsClass);
+        }
+        if (constraint.pinnedClass) {
+          removeClasses.push(constraint.pinnedClass);
+        }
+      }
+      for (_j = 0, _len1 = removeClasses.length; _j < _len1; _j++) {
+        cls = removeClasses[_j];
+        removeClass(cls);
+      }
+      tAttachment = extend({}, targetAttachment);
+      eAttachment = extend({}, this.attachment);
+      _ref3 = this.options.constraints;
+      for (_k = 0, _len2 = _ref3.length; _k < _len2; _k++) {
+        constraint = _ref3[_k];
+        to = constraint.to, attachment = constraint.attachment, pin = constraint.pin;
+        if (attachment == null) {
+          attachment = '';
+        }
+        if (__indexOf.call(attachment, ' ') >= 0) {
+          _ref4 = attachment.split(' '), changeAttachY = _ref4[0], changeAttachX = _ref4[1];
+        } else {
+          changeAttachX = changeAttachY = attachment;
+        }
+        bounds = getBoundingRect(this, to);
+        if (changeAttachY === 'target' || changeAttachY === 'both') {
+          if (top < bounds[1] && tAttachment.top === 'top') {
+            top += targetHeight;
+            tAttachment.top = 'bottom';
+          }
+          if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+            top -= targetHeight;
+            tAttachment.top = 'top';
+          }
+        }
+        if (changeAttachY === 'together') {
+          if (top < bounds[1] && tAttachment.top === 'top') {
+            if (eAttachment.top === 'bottom') {
+              top += targetHeight;
+              tAttachment.top = 'bottom';
+              top += height;
+              eAttachment.top = 'top';
+            } else if (eAttachment.top === 'top') {
+              top += targetHeight;
+              tAttachment.top = 'bottom';
+              top -= height;
+              eAttachment.top = 'bottom';
+            }
+          }
+          if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+            if (eAttachment.top === 'top') {
+              top -= targetHeight;
+              tAttachment.top = 'top';
+              top -= height;
+              eAttachment.top = 'bottom';
+            } else if (eAttachment.top === 'bottom') {
+              top -= targetHeight;
+              tAttachment.top = 'top';
+              top += height;
+              eAttachment.top = 'top';
+            }
+          }
+        }
+        if (changeAttachX === 'target' || changeAttachX === 'both') {
+          if (left < bounds[0] && tAttachment.left === 'left') {
+            left += targetWidth;
+            tAttachment.left = 'right';
+          }
+          if (left + width > bounds[2] && tAttachment.left === 'right') {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+          }
+        }
+        if (changeAttachX === 'together') {
+          if (left < bounds[0] && tAttachment.left === 'left') {
+            if (eAttachment.left === 'right') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left += width;
+              eAttachment.left = 'left';
+            } else if (eAttachment.left === 'left') {
+              left += targetWidth;
+              tAttachment.left = 'right';
+              left -= width;
+              eAttachment.left = 'right';
+            }
+          } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+            if (eAttachment.left === 'left') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left -= width;
+              eAttachment.left = 'right';
+            } else if (eAttachment.left === 'right') {
+              left -= targetWidth;
+              tAttachment.left = 'left';
+              left += width;
+              eAttachment.left = 'left';
+            }
+          }
+        }
+        if (changeAttachY === 'element' || changeAttachY === 'both') {
+          if (top < bounds[1] && eAttachment.top === 'bottom') {
+            top += height;
+            eAttachment.top = 'top';
+          }
+          if (top + height > bounds[3] && eAttachment.top === 'top') {
+            top -= height;
+            eAttachment.top = 'bottom';
+          }
+        }
+        if (changeAttachX === 'element' || changeAttachX === 'both') {
+          if (left < bounds[0] && eAttachment.left === 'right') {
+            left += width;
+            eAttachment.left = 'left';
+          }
+          if (left + width > bounds[2] && eAttachment.left === 'left') {
+            left -= width;
+            eAttachment.left = 'right';
+          }
+        }
+        if (typeof pin === 'string') {
+          pin = (function() {
+            var _l, _len3, _ref5, _results;
+            _ref5 = pin.split(',');
+            _results = [];
+            for (_l = 0, _len3 = _ref5.length; _l < _len3; _l++) {
+              p = _ref5[_l];
+              _results.push(p.trim());
+            }
+            return _results;
+          })();
+        } else if (pin === true) {
+          pin = ['top', 'left', 'right', 'bottom'];
+        }
+        pin || (pin = []);
+        pinned = [];
+        oob = [];
+        if (top < bounds[1]) {
+          if (__indexOf.call(pin, 'top') >= 0) {
+            top = bounds[1];
+            pinned.push('top');
+          } else {
+            oob.push('top');
+          }
+        }
+        if (top + height > bounds[3]) {
+          if (__indexOf.call(pin, 'bottom') >= 0) {
+            top = bounds[3] - height;
+            pinned.push('bottom');
+          } else {
+            oob.push('bottom');
+          }
+        }
+        if (left < bounds[0]) {
+          if (__indexOf.call(pin, 'left') >= 0) {
+            left = bounds[0];
+            pinned.push('left');
+          } else {
+            oob.push('left');
+          }
+        }
+        if (left + width > bounds[2]) {
+          if (__indexOf.call(pin, 'right') >= 0) {
+            left = bounds[2] - width;
+            pinned.push('right');
+          } else {
+            oob.push('right');
+          }
+        }
+        if (pinned.length) {
+          pinnedClass = (_ref5 = this.options.pinnedClass) != null ? _ref5 : this.getClass('pinned');
+          this.addClass(pinnedClass);
+          for (_l = 0, _len3 = pinned.length; _l < _len3; _l++) {
+            side = pinned[_l];
+            this.addClass("" + pinnedClass + "-" + side);
+          }
+        }
+        if (oob.length) {
+          oobClass = (_ref6 = this.options.outOfBoundsClass) != null ? _ref6 : this.getClass('out-of-bounds');
+          this.addClass(oobClass);
+          for (_m = 0, _len4 = oob.length; _m < _len4; _m++) {
+            side = oob[_m];
+            this.addClass("" + oobClass + "-" + side);
+          }
+        }
+        if (__indexOf.call(pinned, 'left') >= 0 || __indexOf.call(pinned, 'right') >= 0) {
+          eAttachment.left = tAttachment.left = false;
+        }
+        if (__indexOf.call(pinned, 'top') >= 0 || __indexOf.call(pinned, 'bottom') >= 0) {
+          eAttachment.top = tAttachment.top = false;
+        }
+        if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== this.attachment.top || eAttachment.left !== this.attachment.left) {
+          this.updateAttachClasses(eAttachment, tAttachment);
+        }
+      }
+      return {
+        top: top,
+        left: left
+      };
+    }
+  });
+
+}).call(this);
+
+(function() {
+  var getBounds;
+
+  getBounds = Tether.Utils.getBounds;
+
+  Tether.modules.push({
+    position: function(_arg) {
+      var abutted, bottom, height, left, right, side, sides, targetPos, top, width, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4,
+        _this = this;
+      top = _arg.top, left = _arg.left;
+      _ref = this.cache('element-bounds', function() {
+        return getBounds(_this.element);
+      }), height = _ref.height, width = _ref.width;
+      targetPos = this.getTargetBounds();
+      bottom = top + height;
+      right = left + width;
+      abutted = [];
+      if (top <= targetPos.bottom && bottom >= targetPos.top) {
+        _ref1 = ['left', 'right'];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          side = _ref1[_i];
+          if ((_ref2 = targetPos[side]) === left || _ref2 === right) {
+            abutted.push(side);
+          }
+        }
+      }
+      if (left <= targetPos.right && right >= targetPos.left) {
+        _ref3 = ['top', 'bottom'];
+        for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+          side = _ref3[_j];
+          if ((_ref4 = targetPos[side]) === top || _ref4 === bottom) {
+            abutted.push(side);
+          }
+        }
+      }
+      sides = ['left', 'top', 'right', 'bottom'];
+      this.removeClass(this.getClass('abutted'));
+      for (_k = 0, _len2 = sides.length; _k < _len2; _k++) {
+        side = sides[_k];
+        this.removeClass("" + (this.getClass('abutted')) + "-" + side);
+      }
+      if (abutted.length) {
+        this.addClass(this.getClass('abutted'));
+      }
+      for (_l = 0, _len3 = abutted.length; _l < _len3; _l++) {
+        side = abutted[_l];
+        this.addClass("" + (this.getClass('abutted')) + "-" + side);
+      }
+      return true;
+    }
+  });
+
+}).call(this);
+
+(function() {
+  Tether.modules.push({
+    position: function(_arg) {
+      var left, result, shift, shiftLeft, shiftTop, top, _ref;
+      top = _arg.top, left = _arg.left;
+      if (!this.options.shift) {
+        return;
+      }
+      result = function(val) {
+        if (typeof val === 'function') {
+          return val.call(this, {
+            top: top,
+            left: left
+          });
+        } else {
+          return val;
+        }
+      };
+      shift = result(this.options.shift);
+      if (typeof shift === 'string') {
+        shift = shift.split(' ');
+        shift[1] || (shift[1] = shift[0]);
+        shiftTop = shift[0], shiftLeft = shift[1];
+        shiftTop = parseFloat(shiftTop, 10);
+        shiftLeft = parseFloat(shiftLeft, 10);
+      } else {
+        _ref = [shift.top, shift.left], shiftTop = _ref[0], shiftLeft = _ref[1];
+      }
+      top += shiftTop;
+      left += shiftLeft;
+      return {
+        top: top,
+        left: left
+      };
+    }
+  });
 
 }).call(this);

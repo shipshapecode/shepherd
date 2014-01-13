@@ -3,10 +3,10 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.tether {
+.tether-element {
   position: absolute;
   display: none; }
-  .tether.tether-open {
+  .tether-element.tether-open {
     display: block; }
 
 .tether.tether-theme-basic {

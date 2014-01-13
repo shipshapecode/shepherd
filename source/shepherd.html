@@ -30,23 +30,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Sheep</span></span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>This is not actually used for anything
-Just wanted to name a class Sheep</p>
+            <div class="content"><div class='highlight'><pre>{extend, removeClass, addClass, Evented} = Tether.Utils
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>ATTACHMENT =
+ATTACHMENT =
   <span class="string">'top'</span>: <span class="string">'top center'</span>
   <span class="string">'left'</span>: <span class="string">'middle right'</span>
   <span class="string">'right'</span>: <span class="string">'middle left'</span>
@@ -57,64 +43,14 @@ uniqueId = <span class="keyword">do</span> -&gt;
   -&gt;
     id++
 
-<span class="function"><span class="title">extend</span></span> = (out={}) -&gt;
-  args = []
-  Array::push.apply(args, arguments)
-
-  <span class="keyword">for</span> obj <span class="keyword">in</span> args[<span class="number">1.</span>.] <span class="keyword">when</span> obj
-    <span class="keyword">for</span> own key, val <span class="keyword">of</span> obj
-      out[key] = val
-
-  out
-
 <span class="function"><span class="title">createFromHTML</span></span> = (html) -&gt;
   el = document.createElement(<span class="string">'div'</span>)
   el.innerHTML = html
   el.children[<span class="number">0</span>]
 
-<span class="function"><span class="title">removeClass</span></span> = (el, name) -&gt;
-  el.className = el.className.replace <span class="keyword">new</span> RegExp(<span class="string">"(^| )<span class="subst">#{ name.split(' ').join('|') }</span>( |$)"</span>, <span class="string">'gi'</span>), <span class="string">' '</span>
-
-<span class="function"><span class="title">addClass</span></span> = (el, name) -&gt;
-  removeClass el, name
-  el.className += <span class="string">" <span class="subst">#{ name }</span>"</span>
-
-<span class="function"><span class="title">addEventListener</span></span> = (el, event, handler) -&gt;
-  <span class="keyword">if</span> el.addEventListener?
-    el.addEventListener event, handler, <span class="literal">false</span>
-  <span class="keyword">else</span>
-    el.attachEvent <span class="string">"on<span class="subst">#{ event }</span>"</span>, handler
-
-<span class="function"><span class="title">removeEventListener</span></span> = (el, event, handler) -&gt;
-  <span class="keyword">if</span> el.removeEventListener?
-    el.removeEventListener event, handler, <span class="literal">false</span>
-  <span class="keyword">else</span>
-    el.detachEvent <span class="string">"on<span class="subst">#{ event }</span>"</span>, handler
-
 <span class="function"><span class="title">matchesSelector</span></span> = (el, sel) -&gt;
   matches = el.matches ? el.matchesSelector ? el.webkitMatchesSelector ? el.mozMatchesSelector ? el.oMatchesSelector
-  <span class="keyword">if</span> matches?
-    <span class="keyword">return</span> matches.call(el, sel)
-  <span class="keyword">else</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>IE 8</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    list = document.querySelectorAll(sel)
-    <span class="keyword">for</span> element <span class="keyword">in</span> list <span class="keyword">when</span> element <span class="keyword">is</span> el
-      <span class="keyword">return</span> <span class="literal">true</span>
-
-    <span class="keyword">return</span> <span class="literal">false</span>
+  <span class="keyword">return</span> matches.call(el, sel)
 
 <span class="function"><span class="title">parseShorthand</span></span> = (obj, props) -&gt;
   <span class="keyword">if</span> <span class="keyword">not</span> obj?
@@ -134,43 +70,8 @@ uniqueId = <span class="keyword">do</span> -&gt;
 
     out
 
-<span class="class"><span class="keyword">class</span> <span class="title">Evented</span></span>
-  <span class="literal">on</span>: (event, handler, ctx, once=<span class="literal">false</span>) -&gt;
-    <span class="property">@bindings</span> ?= {}
-    <span class="property">@bindings</span>[event] ?= []
-    <span class="property">@bindings</span>[event].push {handler, ctx, once}
-
-  once: (event, handler, ctx) -&gt;
-    <span class="property">@on</span>(event, handler, ctx, <span class="literal">true</span>)
-
-  <span class="literal">off</span>: (event, handler) -&gt;
-    <span class="keyword">return</span> <span class="keyword">unless</span> <span class="property">@bindings</span>?[event]?
-
-    <span class="keyword">if</span> <span class="keyword">not</span> handler?
-      <span class="keyword">delete</span> <span class="property">@bindings</span>[event]
-    <span class="keyword">else</span>
-      i = <span class="number">0</span>
-      <span class="keyword">while</span> i &lt; <span class="property">@bindings</span>[event].length
-        <span class="keyword">if</span> <span class="property">@bindings</span>[event][i].handler <span class="keyword">is</span> handler
-          <span class="property">@bindings</span>[event].splice i, <span class="number">1</span>
-        <span class="keyword">else</span>
-          i++
-
-  trigger: (event, args...) -&gt;
-    <span class="keyword">if</span> <span class="property">@bindings</span>?[event]
-      i = <span class="number">0</span>
-      <span class="keyword">while</span> i &lt; <span class="property">@bindings</span>[event].length
-        {handler, ctx, once} = <span class="property">@bindings</span>[event][i]
-
-        handler.apply(ctx ? @, args)
-
-        <span class="keyword">if</span> once
-          <span class="property">@bindings</span>[event].splice i, <span class="number">1</span>
-        <span class="keyword">else</span>
-          i++
-
 <span class="class"><span class="keyword">class</span> <span class="title">Step</span> <span class="keyword">extends</span> <span class="title">Evented</span></span>
-  constructor: (<span class="property">@tour</span>, options) -&gt;
+  constructor: (<span class="property">@shepherd</span>, options) -&gt;
     <span class="property">@setOptions</span> options
 
   setOptions: (<span class="property">@options</span>={}) -&gt;
@@ -184,7 +85,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
 
     <span class="property">@options</span>.buttons ?= [
       text: <span class="string">'Next'</span>
-      action: <span class="property">@tour</span>.next
+      action: <span class="property">@shepherd</span>.next
     ]
 
   bindAdvance: -&gt;</pre></div></div>
@@ -192,11 +93,11 @@ uniqueId = <span class="keyword">do</span> -&gt;
         </li>
         
         
-        <li id="section-4">
+        <li id="section-2">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
               <p>An empty selector matches the step element</p>
 
@@ -207,28 +108,28 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="function"><span class="title">handler</span></span> = (e) =&gt;
       <span class="keyword">if</span> selector?
         <span class="keyword">if</span> matchesSelector(e.target, selector)
-          <span class="property">@tour</span>.advance()
+          <span class="property">@shepherd</span>.advance()
       <span class="keyword">else</span>
         <span class="keyword">if</span> <span class="property">@el</span> <span class="keyword">and</span> e.target <span class="keyword">is</span> <span class="property">@el</span>
-          <span class="property">@tour</span>.advance()
+          <span class="property">@shepherd</span>.advance()
 
-    addEventListener document.body, event, handler</pre></div></div>
+    document.body.addEventListener event, handler</pre></div></div>
             
         </li>
         
         
-        <li id="section-5">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>TODO: this should also bind/unbind on show/hide</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>    <span class="property">@on</span> <span class="string">'destroy'</span>, -&gt;
-      removeEventListener document.body, event, handler
+      document.body.removeEventListener event, handler
 
   getAttachTo: -&gt;
     opts = parseShorthand <span class="property">@options</span>.attachTo, [<span class="string">'element'</span>, <span class="string">'on'</span>]
@@ -339,6 +240,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="keyword">if</span> <span class="property">@options</span>.title?
       header = document.createElement <span class="string">'header'</span>
       header.innerHTML = <span class="string">"&lt;h3 class='shepherd-title'&gt;<span class="subst">#{ @options.title }</span>&lt;/h3&gt;"</span>
+      <span class="property">@el</span>.className += <span class="string">' shepherd-has-title'</span>
       content.appendChild header
 
     <span class="keyword">if</span> <span class="property">@options</span>.text?
@@ -382,11 +284,11 @@ uniqueId = <span class="keyword">do</span> -&gt;
         </li>
         
         
-        <li id="section-6">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>Including both a click event and an action is not supported</p>
 
@@ -398,15 +300,15 @@ uniqueId = <span class="keyword">do</span> -&gt;
       <span class="keyword">if</span> <span class="keyword">typeof</span> handler <span class="keyword">is</span> <span class="string">'string'</span>
         page = handler
         <span class="function"><span class="title">handler</span></span> = =&gt;
-          <span class="property">@tour</span>.show page
+          <span class="property">@shepherd</span>.show page
 
-      addEventListener el, event, handler
+      el.addEventListener event, handler
 
     <span class="property">@on</span> <span class="string">'destroy'</span>, -&gt;
       <span class="keyword">for</span> event, handler <span class="keyword">of</span> cfg.events
-        removeEventListener el, event, handler
+        el.removeEventListener event, handler
 
-<span class="class"><span class="keyword">class</span> <span class="title">Tour</span></span>
+<span class="class"><span class="keyword">class</span> <span class="title">Shepherd</span> <span class="keyword">extends</span> <span class="title">Evented</span></span>
   constructor: (<span class="property">@options</span>={}) -&gt;
     <span class="property">@steps</span> = <span class="property">@options</span>.steps ? []
 
@@ -427,7 +329,11 @@ uniqueId = <span class="keyword">do</span> -&gt;
   next: =&gt;
     index = <span class="property">@steps</span>.indexOf(<span class="property">@currentStep</span>)
 
-    <span class="property">@show</span>(index + <span class="number">1</span>)
+    <span class="keyword">if</span> index <span class="keyword">is</span> <span class="property">@steps</span>.length - <span class="number">1</span>
+      <span class="property">@hide</span> index
+      <span class="property">@trigger</span> <span class="string">'complete'</span>
+    <span class="keyword">else</span>
+      <span class="property">@show</span>(index + <span class="number">1</span>)
 
   back: =&gt;
     index = <span class="property">@steps</span>.indexOf(<span class="property">@currentStep</span>)
@@ -437,8 +343,12 @@ uniqueId = <span class="keyword">do</span> -&gt;
   cancel: =&gt;
     <span class="property">@currentStep</span>?.cancel()
 
+    <span class="property">@trigger</span> <span class="string">'cancel'</span>
+
   hide: =&gt;
     <span class="property">@currentStep</span>?.hide()
+
+    <span class="property">@trigger</span> <span class="string">'hide'</span>
 
   show: (key=<span class="number">0</span>) -&gt;
     <span class="keyword">if</span> <span class="property">@currentStep</span>
@@ -450,6 +360,8 @@ uniqueId = <span class="keyword">do</span> -&gt;
       next = <span class="property">@steps</span>[key]
 
     <span class="keyword">if</span> next
+      <span class="property">@trigger</span> <span class="string">'shown'</span>, {step: next, previous: <span class="property">@currentStep</span>}
+
       <span class="property">@currentStep</span> = next
       next.show()
 
@@ -457,79 +369,7 @@ uniqueId = <span class="keyword">do</span> -&gt;
     <span class="property">@currentStep</span> = <span class="literal">null</span>
     <span class="property">@next</span>()
 
-window.Tour = Tour</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>tour = new Tour
-  defaults:
-    classes: &#39;shepherd shepherd-open shepherd-theme-arrows&#39;
-    scrollTo: true</p>
-<p>tour.addStep &#39;start&#39;,
-  title: &quot;Welcome to KaPow!&quot;
-  text: &quot;KaPow is the ultimate comic book marketplace.  We supply over six
-  hundred tons of comic books to the waste management industry each year.  The
-  burning of these books supplies enough energy to power eight hundred American
-  homes.&quot;
-  tetherOptions:
-    attachment: &#39;middle center&#39;
-    targetAttachment: &#39;middle center&#39;</p>
-<p>tour.addStep
-  title: &quot;Are you a seller, or a waste management professional?&quot;
-  buttons: [
-    text: &quot;Seller&quot;
-    action: &#39;seller-start&#39;
-  ,
-    text: &quot;Waste Management Pro&quot;
-    action: &#39;wmp-start&#39;
-  ]</p>
-<p>tour.addStep &#39;seller-start&#39;,
-  text: [
-    &quot;Selling is the ultimate way to unload your useless &#39;art&#39;.&quot;,
-    &quot;Begin by clicking the &#39;Start Selling&#39; button.&quot;
-  ]
-  attachTo: &#39;a.small.button:first-of-type bottom&#39;
-  advanceOn: &#39;click button.start-selling&#39;
-  classes: &#39;tour-wide shepherd shepherd-open shepherd-theme-arrows&#39;</p>
-<p>tour.addStep &#39;wmp-start&#39;,
-  text: [
-    &quot;Thousands of pounds of priceless memories can be in your furnaces in
-    as little as three days!&quot;,
-    &quot;Begin by entering your Waste Management Licence number below.&quot;
-  ]
-  attachTo:
-    element: &#39;input[placeholder=&quot;large-12.columns&quot;]&#39;
-    on: &#39;bottom&#39;
-    classes: &#39;tour-highlight&#39;
-    offset: &#39;2px 0&#39;
-  advanceOn: &#39;submit form.wmp-start&#39;
-  when:
-    shown: -&gt;
-    completed: -&gt;
-    cancelled: -&gt;
-    hidden: -&gt;
-  buttons: [
-    text: &quot;Back&quot;
-    action: tour.back
-  ,
-    text: &quot;Cancel&quot;
-    action: tour.cancel
-  ,
-    text: &quot;Skip&quot;
-    action: tour.next
-  ]</p>
-<p>tour.start
-  hash: true</p>
-<p>tour.completed &#39;seller-start&#39;</p>
-
-            </div>
+window.Shepherd = Shepherd</pre></div></div>
             
         </li>
         

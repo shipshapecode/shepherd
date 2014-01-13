@@ -1,39 +1,90 @@
 (function() {
-  var init, setupTour;
+  var completeShepherd, init, setupShepherd;
 
   init = function() {
-    return setupTour();
+    return setupShepherd();
   };
 
-  setupTour = function() {
-    var tour;
-    tour = new Tour({
+  setupShepherd = function() {
+    var shepherd;
+    shepherd = new Shepherd({
       defaults: {
-        classes: 'shepherd shepherd-open shepherd-theme-arrows',
+        classes: 'shepherd shepherd-element shepherd-open shepherd-theme-arrows',
         scrollTo: true
       }
     });
-    tour.addStep('start', {
-      title: 'This is Shepherd',
-      text: 'Shepherd is a library for guiding users through your interface.',
-      attachTo: '.hero-inner h1 bottom'
-    });
-    tour.addStep('buttons', {
-      text: 'Check us out on GitHub or download the latest release.',
-      attachTo: '.hero-inner p right',
+    shepherd.addStep('welcome', {
+      text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="http://github.hubspot.com/tether/">Tether</a>, another open source library, to position all of its steps.', 'Tether makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
+      attachTo: '.hero-welcome bottom',
+      classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
       buttons: [
         {
-          text: "Back",
-          action: tour.back
+          text: 'Exit',
+          classes: 'shepherd-button-secondary',
+          action: function() {
+            completeShepherd();
+            return shepherd.hide();
+          }
         }, {
-          text: "Done",
-          action: tour.cancel
+          text: 'Next',
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary'
         }
       ]
     });
-    return tour.start({
-      hash: true
+    shepherd.addStep('including', {
+      title: 'Including',
+      text: 'Including Shepherd is easy! Just include <a href="http://github.hubspot.com/tether">Tether</a>, Shepherd, and a Shepherd theme file.',
+      attachTo: '.hero-including bottom',
+      buttons: [
+        {
+          text: 'Back',
+          classes: 'shepherd-button-secondary',
+          action: shepherd.back
+        }, {
+          text: 'Next',
+          action: shepherd.next
+        }
+      ]
     });
+    shepherd.addStep('example', {
+      title: 'Example Shepherd',
+      text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="http://github.hubspot.com/shepherd">documentation</a> to learn more.',
+      attachTo: '.hero-example bottom',
+      buttons: [
+        {
+          text: 'Back',
+          classes: 'shepherd-button-secondary',
+          action: shepherd.back
+        }, {
+          text: 'Next',
+          action: shepherd.next
+        }
+      ]
+    });
+    shepherd.addStep('followup', {
+      title: 'Learn more',
+      text: 'Check us out on GitHub or download the latest release.',
+      attachTo: '.hero-followup bottom',
+      buttons: [
+        {
+          text: 'Back',
+          classes: 'shepherd-button-secondary',
+          action: shepherd.back
+        }, {
+          text: 'Done',
+          action: function() {
+            completeShepherd();
+            return shepherd.next();
+          }
+        }
+      ]
+    });
+    return shepherd.start();
+  };
+
+  completeShepherd = function() {
+    return $('body').addClass('shepherd-completed');
   };
 
   $(init);
