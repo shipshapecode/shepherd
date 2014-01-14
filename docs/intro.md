@@ -20,7 +20,7 @@ First create a new `Shepherd` instance.
 ```coffeescript
 shepherd = new Shepherd
   defaults:
-    classes: 'shepherd shepherd-open shepherd-theme-arrows'
+    classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
     scrollTo: true
 ```
 
