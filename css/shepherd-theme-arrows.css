@@ -1,5 +1,5 @@
 /* line 6, ../deps/tether/sass/helpers/_tether.sass */
-.shepherd, .shepherd:after, .shepherd:before, .shepherd *, .shepherd *:after, .shepherd *:before {
+.shepherd-element, .shepherd-element:after, .shepherd-element:before, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
