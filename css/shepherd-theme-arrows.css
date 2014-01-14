@@ -174,19 +174,19 @@
 }
 
 /* line 30, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eeeeee;
 }
 /* line 33, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content {
+.shepherd-element.shepherd-theme-arrows .shepherd-content {
   padding: 0;
 }
 /* line 36, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content * {
+.shepherd-element.shepherd-theme-arrows .shepherd-content * {
   font-size: inherit;
 }
 /* line 39, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content header {
+.shepherd-element.shepherd-theme-arrows .shepherd-content header {
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
   -ms-border-radius: 5px 5px 0 0;
@@ -196,43 +196,43 @@
   padding: 1em;
 }
 /* line 44, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content header h3 {
+.shepherd-element.shepherd-theme-arrows .shepherd-content header h3 {
   margin: 0;
   line-height: 1;
   font-weight: normal;
 }
 /* line 49, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text {
+.shepherd-element.shepherd-theme-arrows .shepherd-content .shepherd-text {
   padding: 1em;
 }
 /* line 52, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p {
+.shepherd-element.shepherd-theme-arrows .shepherd-content .shepherd-text p {
   margin: 0 0 0.5em 0;
   line-height: 1.3em;
 }
 /* line 56, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
+.shepherd-element.shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
   margin-bottom: 0;
 }
 /* line 59, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer {
   padding: 0 1em 1em;
 }
 /* line 62, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
   text-align: right;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 /* line 68, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
   display: inline;
   padding: 0;
   margin: 0;
 }
 /* line 73, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
   display: -moz-inline-stack;
   display: inline-block;
   vertical-align: middle;
@@ -257,11 +257,11 @@
   color: white;
 }
 /* line 88, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
   background: #eeeeee;
   color: #888888;
 }
 /* line 92, ../sass/shepherd-theme-arrows.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
   margin-right: 0;
 }
