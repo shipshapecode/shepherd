@@ -1,4 +1,4 @@
-/*! tether v0.2.8-10-gc7da4d5 */
+/*! tether 0.3.2 (v0.3.1-2-g3160e0a) */
 (function() {
   var Evented, addClass, extend, getBounds, getOffsetParent, getScrollParent, hasClass, removeClass,
     __hasProp = {}.hasOwnProperty,
@@ -30,7 +30,7 @@
   };
 
   getBounds = function(el) {
-    var box, doc, docEl, style;
+    var box, doc, docEl;
     doc = el.ownerDocument;
     docEl = doc.documentElement;
     box = extend({}, el.getBoundingClientRect());
@@ -38,11 +38,6 @@
     box.left = box.left + window.pageXOffset - docEl.clientLeft;
     box.right = doc.body.clientWidth - box.width - box.left;
     box.bottom = doc.body.clientHeight - box.height - box.top;
-    if (!box.height || !box.width) {
-      style = getComputedStyle(el);
-      box.height || (box.height = parseFloat(style.height));
-      box.width || (box.width = parseFloat(style.width));
-    }
     return box;
   };
 
@@ -456,7 +451,6 @@
     };
 
     _Tether.prototype.enable = function(position) {
-      var _this = this;
       if (position == null) {
         position = true;
       }
@@ -464,9 +458,7 @@
       this.enabled = true;
       this.scrollParent.addEventListener('scroll', this.position);
       if (position) {
-        return setTimeout(function() {
-          return _this.position();
-        });
+        return this.position();
       }
     };
 

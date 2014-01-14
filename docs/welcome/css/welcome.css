@@ -100,10 +100,10 @@ body.shepherd-completed .hero-outer .hero-inner > * {
 }
 /* line 75, ../sass/welcome.sass */
 .hero-outer .hero-inner pre {
-  width: 500px;
+  width: 540px;
   margin: 0 auto 1em;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   /* line 75, ../sass/welcome.sass */
   .hero-outer .hero-inner pre {
     width: 340px;
@@ -121,19 +121,19 @@ body.shepherd-completed .hero-outer .hero-inner > * {
 }
 
 /* line 90, ../sass/welcome.sass */
-.shepherd.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
+.shepherd-element.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
   color: #3b744f;
 }
 /* line 93, ../sass/welcome.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content {
+.shepherd-element.shepherd-theme-arrows .shepherd-content {
   width: 400px;
   max-width: 100%;
 }
 /* line 97, ../sass/welcome.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content a {
+.shepherd-element.shepherd-theme-arrows .shepherd-content a {
   color: inherit;
 }
 /* line 100, ../sass/welcome.sass */
-.shepherd.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
   background: #55a892;
 }
