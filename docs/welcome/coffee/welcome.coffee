@@ -54,7 +54,7 @@ setupShepherd = ->
 
   shepherd.addStep 'followup',
     title: 'Learn more'
-    text: 'Check us out on GitHub or download the latest release.'
+    text: 'Star Shepherd on Github so you remember it for your next project'
     attachTo: '.hero-followup bottom'
     buttons: [
       text: 'Back'
