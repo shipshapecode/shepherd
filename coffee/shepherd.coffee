@@ -39,8 +39,10 @@ parseShorthand = (obj, props) ->
     out
 
 class Step extends Evented
-  constructor: (@shepherd, options) ->
+  constructor: (@tour, options) ->
     @setOptions options
+
+    @
 
   setOptions: (@options={}) ->
     @destroy()
@@ -53,20 +55,25 @@ class Step extends Evented
 
     @options.buttons ?= [
       text: 'Next'
-      action: @shepherd.next
+      action: @tour.next
     ]
+
+  getTour: ->
+    @tour
 
   bindAdvance: ->
     # An empty selector matches the step element
     {event, selector} = parseShorthand @options.advanceOn, ['event', 'selector']
 
     handler = (e) =>
+      return unless @isOpen()
+
       if selector?
         if matchesSelector(e.target, selector)
-          @shepherd.advance()
+          @tour.next()
       else
         if @el and e.target is @el
-          @shepherd.advance()
+          @tour.next()
 
     document.body.addEventListener event, handler
     # TODO: this should also bind/unbind on show/hide
@@ -130,6 +137,9 @@ class Step extends Evented
     @tether?.disable()
 
     @trigger 'hide'
+
+  isOpen: =>
+    hasClass @el, 'shepherd-open'
 
   cancel: =>
     @hide()
@@ -229,7 +239,7 @@ class Step extends Evented
       if typeof handler is 'string'
         page = handler
         handler = =>
-          @shepherd.show page
+          @tour.show page
 
       el.addEventListener event, handler
 
@@ -237,23 +247,42 @@ class Step extends Evented
       for event, handler of cfg.events
         el.removeEventListener event, handler
 
-class Shepherd extends Evented
+class Tour extends Evented
   constructor: (@options={}) ->
     @steps = @options.steps ? []
+
+    # Pass these events onto the global Shepherd object
+    for event in ['complete', 'cancel', 'hide', 'start', 'show']
+      @on event, (opts={}) =>
+        opts.tour = @
+        Shepherd.trigger event, opts
+
+    @
 
   addStep: (name, step) ->
     if not step?
       step = name
+
+    unless step instanceof Step
+      if typeof name in ['string', 'number']
+        step.id = name.toString()
+
+      step = extend {}, @options.defaults, step
+
+      step = new Step(@, step)
     else
-      step.id = name
+      step.tour = @
 
-    step = extend {}, @options.defaults, step
-
-    @steps.push new Step(@, step)
+    @steps.push step
+    
+    step
 
   getById: (id) ->
     for step in @steps when step.id is id
       return step
+
+  getCurrentStep: ->
+    @currentStep
 
   next: =>
     index = @steps.indexOf(@currentStep)
@@ -261,6 +290,7 @@ class Shepherd extends Evented
     if index is @steps.length - 1
       @hide index
       @trigger 'complete'
+      @done()
     else
       @show(index + 1)
 
@@ -273,15 +303,22 @@ class Shepherd extends Evented
     @currentStep?.cancel()
 
     @trigger 'cancel'
+    @done()
 
   hide: =>
     @currentStep?.hide()
 
     @trigger 'hide'
+    @done()
+
+  done: ->
+    Shepherd.activeTour = null
 
   show: (key=0) ->
     if @currentStep
       @currentStep.hide()
+
+    Shepherd.activeTour = @
 
     if typeof key is 'string'
       next = @getById key
@@ -289,13 +326,19 @@ class Shepherd extends Evented
       next = @steps[key]
 
     if next
-      @trigger 'shown', {step: next, previous: @currentStep}
+      @trigger 'show', {step: next, previous: @currentStep}
 
       @currentStep = next
       next.show()
 
   start: ->
+    @trigger 'start'
+
     @currentStep = null
     @next()
+
+Shepherd = new Evented
+
+extend Shepherd, {Tour, Step}
 
 window.Shepherd = Shepherd

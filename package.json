@@ -1,6 +1,6 @@
 {
   "name": "shepherd",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
@@ -8,13 +8,15 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "grunt-contrib-coffee": "~0.7.0",
     "coffee-script": "~1.6.3",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-cli": "~0.1.9",
-    "grunt": "",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-compass": "~0.5.0",
-    "grunt-bower-task": "~0.3.4"
+    "gulp": "~3.4.0",
+    "gulp-header": "~1.0.2",
+    "gulp-uglify": "~0.1.0",
+    "gulp-compass": "~1.0.3",
+    "gulp-coffee": "~1.2.5",
+    "gulp-concat": "~2.1.7",
+    "gulp-rename": "~0.2.1",
+    "gulp-util": "~2.2.9",
+    "gulp-bower": "0.0.1"
   }
 }

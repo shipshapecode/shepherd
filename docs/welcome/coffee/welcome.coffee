@@ -2,7 +2,7 @@ init = ->
   setupShepherd()
 
 setupShepherd = ->
-  shepherd = new Shepherd
+  shepherd = new Shepherd.Tour
     defaults:
       classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
       scrollTo: true

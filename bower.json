@@ -1,9 +1,10 @@
 {
   "name": "shepherd",
   "main": "shepherd.js",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
+    "Zack Bloom <zbloom@hubspot.com>",
     "Adam Schwartz <aschwartz@hubspot.com>"
   ],
   "description": "Guide your users through a tour of your app.",
