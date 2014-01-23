@@ -7,10 +7,7 @@ Guide your users through a tour of your app.
 
 ### Dependencies
 
-Shepherd uses [Tether](http://github.hubspot.com/tether/docs/welcome) to
-position each step container.  Tether is included in the `shepherd.js` and `shepherd.min.js` files.
-
-Otherwise, none!
+None!
 
 ### Usage
 
