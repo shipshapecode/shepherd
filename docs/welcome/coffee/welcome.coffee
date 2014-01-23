@@ -27,7 +27,7 @@ setupShepherd = ->
 
   shepherd.addStep 'including',
     title: 'Including'
-    text: 'Including Shepherd is easy! Just include <a href="http://github.hubspot.com/tether">Tether</a>, Shepherd, and a Shepherd theme file.'
+    text: 'Including Shepherd is easy! Just include shepherd.js, and a Shepherd theme file.'
     attachTo: '.hero-including bottom'
     buttons: [
       text: 'Back'
