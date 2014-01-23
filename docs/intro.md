@@ -94,6 +94,7 @@ myTour = new Shepherd.Tour({ options })
 ##### Tour Methods
 
 - `addStep(id, options)`: Creates a new Step object with options.  If you'd like you can also just pass an options hash which includes `id` as a key.
+If the options hash doesn't include an `id`, one will be generated.
 You can also pass an existing `Step` instance rather than `options`, but note that Shepherd does not support a Step being attached to multiple Tours.
 - `getById(id)`: Return a step with a specific id
 - `next()`: Advance to the next step, in the order they were added

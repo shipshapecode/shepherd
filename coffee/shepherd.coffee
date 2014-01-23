@@ -1,15 +1,10 @@
-{extend, removeClass, addClass, Evented} = Tether.Utils
+{extend, removeClass, addClass, Evented, getBounds, uniqueId} = Tether.Utils
 
 ATTACHMENT =
   'top': 'top center'
   'left': 'middle right'
   'right': 'middle left'
   'bottom': 'bottom center'
-
-uniqueId = do ->
-  id = 0
-  ->
-    id++
 
 createFromHTML = (html) ->
   el = document.createElement('div')
@@ -153,22 +148,8 @@ class Step extends Evented
 
   scrollTo: =>
     {element} = @getAttachTo()
-    return unless element?
 
-    $attachTo = jQuery element
-
-    {top, left} = $attachTo.offset()
-    height = $attachTo.outerHeight()
-
-    offset = $(@el).offset()
-    elTop = offset.top
-    elLeft = offset.left
-    elHeight = $(@el).outerHeight()
-
-    if top < pageYOffset or elTop < pageYOffset
-      jQuery(document.body).scrollTop(Math.min(top, elTop) - 10)
-    else if (top + height) > (pageYOffset + innerHeight) or (elTop + elHeight) > (pageYOffset + innerHeight)
-      jQuery(document.body).scrollTop(Math.max(top + height, elTop + elHeight) - innerHeight + 10)
+    element?.scrollIntoView()
 
   destroy: =>
     if @el?

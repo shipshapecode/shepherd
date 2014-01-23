@@ -1,4 +1,4 @@
-/*! shepherd 0.3.0 */
+/*! shepherd 0.2.1 */
 /*! tether 0.4.8 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
@@ -1351,12 +1351,12 @@
 }).call(this);
 
 (function() {
-  var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
+  var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, Evented = _ref.Evented;
+  _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, Evented = _ref.Evented, getBounds = _ref.getBounds, uniqueId = _ref.uniqueId;
 
   ATTACHMENT = {
     'top': 'top center',
@@ -1364,14 +1364,6 @@
     'right': 'middle left',
     'bottom': 'bottom center'
   };
-
-  uniqueId = (function() {
-    var id;
-    id = 0;
-    return function() {
-      return id++;
-    };
-  })();
 
   createFromHTML = function(html) {
     var el;
@@ -1556,23 +1548,9 @@
     };
 
     Step.prototype.scrollTo = function() {
-      var $attachTo, elHeight, elLeft, elTop, element, height, left, offset, top, _ref1;
+      var element;
       element = this.getAttachTo().element;
-      if (element == null) {
-        return;
-      }
-      $attachTo = jQuery(element);
-      _ref1 = $attachTo.offset(), top = _ref1.top, left = _ref1.left;
-      height = $attachTo.outerHeight();
-      offset = $(this.el).offset();
-      elTop = offset.top;
-      elLeft = offset.left;
-      elHeight = $(this.el).outerHeight();
-      if (top < pageYOffset || elTop < pageYOffset) {
-        return jQuery(document.body).scrollTop(Math.min(top, elTop) - 10);
-      } else if ((top + height) > (pageYOffset + innerHeight) || (elTop + elHeight) > (pageYOffset + innerHeight)) {
-        return jQuery(document.body).scrollTop(Math.max(top + height, elTop + elHeight) - innerHeight + 10);
-      }
+      return element != null ? element.scrollIntoView() : void 0;
     };
 
     Step.prototype.destroy = function() {
