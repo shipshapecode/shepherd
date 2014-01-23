@@ -90,7 +90,7 @@
     Step.prototype.bindAdvance = function() {
       var event, handler, selector, _ref1,
         _this = this;
-      _ref1 = parseShorthand(this.options.advanceOn, ['event', 'selector']), event = _ref1.event, selector = _ref1.selector;
+      _ref1 = parseShorthand(this.options.advanceOn, ['selector', 'event']), event = _ref1.event, selector = _ref1.selector;
       handler = function(e) {
         if (!_this.isOpen()) {
           return;

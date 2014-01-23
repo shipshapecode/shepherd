@@ -58,7 +58,7 @@ class Step extends Evented
 
   bindAdvance: ->
     # An empty selector matches the step element
-    {event, selector} = parseShorthand @options.advanceOn, ['event', 'selector']
+    {event, selector} = parseShorthand @options.advanceOn, ['selector', 'event']
 
     handler = (e) =>
       return unless @isOpen()

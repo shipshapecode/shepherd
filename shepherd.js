@@ -1,4 +1,4 @@
-/*! shepherd 0.2.1 */
+/*! shepherd 0.4.0 */
 /*! tether 0.4.8 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
@@ -1442,7 +1442,7 @@
     Step.prototype.bindAdvance = function() {
       var event, handler, selector, _ref1,
         _this = this;
-      _ref1 = parseShorthand(this.options.advanceOn, ['event', 'selector']), event = _ref1.event, selector = _ref1.selector;
+      _ref1 = parseShorthand(this.options.advanceOn, ['selector', 'event']), event = _ref1.event, selector = _ref1.selector;
       handler = function(e) {
         if (!_this.isOpen()) {
           return;
