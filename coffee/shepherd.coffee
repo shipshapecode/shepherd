@@ -320,6 +320,6 @@ class Tour extends Evented
 
 Shepherd = new Evented
 
-extend Shepherd, {Tour, Step}
+extend Shepherd, {Tour, Step, Evented}
 
 window.Shepherd = Shepherd

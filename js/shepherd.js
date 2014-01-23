@@ -433,7 +433,8 @@
 
   extend(Shepherd, {
     Tour: Tour,
-    Step: Step
+    Step: Step,
+    Evented: Evented
   });
 
   window.Shepherd = Shepherd;

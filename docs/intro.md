@@ -179,6 +179,26 @@ yourApp.on 'some-event', ->
     Shepherd.activeTour.next()
 ```
 
+It's strongly recommended that you use some sort of event mediator to connect your app's actions with Shepherd, to prevent
+having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
+mediator if need be using the `Evented` object which is provided with Shepherd:
+
+```coffeescript
+mediator = new Shepherd.Evented
+```
+
+You can then trigger events in one part of your app:
+
+```coffeescript
+mediator.trigger 'user-create'
+```
+
+And listen for them in other areas:
+
+```coffeescript
+mediator.on 'user-create', ->
+```
+
 ### Browser Support
 
 IE9+ and all modern browsers

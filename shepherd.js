@@ -1,4 +1,4 @@
-/*! shepherd 0.4.0 */
+/*! shepherd 0.2.1 */
 /*! tether 0.4.8 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
@@ -1785,7 +1785,8 @@
 
   extend(Shepherd, {
     Tour: Tour,
-    Step: Step
+    Step: Step,
+    Evented: Evented
   });
 
   window.Shepherd = Shepherd;
