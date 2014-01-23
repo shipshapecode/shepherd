@@ -9,8 +9,7 @@
     var shepherd;
     shepherd = new Shepherd.Tour({
       defaults: {
-        classes: 'shepherd-element shepherd-open shepherd-theme-arrows',
-        scrollTo: true
+        classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
       }
     });
     shepherd.addStep('welcome', {
