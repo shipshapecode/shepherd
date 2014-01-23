@@ -140,9 +140,9 @@ to disable.  Each button in the array is an object of the format:
   - `action`: A function executed when the button is clicked on
   - `events`: A hash of events to bind onto the button, for example `{'mouseover': function(){}}`.  Adding a click event to `events` when you
   already have an `action` specified is not supported.
-- `advanceOn`: An action which should advance shepherd to the next step.  It can be of the form `"event selector"`, or an object with those
-properies.  For example: `"click .some-element"`, or `{element: '.some-element', event: 'click'}`.  You can also always manually advance the
-Tour by calling `myTour.next()`.
+- `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"event selector"`, or an object with those
+properies.  For example: `"click .some-element"`, or `{element: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
+the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 
 ##### Step Methods
