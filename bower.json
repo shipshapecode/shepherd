@@ -1,7 +1,7 @@
 {
   "name": "shepherd",
   "main": "shepherd.js",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
     "Zack Bloom <zbloom@hubspot.com>",
@@ -23,6 +23,6 @@
     "tests"
   ],
   "dependencies": {
-    "tether": "0.4.8"
+    "tether": "0.5.0"
   }
 }

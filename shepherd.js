@@ -1,5 +1,5 @@
-/*! shepherd 0.2.1 */
-/*! tether 0.4.8 */
+/*! shepherd 0.4.2 */
+/*! tether 0.5.0 */
 (function() {
   var Evented, addClass, defer, deferred, extend, flush, getBounds, getOffsetParent, getOrigin, getScrollParent, hasClass, node, removeClass, uniqueId, updateClasses, zeroPosCache,
     __hasProp = {}.hasOwnProperty,
@@ -93,6 +93,12 @@
     origin = getOrigin(doc);
     box.top -= origin.top;
     box.left -= origin.left;
+    if (box.width == null) {
+      box.width = document.body.scrollWidth - box.left - box.right;
+    }
+    if (box.height == null) {
+      box.height = document.body.scrollHeight - box.top - box.bottom;
+    }
     box.top = box.top - docEl.clientTop;
     box.left = box.left - docEl.clientLeft;
     box.right = doc.body.clientWidth - box.width - box.left;
@@ -355,7 +361,7 @@
       position();
       return lastDuration = now() - lastCall;
     };
-    _ref1 = ['resize', 'scroll'];
+    _ref1 = ['resize', 'scroll', 'touchmove'];
     _results = [];
     for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
       event = _ref1[_i];
@@ -805,10 +811,10 @@
         elementStyle = getComputedStyle(this.element);
         offsetParentSize = offsetPosition;
         offsetBorder = {};
-        _ref4 = ['top', 'left', 'bottom', 'right'];
+        _ref4 = ['Top', 'Left', 'Bottom', 'Right'];
         for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
           side = _ref4[_j];
-          offsetBorder[side] = parseFloat(offsetParentStyle["border-" + side + "-width"]);
+          offsetBorder[side] = parseFloat(offsetParentStyle["border" + side + "Width"]);
         }
         offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
         offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
@@ -992,10 +998,11 @@
       to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
       for (i = _i = 0, _len = BOUNDS_FORMAT.length; _i < _len; i = ++_i) {
         side = BOUNDS_FORMAT[i];
-        if (side === 'top' || side === 'left') {
-          to[i] += parseFloat(style["border-" + side + "-width"]);
+        side = side[0].toUpperCase() + side.substr(1);
+        if (side === 'Top' || side === 'Left') {
+          to[i] += parseFloat(style["border" + side + "Width"]);
         } else {
-          to[i] -= parseFloat(style["border-" + side + "-width"]);
+          to[i] -= parseFloat(style["border" + side + "Width"]);
         }
       }
     }
