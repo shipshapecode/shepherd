@@ -1645,8 +1645,8 @@ return this.Tether;
     Step.prototype.scrollTo = function() {
       var element;
       element = this.getAttachTo().element;
-      if (this.options.scrollToMethod != null) {
-        return this.options.scrollToMethod(element);
+      if (this.options.scrollToHandler != null) {
+        return this.options.scrollToHandler(element);
       } else {
         return element != null ? element.scrollIntoView() : void 0;
       }
