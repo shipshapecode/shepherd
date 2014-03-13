@@ -156,8 +156,8 @@ class Step extends Evented
   scrollTo: =>
     {element} = @getAttachTo()
 
-    if @options.scrollToMethod?
-      @options.scrollToMethod(element) 
+    if @options.scrollToHandler?
+      @options.scrollToHandler(element) 
     else
       element?.scrollIntoView()
 
