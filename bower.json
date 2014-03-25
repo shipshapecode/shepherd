@@ -1,11 +1,11 @@
 {
   "name": "shepherd",
   "main": "shepherd.js",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
-    "Zack Bloom <zbloom@hubspot.com>",
-    "Adam Schwartz <aschwartz@hubspot.com>"
+    "Zack Bloom <zackbloom@gmail.com>",
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
   "description": "Guide your users through a tour of your app.",
   "keywords": [
@@ -23,6 +23,6 @@
     "tests"
   ],
   "dependencies": {
-    "tether": "0.5.0"
+    "tether": "~0.6.5"
   }
 }

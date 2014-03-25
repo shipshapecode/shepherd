@@ -1,10 +1,10 @@
 {
   "name": "shepherd",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
-    "Zack Bloom <zbloom@hubspot.com>"
+    "Zack Bloom <zackbloom@gmail.com>"
   ],
   "license": "MIT",
   "devDependencies": {
