@@ -1,4 +1,4 @@
-{extend, removeClass, addClass, Evented, getBounds, uniqueId} = Tether.Utils
+{extend, removeClass, addClass, hasClass, Evented, getBounds, uniqueId} = Tether.Utils
 
 ATTACHMENT =
   'top': 'top center'
