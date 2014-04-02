@@ -1,10 +1,10 @@
 (function() {
-  var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
+  var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, hasClass, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, Evented = _ref.Evented, getBounds = _ref.getBounds, uniqueId = _ref.uniqueId;
+  _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, hasClass = _ref.hasClass, Evented = _ref.Evented, getBounds = _ref.getBounds, uniqueId = _ref.uniqueId;
 
   ATTACHMENT = {
     'top': 'top center',
