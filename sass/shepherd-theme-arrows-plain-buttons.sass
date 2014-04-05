@@ -1,0 +1,83 @@
+@import compass/css3
+@import compass/utilities/general/clearfix
+
+@import ../bower_components/tether/sass/mixins/pointer-events
+
+// Bring in base shepherd styles come from a tether helpers
+
+@import ../bower_components/tether/sass/helpers/tether
+@import ../bower_components/tether/sass/helpers/tether-theme-arrows
+
+$themePrefix: "shepherd"
+$themeName: "arrows-plain-buttons"
+$arrowSize: 16px
+$backgroundColor: #fff
+$color: #444
+$useDropShadow: true
+
+$headerBackgroundColor: #eee
+
++tether($themePrefix: $themePrefix)
++tether-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow)
+
+// Shepherd specific styles
+
+.#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
+
+    // Make the arrow 5color the same as the header color when the arrow is on the top
+
+    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom
+
+        &.#{ $themePrefix }-has-title .#{ $themePrefix }-content:before
+            border-bottom-color: $headerBackgroundColor
+
+    .#{ $themePrefix }-content
+        width: 400px
+        max-width: 100%
+        padding: 0
+
+        *
+            font-size: inherit
+
+        header
+            +border-radius(5px 5px 0 0)
+            background: $headerBackgroundColor
+            padding: 1em
+
+            h3
+                margin: 0
+                line-height: 1
+                font-weight: normal
+
+        .#{ $themePrefix }-text
+            padding: 1em
+
+            p
+                margin: 0 0 .5em 0
+                line-height: 1.3em
+
+                &:last-child
+                    margin-bottom: 0
+
+        footer
+            padding: 0 1em 1em
+
+            .#{ $themePrefix }-buttons
+                text-align: right
+                list-style: none
+                padding: 0
+                margin: 0
+
+                li
+                    display: inline
+                    padding: 0
+                    margin: 0
+
+                    .shepherd-button
+                        +inline-block
+                        cursor: pointer
+                        margin: 0 .5em 0 0
+                        text-decoration: none
+
+                    &:last-child .shepherd-button
+                        margin-right: 0
