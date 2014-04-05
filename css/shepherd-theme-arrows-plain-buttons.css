@@ -122,8 +122,6 @@
 .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eeeeee; }
 .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
-  width: 400px;
-  max-width: 100%;
   padding: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content * {
     font-size: inherit; }
