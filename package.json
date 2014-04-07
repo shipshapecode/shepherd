@@ -1,6 +1,6 @@
 {
   "name": "shepherd",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",

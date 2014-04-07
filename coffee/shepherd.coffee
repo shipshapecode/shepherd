@@ -118,7 +118,7 @@ class Step extends Evented
 
     addClass @el, 'shepherd-open'
 
-    @tether?.enable()
+    @setupTether()
 
     if @options.scrollTo
       setTimeout =>
@@ -129,7 +129,8 @@ class Step extends Evented
   hide: =>
     removeClass @el, 'shepherd-open'
 
-    @tether?.disable()
+    @tether?.destroy()
+    @tether = null
 
     @trigger 'hide'
 
@@ -157,6 +158,7 @@ class Step extends Evented
       delete @el
 
     @tether?.destroy()
+    @tether = null
 
     @trigger 'destroy'
 

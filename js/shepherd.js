@@ -155,15 +155,12 @@
     };
 
     Step.prototype.show = function() {
-      var _ref1,
-        _this = this;
+      var _this = this;
       if (this.el == null) {
         this.render();
       }
       addClass(this.el, 'shepherd-open');
-      if ((_ref1 = this.tether) != null) {
-        _ref1.enable();
-      }
+      this.setupTether();
       if (this.options.scrollTo) {
         setTimeout(function() {
           return _this.scrollTo();
@@ -176,8 +173,9 @@
       var _ref1;
       removeClass(this.el, 'shepherd-open');
       if ((_ref1 = this.tether) != null) {
-        _ref1.disable();
+        _ref1.destroy();
       }
+      this.tether = null;
       return this.trigger('hide');
     };
 
@@ -210,6 +208,7 @@
       if ((_ref1 = this.tether) != null) {
         _ref1.destroy();
       }
+      this.tether = null;
       return this.trigger('destroy');
     };
 
