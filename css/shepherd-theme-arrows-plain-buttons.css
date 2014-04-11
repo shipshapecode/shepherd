@@ -123,8 +123,6 @@
   border-bottom-color: #eeeeee; }
 .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
   padding: 0; }
-  .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content * {
-    font-size: inherit; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header {
     -webkit-border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
