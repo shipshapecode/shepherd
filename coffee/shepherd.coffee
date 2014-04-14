@@ -118,6 +118,8 @@ class Step extends Evented
 
     addClass @el, 'shepherd-open'
 
+    document.body.setAttribute 'data-shepherd-step', @id
+
     @setupTether()
 
     if @options.scrollTo
@@ -128,6 +130,8 @@ class Step extends Evented
 
   hide: =>
     removeClass @el, 'shepherd-open'
+
+    document.body.removeAttribute 'data-shepherd-step'
 
     @tether?.destroy()
     @tether = null

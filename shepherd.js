@@ -1605,6 +1605,7 @@ return this.Tether;
         this.render();
       }
       addClass(this.el, 'shepherd-open');
+      document.body.setAttribute('data-shepherd-step', this.id);
       this.setupTether();
       if (this.options.scrollTo) {
         setTimeout(function() {
@@ -1617,6 +1618,7 @@ return this.Tether;
     Step.prototype.hide = function() {
       var _ref1;
       removeClass(this.el, 'shepherd-open');
+      document.body.removeAttribute('data-shepherd-step');
       if ((_ref1 = this.tether) != null) {
         _ref1.destroy();
       }
