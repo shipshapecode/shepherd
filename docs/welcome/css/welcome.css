@@ -65,7 +65,7 @@ body {
       -o-transition: opacity 0.4s;
       transition: opacity 0.4s;
       opacity: 0.3; }
-      body.shepherd-completed .hero-outer .hero-inner > * {
+      body:not(.shepherd-active) .hero-outer .hero-inner > * {
         opacity: 1; }
     .hero-outer .hero-inner .shepherd-target.shepherd-enabled {
       opacity: 1; }
