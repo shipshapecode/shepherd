@@ -5,6 +5,7 @@ setupShepherd = ->
   shepherd = new Shepherd.Tour
     defaults:
       classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
+      showCancelLink: true
 
   shepherd.addStep 'welcome',
     text: [

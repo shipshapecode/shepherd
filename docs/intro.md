@@ -141,6 +141,7 @@ to disable.  Each button in the array is an object of the format:
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
 properies.  For example: `".some-element click"`, or `{element: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
+- `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 - `tetherOptions`: Extra options to pass to [tether](http://github.hubspot.com/tether)
 

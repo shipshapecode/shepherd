@@ -138,12 +138,12 @@ class Step extends Evented
     hasClass @el, 'shepherd-open'
 
   cancel: =>
-    @hide()
+    @tour.cancel()
 
     @trigger 'cancel'
 
   complete: =>
-    @hide()
+    @tour.complete()
 
     @trigger 'complete'
 
@@ -172,11 +172,20 @@ class Step extends Evented
     content.className = 'shepherd-content'
     @el.appendChild content
 
+    header = document.createElement 'header'
+    content.appendChild header
+
     if @options.title?
-      header = document.createElement 'header'
-      header.innerHTML = "<h3 class='shepherd-title'>#{ @options.title }</h3>"
+      header.innerHTML += "<h3 class='shepherd-title'>#{ @options.title }</h3>"
       @el.className += ' shepherd-has-title'
-      content.appendChild header
+
+    if @options.showCancelLink
+      link = createFromHTML "<a href class='shepherd-cancel-link'>✕</a>"
+      header.appendChild link
+
+      @el.className += ' shepherd-has-cancel-link'
+
+      @bindCancelLink link
 
     if @options.text?
       text = createFromHTML "<div class='shepherd-text'></div>"
@@ -211,6 +220,12 @@ class Step extends Evented
 
     if @options.advanceOn
       @bindAdvance()
+
+  bindCancelLink: (link) ->
+    link.addEventListener 'click', (e) =>
+      e.preventDefault()
+
+      @cancel()
 
   bindButtonEvents: (cfg, el) ->
     cfg.events ?= {}
@@ -283,9 +298,15 @@ class Tour extends Evented
     @show(index - 1)
 
   cancel: =>
-    @currentStep?.cancel()
+    @currentStep?.hide()
 
     @trigger 'cancel'
+    @done()
+
+  complete: =>
+    @currentStep?.hide()
+
+    @trigger 'complete'
     @done()
 
   hide: =>
@@ -298,14 +319,16 @@ class Tour extends Evented
     Shepherd.activeTour = null
 
     removeClass document.body, 'shepherd-active'
+    @trigger 'inactive', {tour: @}
 
   show: (key=0) ->
     if @currentStep
       @currentStep.hide()
+    else
+      addClass document.body, 'shepherd-active'
+      @trigger 'active', {tour: @}
 
     Shepherd.activeTour = @
-
-    addClass document.body, 'shepherd-active'
 
     if typeof key is 'string'
       next = @getById key

@@ -1629,12 +1629,12 @@ return this.Tether;
     };
 
     Step.prototype.cancel = function() {
-      this.hide();
+      this.tour.cancel();
       return this.trigger('cancel');
     };
 
     Step.prototype.complete = function() {
-      this.hide();
+      this.tour.complete();
       return this.trigger('complete');
     };
 
@@ -1658,7 +1658,7 @@ return this.Tether;
     };
 
     Step.prototype.render = function() {
-      var button, buttons, cfg, content, footer, header, paragraph, paragraphs, text, _i, _j, _len, _len1, _ref1, _ref2, _ref3;
+      var button, buttons, cfg, content, footer, header, link, paragraph, paragraphs, text, _i, _j, _len, _len1, _ref1, _ref2, _ref3;
       if (this.el != null) {
         this.destroy();
       }
@@ -1666,11 +1666,17 @@ return this.Tether;
       content = document.createElement('div');
       content.className = 'shepherd-content';
       this.el.appendChild(content);
+      header = document.createElement('header');
+      content.appendChild(header);
       if (this.options.title != null) {
-        header = document.createElement('header');
-        header.innerHTML = "<h3 class='shepherd-title'>" + this.options.title + "</h3>";
+        header.innerHTML += "<h3 class='shepherd-title'>" + this.options.title + "</h3>";
         this.el.className += ' shepherd-has-title';
-        content.appendChild(header);
+      }
+      if (this.options.showCancelLink) {
+        link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+        header.appendChild(link);
+        this.el.className += ' shepherd-has-cancel-link';
+        this.bindCancelLink(link);
       }
       if (this.options.text != null) {
         text = createFromHTML("<div class='shepherd-text'></div>");
@@ -1702,6 +1708,14 @@ return this.Tether;
       if (this.options.advanceOn) {
         return this.bindAdvance();
       }
+    };
+
+    Step.prototype.bindCancelLink = function(link) {
+      var _this = this;
+      return link.addEventListener('click', function(e) {
+        e.preventDefault();
+        return _this.cancel();
+      });
     };
 
     Step.prototype.bindButtonEvents = function(cfg, el) {
@@ -1748,6 +1762,7 @@ return this.Tether;
         _this = this;
       this.options = options != null ? options : {};
       this.hide = __bind(this.hide, this);
+      this.complete = __bind(this.complete, this);
       this.cancel = __bind(this.cancel, this);
       this.back = __bind(this.back, this);
       this.next = __bind(this.next, this);
@@ -1820,9 +1835,18 @@ return this.Tether;
     Tour.prototype.cancel = function() {
       var _ref1;
       if ((_ref1 = this.currentStep) != null) {
-        _ref1.cancel();
+        _ref1.hide();
       }
       this.trigger('cancel');
+      return this.done();
+    };
+
+    Tour.prototype.complete = function() {
+      var _ref1;
+      if ((_ref1 = this.currentStep) != null) {
+        _ref1.hide();
+      }
+      this.trigger('complete');
       return this.done();
     };
 
@@ -1836,7 +1860,11 @@ return this.Tether;
     };
 
     Tour.prototype.done = function() {
-      return Shepherd.activeTour = null;
+      Shepherd.activeTour = null;
+      removeClass(document.body, 'shepherd-active');
+      return this.trigger('inactive', {
+        tour: this
+      });
     };
 
     Tour.prototype.show = function(key) {
@@ -1846,6 +1874,11 @@ return this.Tether;
       }
       if (this.currentStep) {
         this.currentStep.hide();
+      } else {
+        addClass(document.body, 'shepherd-active');
+        this.trigger('active', {
+          tour: this
+        });
       }
       Shepherd.activeTour = this;
       if (typeof key === 'string') {
