@@ -121,20 +121,45 @@
 
 .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eeeeee; }
+.shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-has-title .shepherd-content header {
+  background: #eeeeee;
+  padding: 1em; }
+  .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-has-title .shepherd-content header a.shepherd-cancel-link {
+    padding: 0;
+    margin-bottom: 0; }
+.shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-has-cancel-link .shepherd-content header h3 {
+  float: left; }
 .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content {
   padding: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header {
+    *zoom: 1;
     -webkit-border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
     -ms-border-radius: 5px 5px 0 0;
     -o-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-    background: #eeeeee;
-    padding: 1em; }
+    border-radius: 5px 5px 0 0; }
+    .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header:after {
+      content: "";
+      display: table;
+      clear: both; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header h3 {
       margin: 0;
       line-height: 1;
       font-weight: normal; }
+    .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header a.shepherd-cancel-link {
+      float: right;
+      text-decoration: none;
+      font-size: 1.25em;
+      line-height: 0.8em;
+      font-weight: normal;
+      color: rgba(0, 0, 0, 0.5);
+      opacity: 0.25;
+      position: relative;
+      top: 0.1em;
+      padding: 0.8em;
+      margin-bottom: -0.8em; }
+      .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content header a.shepherd-cancel-link:hover {
+        opacity: 1; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content .shepherd-text {
     padding: 1em; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content .shepherd-text p {
