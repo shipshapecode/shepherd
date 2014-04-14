@@ -1,10 +1,10 @@
 {extend, removeClass, addClass, hasClass, Evented, getBounds, uniqueId} = Tether.Utils
 
 ATTACHMENT =
-  'top': 'top center'
+  'top': 'bottom center'
   'left': 'middle right'
   'right': 'middle left'
-  'bottom': 'bottom center'
+  'bottom': 'top center'
 
 createFromHTML = (html) ->
   el = document.createElement('div')

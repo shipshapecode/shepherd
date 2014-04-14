@@ -1452,10 +1452,10 @@ return this.Tether;
   _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, hasClass = _ref.hasClass, Evented = _ref.Evented, getBounds = _ref.getBounds, uniqueId = _ref.uniqueId;
 
   ATTACHMENT = {
-    'top': 'top center',
+    'top': 'bottom center',
     'left': 'middle right',
     'right': 'middle left',
-    'bottom': 'bottom center'
+    'bottom': 'top center'
   };
 
   createFromHTML = function(html) {
