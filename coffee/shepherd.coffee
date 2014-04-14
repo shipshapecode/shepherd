@@ -297,11 +297,15 @@ class Tour extends Evented
   done: ->
     Shepherd.activeTour = null
 
+    removeClass document.body, 'shepherd-active'
+
   show: (key=0) ->
     if @currentStep
       @currentStep.hide()
 
     Shepherd.activeTour = @
+
+    addClass document.body, 'shepherd-active'
 
     if typeof key is 'string'
       next = @getById key
