@@ -1,5 +1,7 @@
 {extend, removeClass, addClass, hasClass, Evented, getBounds, uniqueId} = Tether.Utils
 
+Shepherd = new Evented
+
 ATTACHMENT =
   'top': 'bottom center'
   'left': 'middle right'
@@ -254,7 +256,7 @@ class Tour extends Evented
     @steps = @options.steps ? []
 
     # Pass these events onto the global Shepherd object
-    for event in ['complete', 'cancel', 'hide', 'start', 'show']
+    for event in ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive']
       @on event, (opts={}) =>
         opts.tour = @
         Shepherd.trigger event, opts
@@ -350,8 +352,6 @@ class Tour extends Evented
 
     @currentStep = null
     @next()
-
-Shepherd = new Evented
 
 extend Shepherd, {Tour, Step, Evented}
 

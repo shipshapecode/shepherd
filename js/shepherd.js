@@ -6,6 +6,8 @@
 
   _ref = Tether.Utils, extend = _ref.extend, removeClass = _ref.removeClass, addClass = _ref.addClass, hasClass = _ref.hasClass, Evented = _ref.Evented, getBounds = _ref.getBounds, uniqueId = _ref.uniqueId;
 
+  Shepherd = new Evented;
+
   ATTACHMENT = {
     'top': 'bottom center',
     'left': 'middle right',
@@ -324,7 +326,7 @@
       this.back = __bind(this.back, this);
       this.next = __bind(this.next, this);
       this.steps = (_ref1 = this.options.steps) != null ? _ref1 : [];
-      _ref2 = ['complete', 'cancel', 'hide', 'start', 'show'];
+      _ref2 = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
       for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
         event = _ref2[_i];
         this.on(event, function(opts) {
@@ -462,8 +464,6 @@
     return Tour;
 
   })(Evented);
-
-  Shepherd = new Evented;
 
   extend(Shepherd, {
     Tour: Tour,
