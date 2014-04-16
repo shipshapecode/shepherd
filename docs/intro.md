@@ -67,6 +67,8 @@ event handlers a `tour` key pointing to the instance which fired the event:
 - `hide`
 - `show`
 - `start`
+- `active`
+- `inactive`
 
 ##### Current Tour
 
