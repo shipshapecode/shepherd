@@ -66,7 +66,7 @@ body
             +transition(opacity .4s)
             opacity: 0.3
 
-            body.shepherd-completed &
+            body:not(.shepherd-active) &
                 opacity: 1
 
         .shepherd-target.shepherd-enabled

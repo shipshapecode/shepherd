@@ -1,10 +1,12 @@
 {extend, removeClass, addClass, hasClass, Evented, getBounds, uniqueId} = Tether.Utils
 
+Shepherd = new Evented
+
 ATTACHMENT =
-  'top': 'top center'
+  'top': 'bottom center'
   'left': 'middle right'
   'right': 'middle left'
-  'bottom': 'bottom center'
+  'bottom': 'top center'
 
 createFromHTML = (html) ->
   el = document.createElement('div')
@@ -118,6 +120,8 @@ class Step extends Evented
 
     addClass @el, 'shepherd-open'
 
+    document.body.setAttribute 'data-shepherd-step', @id
+
     @setupTether()
 
     if @options.scrollTo
@@ -129,6 +133,8 @@ class Step extends Evented
   hide: =>
     removeClass @el, 'shepherd-open'
 
+    document.body.removeAttribute 'data-shepherd-step'
+
     @tether?.destroy()
     @tether = null
 
@@ -138,12 +144,12 @@ class Step extends Evented
     hasClass @el, 'shepherd-open'
 
   cancel: =>
-    @hide()
+    @tour.cancel()
 
     @trigger 'cancel'
 
   complete: =>
-    @hide()
+    @tour.complete()
 
     @trigger 'complete'
 
@@ -172,11 +178,20 @@ class Step extends Evented
     content.className = 'shepherd-content'
     @el.appendChild content
 
+    header = document.createElement 'header'
+    content.appendChild header
+
     if @options.title?
-      header = document.createElement 'header'
-      header.innerHTML = "<h3 class='shepherd-title'>#{ @options.title }</h3>"
+      header.innerHTML += "<h3 class='shepherd-title'>#{ @options.title }</h3>"
       @el.className += ' shepherd-has-title'
-      content.appendChild header
+
+    if @options.showCancelLink
+      link = createFromHTML "<a href class='shepherd-cancel-link'>✕</a>"
+      header.appendChild link
+
+      @el.className += ' shepherd-has-cancel-link'
+
+      @bindCancelLink link
 
     if @options.text?
       text = createFromHTML "<div class='shepherd-text'></div>"
@@ -212,6 +227,12 @@ class Step extends Evented
     if @options.advanceOn
       @bindAdvance()
 
+  bindCancelLink: (link) ->
+    link.addEventListener 'click', (e) =>
+      e.preventDefault()
+
+      @cancel()
+
   bindButtonEvents: (cfg, el) ->
     cfg.events ?= {}
     if cfg.action?
@@ -235,7 +256,7 @@ class Tour extends Evented
     @steps = @options.steps ? []
 
     # Pass these events onto the global Shepherd object
-    for event in ['complete', 'cancel', 'hide', 'start', 'show']
+    for event in ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive']
       @on event, (opts={}) =>
         opts.tour = @
         Shepherd.trigger event, opts
@@ -283,9 +304,15 @@ class Tour extends Evented
     @show(index - 1)
 
   cancel: =>
-    @currentStep?.cancel()
+    @currentStep?.hide()
 
     @trigger 'cancel'
+    @done()
+
+  complete: =>
+    @currentStep?.hide()
+
+    @trigger 'complete'
     @done()
 
   hide: =>
@@ -297,9 +324,15 @@ class Tour extends Evented
   done: ->
     Shepherd.activeTour = null
 
+    removeClass document.body, 'shepherd-active'
+    @trigger 'inactive', {tour: @}
+
   show: (key=0) ->
     if @currentStep
       @currentStep.hide()
+    else
+      addClass document.body, 'shepherd-active'
+      @trigger 'active', {tour: @}
 
     Shepherd.activeTour = @
 
@@ -319,8 +352,6 @@ class Tour extends Evented
 
     @currentStep = null
     @next()
-
-Shepherd = new Evented
 
 extend Shepherd, {Tour, Step, Evented}
 

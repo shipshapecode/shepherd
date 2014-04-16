@@ -5,6 +5,7 @@ setupShepherd = ->
   shepherd = new Shepherd.Tour
     defaults:
       classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
+      showCancelLink: true
 
   shepherd.addStep 'welcome',
     text: [
@@ -16,9 +17,7 @@ setupShepherd = ->
     buttons: [
       text: 'Exit'
       classes: 'shepherd-button-secondary'
-      action: ->
-        completeShepherd()
-        shepherd.hide()
+      action: shepherd.cancel
     ,
       text: 'Next'
       action: shepherd.next
@@ -61,14 +60,9 @@ setupShepherd = ->
       action: shepherd.back
     ,
       text: 'Done'
-      action: ->
-        completeShepherd()
-        shepherd.next()
+      action: shepherd.next
     ]
 
   shepherd.start()
-
-completeShepherd = ->
-  $('body').addClass('shepherd-completed')
 
 $ init

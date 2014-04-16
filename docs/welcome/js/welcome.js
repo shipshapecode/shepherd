@@ -1,5 +1,5 @@
 (function() {
-  var completeShepherd, init, setupShepherd;
+  var init, setupShepherd;
 
   init = function() {
     return setupShepherd();
@@ -9,7 +9,8 @@
     var shepherd;
     shepherd = new Shepherd.Tour({
       defaults: {
-        classes: 'shepherd-element shepherd-open shepherd-theme-arrows'
+        classes: 'shepherd-element shepherd-open shepherd-theme-arrows',
+        showCancelLink: true
       }
     });
     shepherd.addStep('welcome', {
@@ -20,10 +21,7 @@
         {
           text: 'Exit',
           classes: 'shepherd-button-secondary',
-          action: function() {
-            completeShepherd();
-            return shepherd.hide();
-          }
+          action: shepherd.cancel
         }, {
           text: 'Next',
           action: shepherd.next,
@@ -72,18 +70,11 @@
           action: shepherd.back
         }, {
           text: 'Done',
-          action: function() {
-            completeShepherd();
-            return shepherd.next();
-          }
+          action: shepherd.next
         }
       ]
     });
     return shepherd.start();
-  };
-
-  completeShepherd = function() {
-    return $('body').addClass('shepherd-completed');
   };
 
   $(init);
