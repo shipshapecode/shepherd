@@ -317,7 +317,7 @@
     __extends(Tour, _super);
 
     function Tour(options) {
-      var event, _i, _len, _ref1, _ref2,
+      var event, _fn, _i, _len, _ref1, _ref2,
         _this = this;
       this.options = options != null ? options : {};
       this.hide = __bind(this.hide, this);
@@ -327,15 +327,18 @@
       this.next = __bind(this.next, this);
       this.steps = (_ref1 = this.options.steps) != null ? _ref1 : [];
       _ref2 = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        event = _ref2[_i];
-        this.on(event, function(opts) {
+      _fn = function(event) {
+        return _this.on(event, function(opts) {
           if (opts == null) {
             opts = {};
           }
           opts.tour = _this;
           return Shepherd.trigger(event, opts);
         });
+      };
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        event = _ref2[_i];
+        _fn(event);
       }
       this;
     }
