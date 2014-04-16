@@ -257,9 +257,10 @@ class Tour extends Evented
 
     # Pass these events onto the global Shepherd object
     for event in ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive']
-      @on event, (opts={}) =>
-        opts.tour = @
-        Shepherd.trigger event, opts
+      do (event) =>
+        @on event, (opts={}) =>
+          opts.tour = @
+          Shepherd.trigger event, opts
 
     @
 
