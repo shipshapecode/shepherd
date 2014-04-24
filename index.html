@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>shepherd</title><link rel="icon" href="http://static.hubspot.com/favicon.ico"><link rel="stylesheet" href="https://static2cdn.hubspot.com/hubspot_public_assets/static-1.112/shared/sass/hubspot_public_assets.css"><link rel="stylesheet" href="https://static.hubspot.com/bundles/navigation.css"><link rel="stylesheet" href="/static-resources/css/print.css"><link rel="stylesheet" href="/static-resources/css/highlight-theme-github.css"><link rel="stylesheet" href="/static-resources/css/navigation-tweaks.css"><link rel="stylesheet" href="/static-resources/css/documentation.css"><script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="/shepherd//resources/executr/lib/CodeMirror/codemirror.css"><link rel="stylesheet" href="/shepherd//resources/executr/build/css/executr.css"><script src="/shepherd//resources/executr/lib/CodeMirror/codemirror.js"></script><script src="/shepherd//resources/executr/lib/CodeMirror/mode/coffeescript/coffeescript.js"></script><script src="/shepherd//resources/executr/lib/CodeMirror/mode/javascript/javascript.js"></script><script src="/shepherd//resources/executr/lib/coffee-script.js"></script><script src="/shepherd//resources/executr/lib/underscore.min.js"></script><script src="/shepherd//resources/executr/lib/js2coffee.min.js"></script><script src="/shepherd//resources/executr/build/js/executr.js"></script><script src="/shepherd//resources/executr/build/js/executr-run.js"></script><script src="//use.typekit.net/jbn8qxr.js"></script><script>try{Typekit.load();}catch(e){}
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="chrome=1"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>shepherd</title><link rel="icon" href="http://static.hubspot.com/favicon.ico"><link rel="stylesheet" href="https://static2cdn.hubspot.com/hubspot_public_assets/static-1.112/shared/sass/hubspot_public_assets.css"><link rel="stylesheet" href="https://static.hubspot.com/bundles/navigation.css"><link rel="stylesheet" href="//github.hubspot.com/static-resources/css/print.css"><link rel="stylesheet" href="//github.hubspot.com/static-resources/css/highlight-theme-github.css"><link rel="stylesheet" href="//github.hubspot.com/static-resources/css/navigation-tweaks.css"><link rel="stylesheet" href="//github.hubspot.com/static-resources/css/documentation.css"><script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><link rel="stylesheet" href="//github.hubspot.com/shepherd//resources/executr/lib/CodeMirror/codemirror.css"><link rel="stylesheet" href="//github.hubspot.com/shepherd//resources/executr/build/css/executr.css"><script src="//github.hubspot.com/shepherd//resources/executr/lib/CodeMirror/codemirror.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/lib/CodeMirror/mode/coffeescript/coffeescript.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/lib/CodeMirror/mode/javascript/javascript.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/lib/coffee-script.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/lib/underscore.min.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/lib/js2coffee.min.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/build/js/executr.js"></script><script src="//github.hubspot.com/shepherd//resources/executr/build/js/executr-run.js"></script><script src="//use.typekit.net/ghy0wve.js"></script><script>try{Typekit.load();}catch(e){}
 </script></head><body><div id="hs-nav-v3" class="nav-width-flex signed-out-nav">
     <div class="hs-nav-section main-nav">
         <div class="nav-section-inner">
@@ -22,46 +22,170 @@
             </ul>
             <ul class="nav-links-right">
                 <li class="first">
-                    <a href="http://dev.hubspot.com/jobs/" class="sign-in">You should work at HubSpot</a>
+                    <a href="http://dev.hubspot.com/jobs/" class="sign-in">We're Hiring Engineers</a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
-<div class="hs-doc-marquee"><div class="hs-page-width-normal"><div class="row-fluid"><div class="span6"><h1>shepherd</h1><h3 class="hs-doc-marquee-description">Guide your users through a tour of your app.</h3><p class="hs-doc-marquee-release">0.2.0</p><p class="hs-doc-marquee-stars"><iframe src="http://ghbtns.com/github-btn.html?user=HubSpot&repo=shepherd&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="240" height="30"></iframe></p></div><div class="span6"><div class="hs-doc-marquee-buttons"><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/shepherd">Star on GitHub</a><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/shepherd/archive/v0.2.0.zip">Download ZIP (v0.2.0)</a></div></div></div></div></div><div class="hs-page-width-normal"><div class="row-fluid"><div class="span3"><div class="hs-doc-sidenav"><nav><ul class="hs-public-sidenav"><li class="current-nav-item"><a href="">Home</a></li><li><b>Annotated source</b></li><li><a target="_blank" href="source/shepherd.html">shepherd.coffee</a></li></ul></nav></div></div><div class="span9"><div class="hs-doc-content"><p><link rel="stylesheet" href="/shepherd/css/shepherd-theme-arrows.css" /></p>
-<script src="/shepherd/deps/tether/tether.min.js"></script>
+<div class="hs-doc-marquee"><div class="hs-page-width-normal"><div class="row-fluid"><div class="span6"><h1>shepherd</h1><h3 class="hs-doc-marquee-description">Guide your users through a tour of your app.</h3><p class="hs-doc-marquee-release">0.5.1</p><p class="hs-doc-marquee-stars"><iframe src="http://ghbtns.com/github-btn.html?user=HubSpot&repo=shepherd&type=watch&count=true&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="240" height="30"></iframe></p></div><div class="span6"><div class="hs-doc-marquee-buttons"><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/shepherd">Star on GitHub</a><a class="hs-doc-marquee-button" href="http://github.com/HubSpot/shepherd/archive/v0.5.1.zip">Download ZIP (v0.5.1)</a></div></div></div></div></div><div class="hs-page-width-normal"><div class="row-fluid"><div class="span3"><div class="hs-doc-sidenav"><nav><ul class="hs-public-sidenav"><li class="current-nav-item"><a href="">Home</a></li></ul></nav></div></div><div class="span9"><div class="hs-doc-content"><p><link rel="stylesheet" href="/shepherd/css/shepherd-theme-arrows.css" /></p>
 <script src="/shepherd/shepherd.min.js"></script>
 
 <h2 id="shepherd">Shepherd</h2>
 <p>Guide your users through a tour of your app.</p>
 <h3 id="dependencies">Dependencies</h3>
-<p>Shepherd uses <a href="http://github.hubspot.com/tether/docs/welcome">Tether</a> to
-position each step container. You can <a href="https://github.com/HubSpot/tether/releases">download Tether here</a>.</p>
+<p>None!</p>
 <h3 id="usage">Usage</h3>
-<p>Using <code>Shepherd</code> is really easy.</p>
-<p>First create a new <code>Shepherd</code> instance.</p>
-<pre><code class="lang-coffeescript">shepherd = <span class="keyword">new</span> Shepherd
+<p>First create a new <code>Tour</code> instance for your tour:</p>
+<pre><code class="lang-coffeescript">tour = <span class="keyword">new</span> Shepherd.Tour
   defaults:
-    classes: <span class="string">'shepherd-element shepherd-open shepherd-theme-arrows'</span>
+    classes: <span class="string">'shepherd-theme-arrows'</span>
     scrollTo: <span class="literal">true</span></code></pre>
-<p> The main options you&#39;ll want to
-set are the class names to be added to each step. To use the default
-theme <code>shepherd-theme-arrows</code>, set <code>classes</code> to <code>&quot;shepherd shepherd-open shepherd-theme-arrows&quot;</code>.
-Also, you&#39;ll want to set <code>scrollTo</code> to <code>true</code> if you want Shepherd to try to
-scroll to step targets when it advances from one step to another.</p>
-<p>After creating an instance to work with, you&#39;ll add steps for each target you want. You can name steps if you want to be able shortcut to them later.</p>
-<pre><code class="lang-coffeescript">shepherd.addStep <span class="string">'example-step'</span>,
+<p>The <code>defaults</code> option allows you to specify any options which should be applied
+to all this tour&#39;s steps by default.</p>
+<p>Next, add your steps:</p>
+<pre><code class="lang-coffeescript">tour.addStep <span class="string">'example-step'</span>,
   text: <span class="string">'This step is attached to the bottom of the &lt;code&gt;.example-css-selector&lt;/code&gt; element.'</span>
   attachTo: <span class="string">'.example-css-selector bottom'</span>
   classes: <span class="string">'example-step-extra-class'</span>
   buttons: [
     text: <span class="string">'Next'</span>
-    action: shepherd.next
+    action: tour.next
   ]</code></pre>
-<p>Finally, to start the tour, just call <code>start</code>.</p>
-<pre><code class="lang-coffeescript">shepherd.start()</code></pre>
+<p>Finally, to start the tour, just call <code>start</code> on your <code>Tour</code> instance:</p>
+<pre><code class="lang-coffeescript">tour.start()</code></pre>
+<h3 id="api">API</h3>
+<h4 id="global-shepherd-object">Global Shepherd Object</h4>
+<p>Shepherd exposes a single object onto the window, <code>Shepherd</code>.</p>
+<p>That global object fires several events to let you link up actions with events
+occuring in <em>any</em> tour:</p>
+<h5 id="methods">Methods</h5>
+<ul>
+<li><code>Shepherd.on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>Shepherd.off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>Shepherd.once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="events">Events</h5>
+<p>The global Shepherd fires the following events whenever a <code>Tour</code> instance fires them.  It adds to the object passed to the
+event handlers a <code>tour</code> key pointing to the instance which fired the event:</p>
+<ul>
+<li><code>complete</code></li>
+<li><code>cancel</code></li>
+<li><code>hide</code></li>
+<li><code>show</code></li>
+<li><code>start</code></li>
+<li><code>active</code></li>
+<li><code>inactive</code></li>
+</ul>
+<h5 id="current-tour">Current Tour</h5>
+<p>The global <code>Shepherd</code> includes a property which is always set to the currently active tour, or null if there is no active tour:</p>
+<ul>
+<li><code>Shepherd.activeTour</code></li>
+</ul>
+<h4 id="tour-instances">Tour Instances</h4>
+<h5 id="creation">Creation</h5>
+<p>You create a <code>Tour</code> object for each tour you&#39;d like to create.</p>
+<p>Tour&#39;s constructor accepts a hash of options:</p>
+<pre><code class="lang-javascript">myTour = <span class="keyword">new</span> Shepherd.Tour({ options })</code></pre>
+<h5 id="tour-options">Tour Options</h5>
+<ul>
+<li><code>steps</code>: An array of Step instances to initialize the tour with</li>
+<li><code>defaults</code>: Default options for Steps created through <code>addStep</code></li>
+</ul>
+<h5 id="tour-methods">Tour Methods</h5>
+<ul>
+<li><code>addStep(id, options)</code>: Creates a new Step object with options.  If you&#39;d like you can also just pass an options hash which includes <code>id</code> as a key.
+If the options hash doesn&#39;t include an <code>id</code>, one will be generated.
+You can also pass an existing <code>Step</code> instance rather than <code>options</code>, but note that Shepherd does not support a Step being attached to multiple Tours.</li>
+<li><code>getById(id)</code>: Return a step with a specific id</li>
+<li><code>next()</code>: Advance to the next step, in the order they were added</li>
+<li><code>back()</code>: Show the previous step, in the order they were added</li>
+<li><code>cancel()</code>: Trigger cancel on the current step, hiding it without advancing</li>
+<li><code>hide()</code>: Hide the current step</li>
+<li><code>show([id])</code>: Show the step specified by id (if it&#39;s a string), or index (if it&#39;s a number) provided.  Defaults to the first step.</li>
+<li><code>start()</code>: Show the first step and begin the tour</li>
+<li><code>getCurrentStep()</code>: Returns the currently shown step</li>
+<li><code>on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="tour-events">Tour Events</h5>
+<ul>
+<li><code>complete</code>: Triggered when the last step is advanced</li>
+<li><code>cancel</code></li>
+<li><code>hide</code></li>
+<li><code>show</code>: Triggered with a hash of the <code>step</code> and the <code>previous</code> step</li>
+<li><code>start</code></li>
+</ul>
+<p>Steps are instances of the Step object.  They are generally created by the <code>Tour::addStep</code> method, which returns the <code>Step</code> instance its
+created.</p>
+<h4 id="steps">Steps</h4>
+<h5 id="step-options">Step Options</h5>
+<ul>
+<li><code>text</code>: The text in the body of the step.  It can either be an HTML string, or an array of
+strings, each of which will become a <code>&lt;p&gt;</code> paragraph.</li>
+<li><code>title</code>: The steps title.  It becomes an <code>h3</code> at the top of the step.</li>
+<li><code>attachTo</code>: What element the step should be attached to on the page.  It can either be a string of the form
+<code>&quot;element on&quot;</code>, or an object with those properties.  For example: <code>&quot;.some #element left&quot;</code>, or <code>{element: &#39;.some #element&#39;,
+on: &#39;left&#39;}</code>.  If you use the object syntax, <code>element</code> can also be a DOM element.  If you don&#39;t specify an <code>attachTo</code>
+the element will appear in the middle of the screen.</li>
+<li><code>classes</code>: Extra classes to add to the step.  <code>shepherd-theme-arrows</code> will give you our theme.</li>
+<li><code>buttons</code>: An array of buttons to add to the step.  By default we add a Next button which triggers <code>next()</code>, set this to false
+to disable.  Each button in the array is an object of the format:<ul>
+<li><code>text</code>: The HTML text of the button</li>
+<li><code>classes</code>: Extra classes to apply to the <code>&lt;a&gt;</code></li>
+<li><code>action</code>: A function executed when the button is clicked on</li>
+<li><code>events</code>: A hash of events to bind onto the button, for example <code>{&#39;mouseover&#39;: function(){}}</code>.  Adding a click event to <code>events</code> when you
+already have an <code>action</code> specified is not supported.</li>
+</ul>
+</li>
+<li><code>advanceOn</code>: An action on the page which should advance shepherd to the next step.  It can be of the form <code>&quot;selector event&quot;</code>, or an object with those
+properies.  For example: <code>&quot;.some-element click&quot;</code>, or <code>{selector: &#39;.some-element&#39;, event: &#39;click&#39;}</code>.  It doesn&#39;t have to be an event inside
+the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling <code>myTour.next()</code>.</li>
+<li><code>showCancelLink</code>: Should a cancel &quot;✕&quot; be shown in the header of the step?</li>
+<li><code>scrollTo</code>: Should the element be scrolled to when this step is shown?</li>
+<li><code>tetherOptions</code>: Extra options to pass to <a href="http://github.hubspot.com/tether">tether</a></li>
+</ul>
+<h5 id="step-methods">Step Methods</h5>
+<ul>
+<li><code>show()</code>: Show this step</li>
+<li><code>hide()</code>: Hide this step</li>
+<li><code>cancel()</code>: Hide this step and trigger the <code>cancel</code> event</li>
+<li><code>complete()</code>: Hide this step and trigger the <code>complete</code> event</li>
+<li><code>scrollTo()</code>: Scroll to this step&#39;s element</li>
+<li><code>isOpen()</code>: Returns true if the step is currently shown</li>
+<li><code>destroy()</code>: Remove the element</li>
+<li><code>on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="step-events">Step Events</h5>
+<ul>
+<li><code>show</code></li>
+<li><code>hide</code></li>
+<li><code>complete</code></li>
+<li><code>cancel</code></li>
+<li><code>destroy</code></li>
+</ul>
+<p>Please note that <code>complete</code> and <code>cancel</code> are only ever triggered if you call the associated methods in your code.</p>
+<h3 id="advancing-on-actions">Advancing on Actions</h3>
+<p>You can use the <code>advanceOn</code> option, or the Next button, to advance steps.  If you would like however to have a step advance on a
+complex user action, you can do the following:</p>
+<pre><code class="lang-coffeescript">myStep = myTour.addStep <span class="string">'my-step'</span>, options
+
+yourApp.<span class="literal">on</span> <span class="string">'some-event'</span>, -&gt;
+  <span class="keyword">if</span> myStep.isOpen()
+    Shepherd.activeTour.next()</code></pre>
+<p>It&#39;s strongly recommended that you use some sort of event mediator to connect your app&#39;s actions with Shepherd, to prevent
+having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
+mediator if need be using the <code>Evented</code> object which is provided with Shepherd:</p>
+<pre><code class="lang-coffeescript">mediator = <span class="keyword">new</span> Shepherd.Evented</code></pre>
+<p>You can then trigger events in one part of your app:</p>
+<pre><code class="lang-coffeescript">mediator.trigger <span class="string">'user-create'</span></code></pre>
+<p>And listen for them in other areas:</p>
+<pre><code class="lang-coffeescript">mediator.<span class="literal">on</span> <span class="string">'user-create'</span>, -&gt;</code></pre>
 <h3 id="browser-support">Browser Support</h3>
-<p>Same as Tether: IE9+, Chrome, Firefox, Opera.</p>
+<p>IE9+ and all modern browsers</p>
 </div></div></div></div><div class="hs3-public-footer"><div class="row-fluid hs-page-width-normal"><div class="span3 hidden-phone"><h3>HubSpot</h3><ul><li><a href="http://www.hubspot.com">Home</a></li><li><a href="http://www.hubspot.com/software">Products</a></li><li><a href="http://www.hubspot.com/internet-marketing-company/">About</a></li></ul></div><div class="span3"><h3>Projects</h3><ul><li><a href="http://github.hubspot.com/messenger">Messenger</a></li><li><a href="http://github.hubspot.com/facewall">Facewall</a></li><li><a href="http://github.hubspot.com/jquery-zoomer">jQuery Zoomer</a></li><li><a href="http://github.hubspot.com/humanize">Humanize</a></li><li><a href="http://github.hubspot.com/teeble">Teeble</a></li></ul></div><div class="span3"><h3>Development Team</h3><ul><li><a href="http://dev.hubspot.com">Home</a></li><li><a href="http://dev.hubspot.com/teams">Teams</a></li><li><a href="http://dev.hubspot.com/people">People</a></li><li><a href="http://dev.hubspot.com/jobs">Jobs</a></li></ul></div><div class="span3 hidden-phone"><h3>Developer API</h3><ul><li><a href="http://developers.hubspot.com/">Developer Documentation</a></li></ul></div></div></div><!-- Start of Async HubSpot Analytics Code -->
 <script type="text/javascript">
     (function(d,s,i,r) {
@@ -79,7 +203,7 @@ scroll to step targets when it advances from one step to another.</p>
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-45159009-1', 'hubspot.com');
+  ga('create', 'UA-45159009-1', 'auto');
   ga('send', 'pageview');
 </script>
 </body></html>

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/shepherd/docs/welcome/css/prism.css" />
     <link rel="stylesheet" href="/shepherd/docs/welcome/css/welcome.css" />
 </head>
-<body>
+<body class="shepherd-active">
     <div class="hero-scroll">
         <div class="hero-outer">
             <div class="hero-inner">
@@ -30,27 +30,26 @@
                 <div class="hero-including">
                     <h3>Including</h3>
 <pre class="  language-markup"><code class="  language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>shepherd-theme-arrows.css<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
-<span class="token script"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tether.min.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span>
 <span class="token script"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>shepherd.min.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></span></code></pre>
                 </div>
                 <div class="hero-example">
                     <h3>Example</h3>
-<pre class="  language-coffeescript"><code class="  language-coffeescript">shepherd<span class="token attr-name"> </span><span class="token operator">=</span><span class="token attr-name"> </span><span class="token keyword">new</span><span class="token attr-name"> </span><span class="token class-name">Shepherd</span>
+<pre class="  language-coffeescript"><code class="  language-coffeescript">tour<span class="token attr-name"> </span><span class="token operator">=</span><span class="token attr-name"> </span><span class="token keyword">new</span><span class="token attr-name"> </span><span class="token class-name">Shepherd.Tour</span>
 <span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">defaults:</span>
-<span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">classes:</span><span class="token attr-name"> </span><span class="token string">'shepherd-element shepherd-open shepherd-theme-arrows'</span>
-<span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">scrollTo:</span><span class="token attr-name"> </span><span class="token boolean">true</span>
+<span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">classes:</span><span class="token attr-name"> </span><span class="token string">'shepherd-theme-arrows'</span>
 <span class="token comment" spellcheck="true"></span>
-shepherd<span class="token punctuation">.</span>addStep<span class="token attr-name"> </span><span class="token string">'example'</span><span class="token punctuation">,</span>
+tour<span class="token punctuation">.</span>addStep<span class="token attr-name"> </span><span class="token string">'example'</span><span class="token punctuation">,</span>
 <span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">title:</span><span class="token attr-name"> </span><span class="token string">'Example Shepherd'</span>
 <span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">text:</span><span class="token attr-name"> </span><span class="token string">'Creating a Shepherd is easy too! Just create ...'</span>
 <span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">attachTo:</span><span class="token attr-name"> </span><span class="token string">'.hero-example bottom'</span>
+<span class="token attr-name"> </span><span class="token attr-name"> </span><span class="token attr-name">advanceOn:</span><span class="token attr-name"> </span><span class="token string">'.docs-link click'</span>
 <span class="token comment" spellcheck="true"></span>
-shepherd<span class="token punctuation">.</span>start()</code></pre>
+tour<span class="token punctuation">.</span>start()</code></pre>
                 </div>
                 <div class="hero-followup">
                     <p>
                         <a class="button" href="http://github.com/HubSpot/shepherd">★ On Github</a> &nbsp;&nbsp;
-                        <a class="button dark" href="https://github.com/HubSpot/shepherd/releases">Download</a>
+                        <a class="button dark" href="http://github.hubspot.com/shepherd">Documentation</a>
                     </p>
                 </div>
                 <div>
@@ -75,9 +74,6 @@ shepherd<span class="token punctuation">.</span>start()</code></pre>
             </div>
         </div>
     </div>
-
-    <!-- Shepherd dependencies -->
-    <script src="/shepherd/deps/tether/tether.min.js"></script>
 
     <!-- Shepherd -->
     <script src="/shepherd/shepherd.js"></script>
