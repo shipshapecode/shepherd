@@ -7,6 +7,7 @@ header = require('gulp-header')
 rename = require('gulp-rename')
 bower = require('gulp-bower')
 gutil = require('gulp-util')
+wrap = require('gulp-wrap-umd')
 
 pkg = require('./package.json')
 banner = "/*! #{ pkg.name } #{ pkg.version } */\n"
@@ -31,11 +32,33 @@ gulp.task 'concat', ->
     .pipe(header(banner))
     .pipe(gulp.dest('./'))
 
+
+  gulp.src(['js/shepherd.js'])
+    .pipe(concat('shepherd-amd.js'))
+    .pipe(header(banner))
+    .pipe(gulp.dest('./'))
+    .pipe(wrap({
+      namespace: "Shepherd"
+      exports: "Shepherd"
+      deps: [
+        name: 'tether'
+        globalName: 'Tether'
+        paramName: 'Tether'
+      ]
+    }))
+    .pipe(gulp.dest('./'))
+
 gulp.task 'uglify', ->
   gulp.src('./shepherd.js')
     .pipe(uglify())
     .pipe(header(banner))
     .pipe(rename('shepherd.min.js'))
+    .pipe(gulp.dest('./'))
+
+  gulp.src('./shepherd-amd.js')
+    .pipe(uglify())
+    .pipe(header(banner))
+    .pipe(rename('shepherd-amd.min.js'))
     .pipe(gulp.dest('./'))
 
 gulp.task 'js', ->
