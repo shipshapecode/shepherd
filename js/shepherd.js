@@ -358,7 +358,7 @@
         step.tour = this;
       }
       this.steps.push(step);
-      return step;
+      return this;
     };
 
     Tour.prototype.getById = function(id) {
