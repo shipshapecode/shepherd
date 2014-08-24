@@ -1,0 +1,92 @@
+{
+  "resources": {
+    "head": [
+      {
+        "type": "style",
+        "src": "./css/shepherd-theme-arrows.css"
+      },
+      {
+        "type": "style",
+        "contents": ".shepherd-step.shepherd-element.shepherd-theme-arrows { z-index: 9999; font-size: 1em; max-width: 24em }"
+      },
+      {
+        "type": "script",
+        "src": "./shepherd.js"
+      },
+      {
+        "type": "script",
+        "contents": "./js/installHelper.js"
+      },
+      {
+        "type": "script",
+        "contents": "ShepherdInstallHelper.init(INSTALL_OPTIONS)"
+      }
+    ]
+  },
+  "options": {
+    "properties": {
+      "steps": {
+        "title": "Steps",
+        "type": "array",
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "title": "Step",
+          "properties": {
+            "title": {
+              "title": "Title",
+              "type": "string",
+              "maxLength": 50,
+              "validationMessage": "The step title cannot be longer than 50 characters."
+            },
+            "attachToSelector": {
+              "title": "Part of the page to highlight",
+              "type": "string",
+              "format": "selector"
+            },
+            "attachToDirection": {
+              "title": "Position",
+              "type": "string",
+              "enum": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "enumNames": {
+                "top": "Top",
+                "right": "Right",
+                "bottom": "Bottom",
+                "left": "Left"
+              },
+              "default": "bottom"
+            },
+            "text": {
+              "title": "Text",
+              "type": "string",
+              "maxLength": 200,
+              "validationMessage": "The step text cannot be longer than 200 characters."
+            },
+            "showCancelLink": {
+              "title": "Show cancel button",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "name",
+            "comment"
+          ]
+        },
+        "default": [
+          {
+            "title": "Welcome",
+            "attachToSelector": "h1",
+            "attachToDirection": "bottom",
+            "text": "This is an example step."
+          }
+        ]
+      }
+    }
+  }
+}
