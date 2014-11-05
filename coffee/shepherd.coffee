@@ -195,13 +195,19 @@ class Step extends Evented
 
     if @options.text?
       text = createFromHTML "<div class='shepherd-text'></div>"
-
       paragraphs = @options.text
-      if typeof paragraphs is 'string'
-        paragraphs = [paragraphs]
 
-      for paragraph in paragraphs
-        text.innerHTML += "<p>#{ paragraph }</p>"
+      if typeof paragraphs is 'function'
+        paragraphs = @options.text.call @, text
+
+      if paragraphs instanceof HTMLElement
+        text.appendChild paragraphs
+      else
+        if typeof paragraphs is 'string'
+          paragraphs = [paragraphs]
+
+        for paragraph in paragraphs
+          text.innerHTML += "<p>#{ paragraph }</p>"
 
       content.appendChild text
 
