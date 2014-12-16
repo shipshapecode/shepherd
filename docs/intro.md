@@ -7,7 +7,7 @@ Guide your users through a tour of your app.
 
 ### Dependencies
 
-None! [Tether](http://github.hubspot.com/tether/) is required for Shepherd, but is part of HubSpot's open source projects and included in every Shepherd release. If you would like the standalone Shepherd script, use the [script located in the /js directory](https://github.com/HubSpot/shepherd/blob/master/js/shepherd.js)
+None! [Tether](http://github.hubspot.com/tether/) is required for Shepherd, but is part of HubSpot's open source projects and included in every Shepherd release. If you would like the standalone Shepherd script, use the [script located in the /js directory](https://github.com/HubSpot/shepherd/blob/master/js/shepherd.js).
 
 ### Usage
 
