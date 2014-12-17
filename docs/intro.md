@@ -125,8 +125,7 @@ created.
 
 ##### Step Options
 
-- `text`: The text in the body of the step.  It can either be an HTML string, or an array of
-strings, each of which will become a `<p>` paragraph.
+- `text`: The text in the body of the step.  It can be one of four types: an HTML string, or an array of such strings, each of which will become a `<p>` paragraph.  It can also be a DOM element (`HTMLElement`) object, or a callback function to be executed when the step is built.  When using the callback function, its context is the Step object itself, and it receives the DOM node that the text will appended to as its first and only parameter.  The function must return one of the other three types (HTML string, array of strings, or `HTMLElement`).
 - `title`: The steps title.  It becomes an `h3` at the top of the step.
 - `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form
 `"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
