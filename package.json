@@ -19,5 +19,8 @@
         "gulp-util": "~2.2.9",
         "gulp-bower": "0.0.1",
         "gulp-wrap-umd": "*"
+    },
+    "spm": {
+        "main": "shepherd.js"
     }
 }
