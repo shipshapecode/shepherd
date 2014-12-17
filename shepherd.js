@@ -1468,8 +1468,8 @@ return this.Tether;
   };
 
   matchesSelector = function(el, sel) {
-    var matches, _ref1, _ref2, _ref3, _ref4;
-    matches = (_ref1 = (_ref2 = (_ref3 = (_ref4 = el.matches) != null ? _ref4 : el.matchesSelector) != null ? _ref3 : el.webkitMatchesSelector) != null ? _ref2 : el.mozMatchesSelector) != null ? _ref1 : el.oMatchesSelector;
+    var matches, _ref1, _ref2, _ref3, _ref4, _ref5;
+    matches = (_ref1 = (_ref2 = (_ref3 = (_ref4 = (_ref5 = el.matches) != null ? _ref5 : el.matchesSelector) != null ? _ref4 : el.msMatchesSelector) != null ? _ref3 : el.webkitMatchesSelector) != null ? _ref2 : el.mozMatchesSelector) != null ? _ref1 : el.oMatchesSelector;
     return matches.call(el, sel);
   };
 
@@ -1810,7 +1810,7 @@ return this.Tether;
         step.tour = this;
       }
       this.steps.push(step);
-      return step;
+      return this;
     };
 
     Tour.prototype.getById = function(id) {
