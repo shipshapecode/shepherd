@@ -1685,12 +1685,19 @@ return this.Tether;
       if (this.options.text != null) {
         text = createFromHTML("<div class='shepherd-text'></div>");
         paragraphs = this.options.text;
-        if (typeof paragraphs === 'string') {
-          paragraphs = [paragraphs];
+        if (typeof paragraphs === 'function') {
+          paragraphs = this.options.text.call(this, text);
         }
-        for (_i = 0, _len = paragraphs.length; _i < _len; _i++) {
-          paragraph = paragraphs[_i];
-          text.innerHTML += "<p>" + paragraph + "</p>";
+        if (paragraphs instanceof HTMLElement) {
+          text.appendChild(paragraphs);
+        } else {
+          if (typeof paragraphs === 'string') {
+            paragraphs = [paragraphs];
+          }
+          for (_i = 0, _len = paragraphs.length; _i < _len; _i++) {
+            paragraph = paragraphs[_i];
+            text.innerHTML += "<p>" + paragraph + "</p>";
+          }
         }
         content.appendChild(text);
       }
