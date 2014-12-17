@@ -1,3 +1,15 @@
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(["tether"], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require('tether'));
+  } else {
+    root.Shepherd = factory(root.Tether);
+  }
+}(this, function(Tether) {
+
+/*! shepherd 0.5.1 */
 (function() {
   var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, hasClass, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -484,3 +496,7 @@
   window.Shepherd = Shepherd;
 
 }).call(this);
+
+return Shepherd;
+
+}));
