@@ -279,8 +279,8 @@ class Tour extends Evented
       step.tour = @
 
     @steps.push step
-    
-    step
+
+    this
 
   getById: (id) ->
     for step in @steps when step.id is id
