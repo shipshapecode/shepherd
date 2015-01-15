@@ -26,7 +26,7 @@
   };
 
   ShepherdInstallHelper = {
-    init: function(options, buttonLocation) {
+    init: function(options) {
       var i, step, stepOptions, steps, textLines, tour, _i, _j, _len, _len1, _ref, _ref1;
       if (!((options != null ? (_ref = options.steps) != null ? _ref.length : void 0 : void 0) > 0)) {
         return;
@@ -86,13 +86,11 @@
         tour.addStep('step-' + i, stepOptions);
       }
       return ready(function() {
-        var button, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+        var button, buttonLocation, _ref2;
         if (options.trigger === 'first-page-visit') {
-          if ((_ref2 = location.href) != null ? (_ref3 = _ref2.match(/https:\/\/.+\.p\.eager\.works\//i)) != null ? _ref3.length : void 0 : void 0) {
+          if (location.href.match(/https:\/\/.+\.p\.eager\.works\//i)) {
             tour.start();
-          } else if ((((_ref4 = window.Eager) != null ? (_ref5 = _ref4.installs) != null ? (_ref6 = _ref5.preview) != null ? _ref6.appId : void 0 : void 0 : void 0) != null) === 'AalP5veMma6s') {
-            tour.start();
-          } else if (((_ref7 = window.localStorage) != null ? _ref7.eagerShepherdHasRun : void 0) !== 'true') {
+          } else if (((_ref2 = window.localStorage) != null ? _ref2.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
               localStorage.eagerShepherdHasRun = 'true';
             }
@@ -100,6 +98,7 @@
           }
         }
         if (options.trigger === 'button-click') {
+          buttonLocation = Eager.createElement(options.buttonLocation);
           button = document.createElement('button');
           button.className = "shepherd-start-tour-button shepherd-theme-" + options.theme;
           button.appendChild(document.createTextNode(options.buttonText));
