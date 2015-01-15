@@ -15,7 +15,7 @@
       },
       {
         "type": "script",
-        "contents": "ShepherdInstallHelper.init(INSTALL_OPTIONS)"
+        "contents": "ShepherdInstallHelper.init(INSTALL_OPTIONS, Eager.createElement(INSTALL_OPTIONS.buttonLocation))"
       }
     ]
   },

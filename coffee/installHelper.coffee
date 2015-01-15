@@ -14,7 +14,7 @@ ready = (fn) ->
       fn() if document.readyState isnt 'loading'
 
 ShepherdInstallHelper =
-  init: (options) ->
+  init: (options, buttonLocation) ->
     return unless options?.steps?.length > 0
 
     tour = new Shepherd.Tour
@@ -94,8 +94,8 @@ ShepherdInstallHelper =
         button.className = "shepherd-start-tour-button shepherd-theme-#{ options.theme }"
         button.appendChild document.createTextNode options.buttonText
 
-        if options.buttonLocation?.appendChild?
-          options.buttonLocation.appendChild button
+        if buttonLocation?.appendChild?
+          buttonLocation.appendChild button
 
           addEventListener button, 'click', ->
             tour.start()
