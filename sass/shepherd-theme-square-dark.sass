@@ -9,13 +9,13 @@
 @import ../bower_components/tether/sass/helpers/tether-theme-arrows
 
 $themePrefix: "shepherd"
-$themeName: "default"
+$themeName: "square-dark"
 $arrowSize: 16px
-$backgroundColor: #f6f6f6
-$color: #444
+$backgroundColor: #232323
+$color: #eee
 $useDropShadow: false
 
-$headerBackgroundColor: #e6e6e6
+$headerBackgroundColor: #303030
 $zIndex: 9999
 $maxWidth: 24em
 
@@ -25,6 +25,7 @@ $maxWidth: 24em
 // Shepherd specific styles
 
 .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
+    +border-radius(0)
     z-index: $zIndex
     max-width: $maxWidth
     font-size: 1em
@@ -49,6 +50,7 @@ $maxWidth: 24em
 
     .#{ $themePrefix }-content
         +box-shadow(0 0 0 1px rgba(0, 0, 0, .17))
+        +border-radius(0)
         padding: 0
 
         *
@@ -56,7 +58,7 @@ $maxWidth: 24em
 
         header
             +pie-clearfix
-            +border-radius(5px 5px 0 0)
+            +border-radius(0)
 
             h3
                 margin: 0
@@ -105,7 +107,7 @@ $maxWidth: 24em
 
                     .shepherd-button
                         +inline-block
-                        +border-radius(3px)
+                        +border-radius(0)
                         cursor: pointer
                         border: 0
                         margin: 0 .5em 0 0
@@ -127,7 +129,7 @@ $maxWidth: 24em
 
 .#{ $themePrefix }-tour-start-button.#{ $themePrefix }-theme-#{ $themeName }
     +inline-block
-    +border-radius(3px)
+    +border-radius(0)
     cursor: pointer
     border: 0
     margin: 0 .5em 0 0

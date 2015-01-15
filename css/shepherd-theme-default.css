@@ -126,9 +126,9 @@
   .shepherd-element.shepherd-theme-default.shepherd-has-cancel-link .shepherd-content header h3 {
     float: left; }
   .shepherd-element.shepherd-theme-default .shepherd-content {
-    -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
+    -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
     padding: 0; }
     .shepherd-element.shepherd-theme-default .shepherd-content * {
       font-size: inherit; }
