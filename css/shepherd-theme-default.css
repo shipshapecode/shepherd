@@ -208,7 +208,7 @@
           .shepherd-element.shepherd-theme-default .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
             margin-right: 0; }
 
-.shepherd-tour-start-button.shepherd-theme-default {
+.shepherd-start-tour-button.shepherd-theme-default {
   display: -moz-inline-stack;
   display: inline-block;
   vertical-align: middle;
