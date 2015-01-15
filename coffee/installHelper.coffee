@@ -64,7 +64,7 @@ ShepherdInstallHelper =
 
     ready ->
       if options.trigger is 'first-page-visit'
-        if location.href.match(/https:\/\/.+\.(p|s)\.eager\.works\//i)
+        if window.Eager?.installs?.preview?.appId is 'AalP5veMma6s'
           tour.start()
 
         else if window.localStorage?.eagerShepherdHasRun isnt 'true'
