@@ -26,7 +26,7 @@
   };
 
   ShepherdInstallHelper = {
-    init: function(options) {
+    init: function(options, buttonLocation) {
       var i, step, stepOptions, steps, textLines, tour, _i, _j, _len, _len1, _ref, _ref1, _ref2;
       if (!((options != null ? (_ref = options.steps) != null ? _ref.length : void 0 : void 0) > 0)) {
         return;
@@ -104,7 +104,7 @@
         tour.addStep('step-' + i, stepOptions);
       }
       return ready(function() {
-        var button, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+        var button, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
         if (options.trigger === 'first-page-visit') {
           if ((_ref3 = location.href) != null ? (_ref4 = _ref3.match(/https\:\/\/(.+)\.s\.eager\.works\//)) != null ? _ref4.length : void 0 : void 0) {
             tour.start();
@@ -121,8 +121,8 @@
           button = document.createElement('button');
           button.className = "shepherd-start-tour-button shepherd-theme-" + options.theme;
           button.appendChild(document.createTextNode(options.buttonText));
-          if (((_ref9 = options.buttonLocation) != null ? _ref9.appendChild : void 0) != null) {
-            options.buttonLocation.appendChild(button);
+          if ((buttonLocation != null ? buttonLocation.appendChild : void 0) != null) {
+            buttonLocation.appendChild(button);
             return addEventListener(button, 'click', function() {
               return tour.start();
             });
