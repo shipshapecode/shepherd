@@ -108,14 +108,14 @@
               "default": "bottom"
             },
             "title": {
-              "order": 2,
+              "order": 3,
               "title": "Header",
               "type": "string",
               "maxLength": 50,
               "validationMessage": "The step title cannot be longer than 50 characters."
             },
             "text": {
-              "order": 3,
+              "order": 4,
               "title": "Body",
               "type": "string",
               "format": "textarea",
@@ -123,6 +123,7 @@
               "validationMessage": "The step text cannot be longer than 200 characters."
             },
             "showCancelLink": {
+              "order": 5,
               "title": "Show cancel button",
               "type": "boolean",
               "default": true
