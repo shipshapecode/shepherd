@@ -9,6 +9,13 @@ Guide your users through a tour of your app.
 
 No external dependencies required! [Tether](http://github.hubspot.com/tether/) is required for Shepherd, but is part of HubSpot's open source projects and included in every Shepherd release. If you would like the standalone Shepherd script, use the [script located in the /js directory](https://github.com/HubSpot/shepherd/blob/master/js/shepherd.js).
 
+### Install with Eager
+
+The easiest way to add a Shephderd tour to your site is with [Eager](http://eager.io).
+Click Install to create a tour write on your site with no coding required.
+
+<iframe style="height: 48px; width: 180px" src="//install.eager.io?appId=AalP5veMma6s" allowtransparency="true" scroll="no" frameBorder="0"></iframe>
+
 ### Usage
 
 First create a new `Tour` instance for your tour:
