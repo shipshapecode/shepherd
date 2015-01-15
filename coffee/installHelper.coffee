@@ -85,8 +85,8 @@ ShepherdInstallHelper =
         else if window.Eager?.installs?.preview?.appId? is 'AalP5veMma6s'
           tour.start()
 
-        else if window.localStorage?.eagerShepherdHasRun isnt true
-          localStorage?.eagerShepherdHasRun = true
+        else if window.localStorage?.eagerShepherdHasRun isnt 'true'
+          localStorage?.eagerShepherdHasRun = 'true'
           tour.start()
 
       if options.trigger is 'button-click'
