@@ -1,4 +1,4 @@
-/*! shepherd 0.5.1 */
+/*! shepherd 0.6.8 */
 /*! tether 0.6.5 */
 
 
