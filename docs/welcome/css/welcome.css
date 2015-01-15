@@ -29,7 +29,8 @@ body {
     color: #75beaa; }
   @media (max-width: 568px) {
     .button {
-      display: block; } }
+      display: block;
+      margin: 1em auto 0; } }
 
 .hero-scroll {
   height: 100%;
