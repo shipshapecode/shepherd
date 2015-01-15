@@ -65,7 +65,7 @@
             action: tour.back,
             classes: 'shepherd-button-secondary'
           });
-        } else {
+        } else if (steps.length > 1) {
           stepOptions.buttons.push({
             text: 'Exit',
             action: tour.cancel,
