@@ -14,7 +14,7 @@ ready = (fn) ->
       fn() if document.readyState isnt 'loading'
 
 ShepherdInstallHelper =
-  init: (options, buttonLocation) ->
+  init: (options) ->
     return unless options?.steps?.length > 0
 
     tour = new Shepherd.Tour
@@ -64,10 +64,7 @@ ShepherdInstallHelper =
 
     ready ->
       if options.trigger is 'first-page-visit'
-        if location.href?.match(/https:\/\/.+\.p\.eager\.works\//i)?.length
-          tour.start()
-
-        else if window.Eager?.installs?.preview?.appId? is 'AalP5veMma6s'
+        if location.href.match(/https:\/\/.+\.p\.eager\.works\//i)
           tour.start()
 
         else if window.localStorage?.eagerShepherdHasRun isnt 'true'
@@ -75,6 +72,8 @@ ShepherdInstallHelper =
           tour.start()
 
       if options.trigger is 'button-click'
+        buttonLocation = Eager.createElement options.buttonLocation
+
         button = document.createElement 'button'
         button.className = "shepherd-start-tour-button shepherd-theme-#{ options.theme }"
         button.appendChild document.createTextNode options.buttonText
