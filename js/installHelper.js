@@ -88,7 +88,7 @@
       return ready(function() {
         var button, buttonLocation, _ref2;
         if (options.trigger === 'first-page-visit') {
-          if (location.href.match(/https:\/\/.+\.p\.eager\.works\//i)) {
+          if (location.href.match(/https:\/\/.+\.(p|s)\.eager\.works\//i)) {
             tour.start();
           } else if (((_ref2 = window.localStorage) != null ? _ref2.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
