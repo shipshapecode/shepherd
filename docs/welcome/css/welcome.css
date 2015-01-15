@@ -27,9 +27,9 @@ body {
   .button.dark {
     background: white;
     color: #75beaa; }
-    @media (max-width: 568px) {
-      .button.dark {
-        display: none; } }
+  @media (max-width: 568px) {
+    .button {
+      display: block; } }
 
 .hero-scroll {
   height: 100%;
