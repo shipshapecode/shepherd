@@ -92,7 +92,7 @@ ShepherdInstallHelper =
       if options.trigger is 'button-click'
         button = document.createElement 'button'
         button.className = "shepherd-start-tour-button shepherd-theme-#{ options.theme }"
-        button.appendChild document.createTextNode buttonText
+        button.appendChild document.createTextNode options.buttonText
 
         if options.buttonLocation?.appendChild?
           options.buttonLocation.appendChild button
