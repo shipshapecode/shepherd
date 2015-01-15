@@ -11,7 +11,7 @@
       },
       {
         "type": "script",
-        "contents": "./js/installHelper.js"
+        "src": "./js/installHelper.js"
       },
       {
         "type": "script",
