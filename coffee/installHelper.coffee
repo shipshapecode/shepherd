@@ -25,9 +25,10 @@ ShepherdInstallHelper =
 
     for step in options.steps
       if step.title and step.text and step.attachToSelector and step.attachToDirection
-        textLines = step.text?.split '\n'
-        if textLines?.length
-          step.text = textLines
+        if typeof step.text is 'string'
+          textLines = step.text.split '\n'
+          if textLines.length
+            step.text = textLines
 
         steps.push step
 
@@ -38,48 +39,32 @@ ShepherdInstallHelper =
         showCancelLink: step.showCancelLink
         attachTo: (step.attachToSelector or 'body') + ' ' + step.attachToDirection
 
-      if steps.length is 1
-        stepOptions.buttons = [
-          text: 'Done'
-          action: tour.next
-        ]
-
-      if steps.length > 1
-        stepOptions.buttons = [
+      stepOptions.buttons = []
+      if i > 0
+        stepOptions.buttons.push
           text: 'Back'
-          classes: 'shepherd-button-secondary'
           action: tour.back
-        ,
+          classes: 'shepherd-button-secondary'
+      else
+        stepOptions.button.push
+          text: 'Exit'
+          action: tour.cancel
+          classes: 'shepherd-button-secondary'
+
+      if i < steps.length - 1
+        stepOptions.buttons.push
           text: 'Next'
           action: tour.next
-        ]
-
-        if i is 0
-          stepOptions.buttons = [
-            text: 'Exit'
-            classes: 'shepherd-button-secondary'
-            action: tour.cancel
-          ,
-            text: 'Next'
-            action: tour.next
-            classes: 'shepherd-button-example-primary'
-          ]
-
-        if i is steps.length - 1
-          stepOptions.buttons = [
-            text: 'Back'
-            classes: 'shepherd-button-secondary'
-            action: tour.back
-          ,
-            text: 'Done'
-            action: tour.next
-          ]
+      else
+        stepOptions.buttons.push
+          text: 'Done'
+          action: tour.next
 
       tour.addStep 'step-' + i, stepOptions
 
     ready ->
       if options.trigger is 'first-page-visit'
-        if location.href?.match(/https\:\/\/(.+)\.s\.eager\.works\//)?.length
+        if location.href?.match(/https:\/\/.+\.p\.eager\.works\//i)?.length
           tour.start()
 
         else if window.Eager?.installs?.preview?.appId? is 'AalP5veMma6s'
