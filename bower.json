@@ -1,7 +1,7 @@
 {
   "name": "shepherd",
   "main": "shepherd.js",
-  "version": "0.6.13",
+  "version": "0.6.14",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",

@@ -86,11 +86,11 @@
         tour.addStep('step-' + i, stepOptions);
       }
       return ready(function() {
-        var button, buttonLocation, _ref2;
+        var button, buttonLocation, _ref2, _ref3, _ref4, _ref5;
         if (options.trigger === 'first-page-visit') {
-          if (location.href.match(/https:\/\/.+\.(p|s)\.eager\.works\//i)) {
+          if (((_ref2 = window.Eager) != null ? (_ref3 = _ref2.installs) != null ? (_ref4 = _ref3.preview) != null ? _ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
             tour.start();
-          } else if (((_ref2 = window.localStorage) != null ? _ref2.eagerShepherdHasRun : void 0) !== 'true') {
+          } else if (((_ref5 = window.localStorage) != null ? _ref5.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
               localStorage.eagerShepherdHasRun = 'true';
             }
