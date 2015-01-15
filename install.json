@@ -29,12 +29,14 @@
         "enum": [
           "default",
           "dark",
-          "square"
+          "square",
+          "square-dark"
         ],
         "enumNames": {
           "default": "Default",
           "dark": "Dark",
-          "square": "Square"
+          "square": "Square",
+          "square-dark": "Square & Dark"
         },
         "default": "default"
       },
