@@ -1,0 +1,143 @@
+{
+  "resources": {
+    "head": [
+      {
+        "type": "style",
+        "src": "./css/shepherd-theme-{{ options.theme }}.css"
+      },
+      {
+        "type": "script",
+        "src": "./shepherd.js"
+      },
+      {
+        "type": "script",
+        "contents": "./js/installHelper.js"
+      },
+      {
+        "type": "script",
+        "contents": "ShepherdInstallHelper.init(INSTALL_OPTIONS)"
+      }
+    ]
+  },
+  "options": {
+    "properties": {
+      "theme": {
+        "order": 1,
+        "title": "Theme",
+        "description": "Sets the overall styling of the tour",
+        "type": "string",
+        "enum": [
+          "default",
+          "dark",
+          "square"
+        ],
+        "enumNames": {
+          "default": "Default",
+          "dark": "Dark",
+          "square": "Square"
+        },
+        "default": "default"
+      },
+      "trigger": {
+        "order": 2,
+        "title": "Trigger",
+        "type": "string",
+        "format": "radios",
+        "enum": [
+          "first-page-visit",
+          "button-click"
+        ],
+        "enumNames": {
+          "first-page-visit": "Start the tour when a visitor arrives for the first time.",
+          "button-click": "Start the tour when a visitor clicks a button."
+        },
+        "default": "first-page-visit"
+      },
+      "buttonLocation": {
+        "order": 3,
+        "showIf": {
+          "trigger": "button-click"
+        },
+        "title": "Button location",
+        "type": "object",
+        "format": "element"
+      },
+      "buttonText": {
+        "order": 4,
+        "showIf": {
+          "trigger": "button-click"
+        },
+        "title": "Button text",
+        "type": "string",
+        "default": "Start guided tour..."
+      },
+      "steps": {
+        "order": 5,
+        "title": "Steps",
+        "description": "Create a guided tour by creating steps anchored to the parts of your site you want to call attention. Each tour step points to a specific part of your page.",
+        "type": "array",
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "title": "Step",
+          "properties": {
+            "attachToSelector": {
+              "order": 1,
+              "title": "Anchor",
+              "description": "Part of the page to attach the tour step",
+              "type": "string",
+              "format": "selector"
+            },
+            "attachToDirection": {
+              "order": 2,
+              "title": "Direction",
+              "description": "Side of the anchor to attach the tour step",
+              "type": "string",
+              "enum": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "enumNames": {
+                "top": "Top",
+                "right": "Right",
+                "bottom": "Bottom",
+                "left": "Left"
+              },
+              "default": "bottom"
+            },
+            "title": {
+              "order": 2,
+              "title": "Header",
+              "type": "string",
+              "maxLength": 50,
+              "validationMessage": "The step title cannot be longer than 50 characters."
+            },
+            "text": {
+              "order": 3,
+              "title": "Body",
+              "type": "string",
+              "format": "textarea",
+              "maxLength": 200,
+              "validationMessage": "The step text cannot be longer than 200 characters."
+            },
+            "showCancelLink": {
+              "title": "Show cancel button",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "default": [
+          {
+            "attachToSelector": "h1",
+            "attachToDirection": "bottom",
+            "title": "Welcome",
+            "text": "This is an example step."
+          }
+        ]
+      }
+    }
+  }
+}
