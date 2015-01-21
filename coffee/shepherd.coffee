@@ -7,6 +7,7 @@ ATTACHMENT =
   'left': 'middle right'
   'right': 'middle left'
   'bottom': 'top center'
+  'center': 'middle center'
 
 createFromHTML = (html) ->
   el = document.createElement('div')
