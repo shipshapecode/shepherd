@@ -1645,7 +1645,11 @@ return this.Tether;
     Step.prototype.scrollTo = function() {
       var element;
       element = this.getAttachTo().element;
-      return element != null ? element.scrollIntoView() : void 0;
+      if (this.options.scrollToHandler != null) {
+        return this.options.scrollToHandler(element);
+      } else {
+        return element != null ? element.scrollIntoView() : void 0;
+      }
     };
 
     Step.prototype.destroy = function() {
