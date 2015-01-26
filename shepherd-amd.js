@@ -24,7 +24,8 @@
     'top': 'bottom center',
     'left': 'middle right',
     'right': 'middle left',
-    'bottom': 'top center'
+    'bottom': 'top center',
+    'center': 'middle center'
   };
 
   createFromHTML = function(html) {
