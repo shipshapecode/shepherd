@@ -1604,6 +1604,7 @@ return this.Tether;
 
     Step.prototype.show = function() {
       var _this = this;
+      this.trigger('before');
       if (this.el == null) {
         this.render();
       }
