@@ -115,15 +115,16 @@
     };
 
     Step.prototype.getAttachTo = function() {
-      var opts;
+      var opts, selector;
       opts = parseShorthand(this.options.attachTo, ['element', 'on']);
       if (opts == null) {
         opts = {};
       }
+      selector = opts.element;
       if (typeof opts.element === 'string') {
         opts.element = document.querySelector(opts.element);
         if (opts.element == null) {
-          throw new Error("Shepherd step's attachTo was not found in the page");
+          throw new Error("The element for this Shepherd step was not found " + selector);
         }
       }
       return opts;
