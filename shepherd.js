@@ -1604,6 +1604,7 @@ return this.Tether;
 
     Step.prototype.show = function() {
       var _this = this;
+      this.trigger('before-show');
       if (this.el == null) {
         this.render();
       }
@@ -1620,6 +1621,7 @@ return this.Tether;
 
     Step.prototype.hide = function() {
       var _ref1;
+      this.trigger('before-hide');
       removeClass(this.el, 'shepherd-open');
       document.body.removeAttribute('data-shepherd-step');
       if ((_ref1 = this.tether) != null) {
