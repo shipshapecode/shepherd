@@ -9,7 +9,7 @@
   }
 }(this, function(Tether) {
 
-/*! shepherd 0.6.14 */
+/*! shepherd 0.7.0 */
 (function() {
   var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, hasClass, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
