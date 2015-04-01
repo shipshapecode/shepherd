@@ -9,7 +9,7 @@
   }
 }(this, function(Tether) {
 
-/*! shepherd 0.6.14 */
+/*! shepherd 0.7.0 */
 (function() {
   var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, hasClass, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -172,6 +172,7 @@
 
     Step.prototype.show = function() {
       var _this = this;
+      this.trigger('before-show');
       if (this.el == null) {
         this.render();
       }
@@ -188,6 +189,7 @@
 
     Step.prototype.hide = function() {
       var _ref1;
+      this.trigger('before-hide');
       removeClass(this.el, 'shepherd-open');
       document.body.removeAttribute('data-shepherd-step');
       if ((_ref1 = this.tether) != null) {

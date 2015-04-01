@@ -117,6 +117,8 @@ class Step extends Evented
     @tether = new Tether extend(tetherOpts, @options.tetherOptions)
 
   show: =>
+    @trigger 'before-show'
+
     if not @el?
       @render()
 
@@ -133,6 +135,8 @@ class Step extends Evented
     @trigger 'show'
 
   hide: =>
+    @trigger 'before-hide'
+
     removeClass @el, 'shepherd-open'
 
     document.body.removeAttribute 'data-shepherd-step'
@@ -159,7 +163,7 @@ class Step extends Evented
     {element} = @getAttachTo()
 
     if @options.scrollToHandler?
-      @options.scrollToHandler(element) 
+      @options.scrollToHandler(element)
     else
       element?.scrollIntoView()
 
