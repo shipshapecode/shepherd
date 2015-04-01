@@ -20,6 +20,7 @@
         "gulp-bower": "0.0.1",
         "gulp-wrap-umd": "*"
     },
+    "main": "shepherd.js",
     "spm": {
         "main": "shepherd.js"
     }
