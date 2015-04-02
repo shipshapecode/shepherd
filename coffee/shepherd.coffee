@@ -117,22 +117,22 @@ class Step extends Evented
     @tether = new Tether extend(tetherOpts, @options.tetherOptions)
 
   show: =>
-    @trigger 'before-show'
+    show =(=>
+      if not @el?
+        @render()
 
-    if not @el?
-      @render()
+      addClass @el, 'shepherd-open'
 
-    addClass @el, 'shepherd-open'
+      document.body.setAttribute 'data-shepherd-step', @id
 
-    document.body.setAttribute 'data-shepherd-step', @id
+      @setupTether()
 
-    @setupTether()
-
-    if @options.scrollTo
-      setTimeout =>
-        @scrollTo()
-
-    @trigger 'show'
+      if @options.scrollTo
+        setTimeout =>
+          @scrollTo()
+      @trigger 'show'
+    )
+    @trigger 'before-show', show
 
   hide: =>
     @trigger 'before-hide'
