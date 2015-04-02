@@ -81,12 +81,13 @@ class Step extends Evented
   getAttachTo: ->
     opts = parseShorthand @options.attachTo, ['element', 'on']
     opts ?= {}
+    selector = opts.element
 
     if typeof opts.element is 'string'
       opts.element = document.querySelector opts.element
 
       if not opts.element?
-        throw new Error "Shepherd step's attachTo was not found in the page"
+        throw new Error "The element for this Shepherd step was not found #{selector}"
 
     opts
 
