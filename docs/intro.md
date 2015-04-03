@@ -139,6 +139,8 @@ created.
   - Function to be executed when the step is built. It must return one the three options above.
 - `title`: The steps title.  It becomes an `h3` at the top of the step.
 - `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form
+- `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
+the step will execute.
 `"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
 on: 'left'}`.  If you use the object syntax, `element` can also be a DOM element.  If you don't specify an `attachTo`
 the element will appear in the middle of the screen.
@@ -155,6 +157,14 @@ properies.  For example: `".some-element click"`, or `{selector: '.some-element'
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `scrollTo`: Should the element be scrolled to when this step is shown?
+- `when`: You can define show, hide, etc events inside when. For example:
+```js
+when: {
+        show: function() {
+          window.scrollTo(0, 0);
+        }
+      }
+```
 - `tetherOptions`: Extra options to pass to [tether](http://github.hubspot.com/tether)
 
 ##### Step Methods
@@ -172,7 +182,9 @@ the tour, it can be any event fired on any element on the page.  You can also al
 
 ##### Step Events
 
+- `before-show`
 - `show`
+- `before-hide`
 - `hide`
 - `complete`
 - `cancel`
