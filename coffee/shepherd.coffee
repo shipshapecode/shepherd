@@ -117,6 +117,9 @@ class Step extends Evented
     @tether = new Tether extend(tetherOpts, @options.tetherOptions)
 
   show: =>
+      @options.beforeShowPromise?()?.then(=> @_show()) ? @_show()
+
+  _show: =>
     @trigger 'before-show'
 
     if not @el?

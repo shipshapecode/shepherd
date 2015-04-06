@@ -61,6 +61,7 @@
       this.cancel = __bind(this.cancel, this);
       this.isOpen = __bind(this.isOpen, this);
       this.hide = __bind(this.hide, this);
+      this._show = __bind(this._show, this);
       this.show = __bind(this.show, this);
       this.setOptions(options);
       this;
@@ -159,6 +160,14 @@
     };
 
     Step.prototype.show = function() {
+      var _base, _ref1, _ref2,
+        _this = this;
+      return (_ref1 = typeof (_base = this.options).beforeShowPromise === "function" ? (_ref2 = _base.beforeShowPromise()) != null ? _ref2.then(function() {
+        return _this._show();
+      }) : void 0 : void 0) != null ? _ref1 : this._show();
+    };
+
+    Step.prototype._show = function() {
       var _this = this;
       this.trigger('before-show');
       if (this.el == null) {
