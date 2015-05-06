@@ -138,12 +138,11 @@ created.
   - `HTMLElement` object
   - Function to be executed when the step is built. It must return one the three options above.
 - `title`: The steps title.  It becomes an `h3` at the top of the step.
-- `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form
-- `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
-the step will execute.
-`"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
+- `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form `"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
 on: 'left'}`.  If you use the object syntax, `element` can also be a DOM element.  If you don't specify an `attachTo`
 the element will appear in the middle of the screen.
+- `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
+the step will execute.
 - `classes`: Extra classes to add to the step.  `shepherd-theme-arrows` will give you our theme.
 - `buttons`: An array of buttons to add to the step.  By default we add a Next button which triggers `next()`, set this to false
 to disable.  Each button in the array is an object of the format:
@@ -153,7 +152,7 @@ to disable.  Each button in the array is an object of the format:
   - `events`: A hash of events to bind onto the button, for example `{'mouseover': function(){}}`.  Adding a click event to `events` when you
   already have an `action` specified is not supported.
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
-properies.  For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
+properties.  For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `scrollTo`: Should the element be scrolled to when this step is shown?
