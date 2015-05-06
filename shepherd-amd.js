@@ -9,7 +9,7 @@
   }
 }(this, function(Tether) {
 
-/*! shepherd 0.5.1 */
+/*! shepherd 0.7.1 */
 (function() {
   var ATTACHMENT, Evented, Shepherd, Step, Tour, addClass, createFromHTML, extend, getBounds, hasClass, matchesSelector, parseShorthand, removeClass, uniqueId, _ref,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
@@ -24,7 +24,8 @@
     'top': 'bottom center',
     'left': 'middle right',
     'right': 'middle left',
-    'bottom': 'top center'
+    'bottom': 'top center',
+    'center': 'middle center'
   };
 
   createFromHTML = function(html) {
@@ -72,6 +73,7 @@
       this.cancel = __bind(this.cancel, this);
       this.isOpen = __bind(this.isOpen, this);
       this.hide = __bind(this.hide, this);
+      this._show = __bind(this._show, this);
       this.show = __bind(this.show, this);
       this.setOptions(options);
       this;
@@ -126,15 +128,16 @@
     };
 
     Step.prototype.getAttachTo = function() {
-      var opts;
+      var opts, selector;
       opts = parseShorthand(this.options.attachTo, ['element', 'on']);
       if (opts == null) {
         opts = {};
       }
+      selector = opts.element;
       if (typeof opts.element === 'string') {
         opts.element = document.querySelector(opts.element);
         if (opts.element == null) {
-          throw new Error("Shepherd step's attachTo was not found in the page");
+          throw new Error("The element for this Shepherd step was not found " + selector);
         }
       }
       return opts;
@@ -169,7 +172,16 @@
     };
 
     Step.prototype.show = function() {
+      var _base, _ref1, _ref2,
+        _this = this;
+      return (_ref1 = typeof (_base = this.options).beforeShowPromise === "function" ? (_ref2 = _base.beforeShowPromise()) != null ? _ref2.then(function() {
+        return _this._show();
+      }) : void 0 : void 0) != null ? _ref1 : this._show();
+    };
+
+    Step.prototype._show = function() {
       var _this = this;
+      this.trigger('before-show');
       if (this.el == null) {
         this.render();
       }
@@ -186,6 +198,7 @@
 
     Step.prototype.hide = function() {
       var _ref1;
+      this.trigger('before-hide');
       removeClass(this.el, 'shepherd-open');
       document.body.removeAttribute('data-shepherd-step');
       if ((_ref1 = this.tether) != null) {
@@ -212,7 +225,11 @@
     Step.prototype.scrollTo = function() {
       var element;
       element = this.getAttachTo().element;
-      return element != null ? element.scrollIntoView() : void 0;
+      if (this.options.scrollToHandler != null) {
+        return this.options.scrollToHandler(element);
+      } else {
+        return element != null ? element.scrollIntoView() : void 0;
+      }
     };
 
     Step.prototype.destroy = function() {
