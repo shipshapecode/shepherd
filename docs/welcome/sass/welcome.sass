@@ -1,5 +1,3 @@
-@import compass/css3
-
 html, body
     height: 100%
     overflow: hidden
@@ -7,7 +5,7 @@ html, body
 body
     margin: 0
     background-color: rgb(98, 196, 98)
-    +background-image(linear-gradient(-45deg, rgb(98, 196, 98), rgb(117, 190, 170)))
+    background-image: linear-gradient(-45deg, rgb(98, 196, 98), rgb(117, 190, 170))
     font-family: "proxima-nova", "Helvetica Neue", sans-serif
 
 .button
@@ -39,7 +37,7 @@ body
     overflow: auto
 
 .hero-outer
-    +box-sizing(border-box)
+    box-sizing: border-box
     padding: 20px 0
     height: 100%
     width: 100%
@@ -64,7 +62,7 @@ body
             padding-top: 10px
 
         > *
-            +transition(opacity .4s)
+            transition: opacity .4s
             opacity: 0.3
 
             body:not(.shepherd-active) &

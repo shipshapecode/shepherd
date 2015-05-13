@@ -1,10 +1,5 @@
-@import compass/css3
-@import compass/utilities/general/clearfix
-
-@import ../bower_components/tether/sass/mixins/pointer-events
-
-// Bring in base shepherd styles come from a tether helpers
-
+@import ../bower_components/tether/sass/mixins/pie-clearfix
+@import ../bower_components/tether/sass/mixins/inline-block
 @import ../bower_components/tether/sass/helpers/tether
 @import ../bower_components/tether/sass/helpers/tether-theme-arrows
 
@@ -25,7 +20,7 @@ $maxWidth: 24em
 // Shepherd specific styles
 
 .#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
-    +border-radius(0)
+    border-radius: 0
     z-index: $zIndex
     max-width: $maxWidth
     font-size: 1em
@@ -49,8 +44,8 @@ $maxWidth: 24em
         float: left
 
     .#{ $themePrefix }-content
-        +box-shadow(0 0 0 1px rgba(0, 0, 0, .17))
-        +border-radius(0)
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .17)
+        border-radius: 0
         padding: 0
 
         *
@@ -58,7 +53,7 @@ $maxWidth: 24em
 
         header
             +pie-clearfix
-            +border-radius(0)
+            border-radius: 0
 
             h3
                 margin: 0
@@ -107,7 +102,7 @@ $maxWidth: 24em
 
                     .shepherd-button
                         +inline-block
-                        +border-radius(0)
+                        border-radius: 0
                         cursor: pointer
                         border: 0
                         margin: 0 .5em 0 0
@@ -129,7 +124,7 @@ $maxWidth: 24em
 
 .#{ $themePrefix }-start-tour-button.#{ $themePrefix }-theme-#{ $themeName }
     +inline-block
-    +border-radius(0)
+    border-radius: 0
     cursor: pointer
     border: 0
     margin: 0 .5em 0 0

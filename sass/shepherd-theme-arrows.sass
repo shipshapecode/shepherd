@@ -1,10 +1,5 @@
-@import compass/css3
-@import compass/utilities/general/clearfix
-
-@import ../bower_components/tether/sass/mixins/pointer-events
-
-// Bring in base shepherd styles come from a tether helpers
-
+@import ../bower_components/tether/sass/mixins/pie-clearfix
+@import ../bower_components/tether/sass/mixins/inline-block
 @import ../bower_components/tether/sass/helpers/tether
 @import ../bower_components/tether/sass/helpers/tether-theme-arrows
 
@@ -49,7 +44,7 @@ $headerBackgroundColor: #eee
 
         header
             +pie-clearfix
-            +border-radius(5px 5px 0 0)
+            border-radius: 5px 5px 0 0
 
             h3
                 margin: 0
@@ -98,7 +93,7 @@ $headerBackgroundColor: #eee
 
                     .shepherd-button
                         +inline-block
-                        +border-radius(3px)
+                        border-radius: 3px
                         cursor: pointer
                         border: 0
                         margin: 0 .5em 0 0

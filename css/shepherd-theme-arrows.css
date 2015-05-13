@@ -1,6 +1,4 @@
 .shepherd-element, .shepherd-element:after, .shepherd-element:before, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 .shepherd-element {
@@ -13,8 +11,6 @@
   max-width: 100%;
   max-height: 100%; }
   .shepherd-element.shepherd-theme-arrows .shepherd-content {
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
     border-radius: 5px;
     position: relative;
     font-family: inherit;
@@ -23,12 +19,10 @@
     padding: 1em;
     font-size: 1.1em;
     line-height: 1.5em;
-    -moz-transform: translateZ(0);
-    -ms-transform: translateZ(0);
     -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+            transform: translateZ(0);
     -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
     .shepherd-element.shepherd-theme-arrows .shepherd-content:before {
       content: "";
       display: block;
@@ -117,22 +111,23 @@
 
 .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eee; }
+
 .shepherd-element.shepherd-theme-arrows.shepherd-has-title .shepherd-content header {
   background: #eee;
   padding: 1em; }
   .shepherd-element.shepherd-theme-arrows.shepherd-has-title .shepherd-content header a.shepherd-cancel-link {
     padding: 0;
     margin-bottom: 0; }
+
 .shepherd-element.shepherd-theme-arrows.shepherd-has-cancel-link .shepherd-content header h3 {
   float: left; }
+
 .shepherd-element.shepherd-theme-arrows .shepherd-content {
   padding: 0; }
   .shepherd-element.shepherd-theme-arrows .shepherd-content * {
     font-size: inherit; }
   .shepherd-element.shepherd-theme-arrows .shepherd-content header {
     *zoom: 1;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px;
     border-radius: 5px 5px 0 0; }
     .shepherd-element.shepherd-theme-arrows .shepherd-content header:after {
       content: "";
@@ -146,14 +141,14 @@
       float: right;
       text-decoration: none;
       font-size: 1.25em;
-      line-height: 0.8em;
+      line-height: .8em;
       font-weight: normal;
       color: rgba(0, 0, 0, 0.5);
       opacity: 0.25;
       position: relative;
-      top: 0.1em;
-      padding: 0.8em;
-      margin-bottom: -0.8em; }
+      top: .1em;
+      padding: .8em;
+      margin-bottom: -.8em; }
       .shepherd-element.shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link:hover {
         opacity: 1; }
   .shepherd-element.shepherd-theme-arrows .shepherd-content .shepherd-text {
@@ -180,16 +175,14 @@
           *vertical-align: auto;
           *zoom: 1;
           *display: inline;
-          -moz-border-radius: 3px;
-          -webkit-border-radius: 3px;
           border-radius: 3px;
           cursor: pointer;
           border: 0;
           margin: 0 0.5em 0 0;
           font-family: inherit;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-size: 0.8em;
+          letter-spacing: .1em;
+          font-size: .8em;
           line-height: 1em;
           padding: 0.75em 2em;
           background: #3288e6;

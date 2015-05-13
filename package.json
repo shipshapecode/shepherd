@@ -1,27 +1,28 @@
 {
-    "name": "shepherd",
-    "version": "0.7.1",
-    "description": "Guide your users through a tour of your app.",
-    "authors": [
-        "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
-        "Zack Bloom <zackbloom@gmail.com>"
-    ],
-    "license": "MIT",
-    "devDependencies": {
-        "coffee-script": "~1.6.3",
-        "gulp": "~3.4.0",
-        "gulp-header": "~1.0.2",
-        "gulp-uglify": "~0.1.0",
-        "gulp-compass": "~1.0.3",
-        "gulp-coffee": "~1.2.5",
-        "gulp-concat": "~2.1.7",
-        "gulp-rename": "~0.2.1",
-        "gulp-util": "~2.2.9",
-        "gulp-bower": "0.0.1",
-        "gulp-wrap-umd": "*"
-    },
-    "main": "shepherd.js",
-    "spm": {
-        "main": "shepherd.js"
-    }
+  "name": "shepherd",
+  "version": "0.7.2",
+  "description": "Guide your users through a tour of your app.",
+  "authors": [
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
+    "Zack Bloom <zackbloom@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "shepherd.js",
+  "spm": {
+    "main": "shepherd.js"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.6.3",
+    "gulp": "~3.4.0",
+    "gulp-autoprefixer": "^2.2.0",
+    "gulp-bower": "0.0.1",
+    "gulp-coffee": "~1.2.5",
+    "gulp-concat": "~2.1.7",
+    "gulp-header": "~1.0.2",
+    "gulp-rename": "~0.2.1",
+    "gulp-sass": "^2.0.0",
+    "gulp-uglify": "~0.1.0",
+    "gulp-util": "~2.2.9",
+    "gulp-wrap-umd": "*"
+  }
 }
