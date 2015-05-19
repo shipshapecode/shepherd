@@ -1,28 +1,39 @@
 {
   "name": "tether-shepherd",
-  "version": "0.7.2",
+  "version": "1.0.0",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
     "Zack Bloom <zackbloom@gmail.com>"
   ],
+  "maintainers": [
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
+  ],
+  "scripts": {
+    "install": "bower install",
+    "build": "gulp build"
+  },
   "license": "MIT",
-  "main": "shepherd.js",
+  "main": "dist/js/shepherd.js",
   "spm": {
     "main": "shepherd.js"
   },
   "devDependencies": {
-    "coffee-script": "~1.6.3",
-    "gulp": "~3.4.0",
+    "bower": "^1.4.1",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.2.0",
-    "gulp-bower": "0.0.1",
-    "gulp-coffee": "~1.2.5",
-    "gulp-concat": "~2.1.7",
-    "gulp-header": "~1.0.2",
-    "gulp-rename": "~0.2.1",
+    "gulp-babel": "^5.1.0",
+    "gulp-bump": "^0.3.0",
+    "gulp-filter": "^2.0.2",
+    "gulp-header": "^1.2.2",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.0",
-    "gulp-uglify": "~0.1.0",
-    "gulp-util": "~2.2.9",
-    "gulp-wrap-umd": "*"
+    "gulp-tag-version": "^1.2.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-wrap-umd": "^0.2.1"
+  },
+  "dependencies": {
+    "tether": "^0.7.2"
   }
 }
