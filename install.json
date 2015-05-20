@@ -3,15 +3,15 @@
     "head": [
       {
         "type": "style",
-        "src": "./css/shepherd-theme-{{ options.theme }}.css"
+        "src": "./dist/css/shepherd-theme-{{ options.theme }}.css"
       },
       {
         "type": "script",
-        "src": "./shepherd.js"
+        "src": "./dist/js/shepherd.js"
       },
       {
         "type": "script",
-        "src": "./js/installHelper.js"
+        "src": "./dist/eager/installHelper.js"
       },
       {
         "type": "script",
