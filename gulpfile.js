@@ -17,8 +17,8 @@ var distDir = './dist';
 var pkg = require('./package.json');
 var banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 var umdOptions = {
-  exports: 'Shepher',
-  namespace: 'Shepher',
+  exports: 'Shepherd',
+  namespace: 'Shepherd',
   deps: [{
     name: 'Tether',
     globalName: 'Tether',

@@ -4,7 +4,6 @@ const {
   Evented,
   addClass,
   extend,
-  getBounds,
   hasClass,
   removeClass,
   uniqueId
@@ -17,7 +16,7 @@ const ATTACHMENT = {
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center',
+  'center': 'middle center'
 };
 
 function createFromHTML (html) {
@@ -55,7 +54,7 @@ function parseShorthand (obj, props) {
   const valsLen = vals.length;
   const propsLen = props.length;
   if (valsLen > propsLen) {
-    vals[0] = vals.slice(0, (valsLen- propsLen) + 1).join(' ');
+    vals[0] = vals.slice(0, (valsLen - propsLen) + 1).join(' ');
     vals.splice(1, (valsLen, propsLen));
   }
 
@@ -73,8 +72,25 @@ class Step extends Evented {
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
+    this.bindMethods();
     this.setOptions(options);
     return this;
+  }
+
+  bindMethods() {
+    const methods = [
+      '_show',
+      'show',
+      'hide',
+      'isOpen',
+      'cancel',
+      'complete',
+      'scrollTo',
+      'destroy'
+    ];
+    methods.map((method) => {
+      this[method] = this[method].bind(this)
+    });
   }
 
   setOptions(options={}) {
@@ -169,7 +185,7 @@ class Step extends Evented {
       }],
       target: opts.element,
       offset: opts.offset || '0 0',
-      attachment: attachment,
+      attachment: attachment
     };
 
     this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
@@ -277,7 +293,7 @@ class Step extends Evented {
     if (typeof this.options.title !== 'undefined') {
       header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`
       this.el.className += ' shepherd-has-title';
-     }
+    }
 
     if (this.options.showCancelLink) {
       const link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
@@ -352,9 +368,9 @@ class Step extends Evented {
       cfg.events.click = cfg.action;
     }
 
-    for (let event of cfg.events) {
+    for (let event in cfg.events) {
       if ({}.hasOwnProperty.call(cfg.events, event)) {
-        let handler = cgf.events[event];
+        let handler = cfg.events[event];
         if (typeof handler === 'string') {
           const page = handler;
           handler = () => this.tour.show(page);
@@ -366,7 +382,7 @@ class Step extends Evented {
     this.on('destroy', () => {
       for (let event of cfg.events) {
         if ({}.hasOwnProperty.call(cfg.events, event)) {
-          const handler = cgf.events[event];
+          const handler = cfg.events[event];
           el.removeEventListener(event, handler);
         }
       }
@@ -375,10 +391,12 @@ class Step extends Evented {
 
 }
 
+
 class Tour extends Evented {
 
   constructor(options={}) {
     super(options);
+    this.bindMethods();
     this.options = options;
     this.steps = this.options.steps || [];
 
@@ -398,12 +416,25 @@ class Tour extends Evented {
     return this;
   }
 
+  bindMethods() {
+    const methods = [
+      'next',
+      'back',
+      'cancel',
+      'complete',
+      'hide'
+    ];
+    methods.map((method) => {
+      this[method] = this[method].bind(this)
+    });
+  }
+
   addStep(name, step) {
     if (typeof step === 'undefined') {
       step = name;
     }
 
-    if (!step instanceof Step) {
+    if (!(step instanceof Step)) {
       if (typeof name === 'string' || typeof name === 'number') {
         step.id = name.toString();
       }
@@ -487,6 +518,7 @@ class Tour extends Evented {
 
     Shepherd.activeTour = this;
 
+    let next;
     if (typeof key === 'string') {
       next = this.getById(key);
     } else {

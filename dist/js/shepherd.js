@@ -6,7 +6,7 @@
   } else if (typeof exports === 'object') {
     module.exports = factory(require('tether'));
   } else {
-    root.Shepher = factory(root.Tether);
+    root.Shepherd = factory(root.Tether);
   }
 }(this, function(Tether) {
 
@@ -26,7 +26,6 @@ var _Tether$Utils = Tether.Utils;
 var Evented = _Tether$Utils.Evented;
 var addClass = _Tether$Utils.addClass;
 var extend = _Tether$Utils.extend;
-var getBounds = _Tether$Utils.getBounds;
 var hasClass = _Tether$Utils.hasClass;
 var removeClass = _Tether$Utils.removeClass;
 var uniqueId = _Tether$Utils.uniqueId;
@@ -38,7 +37,8 @@ var ATTACHMENT = {
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center' };
+  'center': 'middle center'
+};
 
 function createFromHTML(html) {
   var el = document.createElement('div');
@@ -94,6 +94,7 @@ var Step = (function (_Evented) {
 
     _get(Object.getPrototypeOf(Step.prototype), 'constructor', this).call(this, tour, options);
     this.tour = tour;
+    this.bindMethods();
     this.setOptions(options);
     return this;
   }
@@ -101,6 +102,16 @@ var Step = (function (_Evented) {
   _inherits(Step, _Evented);
 
   _createClass(Step, [{
+    key: 'bindMethods',
+    value: function bindMethods() {
+      var _this = this;
+
+      var methods = ['_show', 'show', 'hide', 'isOpen', 'cancel', 'complete', 'scrollTo', 'destroy'];
+      methods.map(function (method) {
+        _this[method] = _this[method].bind(_this);
+      });
+    }
+  }, {
     key: 'setOptions',
     value: function setOptions() {
       var options = arguments[0] === undefined ? {} : arguments[0];
@@ -135,7 +146,7 @@ var Step = (function (_Evented) {
   }, {
     key: 'bindAdvance',
     value: function bindAdvance() {
-      var _this = this;
+      var _this2 = this;
 
       // An empty selector matches the step element
 
@@ -145,17 +156,17 @@ var Step = (function (_Evented) {
       var selector = _parseShorthand.selector;
 
       var handler = function handler(e) {
-        if (!_this.isOpen()) {
+        if (!_this2.isOpen()) {
           return;
         }
 
         if (typeof selector !== 'undefined') {
           if (matchesSelector(e.target, selector)) {
-            _this.tour.next();
+            _this2.tour.next();
           }
         } else {
-          if (_this.el && e.target === _this.el) {
-            _this.tour.next();
+          if (_this2.el && e.target === _this2.el) {
+            _this2.tour.next();
           }
         }
       };
@@ -206,20 +217,21 @@ var Step = (function (_Evented) {
         }],
         target: opts.element,
         offset: opts.offset || '0 0',
-        attachment: attachment };
+        attachment: attachment
+      };
 
       this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
     }
   }, {
     key: 'show',
     value: function show() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (typeof this.options.beforeShowPromise !== 'undefined') {
         var beforeShowPromise = this.options.beforeShowPromise();
         if (typeof beforeShowPromise !== 'undefined') {
           return beforeShowPromise.then(function () {
-            return _this2._show();
+            return _this3._show();
           });
         }
       }
@@ -228,7 +240,7 @@ var Step = (function (_Evented) {
   }, {
     key: '_show',
     value: function _show() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.trigger('before-show');
 
@@ -244,7 +256,7 @@ var Step = (function (_Evented) {
 
       if (this.options.scrollTo) {
         setTimeout(function () {
-          _this3.scrollTo();
+          _this4.scrollTo();
         });
       }
 
@@ -393,17 +405,17 @@ var Step = (function (_Evented) {
   }, {
     key: 'bindCancelLink',
     value: function bindCancelLink(link) {
-      var _this4 = this;
+      var _this5 = this;
 
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        _this4.cancel();
+        _this5.cancel();
       });
     }
   }, {
     key: 'bindButtonEvents',
     value: function bindButtonEvents(cfg, el) {
-      var _this5 = this;
+      var _this6 = this;
 
       cfg.events = cfg.events || {};
       if (typeof cfg.action !== 'undefined') {
@@ -411,67 +423,46 @@ var Step = (function (_Evented) {
         cfg.events.click = cfg.action;
       }
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = cfg.events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var _event2 = _step.value;
-
-          if (({}).hasOwnProperty.call(cfg.events, _event2)) {
-            var handler = cgf.events[_event2];
-            if (typeof handler === 'string') {
-              (function () {
-                var page = handler;
-                handler = function () {
-                  return _this5.tour.show(page);
-                };
-              })();
-            }
-            el.addEventListener(_event2, handler);
+      for (var _event2 in cfg.events) {
+        if (({}).hasOwnProperty.call(cfg.events, _event2)) {
+          var handler = cfg.events[_event2];
+          if (typeof handler === 'string') {
+            (function () {
+              var page = handler;
+              handler = function () {
+                return _this6.tour.show(page);
+              };
+            })();
           }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator['return']) {
-            _iterator['return']();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
+          el.addEventListener(_event2, handler);
         }
       }
 
       this.on('destroy', function () {
-        var _iteratorNormalCompletion2 = true;
-        var _didIteratorError2 = false;
-        var _iteratorError2 = undefined;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
         try {
-          for (var _iterator2 = cfg.events[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var _event3 = _step2.value;
+          for (var _iterator = cfg.events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var _event3 = _step.value;
 
             if (({}).hasOwnProperty.call(cfg.events, _event3)) {
-              var handler = cgf.events[_event3];
+              var handler = cfg.events[_event3];
               el.removeEventListener(_event3, handler);
             }
           }
         } catch (err) {
-          _didIteratorError2 = true;
-          _iteratorError2 = err;
+          _didIteratorError = true;
+          _iteratorError = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-              _iterator2['return']();
+            if (!_iteratorNormalCompletion && _iterator['return']) {
+              _iterator['return']();
             }
           } finally {
-            if (_didIteratorError2) {
-              throw _iteratorError2;
+            if (_didIteratorError) {
+              throw _iteratorError;
             }
           }
         }
@@ -484,13 +475,14 @@ var Step = (function (_Evented) {
 
 var Tour = (function (_Evented2) {
   function Tour() {
-    var _this6 = this;
+    var _this7 = this;
 
     var options = arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Tour);
 
     _get(Object.getPrototypeOf(Tour.prototype), 'constructor', this).call(this, options);
+    this.bindMethods();
     this.options = options;
     this.steps = this.options.steps || [];
 
@@ -499,9 +491,9 @@ var Tour = (function (_Evented2) {
     for (var i = 0; i < events.length; ++i) {
       var _event4 = events[i];
       (function (e) {
-        _this6.on(e, function (opts) {
+        _this7.on(e, function (opts) {
           opts = opts || {};
-          opts.tour = _this6;
+          opts.tour = _this7;
           Shepherd.trigger(e, opts);
         });
       })(_event4);
@@ -513,13 +505,23 @@ var Tour = (function (_Evented2) {
   _inherits(Tour, _Evented2);
 
   _createClass(Tour, [{
+    key: 'bindMethods',
+    value: function bindMethods() {
+      var _this8 = this;
+
+      var methods = ['next', 'back', 'cancel', 'complete', 'hide'];
+      methods.map(function (method) {
+        _this8[method] = _this8[method].bind(_this8);
+      });
+    }
+  }, {
     key: 'addStep',
     value: function addStep(name, step) {
       if (typeof step === 'undefined') {
         step = name;
       }
 
-      if (!step instanceof Step) {
+      if (!(step instanceof Step)) {
         if (typeof name === 'string' || typeof name === 'number') {
           step.id = name.toString();
         }
@@ -614,6 +616,7 @@ var Tour = (function (_Evented2) {
 
       Shepherd.activeTour = this;
 
+      var next = undefined;
       if (typeof key === 'string') {
         next = this.getById(key);
       } else {
@@ -644,6 +647,6 @@ var Tour = (function (_Evented2) {
 })(Evented);
 
 extend(Shepherd, { Tour: Tour, Step: Step, Evented: Evented });
-return Shepher;
+return Shepherd;
 
 }));
