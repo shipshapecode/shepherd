@@ -16,7 +16,7 @@ You will need:
 4. Test that you can build the source by moving/renaming the existing `dist`
    directory and running `npm run build`
 5. Assuming everything went well, you should now have a `dist` directory that
-   matches the one you moved in step 4.
+   matches the one you moved in step 4
 
 
 ## Writing code!

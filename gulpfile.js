@@ -2,6 +2,7 @@ var del         = require('del');
 var gulp        = require('gulp');
 var babel       = require('gulp-babel');
 var bump        = require('gulp-bump');
+var coffee      = require('gulp-coffee');
 var filter      = require('gulp-filter');
 var header      = require('gulp-header');
 var prefixer    = require('gulp-autoprefixer');
@@ -35,7 +36,7 @@ gulp.task('clean', function() {
 
 
 // Javascript
-gulp.task('js', ['clean'], function() {
+gulp.task('js', function() {
   gulp.src('./src/js/**/*.js')
     .pipe(babel())
     .pipe(umd(umdOptions))
@@ -59,6 +60,14 @@ gulp.task('css', function() {
     }))
     .pipe(prefixer())
     .pipe(gulp.dest(distDir + '/css'));
+});
+
+
+// Eager
+gulp.task('eager', function() {
+  gulp.src('./src/eager/**/*.coffee')
+    .pipe(coffee())
+    .pipe(gulp.dest(distDir + '/eager'))
 });
 
 
@@ -87,6 +96,6 @@ gulp.task('watch', ['js', 'css'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css'])
+gulp.task('build', ['js', 'css', 'eager'])
 gulp.task('default', ['build'])
 

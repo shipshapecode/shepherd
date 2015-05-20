@@ -27,8 +27,8 @@
 
   ShepherdInstallHelper = {
     init: function(options) {
-      var i, step, stepOptions, steps, textLines, tour, _i, _j, _len, _len1, _ref, _ref1;
-      if (!((options != null ? (_ref = options.steps) != null ? _ref.length : void 0 : void 0) > 0)) {
+      var i, j, k, len, len1, ref, ref1, step, stepOptions, steps, textLines, tour;
+      if (!((options != null ? (ref = options.steps) != null ? ref.length : void 0 : void 0) > 0)) {
         return;
       }
       tour = new Shepherd.Tour({
@@ -37,9 +37,9 @@
         }
       });
       steps = [];
-      _ref1 = options.steps;
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        step = _ref1[_i];
+      ref1 = options.steps;
+      for (j = 0, len = ref1.length; j < len; j++) {
+        step = ref1[j];
         if (step.title && step.text && step.attachToSelector && step.attachToDirection) {
           if (typeof step.text === 'string') {
             textLines = step.text.split('\n');
@@ -50,7 +50,7 @@
           steps.push(step);
         }
       }
-      for (i = _j = 0, _len1 = steps.length; _j < _len1; i = ++_j) {
+      for (i = k = 0, len1 = steps.length; k < len1; i = ++k) {
         step = steps[i];
         stepOptions = {
           title: step.title,
@@ -86,11 +86,11 @@
         tour.addStep('step-' + i, stepOptions);
       }
       return ready(function() {
-        var button, buttonLocation, _ref2, _ref3, _ref4, _ref5;
+        var button, buttonLocation, ref2, ref3, ref4, ref5;
         if (options.trigger === 'first-page-visit') {
-          if (((_ref2 = window.Eager) != null ? (_ref3 = _ref2.installs) != null ? (_ref4 = _ref3.preview) != null ? _ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
+          if (((ref2 = window.Eager) != null ? (ref3 = ref2.installs) != null ? (ref4 = ref3.preview) != null ? ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
             tour.start();
-          } else if (((_ref5 = window.localStorage) != null ? _ref5.eagerShepherdHasRun : void 0) !== 'true') {
+          } else if (((ref5 = window.localStorage) != null ? ref5.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
               localStorage.eagerShepherdHasRun = 'true';
             }
