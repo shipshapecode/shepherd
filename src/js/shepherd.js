@@ -319,10 +319,9 @@ class Step extends Evented {
           paragraphs = [paragraphs];
         }
 
-        for (let i = 0; i < paragraphs.length; ++i) {
-          const paragraph = paragraphs[i];
+        paragraphs.map(paragraph => {
           text.innerHTML += `<p>${ paragraph }</p>`
-        }
+        })
       }
 
       content.appendChild(text);
@@ -333,12 +332,11 @@ class Step extends Evented {
     if (this.options.buttons) {
       let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
-      for (let i = 0; i < this.options.buttons.length; ++i) {
-        const cfg = this.options.buttons[i];
+      this.options.buttons.map(cfg => {
         const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
         buttons.appendChild(button);
         this.bindButtonEvents(cfg, button.querySelector('a'));
-      }
+      });
 
       footer.appendChild(buttons);
     }
@@ -380,7 +378,7 @@ class Step extends Evented {
     }
 
     this.on('destroy', () => {
-      for (let event of cfg.events) {
+      for (let event in cfg.events) {
         if ({}.hasOwnProperty.call(cfg.events, event)) {
           const handler = cfg.events[event];
           el.removeEventListener(event, handler);
@@ -402,8 +400,7 @@ class Tour extends Evented {
 
     // Pass these events onto the global Shepherd object
     const events = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
-    for (let i = 0; i < events.length; ++i) {
-      const event = events[i];
+    events.map(event => {
       ((e) => {
         this.on(e, (opts) => {
           opts = opts || {};
@@ -411,7 +408,7 @@ class Tour extends Evented {
           Shepherd.trigger(e, opts);
         })
       })(event);
-    }
+    });
 
     return this;
   }

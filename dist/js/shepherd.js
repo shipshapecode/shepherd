@@ -326,6 +326,8 @@ var Step = (function (_Evented) {
   }, {
     key: 'render',
     value: function render() {
+      var _this5 = this;
+
       if (typeof this.el !== 'undefined') {
         this.destroy();
       }
@@ -354,42 +356,44 @@ var Step = (function (_Evented) {
       }
 
       if (typeof this.options.text !== 'undefined') {
-        var text = createFromHTML('<div class=\'shepherd-text\'></div>');
-        var paragraphs = this.options.text;
+        (function () {
+          var text = createFromHTML('<div class=\'shepherd-text\'></div>');
+          var paragraphs = _this5.options.text;
 
-        if (typeof paragraphs === 'function') {
-          paragraphs = paragraphs.call(this, text);
-        }
-
-        if (paragraphs instanceof HTMLElement) {
-          text.appendChild(paragraphs);
-        } else {
-          if (typeof paragraphs === 'string') {
-            paragraphs = [paragraphs];
+          if (typeof paragraphs === 'function') {
+            paragraphs = paragraphs.call(_this5, text);
           }
 
-          for (var i = 0; i < paragraphs.length; ++i) {
-            var paragraph = paragraphs[i];
-            text.innerHTML += '<p>' + paragraph + '</p>';
-          }
-        }
+          if (paragraphs instanceof HTMLElement) {
+            text.appendChild(paragraphs);
+          } else {
+            if (typeof paragraphs === 'string') {
+              paragraphs = [paragraphs];
+            }
 
-        content.appendChild(text);
+            paragraphs.map(function (paragraph) {
+              text.innerHTML += '<p>' + paragraph + '</p>';
+            });
+          }
+
+          content.appendChild(text);
+        })();
       }
 
       var footer = document.createElement('footer');
 
       if (this.options.buttons) {
-        var buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+        (function () {
+          var buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
-        for (var i = 0; i < this.options.buttons.length; ++i) {
-          var cfg = this.options.buttons[i];
-          var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
-          buttons.appendChild(button);
-          this.bindButtonEvents(cfg, button.querySelector('a'));
-        }
+          _this5.options.buttons.map(function (cfg) {
+            var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
+            buttons.appendChild(button);
+            _this5.bindButtonEvents(cfg, button.querySelector('a'));
+          });
 
-        footer.appendChild(buttons);
+          footer.appendChild(buttons);
+        })();
       }
 
       content.appendChild(footer);
@@ -405,17 +409,17 @@ var Step = (function (_Evented) {
   }, {
     key: 'bindCancelLink',
     value: function bindCancelLink(link) {
-      var _this5 = this;
+      var _this6 = this;
 
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        _this5.cancel();
+        _this6.cancel();
       });
     }
   }, {
     key: 'bindButtonEvents',
     value: function bindButtonEvents(cfg, el) {
-      var _this6 = this;
+      var _this7 = this;
 
       cfg.events = cfg.events || {};
       if (typeof cfg.action !== 'undefined') {
@@ -430,7 +434,7 @@ var Step = (function (_Evented) {
             (function () {
               var page = handler;
               handler = function () {
-                return _this6.tour.show(page);
+                return _this7.tour.show(page);
               };
             })();
           }
@@ -439,31 +443,10 @@ var Step = (function (_Evented) {
       }
 
       this.on('destroy', function () {
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = cfg.events[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var _event3 = _step.value;
-
-            if (({}).hasOwnProperty.call(cfg.events, _event3)) {
-              var handler = cfg.events[_event3];
-              el.removeEventListener(_event3, handler);
-            }
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator['return']) {
-              _iterator['return']();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
+        for (var _event3 in cfg.events) {
+          if (({}).hasOwnProperty.call(cfg.events, _event3)) {
+            var handler = cfg.events[_event3];
+            el.removeEventListener(_event3, handler);
           }
         }
       });
@@ -475,7 +458,7 @@ var Step = (function (_Evented) {
 
 var Tour = (function (_Evented2) {
   function Tour() {
-    var _this7 = this;
+    var _this8 = this;
 
     var options = arguments[0] === undefined ? {} : arguments[0];
 
@@ -488,16 +471,15 @@ var Tour = (function (_Evented2) {
 
     // Pass these events onto the global Shepherd object
     var events = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
-    for (var i = 0; i < events.length; ++i) {
-      var _event4 = events[i];
+    events.map(function (event) {
       (function (e) {
-        _this7.on(e, function (opts) {
+        _this8.on(e, function (opts) {
           opts = opts || {};
-          opts.tour = _this7;
+          opts.tour = _this8;
           Shepherd.trigger(e, opts);
         });
-      })(_event4);
-    }
+      })(event);
+    });
 
     return this;
   }
@@ -507,11 +489,11 @@ var Tour = (function (_Evented2) {
   _createClass(Tour, [{
     key: 'bindMethods',
     value: function bindMethods() {
-      var _this8 = this;
+      var _this9 = this;
 
       var methods = ['next', 'back', 'cancel', 'complete', 'hide'];
       methods.map(function (method) {
-        _this8[method] = _this8[method].bind(_this8);
+        _this9[method] = _this9[method].bind(_this9);
       });
     }
   }, {
