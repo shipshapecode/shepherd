@@ -14,12 +14,12 @@ Installing via `npm` and `bower` will bring in the above dependencies as well.
 
 __npm__
 ```sh
-$ npm install tether-drop
+$ npm install tether-shepherd
 ```
 
 __bower__
 ```sh
-$ bower install tether-drop
+$ bower install tether-shepherd
 ```
 
 __Eager__
@@ -35,13 +35,20 @@ Click Install to create a tour right on your site with no coding required.
 ## Usage
 
 ```javascript
-let dropInstance = new Drop({
-  target: document.querySelector('.drop-target'),
-  content: 'Welcome to the future',
-  classes: 'drop-theme-arrows',
-  position: 'bottom left',
-  openOn: 'click'
-})
+let tour = new Shepherd.Tour({
+  defaults: {
+    classes: 'shepherd-theme-arrows'
+  }
+});
+
+tour.addStep('example', {
+  title: 'Example Shepherd',
+  text: 'Creating a Shepherd is easy too! Just create ...',
+  attachTo: '.hero-example bottom',
+  advanceOn: '.docs-link click'
+});
+
+tour.start();
 ```
 
 [API documentation](http://github.hubspot.com/shepherd/)

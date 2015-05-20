@@ -22,7 +22,7 @@ You will need:
 ## Writing code!
 
 We use `gulp` to facilitate things like transpilation, minification, etc. so
-can focus on writing relevant code. If there is a fix or feature you would like
+you can focus on writing relevant code. If there is a fix or feature you would like
 to contribute, we ask that you take the following steps:
 
 1. Most of the _editable_ code lives in the `src` directory while built code
