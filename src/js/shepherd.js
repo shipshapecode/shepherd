@@ -230,7 +230,7 @@ class Step extends Evented {
 
     document.body.removeAttribute('data-shepherd-step');
 
-    if (typeof this.tether !== 'undefined') {
+    if (this.tether) {
       this.tether.destroy();
     }
     this.tether = null;
@@ -268,7 +268,7 @@ class Step extends Evented {
       delete this.el;
     }
 
-    if (typeof this.tether !== 'undefined') {
+    if (this.tether) {
       this.tether.destroy();
     }
     this.tether = null;

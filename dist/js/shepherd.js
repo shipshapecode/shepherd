@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.0.0 */
+/*! tether-shepherd 1.0.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -271,7 +271,7 @@ var Step = (function (_Evented) {
 
       document.body.removeAttribute('data-shepherd-step');
 
-      if (typeof this.tether !== 'undefined') {
+      if (this.tether) {
         this.tether.destroy();
       }
       this.tether = null;
@@ -316,7 +316,7 @@ var Step = (function (_Evented) {
         delete this.el;
       }
 
-      if (typeof this.tether !== 'undefined') {
+      if (this.tether) {
         this.tether.destroy();
       }
       this.tether = null;
