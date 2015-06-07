@@ -27,7 +27,8 @@
       height: 0;
       border-color: transparent;
       border-width: 16px;
-      border-style: solid; }
+      border-style: solid;
+      pointer-events: none; }
   .shepherd-element.shepherd-theme-square-dark.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-square-dark.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content:before {
