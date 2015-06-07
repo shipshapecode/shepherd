@@ -1,5 +1,11 @@
 ## Shepherd
 
+[![npm
+version](https://badge.fury.io/js/tether-shepherd.svg)](http://badge.fury.io/js/tether-shepherd)
+[![Bower
+version](https://badge.fury.io/bo/tether-shepherd.svg)](http://badge.fury.io/bo/tether-shepherd)
+
+
 [![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](http://github.hubspot.com/shepherd/docs/welcome)
 
 
