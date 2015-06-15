@@ -89,7 +89,7 @@ class Step extends Evented {
       'destroy'
     ];
     methods.map((method) => {
-      this[method] = this[method].bind(this)
+      this[method] = this[method].bind(this);
     });
   }
 
@@ -169,7 +169,7 @@ class Step extends Evented {
     }
 
     let opts = this.getAttachTo();
-    let attachment = ATTACHMENT[opts.on || 'right']
+    let attachment = ATTACHMENT[opts.on || 'right'];
     if (typeof opts.element === 'undefined') {
       opts.element = 'viewport';
       attachment = 'middle center';
@@ -186,11 +186,12 @@ class Step extends Evented {
       target: opts.element,
       offset: opts.offset || '0 0',
       attachment: attachment
-    }
-    // UPDATE: just to prevent memory leaks
+    };
+
     if (this.tether) {
-        this.tether.destroy();
+      this.tether.destroy();
     }
+
     this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
   }
 
@@ -294,7 +295,7 @@ class Step extends Evented {
     content.appendChild(header);
 
     if (typeof this.options.title !== 'undefined') {
-      header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`
+      header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`;
       this.el.className += ' shepherd-has-title';
     }
 
@@ -323,8 +324,8 @@ class Step extends Evented {
         }
 
         paragraphs.map(paragraph => {
-          text.innerHTML += `<p>${ paragraph }</p>`
-        })
+          text.innerHTML += `<p>${ paragraph }</p>`;
+        });
       }
 
       content.appendChild(text);
@@ -348,10 +349,6 @@ class Step extends Evented {
 
     document.body.appendChild(this.el);
 
-    // UPDATE: not needed since render is only called from _show and setupTether will fire after render is finished and
-    // bindAdvance does not depend on previous setupTether
-    //this.setupTether();
-
     if (this.options.advanceOn) {
       this.bindAdvance();
     }
@@ -365,7 +362,7 @@ class Step extends Evented {
   }
 
   bindButtonEvents(cfg, el) {
-    cfg.events = cfg.events || {}
+    cfg.events = cfg.events || {};
     if (typeof cfg.action !== 'undefined') {
       // Including both a click event and an action is not supported
       cfg.events.click = cfg.action;
@@ -411,7 +408,7 @@ class Tour extends Evented {
           opts = opts || {};
           opts.tour = this;
           Shepherd.trigger(e, opts);
-        })
+        });
       })(event);
     });
 
@@ -427,7 +424,7 @@ class Tour extends Evented {
       'hide'
     ];
     methods.map((method) => {
-      this[method] = this[method].bind(this)
+      this[method] = this[method].bind(this);
     });
   }
 

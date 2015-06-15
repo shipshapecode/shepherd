@@ -219,10 +219,11 @@ var Step = (function (_Evented) {
         offset: opts.offset || '0 0',
         attachment: attachment
       };
-      // UPDATE: just to prevent memory leaks
+
       if (this.tether) {
         this.tether.destroy();
       }
+
       this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
     }
   }, {
@@ -402,10 +403,6 @@ var Step = (function (_Evented) {
       content.appendChild(footer);
 
       document.body.appendChild(this.el);
-
-      // UPDATE: not needed since render is only called from _show and setupTether will fire after render is finished and
-      // bindAdvance does not depend on previous setupTether
-      //this.setupTether();
 
       if (this.options.advanceOn) {
         this.bindAdvance();
