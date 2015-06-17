@@ -3,7 +3,6 @@ var gulp        = require('gulp');
 var babel       = require('gulp-babel');
 var bump        = require('gulp-bump');
 var coffee      = require('gulp-coffee');
-var filter      = require('gulp-filter');
 var header      = require('gulp-header');
 var prefixer    = require('gulp-autoprefixer');
 var rename      = require('gulp-rename');
@@ -66,7 +65,7 @@ gulp.task('css', function() {
 gulp.task('eager', function() {
   gulp.src('./src/eager/**/*.coffee')
     .pipe(coffee())
-    .pipe(gulp.dest(distDir + '/eager'))
+    .pipe(gulp.dest(distDir + '/eager'));
 });
 
 
@@ -74,13 +73,10 @@ gulp.task('eager', function() {
 var VERSIONS = ['patch', 'minor', 'major'];
 for (var i = 0; i < VERSIONS.length; ++i){
   (function(version) {
-    var pkgFilter = filter('package.json');
     gulp.task('version:' + version, function() {
       gulp.src(['package.json', 'bower.json'])
         .pipe(bump({type: version}))
-        .pipe(pkgFilter)
-        .pipe(pkgFilter.restore())
-        .pipe(gulp.dest('.'))
+        .pipe(gulp.dest('.'));
     });
   })(VERSIONS[i]);
 }
