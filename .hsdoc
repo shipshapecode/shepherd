@@ -1,5 +1,4 @@
 title: "shepherd"
 description: "Guide your users through a tour of your app."
-source: "coffee/shepherd.coffee"
-examples: "**/*.md"
-assets: "{shepherd.js,bower_components/tether/*.js,bower_components/tether/css/*,*.js,*.coffee,css/*.css,docs/css/*.css,docs/js/*,js,docs/welcome/*,examples/*}"
+examples: "docs/**/*.md"
+assets: "{bower_components/*,dist/js/*.js,dist/css/*.css,docs/css/*.css,docs/js/*,js,docs/welcome/*,examples/*}"
