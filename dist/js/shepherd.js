@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.1.2 */
+/*! tether-shepherd 1.1.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -403,6 +403,8 @@ var Step = (function (_Evented) {
       content.appendChild(footer);
 
       document.body.appendChild(this.el);
+
+      this.setupTether();
 
       if (this.options.advanceOn) {
         this.bindAdvance();

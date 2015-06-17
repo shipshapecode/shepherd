@@ -349,6 +349,8 @@ class Step extends Evented {
 
     document.body.appendChild(this.el);
 
+    this.setupTether();
+
     if (this.options.advanceOn) {
       this.bindAdvance();
     }

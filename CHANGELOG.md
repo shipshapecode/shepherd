@@ -1,3 +1,9 @@
+## v1.1.2 & v1.1.3
+- Fix stacking event listeners
+
+## v1.1.1
+- Pointer event none for arros
+
 ## v1.1.0
 - Update `Tether` to version 1
 - Bump all dependencies
