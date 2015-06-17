@@ -9,7 +9,6 @@ var prefixer    = require('gulp-autoprefixer');
 var rename      = require('gulp-rename');
 var uglify      = require('gulp-uglify');
 var sass        = require('gulp-sass');
-var tagVersion  = require('gulp-tag-version');
 var umd         = require('gulp-wrap-umd');
 
 // Variables
@@ -80,7 +79,6 @@ for (var i = 0; i < VERSIONS.length; ++i){
       gulp.src(['package.json', 'bower.json'])
         .pipe(bump({type: version}))
         .pipe(pkgFilter)
-        .pipe(tagVersion())
         .pipe(pkgFilter.restore())
         .pipe(gulp.dest('.'))
     });
