@@ -59,11 +59,14 @@ body {
     .hero-outer .hero-inner > * {
       -webkit-transition: opacity 0.4s;
               transition: opacity 0.4s;
-      opacity: 0.3; }
+      opacity: 0.3;
+      pointer-events: none; }
       body:not(.shepherd-active) .hero-outer .hero-inner > * {
-        opacity: 1; }
+        opacity: 1;
+        pointer-events: auto; }
     .hero-outer .hero-inner .shepherd-target.shepherd-enabled {
-      opacity: 1; }
+      opacity: 1;
+      pointer-events: auto; }
     .hero-outer .hero-inner pre {
       width: 540px;
       margin: 0 auto 1em; }

@@ -60,6 +60,13 @@ gulp.task('css', function() {
     .pipe(gulp.dest(distDir + '/css'));
 });
 
+gulp.task('css:docs', function() {
+  gulp.src('./docs/welcome/sass/*.sass')
+    .pipe(sass())
+    .pipe(prefixer())
+    .pipe(gulp.dest('./docs/welcome/css'));
+});
+
 
 // Eager
 gulp.task('eager', function() {
@@ -90,6 +97,6 @@ gulp.task('watch', ['js', 'css'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css', 'eager'])
-gulp.task('default', ['build'])
+gulp.task('build', ['js', 'css', 'eager']);
+gulp.task('default', ['build']);
 
