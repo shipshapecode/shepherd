@@ -1,4 +1,4 @@
-doctype 5
+doctype html
 
 html
     head
@@ -34,8 +34,8 @@ html
         script(src='//github.hubspot.com/#{ repo.name }/#{ root }/resources/executr/build/js/executr-run.js')
 
         script(src="//use.typekit.net/ghy0wve.js")
-        script
-            try{Typekit.load();}catch(e){}
+        script(type='text/javascript').
+            try {Typekit.load();}catch(e){}
 
     body
         include includes/topbar.html

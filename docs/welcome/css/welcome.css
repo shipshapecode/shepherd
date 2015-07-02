@@ -5,16 +5,14 @@ html, body {
 body {
   margin: 0;
   background-color: #62c462;
-  background-image: -webkit-linear-gradient(-45deg, #62c462, #75beaa);
-  background-image: -moz-linear-gradient(-45deg, #62c462, #75beaa);
-  background-image: -o-linear-gradient(-45deg, #62c462, #75beaa);
+  background-image: -webkit-linear-gradient(135deg, #62c462, #75beaa);
   background-image: linear-gradient(-45deg, #62c462, #75beaa);
   font-family: "proxima-nova", "Helvetica Neue", sans-serif; }
 
 .button {
   display: inline-block;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid #fff;
+  color: #fff;
   padding: 1em 1.25em;
   font-weight: 500;
   text-transform: uppercase;
@@ -22,10 +20,10 @@ body {
   text-decoration: none;
   cursor: pointer;
   width: 140px;
-  font-size: 0.8em;
+  font-size: .8em;
   line-height: 1.3em; }
   .button.dark {
-    background: white;
+    background: #fff;
     color: #75beaa; }
   @media (max-width: 568px) {
     .button {
@@ -39,8 +37,6 @@ body {
   overflow: auto; }
 
 .hero-outer {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 20px 0;
   height: 100%;
@@ -53,7 +49,7 @@ body {
     .hero-outer .hero-inner h1, .hero-outer .hero-inner h2, .hero-outer .hero-inner h3, .hero-outer .hero-inner p {
       margin: 0 0 20px;
       line-height: 1;
-      color: white;
+      color: #fff;
       font-weight: normal; }
     .hero-outer .hero-inner h3 {
       font-size: 1.3em;
@@ -62,14 +58,15 @@ body {
       padding-top: 10px; }
     .hero-outer .hero-inner > * {
       -webkit-transition: opacity 0.4s;
-      -moz-transition: opacity 0.4s;
-      -o-transition: opacity 0.4s;
-      transition: opacity 0.4s;
-      opacity: 0.3; }
+              transition: opacity 0.4s;
+      opacity: 0.3;
+      pointer-events: none; }
       body:not(.shepherd-active) .hero-outer .hero-inner > * {
-        opacity: 1; }
+        opacity: 1;
+        pointer-events: auto; }
     .hero-outer .hero-inner .shepherd-target.shepherd-enabled {
-      opacity: 1; }
+      opacity: 1;
+      pointer-events: auto; }
     .hero-outer .hero-inner pre {
       width: 540px;
       margin: 0 auto 1em; }
@@ -84,6 +81,7 @@ body {
 
 .shepherd-element.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
   color: #3b744f; }
+
 .shepherd-element.shepherd-theme-arrows .shepherd-content {
   width: 400px;
   max-width: 100%; }
