@@ -33,11 +33,21 @@ var uniqueId = _Tether$Utils.uniqueId;
 var Shepherd = new Evented();
 
 var ATTACHMENT = {
+  'top right': 'bottom left',
+  'top left': 'bottom right',
+  'top center': 'bottom center',
+  'middle right': 'middle left',
+  'middle left': 'middle right',
+  'middle center': 'middle center',
+  'bottom left': 'top right',
+  'bottom right': 'top left',
+  'bottom center': 'top center',
   'top': 'bottom center',
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center'
+  'center': 'middle center',
+  'middle': 'middle center'
 };
 
 function createFromHTML(html) {
@@ -114,7 +124,7 @@ var Step = (function (_Evented) {
   }, {
     key: 'setOptions',
     value: function setOptions() {
-      var options = arguments[0] === undefined ? {} : arguments[0];
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       this.options = options;
       this.destroy();
@@ -201,7 +211,7 @@ var Step = (function (_Evented) {
       }
 
       var opts = this.getAttachTo();
-      var attachment = (opts.on in ATTACHMENT ? ATTACHMENT[opts.on] : opts.on) || ATTACHMENT.right;
+      var attachment = opts.on in ATTACHMENT ? ATTACHMENT[opts.on] : ATTACHMENT.right;
       if (typeof opts.element === 'undefined') {
         opts.element = 'viewport';
         attachment = 'middle center';
@@ -464,7 +474,7 @@ var Tour = (function (_Evented2) {
   function Tour() {
     var _this8 = this;
 
-    var options = arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Tour);
 
@@ -591,7 +601,7 @@ var Tour = (function (_Evented2) {
   }, {
     key: 'show',
     value: function show() {
-      var key = arguments[0] === undefined ? 0 : arguments[0];
+      var key = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
       if (this.currentStep) {
         this.currentStep.hide();
