@@ -13,6 +13,8 @@ ready = (fn) ->
     document.attachEvent 'onreadystatechange', ->
       fn() if document.readyState isnt 'loading'
 
+firstStepSelector = undefined
+
 ShepherdInstallHelper =
   init: (options) ->
     return unless options?.steps?.length > 0
@@ -33,11 +35,14 @@ ShepherdInstallHelper =
         steps.push step
 
     for step, i in steps
+      if i is 0
+        firstStepSelector = step.attachToSelector
+
       stepOptions =
         title: step.title
         text: step.text
         showCancelLink: step.showCancelLink
-        attachTo: (step.attachToSelector or 'body') + ' ' + step.attachToDirection
+        attachTo: step.attachToSelector + ' ' + step.attachToDirection
 
       stepOptions.buttons = []
       if i > 0
@@ -67,7 +72,7 @@ ShepherdInstallHelper =
         if window.Eager?.installs?.preview?.appId is 'AalP5veMma6s'
           tour.start()
 
-        else if window.localStorage?.eagerShepherdHasRun isnt 'true'
+        else if document.querySelector(firstStepSelector) and window.localStorage?.eagerShepherdHasRun isnt 'true'
           localStorage?.eagerShepherdHasRun = 'true'
           tour.start()
 
