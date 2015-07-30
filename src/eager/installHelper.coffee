@@ -37,7 +37,7 @@ ShepherdInstallHelper =
         title: step.title
         text: step.text
         showCancelLink: step.showCancelLink
-        attachTo: (step.attachToSelector or 'body') + ' ' + step.attachToDirection
+        attachTo: step.attachToSelector + ' ' + step.attachToDirection
 
       stepOptions.buttons = []
       if i > 0
