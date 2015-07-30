@@ -1,5 +1,5 @@
 (function() {
-  var ShepherdInstallHelper, addEventListener, ready;
+  var ShepherdInstallHelper, addEventListener, firstStepSelector, ready;
 
   addEventListener = function(el, eventName, handler) {
     if (el.addEventListener) {
@@ -24,6 +24,8 @@
       });
     }
   };
+
+  firstStepSelector = void 0;
 
   ShepherdInstallHelper = {
     init: function(options) {
@@ -52,11 +54,14 @@
       }
       for (i = k = 0, len1 = steps.length; k < len1; i = ++k) {
         step = steps[i];
+        if (i === 0) {
+          firstStepSelector = step.attachToSelector;
+        }
         stepOptions = {
           title: step.title,
           text: step.text,
           showCancelLink: step.showCancelLink,
-          attachTo: (step.attachToSelector || 'body') + ' ' + step.attachToDirection
+          attachTo: step.attachToSelector + ' ' + step.attachToDirection
         };
         stepOptions.buttons = [];
         if (i > 0) {
@@ -90,7 +95,7 @@
         if (options.trigger === 'first-page-visit') {
           if (((ref2 = window.Eager) != null ? (ref3 = ref2.installs) != null ? (ref4 = ref3.preview) != null ? ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
             tour.start();
-          } else if (((ref5 = window.localStorage) != null ? ref5.eagerShepherdHasRun : void 0) !== 'true') {
+          } else if (document.querySelector(firstStepSelector) && ((ref5 = window.localStorage) != null ? ref5.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
               localStorage.eagerShepherdHasRun = 'true';
             }
