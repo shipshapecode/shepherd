@@ -1,3 +1,6 @@
+## v1.1.4
+- Install helper now checks for the presence of first attach node before starting
+
 ## v1.1.2 & v1.1.3
 - Fix stacking event listeners
 
