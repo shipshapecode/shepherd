@@ -69,12 +69,13 @@ ShepherdInstallHelper =
 
     ready ->
       if options.trigger is 'first-page-visit'
-        if window.Eager?.installs?.preview?.appId is 'AalP5veMma6s'
-          tour.start()
+        if document.querySelector firstStepSelector
+          if window.Eager?.installs?.preview?.appId is 'AalP5veMma6s'
+            tour.start()
 
-        else if document.querySelector(firstStepSelector) and window.localStorage?.eagerShepherdHasRun isnt 'true'
-          localStorage?.eagerShepherdHasRun = 'true'
-          tour.start()
+          else if window.localStorage?.eagerShepherdHasRun isnt 'true'
+            localStorage?.eagerShepherdHasRun = 'true'
+            tour.start()
 
       if options.trigger is 'button-click'
         buttonLocation = Eager.createElement options.buttonLocation
