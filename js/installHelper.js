@@ -93,13 +93,15 @@
       return ready(function() {
         var button, buttonLocation, _ref2, _ref3, _ref4, _ref5;
         if (options.trigger === 'first-page-visit') {
-          if (((_ref2 = window.Eager) != null ? (_ref3 = _ref2.installs) != null ? (_ref4 = _ref3.preview) != null ? _ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
-            tour.start();
-          } else if (document.querySelector(firstStepSelector) && ((_ref5 = window.localStorage) != null ? _ref5.eagerShepherdHasRun : void 0) !== 'true') {
-            if (typeof localStorage !== "undefined" && localStorage !== null) {
-              localStorage.eagerShepherdHasRun = 'true';
+          if (document.querySelector(firstStepSelector)) {
+            if (((_ref2 = window.Eager) != null ? (_ref3 = _ref2.installs) != null ? (_ref4 = _ref3.preview) != null ? _ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
+              tour.start();
+            } else if (((_ref5 = window.localStorage) != null ? _ref5.eagerShepherdHasRun : void 0) !== 'true') {
+              if (typeof localStorage !== "undefined" && localStorage !== null) {
+                localStorage.eagerShepherdHasRun = 'true';
+              }
+              tour.start();
             }
-            tour.start();
           }
         }
         if (options.trigger === 'button-click') {
