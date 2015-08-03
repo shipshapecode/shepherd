@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.1.3 */
+/*! tether-shepherd 1.1.4 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -16,7 +16,7 @@
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x4, _x5, _x6) { var _again = true; _function: while (_again) { var object = _x4, property = _x5, receiver = _x6; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x4 = parent; _x5 = property; _x6 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x4, _x5, _x6) { var _again = true; _function: while (_again) { var object = _x4, property = _x5, receiver = _x6; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x4 = parent; _x5 = property; _x6 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -33,11 +33,21 @@ var uniqueId = _Tether$Utils.uniqueId;
 var Shepherd = new Evented();
 
 var ATTACHMENT = {
+  'top right': 'bottom left',
+  'top left': 'bottom right',
+  'top center': 'bottom center',
+  'middle right': 'middle left',
+  'middle left': 'middle right',
+  'middle center': 'middle center',
+  'bottom left': 'top right',
+  'bottom right': 'top left',
+  'bottom center': 'top center',
   'top': 'bottom center',
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center'
+  'center': 'middle center',
+  'middle': 'middle center'
 };
 
 function createFromHTML(html) {
@@ -114,7 +124,7 @@ var Step = (function (_Evented) {
   }, {
     key: 'setOptions',
     value: function setOptions() {
-      var options = arguments[0] === undefined ? {} : arguments[0];
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       this.options = options;
       this.destroy();
@@ -201,7 +211,7 @@ var Step = (function (_Evented) {
       }
 
       var opts = this.getAttachTo();
-      var attachment = ATTACHMENT[opts.on || 'right'];
+      var attachment = opts.on in ATTACHMENT ? ATTACHMENT[opts.on] : ATTACHMENT.right;
       if (typeof opts.element === 'undefined') {
         opts.element = 'viewport';
         attachment = 'middle center';
@@ -464,7 +474,7 @@ var Tour = (function (_Evented2) {
   function Tour() {
     var _this8 = this;
 
-    var options = arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Tour);
 
@@ -591,7 +601,7 @@ var Tour = (function (_Evented2) {
   }, {
     key: 'show',
     value: function show() {
-      var key = arguments[0] === undefined ? 0 : arguments[0];
+      var key = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 
       if (this.currentStep) {
         this.currentStep.hide();
