@@ -530,7 +530,7 @@ class Tour extends Evented {
     if (next) {
       if (typeof next.options.showOn !== 'undefined' && !next.options.showOn()) {
         const index = this.steps.indexOf(next);
-        var nextIndex = forward ? index + 1 : index - 1;
+        const nextIndex = forward ? index + 1 : index - 1;
         this.show(nextIndex, forward);
       } else {
         this.trigger('show', {
