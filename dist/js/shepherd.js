@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.1.3 */
+/*! tether-shepherd 1.2.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -16,11 +16,11 @@
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x4, _x5, _x6) { var _again = true; _function: while (_again) { var object = _x4, property = _x5, receiver = _x6; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x4 = parent; _x5 = property; _x6 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x5, _x6, _x7) { var _again = true; _function: while (_again) { var object = _x5, property = _x6, receiver = _x7; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x5 = parent; _x6 = property; _x7 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _Tether$Utils = Tether.Utils;
 var Evented = _Tether$Utils.Evented;
@@ -89,6 +89,8 @@ function parseShorthand(obj, props) {
 }
 
 var Step = (function (_Evented) {
+  _inherits(Step, _Evented);
+
   function Step(tour, options) {
     _classCallCheck(this, Step);
 
@@ -98,8 +100,6 @@ var Step = (function (_Evented) {
     this.setOptions(options);
     return this;
   }
-
-  _inherits(Step, _Evented);
 
   _createClass(Step, [{
     key: 'bindMethods',
@@ -114,7 +114,7 @@ var Step = (function (_Evented) {
   }, {
     key: 'setOptions',
     value: function setOptions() {
-      var options = arguments[0] === undefined ? {} : arguments[0];
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
       this.options = options;
       this.destroy();
@@ -197,7 +197,7 @@ var Step = (function (_Evented) {
     key: 'setupTether',
     value: function setupTether() {
       if (typeof Tether === 'undefined') {
-        throw new Error('Using the attachment feature of Shepherd requires the Tether library');
+        throw new Error("Using the attachment feature of Shepherd requires the Tether library");
       }
 
       var opts = this.getAttachTo();
@@ -351,7 +351,7 @@ var Step = (function (_Evented) {
       }
 
       if (this.options.showCancelLink) {
-        var link = createFromHTML('<a href class=\'shepherd-cancel-link\'>✕</a>');
+        var link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
         header.appendChild(link);
 
         this.el.className += ' shepherd-has-cancel-link';
@@ -361,7 +361,7 @@ var Step = (function (_Evented) {
 
       if (typeof this.options.text !== 'undefined') {
         (function () {
-          var text = createFromHTML('<div class=\'shepherd-text\'></div>');
+          var text = createFromHTML("<div class='shepherd-text'></div>");
           var paragraphs = _this5.options.text;
 
           if (typeof paragraphs === 'function') {
@@ -388,7 +388,7 @@ var Step = (function (_Evented) {
 
       if (this.options.buttons) {
         (function () {
-          var buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+          var buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
           _this5.options.buttons.map(function (cfg) {
             var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
@@ -461,10 +461,12 @@ var Step = (function (_Evented) {
 })(Evented);
 
 var Tour = (function (_Evented2) {
+  _inherits(Tour, _Evented2);
+
   function Tour() {
     var _this8 = this;
 
-    var options = arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Tour);
 
@@ -487,8 +489,6 @@ var Tour = (function (_Evented2) {
 
     return this;
   }
-
-  _inherits(Tour, _Evented2);
 
   _createClass(Tour, [{
     key: 'bindMethods',
@@ -545,14 +545,14 @@ var Tour = (function (_Evented2) {
         this.trigger('complete');
         this.done();
       } else {
-        this.show(index + 1);
+        this.show(index + 1, true);
       }
     }
   }, {
     key: 'back',
     value: function back() {
       var index = this.steps.indexOf(this.currentStep);
-      this.show(index - 1);
+      this.show(index - 1, false);
     }
   }, {
     key: 'cancel',
@@ -591,7 +591,8 @@ var Tour = (function (_Evented2) {
   }, {
     key: 'show',
     value: function show() {
-      var key = arguments[0] === undefined ? 0 : arguments[0];
+      var key = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+      var forward = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
       if (this.currentStep) {
         this.currentStep.hide();
@@ -603,6 +604,7 @@ var Tour = (function (_Evented2) {
       Shepherd.activeTour = this;
 
       var next = undefined;
+
       if (typeof key === 'string') {
         next = this.getById(key);
       } else {
@@ -610,13 +612,19 @@ var Tour = (function (_Evented2) {
       }
 
       if (next) {
-        this.trigger('show', {
-          step: next,
-          previous: this.currentStep
-        });
+        if (typeof next.options.showOn !== 'undefined' && !next.options.showOn()) {
+          var index = this.steps.indexOf(next);
+          var nextIndex = forward ? index + 1 : index - 1;
+          this.show(nextIndex, forward);
+        } else {
+          this.trigger('show', {
+            step: next,
+            previous: this.currentStep
+          });
 
-        this.currentStep = next;
-        next.show();
+          this.currentStep = next;
+          next.show();
+        }
       }
     }
   }, {
