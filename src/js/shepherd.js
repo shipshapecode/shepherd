@@ -470,13 +470,13 @@ class Tour extends Evented {
       this.trigger('complete');
       this.done();
     } else {
-      this.show(index + 1);
+      this.show(index + 1, true);
     }
   }
 
   back() {
     const index = this.steps.indexOf(this.currentStep);
-    this.show(index - 1);
+    this.show(index - 1, false);
   }
 
   cancel() {
@@ -509,7 +509,7 @@ class Tour extends Evented {
     this.trigger('inactive', {tour: this});
   }
 
-  show(key=0) {
+  show(key=0, forward=true) {
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
@@ -520,6 +520,7 @@ class Tour extends Evented {
     Shepherd.activeTour = this;
 
     let next;
+
     if (typeof key === 'string') {
       next = this.getById(key);
     } else {
@@ -527,13 +528,19 @@ class Tour extends Evented {
     }
 
     if (next) {
-      this.trigger('show', {
-        step: next,
-        previous: this.currentStep
-      });
+      if (typeof next.options.showOn !== 'undefined' && !next.options.showOn()) {
+        const index = this.steps.indexOf(next);
+        const nextIndex = forward ? index + 1 : index - 1;
+        this.show(nextIndex, forward);
+      } else {
+        this.trigger('show', {
+          step: next,
+          previous: this.currentStep
+        });
 
-      this.currentStep = next;
-      next.show();
+        this.currentStep = next;
+        next.show();
+      }
     }
   }
 

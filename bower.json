@@ -1,6 +1,6 @@
 {
   "name": "tether-shepherd",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",
