@@ -7,6 +7,10 @@
       },
       {
         "type": "script",
+        "src": "./dist/js/tether.js"
+      },
+      {
+        "type": "script",
         "src": "./dist/js/shepherd.js"
       },
       {

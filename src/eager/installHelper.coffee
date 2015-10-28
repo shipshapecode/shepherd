@@ -69,7 +69,7 @@ ShepherdInstallHelper =
 
     ready ->
       if options.trigger is 'first-page-visit'
-        if window.Eager?.installs?.preview?.appId is 'AalP5veMma6s'
+        if INSTALL_ID is 'preview'
           tour.start()
 
         else if document.querySelector(firstStepSelector) and window.localStorage?.eagerShepherdHasRun isnt 'true'

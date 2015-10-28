@@ -91,11 +91,11 @@
         tour.addStep('step-' + i, stepOptions);
       }
       return ready(function() {
-        var button, buttonLocation, ref2, ref3, ref4, ref5;
+        var button, buttonLocation, ref2;
         if (options.trigger === 'first-page-visit') {
-          if (((ref2 = window.Eager) != null ? (ref3 = ref2.installs) != null ? (ref4 = ref3.preview) != null ? ref4.appId : void 0 : void 0 : void 0) === 'AalP5veMma6s') {
+          if (INSTALL_ID === 'preview') {
             tour.start();
-          } else if (document.querySelector(firstStepSelector) && ((ref5 = window.localStorage) != null ? ref5.eagerShepherdHasRun : void 0) !== 'true') {
+          } else if (document.querySelector(firstStepSelector) && ((ref2 = window.localStorage) != null ? ref2.eagerShepherdHasRun : void 0) !== 'true') {
             if (typeof localStorage !== "undefined" && localStorage !== null) {
               localStorage.eagerShepherdHasRun = 'true';
             }
