@@ -33,7 +33,7 @@
       if (!((options != null ? (ref = options.steps) != null ? ref.length : void 0 : void 0) > 0)) {
         return;
       }
-      tour = new Shepherd.Tour({
+      ShepherdInstallHelper.tour = tour = new Shepherd.Tour({
         defaults: {
           classes: "shepherd-element shepherd-open shepherd-theme-" + options.theme
         }

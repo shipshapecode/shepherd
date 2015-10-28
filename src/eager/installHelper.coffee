@@ -19,7 +19,7 @@ ShepherdInstallHelper =
   init: (options) ->
     return unless options?.steps?.length > 0
 
-    tour = new Shepherd.Tour
+    ShepherdInstallHelper.tour = tour = new Shepherd.Tour
       defaults:
         classes: "shepherd-element shepherd-open shepherd-theme-#{ options.theme }"
 
