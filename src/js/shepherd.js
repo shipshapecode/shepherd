@@ -86,7 +86,8 @@ class Step extends Evented {
       'cancel',
       'complete',
       'scrollTo',
-      'destroy'
+      'destroy',
+      'render'
     ];
     methods.map((method) => {
       this[method] = this[method].bind(this);
@@ -243,7 +244,7 @@ class Step extends Evented {
   }
 
   isOpen() {
-    return hasClass(this.el, 'shepherd-open');
+    return this.el && hasClass(this.el, 'shepherd-open');
   }
 
   cancel() {
@@ -267,8 +268,8 @@ class Step extends Evented {
   }
 
   destroy() {
-    if (typeof this.el !== 'undefined') {
-      document.body.removeChild(this.el);
+    if (typeof this.el !== 'undefined' && this.el.parentNode) {
+      this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
 
@@ -449,6 +450,29 @@ class Tour extends Evented {
     return this;
   }
 
+  removeStep(name) {
+    const current = this.getCurrentStep();
+
+    for (let i = 0; i < this.steps.length; ++i) {
+      const step = this.steps[i];
+      if (step.id === name) {
+        step.hide();
+        step.destroy();
+        this.steps.splice(i, 1);
+        break;
+      }
+    }
+
+    if (current && current.id === name){
+      this.currentStep = undefined;
+
+      if (this.steps.length)
+        this.show(0);
+      else
+        this.hide();
+    }
+  }
+
   getById(id) {
     for (let i = 0; i < this.steps.length; ++i) {
       const step = this.steps[i];
@@ -480,7 +504,7 @@ class Tour extends Evented {
   }
 
   cancel() {
-    if (typeof this.currentStep !== 'undefined') {
+    if (this.currentStep) {
       this.currentStep.hide();
     }
     this.trigger('cancel');
@@ -488,7 +512,7 @@ class Tour extends Evented {
   }
 
   complete() {
-    if (typeof this.currentStep !== 'undefined') {
+    if (this.currentStep) {
       this.currentStep.hide();
     }
     this.trigger('complete');
@@ -496,7 +520,7 @@ class Tour extends Evented {
   }
 
   hide() {
-    if (typeof this.currentStep !== 'undefined') {
+    if (this.currentStep) {
       this.currentStep.hide();
     }
     this.trigger('hide');
@@ -537,6 +561,10 @@ class Tour extends Evented {
           step: next,
           previous: this.currentStep
         });
+
+        if (this.currentStep) {
+          this.currentStep.hide();
+        }
 
         this.currentStep = next;
         next.show();

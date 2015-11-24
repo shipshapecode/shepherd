@@ -94,9 +94,10 @@ for (var i = 0; i < VERSIONS.length; ++i){
 
 
 // Watch
-gulp.task('watch', ['js', 'css'], function() {
+gulp.task('watch', ['js', 'css', 'eager'], function() {
   gulp.watch('./src/js/**/*', ['js']);
   gulp.watch('./src/css/**/*', ['css']);
+  gulp.watch('./src/eager/**/*', ['eager']);
 });
 
 
