@@ -87,12 +87,20 @@ render = ->
 
   ready ->
     if options.trigger is 'first-page-visit' and not Shepherd.activeTour
-      if INSTALL_ID is 'preview'
-        tour.start()
+      tries = 0
+      start = ->
+        if document.querySelector(firstStepSelector)
+          tour.start()
 
-      else if document.querySelector(firstStepSelector) and window.localStorage?.eagerShepherdHasRun isnt 'true'
-        localStorage?.eagerShepherdHasRun = 'true'
-        tour.start()
+          if INSTALL_ID isnt 'preview'
+            localStorage?.eagerShepherdHasRun = 'true'
+
+        else if tries < 3
+          tries++
+          setTimeout start, 250
+
+      if INSTALL_ID is 'preview' or window.localStorage?.eagerShepherdHasRun isnt 'true'
+        start()
 
     if options.trigger is 'button-click'
       buttonLocation = Eager.createElement options.buttonLocation, buttonLocation

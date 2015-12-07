@@ -106,15 +106,22 @@
       tour.removeStep(existing.id);
     }
     return ready(function() {
-      var button, ref2;
+      var button, ref2, start, tries;
       if (options.trigger === 'first-page-visit' && !Shepherd.activeTour) {
-        if (INSTALL_ID === 'preview') {
-          tour.start();
-        } else if (document.querySelector(firstStepSelector) && ((ref2 = window.localStorage) != null ? ref2.eagerShepherdHasRun : void 0) !== 'true') {
-          if (typeof localStorage !== "undefined" && localStorage !== null) {
-            localStorage.eagerShepherdHasRun = 'true';
+        tries = 0;
+        start = function() {
+          if (document.querySelector(firstStepSelector)) {
+            tour.start();
+            if (INSTALL_ID !== 'preview') {
+              return typeof localStorage !== "undefined" && localStorage !== null ? localStorage.eagerShepherdHasRun = 'true' : void 0;
+            }
+          } else if (tries < 3) {
+            tries++;
+            return setTimeout(start, 250);
           }
-          tour.start();
+        };
+        if (INSTALL_ID === 'preview' || ((ref2 = window.localStorage) != null ? ref2.eagerShepherdHasRun : void 0) !== 'true') {
+          start();
         }
       }
       if (options.trigger === 'button-click') {
