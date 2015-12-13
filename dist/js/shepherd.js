@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.2.2 */
+/*! tether-shepherd 1.2.3 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -518,7 +518,7 @@ var Tour = (function (_Evented2) {
       }
 
       this.steps.push(step);
-      return this;
+      return step;
     }
   }, {
     key: 'removeStep',
