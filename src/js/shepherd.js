@@ -43,6 +43,25 @@ function matchesSelector (el, sel) {
   return matches.call(el, sel);
 }
 
+const positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/
+
+function parsePosition (str) {
+  let matches = positionRe.exec(str)
+  if (!matches) {
+    return null;
+  }
+
+  let on = matches[2];
+  if (on[0] === '['){
+    on = on.substring(1, on.length - 1);
+  }
+
+  return {
+    'element': matches[1],
+    'on': on
+  };
+}
+
 function parseShorthand (obj, props) {
   if (obj === null || typeof obj === 'undefined') {
     return obj;
@@ -51,17 +70,17 @@ function parseShorthand (obj, props) {
   }
 
   let vals = obj.split(' ');
-  const valsLen = vals.length;
-  const propsLen = props.length;
-  if (valsLen > propsLen) {
-    vals[0] = vals.slice(0, (valsLen - propsLen) + 1).join(' ');
-    vals.splice(1, (valsLen, propsLen));
-  }
-
   let out = {};
-  for (let i = 0; i < propsLen; ++i) {
-    const prop = props[i];
-    out[prop] = vals[i];
+  let j = props.length - 1;
+  for (let i = vals.length - 1; i >= 0; i--){
+    if (j === 0){
+      out[props[j]] = vals.slice(0, i + 1).join(' ');
+      break;
+    } else {
+      out[props[j]] = vals[i];
+    }
+
+    j--;
   }
 
   return out;
@@ -150,7 +169,7 @@ class Step extends Evented {
   }
 
   getAttachTo() {
-    let opts = parseShorthand(this.options.attachTo, ['element', 'on']) || {};
+    let opts = parsePosition(this.options.attachTo) || {};
     const selector = opts.element;
 
     if (typeof selector === 'string') {
@@ -170,7 +189,7 @@ class Step extends Evented {
     }
 
     let opts = this.getAttachTo();
-    let attachment = ATTACHMENT[opts.on || 'right'];
+    let attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
     if (typeof opts.element === 'undefined') {
       opts.element = 'viewport';
       attachment = 'middle center';
@@ -295,7 +314,7 @@ class Step extends Evented {
     let header = document.createElement('header');
     content.appendChild(header);
 
-    if (typeof this.options.title !== 'undefined') {
+    if (this.options.title) {
       header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`;
       this.el.className += ' shepherd-has-title';
     }

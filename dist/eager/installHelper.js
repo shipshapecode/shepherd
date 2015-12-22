@@ -40,7 +40,7 @@
     ref = options.steps;
     for (j = 0, len = ref.length; j < len; j++) {
       step = ref[j];
-      if (step.title && step.text && step.attachToSelector && step.attachToDirection) {
+      if (step.text && step.attachToSelector && step.attachToDirection) {
         if (typeof step.text === 'string') {
           textLines = step.text.split('\n');
           if (textLines.length) {

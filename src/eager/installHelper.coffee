@@ -24,7 +24,7 @@ render = ->
 
   steps = []
   for step in options.steps
-    if step.title and step.text and step.attachToSelector and step.attachToDirection
+    if step.text and step.attachToSelector and step.attachToDirection
       if typeof step.text is 'string'
         textLines = step.text.split '\n'
         if textLines.length

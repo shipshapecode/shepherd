@@ -64,6 +64,25 @@ function matchesSelector(el, sel) {
   return matches.call(el, sel);
 }
 
+var positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/;
+
+function parsePosition(str) {
+  var matches = positionRe.exec(str);
+  if (!matches) {
+    return null;
+  }
+
+  var on = matches[2];
+  if (on[0] === '[') {
+    on = on.substring(1, on.length - 1);
+  }
+
+  return {
+    'element': matches[1],
+    'on': on
+  };
+}
+
 function parseShorthand(obj, props) {
   if (obj === null || typeof obj === 'undefined') {
     return obj;
@@ -72,17 +91,17 @@ function parseShorthand(obj, props) {
   }
 
   var vals = obj.split(' ');
-  var valsLen = vals.length;
-  var propsLen = props.length;
-  if (valsLen > propsLen) {
-    vals[0] = vals.slice(0, valsLen - propsLen + 1).join(' ');
-    vals.splice(1, (valsLen, propsLen));
-  }
-
   var out = {};
-  for (var i = 0; i < propsLen; ++i) {
-    var prop = props[i];
-    out[prop] = vals[i];
+  var j = props.length - 1;
+  for (var i = vals.length - 1; i >= 0; i--) {
+    if (j === 0) {
+      out[props[j]] = vals.slice(0, i + 1).join(' ');
+      break;
+    } else {
+      out[props[j]] = vals[i];
+    }
+
+    j--;
   }
 
   return out;
@@ -180,7 +199,7 @@ var Step = (function (_Evented) {
   }, {
     key: 'getAttachTo',
     value: function getAttachTo() {
-      var opts = parseShorthand(this.options.attachTo, ['element', 'on']) || {};
+      var opts = parsePosition(this.options.attachTo) || {};
       var selector = opts.element;
 
       if (typeof selector === 'string') {
@@ -201,7 +220,7 @@ var Step = (function (_Evented) {
       }
 
       var opts = this.getAttachTo();
-      var attachment = ATTACHMENT[opts.on || 'right'];
+      var attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
       if (typeof opts.element === 'undefined') {
         opts.element = 'viewport';
         attachment = 'middle center';
@@ -345,7 +364,7 @@ var Step = (function (_Evented) {
       var header = document.createElement('header');
       content.appendChild(header);
 
-      if (typeof this.options.title !== 'undefined') {
+      if (this.options.title) {
         header.innerHTML += '<h3 class=\'shepherd-title\'>' + this.options.title + '</h3>';
         this.el.className += ' shepherd-has-title';
       }
