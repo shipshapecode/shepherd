@@ -153,7 +153,7 @@
   .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content .shepherd-text {
     padding: 1em; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content .shepherd-text p {
-      margin: 0 0 0.5em 0;
+      margin: 0 0 .5em 0;
       line-height: 1.3em; }
       .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content .shepherd-text p:last-child {
         margin-bottom: 0; }
@@ -175,7 +175,7 @@
           *zoom: 1;
           *display: inline;
           cursor: pointer;
-          margin: 0 0.5em 0 0;
+          margin: 0 .5em 0 0;
           text-decoration: none; }
         .shepherd-element.shepherd-theme-arrows-plain-buttons .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
           margin-right: 0; }

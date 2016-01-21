@@ -155,7 +155,7 @@
     .shepherd-element.shepherd-theme-square-dark .shepherd-content .shepherd-text {
       padding: 1em; }
       .shepherd-element.shepherd-theme-square-dark .shepherd-content .shepherd-text p {
-        margin: 0 0 0.5em 0;
+        margin: 0 0 .5em 0;
         line-height: 1.3em; }
         .shepherd-element.shepherd-theme-square-dark .shepherd-content .shepherd-text p:last-child {
           margin-bottom: 0; }
@@ -179,13 +179,13 @@
             border-radius: 0;
             cursor: pointer;
             border: 0;
-            margin: 0 0.5em 0 0;
+            margin: 0 .5em 0 0;
             font-family: inherit;
             text-transform: uppercase;
             letter-spacing: .1em;
             font-size: .8em;
             line-height: 1em;
-            padding: 0.75em 2em;
+            padding: .75em 2em;
             background: #3288e6;
             color: #fff; }
             .shepherd-element.shepherd-theme-square-dark .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
@@ -203,12 +203,12 @@
   border-radius: 0;
   cursor: pointer;
   border: 0;
-  margin: 0 0.5em 0 0;
+  margin: 0 .5em 0 0;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: .1em;
   font-size: .8em;
   line-height: 1em;
-  padding: 0.75em 2em;
+  padding: .75em 2em;
   background: #3288e6;
   color: #fff; }
