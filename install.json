@@ -81,8 +81,14 @@
         "type": "string",
         "default": "Start guided tour..."
       },
-      "steps": {
+      "scrollTo": {
         "order": 5,
+        "title": "Scroll To",
+        "description": "Should the page be scrolled to show steps when they open?",
+        "type": "boolean"
+      },
+      "steps": {
+        "order": 6,
         "title": "Steps",
         "description": "Create a guided tour by creating steps anchored to the parts of your site you want to call attention. Each tour step points to a specific part of your page.",
         "type": "array",
