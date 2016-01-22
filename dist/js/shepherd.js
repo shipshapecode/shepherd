@@ -67,6 +67,14 @@ function matchesSelector(el, sel) {
 var positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/;
 
 function parsePosition(str) {
+
+  if (typeof str === 'object') {
+    if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
+      return str;
+    }
+    return null;
+  }
+
   var matches = positionRe.exec(str);
   if (!matches) {
     return null;
