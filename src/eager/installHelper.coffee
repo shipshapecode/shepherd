@@ -46,7 +46,7 @@ render = ->
       showCancelLink: step.showCancelLink
       attachTo: step.attachToSelector + ' ' + step.attachToDirection
       classes: "shepherd-element shepherd-theme-#{ options.theme }"
-      scrollTo: options.scrollTo
+      scrollTo: step.scrollTo
 
     stepOptions.buttons = []
     if i > 0

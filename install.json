@@ -81,12 +81,6 @@
         "type": "string",
         "default": "Start guided tour..."
       },
-      "scrollTo": {
-        "order": 5,
-        "title": "Scroll To",
-        "description": "Should the page be scrolled to show steps when they open?",
-        "type": "boolean"
-      },
       "steps": {
         "order": 6,
         "title": "Steps",
@@ -143,6 +137,13 @@
               "title": "Show cancel button",
               "type": "boolean",
               "default": true
+            },
+            "scrollTo": {
+              "order": 6,
+              "title": "Scroll to step",
+              "description": "Scroll the page to this step when it opens.",
+              "type": "boolean",
+              "default": true
             }
           }
         },
@@ -151,7 +152,8 @@
             "attachToSelector": "h1",
             "attachToDirection": "bottom",
             "title": "Welcome",
-            "text": "This is an example step."
+            "text": "This is an example step.",
+            "scrollTo": true
           }
         ]
       }
