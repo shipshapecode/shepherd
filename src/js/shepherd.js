@@ -179,7 +179,7 @@ class Step extends Evented {
     let returnOpts = {};
     let opts = parsePosition(this.options.attachTo) || {};
     returnOpts.on = opts.on;
-    if (opts.offset !== 'undefined') {
+    if (typeof opts.offset !== 'undefined') {
       returnOpts.offset = opts.offset;
     }
 
