@@ -184,7 +184,7 @@ class Step extends Evented {
       // guarantee that the element will exist in the future.
       returnOpts.element = document.querySelector(opts.element);
       if (!returnOpts.element) {
-        throw new Error(`The element for this Shepherd step was not found ${opts.element}`);
+        console.error(`The element for this Shepherd step was not found ${opts.element}`);
       }
     }
 
