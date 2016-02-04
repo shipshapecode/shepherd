@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.5.1 */
+/*! tether-shepherd 1.5.2 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -67,7 +67,6 @@ function matchesSelector(el, sel) {
 var positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/;
 
 function parsePosition(str) {
-
   if (typeof str === 'object') {
     if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
       return str;
@@ -207,18 +206,23 @@ var Step = (function (_Evented) {
   }, {
     key: 'getAttachTo',
     value: function getAttachTo() {
+      var returnOpts = {};
       var opts = parsePosition(this.options.attachTo) || {};
-      var selector = opts.element;
+      returnOpts.on = opts.on;
+      if (opts.offset !== 'undefined') {
+        returnOpts.offset = opts.offset;
+      }
 
-      if (typeof selector === 'string') {
-        opts.element = document.querySelector(selector);
-
-        if (!opts.element) {
-          throw new Error('The element for this Shepherd step was not found ' + selector);
+      if (typeof opts.element === 'string') {
+        // Can't override the element in user opts reference because we can't
+        // guarantee that the element will exist in the future.
+        returnOpts.element = document.querySelector(opts.element);
+        if (!returnOpts.element) {
+          throw new Error('The element for this Shepherd step was not found ' + opts.element);
         }
       }
 
-      return opts;
+      return returnOpts;
     }
   }, {
     key: 'setupTether',
