@@ -176,12 +176,8 @@ class Step extends Evented {
   }
 
   getAttachTo() {
-    let returnOpts = {};
     let opts = parsePosition(this.options.attachTo) || {};
-    returnOpts.on = opts.on;
-    if (typeof opts.offset !== 'undefined') {
-      returnOpts.offset = opts.offset;
-    }
+    let returnOpts = extend({}, opts);
 
     if (typeof opts.element === 'string') {
       // Can't override the element in user opts reference because we can't
