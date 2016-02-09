@@ -147,6 +147,7 @@ class Step extends Evented {
 
     const buttonsAreEmpty = buttonsJson === "{}" ||
                             buttonsJson === "[]" ||
+                            buttonsJson === "null" ||
                             buttonsJson === "false";
 
     const buttonsAreArray = !buttonsAreDefault &&

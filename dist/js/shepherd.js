@@ -165,7 +165,7 @@ var Step = (function (_Evented) {
       var buttonsJson = JSON.stringify(this.options.buttons);
       var buttonsAreDefault = buttonsJson === UNDEFINED || buttonsJson === "true";
 
-      var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "false";
+      var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "null" || buttonsJson === "false";
 
       var buttonsAreArray = !buttonsAreDefault && this.options.buttons.constructor === Array;
 
