@@ -11,6 +11,22 @@ const {
 
 let Shepherd = new Evented;
 
+function isUndefined(obj) {
+  return typeof obj === 'undefined'
+};
+
+function isArray(obj) {
+  return obj && obj.constructor === Array;
+};
+
+function isObject(obj) {
+  return obj && obj.constructor === Object;
+};
+
+function isObjectLoose(obj) {
+  return typeof obj === 'object';
+};
+
 const ATTACHMENT = {
   'top': 'bottom center',
   'left': 'middle right',
@@ -27,17 +43,17 @@ function createFromHTML (html) {
 
 function matchesSelector (el, sel) {
   let matches;
-  if (typeof el.matches !== 'undefined') {
+  if (!isUndefined(el.matches)) {
     matches = el.matches;
-  } else if (typeof el.matchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.matchesSelector)) {
     matches = el.matchesSelector;
-  } else if (typeof el.msMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.msMatchesSelector)) {
     matches = el.msMatchesSelector;
-  } else if (typeof el.webkitMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.webkitMatchesSelector)) {
     matches = el.webkitMatchesSelector;
-  } else if (typeof el.mozMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.mozMatchesSelector)) {
     matches = el.mozMatchesSelector;
-  } else if (typeof el.oMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.oMatchesSelector)) {
     matches = el.oMatchesSelector;
   }
   return matches.call(el, sel);
@@ -46,7 +62,7 @@ function matchesSelector (el, sel) {
 const positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/
 
 function parsePosition (str) {
-  if (typeof(str) === 'object') {
+  if (isObjectLoose(str)) {
     if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
       return str;
     }
@@ -70,9 +86,9 @@ function parsePosition (str) {
 }
 
 function parseShorthand (obj, props) {
-  if (obj === null || typeof obj === 'undefined') {
+  if (obj === null || isUndefined(obj)) {
     return obj;
-  } else if (typeof obj === 'object') {
+  } else if (isObjectLoose(obj)) {
     return obj;
   }
 
@@ -136,11 +152,36 @@ class Step extends Evented {
       }
     }
 
-    if (!this.options.buttons) {
+    // Button configuration
+
+    const buttonsJson = JSON.stringify(this.options.buttons);
+    const buttonsAreDefault = isUndefined(buttonsJson) ||
+                              buttonsJson === "true";
+
+    const buttonsAreEmpty = buttonsJson === "{}" ||
+                            buttonsJson === "[]" ||
+                            buttonsJson === "null" ||
+                            buttonsJson === "false";
+
+    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons)
+
+    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons)
+
+    // Show default button if undefined or 'true'
+    if (buttonsAreDefault) {
       this.options.buttons = [{
         text: 'Next',
-        action: this.tour.next
+        action: this.tour.next,
+        classes: 'btn'
       }];
+
+    // Can pass in an object which will assume asingle button
+    } else if (!buttonsAreEmpty && buttonsAreObject) {
+      this.options.buttons = [this.options.buttons];
+
+    // Falsey/empty values or non-object values prevent buttons from rendering
+    } else if (buttonsAreEmpty || !buttonsAreArray) {
+      this.options.buttons = false;
     }
   }
 
@@ -157,7 +198,7 @@ class Step extends Evented {
         return;
       }
 
-      if (typeof selector !== 'undefined') {
+      if (!isUndefined(selector)) {
         if (matchesSelector(e.target, selector)) {
           this.tour.next();
         }
@@ -192,13 +233,13 @@ class Step extends Evented {
   }
 
   setupTether() {
-    if (typeof Tether === 'undefined') {
+    if (isUndefined(Tether)) {
       throw new Error("Using the attachment feature of Shepherd requires the Tether library");
     }
 
     let opts = this.getAttachTo();
     let attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
-    if (typeof opts.element === 'undefined') {
+    if (isUndefined(opts.element)) {
       opts.element = 'viewport';
       attachment = 'middle center';
     }
@@ -224,9 +265,9 @@ class Step extends Evented {
   }
 
   show() {
-    if (typeof this.options.beforeShowPromise !== 'undefined') {
+    if (!isUndefined(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
-      if (typeof beforeShowPromise !== 'undefined') {
+      if (!isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
       }
     }
@@ -287,15 +328,15 @@ class Step extends Evented {
   scrollTo() {
     const {element} = this.getAttachTo();
 
-    if (typeof this.options.scrollToHandler !== 'undefined') {
+    if (!isUndefined(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (typeof element !== 'undefined'){
+    } else if (!isUndefined(element)) {
       element.scrollIntoView();
     }
   }
 
   destroy() {
-    if (typeof this.el !== 'undefined' && this.el.parentNode) {
+    if (!isUndefined(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -309,7 +350,7 @@ class Step extends Evented {
   }
 
   render() {
-    if (typeof this.el !== 'undefined') {
+    if (!isUndefined(this.el)) {
       this.destroy();
     }
 
@@ -336,7 +377,7 @@ class Step extends Evented {
       this.bindCancelLink(link);
     }
 
-    if (typeof this.options.text !== 'undefined') {
+    if (!isUndefined(this.options.text)) {
       const text = createFromHTML("<div class='shepherd-text'></div>");
       let paragraphs = this.options.text;
 
@@ -359,9 +400,8 @@ class Step extends Evented {
       content.appendChild(text);
     }
 
-    const footer = document.createElement('footer');
-
     if (this.options.buttons) {
+      const footer = document.createElement('footer');
       let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
       this.options.buttons.map(cfg => {
@@ -371,9 +411,9 @@ class Step extends Evented {
       });
 
       footer.appendChild(buttons);
+      content.appendChild(footer);
     }
 
-    content.appendChild(footer);
 
     document.body.appendChild(this.el);
 
@@ -393,7 +433,7 @@ class Step extends Evented {
 
   bindButtonEvents(cfg, el) {
     cfg.events = cfg.events || {};
-    if (typeof cfg.action !== 'undefined') {
+    if (!isUndefined(cfg.action)) {
       // Including both a click event and an action is not supported
       cfg.events.click = cfg.action;
     }
@@ -459,7 +499,7 @@ class Tour extends Evented {
   }
 
   addStep(name, step) {
-    if (typeof step === 'undefined') {
+    if (isUndefined(step)) {
       step = name;
     }
 
@@ -579,7 +619,7 @@ class Tour extends Evented {
     }
 
     if (next) {
-      if (typeof next.options.showOn !== 'undefined' && !next.options.showOn()) {
+      if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
         const index = this.steps.indexOf(next);
         const nextIndex = forward ? index + 1 : index - 1;
         this.show(nextIndex, forward);

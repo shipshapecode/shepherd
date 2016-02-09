@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.6.0 */
+/*! tether-shepherd 1.7.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -32,6 +32,22 @@ var uniqueId = _Tether$Utils.uniqueId;
 
 var Shepherd = new Evented();
 
+function isUndefined(obj) {
+  return typeof obj === 'undefined';
+};
+
+function isArray(obj) {
+  return obj && obj.constructor === Array;
+};
+
+function isObject(obj) {
+  return obj && obj.constructor === Object;
+};
+
+function isObjectLoose(obj) {
+  return typeof obj === 'object';
+};
+
 var ATTACHMENT = {
   'top': 'bottom center',
   'left': 'middle right',
@@ -48,17 +64,17 @@ function createFromHTML(html) {
 
 function matchesSelector(el, sel) {
   var matches = undefined;
-  if (typeof el.matches !== 'undefined') {
+  if (!isUndefined(el.matches)) {
     matches = el.matches;
-  } else if (typeof el.matchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.matchesSelector)) {
     matches = el.matchesSelector;
-  } else if (typeof el.msMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.msMatchesSelector)) {
     matches = el.msMatchesSelector;
-  } else if (typeof el.webkitMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.webkitMatchesSelector)) {
     matches = el.webkitMatchesSelector;
-  } else if (typeof el.mozMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.mozMatchesSelector)) {
     matches = el.mozMatchesSelector;
-  } else if (typeof el.oMatchesSelector !== 'undefined') {
+  } else if (!isUndefined(el.oMatchesSelector)) {
     matches = el.oMatchesSelector;
   }
   return matches.call(el, sel);
@@ -67,7 +83,7 @@ function matchesSelector(el, sel) {
 var positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/;
 
 function parsePosition(str) {
-  if (typeof str === 'object') {
+  if (isObjectLoose(str)) {
     if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
       return str;
     }
@@ -91,9 +107,9 @@ function parsePosition(str) {
 }
 
 function parseShorthand(obj, props) {
-  if (obj === null || typeof obj === 'undefined') {
+  if (obj === null || isUndefined(obj)) {
     return obj;
-  } else if (typeof obj === 'object') {
+  } else if (isObjectLoose(obj)) {
     return obj;
   }
 
@@ -157,12 +173,33 @@ var Step = (function (_Evented) {
         }
       }
 
-      if (!this.options.buttons) {
+      // Button configuration
+
+      var buttonsJson = JSON.stringify(this.options.buttons);
+      var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === "true";
+
+      var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "null" || buttonsJson === "false";
+
+      var buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
+
+      var buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
+
+      // Show default button if undefined or 'true'
+      if (buttonsAreDefault) {
         this.options.buttons = [{
           text: 'Next',
-          action: this.tour.next
+          action: this.tour.next,
+          classes: 'btn'
         }];
-      }
+
+        // Can pass in an object which will assume asingle button
+      } else if (!buttonsAreEmpty && buttonsAreObject) {
+          this.options.buttons = [this.options.buttons];
+
+          // Falsey/empty values or non-object values prevent buttons from rendering
+        } else if (buttonsAreEmpty || !buttonsAreArray) {
+            this.options.buttons = false;
+          }
     }
   }, {
     key: 'getTour',
@@ -186,7 +223,7 @@ var Step = (function (_Evented) {
           return;
         }
 
-        if (typeof selector !== 'undefined') {
+        if (!isUndefined(selector)) {
           if (matchesSelector(e.target, selector)) {
             _this2.tour.next();
           }
@@ -223,13 +260,13 @@ var Step = (function (_Evented) {
   }, {
     key: 'setupTether',
     value: function setupTether() {
-      if (typeof Tether === 'undefined') {
+      if (isUndefined(Tether)) {
         throw new Error("Using the attachment feature of Shepherd requires the Tether library");
       }
 
       var opts = this.getAttachTo();
       var attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
-      if (typeof opts.element === 'undefined') {
+      if (isUndefined(opts.element)) {
         opts.element = 'viewport';
         attachment = 'middle center';
       }
@@ -258,9 +295,9 @@ var Step = (function (_Evented) {
     value: function show() {
       var _this3 = this;
 
-      if (typeof this.options.beforeShowPromise !== 'undefined') {
+      if (!isUndefined(this.options.beforeShowPromise)) {
         var beforeShowPromise = this.options.beforeShowPromise();
-        if (typeof beforeShowPromise !== 'undefined') {
+        if (!isUndefined(beforeShowPromise)) {
           return beforeShowPromise.then(function () {
             return _this3._show();
           });
@@ -333,16 +370,16 @@ var Step = (function (_Evented) {
 
       var element = _getAttachTo.element;
 
-      if (typeof this.options.scrollToHandler !== 'undefined') {
+      if (!isUndefined(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
-      } else if (typeof element !== 'undefined') {
+      } else if (!isUndefined(element)) {
         element.scrollIntoView();
       }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      if (typeof this.el !== 'undefined' && this.el.parentNode) {
+      if (!isUndefined(this.el) && this.el.parentNode) {
         this.el.parentNode.removeChild(this.el);
         delete this.el;
       }
@@ -359,7 +396,7 @@ var Step = (function (_Evented) {
     value: function render() {
       var _this5 = this;
 
-      if (typeof this.el !== 'undefined') {
+      if (!isUndefined(this.el)) {
         this.destroy();
       }
 
@@ -386,7 +423,7 @@ var Step = (function (_Evented) {
         this.bindCancelLink(link);
       }
 
-      if (typeof this.options.text !== 'undefined') {
+      if (!isUndefined(this.options.text)) {
         (function () {
           var text = createFromHTML("<div class='shepherd-text'></div>");
           var paragraphs = _this5.options.text;
@@ -411,10 +448,9 @@ var Step = (function (_Evented) {
         })();
       }
 
-      var footer = document.createElement('footer');
-
       if (this.options.buttons) {
         (function () {
+          var footer = document.createElement('footer');
           var buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
           _this5.options.buttons.map(function (cfg) {
@@ -424,10 +460,9 @@ var Step = (function (_Evented) {
           });
 
           footer.appendChild(buttons);
+          content.appendChild(footer);
         })();
       }
-
-      content.appendChild(footer);
 
       document.body.appendChild(this.el);
 
@@ -453,7 +488,7 @@ var Step = (function (_Evented) {
       var _this7 = this;
 
       cfg.events = cfg.events || {};
-      if (typeof cfg.action !== 'undefined') {
+      if (!isUndefined(cfg.action)) {
         // Including both a click event and an action is not supported
         cfg.events.click = cfg.action;
       }
@@ -530,7 +565,7 @@ var Tour = (function (_Evented2) {
   }, {
     key: 'addStep',
     value: function addStep(name, step) {
-      if (typeof step === 'undefined') {
+      if (isUndefined(step)) {
         step = name;
       }
 
@@ -660,7 +695,7 @@ var Tour = (function (_Evented2) {
       }
 
       if (next) {
-        if (typeof next.options.showOn !== 'undefined' && !next.options.showOn()) {
+        if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
           var index = this.steps.indexOf(next);
           var nextIndex = forward ? index + 1 : index - 1;
           this.show(nextIndex, forward);
