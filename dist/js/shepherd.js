@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.6.2 */
+/*! tether-shepherd 1.7.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
