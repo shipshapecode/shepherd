@@ -160,12 +160,18 @@ var Step = (function (_Evented) {
         }
       }
 
+      // Button configuration
+
       var buttonsJson = JSON.stringify(this.options.buttons);
       var buttonsAreDefault = buttonsJson === UNDEFINED || buttonsJson === "true";
 
       var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "false";
 
-      // Default button if not specified
+      var buttonsAreArray = !buttonsAreDefault && this.options.buttons.constructor === Array;
+
+      var buttonsAreObject = !buttonsAreDefault && this.options.buttons.constructor === Object;
+
+      // Show default button if undefined or 'true'
       if (buttonsAreDefault) {
         this.options.buttons = [{
           text: 'Next',
@@ -173,10 +179,14 @@ var Step = (function (_Evented) {
           classes: 'btn'
         }];
 
-        // falsey value or empty array prevents buttons from rendering
-      } else if (buttonsAreEmpty) {
-          this.options.buttons = false;
-        }
+        // Can pass in an object which will assume asingle button
+      } else if (!buttonsAreEmpty && buttonsAreObject) {
+          this.options.buttons = [this.options.buttons];
+
+          // Falsey/empty values or non-object values prevent buttons from rendering
+        } else if (buttonsAreEmpty || !buttonsAreArray) {
+            this.options.buttons = false;
+          }
     }
   }, {
     key: 'getTour',

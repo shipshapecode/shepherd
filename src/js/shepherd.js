@@ -139,6 +139,8 @@ class Step extends Evented {
       }
     }
 
+    // Button configuration
+
     const buttonsJson = JSON.stringify(this.options.buttons);
     const buttonsAreDefault = buttonsJson === UNDEFINED ||
                               buttonsJson === "true";
@@ -147,7 +149,13 @@ class Step extends Evented {
                             buttonsJson === "[]" ||
                             buttonsJson === "false";
 
-    // Default button if not specified
+    const buttonsAreArray = !buttonsAreDefault &&
+                            this.options.buttons.constructor === Array;
+
+    const buttonsAreObject = !buttonsAreDefault &&
+                             this.options.buttons.constructor === Object;
+
+    // Show default button if undefined or 'true'
     if (buttonsAreDefault) {
       this.options.buttons = [{
         text: 'Next',
@@ -155,8 +163,12 @@ class Step extends Evented {
         classes: 'btn'
       }];
 
-    // falsey value or empty array prevents buttons from rendering
-    } else if (buttonsAreEmpty) {
+    // Can pass in an object which will assume asingle button
+    } else if (!buttonsAreEmpty && buttonsAreObject) {
+      this.options.buttons = [this.options.buttons];
+
+    // Falsey/empty values or non-object values prevent buttons from rendering
+    } else if (buttonsAreEmpty || !buttonsAreArray) {
       this.options.buttons = false;
     }
   }
