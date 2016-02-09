@@ -32,8 +32,21 @@ var uniqueId = _Tether$Utils.uniqueId;
 
 var Shepherd = new Evented();
 
-var UNDEFINED = 'undefined';
-var OBJECT = 'object';
+function isUndefined(obj) {
+  return typeof obj === 'undefined';
+};
+
+function isArray(obj) {
+  return obj && obj.constructor === Array;
+};
+
+function isObject(obj) {
+  return obj && obj.constructor === Object;
+};
+
+function isObjectLoose(obj) {
+  return typeof obj === 'object';
+};
 
 var ATTACHMENT = {
   'top': 'bottom center',
@@ -51,17 +64,17 @@ function createFromHTML(html) {
 
 function matchesSelector(el, sel) {
   var matches = undefined;
-  if (typeof el.matches !== UNDEFINED) {
+  if (!isUndefined(el.matches)) {
     matches = el.matches;
-  } else if (typeof el.matchesSelector !== UNDEFINED) {
+  } else if (!isUndefined(el.matchesSelector)) {
     matches = el.matchesSelector;
-  } else if (typeof el.msMatchesSelector !== UNDEFINED) {
+  } else if (!isUndefined(el.msMatchesSelector)) {
     matches = el.msMatchesSelector;
-  } else if (typeof el.webkitMatchesSelector !== UNDEFINED) {
+  } else if (!isUndefined(el.webkitMatchesSelector)) {
     matches = el.webkitMatchesSelector;
-  } else if (typeof el.mozMatchesSelector !== UNDEFINED) {
+  } else if (!isUndefined(el.mozMatchesSelector)) {
     matches = el.mozMatchesSelector;
-  } else if (typeof el.oMatchesSelector !== UNDEFINED) {
+  } else if (!isUndefined(el.oMatchesSelector)) {
     matches = el.oMatchesSelector;
   }
   return matches.call(el, sel);
@@ -70,7 +83,7 @@ function matchesSelector(el, sel) {
 var positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/;
 
 function parsePosition(str) {
-  if (typeof str === OBJECT) {
+  if (isObjectLoose(str)) {
     if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
       return str;
     }
@@ -94,9 +107,9 @@ function parsePosition(str) {
 }
 
 function parseShorthand(obj, props) {
-  if (obj === null || typeof obj === UNDEFINED) {
+  if (obj === null || isUndefined(obj)) {
     return obj;
-  } else if (typeof obj === OBJECT) {
+  } else if (isObjectLoose(obj)) {
     return obj;
   }
 
@@ -163,13 +176,13 @@ var Step = (function (_Evented) {
       // Button configuration
 
       var buttonsJson = JSON.stringify(this.options.buttons);
-      var buttonsAreDefault = buttonsJson === UNDEFINED || buttonsJson === "true";
+      var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === "true";
 
       var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "null" || buttonsJson === "false";
 
-      var buttonsAreArray = !buttonsAreDefault && this.options.buttons.constructor === Array;
+      var buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
 
-      var buttonsAreObject = !buttonsAreDefault && this.options.buttons.constructor === Object;
+      var buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
 
       // Show default button if undefined or 'true'
       if (buttonsAreDefault) {
@@ -210,7 +223,7 @@ var Step = (function (_Evented) {
           return;
         }
 
-        if (typeof selector !== UNDEFINED) {
+        if (!isUndefined(selector)) {
           if (matchesSelector(e.target, selector)) {
             _this2.tour.next();
           }
@@ -247,13 +260,13 @@ var Step = (function (_Evented) {
   }, {
     key: 'setupTether',
     value: function setupTether() {
-      if (typeof Tether === UNDEFINED) {
+      if (isUndefined(Tether)) {
         throw new Error("Using the attachment feature of Shepherd requires the Tether library");
       }
 
       var opts = this.getAttachTo();
       var attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
-      if (typeof opts.element === UNDEFINED) {
+      if (isUndefined(opts.element)) {
         opts.element = 'viewport';
         attachment = 'middle center';
       }
@@ -282,9 +295,9 @@ var Step = (function (_Evented) {
     value: function show() {
       var _this3 = this;
 
-      if (typeof this.options.beforeShowPromise !== UNDEFINED) {
+      if (!isUndefined(this.options.beforeShowPromise)) {
         var beforeShowPromise = this.options.beforeShowPromise();
-        if (typeof beforeShowPromise !== UNDEFINED) {
+        if (!isUndefined(beforeShowPromise)) {
           return beforeShowPromise.then(function () {
             return _this3._show();
           });
@@ -357,16 +370,16 @@ var Step = (function (_Evented) {
 
       var element = _getAttachTo.element;
 
-      if (typeof this.options.scrollToHandler !== UNDEFINED) {
+      if (!isUndefined(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
-      } else if (typeof element !== UNDEFINED) {
+      } else if (!isUndefined(element)) {
         element.scrollIntoView();
       }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      if (typeof this.el !== UNDEFINED && this.el.parentNode) {
+      if (!isUndefined(this.el) && this.el.parentNode) {
         this.el.parentNode.removeChild(this.el);
         delete this.el;
       }
@@ -383,7 +396,7 @@ var Step = (function (_Evented) {
     value: function render() {
       var _this5 = this;
 
-      if (typeof this.el !== UNDEFINED) {
+      if (!isUndefined(this.el)) {
         this.destroy();
       }
 
@@ -410,7 +423,7 @@ var Step = (function (_Evented) {
         this.bindCancelLink(link);
       }
 
-      if (typeof this.options.text !== UNDEFINED) {
+      if (!isUndefined(this.options.text)) {
         (function () {
           var text = createFromHTML("<div class='shepherd-text'></div>");
           var paragraphs = _this5.options.text;
@@ -475,7 +488,7 @@ var Step = (function (_Evented) {
       var _this7 = this;
 
       cfg.events = cfg.events || {};
-      if (typeof cfg.action !== UNDEFINED) {
+      if (!isUndefined(cfg.action)) {
         // Including both a click event and an action is not supported
         cfg.events.click = cfg.action;
       }
@@ -552,7 +565,7 @@ var Tour = (function (_Evented2) {
   }, {
     key: 'addStep',
     value: function addStep(name, step) {
-      if (typeof step === UNDEFINED) {
+      if (isUndefined(step)) {
         step = name;
       }
 
@@ -682,7 +695,7 @@ var Tour = (function (_Evented2) {
       }
 
       if (next) {
-        if (typeof next.options.showOn !== UNDEFINED && !next.options.showOn()) {
+        if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
           var index = this.steps.indexOf(next);
           var nextIndex = forward ? index + 1 : index - 1;
           this.show(nextIndex, forward);
