@@ -1,0 +1,31 @@
+{
+  "name": "tether-shepherd",
+  "version": "1.7.0",
+  "homepage": "https://github.com/HubSpot/shepherd",
+  "authors": [
+    "Zack Bloom <zackbloom@gmail.com>",
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
+  ],
+  "maintainers": [
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
+  ],
+  "description": "Guide your users through a tour of your app.",
+  "keywords": [
+    "guider",
+    "tour",
+    "javascript",
+    "css"
+  ],
+  "license": "MIT",
+  "main": "dist/js/shepherd.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "tether": "^1.0.1"
+  }
+}
