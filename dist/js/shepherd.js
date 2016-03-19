@@ -49,11 +49,21 @@ function isObjectLoose(obj) {
 };
 
 var ATTACHMENT = {
+  'top right': 'bottom left',
+  'top left': 'bottom right',
+  'top center': 'bottom center',
+  'middle right': 'middle left',
+  'middle left': 'middle right',
+  'middle center': 'middle center',
+  'bottom left': 'top right',
+  'bottom right': 'top left',
+  'bottom center': 'top center',
   'top': 'bottom center',
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center'
+  'center': 'middle center',
+  'middle': 'middle center'
 };
 
 function createFromHTML(html) {
@@ -265,7 +275,7 @@ var Step = (function (_Evented) {
       }
 
       var opts = this.getAttachTo();
-      var attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
+      var attachment = ATTACHMENT[opts.on] || ATTACHMENT.right;
       if (isUndefined(opts.element)) {
         opts.element = 'viewport';
         attachment = 'middle center';
