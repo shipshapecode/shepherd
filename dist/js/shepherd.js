@@ -415,7 +415,7 @@ var Step = (function (_Evented) {
       }
 
       if (this.options.showCancelLink) {
-        var link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+        var link = createFromHTML("<a href class='shepherd-cancel-link'>&#10005;</a>");
         header.appendChild(link);
 
         this.el.className += ' shepherd-has-cancel-link';
