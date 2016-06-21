@@ -239,7 +239,7 @@ class Step extends Evented {
 
     let opts = this.getAttachTo();
     let attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
-    if (isUndefined(opts.element)) {
+    if (opts.element === null || isUndefined(opts.element)) {
       opts.element = 'viewport';
       attachment = 'middle center';
     }
