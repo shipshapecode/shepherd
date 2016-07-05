@@ -44,11 +44,7 @@ gulp.task('js', function() {
     .pipe(gulp.dest(distDir + '/js'))
 
     // Minified
-    .pipe(uglify({
-      mangle: {
-        except: 'Tether'
-      }
-    }))
+    .pipe(uglify())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(distDir + '/js'));
 });
