@@ -1,6 +1,6 @@
 {
   "name": "tether-shepherd",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
@@ -10,7 +10,8 @@
     "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
   ],
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "postinstall": "bower install"
   },
   "license": "MIT",
   "main": "dist/js/shepherd.js",
@@ -18,6 +19,7 @@
     "main": "shepherd.js"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
