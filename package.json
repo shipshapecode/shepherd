@@ -1,13 +1,14 @@
 {
   "name": "tether-shepherd",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
     "Zack Bloom <zackbloom@gmail.com>"
   ],
   "maintainers": [
-    "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
+    "Geoff Daigle <geoffreydaigle@gmail.com>"
   ],
   "scripts": {
     "build": "gulp build"

@@ -1,0 +1,5 @@
+.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-top.shepherd-target-attached-left .shepherd-content:before,
+.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-top.shepherd-target-attached-right .shepherd-content:before,
+.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-target-attached-left .shepherd-content:before,
+.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-target-attached-right .shepherd-content:before {
+  display: none; }

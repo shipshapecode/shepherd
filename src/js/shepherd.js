@@ -28,11 +28,21 @@ function isObjectLoose(obj) {
 };
 
 const ATTACHMENT = {
+  'top right': 'bottom left',
+  'top left': 'bottom right',
+  'top center': 'bottom center',
+  'middle right': 'middle left',
+  'middle left': 'middle right',
+  'middle center': 'middle center',
+  'bottom left': 'top right',
+  'bottom right': 'top left',
+  'bottom center': 'top center',
   'top': 'bottom center',
   'left': 'middle right',
   'right': 'middle left',
   'bottom': 'top center',
-  'center': 'middle center'
+  'center': 'middle center',
+  'middle': 'middle center'
 };
 
 function createFromHTML (html) {
@@ -238,7 +248,7 @@ class Step extends Evented {
     }
 
     let opts = this.getAttachTo();
-    let attachment = ATTACHMENT[opts.on || 'right'] || opts.on;
+    let attachment = ATTACHMENT[opts.on] || ATTACHMENT.right;
     if (isUndefined(opts.element)) {
       opts.element = 'viewport';
       attachment = 'middle center';
