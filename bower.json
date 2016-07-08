@@ -1,13 +1,14 @@
 {
   "name": "tether-shepherd",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "homepage": "https://github.com/HubSpot/shepherd",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>"
   ],
   "maintainers": [
-    "Nicholas Hwang <nick.joosung.hwang@gmail.com>"
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
+    "Geoff Daigle <geoffreydaigle@gmail.com>"
   ],
   "description": "Guide your users through a tour of your app.",
   "keywords": [
