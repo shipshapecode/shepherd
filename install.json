@@ -24,6 +24,10 @@
       {
         "options": ["*"],
         "execute": "ShepherdInstallHelper.setOptions(INSTALL_OPTIONS)"
+      },
+      {
+        "options": ["theme"],
+        "reload": true
       }
     ]
   },
