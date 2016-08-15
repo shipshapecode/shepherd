@@ -387,7 +387,8 @@ class Step extends Evented {
     }
 
     if (this.options.showCancelLink) {
-      const link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+      const cancelLinkText = ( this.options.cancelLinkText || '✕' ),
+            link = createFromHTML("<a href class='shepherd-cancel-link'>" + cancelLinkText + "</a>");
       header.appendChild(link);
 
       this.el.className += ' shepherd-has-cancel-link';
