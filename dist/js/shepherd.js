@@ -362,6 +362,17 @@ var Step = (function (_Evented) {
       return this.el && hasClass(this.el, 'shepherd-open');
     }
   }, {
+    key: 'confirmCancel',
+    value: function confirmCancel() {
+      var cancelMessage = this.options.cancelMessage || 'Are you sure you want to stop the tutorial?',
+          stopTour = confirm(cancelMessage);
+
+      if (!stopTour) {
+        return;
+      }
+      this.cancel();
+    }
+  }, {
     key: 'cancel',
     value: function cancel() {
       this.tour.cancel();
@@ -425,7 +436,8 @@ var Step = (function (_Evented) {
       }
 
       if (this.options.showCancelLink) {
-        var link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+        var cancelLinkText = this.options.cancelLinkText || '✕',
+            link = createFromHTML("<a href class='shepherd-cancel-link'>" + cancelLinkText + "</a>");
         header.appendChild(link);
 
         this.el.className += ' shepherd-has-cancel-link';
@@ -485,17 +497,17 @@ var Step = (function (_Evented) {
   }, {
     key: 'bindCancelLink',
     value: function bindCancelLink(link) {
-      var _this6 = this;
+      var cancelMethod = this.options.useConfirmCancel ? this.confirmCancel : this.cancel;
 
       link.addEventListener('click', function (e) {
         e.preventDefault();
-        _this6.cancel();
+        cancelMethod();
       });
     }
   }, {
     key: 'bindButtonEvents',
     value: function bindButtonEvents(cfg, el) {
-      var _this7 = this;
+      var _this6 = this;
 
       cfg.events = cfg.events || {};
       if (!isUndefined(cfg.action)) {
@@ -510,7 +522,7 @@ var Step = (function (_Evented) {
             (function () {
               var page = handler;
               handler = function () {
-                return _this7.tour.show(page);
+                return _this6.tour.show(page);
               };
             })();
           }
@@ -536,7 +548,7 @@ var Tour = (function (_Evented2) {
   _inherits(Tour, _Evented2);
 
   function Tour() {
-    var _this8 = this;
+    var _this7 = this;
 
     var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -551,9 +563,9 @@ var Tour = (function (_Evented2) {
     var events = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
     events.map(function (event) {
       (function (e) {
-        _this8.on(e, function (opts) {
+        _this7.on(e, function (opts) {
           opts = opts || {};
-          opts.tour = _this8;
+          opts.tour = _this7;
           Shepherd.trigger(e, opts);
         });
       })(event);
@@ -565,11 +577,11 @@ var Tour = (function (_Evented2) {
   _createClass(Tour, [{
     key: 'bindMethods',
     value: function bindMethods() {
-      var _this9 = this;
+      var _this8 = this;
 
       var methods = ['next', 'back', 'cancel', 'complete', 'hide'];
       methods.map(function (method) {
-        _this9[method] = _this9[method].bind(_this9);
+        _this8[method] = _this8[method].bind(_this8);
       });
     }
   }, {
