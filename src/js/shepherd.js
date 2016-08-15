@@ -326,7 +326,9 @@ class Step extends Evented {
   }
 
   confirmCancel() {
-    const stopTour = confirm('Are you sure you want to stop the tutorial?');
+    const cancelMessage = ( this.options.cancelMessage || 'Are you sure you want to stop the tutorial?' ),
+          stopTour = confirm(cancelMessage);
+
     if ( !stopTour ) { return; }
     this.cancel();
   }
