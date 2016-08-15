@@ -325,6 +325,12 @@ class Step extends Evented {
     return this.el && hasClass(this.el, 'shepherd-open');
   }
 
+  confirmCancel() {
+    const stopTour = confirm('Are you sure you want to stop the tutorial?');
+    if ( !stopTour ) { return; }
+    this.cancel();
+  }
+
   cancel() {
     this.tour.cancel();
     this.trigger('cancel');
@@ -435,9 +441,11 @@ class Step extends Evented {
   }
 
   bindCancelLink(link) {
+    var cancelMethod = this.options.useConfirmCancel ? this.confirmCancel : this.cancel;
+
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      this.cancel();
+      cancelMethod();
     });
   }
 
