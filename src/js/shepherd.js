@@ -533,7 +533,9 @@ class Tour extends Evented {
     for (let i = 0; i < this.steps.length; ++i) {
       const step = this.steps[i];
       if (step.id === name) {
-        step.hide();
+        if (step.isOpen()) {
+          step.hide();
+        }
         step.destroy();
         this.steps.splice(i, 1);
         break;
