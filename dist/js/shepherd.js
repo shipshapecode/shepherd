@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.8.0 */
+/*! tether-shepherd 1.8.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -600,7 +600,9 @@ var Tour = (function (_Evented2) {
       for (var i = 0; i < this.steps.length; ++i) {
         var step = this.steps[i];
         if (step.id === name) {
-          step.hide();
+          if (step.isOpen()) {
+            step.hide();
+          }
           step.destroy();
           this.steps.splice(i, 1);
           break;
