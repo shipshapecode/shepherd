@@ -201,7 +201,7 @@ class Step extends Evented {
 
   bindAdvance() {
     // An empty selector matches the step element
-    const {event, selector} = parseShorthand(this.options.advanceOn, ['selector', 'event']);
+    const {event, selector, timeout} = parseShorthand(this.options.advanceOn, ['selector', 'event', 'timeout']);
 
     const handler = (e) => {
       if (!this.isOpen()) {
@@ -210,11 +210,11 @@ class Step extends Evented {
 
       if (!isUndefined(selector)) {
         if (matchesSelector(e.target, selector)) {
-          this.tour.next();
+          this.tour.next(timeout);
         }
       } else {
         if (this.el && e.target === this.el) {
-          this.tour.next();
+          this.tour.next(timeout);
         }
       }
     };
@@ -565,7 +565,7 @@ class Tour extends Evented {
     return this.currentStep;
   }
 
-  next() {
+  next(timeout=0) {
     const index = this.steps.indexOf(this.currentStep);
 
     if (index === this.steps.length - 1) {
@@ -573,7 +573,7 @@ class Tour extends Evented {
       this.trigger('complete');
       this.done();
     } else {
-      this.show(index + 1, true);
+      this.show(index + 1, true, timeout);
     }
   }
 
@@ -612,7 +612,7 @@ class Tour extends Evented {
     this.trigger('inactive', {tour: this});
   }
 
-  show(key=0, forward=true) {
+  show(key=0, forward=true, timeout=0) {
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
@@ -634,7 +634,7 @@ class Tour extends Evented {
       if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
         const index = this.steps.indexOf(next);
         const nextIndex = forward ? index + 1 : index - 1;
-        this.show(nextIndex, forward);
+        setTimeout(this.show, timeout, nextIndex, forward);
       } else {
         this.trigger('show', {
           step: next,
@@ -646,7 +646,7 @@ class Tour extends Evented {
         }
 
         this.currentStep = next;
-        next.show();
+        setTimeout(next.show, timeout);
       }
     }
   }
