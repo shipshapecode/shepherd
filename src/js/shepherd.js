@@ -119,6 +119,25 @@ function parseShorthand (obj, props) {
   return out;
 }
 
+function getDefaultsKey( obj, key){
+
+    if (isObjectLoose(obj)) {
+
+        if ( obj.hasOwnProperty( 'defaults' ) ) {
+
+            const defaults = obj.defaults;
+
+            if ( defaults.hasOwnProperty( key ) ) {
+                return defaults[ key ];
+            }
+
+            return 'shepherd';
+        }
+    }
+
+    return 'shepherd';
+};
+
 class Step extends Evented {
 
   constructor(tour, options) {
@@ -128,7 +147,6 @@ class Step extends Evented {
     this.setOptions(options);
     return this;
   }
-
   bindMethods() {
     const methods = [
       '_show',
@@ -173,9 +191,9 @@ class Step extends Evented {
                             buttonsJson === "null" ||
                             buttonsJson === "false";
 
-    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons)
+    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
 
-    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons)
+    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
 
     // Show default button if undefined or 'true'
     if (buttonsAreDefault) {
@@ -255,7 +273,7 @@ class Step extends Evented {
     }
 
     const tetherOpts = {
-      classPrefix: 'shepherd',
+      classPrefix: getDefaultsKey(this.tour.options, 'classPrefix'),
       element: this.el,
       constraints: [{
         to: 'window',
@@ -285,15 +303,18 @@ class Step extends Evented {
   }
 
   _show() {
+
+    const classPrefix = getDefaultsKey(this.tour.options, 'classPrefix');
+
     this.trigger('before-show');
 
     if (!this.el) {
       this.render();
     }
 
-    addClass(this.el, 'shepherd-open');
+    addClass(this.el, `${classPrefix}-open`);
 
-    document.body.setAttribute('data-shepherd-step', this.id);
+    document.body.setAttribute(`data-${classPrefix}-step`, this.id);
 
     this.setupTether();
 
@@ -307,11 +328,14 @@ class Step extends Evented {
   }
 
   hide() {
+
+    const classPrefix = getDefaultsKey(this.tour.options, 'classPrefix');
+
     this.trigger('before-hide');
 
-    removeClass(this.el, 'shepherd-open');
+    removeClass(this.el, `${classPrefix}-open`);
 
-    document.body.removeAttribute('data-shepherd-step');
+    document.body.removeAttribute(`data-${classPrefix}-step`);
 
     if (this.tether) {
       this.tether.destroy();
@@ -322,7 +346,8 @@ class Step extends Evented {
   }
 
   isOpen() {
-    return this.el && hasClass(this.el, 'shepherd-open');
+    const classPrefix = getDefaultsKey(this.tour.options, 'classPrefix');
+    return this.el && hasClass(this.el, `${classPrefix}-open`);
   }
 
   cancel() {
@@ -364,31 +389,33 @@ class Step extends Evented {
       this.destroy();
     }
 
-    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }></div>`);
+    const classPrefix = getDefaultsKey(this.tour.options, 'classPrefix');
+
+    this.el = createFromHTML(`<div class='${classPrefix}-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }></div>`);
 
     let content = document.createElement('div');
-    content.className = 'shepherd-content';
+    content.className = `${classPrefix}-content`;
     this.el.appendChild(content);
 
     let header = document.createElement('header');
     content.appendChild(header);
 
     if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`;
-      this.el.className += ' shepherd-has-title';
+      header.innerHTML += `<h3 class='${classPrefix}-title'>${ this.options.title }</h3>`;
+      this.el.className += ` ${classPrefix}-has-title`;
     }
 
     if (this.options.showCancelLink) {
-      const link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+      const link = createFromHTML(`<a href class='${classPrefix}-cancel-link'>✕</a>`);
       header.appendChild(link);
 
-      this.el.className += ' shepherd-has-cancel-link';
+      this.el.className += ` ${classPrefix}-has-cancel-link`;
 
       this.bindCancelLink(link);
     }
 
     if (!isUndefined(this.options.text)) {
-      const text = createFromHTML("<div class='shepherd-text'></div>");
+      const text = createFromHTML(`<div class='${classPrefix}-text'></div>`);
       let paragraphs = this.options.text;
 
       if (typeof paragraphs === 'function') {
@@ -412,10 +439,10 @@ class Step extends Evented {
 
     if (this.options.buttons) {
       const footer = document.createElement('footer');
-      let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
+      let buttons = createFromHTML(`<ul class='${classPrefix}-buttons'></ul>`);
 
       this.options.buttons.map(cfg => {
-        const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
+        const button = createFromHTML(`<li><a class='${classPrefix}-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
         buttons.appendChild(button);
         this.bindButtonEvents(cfg, button.querySelector('a'));
       });
@@ -607,16 +634,20 @@ class Tour extends Evented {
   }
 
   done() {
+    const classPrefix = getDefaultsKey(this.options, 'classPrefix');
+
     Shepherd.activeTour = null;
-    removeClass(document.body, 'shepherd-active');
+    removeClass(document.body, `${classPrefix}-active`);
     this.trigger('inactive', {tour: this});
   }
 
   show(key=0, forward=true) {
+    const classPrefix = getDefaultsKey(this.options, 'classPrefix');
+
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
-      addClass(document.body, 'shepherd-active');
+      addClass(document.body, `${classPrefix}-active`);
       this.trigger('active', {tour: this});
     }
 
