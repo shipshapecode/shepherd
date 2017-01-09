@@ -121,18 +121,15 @@ function parseShorthand (obj, props) {
 
 function getDefaultsKey( obj, key){
 
-    if (isObjectLoose(obj)) {
+    if (isObjectLoose(obj) && obj.hasOwnProperty( 'defaults' )) {
 
-        if ( obj.hasOwnProperty( 'defaults' ) ) {
+          const defaults = obj.defaults;
 
-            const defaults = obj.defaults;
+          if ( defaults.hasOwnProperty( key ) ) {
+              return defaults[ key ];
+          }
 
-            if ( defaults.hasOwnProperty( key ) ) {
-                return defaults[ key ];
-            }
-
-            return 'shepherd';
-        }
+          return 'shepherd';
     }
 
     return 'shepherd';
