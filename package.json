@@ -17,6 +17,7 @@
   "scripts": {
     "build": "gulp build"
   },
+  "homepage": "http://github.hubspot.com/shepherd/docs/welcome",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "spm": {
