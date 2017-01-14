@@ -1,7 +1,10 @@
 {
   "name": "tether-shepherd",
   "version": "1.8.1",
-  "repository": "https://github.com/HubSpot/shepherd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HubSpot/shepherd.git"
+  },
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
