@@ -45,28 +45,32 @@
       top: 100%;
       left: 50%;
       margin-left: -16px;
-      border-top-color: #fff; }
+      border-top-color: #fff;
+      border-bottom: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content {
     margin-top: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-content:before {
       bottom: 100%;
       left: 50%;
       margin-left: -16px;
-      border-bottom-color: #fff; }
+      border-bottom-color: #fff;
+      border-top: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content {
     margin-right: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content:before {
       left: 100%;
       top: 50%;
       margin-top: -16px;
-      border-left-color: #fff; }
+      border-left-color: #fff;
+      border-right: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-left.shepherd-element-attached-middle .shepherd-content {
     margin-left: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-left.shepherd-element-attached-middle .shepherd-content:before {
       right: 100%;
       top: 50%;
       margin-top: -16px;
-      border-right-color: #fff; }
+      border-right-color: #fff;
+      border-left: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-left.shepherd-target-attached-center .shepherd-content {
     left: -32px; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-right.shepherd-target-attached-center .shepherd-content {
@@ -76,73 +80,85 @@
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-middle .shepherd-content:before {
       bottom: 100%;
       left: 16px;
-      border-bottom-color: #fff; }
+      border-bottom-color: #fff;
+      border-top: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-middle .shepherd-content {
     margin-top: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-middle .shepherd-content:before {
       bottom: 100%;
       right: 16px;
-      border-bottom-color: #fff; }
+      border-bottom-color: #fff;
+      border-top: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-middle .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-middle .shepherd-content:before {
       top: 100%;
       left: 16px;
-      border-top-color: #fff; }
+      border-top-color: #fff;
+      border-bottom: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-middle .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-middle .shepherd-content:before {
       top: 100%;
       right: 16px;
-      border-top-color: #fff; }
+      border-top-color: #fff;
+      border-bottom: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content {
     margin-top: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom .shepherd-content:before {
       bottom: 100%;
       left: 16px;
-      border-bottom-color: #fff; }
+      border-bottom-color: #fff;
+      border-top: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content {
     margin-top: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom .shepherd-content:before {
       bottom: 100%;
       right: 16px;
-      border-bottom-color: #fff; }
+      border-bottom-color: #fff;
+      border-top: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-top .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-top .shepherd-content:before {
       top: 100%;
       left: 16px;
-      border-top-color: #fff; }
+      border-top-color: #fff;
+      border-bottom: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-top .shepherd-content {
     margin-bottom: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-top .shepherd-content:before {
       top: 100%;
       right: 16px;
-      border-top-color: #fff; }
+      border-top-color: #fff;
+      border-bottom: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content {
     margin-right: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content:before {
       top: 16px;
       left: 100%;
-      border-left-color: #fff; }
+      border-left-color: #fff;
+      border-right: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content {
     margin-left: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content:before {
       top: 16px;
       right: 100%;
-      border-right-color: #fff; }
+      border-right-color: #fff;
+      border-left: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content {
     margin-right: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-right.shepherd-target-attached-left .shepherd-content:before {
       bottom: 16px;
       left: 100%;
-      border-left-color: #fff; }
+      border-left-color: #fff;
+      border-right: 0; }
   .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content {
     margin-left: 16px; }
     .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-bottom.shepherd-element-attached-left.shepherd-target-attached-right .shepherd-content:before {
       bottom: 16px;
       right: 100%;
-      border-right-color: #fff; }
+      border-right-color: #fff;
+      border-left: 0; }
 
 .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows-plain-buttons.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
   border-bottom-color: #eee; }

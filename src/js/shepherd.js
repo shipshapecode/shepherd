@@ -254,17 +254,30 @@ class Step extends Evented {
       attachment = 'middle center';
     }
 
+    // Handling dialog elements and offsets
+    var bodyElement = document.body;
+    var bodyElementOffset = '';
+    if (typeof opts.element !== 'string') {
+      if (opts.element.closest && opts.element.closest('dialog')) {
+        bodyElement = opts.element.closest('dialog');
+        var elementOffsets = bodyElement.getBoundingClientRect();
+        bodyElementOffset = elementOffsets.top + ' ' + elementOffsets.left;
+      }
+    }
+
+    // Default Tether options
     const tetherOpts = {
+      attachment: attachment,
+      bodyElement: bodyElement,
       classPrefix: 'shepherd',
-      element: this.el,
       constraints: [{
         to: 'window',
         pin: true,
         attachment: 'together'
       }],
-      target: opts.element,
-      offset: opts.offset || '0 0',
-      attachment: attachment
+      element: this.el,
+      offset: opts.offset || bodyElementOffset || '0 0',
+      target: opts.element
     };
 
     if (this.tether) {
