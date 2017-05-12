@@ -1,4 +1,4 @@
-/*! tether-shepherd 1.8.1 */
+/*! tether-shepherd 1.9.0 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -464,7 +464,9 @@ var Step = (function (_Evented) {
           var buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
           _this5.options.buttons.map(function (cfg) {
-            var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
+            var defaultButtonCls = cfg.useDefaultButtonCls === false ? "" : "shepherd-button ";
+
+            var button = createFromHTML('<li><a class=\'' + defaultButtonCls + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
             buttons.appendChild(button);
             _this5.bindButtonEvents(cfg, button.querySelector('a'));
           });

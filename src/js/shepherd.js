@@ -415,7 +415,9 @@ class Step extends Evented {
       let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
 
       this.options.buttons.map(cfg => {
-        const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
+        const defaultButtonCls = cfg.useDefaultButtonCls === false ? "": "shepherd-button ";
+
+        const button = createFromHTML(`<li><a class='${defaultButtonCls}${ cfg.classes || '' }'>${ cfg.text }</a>`);
         buttons.appendChild(button);
         this.bindButtonEvents(cfg, button.querySelector('a'));
       });
