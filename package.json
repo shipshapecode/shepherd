@@ -1,0 +1,37 @@
+{
+  "name": "tether-shepherd",
+  "version": "1.8.1",
+  "description": "Guide your users through a tour of your app.",
+  "authors": [
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
+    "Zack Bloom <zackbloom@gmail.com>"
+  ],
+  "maintainers": [
+    "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
+    "Geoff Daigle <geoffreydaigle@gmail.com>"
+  ],
+  "scripts": {
+    "build": "gulp build"
+  },
+  "license": "MIT",
+  "main": "dist/js/shepherd.js",
+  "spm": {
+    "main": "shepherd.js"
+  },
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-babel": "^5.1.0",
+    "gulp-bump": "^0.3.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-header": "^1.2.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-wrap-umd": "^0.2.1"
+  },
+  "dependencies": {
+    "tether": "^1.0.1"
+  }
+}

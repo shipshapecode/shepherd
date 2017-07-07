@@ -641,6 +641,10 @@ class Tour extends Evented {
           previous: this.currentStep
         });
 
+        if (this.currentStep) {
+          this.currentStep.hide();
+        }
+
         this.currentStep = next;
         next.show();
       }
