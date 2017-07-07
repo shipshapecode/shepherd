@@ -1,6 +1,6 @@
 {
   "name": "tether-shepherd",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
