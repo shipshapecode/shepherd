@@ -552,7 +552,7 @@ var Step = (function (_Evented) {
         this.destroy();
       }
 
-      this.el = createFromHTML('<div class=\'shepherd-step ' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '><div class="popper__arrow"></div>');
+      this.el = createFromHTML('<div class=\'shepherd-step ' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '><div class="popper__arrow" x-arrow></div>');
 
       var content = document.createElement('div');
       content.className = 'shepherd-content';
