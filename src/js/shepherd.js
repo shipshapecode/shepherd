@@ -1,50 +1,78 @@
-/* global Tether */
+/* global Popper */
 
-const {
-  Evented,
-  addClass,
-  extend,
-  hasClass,
-  removeClass,
-  uniqueId
-} = Tether.Utils;
+const uniqueId = (function () {
+    let id = 0;
+    return function () {
+        return ++id;
+    };
+})();
 
-let Shepherd = new Evented;
+/**
+ * @param {*} target
+ * @param {object} varArgs
+ * @returns {*}
+ */
+function assign(target, varArgs) { // .length of function is 2
+    'use strict';
+    if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
 
+    var to = Object(target);
+
+    for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) { // Skip over if undefined or null
+            for (var nextKey in nextSource) {
+                // Avoid bugs when hasOwnProperty is shadowed
+                if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                    to[nextKey] = nextSource[nextKey];
+                }
+            }
+        }
+    }
+    return to;
+}
+
+/**
+ * @param obj
+ * @returns {boolean}
+ */
 function isUndefined(obj) {
   return typeof obj === 'undefined'
-};
+}
 
+/**
+ * @param obj
+ * @returns {*|boolean}
+ */
 function isArray(obj) {
   return obj && obj.constructor === Array;
-};
+}
 
+/**
+ * @param obj
+ * @returns {*|boolean}
+ */
 function isObject(obj) {
   return obj && obj.constructor === Object;
-};
+}
 
+/**
+ * @param obj
+ * @returns {boolean}
+ */
 function isObjectLoose(obj) {
   return typeof obj === 'object';
-};
+}
 
-const ATTACHMENT = {
-  'top right': 'bottom left',
-  'top left': 'bottom right',
-  'top center': 'bottom center',
-  'middle right': 'middle left',
-  'middle left': 'middle right',
-  'middle center': 'middle center',
-  'bottom left': 'top right',
-  'bottom right': 'top left',
-  'bottom center': 'top center',
-  'top': 'bottom center',
-  'left': 'middle right',
-  'right': 'middle left',
-  'bottom': 'top center',
-  'center': 'middle center',
-  'middle': 'middle center'
-};
 
+/**
+ * TODO rewrite the way items are being added to use more performant documentFragment code
+ * @param html
+ * @returns {HTMLElement}
+ */
 function createFromHTML (html) {
   let el = document.createElement('div');
   el.innerHTML = html;
@@ -69,8 +97,12 @@ function matchesSelector (el, sel) {
   return matches.call(el, sel);
 }
 
-const positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/
+const positionRe = /^(.+) (top|left|right|bottom|center)$/
 
+/**
+ * @param str
+ * @returns {*}
+ */
 function parsePosition (str) {
   if (isObjectLoose(str)) {
     if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
@@ -95,6 +127,11 @@ function parsePosition (str) {
   };
 }
 
+/**
+ * @param obj
+ * @param {Array} props
+ * @returns {*}
+ */
 function parseShorthand (obj, props) {
   if (obj === null || isUndefined(obj)) {
     return obj;
@@ -117,6 +154,78 @@ function parseShorthand (obj, props) {
   }
 
   return out;
+}
+
+class Evented {
+  constructor(options={}) {}
+
+  on(event, handler, ctx) {
+    let once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    if (typeof this.bindings === 'undefined') {
+      this.bindings = {};
+    }
+    if (typeof this.bindings[event] === 'undefined') {
+      this.bindings[event] = [];
+    }
+    this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
+  }
+
+  once(event, handler, ctx) {
+    this.on(event, handler, ctx, true);
+  }
+
+  off(event, handler) {
+    if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
+      return;
+    }
+
+    if (typeof handler === 'undefined') {
+      delete this.bindings[event];
+    } else {
+      let i = 0;
+      while (i < this.bindings[event].length) {
+        if (this.bindings[event][i].handler === handler) {
+          this.bindings[event].splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+    }
+  }
+
+  trigger(event) {
+    if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
+      let _len = arguments.length;
+      let args = Array(_len > 1 ? _len - 1 : 0);
+      let i = 0;
+
+      for (let _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      while (i < this.bindings[event].length) {
+        let _bindings$event$i = this.bindings[event][i];
+        let handler = _bindings$event$i.handler;
+        let ctx = _bindings$event$i.ctx;
+        let once = _bindings$event$i.once;
+
+        let context = ctx;
+        if (typeof context === 'undefined') {
+          context = this;
+        }
+
+        handler.apply(context, args);
+
+        if (once) {
+          this.bindings[event].splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+    }
+  }
+
 }
 
 class Step extends Evented {
@@ -228,7 +337,7 @@ class Step extends Evented {
 
   getAttachTo() {
     let opts = parsePosition(this.options.attachTo) || {};
-    let returnOpts = extend({}, opts);
+    let returnOpts = assign({}, opts);
 
     if (typeof opts.element === 'string') {
       // Can't override the element in user opts reference because we can't
@@ -242,36 +351,48 @@ class Step extends Evented {
     return returnOpts;
   }
 
-  setupTether() {
-    if (isUndefined(Tether)) {
-      throw new Error("Using the attachment feature of Shepherd requires the Tether library");
+  setupPopper() {
+    if (isUndefined(Popper)) {
+      throw new Error("Using the attachment feature of Shepherd requires the Popper.js library");
     }
 
     let opts = this.getAttachTo();
-    let attachment = ATTACHMENT[opts.on] || ATTACHMENT.right;
+    opts.modifiers = opts.modifiers || {};
+    let attachment = opts.on || 'right';
     if (isUndefined(opts.element)) {
-      opts.element = 'viewport';
-      attachment = 'middle center';
+      opts.element = document.querySelector('html');
+      attachment = 'top';
+      opts.modifiers = assign({
+        offset: '50vh',
+        positionFixed: true, // This will require the next version of popper. @see v1.13.0-next
+        inner: { enabled: true },
+        preventOverflow: {
+          enabled: false,
+          padding: 0
+        }
+      }, opts.modifiers);
     }
 
-    const tetherOpts = {
+    const popperOpts = assign({}, {
       classPrefix: 'shepherd',
-      element: this.el,
-      constraints: [{
-        to: 'window',
-        pin: true,
-        attachment: 'together'
-      }],
-      target: opts.element,
-      offset: opts.offset || '0 0',
-      attachment: attachment
-    };
+      // constraints: [{ // Pretty much handled by popper
+      //     to: 'window',
+      //     pin: true,
+      //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
+      // }],
+      offset: opts.offset || undefined,
+      placement: attachment,
+      arrowElement: this.el.querySelector('.popper__arrow'),
+      modifiers: opts.modifiers
+    }, this.options.popperOptions);
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.popper) {
+      this.popper.destroy();
     }
 
-    this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
+    this.el.classList.add('shepherd-element');
+    console.log(popperOpts);
+    this.popper = new Popper(opts.element, this.el, popperOpts);
   }
 
   show() {
@@ -291,11 +412,11 @@ class Step extends Evented {
       this.render();
     }
 
-    addClass(this.el, 'shepherd-open');
+    this.el.classList.add('shepherd-open');
 
     document.body.setAttribute('data-shepherd-step', this.id);
 
-    this.setupTether();
+    this.setupPopper();
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -309,20 +430,20 @@ class Step extends Evented {
   hide() {
     this.trigger('before-hide');
 
-    removeClass(this.el, 'shepherd-open');
+    this.el.classList.remove('shepherd-open');
 
     document.body.removeAttribute('data-shepherd-step');
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.popper) {
+      this.popper.destroy();
     }
-    this.tether = null;
+    this.popper = null;
 
     this.trigger('hide');
   }
 
   isOpen() {
-    return this.el && hasClass(this.el, 'shepherd-open');
+    return this.el && this.el.classList.hasClass('shepherd-open');
   }
 
   cancel() {
@@ -351,10 +472,10 @@ class Step extends Evented {
       delete this.el;
     }
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.popper) {
+      this.popper.destroy();
     }
-    this.tether = null;
+    this.popper = null;
 
     this.trigger('destroy');
   }
@@ -364,7 +485,7 @@ class Step extends Evented {
       this.destroy();
     }
 
-    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }></div>`);
+    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }><div class="popper__arrow"></div>`);
 
     let content = document.createElement('div');
     content.className = 'shepherd-content';
@@ -427,7 +548,7 @@ class Step extends Evented {
 
     document.body.appendChild(this.el);
 
-    this.setupTether();
+    this.setupPopper();
 
     if (this.options.advanceOn) {
       this.bindAdvance();
@@ -517,7 +638,7 @@ class Tour extends Evented {
       if (typeof name === 'string' || typeof name === 'number') {
         step.id = name.toString();
       }
-      step = extend({}, this.options.defaults, step);
+      step = assign({}, this.options.defaults, step);
       step = new Step(this, step);
     } else {
       step.tour = this;
@@ -608,7 +729,7 @@ class Tour extends Evented {
 
   done() {
     Shepherd.activeTour = null;
-    removeClass(document.body, 'shepherd-active');
+    document.body.classList.remove('shepherd-active');
     this.trigger('inactive', {tour: this});
   }
 
@@ -616,7 +737,7 @@ class Tour extends Evented {
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
-      addClass(document.body, 'shepherd-active');
+      document.body.classList.add('shepherd-active');
       this.trigger('active', {tour: this});
     }
 
@@ -660,4 +781,5 @@ class Tour extends Evented {
 
 }
 
-extend(Shepherd, {Tour, Step, Evented});
+let Shepherd = new Evented();
+assign(Shepherd, {Tour, Step, Evented});

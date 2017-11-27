@@ -1,6 +1,6 @@
 {
   "name": "tether-shepherd",
-  "version": "1.8.1",
+  "version": "2.0.0",
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
@@ -32,6 +32,6 @@
     "gulp-wrap-umd": "^0.2.1"
   },
   "dependencies": {
-    "tether": "^1.0.1"
+    "popper.js": "^1.13.0"
   }
 }
