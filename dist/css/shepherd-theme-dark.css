@@ -63,7 +63,7 @@
   z-index: 9999;
   max-width: 24em;
   font-size: 1em; }
-  .shepherd-theme-dark[x-placement^="top"].shepherd-has-title .popper__arrow {
+  .shepherd-theme-dark[x-placement^="bottom"].shepherd-has-title .popper__arrow {
     border-bottom-color: #303030; }
   .shepherd-theme-dark.shepherd-has-title .shepherd-content header {
     background: #303030;

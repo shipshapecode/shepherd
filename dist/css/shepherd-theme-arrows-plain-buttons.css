@@ -63,7 +63,7 @@
       border-right-color: #fff;
       border-left: 0; }
 
-.shepherd-theme-arrows-plain-buttons[x-placement^="top"].shepherd-has-title .popper__arrow {
+.shepherd-theme-arrows-plain-buttons[x-placement^="bottom"].shepherd-has-title .popper__arrow {
   border-bottom-color: #eee; }
 
 .shepherd-theme-arrows-plain-buttons.shepherd-has-title .shepherd-content header {
