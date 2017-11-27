@@ -410,12 +410,12 @@ var Step = (function (_Evented) {
           preventOverflow: {
             enabled: false,
             padding: 0
-          }
+          },
+          hide: { enabled: false }
         }, opts.modifiers);
       }
 
       var popperOpts = assign({}, {
-        classPrefix: 'shepherd',
         // constraints: [{ // Pretty much handled by popper
         //     to: 'window',
         //     pin: true,
@@ -432,8 +432,11 @@ var Step = (function (_Evented) {
       }
 
       this.el.classList.add('shepherd-element');
-      console.log(popperOpts);
       this.popper = new Popper(opts.element, this.el, popperOpts);
+
+      this.target = opts.element;
+      this.target.classList.add('shepherd-target');
+      this.target.classList.add('shepherd-enabled');
     }
   }, {
     key: 'show',
@@ -483,6 +486,10 @@ var Step = (function (_Evented) {
       this.el.classList.remove('shepherd-open');
 
       document.body.removeAttribute('data-shepherd-step');
+
+      if (this.target) {
+        this.target.classList.remove('shepherd-enabled');
+      }
 
       if (this.popper) {
         this.popper.destroy();
