@@ -17,176 +17,52 @@
         transform: translateZ(0)
         filter: drop-shadow(0 1px 4px rgba(0, 0, 0, .2))
 
-      &:before
-        content: ""
-        display: block
-        position: absolute
-        width: 0
-        height: 0
-        border-color: transparent
-        border-width: $arrowSize
-        border-style: solid
-        pointer-events: $arrowPointerEvents
+    .popper__arrow
+      content: ""
+      display: block
+      position: absolute
+      width: 0
+      height: 0
+      border-color: transparent
+      border-width: $arrowSize
+      border-style: solid
+      pointer-events: $arrowPointerEvents
 
     // Centers and middles
 
-    &.#{ $themePrefix }[x-placement^="bottom"] .#{ $themePrefix }-content
+    &[x-placement^="top"]
       margin-bottom: $arrowSize
 
-      &:before
-        top: 100%
-        left: 50%
-        margin-left: - $arrowSize
+      .popper__arrow
+        bottom: -$arrowSize
+        left: calc(50% - #{$arrowSize})
         border-top-color: $backgroundColor
         border-bottom: 0
 
-    &.#{ $themePrefix }[x-placement^="top"] .#{ $themePrefix }-content
+    &[x-placement^="bottom"]
       margin-top: $arrowSize
 
-      &:before
-        bottom: 100%
-        left: 50%
-        margin-left: - $arrowSize
+      .popper__arrow
+        top: -$arrowSize
+        left: calc(50% - #{$arrowSize})
         border-bottom-color: $backgroundColor
         border-top: 0
 
-    &.#{ $themePrefix }[x-placement^="right"] .#{ $themePrefix }-content
+    &[x-placement^="left"]
       margin-right: $arrowSize
 
-      &:before
-        left: 100%
-        top: 50%
+      .popper__arrow
+        right: -$arrowSize
+        top: calc(50% - #{$arrowSize})
         margin-top: - $arrowSize
         border-left-color: $backgroundColor
         border-right: 0
 
-    &.#{ $themePrefix }[x-placement^="left"] .#{ $themePrefix }-content
+    &[x-placement^="right"]
       margin-left: $arrowSize
 
-      &:before
-        right: 100%
-        top: 50%
-        margin-top: - $arrowSize
-        border-right-color: $backgroundColor
-        border-left: 0
-
-    // Target middle/center, element corner
-
-    &.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-center .#{ $themePrefix }-content
-      left: - $arrowSize * 2
-
-    &.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-center .#{ $themePrefix }-content
-      left: $arrowSize * 2
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
-      margin-top: $arrowSize
-
-      &:before
-        bottom: 100%
-        left: $arrowSize
-        border-bottom-color: $backgroundColor
-        border-top: 0
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
-      margin-top: $arrowSize
-
-      &:before
-        bottom: 100%
-        right: $arrowSize
-        border-bottom-color: $backgroundColor
-        border-top: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
-      margin-bottom: $arrowSize
-
-      &:before
-        top: 100%
-        left: $arrowSize
-        border-top-color: $backgroundColor
-        border-bottom: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-middle .#{ $themePrefix }-content
-      margin-bottom: $arrowSize
-
-      &:before
-        top: 100%
-        right: $arrowSize
-        border-top-color: $backgroundColor
-        border-bottom: 0
-
-
-    // Top and bottom corners
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-      margin-top: $arrowSize
-
-      &:before
-        bottom: 100%
-        left: $arrowSize
-        border-bottom-color: $backgroundColor
-        border-top: 0
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom .#{ $themePrefix }-content
-      margin-top: $arrowSize
-
-      &:before
-        bottom: 100%
-        right: $arrowSize
-        border-bottom-color: $backgroundColor
-        border-top: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-      margin-bottom: $arrowSize
-
-      &:before
-        top: 100%
-        left: $arrowSize
-        border-top-color: $backgroundColor
-        border-bottom: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-top .#{ $themePrefix }-content
-      margin-bottom: $arrowSize
-
-      &:before
-        top: 100%
-        right: $arrowSize
-        border-top-color: $backgroundColor
-        border-bottom: 0
-
-    // Side corners
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-      margin-right: $arrowSize
-
-      &:before
-        top: $arrowSize
-        left: 100%
-        border-left-color: $backgroundColor
-        border-right: 0
-
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-      margin-left: $arrowSize
-
-      &:before
-        top: $arrowSize
-        right: 100%
-        border-right-color: $backgroundColor
-        border-left: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-left .#{ $themePrefix }-content
-      margin-right: $arrowSize
-
-      &:before
-        bottom: $arrowSize
-        left: 100%
-        border-left-color: $backgroundColor
-        border-right: 0
-
-    &.#{ $themePrefix }-element-attached-bottom.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-right .#{ $themePrefix }-content
-      margin-left: $arrowSize
-
-      &:before
-        bottom: $arrowSize
-        right: 100%
+      .popper__arrow
+        left: -$arrowSize
+        top: calc(50% - #{$arrowSize})
         border-right-color: $backgroundColor
         border-left: 0

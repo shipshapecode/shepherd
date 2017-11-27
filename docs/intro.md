@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/shepherd/dist/css/shepherd-theme-arrows.css" />
-<script src="/shepherd/bower_components/tether/dist/js/tether.js"></script>
+<script src="/shepherd/bower_components/tether/dist/js/popper.js"></script>
 <script src="/shepherd/dist/js/shepherd.min.js"></script>
 
 ## Shepherd
@@ -8,7 +8,7 @@ Guide your users through a tour of your app.
 
 ### Dependencies
 
-[Tether](http://github.hubspot.com/tether/)
+[Popper](https://popper.js.org/)
 
 ### Install with Eager
 
