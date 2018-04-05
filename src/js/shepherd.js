@@ -342,7 +342,10 @@ class Step extends Evented {
     if (typeof opts.element === 'string') {
       // Can't override the element in user opts reference because we can't
       // guarantee that the element will exist in the future.
-      returnOpts.element = document.querySelector(opts.element);
+      try {
+        returnOpts.element = document.querySelector(opts.element);
+      }
+      catch (e) {}
       if (!returnOpts.element) {
         console.error(`The element for this Shepherd step was not found ${opts.element}`);
       }
