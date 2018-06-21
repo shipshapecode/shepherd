@@ -1,4 +1,4 @@
-/*! tether-shepherd 2.0.0 */
+/*! tether-shepherd 1.8.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -129,7 +129,7 @@ var positionRe = /^(.+) (top|left|right|bottom|center)$/;
  */
 function parsePosition(str) {
   if (isObjectLoose(str)) {
-    if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
+    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
       return str;
     }
     return null;
@@ -309,9 +309,9 @@ var Step = (function (_Evented) {
       // Button configuration
 
       var buttonsJson = JSON.stringify(this.options.buttons);
-      var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === "true";
+      var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === 'true';
 
-      var buttonsAreEmpty = buttonsJson === "{}" || buttonsJson === "[]" || buttonsJson === "null" || buttonsJson === "false";
+      var buttonsAreEmpty = buttonsJson === '{}' || buttonsJson === '[]' || buttonsJson === 'null' || buttonsJson === 'false';
 
       var buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
 
@@ -394,25 +394,30 @@ var Step = (function (_Evented) {
     key: 'setupPopper',
     value: function setupPopper() {
       if (isUndefined(Popper)) {
-        throw new Error("Using the attachment feature of Shepherd requires the Popper.js library");
+        throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
       }
 
       var opts = this.getAttachTo();
       opts.modifiers = opts.modifiers || {};
       var attachment = opts.on || 'right';
+      opts.positionFixed = false;
+
       if (isUndefined(opts.element)) {
-        opts.element = document.querySelector('html');
+        opts.element = document.body;
         attachment = 'top';
+
         opts.modifiers = assign({
-          offset: '50vh',
-          positionFixed: true, // This will require the next version of popper. @see v1.13.0-next
+          flip: { enabled: false },
+          hide: { enabled: false },
           inner: { enabled: true },
+          keepTogether: { enabled: false },
           preventOverflow: {
             enabled: false,
             padding: 0
-          },
-          hide: { enabled: false }
+          }
         }, opts.modifiers);
+
+        opts.positionFixed = true; // This will require the next version of popper. @see v1.13.0-next
       }
 
       var popperOpts = assign({}, {
@@ -421,10 +426,10 @@ var Step = (function (_Evented) {
         //     pin: true,
         //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
         // }],
-        offset: opts.offset || undefined,
         placement: attachment,
         arrowElement: this.el.querySelector('.popper__arrow'),
-        modifiers: opts.modifiers
+        modifiers: opts.modifiers,
+        positionFixed: opts.positionFixed
       }, this.options.popperOptions);
 
       if (this.popper) {
@@ -552,7 +557,11 @@ var Step = (function (_Evented) {
         this.destroy();
       }
 
-      this.el = createFromHTML('<div class=\'shepherd-step ' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '><div class="popper__arrow" x-arrow></div>');
+      this.el = createFromHTML('<div class=\'shepherd-step ' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '>');
+
+      if (this.options.attachTo) {
+        this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+      }
 
       var content = document.createElement('div');
       content.className = 'shepherd-content';
@@ -567,7 +576,7 @@ var Step = (function (_Evented) {
       }
 
       if (this.options.showCancelLink) {
-        var link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+        var link = createFromHTML('<a href class=\'shepherd-cancel-link\'>✕</a>');
         header.appendChild(link);
 
         this.el.className += ' shepherd-has-cancel-link';
@@ -577,7 +586,7 @@ var Step = (function (_Evented) {
 
       if (!isUndefined(this.options.text)) {
         (function () {
-          var text = createFromHTML("<div class='shepherd-text'></div>");
+          var text = createFromHTML('<div class=\'shepherd-text\'></div>');
           var paragraphs = _this5.options.text;
 
           if (typeof paragraphs === 'function') {
@@ -603,7 +612,7 @@ var Step = (function (_Evented) {
       if (this.options.buttons) {
         (function () {
           var footer = document.createElement('footer');
-          var buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
+          var buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
           _this5.options.buttons.map(function (cfg) {
             var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');

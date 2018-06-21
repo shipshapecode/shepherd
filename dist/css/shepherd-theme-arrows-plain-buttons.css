@@ -19,8 +19,7 @@
     padding: 1em;
     font-size: 1.1em;
     line-height: 1.5em;
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+    transform: translateZ(0);
     -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
             filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
   .shepherd-theme-arrows-plain-buttons .popper__arrow {
