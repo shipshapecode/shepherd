@@ -1,6 +1,10 @@
 {
   "name": "tether-shepherd",
-  "version": "2.0.0",
+  "version": "1.8.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
+  },
   "description": "Guide your users through a tour of your app.",
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
@@ -8,11 +12,13 @@
   ],
   "maintainers": [
     "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
-    "Geoff Daigle <geoffreydaigle@gmail.com>"
+    "Geoff Daigle <geoffreydaigle@gmail.com>",
+    "Robert Wagner <rwwagner90@gmail.com>"
   ],
   "scripts": {
     "build": "gulp build"
   },
+  "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "spm": {
