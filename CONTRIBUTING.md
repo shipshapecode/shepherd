@@ -2,8 +2,7 @@
 
 You will need:
 
-- Node.js/io.js and npm
-- Bower
+- Node.js and npm
 - Gulp
 
 Windows users will need additional to setup build capabilities in NPM:
@@ -16,7 +15,7 @@ From an administrative command window:
 1. Fork the project
 2. Clone your forked project by running `git clone git@github.com:{
    YOUR_USERNAME }/shepherd.git`
-3. Run `npm install` to install both node modules and bower components
+3. Run `npm install` to install node modules
 4. Test that you can build the source by moving/renaming the existing `dist`
    directory and running `npm run build`
 5. Assuming everything went well, you should now have a `dist` directory that
@@ -32,7 +31,7 @@ to contribute, we ask that you take the following steps:
    will end up in the `dist` directory upon running `npm run build`.
 
 2. Depending on how big your changes are, bump the version numbers appropriately
-   in `bower.json` and `package.json`. We try to follow semver, so a good rule
+   in `package.json`. We try to follow semver, so a good rule
    of thumb for how to bump the version is:
    - A fix to existing code, perform a patch bump e.g. x.x.0 -> x.x.1
    - New feature, perform a minor bump e.g. x.0.x -> x.1.x
@@ -44,8 +43,7 @@ to contribute, we ask that you take the following steps:
 
    __NOTE__: There is a `gulp` task that will automate some of the versioning.
    You can run `gulp version:{type}` where type is `patch|minor|major` to
-   update both `bower.json` and `package.json` as well as add the appropriate
-   git tag.
+   update `package.json` as well as add the appropriate git tag.
 
 3. Provide a thoughtful commit message and push your changes to your fork using
    `git push origin master` (assuming your forked project is using `origin` for

@@ -52,9 +52,7 @@ gulp.task('js', function() {
 // CSS
 gulp.task('css', function() {
   gulp.src('./src/css/**/*.sass')
-    .pipe(sass({
-      includePaths: ['./bower_components']
-    }))
+    .pipe(sass())
     .pipe(prefixer())
     .pipe(gulp.dest(distDir + '/css'));
 });
@@ -87,7 +85,7 @@ var VERSIONS = ['patch', 'minor', 'major'];
 for (var i = 0; i < VERSIONS.length; ++i){
   (function(version) {
     gulp.task('version:' + version, function() {
-      gulp.src(['package.json', 'bower.json'])
+      gulp.src(['package.json'])
         .pipe(bump({type: version}))
         .pipe(gulp.dest('.'));
     });
