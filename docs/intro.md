@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/shepherd/dist/css/shepherd-theme-arrows.css" />
-<script src="/shepherd/bower_components/tether/dist/js/popper.js"></script>
+<script src="/shepherd/dist/js/popper.js"></script>
 <script src="/shepherd/dist/js/shepherd.min.js"></script>
 
 ## Shepherd

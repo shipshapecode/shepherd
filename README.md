@@ -13,17 +13,12 @@ __Dependencies__
 
 * __[Tether](https://github.com/HubSpot/tether)__
 
-Installing via `npm` and `bower` will bring in the above dependencies as well.
+Installing via `npm` will bring in the above dependencies as well.
 
 
 __npm__
 ```sh
 $ npm install tether-shepherd
-```
-
-__bower__
-```sh
-$ bower install tether-shepherd
 ```
 
 ## Usage
