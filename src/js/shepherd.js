@@ -366,6 +366,10 @@ class Step extends Evented {
       attachment = 'top';
 
       opts.modifiers = assign({
+        offset: {
+          enabled: true,
+          offset: '0,50vh'
+        },
         flip: { enabled: false },
         hide: { enabled: false },
         inner: { enabled: true },

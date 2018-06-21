@@ -11,7 +11,7 @@ version](https://badge.fury.io/gh/HubSpot%2Fshepherd.svg)](http://badge.fury.io/
 
 __Dependencies__
 
-* __[Tether](https://github.com/HubSpot/tether)__
+* __[Popper.js](https://github.com/FezVrasta/popper.js)__
 
 Installing via `npm` will bring in the above dependencies as well.
 

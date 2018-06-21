@@ -1,20 +1,20 @@
-var del         = require('del');
-var gulp        = require('gulp');
-var babel       = require('gulp-babel');
-var bump        = require('gulp-bump');
-var coffee      = require('gulp-coffee');
-var header      = require('gulp-header');
-var prefixer    = require('gulp-autoprefixer');
-var rename      = require('gulp-rename');
-var uglify      = require('gulp-uglify');
-var sass        = require('gulp-sass');
-var umd         = require('gulp-wrap-umd');
+const del = require('del');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const bump = require('gulp-bump');
+const coffee = require('gulp-coffee');
+const header = require('gulp-header');
+const prefixer = require('gulp-autoprefixer');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+const sass = require('gulp-sass');
+const umd = require('gulp-wrap-umd');
 
 // Variables
-var distDir = './dist';
-var pkg = require('./package.json');
-var banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
-var umdOptions = {
+const distDir = './dist';
+const pkg = require('./package.json');
+const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
+const umdOptions = {
   exports: 'Shepherd',
   namespace: 'Shepherd',
   deps: [{
@@ -45,7 +45,7 @@ gulp.task('js', function() {
 
     // Minified
     .pipe(uglify())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(distDir + '/js'));
 });
 
@@ -67,7 +67,7 @@ gulp.task('css:docs', function() {
 // Make a copy of tether available to those not using bundling
 gulp.task('copy-popper', function() {
   gulp.src('./node_modules/popper.js/dist/umd/popper.js')
-      .pipe(gulp.dest(distDir + '/js'));
+    .pipe(gulp.dest(distDir + '/js'));
   gulp.src('./node_modules/popper.js/dist/umd/popper.min.js')
     .pipe(gulp.dest(distDir + '/js'));
 });
@@ -81,12 +81,12 @@ gulp.task('eager', function() {
 
 
 // Version bump
-var VERSIONS = ['patch', 'minor', 'major'];
-for (var i = 0; i < VERSIONS.length; ++i){
+const VERSIONS = ['patch', 'minor', 'major'];
+for (let i = 0; i < VERSIONS.length; ++i) {
   (function(version) {
     gulp.task('version:' + version, function() {
       gulp.src(['package.json'])
-        .pipe(bump({type: version}))
+        .pipe(bump({ type: version }))
         .pipe(gulp.dest('.'));
     });
   })(VERSIONS[i]);
