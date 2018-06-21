@@ -6,7 +6,7 @@ const coffee = require('gulp-coffee');
 const header = require('gulp-header');
 const prefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
-const uglify = require('gulp-uglify');
+const uglify = require('gulp-uglify-es').default;
 const sass = require('gulp-sass');
 const umd = require('gulp-wrap-umd');
 
@@ -36,7 +36,9 @@ gulp.task('clean', function() {
 // Javascript
 gulp.task('js', function() {
   gulp.src('./src/js/**/*.js')
-    .pipe(babel())
+    .pipe(babel({
+      presets: ['@babel/env']
+    }))
     .pipe(umd(umdOptions))
     .pipe(header(banner))
 
