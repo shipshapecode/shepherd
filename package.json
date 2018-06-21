@@ -38,6 +38,6 @@
     "gulp-wrap-umd": "^0.2.1"
   },
   "dependencies": {
-    "popper.js": "^1.13.0"
+    "popper.js": "^1.14.3"
   }
 }

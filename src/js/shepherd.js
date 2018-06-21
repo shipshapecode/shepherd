@@ -1,10 +1,10 @@
 /* global Popper */
 
-const uniqueId = (function () {
-    let id = 0;
-    return function () {
-        return ++id;
-    };
+const uniqueId = (function() {
+  let id = 0;
+  return function() {
+    return ++id;
+  };
 })();
 
 /**
@@ -13,26 +13,26 @@ const uniqueId = (function () {
  * @returns {*}
  */
 function assign(target, varArgs) { // .length of function is 2
-    'use strict';
-    if (target == null) { // TypeError if undefined or null
-        throw new TypeError('Cannot convert undefined or null to object');
-    }
+  'use strict';
+  if (target == null) { // TypeError if undefined or null
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
 
-    var to = Object(target);
+  var to = Object(target);
 
-    for (var index = 1; index < arguments.length; index++) {
-        var nextSource = arguments[index];
+  for (var index = 1; index < arguments.length; index++) {
+    var nextSource = arguments[index];
 
-        if (nextSource != null) { // Skip over if undefined or null
-            for (var nextKey in nextSource) {
-                // Avoid bugs when hasOwnProperty is shadowed
-                if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                    to[nextKey] = nextSource[nextKey];
-                }
-            }
+    if (nextSource != null) { // Skip over if undefined or null
+      for (var nextKey in nextSource) {
+        // Avoid bugs when hasOwnProperty is shadowed
+        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+          to[nextKey] = nextSource[nextKey];
         }
+      }
     }
-    return to;
+  }
+  return to;
 }
 
 /**
@@ -40,7 +40,7 @@ function assign(target, varArgs) { // .length of function is 2
  * @returns {boolean}
  */
 function isUndefined(obj) {
-  return typeof obj === 'undefined'
+  return typeof obj === 'undefined';
 }
 
 /**
@@ -73,13 +73,13 @@ function isObjectLoose(obj) {
  * @param html
  * @returns {HTMLElement}
  */
-function createFromHTML (html) {
+function createFromHTML(html) {
   let el = document.createElement('div');
   el.innerHTML = html;
   return el.children[0];
 }
 
-function matchesSelector (el, sel) {
+function matchesSelector(el, sel) {
   let matches;
   if (!isUndefined(el.matches)) {
     matches = el.matches;
@@ -97,15 +97,15 @@ function matchesSelector (el, sel) {
   return matches.call(el, sel);
 }
 
-const positionRe = /^(.+) (top|left|right|bottom|center)$/
+const positionRe = /^(.+) (top|left|right|bottom|center)$/;
 
 /**
  * @param str
  * @returns {*}
  */
-function parsePosition (str) {
+function parsePosition(str) {
   if (isObjectLoose(str)) {
-    if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
+    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
       return str;
     }
     return null;
@@ -117,7 +117,7 @@ function parsePosition (str) {
   }
 
   let on = matches[2];
-  if (on[0] === '['){
+  if (on[0] === '[') {
     on = on.substring(1, on.length - 1);
   }
 
@@ -132,7 +132,7 @@ function parsePosition (str) {
  * @param {Array} props
  * @returns {*}
  */
-function parseShorthand (obj, props) {
+function parseShorthand(obj, props) {
   if (obj === null || isUndefined(obj)) {
     return obj;
   } else if (isObjectLoose(obj)) {
@@ -142,8 +142,8 @@ function parseShorthand (obj, props) {
   let vals = obj.split(' ');
   let out = {};
   let j = props.length - 1;
-  for (let i = vals.length - 1; i >= 0; i--){
-    if (j === 0){
+  for (let i = vals.length - 1; i >= 0; i--) {
+    if (j === 0) {
       out[props[j]] = vals.slice(0, i + 1).join(' ');
       break;
     } else {
@@ -157,7 +157,7 @@ function parseShorthand (obj, props) {
 }
 
 class Evented {
-  constructor(options={}) {}
+  constructor(options = {}) {}
 
   on(event, handler, ctx) {
     let once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
@@ -255,7 +255,7 @@ class Step extends Evented {
     });
   }
 
-  setOptions(options={}) {
+  setOptions(options = {}) {
     this.options = options;
     this.destroy();
 
@@ -275,16 +275,16 @@ class Step extends Evented {
 
     const buttonsJson = JSON.stringify(this.options.buttons);
     const buttonsAreDefault = isUndefined(buttonsJson) ||
-                              buttonsJson === "true";
+      buttonsJson === 'true';
 
-    const buttonsAreEmpty = buttonsJson === "{}" ||
-                            buttonsJson === "[]" ||
-                            buttonsJson === "null" ||
-                            buttonsJson === "false";
+    const buttonsAreEmpty = buttonsJson === '{}' ||
+      buttonsJson === '[]' ||
+      buttonsJson === 'null' ||
+      buttonsJson === 'false';
 
-    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons)
+    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
 
-    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons)
+    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
 
     // Show default button if undefined or 'true'
     if (buttonsAreDefault) {
@@ -294,11 +294,11 @@ class Step extends Evented {
         classes: 'btn'
       }];
 
-    // Can pass in an object which will assume asingle button
+      // Can pass in an object which will assume asingle button
     } else if (!buttonsAreEmpty && buttonsAreObject) {
       this.options.buttons = [this.options.buttons];
 
-    // Falsey/empty values or non-object values prevent buttons from rendering
+      // Falsey/empty values or non-object values prevent buttons from rendering
     } else if (buttonsAreEmpty || !buttonsAreArray) {
       this.options.buttons = false;
     }
@@ -310,7 +310,7 @@ class Step extends Evented {
 
   bindAdvance() {
     // An empty selector matches the step element
-    const {event, selector} = parseShorthand(this.options.advanceOn, ['selector', 'event']);
+    const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
 
     const handler = (e) => {
       if (!this.isOpen()) {
@@ -353,25 +353,30 @@ class Step extends Evented {
 
   setupPopper() {
     if (isUndefined(Popper)) {
-      throw new Error("Using the attachment feature of Shepherd requires the Popper.js library");
+      throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
     }
 
     let opts = this.getAttachTo();
     opts.modifiers = opts.modifiers || {};
     let attachment = opts.on || 'right';
+    opts.positionFixed = false;
+
     if (isUndefined(opts.element)) {
-      opts.element = document.querySelector('html');
+      opts.element = document.body;
       attachment = 'top';
+
       opts.modifiers = assign({
-        offset: '50vh',
-        positionFixed: true, // This will require the next version of popper. @see v1.13.0-next
+        flip: { enabled: false },
+        hide: { enabled: false },
         inner: { enabled: true },
+        keepTogether: { enabled: false },
         preventOverflow: {
           enabled: false,
           padding: 0
-        },
-        hide: { enabled: false }
+        }
       }, opts.modifiers);
+
+      opts.positionFixed = true;  // This will require the next version of popper. @see v1.13.0-next
     }
 
     const popperOpts = assign({}, {
@@ -380,10 +385,10 @@ class Step extends Evented {
       //     pin: true,
       //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
       // }],
-      offset: opts.offset || undefined,
       placement: attachment,
       arrowElement: this.el.querySelector('.popper__arrow'),
-      modifiers: opts.modifiers
+      modifiers: opts.modifiers,
+      positionFixed: opts.positionFixed
     }, this.options.popperOptions);
 
     if (this.popper) {
@@ -437,7 +442,7 @@ class Step extends Evented {
 
     document.body.removeAttribute('data-shepherd-step');
 
-    if (this.target){
+    if (this.target) {
       this.target.classList.remove('shepherd-enabled');
     }
 
@@ -465,7 +470,7 @@ class Step extends Evented {
   }
 
   scrollTo() {
-    const {element} = this.getAttachTo();
+    const { element } = this.getAttachTo();
 
     if (!isUndefined(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -493,7 +498,11 @@ class Step extends Evented {
       this.destroy();
     }
 
-    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }><div class="popper__arrow" x-arrow></div>`);
+    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }>`);
+
+    if (this.options.attachTo) {
+      this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+    }
 
     let content = document.createElement('div');
     content.className = 'shepherd-content';
@@ -508,7 +517,7 @@ class Step extends Evented {
     }
 
     if (this.options.showCancelLink) {
-      const link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+      const link = createFromHTML('<a href class=\'shepherd-cancel-link\'>✕</a>');
       header.appendChild(link);
 
       this.el.className += ' shepherd-has-cancel-link';
@@ -517,7 +526,7 @@ class Step extends Evented {
     }
 
     if (!isUndefined(this.options.text)) {
-      const text = createFromHTML("<div class='shepherd-text'></div>");
+      const text = createFromHTML('<div class=\'shepherd-text\'></div>');
       let paragraphs = this.options.text;
 
       if (typeof paragraphs === 'function') {
@@ -541,7 +550,7 @@ class Step extends Evented {
 
     if (this.options.buttons) {
       const footer = document.createElement('footer');
-      let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
+      let buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
       this.options.buttons.map(cfg => {
         const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
@@ -603,7 +612,7 @@ class Step extends Evented {
 
 class Tour extends Evented {
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super(options);
     this.bindMethods();
     this.options = options;
@@ -671,7 +680,7 @@ class Tour extends Evented {
       }
     }
 
-    if (current && current.id === name){
+    if (current && current.id === name) {
       this.currentStep = undefined;
 
       if (this.steps.length)
@@ -738,15 +747,15 @@ class Tour extends Evented {
   done() {
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
-    this.trigger('inactive', {tour: this});
+    this.trigger('inactive', { tour: this });
   }
 
-  show(key=0, forward=true) {
+  show(key = 0, forward = true) {
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
       document.body.classList.add('shepherd-active');
-      this.trigger('active', {tour: this});
+      this.trigger('active', { tour: this });
     }
 
     Shepherd.activeTour = this;
@@ -790,4 +799,4 @@ class Tour extends Evented {
 }
 
 let Shepherd = new Evented();
-assign(Shepherd, {Tour, Step, Evented});
+assign(Shepherd, { Tour, Step, Evented });
