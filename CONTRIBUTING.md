@@ -2,10 +2,14 @@
 
 You will need:
 
-- Node.js/io.js & npm
+- Node.js/io.js and npm
 - Bower
 - Gulp
 
+Windows users will need additional to setup build capabilities in NPM:
+From an administrative command window:
+    
+    npm install --global --production windows-build-tools
 
 ## Getting started
 
@@ -17,7 +21,6 @@ You will need:
    directory and running `npm run build`
 5. Assuming everything went well, you should now have a `dist` directory that
    matches the one you moved in step 4
-
 
 ## Writing code!
 

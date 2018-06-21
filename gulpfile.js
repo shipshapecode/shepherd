@@ -18,11 +18,11 @@ var umdOptions = {
   exports: 'Shepherd',
   namespace: 'Shepherd',
   deps: [{
-    name: 'Tether',
-    globalName: 'Tether',
-    paramName: 'Tether',
-    amdName: 'tether',
-    cjsName: 'tether'
+    name: 'Popper',
+    globalName: 'Popper',
+    paramName: 'Popper',
+    amdName: 'popper',
+    cjsName: 'popper'
   }]
 };
 
@@ -67,8 +67,10 @@ gulp.task('css:docs', function() {
 });
 
 // Make a copy of tether available to those not using bundling
-gulp.task('copy-tether', function() {
-  gulp.src('./bower_components/tether/tether.js')
+gulp.task('copy-popper', function() {
+  gulp.src('./node_modules/popper.js/dist/umd/popper.js')
+      .pipe(gulp.dest(distDir + '/js'));
+  gulp.src('./node_modules/popper.js/dist/umd/popper.min.js')
     .pipe(gulp.dest(distDir + '/js'));
 });
 
@@ -102,6 +104,6 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css', 'eager', 'copy-tether']);
+gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
 gulp.task('default', ['build']);
 

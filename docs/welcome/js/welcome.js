@@ -14,7 +14,7 @@
       }
     });
     shepherd.addStep('welcome', {
-      text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="http://github.hubspot.com/tether/">Tether</a>, another open source library, to position all of its steps.', 'Tether makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
+      text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
       attachTo: '.hero-welcome bottom',
       classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
       buttons: [
@@ -31,8 +31,8 @@
     });
     shepherd.addStep('including', {
       title: 'Including',
-      text: 'Including Shepherd is easy! Just include shepherd.js, and a Shepherd theme file.',
-      attachTo: '.hero-including bottom',
+      text: 'Including Shepherd is easy! Just include popper.js, shepherd.js, and a Shepherd theme file.',
+      attachTo: '#hero-including-code left',
       buttons: [
         {
           text: 'Back',
@@ -47,7 +47,7 @@
     shepherd.addStep('example', {
       title: 'Example Shepherd',
       text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="http://github.hubspot.com/shepherd">documentation</a> to learn more.',
-      attachTo: '.hero-example bottom',
+      attachTo: '#hero-example-code right',
       buttons: [
         {
           text: 'Back',
