@@ -47,7 +47,7 @@ tour.start();
 
 [API documentation](http://github.hubspot.com/shepherd/)
 
-[Demo](http://github.hubspot.com/shepherd/docs/welcome/)
+[Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
 
 ## Contributing
