@@ -4,7 +4,7 @@
 version](https://badge.fury.io/gh/HubSpot%2Fshepherd.svg)](http://badge.fury.io/gh/HubSpot%2Fshepherd)
 
 
-[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](http://github.hubspot.com/shepherd/docs/welcome)
+[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
 
 ## Install
@@ -45,7 +45,7 @@ tour.addStep('example', {
 tour.start();
 ```
 
-[API documentation](http://github.hubspot.com/shepherd/)
+[API documentation](https://shipshapecode.github.io/shepherd/)
 
 [Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
