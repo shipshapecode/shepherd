@@ -366,13 +366,12 @@ class Step extends Evented {
       attachment = 'top';
 
       opts.modifiers = assign({
-        offset: {
-          enabled: true,
-          offset: '0,50vh'
+        applyStyle: {
+          enabled: false
         },
         flip: { enabled: false },
         hide: { enabled: false },
-        inner: { enabled: true },
+        inner: { enabled: false },
         keepTogether: { enabled: false },
         preventOverflow: {
           enabled: false,
@@ -402,6 +401,12 @@ class Step extends Evented {
     this.el.classList.add('shepherd-element');
     this.popper = new Popper(opts.element, this.el, popperOpts);
 
+    if (this.options.attachTo === undefined) {
+      this.popper.popper.style.position = 'fixed';
+      this.popper.popper.style.left = '50%';
+      this.popper.popper.style.top = '50%';
+      this.popper.popper.style.transform = 'translate(-50%, -50%)';
+    }
     this.target = opts.element;
     this.target.classList.add('shepherd-target');
     this.target.classList.add('shepherd-enabled');

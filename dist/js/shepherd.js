@@ -434,9 +434,8 @@ function (_Evented) {
         opts.element = document.body;
         attachment = 'top';
         opts.modifiers = assign({
-          offset: {
-            enabled: true,
-            offset: '0,50vh'
+          applyStyle: {
+            enabled: false
           },
           flip: {
             enabled: false
@@ -445,7 +444,7 @@ function (_Evented) {
             enabled: false
           },
           inner: {
-            enabled: true
+            enabled: false
           },
           keepTogether: {
             enabled: false
@@ -476,6 +475,14 @@ function (_Evented) {
 
       this.el.classList.add('shepherd-element');
       this.popper = new Popper(opts.element, this.el, popperOpts);
+
+      if (this.options.attachTo === undefined) {
+        this.popper.popper.style.position = 'fixed';
+        this.popper.popper.style.left = '50%';
+        this.popper.popper.style.top = '50%';
+        this.popper.popper.style.transform = 'translate(-50%, -50%)';
+      }
+
       this.target = opts.element;
       this.target.classList.add('shepherd-target');
       this.target.classList.add('shepherd-enabled');
