@@ -5,7 +5,7 @@
     if (el.addEventListener) {
       return el.addEventListener(eventName, handler);
     } else {
-      return el.attachEvent("on" + eventName, function() {
+      return el.attachEvent(`on${eventName}`, function() {
         return handler.call(el);
       });
     }
@@ -62,7 +62,7 @@
         text: step.text,
         showCancelLink: step.showCancelLink,
         attachTo: step.attachToSelector + ' ' + step.attachToDirection,
-        classes: "shepherd-element shepherd-theme-" + options.theme,
+        classes: `shepherd-element shepherd-theme-${options.theme}`,
         scrollTo: options.scrollTo
       };
       stepOptions.buttons = [];
@@ -90,7 +90,7 @@
           action: tour.next
         });
       }
-      id = "step-" + i;
+      id = `step-${i}`;
       existing = tour.getById(id);
       if (existing) {
         existing.setOptions(stepOptions);
@@ -103,7 +103,7 @@
       }
       lastI = i;
     }
-    while (existing = tour.getById("step-" + (++lastI))) {
+    while (existing = tour.getById(`step-${++lastI}`)) {
       tour.removeStep(existing.id);
     }
     return ready(function() {
@@ -128,7 +128,7 @@
       if (options.trigger === 'button-click') {
         buttonLocation = Eager.createElement(options.buttonLocation, buttonLocation);
         button = document.createElement('button');
-        button.className = "shepherd-start-tour-button shepherd-theme-" + options.theme;
+        button.className = `shepherd-start-tour-button shepherd-theme-${options.theme}`;
         button.appendChild(document.createTextNode(options.buttonText));
         if (buttonLocation) {
           buttonLocation.appendChild(button);

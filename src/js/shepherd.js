@@ -1,57 +1,85 @@
-/* global Tether */
+/* global Popper */
 
-const {
-  Evented,
-  addClass,
-  extend,
-  hasClass,
-  removeClass,
-  uniqueId
-} = Tether.Utils;
+const uniqueId = (function() {
+  let id = 0;
+  return function() {
+    return ++id;
+  };
+})();
 
-let Shepherd = new Evented;
+/**
+ * @param {*} target
+ * @param {object} varArgs
+ * @returns {*}
+ */
+function assign(target, varArgs) { // .length of function is 2
+  'use strict';
+  if (target == null) { // TypeError if undefined or null
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
 
+  var to = Object(target);
+
+  for (var index = 1; index < arguments.length; index++) {
+    var nextSource = arguments[index];
+
+    if (nextSource != null) { // Skip over if undefined or null
+      for (var nextKey in nextSource) {
+        // Avoid bugs when hasOwnProperty is shadowed
+        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+          to[nextKey] = nextSource[nextKey];
+        }
+      }
+    }
+  }
+  return to;
+}
+
+/**
+ * @param obj
+ * @returns {boolean}
+ */
 function isUndefined(obj) {
-  return typeof obj === 'undefined'
-};
+  return typeof obj === 'undefined';
+}
 
+/**
+ * @param obj
+ * @returns {*|boolean}
+ */
 function isArray(obj) {
   return obj && obj.constructor === Array;
-};
+}
 
+/**
+ * @param obj
+ * @returns {*|boolean}
+ */
 function isObject(obj) {
   return obj && obj.constructor === Object;
-};
+}
 
+/**
+ * @param obj
+ * @returns {boolean}
+ */
 function isObjectLoose(obj) {
   return typeof obj === 'object';
-};
+}
 
-const ATTACHMENT = {
-  'top right': 'bottom left',
-  'top left': 'bottom right',
-  'top center': 'bottom center',
-  'middle right': 'middle left',
-  'middle left': 'middle right',
-  'middle center': 'middle center',
-  'bottom left': 'top right',
-  'bottom right': 'top left',
-  'bottom center': 'top center',
-  'top': 'bottom center',
-  'left': 'middle right',
-  'right': 'middle left',
-  'bottom': 'top center',
-  'center': 'middle center',
-  'middle': 'middle center'
-};
 
-function createFromHTML (html) {
+/**
+ * TODO rewrite the way items are being added to use more performant documentFragment code
+ * @param html
+ * @returns {HTMLElement}
+ */
+function createFromHTML(html) {
   let el = document.createElement('div');
   el.innerHTML = html;
   return el.children[0];
 }
 
-function matchesSelector (el, sel) {
+function matchesSelector(el, sel) {
   let matches;
   if (!isUndefined(el.matches)) {
     matches = el.matches;
@@ -69,11 +97,15 @@ function matchesSelector (el, sel) {
   return matches.call(el, sel);
 }
 
-const positionRe = /^(.+) (top|left|right|bottom|center|\[[a-z ]+\])$/
+const positionRe = /^(.+) (top|left|right|bottom|center)$/;
 
-function parsePosition (str) {
+/**
+ * @param str
+ * @returns {*}
+ */
+function parsePosition(str) {
   if (isObjectLoose(str)) {
-    if (str.hasOwnProperty("element") && str.hasOwnProperty("on")) {
+    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
       return str;
     }
     return null;
@@ -85,7 +117,7 @@ function parsePosition (str) {
   }
 
   let on = matches[2];
-  if (on[0] === '['){
+  if (on[0] === '[') {
     on = on.substring(1, on.length - 1);
   }
 
@@ -95,7 +127,12 @@ function parsePosition (str) {
   };
 }
 
-function parseShorthand (obj, props) {
+/**
+ * @param obj
+ * @param {Array} props
+ * @returns {*}
+ */
+function parseShorthand(obj, props) {
   if (obj === null || isUndefined(obj)) {
     return obj;
   } else if (isObjectLoose(obj)) {
@@ -105,8 +142,8 @@ function parseShorthand (obj, props) {
   let vals = obj.split(' ');
   let out = {};
   let j = props.length - 1;
-  for (let i = vals.length - 1; i >= 0; i--){
-    if (j === 0){
+  for (let i = vals.length - 1; i >= 0; i--) {
+    if (j === 0) {
       out[props[j]] = vals.slice(0, i + 1).join(' ');
       break;
     } else {
@@ -117,6 +154,78 @@ function parseShorthand (obj, props) {
   }
 
   return out;
+}
+
+class Evented {
+  constructor(options = {}) {}
+
+  on(event, handler, ctx) {
+    let once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    if (typeof this.bindings === 'undefined') {
+      this.bindings = {};
+    }
+    if (typeof this.bindings[event] === 'undefined') {
+      this.bindings[event] = [];
+    }
+    this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
+  }
+
+  once(event, handler, ctx) {
+    this.on(event, handler, ctx, true);
+  }
+
+  off(event, handler) {
+    if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
+      return;
+    }
+
+    if (typeof handler === 'undefined') {
+      delete this.bindings[event];
+    } else {
+      let i = 0;
+      while (i < this.bindings[event].length) {
+        if (this.bindings[event][i].handler === handler) {
+          this.bindings[event].splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+    }
+  }
+
+  trigger(event) {
+    if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
+      let _len = arguments.length;
+      let args = Array(_len > 1 ? _len - 1 : 0);
+      let i = 0;
+
+      for (let _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      while (i < this.bindings[event].length) {
+        let _bindings$event$i = this.bindings[event][i];
+        let handler = _bindings$event$i.handler;
+        let ctx = _bindings$event$i.ctx;
+        let once = _bindings$event$i.once;
+
+        let context = ctx;
+        if (typeof context === 'undefined') {
+          context = this;
+        }
+
+        handler.apply(context, args);
+
+        if (once) {
+          this.bindings[event].splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+    }
+  }
+
 }
 
 class Step extends Evented {
@@ -146,7 +255,7 @@ class Step extends Evented {
     });
   }
 
-  setOptions(options={}) {
+  setOptions(options = {}) {
     this.options = options;
     this.destroy();
 
@@ -166,16 +275,16 @@ class Step extends Evented {
 
     const buttonsJson = JSON.stringify(this.options.buttons);
     const buttonsAreDefault = isUndefined(buttonsJson) ||
-                              buttonsJson === "true";
+      buttonsJson === 'true';
 
-    const buttonsAreEmpty = buttonsJson === "{}" ||
-                            buttonsJson === "[]" ||
-                            buttonsJson === "null" ||
-                            buttonsJson === "false";
+    const buttonsAreEmpty = buttonsJson === '{}' ||
+      buttonsJson === '[]' ||
+      buttonsJson === 'null' ||
+      buttonsJson === 'false';
 
-    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons)
+    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
 
-    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons)
+    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
 
     // Show default button if undefined or 'true'
     if (buttonsAreDefault) {
@@ -185,11 +294,11 @@ class Step extends Evented {
         classes: 'btn'
       }];
 
-    // Can pass in an object which will assume asingle button
+      // Can pass in an object which will assume asingle button
     } else if (!buttonsAreEmpty && buttonsAreObject) {
       this.options.buttons = [this.options.buttons];
 
-    // Falsey/empty values or non-object values prevent buttons from rendering
+      // Falsey/empty values or non-object values prevent buttons from rendering
     } else if (buttonsAreEmpty || !buttonsAreArray) {
       this.options.buttons = false;
     }
@@ -201,7 +310,7 @@ class Step extends Evented {
 
   bindAdvance() {
     // An empty selector matches the step element
-    const {event, selector} = parseShorthand(this.options.advanceOn, ['selector', 'event']);
+    const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
 
     const handler = (e) => {
       if (!this.isOpen()) {
@@ -228,7 +337,7 @@ class Step extends Evented {
 
   getAttachTo() {
     let opts = parsePosition(this.options.attachTo) || {};
-    let returnOpts = extend({}, opts);
+    let returnOpts = assign({}, opts);
 
     if (typeof opts.element === 'string') {
       // Can't override the element in user opts reference because we can't
@@ -242,36 +351,65 @@ class Step extends Evented {
     return returnOpts;
   }
 
-  setupTether() {
-    if (isUndefined(Tether)) {
-      throw new Error("Using the attachment feature of Shepherd requires the Tether library");
+  setupPopper() {
+    if (isUndefined(Popper)) {
+      throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
     }
 
     let opts = this.getAttachTo();
-    let attachment = ATTACHMENT[opts.on] || ATTACHMENT.right;
+    opts.modifiers = opts.modifiers || {};
+    let attachment = opts.on || 'right';
+    opts.positionFixed = false;
+
     if (isUndefined(opts.element)) {
-      opts.element = 'viewport';
-      attachment = 'middle center';
+      opts.element = document.body;
+      attachment = 'top';
+
+      opts.modifiers = assign({
+        applyStyle: {
+          enabled: false
+        },
+        flip: { enabled: false },
+        hide: { enabled: false },
+        inner: { enabled: false },
+        keepTogether: { enabled: false },
+        preventOverflow: {
+          enabled: false,
+          padding: 0
+        }
+      }, opts.modifiers);
+
+      opts.positionFixed = true;  // This will require the next version of popper. @see v1.13.0-next
     }
 
-    const tetherOpts = {
-      classPrefix: 'shepherd',
-      element: this.el,
-      constraints: [{
-        to: 'window',
-        pin: true,
-        attachment: 'together'
-      }],
-      target: opts.element,
-      offset: opts.offset || '0 0',
-      attachment: attachment
-    };
+    const popperOpts = assign({}, {
+      // constraints: [{ // Pretty much handled by popper
+      //     to: 'window',
+      //     pin: true,
+      //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
+      // }],
+      placement: attachment,
+      arrowElement: this.el.querySelector('.popper__arrow'),
+      modifiers: opts.modifiers,
+      positionFixed: opts.positionFixed
+    }, this.options.popperOptions);
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.popper) {
+      this.popper.destroy();
     }
 
-    this.tether = new Tether(extend(tetherOpts, this.options.tetherOptions));
+    this.el.classList.add('shepherd-element');
+    this.popper = new Popper(opts.element, this.el, popperOpts);
+
+    if (this.options.attachTo === undefined) {
+      this.popper.popper.style.position = 'fixed';
+      this.popper.popper.style.left = '50%';
+      this.popper.popper.style.top = '50%';
+      this.popper.popper.style.transform = 'translate(-50%, -50%)';
+    }
+    this.target = opts.element;
+    this.target.classList.add('shepherd-target');
+    this.target.classList.add('shepherd-enabled');
   }
 
   show() {
@@ -291,11 +429,11 @@ class Step extends Evented {
       this.render();
     }
 
-    addClass(this.el, 'shepherd-open');
+    this.el.classList.add('shepherd-open');
 
     document.body.setAttribute('data-shepherd-step', this.id);
 
-    this.setupTether();
+    this.setupPopper();
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -309,20 +447,25 @@ class Step extends Evented {
   hide() {
     this.trigger('before-hide');
 
-    removeClass(this.el, 'shepherd-open');
+    this.el.classList.remove('shepherd-open');
 
     document.body.removeAttribute('data-shepherd-step');
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.target) {
+      this.target.classList.remove('shepherd-enabled');
     }
-    this.tether = null;
+
+    if (this.popper) {
+      this.popper.destroy();
+    }
+    this.popper = null;
+
 
     this.trigger('hide');
   }
 
   isOpen() {
-    return this.el && hasClass(this.el, 'shepherd-open');
+    return this.el && this.el.classList.hasClass('shepherd-open');
   }
 
   cancel() {
@@ -336,7 +479,7 @@ class Step extends Evented {
   }
 
   scrollTo() {
-    const {element} = this.getAttachTo();
+    const { element } = this.getAttachTo();
 
     if (!isUndefined(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -351,10 +494,10 @@ class Step extends Evented {
       delete this.el;
     }
 
-    if (this.tether) {
-      this.tether.destroy();
+    if (this.popper) {
+      this.popper.destroy();
     }
-    this.tether = null;
+    this.popper = null;
 
     this.trigger('destroy');
   }
@@ -364,7 +507,11 @@ class Step extends Evented {
       this.destroy();
     }
 
-    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }></div>`);
+    this.el = createFromHTML(`<div class='shepherd-step ${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '' }>`);
+
+    if (this.options.attachTo) {
+      this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+    }
 
     let content = document.createElement('div');
     content.className = 'shepherd-content';
@@ -379,7 +526,7 @@ class Step extends Evented {
     }
 
     if (this.options.showCancelLink) {
-      const link = createFromHTML("<a href class='shepherd-cancel-link'>✕</a>");
+      const link = createFromHTML('<a href class=\'shepherd-cancel-link\'>✕</a>');
       header.appendChild(link);
 
       this.el.className += ' shepherd-has-cancel-link';
@@ -388,7 +535,7 @@ class Step extends Evented {
     }
 
     if (!isUndefined(this.options.text)) {
-      const text = createFromHTML("<div class='shepherd-text'></div>");
+      const text = createFromHTML('<div class=\'shepherd-text\'></div>');
       let paragraphs = this.options.text;
 
       if (typeof paragraphs === 'function') {
@@ -412,7 +559,7 @@ class Step extends Evented {
 
     if (this.options.buttons) {
       const footer = document.createElement('footer');
-      let buttons = createFromHTML("<ul class='shepherd-buttons'></ul>");
+      let buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
       this.options.buttons.map(cfg => {
         const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
@@ -427,7 +574,7 @@ class Step extends Evented {
 
     document.body.appendChild(this.el);
 
-    this.setupTether();
+    this.setupPopper();
 
     if (this.options.advanceOn) {
       this.bindAdvance();
@@ -474,7 +621,7 @@ class Step extends Evented {
 
 class Tour extends Evented {
 
-  constructor(options={}) {
+  constructor(options = {}) {
     super(options);
     this.bindMethods();
     this.options = options;
@@ -517,7 +664,7 @@ class Tour extends Evented {
       if (typeof name === 'string' || typeof name === 'number') {
         step.id = name.toString();
       }
-      step = extend({}, this.options.defaults, step);
+      step = assign({}, this.options.defaults, step);
       step = new Step(this, step);
     } else {
       step.tour = this;
@@ -542,7 +689,7 @@ class Tour extends Evented {
       }
     }
 
-    if (current && current.id === name){
+    if (current && current.id === name) {
       this.currentStep = undefined;
 
       if (this.steps.length)
@@ -608,16 +755,16 @@ class Tour extends Evented {
 
   done() {
     Shepherd.activeTour = null;
-    removeClass(document.body, 'shepherd-active');
-    this.trigger('inactive', {tour: this});
+    document.body.classList.remove('shepherd-active');
+    this.trigger('inactive', { tour: this });
   }
 
-  show(key=0, forward=true) {
+  show(key = 0, forward = true) {
     if (this.currentStep) {
       this.currentStep.hide();
     } else {
-      addClass(document.body, 'shepherd-active');
-      this.trigger('active', {tour: this});
+      document.body.classList.add('shepherd-active');
+      this.trigger('active', { tour: this });
     }
 
     Shepherd.activeTour = this;
@@ -660,4 +807,5 @@ class Tour extends Evented {
 
 }
 
-extend(Shepherd, {Tour, Step, Evented});
+let Shepherd = new Evented();
+assign(Shepherd, { Tour, Step, Evented });
