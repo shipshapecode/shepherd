@@ -6,4 +6,4 @@ cache: yarn
 
 install: yarn
 script:
-  - yarn lint:js
+  - yarn lint
