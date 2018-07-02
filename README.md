@@ -18,7 +18,7 @@ Installing via `npm` will bring in the above dependencies as well.
 
 __npm__
 ```sh
-$ npm install tether-shepherd
+$ npm install shepherd.js
 ```
 
 ## Usage
