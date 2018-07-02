@@ -1,7 +1,9 @@
 ## Shepherd
 
 [![GitHub
-version](https://badge.fury.io/gh/HubSpot%2Fshepherd.svg)](http://badge.fury.io/gh/HubSpot%2Fshepherd)
+version](https://badge.fury.io/gh/shipshapecode%2Fshepherd.svg)](http://badge.fury.io/gh/shipshapecode%2Fshepherd)
+
+[![Build Status](https://travis-ci.org/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.org/shipshapecode/shepherd)
 
 
 [![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](https://shipshapecode.github.io/shepherd/docs/welcome/)
