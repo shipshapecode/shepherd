@@ -16,7 +16,8 @@
     "Robert Wagner <rwwagner90@gmail.com>"
   ],
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "lint": "eslint ./src/js/shepherd.js"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -31,6 +32,8 @@
     "@babel/core": "^7.0.0-beta.51",
     "@babel/preset-env": "^7.0.0-beta.51",
     "del": "^3.0.0",
+    "eslint": "^5.0.1",
+    "eslint-plugin-ship-shape": "^0.6.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^8.0.0-beta.2",

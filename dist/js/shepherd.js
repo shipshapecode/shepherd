@@ -1,4 +1,4 @@
-/*! shepherd.js 1.8.1 */
+/*! shepherd.js 2.0.0-beta.1 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -39,12 +39,11 @@ var uniqueId = function () {
 }();
 /**
  * @param {*} target
- * @param {object} varArgs
  * @returns {*}
  */
 
 
-function assign(target, varArgs) {
+function assign(target) {
   // .length of function is 2
   'use strict';
 
@@ -161,7 +160,7 @@ function parsePosition(str) {
     return null;
   }
 
-  var on = matches[2];
+  var on = matches[2]; // eslint-disable-line
 
   if (on[0] === '[') {
     on = on.substring(1, on.length - 1);
@@ -169,7 +168,7 @@ function parsePosition(str) {
 
   return {
     'element': matches[1],
-    'on': on
+    on: on
   };
 }
 /**
@@ -207,8 +206,9 @@ function parseShorthand(obj, props) {
 var Evented =
 /*#__PURE__*/
 function () {
-  function Evented() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  function Evented()
+  /* options = {}*/
+  {// TODO: do we need this empty constructor?
 
     _classCallCheck(this, Evented);
   }
@@ -272,9 +272,9 @@ function () {
 
         while (i < this.bindings[event].length) {
           var _bindings$event$i = this.bindings[event][i];
-          var handler = _bindings$event$i.handler;
-          var ctx = _bindings$event$i.ctx;
-          var once = _bindings$event$i.once;
+          var ctx = _bindings$event$i.ctx,
+              handler = _bindings$event$i.handler,
+              once = _bindings$event$i.once;
           var context = ctx;
 
           if (typeof context === 'undefined') {
@@ -411,7 +411,8 @@ function (_Evented) {
         // guarantee that the element will exist in the future.
         try {
           returnOpts.element = document.querySelector(opts.element);
-        } catch (e) {}
+        } catch (e) {// TODO
+        }
 
         if (!returnOpts.element) {
           console.error("The element for this Shepherd step was not found ".concat(opts.element));
@@ -600,7 +601,7 @@ function (_Evented) {
         this.destroy();
       }
 
-      this.el = createFromHTML("<div class='shepherd-step ".concat(this.options.classes || '', "' data-id='").concat(this.id, "' ").concat(this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '', ">"));
+      this.el = createFromHTML("<div class='shepherd-step ".concat(this.options.classes || '', "' data-id='").concat(this.id, "' ").concat(this.options.idAttribute ? "id=\"".concat(this.options.idAttribute, "\"") : '', ">"));
 
       if (this.options.attachTo) {
         this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
@@ -806,7 +807,12 @@ function (_Evented2) {
 
       if (current && current.id === name) {
         this.currentStep = undefined;
-        if (this.steps.length) this.show(0);else this.hide();
+
+        if (this.steps.length) {
+          this.show(0);
+        } else {
+          this.hide();
+        }
       }
     }
   }, {
