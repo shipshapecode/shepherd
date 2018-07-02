@@ -66,7 +66,7 @@ gulp.task('css:docs', function() {
     .pipe(gulp.dest('./docs/welcome/css'));
 });
 
-// Make a copy of tether available to those not using bundling
+// Make a copy of popper available to those not using bundling
 gulp.task('copy-popper', function() {
   gulp.src('./node_modules/popper.js/dist/umd/popper.js')
     .pipe(gulp.dest(distDir + '/js'));

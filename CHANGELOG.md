@@ -1,5 +1,7 @@
 ## v2.0.0
 - Moved dependency from tether to popper.js
+- Changed package name to shepherd.js on npm
+- 
 
 ## v1.7.0
 - Fixes bug where `buttons: false` resulted in the default Next button instead of showing the desired result of no buttons.
