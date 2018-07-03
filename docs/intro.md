@@ -1,6 +1,7 @@
-<link rel="stylesheet" href="/shepherd/dist/css/shepherd-theme-arrows.css" />
-<script src="/shepherd/bower_components/tether/dist/js/tether.js"></script>
-<script src="/shepherd/dist/js/shepherd.min.js"></script>
+<link rel="stylesheet" href="/docs/ocean.css" />
+<link rel="stylesheet" href="/dist/css/shepherd-theme-arrows.css" />
+<script src="/dist/js/popper.js"></script>
+<script src="/dist/js/shepherd.min.js"></script>
 
 ## Shepherd
 
@@ -8,7 +9,19 @@ Guide your users through a tour of your app.
 
 ### Dependencies
 
-[Tether](http://github.hubspot.com/tether/)
+[Popper](https://popper.js.org/)
+
+### Install 
+
+```bash
+npm install shepherd.js --save
+```
+
+or
+
+```bash
+yarn add shepherd.js
+```
 
 ### Install with Eager
 
@@ -21,11 +34,13 @@ Click Install to create a tour right on your site with no coding required.
 
 First create a new `Tour` instance for your tour:
 
-```coffeescript
-tour = new Shepherd.Tour
-  defaults:
-    classes: 'shepherd-theme-arrows'
+```javascript
+const tour = new Shepherd.Tour({
+  defaults: { 
+    classes: 'shepherd-theme-arrows',
     scrollTo: true
+  }
+});
 ```
 
 The `defaults` option allows you to specify any options which should be applied
@@ -33,21 +48,24 @@ to all this tour's steps by default.
 
 Next, add your steps:
 
-```coffeescript
-tour.addStep 'example-step',
-  text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.'
-  attachTo: '.example-css-selector bottom'
-  classes: 'example-step-extra-class'
+```javascript
+tour.addStep('example-step', {
+  text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
+  attachTo: '.example-css-selector bottom',
+  classes: 'example-step-extra-class',
   buttons: [
-    text: 'Next'
-    action: tour.next
+    { 
+      text: 'Next',
+      action: tour.next
+    }
   ]
+});
 ```
 
 Finally, to start the tour, just call `start` on your `Tour` instance:
 
-```coffeescript
-tour.start()
+```javascript
+tour.start();
 ```
 
 ### API
@@ -57,7 +75,7 @@ tour.start()
 Shepherd exposes a single object onto the window, `Shepherd`.
 
 That global object fires several events to let you link up actions with events
-occuring in _any_ tour:
+occurring in _any_ tour:
 
 ##### Methods
 
@@ -93,7 +111,7 @@ You create a `Tour` object for each tour you'd like to create.
 Tour's constructor accepts a hash of options:
 
 ```javascript
-myTour = new Shepherd.Tour({ options })
+const myTour = new Shepherd.Tour(options);
 ```
 
 ##### Tour Options
@@ -158,14 +176,14 @@ the tour, it can be any event fired on any element on the page.  You can also al
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 - `when`: You can define show, hide, etc events inside when. For example:
-```js
+```javascript
 when: {
-        show: function() {
-          window.scrollTo(0, 0);
-        }
-      }
+  show: function() {
+    window.scrollTo(0, 0);
+  }
+}
 ```
-- `tetherOptions`: Extra options to pass to [tether](http://github.hubspot.com/tether)
+- `popperOptions`: Extra options to pass to [popper.js](https://github.com/FezVrasta/popper.js)
 
 ##### Step Methods
 
@@ -197,32 +215,34 @@ Please note that `complete` and `cancel` are only ever triggered if you call the
 You can use the `advanceOn` option, or the Next button, to advance steps.  If you would like however to have a step advance on a
 complex user action, you can do the following:
 
-```coffeescript
-myStep = myTour.addStep 'my-step', options
+```javascript
+const myStep = myTour.addStep('my-step', options);
 
-yourApp.on 'some-event', ->
-  if myStep.isOpen()
-    Shepherd.activeTour.next()
+yourApp.on('some-event', () => {
+  if (myStep.isOpen()){
+    Shepherd.activeTour.next();
+  }
+});
 ```
 
 It's strongly recommended that you use some sort of event mediator to connect your app's actions with Shepherd, to prevent
 having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
 mediator if need be using the `Evented` object which is provided with Shepherd:
 
-```coffeescript
-mediator = new Shepherd.Evented
+```javascript
+const mediator = new Shepherd.Evented();
 ```
 
 You can then trigger events in one part of your app:
 
-```coffeescript
-mediator.trigger 'user-create'
+```javascript
+mediator.trigger('user-create');
 ```
 
 And listen for them in other areas:
 
-```coffeescript
-mediator.on 'user-create', ->
+```javascript
+mediator.on('user-create', () => {});
 ```
 
 ### Browser Support

@@ -1,28 +1,30 @@
-var del         = require('del');
-var gulp        = require('gulp');
-var babel       = require('gulp-babel');
-var bump        = require('gulp-bump');
-var coffee      = require('gulp-coffee');
-var header      = require('gulp-header');
-var prefixer    = require('gulp-autoprefixer');
-var rename      = require('gulp-rename');
-var uglify      = require('gulp-uglify');
-var sass        = require('gulp-sass');
-var umd         = require('gulp-wrap-umd');
+const del = require('del');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const bump = require('gulp-bump');
+const coffee = require('gulp-coffee');
+const header = require('gulp-header');
+const hljs = require('highlight.js');
+const markdown = require('gulp-markdown');
+const prefixer = require('gulp-autoprefixer');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify-es').default;
+const sass = require('gulp-sass');
+const umd = require('gulp-wrap-umd');
 
 // Variables
-var distDir = './dist';
-var pkg = require('./package.json');
-var banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
-var umdOptions = {
+const distDir = './dist';
+const pkg = require('./package.json');
+const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
+const umdOptions = {
   exports: 'Shepherd',
   namespace: 'Shepherd',
   deps: [{
-    name: 'Tether',
-    globalName: 'Tether',
-    paramName: 'Tether',
-    amdName: 'tether',
-    cjsName: 'tether'
+    name: 'Popper',
+    globalName: 'Popper',
+    paramName: 'Popper',
+    amdName: 'popper',
+    cjsName: 'popper'
   }]
 };
 
@@ -36,7 +38,9 @@ gulp.task('clean', function() {
 // Javascript
 gulp.task('js', function() {
   gulp.src('./src/js/**/*.js')
-    .pipe(babel())
+    .pipe(babel({
+      presets: ['@babel/env']
+    }))
     .pipe(umd(umdOptions))
     .pipe(header(banner))
 
@@ -45,18 +49,35 @@ gulp.task('js', function() {
 
     // Minified
     .pipe(uglify())
-    .pipe(rename({suffix: '.min'}))
+    .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(distDir + '/js'));
 });
 
 // CSS
 gulp.task('css', function() {
   gulp.src('./src/css/**/*.sass')
-    .pipe(sass({
-      includePaths: ['./bower_components']
-    }))
+    .pipe(sass())
     .pipe(prefixer())
     .pipe(gulp.dest(distDir + '/css'));
+});
+
+gulp.task('markdown:docs', () => {
+  gulp.src('./docs/intro.md')
+    .pipe(
+      markdown({
+        highlight: function(code, lang) {
+          if (!lang) {
+            return code;
+          }
+          return hljs.highlight(lang, code).value;
+        }
+      })
+    )
+    .pipe(rename('index.html'))
+    .pipe(gulp.dest('./'));
+
+  gulp.src('./node_modules/highlight.js/styles/ocean.css')
+    .pipe(gulp.dest('./docs'));
 });
 
 gulp.task('css:docs', function() {
@@ -66,9 +87,11 @@ gulp.task('css:docs', function() {
     .pipe(gulp.dest('./docs/welcome/css'));
 });
 
-// Make a copy of tether available to those not using bundling
-gulp.task('copy-tether', function() {
-  gulp.src('./bower_components/tether/tether.js')
+// Make a copy of popper available to those not using bundling
+gulp.task('copy-popper', function() {
+  gulp.src('./node_modules/popper.js/dist/umd/popper.js')
+    .pipe(gulp.dest(distDir + '/js'));
+  gulp.src('./node_modules/popper.js/dist/umd/popper.min.js')
     .pipe(gulp.dest(distDir + '/js'));
 });
 
@@ -81,12 +104,12 @@ gulp.task('eager', function() {
 
 
 // Version bump
-var VERSIONS = ['patch', 'minor', 'major'];
-for (var i = 0; i < VERSIONS.length; ++i){
+const VERSIONS = ['patch', 'minor', 'major'];
+for (let i = 0; i < VERSIONS.length; ++i) {
   (function(version) {
     gulp.task('version:' + version, function() {
-      gulp.src(['package.json', 'bower.json'])
-        .pipe(bump({type: version}))
+      gulp.src(['package.json'])
+        .pipe(bump({ type: version }))
         .pipe(gulp.dest('.'));
     });
   })(VERSIONS[i]);
@@ -102,6 +125,7 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css', 'eager', 'copy-tether']);
+gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
+gulp.task('docs', ['build', 'css:docs', 'markdown:docs']);
 gulp.task('default', ['build']);
 

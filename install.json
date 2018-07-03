@@ -7,7 +7,7 @@
       },
       {
         "type": "script",
-        "src": "./dist/js/tether.js"
+        "src": "./dist/js/popper.js"
       },
       {
         "type": "script",
