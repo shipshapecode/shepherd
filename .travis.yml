@@ -19,8 +19,6 @@ jobs:
     - stage: npm release
       script:
         - yarn build
-      before_deploy:
-        - cd dist
       deploy:
         provider: npm
         email: rwwagner90@gmail.com
@@ -34,6 +32,8 @@ jobs:
     - stage: gh-pages release
       script:
         - yarn build
+      before_deploy:
+        - git add -f --all dist/
       deploy:
         provider: pages
         skip-cleanup: true
