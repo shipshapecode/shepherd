@@ -19,8 +19,18 @@ jobs:
     - stage: npm release
       script:
         - yarn build
+      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
+      before_deploy: |
+        function npm_dist_tag() {
+          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
+            echo "next"
+          else
+            echo "latest"
+          fi
+        }
       deploy:
         provider: npm
+        tag: $(npm_dist_tag)
         email: rwwagner90@gmail.com
         skip_cleanup: true
         api_key:
@@ -29,6 +39,10 @@ jobs:
           branch: master
           tags: true
           repo: shipshapecode/shepherd
+        after_deploy: |
+          if [ "$(npm_dist_tag)" == "latest" ]; then
+            npm dist-tag rm shepherd.js next || true
+          fi
     - stage: gh-pages release
       script:
         - yarn build
