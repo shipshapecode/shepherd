@@ -11,15 +11,14 @@ cache:
 install:
   - yarn install --ignore-engines
 
-before_script:
-  - yarn lint
-
-script:
-  - yarn build
-
 jobs:
   include:
+    - stage: test
+      script:
+        - yarn lint
     - stage: npm release
+      script:
+        - yarn build
       before_deploy:
         - cd dist
       deploy:
@@ -33,6 +32,8 @@ jobs:
           tags: true
           repo: shipshapecode/shepherd
     - stage: gh-pages release
+      script:
+        - yarn build
       deploy:
         provider: pages
         skip-cleanup: true
