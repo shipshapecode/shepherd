@@ -89,6 +89,8 @@ gulp.task('css:docs', function() {
     .pipe(gulp.dest('./docs/welcome/css'));
 });
 
+gulp.task('docs', ['css:docs', 'markdown:docs']);
+
 // Make a copy of popper available to those not using bundling
 gulp.task('copy-popper', function() {
   gulp.src('./node_modules/popper.js/dist/umd/popper.js')
@@ -127,7 +129,6 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
-gulp.task('docs', ['css:docs', 'markdown:docs']);
+gulp.task('build', ['js', 'css', 'eager', 'copy-popper', 'docs']);
 gulp.task('default', ['build']);
 
