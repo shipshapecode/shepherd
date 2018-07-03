@@ -5,7 +5,6 @@ html, body {
 body {
   margin: 0;
   background-color: #62c462;
-  background-image: -webkit-linear-gradient(135deg, #62c462, #75beaa);
   background-image: linear-gradient(-45deg, #62c462, #75beaa);
   font-family: "proxima-nova", "Helvetica Neue", sans-serif; }
 
@@ -57,8 +56,7 @@ body {
     .hero-outer .hero-inner h1 {
       padding-top: 10px; }
     .hero-outer .hero-inner > * {
-      -webkit-transition: opacity 0.4s;
-              transition: opacity 0.4s;
+      transition: opacity .4s;
       opacity: 0.3;
       pointer-events: none; }
       body:not(.shepherd-active) .hero-outer .hero-inner > * {

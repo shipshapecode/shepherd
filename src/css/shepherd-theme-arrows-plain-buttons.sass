@@ -1,0 +1,100 @@
+@import ./mixins/pie-clearfix
+@import ./mixins/inline-block
+@import ./helpers/tether
+@import ./helpers/tether-theme-arrows
+
+$themePrefix: "shepherd"
+$themeName: "arrows-plain-buttons"
+$arrowSize: 16px
+$arrowPointerEvents: none
+$backgroundColor: #fff
+$color: #444
+$useDropShadow: true
+
+$headerBackgroundColor: #eee
+
++tether($themePrefix: $themePrefix)
++tether-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $arrowPointerEvents: $arrowPointerEvents, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow)
+
+// Shepherd specific styles
+
+.#{ $themePrefix }-theme-#{ $themeName }
+
+    // Make the arrow 5color the same as the header color when the arrow is on the top
+
+    &[x-placement^="bottom"]
+        &.#{ $themePrefix }-has-title
+            .popper__arrow
+                border-bottom-color: $headerBackgroundColor
+
+    &.#{ $themePrefix }-has-title .#{ $themePrefix }-content header
+        background: $headerBackgroundColor
+        padding: 1em
+
+        a.shepherd-cancel-link
+            padding: 0
+            margin-bottom: 0
+
+    &.#{ $themePrefix }-has-cancel-link .#{ $themePrefix }-content header h3
+        float: left
+
+    .#{ $themePrefix }-content
+        padding: 0
+
+        header
+            +pie-clearfix
+            border-radius: 5px 5px 0 0
+
+            h3
+                margin: 0
+                line-height: 1
+                font-weight: normal
+
+            a.shepherd-cancel-link
+                float: right
+                text-decoration: none
+                font-size: 1.25em
+                line-height: .8em
+                font-weight: normal
+                color: rgba(0, 0, 0, .5)
+                opacity: 0.25
+                position: relative
+                top: .1em
+                padding: .8em
+                margin-bottom: -.8em
+
+                &:hover
+                    opacity: 1
+
+        .#{ $themePrefix }-text
+            padding: 1em
+
+            p
+                margin: 0 0 .5em 0
+                line-height: 1.3em
+
+                &:last-child
+                    margin-bottom: 0
+
+        footer
+            padding: 0 1em 1em
+
+            .#{ $themePrefix }-buttons
+                text-align: right
+                list-style: none
+                padding: 0
+                margin: 0
+
+                li
+                    display: inline
+                    padding: 0
+                    margin: 0
+
+                    .shepherd-button
+                        +inline-block
+                        cursor: pointer
+                        margin: 0 .5em 0 0
+                        text-decoration: none
+
+                    &:last-child .shepherd-button
+                        margin-right: 0

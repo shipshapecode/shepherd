@@ -1,0 +1,164 @@
+{
+  "resources": {
+    "head": [
+      {
+        "type": "style",
+        "src": "./dist/css/shepherd-theme-{{ options.theme }}.css"
+      },
+      {
+        "type": "script",
+        "src": "./dist/js/popper.js"
+      },
+      {
+        "type": "script",
+        "src": "./dist/js/shepherd.js"
+      },
+      {
+        "type": "script",
+        "src": "./dist/eager/installHelper.js"
+      }
+    ]
+  },
+  "preview": {
+    "handlers": [
+      {
+        "options": ["*"],
+        "execute": "ShepherdInstallHelper.setOptions(INSTALL_OPTIONS)"
+      },
+      {
+        "options": ["theme"],
+        "reload": true
+      }
+    ]
+  },
+  "options": {
+    "properties": {
+      "theme": {
+        "order": 1,
+        "title": "Theme",
+        "description": "Sets the overall styling of the tour",
+        "type": "string",
+        "enum": [
+          "default",
+          "dark",
+          "square",
+          "square-dark"
+        ],
+        "enumNames": {
+          "default": "Default",
+          "dark": "Dark",
+          "square": "Square",
+          "square-dark": "Square & Dark"
+        },
+        "default": "default"
+      },
+      "trigger": {
+        "order": 2,
+        "title": "Trigger",
+        "type": "string",
+        "format": "radios",
+        "enum": [
+          "first-page-visit",
+          "button-click"
+        ],
+        "enumNames": {
+          "first-page-visit": "Start the tour when a visitor arrives for the first time.",
+          "button-click": "Start the tour when a visitor clicks a button."
+        },
+        "default": "first-page-visit"
+      },
+      "buttonLocation": {
+        "order": 3,
+        "showIf": {
+          "trigger": "button-click"
+        },
+        "title": "Button location",
+        "type": "object",
+        "format": "element"
+      },
+      "buttonText": {
+        "order": 4,
+        "showIf": {
+          "trigger": "button-click"
+        },
+        "title": "Button text",
+        "type": "string",
+        "default": "Start guided tour..."
+      },
+      "scrollTo": {
+        "order": 5,
+        "title": "Scroll To",
+        "description": "Should the page be scrolled to show steps when they open?",
+        "type": "boolean"
+      },
+      "steps": {
+        "order": 6,
+        "title": "Steps",
+        "description": "Create a guided tour by creating steps anchored to the parts of your site you want to call attention. Each tour step points to a specific part of your page.",
+        "type": "array",
+        "maxItems": 10,
+        "items": {
+          "type": "object",
+          "title": "Step",
+          "properties": {
+            "attachToSelector": {
+              "order": 1,
+              "title": "Anchor",
+              "description": "Part of the page to attach the tour step",
+              "type": "string",
+              "format": "selector"
+            },
+            "attachToDirection": {
+              "order": 2,
+              "title": "Direction",
+              "description": "Side of the anchor to attach the tour step",
+              "type": "string",
+              "enum": [
+                "top",
+                "right",
+                "bottom",
+                "left"
+              ],
+              "enumNames": {
+                "top": "Top",
+                "right": "Right",
+                "bottom": "Bottom",
+                "left": "Left"
+              },
+              "default": "bottom"
+            },
+            "title": {
+              "order": 3,
+              "title": "Header",
+              "type": "string",
+              "maxLength": 50,
+              "validationMessage": "The step title cannot be longer than 50 characters."
+            },
+            "text": {
+              "order": 4,
+              "title": "Body",
+              "type": "string",
+              "format": "textarea",
+              "maxLength": 200,
+              "validationMessage": "The step text cannot be longer than 200 characters."
+            },
+            "showCancelLink": {
+              "order": 5,
+              "title": "Show cancel button",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "default": [
+          {
+            "attachToSelector": "h1",
+            "attachToDirection": "bottom",
+            "title": "Welcome",
+            "text": "This is an example step."
+          }
+        ]
+      }
+    }
+  }
+}

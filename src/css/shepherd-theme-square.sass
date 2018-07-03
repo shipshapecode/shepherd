@@ -1,0 +1,139 @@
+@import ./mixins/pie-clearfix
+@import ./mixins/inline-block
+@import ./helpers/tether
+@import ./helpers/tether-theme-arrows
+
+$themePrefix: "shepherd"
+$themeName: "square"
+$arrowSize: 16px
+$arrowPointerEvents: none
+$backgroundColor: #f6f6f6
+$color: #444
+$useDropShadow: false
+
+$headerBackgroundColor: #e6e6e6
+$zIndex: 9999
+$maxWidth: 24em
+
++tether($themePrefix: $themePrefix)
++tether-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $arrowPointerEvents: $arrowPointerEvents, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow)
+
+// Shepherd specific styles
+
+.#{ $themePrefix }-theme-#{ $themeName }
+    border-radius: 0
+    z-index: $zIndex
+    max-width: $maxWidth
+    font-size: 1em
+
+    // Make the arrow 5color the same as the header color when the arrow is on the top
+
+    &[x-placement^="bottom"]
+        &.#{ $themePrefix }-has-title
+            .popper__arrow
+                border-bottom-color: $headerBackgroundColor
+
+    &.#{ $themePrefix }-has-title .#{ $themePrefix }-content header
+        background: $headerBackgroundColor
+        padding: 1em
+
+        a.shepherd-cancel-link
+            padding: 0
+            margin-bottom: 0
+
+    &.#{ $themePrefix }-has-cancel-link .#{ $themePrefix }-content header h3
+        float: left
+
+    .#{ $themePrefix }-content
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, .17)
+        border-radius: 0
+        padding: 0
+
+        *
+            font-size: inherit
+
+        header
+            +pie-clearfix
+            border-radius: 0
+
+            h3
+                margin: 0
+                line-height: 1
+                font-weight: normal
+
+            a.shepherd-cancel-link
+                float: right
+                text-decoration: none
+                font-size: 1.25em
+                line-height: .8em
+                font-weight: normal
+                color: rgba(0, 0, 0, .5)
+                opacity: 0.25
+                position: relative
+                top: .1em
+                padding: .8em
+                margin-bottom: -.8em
+
+                &:hover
+                    opacity: 1
+
+        .#{ $themePrefix }-text
+            padding: 1em
+
+            p
+                margin: 0 0 .5em 0
+                line-height: 1.3em
+
+                &:last-child
+                    margin-bottom: 0
+
+        footer
+            padding: 0 1em 1em
+
+            .#{ $themePrefix }-buttons
+                text-align: right
+                list-style: none
+                padding: 0
+                margin: 0
+
+                li
+                    display: inline
+                    padding: 0
+                    margin: 0
+
+                    .shepherd-button
+                        +inline-block
+                        border-radius: 0
+                        cursor: pointer
+                        border: 0
+                        margin: 0 .5em 0 0
+                        font-family: inherit
+                        text-transform: uppercase
+                        letter-spacing: .1em
+                        font-size: .8em
+                        line-height: 1em
+                        padding: .75em 2em
+                        background: #3288e6
+                        color: #fff
+
+                        &.shepherd-button-secondary
+                            background: #eee
+                            color: #888
+
+                    &:last-child .shepherd-button
+                        margin-right: 0
+
+.#{ $themePrefix }-start-tour-button.#{ $themePrefix }-theme-#{ $themeName }
+    +inline-block
+    border-radius: 0
+    cursor: pointer
+    border: 0
+    margin: 0 .5em 0 0
+    font-family: inherit
+    text-transform: uppercase
+    letter-spacing: .1em
+    font-size: .8em
+    line-height: 1em
+    padding: .75em 2em
+    background: #3288e6
+    color: #fff
