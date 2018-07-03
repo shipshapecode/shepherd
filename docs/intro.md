@@ -10,6 +10,18 @@ Guide your users through a tour of your app.
 
 [Popper](https://popper.js.org/)
 
+### Install 
+
+```bash
+npm install shepherd.js --save
+```
+
+or
+
+```bash
+yarn add shepherd.js
+```
+
 ### Install with Eager
 
 The easiest way to add a Shepherd tour to your site is with [Eager](http://eager.io).
@@ -165,7 +177,7 @@ when: {
         }
       }
 ```
-- `tetherOptions`: Extra options to pass to [tether](http://github.hubspot.com/tether)
+- `popperOptions`: Extra options to pass to [popper.js](https://github.com/FezVrasta/popper.js)
 
 ##### Step Methods
 
