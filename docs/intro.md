@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="/docs/ocean.css" />
-<link rel="stylesheet" href="/dist/css/shepherd-theme-arrows.css" />
-<script src="/dist/js/popper.js"></script>
-<script src="/dist/js/shepherd.min.js"></script>
+<link rel="stylesheet" href="/shepherd/docs/ocean.css" />
+<link rel="stylesheet" href="/shepherd/dist/css/shepherd-theme-arrows.css" />
+<script src="/shepherd/dist/js/popper.js"></script>
+<script src="/shepherd/dist/js/shepherd.min.js"></script>
 
 ## Shepherd
 
