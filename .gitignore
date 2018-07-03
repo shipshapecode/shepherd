@@ -1,5 +1,10 @@
-.DS_Store
-.idea
-.sass-cache
-dist/
-node_modules/
+/.idea/
+/dist/
+/node_modules/
+
+/.DS_Store
+/.sass-cache
+/docs/ocean.css
+/index.html
+/npm-debug.log*
+/yarn-error.log

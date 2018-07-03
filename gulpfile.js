@@ -73,10 +73,8 @@ gulp.task('markdown:docs', () => {
         }
       })
     )
-    .pipe(rename(function(path) {
-      path.extname = '.html';
-    }))
-    .pipe(gulp.dest('./docs/'));
+    .pipe(rename('index.html'))
+    .pipe(gulp.dest('./'));
 
   gulp.src('./node_modules/highlight.js/styles/ocean.css')
     .pipe(gulp.dest('./docs'));
@@ -88,8 +86,6 @@ gulp.task('css:docs', function() {
     .pipe(prefixer())
     .pipe(gulp.dest('./docs/welcome/css'));
 });
-
-gulp.task('docs', ['css:docs', 'markdown:docs']);
 
 // Make a copy of popper available to those not using bundling
 gulp.task('copy-popper', function() {
@@ -129,6 +125,7 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 
 // Defaults
-gulp.task('build', ['js', 'css', 'eager', 'copy-popper', 'docs']);
+gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
+gulp.task('docs', ['build', 'css:docs', 'markdown:docs']);
 gulp.task('default', ['build']);
 
