@@ -4,7 +4,5 @@
 
 /.DS_Store
 /.sass-cache
-/docs/ocean.css
-/index.html
 /npm-debug.log*
 /yarn-error.log

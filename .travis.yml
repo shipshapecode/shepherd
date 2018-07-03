@@ -47,8 +47,6 @@ jobs:
       script:
         - yarn docs
       before_deploy:
-        - git add -f index.html
-        - git add -f --all docs/
         - git add -f --all dist/
       deploy:
         provider: pages
