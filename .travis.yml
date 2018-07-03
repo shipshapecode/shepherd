@@ -7,20 +7,29 @@ before_script:
   - yarn lint
 script:
   - yarn build
-deploy:
-  - provider: npm
-    email: rwwagner90@gmail.com
-    skip_cleanup: true
-    api_key:
-      secure: ckPBsSp3sChWtwpDTRW6JSmKMCGpNPxBJaeAXGEeVesSSWqZ2WMWDPSnc85/9/xxAu5jXzDiHotF90wQG9QpZbqHTnJXirjb8dLRJ3fpgUBbLGAcE2XCAJtuRi35aW7bQjkiUy6M5GDiM9LjUDIpj8HGKSywFSmB5DUGiTBuyAg=
-    on:
-      branch: master
-      tags: true
-      repo: shipshapecode/shepherd
-  - provider: pages
-    skip-cleanup: true
-    github-token:
-      secure: "mEepiSPDRKYAC4tTk/jXqDQOGRvVi4tdcONlU8U/TCWd3ZYg8BStKO8mQlPSVE7kVo2HTscgo256jvt1ee47P0K0Oawe7eyOvH8E+bYt0bu/LqpbtwfkX95a4MiVWc717kU/AX6lKAU3Ggnhdkw4AII8ZDFr9NLMGiL4bVokki8="
-    keep-history: true
-    on:
-      branch: master
+jobs:
+  include:
+    - stage: npm release
+      script: echo "Deploying to npm ..."
+      before_deploy:
+        - cd dist
+      deploy:
+        provider: npm
+        email: rwwagner90@gmail.com
+        skip_cleanup: true
+        api_key:
+          secure: ckPBsSp3sChWtwpDTRW6JSmKMCGpNPxBJaeAXGEeVesSSWqZ2WMWDPSnc85/9/xxAu5jXzDiHotF90wQG9QpZbqHTnJXirjb8dLRJ3fpgUBbLGAcE2XCAJtuRi35aW7bQjkiUy6M5GDiM9LjUDIpj8HGKSywFSmB5DUGiTBuyAg=
+        on:
+          branch: master
+          tags: true
+          repo: shipshapecode/shepherd
+    - stage: gh-pages release
+      script: echo "Deploying to gh-pages ..."
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token:
+          secure: "mEepiSPDRKYAC4tTk/jXqDQOGRvVi4tdcONlU8U/TCWd3ZYg8BStKO8mQlPSVE7kVo2HTscgo256jvt1ee47P0K0Oawe7eyOvH8E+bYt0bu/LqpbtwfkX95a4MiVWc717kU/AX6lKAU3Ggnhdkw4AII8ZDFr9NLMGiL4bVokki8="
+        keep-history: true
+        on:
+          branch: master
