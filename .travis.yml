@@ -1,16 +1,25 @@
 language: node_js
 node_js:
 - '10'
-cache: yarn
-install: yarn
+
+sudo: false
+dist: trusty
+
+cache:
+  yarn: true
+
+install:
+  - yarn install --ignore-engines
+
 before_script:
   - yarn lint
+
 script:
   - yarn build
+
 jobs:
   include:
     - stage: npm release
-      script: echo "Deploying to npm ..."
       before_deploy:
         - cd dist
       deploy:
@@ -24,7 +33,6 @@ jobs:
           tags: true
           repo: shipshapecode/shepherd
     - stage: gh-pages release
-      script: echo "Deploying to gh-pages ..."
       deploy:
         provider: pages
         skip-cleanup: true
