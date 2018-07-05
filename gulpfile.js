@@ -3,6 +3,7 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const bump = require('gulp-bump');
 const coffee = require('gulp-coffee');
+var gulpSequence = require('gulp-sequence');
 const header = require('gulp-header');
 const hljs = require('highlight.js');
 const markdown = require('gulp-markdown');
@@ -126,6 +127,6 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 // Defaults
 gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
-gulp.task('docs', ['build', 'css:docs', 'markdown:docs']);
+gulp.task('docs', gulpSequence('build', 'css:docs', 'markdown:docs'));
 gulp.task('default', ['build']);
 
