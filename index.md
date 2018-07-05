@@ -1,8 +1,3 @@
-<link rel="stylesheet" href="/shepherd/docs/ocean.css" />
-<link rel="stylesheet" href="/shepherd/dist/css/shepherd-theme-arrows.css" />
-<script src="/shepherd/dist/js/popper.js"></script>
-<script src="/shepherd/dist/js/shepherd.min.js"></script>
-
 ## Shepherd
 
 Guide your users through a tour of your app.

@@ -3,10 +3,8 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const bump = require('gulp-bump');
 const coffee = require('gulp-coffee');
-var gulpSequence = require('gulp-sequence');
+const gulpSequence = require('gulp-sequence');
 const header = require('gulp-header');
-const hljs = require('highlight.js');
-const markdown = require('gulp-markdown');
 const prefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify-es').default;
@@ -62,25 +60,6 @@ gulp.task('css', function() {
     .pipe(gulp.dest(distDir + '/css'));
 });
 
-gulp.task('markdown:docs', () => {
-  gulp.src('./docs/intro.md')
-    .pipe(
-      markdown({
-        highlight: function(code, lang) {
-          if (!lang) {
-            return code;
-          }
-          return hljs.highlight(lang, code).value;
-        }
-      })
-    )
-    .pipe(rename('index.html'))
-    .pipe(gulp.dest('./'));
-
-  gulp.src('./node_modules/highlight.js/styles/ocean.css')
-    .pipe(gulp.dest('./docs'));
-});
-
 gulp.task('css:docs', function() {
   gulp.src('./docs/welcome/sass/*.sass')
     .pipe(sass())
@@ -127,6 +106,6 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 
 // Defaults
 gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
-gulp.task('docs', gulpSequence('build', 'css:docs', 'markdown:docs'));
+gulp.task('docs', gulpSequence('build', 'css:docs'));
 gulp.task('default', ['build']);
 
