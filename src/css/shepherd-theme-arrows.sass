@@ -46,27 +46,26 @@ $headerBackgroundColor: #eee
         header
             +pie-clearfix
             border-radius: 5px 5px 0 0
+            padding: 1em 1em 0
 
             h3
                 margin: 0
-                line-height: 1
                 font-weight: normal
 
             a.shepherd-cancel-link
                 float: right
                 text-decoration: none
-                font-size: 1.25em
-                line-height: .8em
+                font-size: 2.25em
                 font-weight: normal
                 color: rgba(0, 0, 0, .5)
                 opacity: 0.25
                 position: relative
-                top: .1em
-                padding: .8em
-                margin-bottom: -.8em
 
                 &:hover
                     opacity: 1
+
+                &:before
+                    content: '\00d7'
 
         .#{ $themePrefix }-text
             padding: 1em
