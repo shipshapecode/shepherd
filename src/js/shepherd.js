@@ -670,7 +670,7 @@ class Tour extends Evented {
     }
 
     this.steps.push(step);
-    return this;
+    return step;
   }
 
   removeStep(name) {
