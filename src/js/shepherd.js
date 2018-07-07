@@ -342,7 +342,7 @@ class Step extends Evented {
       // guarantee that the element will exist in the future.
       try {
         returnOpts.element = document.querySelector(opts.element);
-      } catch(e) {
+      } catch (e) {
         // TODO
       }
       if (!returnOpts.element) {
@@ -368,20 +368,21 @@ class Step extends Evented {
       attachment = 'top';
 
       opts.modifiers = assign({
-        applyStyle: {
-          enabled: false
-        },
-        flip: { enabled: false },
-        hide: { enabled: false },
-        inner: { enabled: false },
-        keepTogether: { enabled: false },
-        preventOverflow: {
-          enabled: false,
-          padding: 0
+        computeStyle: {
+          enabled: true,
+          fn(data) {
+            data.styles = assign({}, data.styles, {
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)'
+            });
+
+            return data;
+          }
         }
       }, opts.modifiers);
 
-      opts.positionFixed = true;  // This will require the next version of popper. @see v1.13.0-next
+      opts.positionFixed = true;
     }
 
     const popperOpts = assign({}, {
@@ -402,13 +403,6 @@ class Step extends Evented {
 
     this.el.classList.add('shepherd-element');
     this.popper = new Popper(opts.element, this.el, popperOpts);
-
-    if (this.options.attachTo === undefined) {
-      this.popper.popper.style.position = 'fixed';
-      this.popper.popper.style.left = '50%';
-      this.popper.popper.style.top = '50%';
-      this.popper.popper.style.transform = 'translate(-50%, -50%)';
-    }
 
     this.target = opts.element;
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
