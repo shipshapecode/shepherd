@@ -8,33 +8,6 @@ const uniqueId = (function() {
 })();
 
 /**
- * @param {*} target
- * @returns {*}
- */
-function assign(target) { // .length of function is 2
-  'use strict';
-  if (target == null) { // TypeError if undefined or null
-    throw new TypeError('Cannot convert undefined or null to object');
-  }
-
-  const to = Object(target);
-
-  for (let index = 1; index < arguments.length; index++) {
-    const nextSource = arguments[index];
-
-    if (nextSource != null) { // Skip over if undefined or null
-      for (const nextKey in nextSource) {
-        // Avoid bugs when hasOwnProperty is shadowed
-        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-          to[nextKey] = nextSource[nextKey];
-        }
-      }
-    }
-  }
-  return to;
-}
-
-/**
  * @param obj
  * @returns {boolean}
  */
@@ -46,16 +19,8 @@ function isUndefined(obj) {
  * @param obj
  * @returns {*|boolean}
  */
-function isArray(obj) {
-  return obj && obj.constructor === Array;
-}
-
-/**
- * @param obj
- * @returns {*|boolean}
- */
 function isObject(obj) {
-  return obj && obj.constructor === Object;
+  return obj !== null && typeof obj === 'object' && Array.isArray(obj) === false;
 }
 
 /**
@@ -280,7 +245,7 @@ class Step extends Evented {
       buttonsJson === 'null' ||
       buttonsJson === 'false';
 
-    const buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
+    const buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
 
     const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
 
@@ -335,7 +300,7 @@ class Step extends Evented {
 
   getAttachTo() {
     const opts = parsePosition(this.options.attachTo) || {};
-    const returnOpts = assign({}, opts);
+    const returnOpts = Object.assign({}, opts);
 
     if (typeof opts.element === 'string') {
       // Can't override the element in user opts reference because we can't
@@ -367,11 +332,11 @@ class Step extends Evented {
       opts.element = document.body;
       attachment = 'top';
 
-      opts.modifiers = assign({
+      opts.modifiers = Object.assign({
         computeStyle: {
           enabled: true,
           fn(data) {
-            data.styles = assign({}, data.styles, {
+            data.styles = Object.assign({}, data.styles, {
               left: '50%',
               top: '50%',
               transform: 'translate(-50%, -50%)'
@@ -385,7 +350,7 @@ class Step extends Evented {
       opts.positionFixed = true;
     }
 
-    const popperOpts = assign({}, {
+    const popperOpts = Object.assign({}, {
       // constraints: [{ // Pretty much handled by popper
       //     to: 'window',
       //     pin: true,
@@ -657,7 +622,7 @@ class Tour extends Evented {
       if (typeof name === 'string' || typeof name === 'number') {
         step.id = name.toString();
       }
-      step = assign({}, this.options.defaults, step);
+      step = Object.assign({}, this.options.defaults, step);
       step = new Step(this, step);
     } else {
       step.tour = this;
@@ -798,4 +763,4 @@ class Tour extends Evented {
 }
 
 const Shepherd = new Evented();
-assign(Shepherd, { Tour, Step, Evented });
+Object.assign(Shepherd, { Tour, Step, Evented });
