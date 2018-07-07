@@ -784,7 +784,7 @@ function (_Evented2) {
       }
 
       this.steps.push(step);
-      return this;
+      return step;
     }
   }, {
     key: "removeStep",
