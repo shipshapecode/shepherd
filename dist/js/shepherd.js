@@ -487,8 +487,7 @@ function (_Evented) {
       }
 
       this.target = opts.element;
-      this.target.classList.add('shepherd-target');
-      this.target.classList.add('shepherd-enabled');
+      this.target.classList.add('shepherd-enabled', 'shepherd-target');
     }
   }, {
     key: "show",
@@ -538,7 +537,7 @@ function (_Evented) {
       document.body.removeAttribute('data-shepherd-step');
 
       if (this.target) {
-        this.target.classList.remove('shepherd-enabled');
+        this.target.classList.remove('shepherd-enabled', 'shepherd-target');
       }
 
       if (this.popper) {

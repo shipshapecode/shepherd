@@ -409,9 +409,9 @@ class Step extends Evented {
       this.popper.popper.style.top = '50%';
       this.popper.popper.style.transform = 'translate(-50%, -50%)';
     }
+
     this.target = opts.element;
-    this.target.classList.add('shepherd-target');
-    this.target.classList.add('shepherd-enabled');
+    this.target.classList.add('shepherd-enabled', 'shepherd-target');
   }
 
   show() {
@@ -454,7 +454,7 @@ class Step extends Evented {
     document.body.removeAttribute('data-shepherd-step');
 
     if (this.target) {
-      this.target.classList.remove('shepherd-enabled');
+      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
     }
 
     if (this.popper) {
