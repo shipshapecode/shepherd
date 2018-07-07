@@ -19,7 +19,7 @@ body {
   text-decoration: none;
   cursor: pointer;
   width: 140px;
-  font-size: .8em;
+  font-size: 0.8em;
   line-height: 1.3em; }
   .button.dark {
     background: #fff;
@@ -56,7 +56,7 @@ body {
     .hero-outer .hero-inner h1 {
       padding-top: 10px; }
     .hero-outer .hero-inner > * {
-      transition: opacity .4s;
+      transition: opacity 0.4s;
       opacity: 0.3;
       pointer-events: none; }
       body:not(.shepherd-active) .hero-outer .hero-inner > * {
