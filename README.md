@@ -1,29 +1,24 @@
 ## Shepherd
 
-[![GitHub
-version](https://badge.fury.io/gh/HubSpot%2Fshepherd.svg)](http://badge.fury.io/gh/HubSpot%2Fshepherd)
+[![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
+[![Build Status](https://travis-ci.org/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.org/shipshapecode/shepherd)
 
 
-[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](http://github.hubspot.com/shepherd/docs/welcome)
+[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
 
 ## Install
 
 __Dependencies__
 
-* __[Tether](https://github.com/HubSpot/tether)__
+* __[Popper.js](https://github.com/FezVrasta/popper.js)__
 
-Installing via `npm` and `bower` will bring in the above dependencies as well.
+Installing via `npm` will bring in the above dependencies as well.
 
 
 __npm__
 ```sh
-$ npm install tether-shepherd
-```
-
-__bower__
-```sh
-$ bower install tether-shepherd
+$ npm install shepherd.js
 ```
 
 ## Usage
@@ -45,9 +40,9 @@ tour.addStep('example', {
 tour.start();
 ```
 
-[API documentation](http://github.hubspot.com/shepherd/)
+[API documentation](https://shipshapecode.github.io/shepherd/)
 
-[Demo](http://github.hubspot.com/shepherd/docs/welcome/)
+[Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
 
 ## Contributing
@@ -56,4 +51,4 @@ We encourage contributions of all kinds. If you would like to contribute in some
 
 
 ## License
-Copyright &copy; 2015 HubSpot - [MIT License](LICENSE)
+[MIT License](LICENSE)

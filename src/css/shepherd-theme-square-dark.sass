@@ -1,8 +1,7 @@
-@import ../bower_components/tether/src/css/mixins/pie-clearfix
-@import ../bower_components/tether/src/css/mixins/inline-block
-@import ../bower_components/tether/src/css/helpers/tether
-@import ../bower_components/tether/src/css/helpers/tether-theme-arrows
-@import ./shepherd-theme-arrows-fix
+@import ./mixins/pie-clearfix
+@import ./mixins/inline-block
+@import ./helpers/tether
+@import ./helpers/tether-theme-arrows
 
 $themePrefix: "shepherd"
 $themeName: "square-dark"
@@ -21,7 +20,7 @@ $maxWidth: 24em
 
 // Shepherd specific styles
 
-.#{ $themePrefix }-element.#{ $themePrefix }-theme-#{ $themeName }
+.#{ $themePrefix }-theme-#{ $themeName }
     border-radius: 0
     z-index: $zIndex
     max-width: $maxWidth
@@ -29,10 +28,10 @@ $maxWidth: 24em
 
     // Make the arrow 5color the same as the header color when the arrow is on the top
 
-    &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-center, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-right.#{ $themePrefix }-target-attached-bottom, &.#{ $themePrefix }-element-attached-top.#{ $themePrefix }-element-attached-left.#{ $themePrefix }-target-attached-bottom
-
-        &.#{ $themePrefix }-has-title .#{ $themePrefix }-content:before
-            border-bottom-color: $headerBackgroundColor
+    &[x-placement^="bottom"]
+        &.#{ $themePrefix }-has-title
+            .popper__arrow
+                border-bottom-color: $headerBackgroundColor
 
     &.#{ $themePrefix }-has-title .#{ $themePrefix }-content header
         background: $headerBackgroundColor

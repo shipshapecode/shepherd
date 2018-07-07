@@ -1,0 +1,58 @@
+language: node_js
+node_js:
+- '10'
+
+sudo: false
+dist: trusty
+
+cache:
+  yarn: true
+
+install:
+  - yarn install --ignore-engines
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - yarn lint
+    - stage: npm release
+      script:
+        - yarn build
+      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
+      before_deploy: |
+        function npm_dist_tag() {
+          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
+            echo "next"
+          else
+            echo "latest"
+          fi
+        }
+      deploy:
+        provider: npm
+        tag: $(npm_dist_tag)
+        email: rwwagner90@gmail.com
+        skip_cleanup: true
+        api_key:
+          secure: ckPBsSp3sChWtwpDTRW6JSmKMCGpNPxBJaeAXGEeVesSSWqZ2WMWDPSnc85/9/xxAu5jXzDiHotF90wQG9QpZbqHTnJXirjb8dLRJ3fpgUBbLGAcE2XCAJtuRi35aW7bQjkiUy6M5GDiM9LjUDIpj8HGKSywFSmB5DUGiTBuyAg=
+        on:
+          branch: master
+          tags: true
+          repo: shipshapecode/shepherd
+        after_deploy: |
+          if [ "$(npm_dist_tag)" == "latest" ]; then
+            npm dist-tag rm shepherd.js next || true
+          fi
+    - stage: gh-pages release
+      script:
+        - yarn docs
+      before_deploy:
+        - git add -f --all dist/
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token:
+          secure: "mEepiSPDRKYAC4tTk/jXqDQOGRvVi4tdcONlU8U/TCWd3ZYg8BStKO8mQlPSVE7kVo2HTscgo256jvt1ee47P0K0Oawe7eyOvH8E+bYt0bu/LqpbtwfkX95a4MiVWc717kU/AX6lKAU3Ggnhdkw4AII8ZDFr9NLMGiL4bVokki8="
+        keep-history: true
+        on:
+          branch: master

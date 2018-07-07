@@ -1,0 +1,9 @@
+.idea/
+docs/
+tests/
+
+.eslintrc.js
+.gitignore
+.travis.yml
+index.html
+yarn.lock
