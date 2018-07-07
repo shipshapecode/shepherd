@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .shepherd-element, .shepherd-element:after, .shepherd-element:before, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
   box-sizing: border-box; }
 
@@ -91,17 +90,18 @@
       margin: 0;
       font-weight: normal; }
     .shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link {
+      color: rgba(0, 0, 0, 0.5);
       float: right;
-      text-decoration: none;
       font-size: 2.25em;
       font-weight: normal;
-      color: rgba(0, 0, 0, 0.5);
+      line-height: 0.5em;
       opacity: 0.25;
-      position: relative; }
+      position: relative;
+      text-decoration: none; }
+      .shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link:before {
+        content: '\00d7'; }
       .shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link:hover {
         opacity: 1; }
-      .shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link:before {
-        content: "×"; }
   .shepherd-theme-arrows .shepherd-content .shepherd-text {
     padding: 1em; }
     .shepherd-theme-arrows .shepherd-content .shepherd-text p {

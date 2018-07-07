@@ -1,0 +1,18 @@
+@mixin cancel-link {
+  color: rgba(0, 0, 0, 0.5);
+  float: right;
+  font-size: 2.25em;
+  font-weight: normal;
+  line-height: 0.5em;
+  opacity: 0.25;
+  position: relative;
+  text-decoration: none;
+
+  &:before {
+    content: '\00d7';
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
