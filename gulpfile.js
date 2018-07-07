@@ -54,14 +54,14 @@ gulp.task('js', function() {
 
 // CSS
 gulp.task('css', function() {
-  gulp.src('./src/css/**/*.sass')
+  gulp.src('./src/css/**/*.scss')
     .pipe(sass())
     .pipe(prefixer())
     .pipe(gulp.dest(distDir + '/css'));
 });
 
 gulp.task('css:docs', function() {
-  gulp.src('./docs/welcome/sass/*.sass')
+  gulp.src('./docs/welcome/sass/*.scss')
     .pipe(sass())
     .pipe(prefixer())
     .pipe(gulp.dest('./docs/welcome/css'));
@@ -108,4 +108,3 @@ gulp.task('watch', ['js', 'css', 'eager'], function() {
 gulp.task('build', ['js', 'css', 'eager', 'copy-popper']);
 gulp.task('docs', gulpSequence('build', 'css:docs'));
 gulp.task('default', ['build']);
-
