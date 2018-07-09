@@ -1,19 +1,19 @@
-@mixin popper-theme-arrows($themePrefix: "popper", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false) {
-  .#{$themePrefix}-theme-#{$themeName} {
+@mixin popper-theme-arrows($theme-prefix: "popper", $theme-name: "arrows", $arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
+  .#{$theme-prefix}-theme-#{$theme-name} {
     max-width: 100%;
     max-height: 100%;
 
-    .#{$themePrefix}-content {
+    .#{$theme-prefix}-content {
       border-radius: 5px;
       position: relative;
       font-family: inherit;
-      background: $backgroundColor;
+      background: $background-color;
       color: $color;
       padding: 1em;
       font-size: 1.1em;
       line-height: 1.5em;
 
-      @if $useDropShadow {
+      @if $use-drop-shadow {
         transform: translateZ(0);
         filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
       }
@@ -26,54 +26,54 @@
       width: 0;
       height: 0;
       border-color: transparent;
-      border-width: $arrowSize;
+      border-width: $arrow-size;
       border-style: solid;
-      pointer-events: $arrowPointerEvents;
+      pointer-events: $arrow-pointer-events;
     }
 
     // Centers and middles
 
     &[x-placement^="top"] {
-      margin-bottom: $arrowSize;
+      margin-bottom: $arrow-size;
 
       .popper__arrow {
-        bottom: -$arrowSize;
-        left: calc(50% - #{$arrowSize});
-        border-top-color: $backgroundColor;
+        bottom: -$arrow-size;
+        left: calc(50% - #{$arrow-size});
+        border-top-color: $background-color;
         border-bottom: 0;
       }
     }
 
     &[x-placement^="bottom"] {
-      margin-top: $arrowSize;
+      margin-top: $arrow-size;
 
       .popper__arrow {
-        top: -$arrowSize;
-        left: calc(50% - #{$arrowSize});
-        border-bottom-color: $backgroundColor;
+        top: -$arrow-size;
+        left: calc(50% - #{$arrow-size});
+        border-bottom-color: $background-color;
         border-top: 0;
       }
     }
 
     &[x-placement^="left"] {
-      margin-right: $arrowSize;
+      margin-right: $arrow-size;
 
       .popper__arrow {
-        right: -$arrowSize;
-        top: calc(50% - #{$arrowSize});
-        margin-top: -$arrowSize;
-        border-left-color: $backgroundColor;
+        right: -$arrow-size;
+        top: calc(50% - #{$arrow-size});
+        margin-top: -$arrow-size;
+        border-left-color: $background-color;
         border-right: 0;
       }
     }
 
     &[x-placement^="right"] {
-      margin-left: $arrowSize;
+      margin-left: $arrow-size;
 
       .popper__arrow {
-        left: -$arrowSize;
-        top: calc(50% - #{$arrowSize});
-        border-right-color: $backgroundColor;
+        left: -$arrow-size;
+        top: calc(50% - #{$arrow-size});
+        border-right-color: $background-color;
         border-left: 0;
       }
     }

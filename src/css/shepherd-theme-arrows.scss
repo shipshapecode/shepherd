@@ -1,26 +1,28 @@
-$backgroundColor: #ffffff;
+@import "./variables";
+
+$background-color: $color-white;
 $color: #444444;
-$headerBackgroundColor: #eeeeee;
-$themeName: "arrows";
-$useDropShadow: true;
+$header-background-color: #eeeeee;
+$theme-name: "arrows";
+$use-drop-shadow: true;
 
 @import "./base";
 
 // Shepherd specific styles
 
-.#{$themePrefix}-theme-arrows {
+.#{$theme-prefix}-theme-arrows {
   // Make the arrow color the same as the header color when the arrow is on the top
 
   &[x-placement^="bottom"] {
-    &.#{$themePrefix}-has-title {
+    &.#{$theme-prefix}-has-title {
       .popper__arrow {
-        border-bottom-color: $headerBackgroundColor;
+        border-bottom-color: $header-background-color;
       }
     }
   }
 
-  &.#{$themePrefix}-has-title .#{$themePrefix}-content header {
-    background: $headerBackgroundColor;
+  &.#{$theme-prefix}-has-title .#{$theme-prefix}-content header {
+    background: $header-background-color;
     padding: 1em;
 
     a.shepherd-cancel-link {
@@ -29,11 +31,11 @@ $useDropShadow: true;
     }
   }
 
-  &.#{$themePrefix}-has-cancel-link .#{$themePrefix}-content header h3 {
+  &.#{$theme-prefix}-has-cancel-link .#{$theme-prefix}-content header h3 {
     float: left;
   }
 
-  .#{$themePrefix}-content {
+  .#{$theme-prefix}-content {
     padding: 0;
 
     * {
@@ -56,7 +58,7 @@ $useDropShadow: true;
       }
     }
 
-    .#{$themePrefix}-text {
+    .#{$theme-prefix}-text {
       padding: 1em;
 
       p {
@@ -72,7 +74,7 @@ $useDropShadow: true;
     footer {
       padding: 0 1em 1em;
 
-      .#{$themePrefix}-buttons {
+      .#{$theme-prefix}-buttons {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -89,7 +91,7 @@ $useDropShadow: true;
             background: #3288e6;
             border: 0;
             border-radius: 3px;
-            color: #ffffff;
+            color: $color-white;
             cursor: pointer;
             font-family: inherit;
             font-size: 0.8em;
@@ -101,7 +103,7 @@ $useDropShadow: true;
 
             &.shepherd-button-secondary {
               background: #eeeeee;
-              color: #888888;
+              color: $color-grey;
             }
           }
 

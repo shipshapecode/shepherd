@@ -4,9 +4,5 @@
 @import "./helpers/popper";
 @import "./helpers/popper-theme-arrows";
 
-$arrowPointerEvents: none;
-$arrowSize: 16px;
-$themePrefix: "shepherd";
-
-@include popper($themePrefix: $themePrefix);
-@include popper-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $arrowPointerEvents: $arrowPointerEvents, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow);
+@include popper($theme-prefix: $theme-prefix);
+@include popper-theme-arrows($theme-prefix: $theme-prefix, $theme-name: $theme-name, $arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);

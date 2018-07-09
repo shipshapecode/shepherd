@@ -19,8 +19,8 @@
     "build": "gulp build",
     "docs": "gulp docs",
     "lint:js": "eslint ./src/js/shepherd.js",
-    "lint:styles": "stylelint ./src/css/**.scss",
-    "lint": "yarn lint:js"
+    "lint:styles": "stylelint ./src/css/**.scss ./docs/welcome/sass/welcome.scss",
+    "lint": "yarn lint:js && yarn lint:styles"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
