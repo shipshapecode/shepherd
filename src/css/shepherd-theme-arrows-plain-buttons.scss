@@ -1,21 +1,10 @@
-@import "./mixins/cancel-link";
-@import "./mixins/pie-clearfix";
-@import "./mixins/inline-block";
-@import "./helpers/tether";
-@import "./helpers/tether-theme-arrows";
-
-$themePrefix: "shepherd";
+$backgroundColor: #ffffff;
+$color: #444444;
+$headerBackgroundColor: #eeeeee;
 $themeName: "arrows-plain-buttons";
-$arrowSize: 16px;
-$arrowPointerEvents: none;
-$backgroundColor: #fff;
-$color: #444;
 $useDropShadow: true;
 
-$headerBackgroundColor: #eee;
-
-@include tether($themePrefix: $themePrefix);
-@include tether-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $arrowPointerEvents: $arrowPointerEvents, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow);
+@import "./base";
 
 // Shepherd specific styles
 
@@ -35,8 +24,8 @@ $headerBackgroundColor: #eee;
     padding: 1em;
 
     a.shepherd-cancel-link {
-      padding: 0;
       margin-bottom: 0;
+      padding: 0;
     }
   }
 
@@ -54,8 +43,8 @@ $headerBackgroundColor: #eee;
       padding: 1em 1em 0;
 
       h3 {
-        margin: 0;
         font-weight: normal;
+        margin: 0;
       }
 
       a.shepherd-cancel-link {
@@ -67,8 +56,8 @@ $headerBackgroundColor: #eee;
       padding: 1em;
 
       p {
-        margin: 0 0 0.5em 0;
         line-height: 1.3em;
+        margin: 0 0 0.5em;
 
         &:last-child {
           margin-bottom: 0;
@@ -80,15 +69,15 @@ $headerBackgroundColor: #eee;
       padding: 0 1em 1em;
 
       .#{$themePrefix}-buttons {
-        text-align: right;
         list-style: none;
-        padding: 0;
         margin: 0;
+        padding: 0;
+        text-align: right;
 
         li {
           display: inline;
-          padding: 0;
           margin: 0;
+          padding: 0;
 
           .shepherd-button {
             @include inline-block;

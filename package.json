@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "2.0.0-beta.6",
+  "version": "2.0.0-beta.7",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -18,7 +18,9 @@
   "scripts": {
     "build": "gulp build",
     "docs": "gulp docs",
-    "lint": "eslint ./src/js/shepherd.js"
+    "lint:js": "eslint ./src/js/shepherd.js",
+    "lint:styles": "stylelint ./src/css/**.scss",
+    "lint": "yarn lint:js"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -45,7 +47,9 @@
     "gulp-sass": "^4.0.1",
     "gulp-sequence": "^1.0.0",
     "gulp-uglify-es": "^1.0.4",
-    "gulp-wrap-umd": "^0.2.1"
+    "gulp-wrap-umd": "^0.2.1",
+    "stylelint": "^9.3.0",
+    "stylelint-config-ship-shape": "^0.4.0"
   },
   "engines": {
     "node": ">= 6.*"

@@ -15,7 +15,7 @@
     position: relative;
     font-family: inherit;
     background: #f6f6f6;
-    color: #444;
+    color: #444444;
     padding: 1em;
     font-size: 1.1em;
     line-height: 1.5em; }
@@ -60,17 +60,17 @@
       border-left: 0; }
 
 .shepherd-theme-default {
-  z-index: 9999;
+  font-size: 1em;
   max-width: 24em;
-  font-size: 1em; }
+  z-index: 9999; }
   .shepherd-theme-default[x-placement^="bottom"].shepherd-has-title .popper__arrow {
     border-bottom-color: #e6e6e6; }
   .shepherd-theme-default.shepherd-has-title .shepherd-content header {
     background: #e6e6e6;
     padding: 1em; }
     .shepherd-theme-default.shepherd-has-title .shepherd-content header a.shepherd-cancel-link {
-      padding: 0;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      padding: 0; }
   .shepherd-theme-default.shepherd-has-cancel-link .shepherd-content header h3 {
     float: left; }
   .shepherd-theme-default .shepherd-content {
@@ -87,8 +87,8 @@
         display: table;
         clear: both; }
       .shepherd-theme-default .shepherd-content header h3 {
-        margin: 0;
-        font-weight: normal; }
+        font-weight: normal;
+        margin: 0; }
       .shepherd-theme-default .shepherd-content header a.shepherd-cancel-link {
         color: rgba(0, 0, 0, 0.5);
         float: right;
@@ -105,42 +105,42 @@
     .shepherd-theme-default .shepherd-content .shepherd-text {
       padding: 1em; }
       .shepherd-theme-default .shepherd-content .shepherd-text p {
-        margin: 0 0 0.5em 0;
-        line-height: 1.3em; }
+        line-height: 1.3em;
+        margin: 0 0 0.5em; }
         .shepherd-theme-default .shepherd-content .shepherd-text p:last-child {
           margin-bottom: 0; }
     .shepherd-theme-default .shepherd-content footer {
       padding: 0 1em 1em; }
       .shepherd-theme-default .shepherd-content footer .shepherd-buttons {
-        text-align: right;
         list-style: none;
+        margin: 0;
         padding: 0;
-        margin: 0; }
+        text-align: right; }
         .shepherd-theme-default .shepherd-content footer .shepherd-buttons li {
           display: inline;
-          padding: 0;
-          margin: 0; }
+          margin: 0;
+          padding: 0; }
           .shepherd-theme-default .shepherd-content footer .shepherd-buttons li .shepherd-button {
             display: inline-block;
             vertical-align: middle;
             *vertical-align: auto;
             *zoom: 1;
             *display: inline;
-            border-radius: 3px;
-            cursor: pointer;
-            border: 0;
-            margin: 0 0.5em 0 0;
-            font-family: inherit;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.8em;
-            line-height: 1em;
-            padding: 0.75em 2em;
             background: #3288e6;
-            color: #fff; }
+            border: 0;
+            border-radius: 3px;
+            color: #ffffff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8em;
+            letter-spacing: 0.1em;
+            line-height: 1em;
+            margin: 0 0.5em 0 0;
+            padding: 0.75em 2em;
+            text-transform: uppercase; }
             .shepherd-theme-default .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
-              background: #eee;
-              color: #888; }
+              background: #eeeeee;
+              color: #888888; }
           .shepherd-theme-default .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
             margin-right: 0; }
 
@@ -150,15 +150,15 @@
   *vertical-align: auto;
   *zoom: 1;
   *display: inline;
-  border-radius: 3px;
-  cursor: pointer;
-  border: 0;
-  margin: 0 0.5em 0 0;
-  font-family: inherit;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.8em;
-  line-height: 1em;
-  padding: 0.75em 2em;
   background: #3288e6;
-  color: #fff; }
+  border: 0;
+  border-radius: 3px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  line-height: 1em;
+  margin: 0 0.5em 0 0;
+  padding: 0.75em 2em;
+  text-transform: uppercase; }

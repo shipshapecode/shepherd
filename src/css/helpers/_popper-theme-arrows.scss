@@ -1,4 +1,4 @@
-@mixin tether-theme-arrows($themePrefix: "tether", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false) {
+@mixin popper-theme-arrows($themePrefix: "popper", $themeName: "arrows", $arrowSize: 16px, $arrowPointerEvents: null, $backgroundColor: #fff, $color: inherit, $useDropShadow: false) {
   .#{$themePrefix}-theme-#{$themeName} {
     max-width: 100%;
     max-height: 100%;

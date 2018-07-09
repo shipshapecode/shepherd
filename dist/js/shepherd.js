@@ -1,4 +1,4 @@
-/*! shepherd.js 2.0.0-beta.6 */
+/*! shepherd.js 2.0.0-beta.7 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -38,39 +38,6 @@ var uniqueId = function () {
   };
 }();
 /**
- * @param {*} target
- * @returns {*}
- */
-
-
-function assign(target) {
-  // .length of function is 2
-  'use strict';
-
-  if (target == null) {
-    // TypeError if undefined or null
-    throw new TypeError('Cannot convert undefined or null to object');
-  }
-
-  var to = Object(target);
-
-  for (var index = 1; index < arguments.length; index++) {
-    var nextSource = arguments[index];
-
-    if (nextSource != null) {
-      // Skip over if undefined or null
-      for (var nextKey in nextSource) {
-        // Avoid bugs when hasOwnProperty is shadowed
-        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-          to[nextKey] = nextSource[nextKey];
-        }
-      }
-    }
-  }
-
-  return to;
-}
-/**
  * @param obj
  * @returns {boolean}
  */
@@ -85,17 +52,8 @@ function isUndefined(obj) {
  */
 
 
-function isArray(obj) {
-  return obj && obj.constructor === Array;
-}
-/**
- * @param obj
- * @returns {*|boolean}
- */
-
-
 function isObject(obj) {
-  return obj && obj.constructor === Object;
+  return obj !== null && _typeof(obj) === 'object' && Array.isArray(obj) === false;
 }
 /**
  * @param obj
@@ -348,7 +306,7 @@ function (_Evented) {
       var buttonsJson = JSON.stringify(this.options.buttons);
       var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === 'true';
       var buttonsAreEmpty = buttonsJson === '{}' || buttonsJson === '[]' || buttonsJson === 'null' || buttonsJson === 'false';
-      var buttonsAreArray = !buttonsAreDefault && isArray(this.options.buttons);
+      var buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
       var buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons); // Show default button if undefined or 'true'
 
       if (buttonsAreDefault) {
@@ -404,7 +362,7 @@ function (_Evented) {
     key: "getAttachTo",
     value: function getAttachTo() {
       var opts = parsePosition(this.options.attachTo) || {};
-      var returnOpts = assign({}, opts);
+      var returnOpts = Object.assign({}, opts);
 
       if (typeof opts.element === 'string') {
         // Can't override the element in user opts reference because we can't
@@ -436,31 +394,23 @@ function (_Evented) {
       if (isUndefined(opts.element)) {
         opts.element = document.body;
         attachment = 'top';
-        opts.modifiers = assign({
-          applyStyle: {
-            enabled: false
-          },
-          flip: {
-            enabled: false
-          },
-          hide: {
-            enabled: false
-          },
-          inner: {
-            enabled: false
-          },
-          keepTogether: {
-            enabled: false
-          },
-          preventOverflow: {
-            enabled: false,
-            padding: 0
+        opts.modifiers = Object.assign({
+          computeStyle: {
+            enabled: true,
+            fn: function fn(data) {
+              data.styles = Object.assign({}, data.styles, {
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
+              });
+              return data;
+            }
           }
         }, opts.modifiers);
-        opts.positionFixed = true; // This will require the next version of popper. @see v1.13.0-next
+        opts.positionFixed = true;
       }
 
-      var popperOpts = assign({}, {
+      var popperOpts = Object.assign({}, {
         // constraints: [{ // Pretty much handled by popper
         //     to: 'window',
         //     pin: true,
@@ -478,14 +428,6 @@ function (_Evented) {
 
       this.el.classList.add('shepherd-element');
       this.popper = new Popper(opts.element, this.el, popperOpts);
-
-      if (this.options.attachTo === undefined) {
-        this.popper.popper.style.position = 'fixed';
-        this.popper.popper.style.left = '50%';
-        this.popper.popper.style.top = '50%';
-        this.popper.popper.style.transform = 'translate(-50%, -50%)';
-      }
-
       this.target = opts.element;
       this.target.classList.add('shepherd-enabled', 'shepherd-target');
     }
@@ -776,7 +718,7 @@ function (_Evented2) {
           step.id = name.toString();
         }
 
-        step = assign({}, this.options.defaults, step);
+        step = Object.assign({}, this.options.defaults, step);
         step = new Step(this, step);
       } else {
         step.tour = this;
@@ -940,7 +882,7 @@ function (_Evented2) {
 }(Evented);
 
 var Shepherd = new Evented();
-assign(Shepherd, {
+Object.assign(Shepherd, {
   Tour: Tour,
   Step: Step,
   Evented: Evented
