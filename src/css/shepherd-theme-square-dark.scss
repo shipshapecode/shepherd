@@ -1,31 +1,20 @@
-@import "./mixins/cancel-link";
-@import "./mixins/pie-clearfix";
-@import "./mixins/inline-block";
-@import "./helpers/tether";
-@import "./helpers/tether-theme-arrows";
-
-$themePrefix: "shepherd";
-$themeName: "square-dark";
-$arrowSize: 16px;
-$arrowPointerEvents: none;
 $backgroundColor: #232323;
-$color: #eee;
-$useDropShadow: false;
-
+$color: #eeeeee;
 $headerBackgroundColor: #303030;
-$zIndex: 9999;
 $maxWidth: 24em;
+$themeName: "square-dark";
+$useDropShadow: false;
+$zIndex: 9999;
 
-@include tether($themePrefix: $themePrefix);
-@include tether-theme-arrows($themePrefix: $themePrefix, $themeName: $themeName, $arrowSize: $arrowSize, $arrowPointerEvents: $arrowPointerEvents, $backgroundColor: $backgroundColor, $color: $color, $useDropShadow: $useDropShadow);
+@import "./base";
 
 // Shepherd specific styles
 
 .#{$themePrefix}-theme-#{$themeName} {
   border-radius: 0;
-  z-index: $zIndex;
-  max-width: $maxWidth;
   font-size: 1em;
+  max-width: $maxWidth;
+  z-index: $zIndex;
 
   // Make the arrow 5color the same as the header color when the arrow is on the top
 
@@ -42,8 +31,8 @@ $maxWidth: 24em;
     padding: 1em;
 
     a.shepherd-cancel-link {
-      padding: 0;
       margin-bottom: 0;
+      padding: 0;
     }
   }
 
@@ -52,8 +41,8 @@ $maxWidth: 24em;
   }
 
   .#{$themePrefix}-content {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
     border-radius: 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
     padding: 0;
 
     * {
@@ -67,8 +56,8 @@ $maxWidth: 24em;
       padding: 1em 1em 0;
 
       h3 {
-        margin: 0;
         font-weight: normal;
+        margin: 0;
       }
 
       a.shepherd-cancel-link {
@@ -80,8 +69,8 @@ $maxWidth: 24em;
       padding: 1em;
 
       p {
-        margin: 0 0 0.5em 0;
         line-height: 1.3em;
+        margin: 0 0 0.5em;
 
         &:last-child {
           margin-bottom: 0;
@@ -93,35 +82,35 @@ $maxWidth: 24em;
       padding: 0 1em 1em;
 
       .#{$themePrefix}-buttons {
-        text-align: right;
         list-style: none;
-        padding: 0;
         margin: 0;
+        padding: 0;
+        text-align: right;
 
         li {
           display: inline;
-          padding: 0;
           margin: 0;
+          padding: 0;
 
           .shepherd-button {
             @include inline-block;
 
-            border-radius: 0;
-            cursor: pointer;
-            border: 0;
-            margin: 0 0.5em 0 0;
-            font-family: inherit;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.8em;
-            line-height: 1em;
-            padding: 0.75em 2em;
             background: #3288e6;
-            color: #fff;
+            border: 0;
+            border-radius: 0;
+            color: #ffffff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8em;
+            letter-spacing: 0.1em;
+            line-height: 1em;
+            margin: 0 0.5em 0 0;
+            padding: 0.75em 2em;
+            text-transform: uppercase;
 
             &.shepherd-button-secondary {
-              background: #eee;
-              color: #888;
+              background: #eeeeee;
+              color: #888888;
             }
           }
 
@@ -137,16 +126,16 @@ $maxWidth: 24em;
 .#{$themePrefix}-start-tour-button.#{$themePrefix}-theme-#{$themeName} {
   @include inline-block;
 
-  border-radius: 0;
-  cursor: pointer;
-  border: 0;
-  margin: 0 0.5em 0 0;
-  font-family: inherit;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.8em;
-  line-height: 1em;
-  padding: 0.75em 2em;
   background: #3288e6;
-  color: #fff;
+  border: 0;
+  border-radius: 0;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  line-height: 1em;
+  margin: 0 0.5em 0 0;
+  padding: 0.75em 2em;
+  text-transform: uppercase;
 }

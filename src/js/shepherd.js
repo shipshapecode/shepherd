@@ -307,7 +307,7 @@ class Step extends Evented {
       // guarantee that the element will exist in the future.
       try {
         returnOpts.element = document.querySelector(opts.element);
-      } catch (e) {
+      } catch(e) {
         // TODO
       }
       if (!returnOpts.element) {

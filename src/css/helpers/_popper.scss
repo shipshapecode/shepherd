@@ -1,4 +1,4 @@
-@mixin tether($themePrefix: "tether") {
+@mixin popper($themePrefix: "popper") {
   .#{$themePrefix}-element, .#{$themePrefix}-element * {
     &, &:after, &:before {
       box-sizing: border-box;
