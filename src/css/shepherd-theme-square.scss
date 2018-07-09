@@ -1,33 +1,35 @@
-$backgroundColor: #f6f6f6;
+@import "./variables";
+
+$background-color: #f6f6f6;
 $color: #444444;
-$headerBackgroundColor: #e6e6e6;
-$maxWidth: 24em;
-$themeName: "square";
-$useDropShadow: false;
-$zIndex: 9999;
+$header-background-color: #e6e6e6;
+$max-width: 24em;
+$theme-name: "square";
+$use-drop-shadow: false;
+$z-index: 9999;
 
 @import "./base";
 
 // Shepherd specific styles
 
-.#{$themePrefix}-theme-#{$themeName} {
+.#{$theme-prefix}-theme-#{$theme-name} {
   border-radius: 0;
   font-size: 1em;
-  max-width: $maxWidth;
-  z-index: $zIndex;
+  max-width: $max-width;
+  z-index: $z-index;
 
   // Make the arrow 5color the same as the header color when the arrow is on the top
 
   &[x-placement^="bottom"] {
-    &.#{$themePrefix}-has-title {
+    &.#{$theme-prefix}-has-title {
       .popper__arrow {
-        border-bottom-color: $headerBackgroundColor;
+        border-bottom-color: $header-background-color;
       }
     }
   }
 
-  &.#{$themePrefix}-has-title .#{$themePrefix}-content header {
-    background: $headerBackgroundColor;
+  &.#{$theme-prefix}-has-title .#{$theme-prefix}-content header {
+    background: $header-background-color;
     padding: 1em;
 
     a.shepherd-cancel-link {
@@ -36,11 +38,11 @@ $zIndex: 9999;
     }
   }
 
-  &.#{$themePrefix}-has-cancel-link .#{$themePrefix}-content header h3 {
+  &.#{$theme-prefix}-has-cancel-link .#{$theme-prefix}-content header h3 {
     float: left;
   }
 
-  .#{$themePrefix}-content {
+  .#{$theme-prefix}-content {
     border-radius: 0;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
     padding: 0;
@@ -65,7 +67,7 @@ $zIndex: 9999;
       }
     }
 
-    .#{$themePrefix}-text {
+    .#{$theme-prefix}-text {
       padding: 1em;
 
       p {
@@ -81,7 +83,7 @@ $zIndex: 9999;
     footer {
       padding: 0 1em 1em;
 
-      .#{$themePrefix}-buttons {
+      .#{$theme-prefix}-buttons {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -98,7 +100,7 @@ $zIndex: 9999;
             background: #3288e6;
             border: 0;
             border-radius: 0;
-            color: #ffffff;
+            color: $color-white;
             cursor: pointer;
             font-family: inherit;
             font-size: 0.8em;
@@ -110,7 +112,7 @@ $zIndex: 9999;
 
             &.shepherd-button-secondary {
               background: #eeeeee;
-              color: #888888;
+              color: $color-grey;
             }
           }
 
@@ -123,13 +125,13 @@ $zIndex: 9999;
   }
 }
 
-.#{$themePrefix}-start-tour-button.#{$themePrefix}-theme-#{$themeName} {
+.#{$theme-prefix}-start-tour-button.#{$theme-prefix}-theme-#{$theme-name} {
   @include inline-block;
 
   background: #3288e6;
   border: 0;
   border-radius: 0;
-  color: #ffffff;
+  color: $color-white;
   cursor: pointer;
   font-family: inherit;
   font-size: 0.8em;
