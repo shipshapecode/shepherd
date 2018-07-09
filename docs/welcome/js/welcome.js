@@ -32,7 +32,7 @@
     shepherd.addStep('including', {
       title: 'Including',
       text: 'Including Shepherd is easy! Just include popper.js, shepherd.js, and a Shepherd theme file.',
-      attachTo: '#hero-including-code bottom',
+      attachTo: '.hero-including bottom',
       buttons: [
         {
           text: 'Back',
@@ -47,7 +47,7 @@
     shepherd.addStep('example', {
       title: 'Example Shepherd',
       text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="http://github.hubspot.com/shepherd">documentation</a> to learn more.',
-      attachTo: '#hero-example-code bottom',
+      attachTo: '.hero-example bottom',
       buttons: [
         {
           text: 'Back',
