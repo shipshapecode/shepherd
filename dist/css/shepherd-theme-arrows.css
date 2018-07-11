@@ -75,7 +75,6 @@
     font-size: inherit; }
   .shepherd-theme-arrows .shepherd-content header {
     *zoom: 1;
-    border-radius: 5px 5px 0 0;
     padding: 1em 1em 0; }
     .shepherd-theme-arrows .shepherd-content header:after {
       clear: both;
@@ -97,44 +96,49 @@
         content: '\00d7'; }
       .shepherd-theme-arrows .shepherd-content header a.shepherd-cancel-link:hover {
         opacity: 1; }
-  .shepherd-theme-arrows .shepherd-content .shepherd-text {
-    padding: 1em; }
-    .shepherd-theme-arrows .shepherd-content .shepherd-text p {
-      line-height: 1.3em;
-      margin: 0 0 0.5em; }
-      .shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
-        margin-bottom: 0; }
-  .shepherd-theme-arrows .shepherd-content footer {
-    padding: 0 1em 1em; }
-    .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
-      list-style: none;
+
+.shepherd-theme-arrows .shepherd-content header {
+  border-radius: 5px 5px 0 0; }
+
+.shepherd-theme-arrows .shepherd-content .shepherd-text {
+  padding: 1em; }
+  .shepherd-theme-arrows .shepherd-content .shepherd-text p {
+    line-height: 1.3em;
+    margin: 0 0 0.5em; }
+    .shepherd-theme-arrows .shepherd-content .shepherd-text p:last-child {
+      margin-bottom: 0; }
+
+.shepherd-theme-arrows .shepherd-content footer {
+  padding: 0 1em 1em; }
+  .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; }
+    .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
+      display: inline;
       margin: 0;
-      padding: 0;
-      text-align: right; }
-      .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li {
-        display: inline;
-        margin: 0;
-        padding: 0; }
-        .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
-          display: inline-block;
-          *display: inline;
-          vertical-align: middle;
-          *vertical-align: auto;
-          *zoom: 1;
-          background: #3288e6;
-          border: 0;
-          border-radius: 3px;
-          color: #ffffff;
-          cursor: pointer;
-          font-family: inherit;
-          font-size: 0.8em;
-          letter-spacing: 0.1em;
-          line-height: 1em;
-          margin: 0 0.5em 0 0;
-          padding: 0.75em 2em;
-          text-transform: uppercase; }
-          .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
-            background: #eeeeee;
-            color: #888888; }
-        .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
-          margin-right: 0; }
+      padding: 0; }
+      .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+        display: inline-block;
+        *display: inline;
+        vertical-align: middle;
+        *vertical-align: auto;
+        *zoom: 1;
+        background: #3288e6;
+        border: 0;
+        border-radius: 3px;
+        color: #ffffff;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.8em;
+        letter-spacing: 0.1em;
+        line-height: 1em;
+        margin: 0 0.5em 0 0;
+        padding: 0.75em 2em;
+        text-transform: uppercase; }
+        .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+          background: #eeeeee;
+          color: #888888; }
+      .shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li:last-child .shepherd-button {
+        margin-right: 0; }

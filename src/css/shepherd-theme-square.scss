@@ -3,10 +3,8 @@
 $background-color: #f6f6f6;
 $color: #444444;
 $header-background-color: #e6e6e6;
-$max-width: 24em;
 $theme-name: "square";
 $use-drop-shadow: false;
-$z-index: 9999;
 
 @import "./base";
 
@@ -18,53 +16,12 @@ $z-index: 9999;
   max-width: $max-width;
   z-index: $z-index;
 
-  // Make the arrow 5color the same as the header color when the arrow is on the top
-
-  &[x-placement^="bottom"] {
-    &.#{$theme-prefix}-has-title {
-      .popper__arrow {
-        border-bottom-color: $header-background-color;
-      }
-    }
-  }
-
-  &.#{$theme-prefix}-has-title .#{$theme-prefix}-content header {
-    background: $header-background-color;
-    padding: 1em;
-
-    a.shepherd-cancel-link {
-      margin-bottom: 0;
-      padding: 0;
-    }
-  }
-
-  &.#{$theme-prefix}-has-cancel-link .#{$theme-prefix}-content header h3 {
-    float: left;
-  }
-
   .#{$theme-prefix}-content {
     border-radius: 0;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.17);
-    padding: 0;
-
-    * {
-      font-size: inherit;
-    }
 
     header {
-      @include pie-clearfix;
-
       border-radius: 0;
-      padding: 1em 1em 0;
-
-      h3 {
-        font-weight: normal;
-        margin: 0;
-      }
-
-      a.shepherd-cancel-link {
-        @include cancel-link;
-      }
     }
 
     .#{$theme-prefix}-text {

@@ -6,3 +6,52 @@
 
 @include popper($theme-prefix: $theme-prefix);
 @include popper-theme-arrows($theme-prefix: $theme-prefix, $theme-name: $theme-name, $arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
+
+.#{$theme-prefix}-theme-#{$theme-name} {
+  // Make the arrow color the same as the header color when the arrow is on the top
+
+  &[x-placement^="bottom"] {
+    &.#{$theme-prefix}-has-title {
+      .popper__arrow {
+        border-bottom-color: $header-background-color;
+      }
+    }
+  }
+
+  &.#{$theme-prefix}-has-title .#{$theme-prefix}-content header {
+    background: $header-background-color;
+    padding: 1em;
+
+    a.shepherd-cancel-link {
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &.#{$theme-prefix}-has-cancel-link .#{$theme-prefix}-content header h3 {
+    float: left;
+  }
+
+  .#{$theme-prefix}-content {
+    padding: 0;
+
+    * {
+      font-size: inherit;
+    }
+
+    header {
+      @include pie-clearfix;
+
+      padding: 1em 1em 0;
+
+      h3 {
+        font-weight: normal;
+        margin: 0;
+      }
+
+      a.shepherd-cancel-link {
+        @include cancel-link;
+      }
+    }
+  }
+}
