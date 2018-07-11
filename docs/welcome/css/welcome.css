@@ -43,8 +43,8 @@ body {
   padding: 20px 0;
   width: 100%; }
   .hero-outer .hero-inner {
-    text-align: center;
     margin: 0 auto 1em;
+    text-align: center;
     width: 540px; }
     @media (max-width: 600px) {
       .hero-outer .hero-inner {
