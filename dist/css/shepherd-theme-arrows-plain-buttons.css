@@ -5,60 +5,58 @@
   box-sizing: border-box; }
 
 .shepherd-theme-arrows-plain-buttons {
-  max-width: 100%;
   max-height: 100%;
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+  max-width: 100%;
   -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
+          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0); }
   .shepherd-theme-arrows-plain-buttons .shepherd-content {
-    border-radius: 5px;
-    position: relative;
-    font-family: inherit;
     background: #ffffff;
+    border-radius: 5px;
     color: #444444;
-    padding: 1em;
+    font-family: inherit;
     font-size: 1.1em;
-    line-height: 1.5em; }
+    line-height: 1.5em;
+    padding: 1em;
+    position: relative; }
   .shepherd-theme-arrows-plain-buttons .popper__arrow {
+    border: 16px solid transparent;
     content: "";
     display: block;
-    position: absolute;
-    width: 0;
     height: 0;
-    border-color: transparent;
-    border-width: 16px;
-    border-style: solid;
-    pointer-events: none; }
+    pointer-events: none;
+    position: absolute;
+    width: 0; }
   .shepherd-theme-arrows-plain-buttons[x-placement^="top"] {
     margin-bottom: 16px; }
     .shepherd-theme-arrows-plain-buttons[x-placement^="top"] .popper__arrow {
-      bottom: -16px;
-      left: calc(50% - 16px);
+      border-bottom: 0;
       border-top-color: #ffffff;
-      border-bottom: 0; }
+      bottom: -16px;
+      left: calc(50% - 16px); }
   .shepherd-theme-arrows-plain-buttons[x-placement^="bottom"] {
     margin-top: 16px; }
     .shepherd-theme-arrows-plain-buttons[x-placement^="bottom"] .popper__arrow {
-      top: -16px;
-      left: calc(50% - 16px);
       border-bottom-color: #ffffff;
-      border-top: 0; }
+      border-top: 0;
+      left: calc(50% - 16px);
+      top: -16px; }
   .shepherd-theme-arrows-plain-buttons[x-placement^="left"] {
     margin-right: 16px; }
     .shepherd-theme-arrows-plain-buttons[x-placement^="left"] .popper__arrow {
-      right: -16px;
-      top: calc(50% - 16px);
-      margin-top: -16px;
       border-left-color: #ffffff;
-      border-right: 0; }
+      border-right: 0;
+      margin-top: -16px;
+      right: -16px;
+      top: calc(50% - 16px); }
   .shepherd-theme-arrows-plain-buttons[x-placement^="right"] {
     margin-left: 16px; }
     .shepherd-theme-arrows-plain-buttons[x-placement^="right"] .popper__arrow {
-      left: -16px;
-      top: calc(50% - 16px);
+      border-left: 0;
       border-right-color: #ffffff;
-      border-left: 0; }
+      left: -16px;
+      top: calc(50% - 16px); }
 
 .shepherd-theme-arrows-plain-buttons[x-placement^="bottom"].shepherd-has-title .popper__arrow {
   border-bottom-color: #eeeeee; }
@@ -80,9 +78,9 @@
     border-radius: 5px 5px 0 0;
     padding: 1em 1em 0; }
     .shepherd-theme-arrows-plain-buttons .shepherd-content header:after {
+      clear: both;
       content: "";
-      display: table;
-      clear: both; }
+      display: table; }
     .shepherd-theme-arrows-plain-buttons .shepherd-content header h3 {
       font-weight: normal;
       margin: 0; }
@@ -119,10 +117,10 @@
         padding: 0; }
         .shepherd-theme-arrows-plain-buttons .shepherd-content footer .shepherd-buttons li .shepherd-button {
           display: inline-block;
+          *display: inline;
           vertical-align: middle;
           *vertical-align: auto;
           *zoom: 1;
-          *display: inline;
           cursor: pointer;
           margin: 0 0.5em 0 0;
           text-decoration: none; }
