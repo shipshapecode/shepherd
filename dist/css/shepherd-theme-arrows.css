@@ -8,9 +8,7 @@
   max-height: 100%;
   max-width: 100%;
   -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0); }
+          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
   .shepherd-theme-arrows .shepherd-content {
     background: #ffffff;
     border-radius: 5px;

@@ -5,7 +5,6 @@
 
     @if $use-drop-shadow {
       filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-      transform: translateZ(0);
     }
 
     .#{$theme-prefix}-content {
