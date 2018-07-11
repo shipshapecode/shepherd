@@ -553,20 +553,20 @@ function (_Evented) {
       }
 
       var content = document.createElement('div');
-      content.className = 'shepherd-content';
+      content.classList.add('shepherd-content');
       this.el.appendChild(content);
       var header = document.createElement('header');
       content.appendChild(header);
 
       if (this.options.title) {
         header.innerHTML += "<h3 class='shepherd-title'>".concat(this.options.title, "</h3>");
-        this.el.className += ' shepherd-has-title';
+        this.el.classList.add('shepherd-has-title');
       }
 
       if (this.options.showCancelLink) {
         var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
         header.appendChild(link);
-        this.el.className += ' shepherd-has-cancel-link';
+        this.el.classList.add('shepherd-has-cancel-link');
         this.bindCancelLink(link);
       }
 

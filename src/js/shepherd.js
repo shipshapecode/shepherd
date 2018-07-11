@@ -478,7 +478,7 @@ class Step extends Evented {
     }
 
     const content = document.createElement('div');
-    content.className = 'shepherd-content';
+    content.classList.add('shepherd-content');
     this.el.appendChild(content);
 
     const header = document.createElement('header');
@@ -486,14 +486,14 @@ class Step extends Evented {
 
     if (this.options.title) {
       header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`;
-      this.el.className += ' shepherd-has-title';
+      this.el.classList.add('shepherd-has-title');
     }
 
     if (this.options.showCancelLink) {
       const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
       header.appendChild(link);
 
-      this.el.className += ' shepherd-has-cancel-link';
+      this.el.classList.add('shepherd-has-cancel-link');
 
       this.bindCancelLink(link);
     }
