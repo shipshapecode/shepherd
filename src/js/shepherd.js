@@ -535,8 +535,12 @@ class Step extends Evented {
       content.appendChild(footer);
     }
 
-    document.body.appendChild(this.el);
-
+    // Handling open dialog elements.
+    if (document.querySelector('dialog[open]')) {
+      document.querySelector('dialog[open]').appendChild(this.el);
+    } else {
+      document.body.appendChild(this.el);
+    }
     this.setupPopper();
 
     if (this.options.advanceOn) {
