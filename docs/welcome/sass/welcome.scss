@@ -55,9 +55,17 @@ body {
   width: 100%;
 
   .hero-inner {
-    display: table-cell;
+    margin: 0 auto 1em;
     text-align: center;
-    vertical-align: middle;
+    width: 540px;
+
+    @media (max-width: 600px) {
+      width: 340px;
+    }
+
+    @media (max-width: 360px) {
+      width: 200px;
+    }
 
     h1,
     h2,
@@ -93,23 +101,10 @@ body {
       opacity: 1;
       pointer-events: auto;
     }
+  }
 
-    pre {
-      margin: 0 auto 1em;
-      width: 540px;
-
-      @media (max-width: 600px) {
-        width: 340px;
-      }
-
-      @media (max-width: 360px) {
-        width: 200px;
-      }
-    }
-
-    .hero-followup {
-      padding-top: 20px;
-    }
+  .hero-followup {
+    padding-top: 20px;
   }
 }
 
@@ -126,7 +121,7 @@ body {
       color: $color-inherit;
     }
 
-    footer .shepherd-buttons li .shepherd-button {
+    footer .shepherd-buttons li .shepherd-button-example-primary {
       background: #55a892;
     }
   }

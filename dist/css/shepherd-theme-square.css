@@ -1,11 +1,8 @@
-.shepherd-element, .shepherd-element:after, .shepherd-element:before, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
+.shepherd-element, .shepherd-element:after, .shepherd-element:before,
+.shepherd-element *,
+.shepherd-element *:after,
+.shepherd-element *:before {
   box-sizing: border-box; }
-
-.shepherd-element {
-  position: absolute;
-  display: none; }
-  .shepherd-element.shepherd-open {
-    display: block; }
 
 .shepherd-theme-square {
   max-width: 100%;

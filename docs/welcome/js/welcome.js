@@ -9,23 +9,23 @@
     var shepherd;
     shepherd = new Shepherd.Tour({
       defaults: {
-        classes: 'shepherd-element shepherd-open shepherd-theme-arrows',
+        classes: 'shepherd-element shepherd-theme-arrows',
         showCancelLink: true
       }
     });
     shepherd.addStep('welcome', {
       text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
       attachTo: '.hero-welcome bottom',
-      classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
+      classes: 'shepherd shepherd-theme-arrows shepherd-transparent-text',
       buttons: [
         {
-          text: 'Exit',
+          action: shepherd.cancel,
           classes: 'shepherd-button-secondary',
-          action: shepherd.cancel
+          text: 'Exit'
         }, {
-          text: 'Next',
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary'
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
@@ -35,12 +35,13 @@
       attachTo: '.hero-including bottom',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Next',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
@@ -50,33 +51,35 @@
       attachTo: '.hero-example bottom',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Next',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
-      attachTo: '.hero-followup bottom',
+      attachTo: '.hero-followup left',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Done',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Done'
         }
       ]
     });
     return shepherd.start();
   };
 
-  $(init);
+  init();
 
 }).call(this);

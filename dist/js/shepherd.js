@@ -1,4 +1,4 @@
-/*! shepherd.js 2.0.0-beta.8 */
+/*! shepherd.js 2.0.0-beta.9 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -459,7 +459,9 @@ function (_Evented) {
         this.render();
       }
 
-      this.el.classList.add('shepherd-open');
+      this.el.hidden = false; // We need to manually set styles for < IE11 support
+
+      this.el.style.display = 'block';
       document.body.setAttribute('data-shepherd-step', this.id);
       this.setupPopper();
 
@@ -475,7 +477,9 @@ function (_Evented) {
     key: "hide",
     value: function hide() {
       this.trigger('before-hide');
-      this.el.classList.remove('shepherd-open');
+      this.el.hidden = true; // We need to manually set styles for < IE11 support
+
+      this.el.style.display = 'none';
       document.body.removeAttribute('data-shepherd-step');
 
       if (this.target) {
@@ -492,7 +496,7 @@ function (_Evented) {
   }, {
     key: "isOpen",
     value: function isOpen() {
-      return this.el && this.el.classList.hasClass('shepherd-open');
+      return this.el && !this.el.hidden;
     }
   }, {
     key: "cancel",

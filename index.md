@@ -178,6 +178,8 @@ properties.  For example: `".some-element click"`, or `{selector: '.some-element
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `scrollTo`: Should the element be scrolled to when this step is shown?
+- `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,
+and possibly other logic.
 - `when`: You can define show, hide, etc events inside when. For example:
 ```javascript
 when: {

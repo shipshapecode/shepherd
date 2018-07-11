@@ -1,16 +1,10 @@
 @mixin popper($theme-prefix: "popper") {
-  .#{$theme-prefix}-element, .#{$theme-prefix}-element * {
-    &, &:after, &:before {
+  .#{$theme-prefix}-element,
+  .#{$theme-prefix}-element * {
+    &,
+    &:after,
+    &:before {
       box-sizing: border-box;
-    }
-  }
-
-  .#{$theme-prefix}-element {
-    position: absolute;
-    display: none;
-
-    &.#{$theme-prefix}-open {
-      display: block;
     }
   }
 }

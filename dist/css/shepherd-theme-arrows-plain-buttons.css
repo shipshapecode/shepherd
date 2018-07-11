@@ -1,15 +1,16 @@
-.shepherd-element, .shepherd-element:after, .shepherd-element:before, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
+.shepherd-element, .shepherd-element:after, .shepherd-element:before,
+.shepherd-element *,
+.shepherd-element *:after,
+.shepherd-element *:before {
   box-sizing: border-box; }
-
-.shepherd-element {
-  position: absolute;
-  display: none; }
-  .shepherd-element.shepherd-open {
-    display: block; }
 
 .shepherd-theme-arrows-plain-buttons {
   max-width: 100%;
-  max-height: 100%; }
+  max-height: 100%;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
   .shepherd-theme-arrows-plain-buttons .shepherd-content {
     border-radius: 5px;
     position: relative;
@@ -18,11 +19,7 @@
     color: #444444;
     padding: 1em;
     font-size: 1.1em;
-    line-height: 1.5em;
-    -webkit-transform: translateZ(0);
-            transform: translateZ(0);
-    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
+    line-height: 1.5em; }
   .shepherd-theme-arrows-plain-buttons .popper__arrow {
     content: "";
     display: block;

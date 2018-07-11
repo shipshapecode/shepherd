@@ -390,7 +390,9 @@ class Step extends Evented {
       this.render();
     }
 
-    this.el.classList.add('shepherd-open');
+    this.el.hidden = false;
+    // We need to manually set styles for < IE11 support
+    this.el.style.display = 'block';
 
     document.body.setAttribute('data-shepherd-step', this.id);
 
@@ -408,7 +410,9 @@ class Step extends Evented {
   hide() {
     this.trigger('before-hide');
 
-    this.el.classList.remove('shepherd-open');
+    this.el.hidden = true;
+    // We need to manually set styles for < IE11 support
+    this.el.style.display = 'none';
 
     document.body.removeAttribute('data-shepherd-step');
 
@@ -425,7 +429,7 @@ class Step extends Evented {
   }
 
   isOpen() {
-    return this.el && this.el.classList.hasClass('shepherd-open');
+    return this.el && !this.el.hidden;
   }
 
   cancel() {
