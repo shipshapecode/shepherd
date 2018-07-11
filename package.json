@@ -32,10 +32,10 @@
     "popper.js": "^1.14.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
     "del": "^3.0.0",
-    "eslint": "^5.0.1",
+    "eslint": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
