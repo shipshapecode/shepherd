@@ -1,34 +1,32 @@
 @mixin popper-theme-arrows($theme-prefix: "popper", $theme-name: "arrows", $arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
   .#{$theme-prefix}-theme-#{$theme-name} {
-    max-width: 100%;
     max-height: 100%;
+    max-width: 100%;
 
     @if $use-drop-shadow {
-      transform: translateZ(0);
       filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+      transform: translateZ(0);
     }
 
     .#{$theme-prefix}-content {
-      border-radius: 5px;
-      position: relative;
-      font-family: inherit;
       background: $background-color;
+      border-radius: 5px;
       color: $color;
-      padding: 1em;
+      font-family: inherit;
       font-size: 1.1em;
       line-height: 1.5em;
+      padding: 1em;
+      position: relative;
     }
 
     .popper__arrow {
+      border: $arrow-size solid transparent;
       content: "";
       display: block;
+      height: 0;
+      pointer-events: $arrow-pointer-events;
       position: absolute;
       width: 0;
-      height: 0;
-      border-color: transparent;
-      border-width: $arrow-size;
-      border-style: solid;
-      pointer-events: $arrow-pointer-events;
     }
 
     // Centers and middles
@@ -37,10 +35,10 @@
       margin-bottom: $arrow-size;
 
       .popper__arrow {
+        border-bottom: 0;
+        border-top-color: $background-color;
         bottom: -$arrow-size;
         left: calc(50% - #{$arrow-size});
-        border-top-color: $background-color;
-        border-bottom: 0;
       }
     }
 
@@ -48,10 +46,10 @@
       margin-top: $arrow-size;
 
       .popper__arrow {
-        top: -$arrow-size;
-        left: calc(50% - #{$arrow-size});
         border-bottom-color: $background-color;
         border-top: 0;
+        left: calc(50% - #{$arrow-size});
+        top: -$arrow-size;
       }
     }
 
@@ -59,11 +57,11 @@
       margin-right: $arrow-size;
 
       .popper__arrow {
-        right: -$arrow-size;
-        top: calc(50% - #{$arrow-size});
-        margin-top: -$arrow-size;
         border-left-color: $background-color;
         border-right: 0;
+        margin-top: -$arrow-size;
+        right: -$arrow-size;
+        top: calc(50% - #{$arrow-size});
       }
     }
 
@@ -71,10 +69,10 @@
       margin-left: $arrow-size;
 
       .popper__arrow {
+        border-left: 0;
+        border-right-color: $background-color;
         left: -$arrow-size;
         top: calc(50% - #{$arrow-size});
-        border-right-color: $background-color;
-        border-left: 0;
       }
     }
   }
