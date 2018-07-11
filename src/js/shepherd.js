@@ -531,7 +531,17 @@ class Step extends Evented {
       content.appendChild(footer);
     }
 
-    document.body.appendChild(this.el);
+    const { renderLocation } = this.options;
+
+    if (renderLocation) {
+      if (renderLocation instanceof HTMLElement) {
+        renderLocation.appendChild(this.el);
+      } else if (typeof renderLocation === 'string') {
+        document.querySelector(renderLocation).appendChild(this.el);
+      }
+    } else {
+      document.body.appendChild(this.el);
+    }
 
     this.setupPopper();
 
