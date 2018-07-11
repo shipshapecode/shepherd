@@ -8,22 +8,26 @@ Guide your users through a tour of your app.
 
 ### Install 
 
+__npm__
 ```bash
 npm install shepherd.js --save
 ```
 
-or
-
+__yarn__
 ```bash
 yarn add shepherd.js
 ```
 
 ### Install with Eager
 
-The easiest way to add a Shepherd tour to your site is with [Eager](http://eager.io).
-Click Install to create a tour right on your site with no coding required.
+**Note: Eager is now Cloudflare Apps**
 
-<iframe style="height: 48px; width: 180px" src="//install.eager.io?appId=AalP5veMma6s" allowtransparency="true" scroll="no" frameBorder="0"></iframe>
+We will eventually make this work again, but it probably currently does not.
+
+<!--The easiest way to add a Shepherd tour to your site is with [Eager](http://eager.io).
+Click Install to create a tour right on your site with no coding required.-->
+
+<!--iframe style="height: 48px; width: 180px" src="//install.eager.io?appId=AalP5veMma6s" allowtransparency="true" scroll="no" frameBorder="0"></iframe-->
 
 ### Usage
 

@@ -15,10 +15,14 @@ __Dependencies__
 
 Installing via `npm` will bring in the above dependencies as well.
 
-
 __npm__
-```sh
-$ npm install shepherd.js
+```bash
+npm install shepherd.js --save
+```
+
+__yarn__
+```bash
+yarn add shepherd.js
 ```
 
 ## Usage
