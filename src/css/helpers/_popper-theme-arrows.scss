@@ -3,6 +3,11 @@
     max-width: 100%;
     max-height: 100%;
 
+    @if $use-drop-shadow {
+      transform: translateZ(0);
+      filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    }
+
     .#{$theme-prefix}-content {
       border-radius: 5px;
       position: relative;
@@ -12,11 +17,6 @@
       padding: 1em;
       font-size: 1.1em;
       line-height: 1.5em;
-
-      @if $use-drop-shadow {
-        transform: translateZ(0);
-        filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-      }
     }
 
     .popper__arrow {

@@ -19,13 +19,13 @@
       classes: 'shepherd shepherd-open shepherd-theme-arrows shepherd-transparent-text',
       buttons: [
         {
-          text: 'Exit',
+          action: shepherd.cancel,
           classes: 'shepherd-button-secondary',
-          action: shepherd.cancel
+          text: 'Exit'
         }, {
-          text: 'Next',
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary'
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
@@ -35,12 +35,13 @@
       attachTo: '.hero-including bottom',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Next',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
@@ -50,33 +51,35 @@
       attachTo: '.hero-example bottom',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Next',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
         }
       ]
     });
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
-      attachTo: '.hero-followup bottom',
+      attachTo: '.hero-followup left',
       buttons: [
         {
-          text: 'Back',
+          action: shepherd.back,
           classes: 'shepherd-button-secondary',
-          action: shepherd.back
+          text: 'Back'
         }, {
-          text: 'Done',
-          action: shepherd.next
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Done'
         }
       ]
     });
     return shepherd.start();
   };
 
-  $(init);
+  init();
 
 }).call(this);

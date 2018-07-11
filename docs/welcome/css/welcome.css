@@ -43,9 +43,15 @@ body {
   padding: 20px 0;
   width: 100%; }
   .hero-outer .hero-inner {
-    display: table-cell;
     text-align: center;
-    vertical-align: middle; }
+    margin: 0 auto 1em;
+    width: 540px; }
+    @media (max-width: 600px) {
+      .hero-outer .hero-inner {
+        width: 340px; } }
+    @media (max-width: 360px) {
+      .hero-outer .hero-inner {
+        width: 200px; } }
     .hero-outer .hero-inner h1,
     .hero-outer .hero-inner h2,
     .hero-outer .hero-inner h3,
@@ -69,17 +75,8 @@ body {
     .hero-outer .hero-inner .shepherd-target.shepherd-enabled {
       opacity: 1;
       pointer-events: auto; }
-    .hero-outer .hero-inner pre {
-      margin: 0 auto 1em;
-      width: 540px; }
-      @media (max-width: 600px) {
-        .hero-outer .hero-inner pre {
-          width: 340px; } }
-      @media (max-width: 360px) {
-        .hero-outer .hero-inner pre {
-          width: 200px; } }
-    .hero-outer .hero-inner .hero-followup {
-      padding-top: 20px; }
+  .hero-outer .hero-followup {
+    padding-top: 20px; }
 
 .shepherd-element.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
   color: #3b744f; }
@@ -89,7 +86,7 @@ body {
   width: 400px; }
   .shepherd-element.shepherd-theme-arrows .shepherd-content a {
     color: "inherit"; }
-  .shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+  .shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button-example-primary {
     background: #55a892; }
 
 pre {
