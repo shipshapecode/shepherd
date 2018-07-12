@@ -1,12 +1,22 @@
 # Changelog
 
-## [Unreleased](https://github.com/shipshapecode/shepherd/tree/HEAD)
+## [v2.0.0-beta.11](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.11) (2018-07-12)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.10...HEAD)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.10...v2.0.0-beta.11)
+
+**Implemented enhancements:**
+
+- Attach shepherd-step to "custom" element / supporting dialog elements. [\#157](https://github.com/shipshapecode/shepherd/issues/157)
+- Add renderLocation option [\#192](https://github.com/shipshapecode/shepherd/pull/192) ([rwwagner90](https://github.com/rwwagner90))
 
 **Fixed bugs:**
 
 - Tours fail to load on Chrome 65  [\#180](https://github.com/shipshapecode/shepherd/issues/180)
+- Step divs remain after tour has ended [\#66](https://github.com/shipshapecode/shepherd/issues/66)
+
+**Closed issues:**
+
+- Step class cleanup [\#36](https://github.com/shipshapecode/shepherd/issues/36)
 
 ## [v2.0.0-beta.10](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.10) (2018-07-11)
 

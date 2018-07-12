@@ -722,7 +722,9 @@ class Tour extends Evented {
 
     this.trigger(event);
 
-    Shepherd.activeTour.steps.map(step => step.destroy());
+    Shepherd.activeTour.steps.forEach((step) => {
+      step.destroy();
+    });
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
     this.trigger('inactive', { tour: this });
