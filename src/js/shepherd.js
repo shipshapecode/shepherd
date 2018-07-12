@@ -192,7 +192,6 @@ class Evented {
 }
 
 class Step extends Evented {
-
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
@@ -592,7 +591,6 @@ class Step extends Evented {
 }
 
 class Tour extends Evented {
-
   constructor(options = {}) {
     super(options);
     this.bindMethods();
@@ -600,7 +598,7 @@ class Tour extends Evented {
     this.steps = this.options.steps || [];
 
     // Pass these events onto the global Shepherd object
-    const events = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
+    const events = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];
     events.map((event) => {
       ((e) => {
         this.on(e, (opts) => {
@@ -619,8 +617,7 @@ class Tour extends Evented {
       'next',
       'back',
       'cancel',
-      'complete',
-      'hide'
+      'complete'
     ];
     methods.map((method) => {
       this[method] = this[method].bind(this);
@@ -667,7 +664,7 @@ class Tour extends Evented {
       if (this.steps.length) {
         this.show(0);
       } else {
-        this.hide();
+        this.cancel();
       }
     }
   }
@@ -689,9 +686,7 @@ class Tour extends Evented {
     const index = this.steps.indexOf(this.currentStep);
 
     if (index === this.steps.length - 1) {
-      this.hide(index);
-      this.trigger('complete');
-      this.done();
+      this.complete();
     } else {
       this.show(index + 1, true);
     }
@@ -702,31 +697,32 @@ class Tour extends Evented {
     this.show(index - 1, false);
   }
 
+  /**
+   * Calls done() triggering the 'cancel' event
+   */
   cancel() {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    }
-    this.trigger('cancel');
-    this.done();
+    this.done('cancel');
   }
 
+  /**
+   * Calls done() triggering the 'complete' event
+   */
   complete() {
+    this.done('complete');
+  }
+
+  /**
+   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+   * @param event
+   */
+  done(event) {
     if (this.currentStep) {
       this.currentStep.hide();
     }
-    this.trigger('complete');
-    this.done();
-  }
 
-  hide() {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    }
-    this.trigger('hide');
-    this.done();
-  }
+    this.trigger(event);
 
-  done() {
+    Shepherd.activeTour.steps.map(step => step.destroy());
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
     this.trigger('inactive', { tour: this });
