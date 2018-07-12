@@ -1,4 +1,4 @@
-/*! shepherd.js 2.0.0-beta.10 */
+/*! shepherd.js 2.0.0-beta.11 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
@@ -698,7 +698,7 @@ function (_Evented2) {
     _this9.options = options;
     _this9.steps = _this9.options.steps || []; // Pass these events onto the global Shepherd object
 
-    var events = ['complete', 'cancel', 'hide', 'start', 'show', 'active', 'inactive'];
+    var events = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];
     events.map(function (event) {
       (function (e) {
         _this9.on(e, function (opts) {
@@ -716,7 +716,7 @@ function (_Evented2) {
     value: function bindMethods() {
       var _this10 = this;
 
-      var methods = ['next', 'back', 'cancel', 'complete', 'hide'];
+      var methods = ['next', 'back', 'cancel', 'complete'];
       methods.map(function (method) {
         _this10[method] = _this10[method].bind(_this10);
       });
@@ -767,7 +767,7 @@ function (_Evented2) {
         if (this.steps.length) {
           this.show(0);
         } else {
-          this.hide();
+          this.cancel();
         }
       }
     }
@@ -793,9 +793,7 @@ function (_Evented2) {
       var index = this.steps.indexOf(this.currentStep);
 
       if (index === this.steps.length - 1) {
-        this.hide(index);
-        this.trigger('complete');
-        this.done();
+        this.complete();
       } else {
         this.show(index + 1, true);
       }
@@ -806,39 +804,40 @@ function (_Evented2) {
       var index = this.steps.indexOf(this.currentStep);
       this.show(index - 1, false);
     }
+    /**
+     * Calls done() triggering the 'cancel' event
+     */
+
   }, {
     key: "cancel",
     value: function cancel() {
-      if (this.currentStep) {
-        this.currentStep.hide();
-      }
-
-      this.trigger('cancel');
-      this.done();
+      this.done('cancel');
     }
+    /**
+     * Calls done() triggering the 'complete' event
+     */
+
   }, {
     key: "complete",
     value: function complete() {
-      if (this.currentStep) {
-        this.currentStep.hide();
-      }
-
-      this.trigger('complete');
-      this.done();
+      this.done('complete');
     }
-  }, {
-    key: "hide",
-    value: function hide() {
-      if (this.currentStep) {
-        this.currentStep.hide();
-      }
+    /**
+     * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+     * @param event
+     */
 
-      this.trigger('hide');
-      this.done();
-    }
   }, {
     key: "done",
-    value: function done() {
+    value: function done(event) {
+      if (this.currentStep) {
+        this.currentStep.hide();
+      }
+
+      this.trigger(event);
+      Shepherd.activeTour.steps.forEach(function (step) {
+        step.destroy();
+      });
       Shepherd.activeTour = null;
       document.body.classList.remove('shepherd-active');
       this.trigger('inactive', {
