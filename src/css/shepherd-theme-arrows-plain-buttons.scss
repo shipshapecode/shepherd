@@ -16,43 +16,11 @@ $use-drop-shadow: true;
       border-radius: 5px 5px 0 0;
     }
 
-    .#{$theme-prefix}-text {
-      padding: 1em;
-
-      p {
-        line-height: 1.3em;
-        margin: 0 0 0.5em;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-
     footer {
-      padding: 0 1em 1em;
-
       .#{$theme-prefix}-buttons {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-align: right;
-
         li {
-          display: inline;
-          margin: 0;
-          padding: 0;
-
           .shepherd-button {
-            @include inline-block;
-
-            cursor: pointer;
-            margin: 0 0.5em 0 0;
             text-decoration: none;
-          }
-
-          &:last-child .shepherd-button {
-            margin-right: 0;
           }
         }
       }
