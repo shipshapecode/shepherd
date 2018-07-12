@@ -1,0 +1,19 @@
+@import '../variables';
+
+@mixin shepherd-button {
+  background: #3288e6;
+  border: 0;
+  border-radius: 3px;
+  color: $color-white;
+  font-family: inherit;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  line-height: 1em;
+  padding: 0.75em 2em;
+  text-transform: uppercase;
+
+  &.shepherd-button-secondary {
+    background: #eeeeee;
+    color: $color-grey;
+  }
+}
