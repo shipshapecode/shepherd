@@ -78,15 +78,15 @@ body {
   .hero-outer .hero-followup {
     padding-top: 20px; }
 
-.shepherd-element.shepherd-theme-arrows.shepherd-transparent-text .shepherd-text {
+.shepherd-element.shepherd-transparent-text .shepherd-text {
   color: #3b744f; }
 
-.shepherd-element.shepherd-theme-arrows .shepherd-content {
+.shepherd-element .shepherd-content {
   max-width: 100%;
   width: 400px; }
-  .shepherd-element.shepherd-theme-arrows .shepherd-content a {
+  .shepherd-element .shepherd-content a {
     color: "inherit"; }
-  .shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button-example-primary {
+  .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button-example-primary {
     background: #55a892; }
 
 pre {

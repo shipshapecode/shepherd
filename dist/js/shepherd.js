@@ -546,7 +546,7 @@ function (_Evented) {
         this.destroy();
       }
 
-      this.el = createFromHTML("<div class='shepherd-step ".concat(this.options.classes || '', "' data-id='").concat(this.id, "' ").concat(this.options.idAttribute ? "id=\"".concat(this.options.idAttribute, "\"") : '', ">"));
+      this.el = createFromHTML("<div class='".concat(this.options.classes || '', "' data-id='").concat(this.id, "' ").concat(this.options.idAttribute ? "id=\"".concat(this.options.idAttribute, "\"") : '', ">"));
 
       if (this.options.attachTo) {
         this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));

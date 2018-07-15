@@ -1,6 +1,6 @@
 @import "./mixins/start-tour-button";
 
-.shepherd-theme-#{$theme-name} {
+.shepherd-element {
   border-radius: 0;
   font-size: 1em;
   max-width: $max-width;
@@ -28,6 +28,6 @@
   }
 }
 
-.shepherd-start-tour-button.shepherd-theme-#{$theme-name} {
+.shepherd-start-tour-button.shepherd-element {
   @include start-tour-button;
 }

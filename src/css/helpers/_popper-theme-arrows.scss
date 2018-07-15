@@ -1,5 +1,5 @@
-@mixin popper-theme-arrows($theme-name: "arrows", $arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
-  .shepherd-theme-#{$theme-name} {
+@mixin popper-theme-arrows($arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
+  .shepherd-element {
     max-height: 100%;
     max-width: 100%;
 
