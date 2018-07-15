@@ -1,0 +1,19 @@
+@import '../variables';
+@import './inline-block';
+
+@mixin start-tour-button {
+  @include inline-block;
+
+  background: #3288e6;
+  border: 0;
+  border-radius: 0;
+  color: $color-white;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  line-height: 1em;
+  margin: 0 0.5em 0 0;
+  padding: 0.75em 2em;
+  text-transform: uppercase;
+}

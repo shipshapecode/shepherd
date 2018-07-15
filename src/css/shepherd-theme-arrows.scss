@@ -7,23 +7,4 @@ $theme-name: "arrows";
 $use-drop-shadow: true;
 
 @import "./base";
-
-// Shepherd specific styles
-
-.#{$theme-prefix}-theme-#{$theme-name} {
-  .#{$theme-prefix}-content {
-    header {
-      border-radius: 5px 5px 0 0;
-    }
-
-    footer {
-      .#{$theme-prefix}-buttons {
-        li {
-          .shepherd-button {
-            @include shepherd-button;
-          }
-        }
-      }
-    }
-  }
-}
+@import "./rounded";

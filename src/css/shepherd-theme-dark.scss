@@ -7,46 +7,21 @@ $theme-name: "dark";
 $use-drop-shadow: false;
 
 @import "./base";
+@import "./rounded";
+@import "./mixins/start-tour-button";
 
-// Shepherd specific styles
-
-.#{$theme-prefix}-theme-#{$theme-name} {
+.shepherd-theme-#{$theme-name} {
   font-size: 1em;
   max-width: $max-width;
   z-index: $z-index;
 
-  .#{$theme-prefix}-content {
+  .shepherd-content {
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-
-    header {
-      border-radius: 5px 5px 0 0;
-    }
-
-    footer {
-      .#{$theme-prefix}-buttons {
-        li {
-          .shepherd-button {
-            @include shepherd-button;
-          }
-        }
-      }
-    }
   }
 }
 
-.#{$theme-prefix}-start-tour-button.#{$theme-prefix}-theme-#{$theme-name} {
-  @include inline-block;
+.shepherd-start-tour-button.shepherd-theme-#{$theme-name} {
+  @include start-tour-button;
 
-  background: #3288e6;
-  border: 0;
   border-radius: 3px;
-  color: $color-white;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.8em;
-  letter-spacing: 0.1em;
-  line-height: 1em;
-  margin: 0 0.5em 0 0;
-  padding: 0.75em 2em;
-  text-transform: uppercase;
 }

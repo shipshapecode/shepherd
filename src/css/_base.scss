@@ -5,21 +5,21 @@
 @import "./helpers/popper";
 @import "./helpers/popper-theme-arrows";
 
-@include popper($theme-prefix: $theme-prefix);
-@include popper-theme-arrows($theme-prefix: $theme-prefix, $theme-name: $theme-name, $arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
+@include popper();
+@include popper-theme-arrows($theme-name: $theme-name, $arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
 
-.#{$theme-prefix}-theme-#{$theme-name} {
+.shepherd-theme-#{$theme-name} {
   // Make the arrow color the same as the header color when the arrow is on the top
 
   &[x-placement^="bottom"] {
-    &.#{$theme-prefix}-has-title {
+    &.shepherd-has-title {
       .popper__arrow {
         border-bottom-color: $header-background-color;
       }
     }
   }
 
-  &.#{$theme-prefix}-has-title .#{$theme-prefix}-content header {
+  &.shepherd-has-title .shepherd-content header {
     background: $header-background-color;
     padding: 1em;
 
@@ -29,11 +29,11 @@
     }
   }
 
-  &.#{$theme-prefix}-has-cancel-link .#{$theme-prefix}-content header h3 {
+  &.shepherd-has-cancel-link .shepherd-content header h3 {
     float: left;
   }
 
-  .#{$theme-prefix}-content {
+  .shepherd-content {
     padding: 0;
 
     * {
@@ -58,7 +58,7 @@
     footer {
       padding: 0 1em 1em;
 
-      .#{$theme-prefix}-buttons {
+      .shepherd-buttons {
         list-style: none;
         margin: 0;
         padding: 0;
@@ -83,7 +83,7 @@
       }
     }
 
-    .#{$theme-prefix}-text {
+    .shepherd-text {
       padding: 1em;
 
       p {

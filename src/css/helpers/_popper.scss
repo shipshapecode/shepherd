@@ -1,6 +1,6 @@
-@mixin popper($theme-prefix: "popper") {
-  .#{$theme-prefix}-element,
-  .#{$theme-prefix}-element * {
+@mixin popper() {
+  .shepherd-element,
+  .shepherd-element * {
     &,
     &:after,
     &:before {
