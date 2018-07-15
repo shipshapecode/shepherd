@@ -9,14 +9,13 @@
     var shepherd;
     shepherd = new Shepherd.Tour({
       defaults: {
-        classes: 'shepherd-element shepherd-theme-arrows',
         showCancelLink: true
       }
     });
     shepherd.addStep('welcome', {
       text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
       attachTo: '.hero-welcome bottom',
-      classes: 'shepherd shepherd-theme-arrows shepherd-transparent-text',
+      classes: 'shepherd shepherd-transparent-text',
       buttons: [
         {
           action: shepherd.cancel,

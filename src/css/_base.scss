@@ -6,9 +6,9 @@
 @import "./helpers/popper-theme-arrows";
 
 @include popper();
-@include popper-theme-arrows($theme-name: $theme-name, $arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
+@include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
 
-.shepherd-theme-#{$theme-name} {
+.shepherd-element {
   // Make the arrow color the same as the header color when the arrow is on the top
 
   &[x-placement^="bottom"] {

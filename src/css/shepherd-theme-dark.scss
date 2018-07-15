@@ -3,14 +3,13 @@
 $background-color: #232323;
 $color: #eeeeee;
 $header-background-color: #303030;
-$theme-name: "dark";
 $use-drop-shadow: false;
 
 @import "./base";
 @import "./rounded";
 @import "./mixins/start-tour-button";
 
-.shepherd-theme-#{$theme-name} {
+.shepherd-element {
   font-size: 1em;
   max-width: $max-width;
   z-index: $z-index;
@@ -20,7 +19,7 @@ $use-drop-shadow: false;
   }
 }
 
-.shepherd-start-tour-button.shepherd-theme-#{$theme-name} {
+.shepherd-start-tour-button.shepherd-element {
   @include start-tour-button;
 
   border-radius: 3px;

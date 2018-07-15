@@ -3,12 +3,11 @@
 $background-color: $color-white;
 $color: #444444;
 $header-background-color: #eeeeee;
-$theme-name: "arrows-plain-buttons";
 $use-drop-shadow: true;
 
 @import "./base";
 
-.shepherd-theme-#{$theme-name} {
+.shepherd-element {
   .shepherd-content {
     header {
       border-radius: 5px 5px 0 0;
