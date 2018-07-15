@@ -1,5 +1,5 @@
-@mixin popper-theme-arrows($theme-prefix: "popper", $theme-name: "arrows", $arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
-  .#{$theme-prefix}-theme-#{$theme-name} {
+@mixin popper-theme-arrows($theme-name: "arrows", $arrow-size: 16px, $arrow-pointer-events: null, $background-color: #fff, $color: inherit, $use-drop-shadow: false) {
+  .shepherd-theme-#{$theme-name} {
     max-height: 100%;
     max-width: 100%;
 
@@ -7,7 +7,7 @@
       filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
     }
 
-    .#{$theme-prefix}-content {
+    .shepherd-content {
       background: $background-color;
       border-radius: 5px;
       color: $color;

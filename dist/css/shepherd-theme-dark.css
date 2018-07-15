@@ -123,28 +123,30 @@
       .shepherd-theme-dark .shepherd-content .shepherd-text p:last-child {
         margin-bottom: 0; }
 
+.shepherd-theme-dark .shepherd-content header {
+  border-radius: 5px 5px 0 0; }
+
+.shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button {
+  background: #3288e6;
+  border: 0;
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  line-height: 1em;
+  padding: 0.75em 2em;
+  text-transform: uppercase; }
+  .shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+    background: #eeeeee;
+    color: #888888; }
+
 .shepherd-theme-dark {
   font-size: 1em;
   max-width: 24em;
   z-index: 9999; }
   .shepherd-theme-dark .shepherd-content {
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.2); }
-    .shepherd-theme-dark .shepherd-content header {
-      border-radius: 5px 5px 0 0; }
-    .shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button {
-      background: #3288e6;
-      border: 0;
-      border-radius: 3px;
-      color: #ffffff;
-      font-family: inherit;
-      font-size: 0.8em;
-      letter-spacing: 0.1em;
-      line-height: 1em;
-      padding: 0.75em 2em;
-      text-transform: uppercase; }
-      .shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
-        background: #eeeeee;
-        color: #888888; }
 
 .shepherd-start-tour-button.shepherd-theme-dark {
   display: inline-block;
@@ -154,7 +156,7 @@
   *zoom: 1;
   background: #3288e6;
   border: 0;
-  border-radius: 3px;
+  border-radius: 0;
   color: #ffffff;
   cursor: pointer;
   font-family: inherit;
@@ -163,4 +165,5 @@
   line-height: 1em;
   margin: 0 0.5em 0 0;
   padding: 0.75em 2em;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  border-radius: 3px; }
