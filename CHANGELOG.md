@@ -1,5 +1,18 @@
 # Changelog
 
+## [v2.0.0-beta.13](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.13) (2018-07-16)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.12...v2.0.0-beta.13)
+
+**Implemented enhancements:**
+
+- Refactor css in shepherd-theme-arrows theme [\#52](https://github.com/shipshapecode/shepherd/issues/52)
+- Automatically use theme if styles are included [\#1](https://github.com/shipshapecode/shepherd/issues/1)
+
+## [v2.0.0-beta.12](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.12) (2018-07-12)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.11...v2.0.0-beta.12)
+
 ## [v2.0.0-beta.11](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.11) (2018-07-12)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.10...v2.0.0-beta.11)
