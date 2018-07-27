@@ -13,14 +13,16 @@
   "maintainers": [
     "Nicholas Hwang <nick.joosung.hwang@gmail.com>",
     "Geoff Daigle <geoffreydaigle@gmail.com>",
-    "Robert Wagner <rwwagner90@gmail.com>"
+    "Robert Wagner <rwwagner90@gmail.com>",
+    "Chuck Carpenter <charleswcarpenter3@gmail.com>"
   ],
   "scripts": {
     "build": "gulp build",
     "docs": "gulp docs",
     "lint:js": "eslint ./src/js/shepherd.js",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
-    "lint": "yarn lint:js && yarn lint:styles"
+    "lint": "yarn lint:js && yarn lint:styles",
+    "test": "mocha"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -29,7 +31,8 @@
     "main": "shepherd.js"
   },
   "dependencies": {
-    "popper.js": "^1.14.3"
+    "popper.js": "^1.14.3",
+    "yarn": "^1.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.52",
@@ -48,8 +51,10 @@
     "gulp-sequence": "^1.0.0",
     "gulp-uglify-es": "^1.0.4",
     "gulp-wrap-umd": "^0.2.1",
+    "mocha": "^5.2.0",
     "stylelint": "^9.3.0",
-    "stylelint-config-ship-shape": "^0.4.0"
+    "stylelint-config-ship-shape": "^0.4.0",
+    "testem": "^2.8.2"
   },
   "engines": {
     "node": ">= 6.*"
