@@ -409,9 +409,11 @@ class Step extends Evented {
   hide() {
     this.trigger('before-hide');
 
-    this.el.hidden = true;
-    // We need to manually set styles for < IE11 support
-    this.el.style.display = 'none';
+    if (this.el) {
+      this.el.hidden = true;
+      // We need to manually set styles for < IE11 support
+      this.el.style.display = 'none';
+    }
 
     document.body.removeAttribute('data-shepherd-step');
 
