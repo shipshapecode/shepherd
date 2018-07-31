@@ -16,6 +16,8 @@ jobs:
     - stage: test
       script:
         - yarn lint
+        - gulp js
+        - npm test
     - stage: npm release
       script:
         - yarn build
