@@ -1,7 +1,8 @@
-.sass-cache
-dist/
-node_modules/
-bower_components/
-.DS_Store
-.idea
-.log
+/.idea/
+/dist/
+/.log/
+/node_modules/
+ /.DS_Store
+/.sass-cache
+/npm-debug.log*
+/yarn-error.log
