@@ -5,6 +5,12 @@ node_js:
 sudo: false
 dist: trusty
 
+addons:
+  chrome: stable
+  code_climate:
+    repo_token:
+      secure: "Qg05d4W5BfhbxXy9E9M8ACo2ULSs6tGL5We3pTCAH+smnCKKjXv5Bl+Tu7fC6Cup15LchVUGOxJ/RqXRWV3YEnwqYYZohj0EZANKedLfI8efFXlY1aIs6g29DbWzoCVbG8EczcNY7thakYzW37xkua3GdywH2s7l384bjCOsVDw="
+
 cache:
   yarn: true
 
@@ -17,7 +23,9 @@ jobs:
       script:
         - yarn lint
         - gulp js
-        - npm test
+        - yarn test
+      after_script:
+        - codeclimate-test-reporter < coverage/lcov.info  
     - stage: npm release
       script:
         - yarn build

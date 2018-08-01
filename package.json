@@ -22,7 +22,7 @@
     "lint:js": "eslint ./src/js/shepherd.js",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
-    "test": "mocha"
+    "test": "nyc --reporter=text --reporter=lcov mocha"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.52",
     "@babel/preset-env": "^7.0.0-beta.52",
+    "codeclimate-test-reporter": "^0.5.0",
     "del": "^3.0.0",
     "eslint": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
@@ -52,6 +53,7 @@
     "gulp-uglify-es": "^1.0.4",
     "gulp-wrap-umd": "^0.2.1",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "stylelint": "^9.3.0",
     "stylelint-config-ship-shape": "^0.4.0",
     "testem": "^2.8.2"
