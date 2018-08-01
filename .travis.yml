@@ -23,7 +23,7 @@ jobs:
       script:
         - yarn lint
         - gulp js
-        - yarn test
+        - yarn test:ci
       after_script:
         - codeclimate-test-reporter < coverage/lcov.info  
     - stage: npm release

@@ -13,5 +13,22 @@ module.exports = {
   },
   rules: {
     'no-console': 'off'
-  }
+  },
+  overrides: [
+    // node files
+    {
+      files: [
+        'gulpfile.js',
+        'karma.conf.js'
+      ],
+      parserOptions: {
+        sourceType: 'script',
+        ecmaVersion: 2015
+      },
+      env: {
+        browser: false,
+        node: true
+      }
+    }
+  ]
 };
