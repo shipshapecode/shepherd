@@ -22,7 +22,8 @@
     "lint:js": "eslint ./src/js/shepherd.js",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
-    "test": "karma start --single-run --browsers Chrome"
+    "test:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
+    "test:watch": "karma start --browsers Chrome"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
