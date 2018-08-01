@@ -18,6 +18,7 @@ module.exports = {
     // node files
     {
       files: [
+        'gulpfile.js',
         'karma.conf.js'
       ],
       parserOptions: {

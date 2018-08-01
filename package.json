@@ -19,7 +19,7 @@
   "scripts": {
     "build": "gulp build",
     "docs": "gulp docs",
-    "lint:js": "eslint ./src/js/shepherd.js",
+    "lint:js": "eslint .",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
     "test:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
