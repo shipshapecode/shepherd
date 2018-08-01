@@ -2,9 +2,9 @@
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define(["popper"], factory);
+    define(["popper.js"], factory);
   } else if (typeof exports === 'object') {
-    module.exports = factory(require('popper'));
+    module.exports = factory(require('popper.js'));
   } else {
     root.Shepherd = factory(root.Popper);
   }

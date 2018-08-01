@@ -22,11 +22,10 @@ const umdOptions = {
     name: 'Popper',
     globalName: 'Popper',
     paramName: 'Popper',
-    amdName: 'popper',
-    cjsName: 'popper'
+    amdName: 'popper.js',
+    cjsName: 'popper.js'
   }]
 };
-
 
 // Clean
 gulp.task('clean', function() {

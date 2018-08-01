@@ -1,7 +1,7 @@
 /.idea/
 /dist/
+/.log/
 /node_modules/
-
 /.DS_Store
 /.sass-cache
 /npm-debug.log*
