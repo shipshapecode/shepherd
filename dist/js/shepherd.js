@@ -1,4 +1,4 @@
-/*! shepherd.js 2.0.0-beta.13 */
+/*! shepherd.js 2.0.0-beta.14 */
 
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
