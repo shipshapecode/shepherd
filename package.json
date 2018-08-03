@@ -17,13 +17,15 @@
     "Chuck Carpenter <charleswcarpenter3@gmail.com>"
   ],
   "scripts": {
-    "build": "gulp build",
+    "build": "webpack",
     "docs": "gulp docs",
     "lint:js": "eslint .",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
     "test:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
-    "test:watch": "karma start --browsers Chrome"
+    "test:watch": "karma start --browsers Chrome",
+    "test": "mocha",
+    "watch": "webpack --watch"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -38,12 +40,17 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.52",
     "@babel/preset-env": "^7.0.0-beta.52",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
     "codeclimate-test-reporter": "^0.5.0",
+    "css-loader": "^1.0.0",
     "del": "^3.0.0",
     "eslint": "^5.1.0",
     "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
+    "extract-text-webpack-plugin": "v4.0.0-beta.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^8.0.0-beta.2",
@@ -62,8 +69,15 @@
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.2.0",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "sass-loader": "^7.1.0",
     "stylelint": "^9.3.0",
-    "stylelint-config-ship-shape": "^0.4.0"
+    "stylelint-config-ship-shape": "^0.4.0",
+    "testem": "^2.8.2",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
   },
   "engines": {
     "node": ">= 6.*"

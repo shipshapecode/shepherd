@@ -29,5 +29,13 @@ describe('Shepherd', function() {
       });
     });
 
+    describe.skip('.start()', function() {
+      it('starts a tour that is the current active', function() {
+        instance.start();
+
+        assert.equal(instance, Shepherd.activeTour);
+      });
+    });
+
   });
 });
