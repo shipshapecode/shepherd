@@ -1,6 +1,4 @@
 /* global Popper */
-import '../css/_base.scss';
-
 const uniqueId = (function() {
   let id = 0;
   return function() {
