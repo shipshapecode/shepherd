@@ -2,19 +2,20 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const PACKAGE = require('./package.json');
 
 const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: './src/js/shepherd.js',
   output: {
     filename: 'shepherd.js',
     path: path.resolve(__dirname, 'dist/js'),
+    library: 'Shepherd',
     libraryTarget: 'umd',
-    library: 'Shepherd'
+    globalObject: 'this'
   },
   module: {
     rules: [
@@ -24,12 +25,7 @@ module.exports = {
           path.resolve(__dirname, 'src/js')
         ],
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['es2015']
-          }
-        }
+        use: 'babel-loader'
       },
       {
         test: /\.s[c|a]ss$/,
@@ -38,22 +34,19 @@ module.exports = {
     ]
   },
   externals: {
-    'popper.js': {
-      amd: 'popper.js',
-      commonjs: 'popper.js',
+    'popper.js/dist/umd/popper': {
+      amd: 'popper.js/dist/umd/popper',
+      commonjs: 'popper.js/dist/umd/popper',
+      commonjs2: 'popper.js/dist/umd/popper',
       root: 'Popper'
     }
   },
-  optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true
-      })
-    ]
+  devServer: {
+    contentBase: './dist'
   },
   plugins: [
-    new ExtractTextPlugin('./dist/css/[name].css'),
-    new webpack.BannerPlugin(banner)
+    // new ExtractTextPlugin('./dist/css/[name].css'),
+    // new webpack.BannerPlugin(banner)
   ],
   devtool: 'source-map',
   target: 'web'

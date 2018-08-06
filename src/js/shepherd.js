@@ -1,4 +1,5 @@
-/* global Popper */
+import Popper from 'popper.js/dist/umd/popper';
+
 const uniqueId = (function() {
   let id = 0;
   return function() {
@@ -777,3 +778,5 @@ class Tour extends Evented {
 
 const Shepherd = new Evented();
 Object.assign(Shepherd, { Tour, Step, Evented });
+
+export default Shepherd;

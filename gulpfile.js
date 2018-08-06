@@ -36,9 +36,7 @@ gulp.task('clean', function() {
 // Javascript
 gulp.task('js', function() {
   gulp.src('./src/js/**/*.js')
-    .pipe(babel({
-      presets: ['@babel/env']
-    }))
+    .pipe(babel())
     .pipe(umd(umdOptions))
     .pipe(header(banner))
 
@@ -46,7 +44,7 @@ gulp.task('js', function() {
     .pipe(gulp.dest(distDir + '/js'))
 
     // Minified
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(distDir + '/js'));
 });
