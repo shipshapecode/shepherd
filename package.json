@@ -17,12 +17,12 @@
     "Chuck Carpenter <charleswcarpenter3@gmail.com>"
   ],
   "scripts": {
-    "build": "webpack && npm run copy-deps",
+    "build": "webpack && yarn copy-deps",
     "clean": "rm -rf dist",
     "copy-deps": "cp ./node_modules/popper.js/dist/umd/. dist/js",
     "prebuild:css": "node-sass --source-map true ./docs/welcome/sass/*.scss ./docs/welcome/css",
     "prefix:css": "postcss --use autoprefixer -b 'last 2 versions' < /docs/welcome/css/welcome.css | postcss --use cssnano > /docs/welcome/css/welcome.min.css",
-    "docs": "npm run prebuild:css && npm run prefix:css",
+    "docs": "yarn prebuild:css && yarn prefix:css",
     "lint:js": "eslint .",
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
