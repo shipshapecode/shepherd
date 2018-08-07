@@ -3,11 +3,11 @@
 You will need:
 
 - Node.js and npm
-- Gulp
+- webpack
 
 Windows users will need additional to setup build capabilities in NPM:
 From an administrative command window:
-    
+
     npm install --global --production windows-build-tools
 
 ## Getting started
@@ -23,7 +23,7 @@ From an administrative command window:
 
 ## Writing code!
 
-We use `gulp` to facilitate things like transpilation, minification, etc. so
+We use `webpack` to facilitate things like transpilation, minification, etc. so
 you can focus on writing relevant code. If there is a fix or feature you would like
 to contribute, we ask that you take the following steps:
 
@@ -41,8 +41,8 @@ to contribute, we ask that you take the following steps:
    Versioning is hard, so just use good judgement and we'll be more than happy
    to help out.
 
-   __NOTE__: There is a `gulp` task that will automate some of the versioning.
-   You can run `gulp version:{type}` where type is `patch|minor|major` to
+   __NOTE__: There is a `npm` method that will automate some of the versioning.
+   You can run `npm version {type}` where type is `patch|minor|major` to
    update `package.json` as well as add the appropriate git tag.
 
 3. Provide a thoughtful commit message and push your changes to your fork using
@@ -57,4 +57,3 @@ to contribute, we ask that you take the following steps:
 Work in progress. We are hoping to add some tests, so if you would like to help
 us get started, feel free to contact us through the Issues or open a Pull
 Request.
-
