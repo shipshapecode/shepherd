@@ -16,6 +16,7 @@ cache:
 
 install:
   - yarn global add postcss-cli
+  - yarn global add autoprefixer
   - yarn install --ignore-engines
 
 jobs:
