@@ -1,18 +1,26 @@
 /* global require, module, __dirname */
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const PACKAGE = require('./package.json');
-
 const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
+const glob = require('glob');
+const sassArray = glob.sync('./src/css/shepherd-*.scss');
+const entryObject = sassArray.reduce((acc, item) => {
+  const name = item.replace('.scss', '').replace('./src/', '');
+  acc[name] = item;
+  return acc;
+}, {});
+entryObject['js/shepherd'] = './src/js/shepherd.js';
+entryObject['js/shepherd.min'] = './src/js/shepherd.js';
 
 module.exports = {
-  mode: 'development',
-  entry: './src/js/shepherd.js',
+  mode: 'production',
+  entry: entryObject,
   output: {
-    filename: 'shepherd.js',
-    path: path.resolve(__dirname, 'dist/js'),
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
     library: 'Shepherd',
     libraryTarget: 'umd',
     globalObject: 'this'
@@ -29,7 +37,15 @@ module.exports = {
       },
       {
         test: /\.s[c|a]ss$/,
-        use: ExtractTextPlugin.extract('css-loader', 'postcss-loader', 'sass-loader')
+        include: [
+          path.resolve(__dirname, 'src/css')
+        ],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -44,9 +60,20 @@ module.exports = {
   devServer: {
     contentBase: './dist'
   },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+        sourceMap: true
+      })
+    ]
+  },
   plugins: [
-    // new ExtractTextPlugin('./dist/css/[name].css'),
-    // new webpack.BannerPlugin(banner)
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
+    new webpack.BannerPlugin(banner)
   ],
   devtool: 'source-map',
   target: 'web'

@@ -4,7 +4,6 @@ const Shepherd = require('../dist/js/shepherd.js');
 
 describe('Shepherd', function() {
   describe('.Tour()', function() {
-    console.log(Shepherd);
     const instance = new Shepherd.Tour({
       defaults: {
         classes: 'shepherd-theme-arrows',
