@@ -15,6 +15,7 @@ cache:
   yarn: true
 
 install:
+  - yarn global add postcss
   - yarn install --ignore-engines
 
 jobs:
