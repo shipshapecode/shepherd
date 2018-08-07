@@ -15,6 +15,8 @@ cache:
   yarn: true
 
 install:
+  - yarn global add postcss-cli
+  - yarn global add autoprefixer
   - yarn install --ignore-engines
 
 jobs:
@@ -22,10 +24,10 @@ jobs:
     - stage: test
       script:
         - yarn lint
-        - gulp js
+        - yarn build
         - yarn test:ci
       after_script:
-        - codeclimate-test-reporter < coverage/lcov.info  
+        - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
       script:
         - yarn build

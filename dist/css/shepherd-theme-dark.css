@@ -1,3 +1,7 @@
+/*!
+ * /*! shepherd.js 2.0.0-beta.15 * /
+ * 
+ */
 .shepherd-element, .shepherd-element:after, .shepherd-element:before,
 .shepherd-element *,
 .shepherd-element *:after,
@@ -91,7 +95,7 @@
       position: relative;
       text-decoration: none; }
       .shepherd-element .shepherd-content header a.shepherd-cancel-link:before {
-        content: '\00d7'; }
+        content: '\D7'; }
       .shepherd-element .shepherd-content header a.shepherd-cancel-link:hover {
         opacity: 1; }
   .shepherd-element .shepherd-content footer {
@@ -167,3 +171,6 @@
   padding: 0.75em 2em;
   text-transform: uppercase;
   border-radius: 3px; }
+
+
+/*# sourceMappingURL=shepherd-theme-dark.css.map*/

@@ -1,3 +1,7 @@
+/* global require,describe,it */
+const assert = require('assert');
+const Shepherd = require('../dist/js/shepherd.js');
+
 describe('Shepherd', function() {
   describe('.Tour()', function() {
     const instance = new Shepherd.Tour({
@@ -26,6 +30,14 @@ describe('Shepherd', function() {
       // this is not working as documented
       it.skip('returns the step options', function() {
         assert.ok(instance.defaults);
+      });
+    });
+
+    describe.skip('.start()', function() {
+      it('starts a tour that is the current active', function() {
+        instance.start();
+
+        assert.equal(instance, Shepherd.activeTour);
       });
     });
 

@@ -1,7 +1,8 @@
+/* global Eager,INSTALL_ID,INSTALL_OPTIONS,Shepherd */
 (function() {
-  var ShepherdInstallHelper, addEventListener, buttonLocation, firstStepSelector, options, ready, render, tour;
+  let buttonLocation, firstStepSelector, options, tour;
 
-  addEventListener = function(el, eventName, handler) {
+  const addEventListener = function(el, eventName, handler) {
     if (el.addEventListener) {
       return el.addEventListener(eventName, handler);
     } else {
@@ -11,7 +12,7 @@
     }
   };
 
-  ready = function(fn) {
+  const ready = function(fn) {
     if (document.readyState !== 'loading') {
       return fn();
     } else if (document.addEventListener) {
@@ -33,11 +34,11 @@
 
   buttonLocation = null;
 
-  render = function() {
-    var existing, i, id, j, k, lastI, len, len1, open, ref, ref1, step, stepOptions, steps, textLines;
+  const render = function() {
+    let existing, i, id, j, k, lastI, len, len1, ref1, step, stepOptions, textLines;
     tour || (tour = new Shepherd.Tour);
-    steps = [];
-    ref = options.steps;
+    const steps = [];
+    const ref = options.steps;
     for (j = 0, len = ref.length; j < len; j++) {
       step = ref[j];
       if (step.text && step.attachToSelector && step.attachToDirection) {
@@ -50,7 +51,7 @@
         steps.push(step);
       }
     }
-    open = (ref1 = tour.getCurrentStep()) != null ? ref1.id : void 0;
+    const open = (ref1 = tour.getCurrentStep()) != null ? ref1.id : void 0;
     lastI = -1;
     for (i = k = 0, len1 = steps.length; k < len1; i = ++k) {
       step = steps[i];
@@ -61,7 +62,7 @@
         title: step.title,
         text: step.text,
         showCancelLink: step.showCancelLink,
-        attachTo: step.attachToSelector + ' ' + step.attachToDirection,
+        attachTo: `${step.attachToSelector  } ${  step.attachToDirection}`,
         classes: `shepherd-element shepherd-theme-${options.theme}`,
         scrollTo: options.scrollTo
       };
@@ -99,22 +100,22 @@
           tour.show(id);
         }
       } else {
-        tour.addStep('step-' + i, stepOptions);
+        tour.addStep(`step-${  i}`, stepOptions);
       }
       lastI = i;
     }
-    while (existing = tour.getById(`step-${++lastI}`)) {
+    while (existing === tour.getById(`step-${++lastI}`)) {
       tour.removeStep(existing.id);
     }
     return ready(function() {
-      var button, ref2, start, tries;
+      let button, ref2, start, tries;
       if (options.trigger === 'first-page-visit' && !Shepherd.activeTour) {
         tries = 0;
         start = function() {
           if (document.querySelector(firstStepSelector)) {
             tour.start();
             if (INSTALL_ID !== 'preview') {
-              return typeof localStorage !== "undefined" && localStorage !== null ? localStorage.eagerShepherdHasRun = 'true' : void 0;
+              return typeof localStorage !== 'undefined' && localStorage !== null ? localStorage.eagerShepherdHasRun = 'true' : void 0;
             }
           } else if (tries < 3) {
             tries++;
@@ -148,12 +149,12 @@
 
   render();
 
-  ShepherdInstallHelper = {
-    setOptions: function(opts) {
+  const ShepherdInstallHelper = {
+    setOptions(opts) {
       options = opts;
       return render();
     },
-    tour: tour
+    tour
   };
 
   window.ShepherdInstallHelper = ShepherdInstallHelper;
