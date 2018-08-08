@@ -1,9 +1,6 @@
-@import "./variables";
+$shepherd-theme-primary: #9b59b6 !default;
+$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
+$shepherd-header-background: #eeeeee !default;
+$use-drop-shadow: true !default;
 
-$background-color: $color-white;
-$color: #444444;
-$header-background-color: #eeeeee;
-$use-drop-shadow: true;
-
-@import "./base";
-@import "./rounded";
+@import 'base';

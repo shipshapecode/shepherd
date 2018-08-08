@@ -1,26 +1,6 @@
-@import "./variables";
+$shepherd-theme-primary: #34495e !default;
+$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
+$shepherd-header-background: #eeeeee !default;
+$use-drop-shadow: false !default;
 
-$background-color: $color-white;
-$color: #444444;
-$header-background-color: #eeeeee;
-$use-drop-shadow: true;
-
-@import "./base";
-
-.shepherd-element {
-  .shepherd-content {
-    header {
-      border-radius: 5px 5px 0 0;
-    }
-
-    footer {
-      .shepherd-buttons {
-        li {
-          .shepherd-button {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-  }
-}
+@import 'base';

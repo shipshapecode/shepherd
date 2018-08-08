@@ -1,26 +1,7 @@
-@import "./variables";
+$shepherd-theme-primary: #3498db !default;
+$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
+$shepherd-header-background: #34495e !default;
+$shepherd-text-background: #95a5a6 !default;
+$use-drop-shadow: false !default;
 
-$background-color: #232323;
-$color: #eeeeee;
-$header-background-color: #303030;
-$use-drop-shadow: false;
-
-@import "./base";
-@import "./rounded";
-@import "./mixins/start-tour-button";
-
-.shepherd-element {
-  font-size: 1em;
-  max-width: $max-width;
-  z-index: $z-index;
-
-  .shepherd-content {
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-  }
-}
-
-.shepherd-start-tour-button.shepherd-element {
-  @include start-tour-button;
-
-  border-radius: 3px;
-}
+@import 'base';

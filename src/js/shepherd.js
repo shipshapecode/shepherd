@@ -483,6 +483,7 @@ class Step extends Evented {
     this.el.appendChild(content);
 
     const header = document.createElement('header');
+    header.className = 'shepherd-header';
     content.appendChild(header);
 
     if (this.options.title) {
@@ -500,7 +501,7 @@ class Step extends Evented {
     }
 
     if (!isUndefined(this.options.text)) {
-      const text = createFromHTML('<div class=\'shepherd-text\'></div>');
+      const text = createFromHTML('<main class=\'shepherd-text\'></main>');
       let paragraphs = this.options.text;
 
       if (typeof paragraphs === 'function') {
@@ -524,6 +525,7 @@ class Step extends Evented {
 
     if (this.options.buttons) {
       const footer = document.createElement('footer');
+      footer.className = 'shepherd-footer';
       const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
       this.options.buttons.map((cfg) => {
