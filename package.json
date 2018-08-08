@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "webpack && yarn copy-deps",
-    "clean": "rm -rf dist",
+    "clean": "del-cli dist/**/*",
     "copy-deps": "cp -R ./node_modules/popper.js/dist/umd/. dist/js",
     "prebuild:css": "node-sass --source-map true ./docs/welcome/sass/*.scss -o ./docs/welcome/css",
     "prefix:css": "postcss --use autoprefixer -b 'last 2 versions' < ./docs/welcome/css/welcome.css",
@@ -52,6 +52,7 @@
     "codeclimate-test-reporter": "^0.5.0",
     "css-loader": "^1.0.0",
     "del": "^3.0.0",
+    "del-cli": "^1.1.0",
     "eslint": "^5.1.0",
     "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
