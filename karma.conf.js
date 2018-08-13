@@ -1,5 +1,7 @@
 // Karma configuration
 // Generated on Wed Aug 01 2018 07:54:19 GMT-0400 (Eastern Daylight Time)
+// const webpack = require('./webpack.config.js');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function(config) {
   config.set({
@@ -12,13 +14,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'dist/js/*.js',
-      'test/*.js'
+      // 'src/js/*.js',
+      'test/test.*.js',
+      'docs/welcome/index.html'
     ],
 
     // list of files / patterns to exclude
     exclude: [
     ],
+
+    coverageIstanbulReporter: {
+      dir: '../coverage',
+      fixWebpackSourcePaths: true,
+      reports: ['cobertura', 'lcov', 'html', 'text', 'text-summary'],
+      skipFilesWithNoCoverage: true
+    },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -27,10 +37,29 @@ module.exports = function(config) {
       'test/test.*.js': ['webpack']
     },
 
-    coverageReporter: {
-      dir: 'coverage/',
-      reporters: [
-        { type: 'lcov', subdir: '.' }
+    webpack: {
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: [
+              /node_modules/,
+              /test/
+            ],
+            use: [
+              { loader: 'istanbul-instrumenter-loader', options: { esModules: true } },
+              'babel-loader'
+            ]
+          },
+          {
+            test: /test.*\.js$/,
+            exclude: /node_modules/,
+            use: 'babel-loader'
+          }
+        ]
+      },
+      plugins: [
+
       ]
     },
 
@@ -65,7 +94,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['coverage-istanbul', 'mocha'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
