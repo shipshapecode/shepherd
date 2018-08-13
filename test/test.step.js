@@ -34,21 +34,21 @@ describe('Shepherd', function() {
       assert.deepEqual(values, Object.keys(testStep.options));
     });
 
-    describe('.show()', function() {
-      it('shows step evoking method, regardless of order', function() {
-        instance.start();
-        showTestStep.show();
-
-        assert.equal(instance.getCurrentStep().id, 'test2');
-      });
-    });
-
     describe('.hide()', function() {
       it('shows step evoking method, regardless of order', function() {
+        instance.start();
         testStep.hide();
 
-        assert.equal(instance.getCurrentStep().id, 'test2');
+        assert.notEqual(document.querySelector('[data-id=test]').getAttribute('hidden'), null);
       });
     });
+    describe('.show()', function() {
+      it('shows step evoking method, regardless of order', function() {
+        showTestStep.show();
+
+        assert.equal(document.querySelector('[data-id=test2]').dataset.id, 'test2');
+      });
+    });
+
   });
 });

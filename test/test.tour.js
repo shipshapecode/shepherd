@@ -10,6 +10,9 @@ describe('Shepherd', function() {
     scrollTo: true
   };
   describe('.Tour()', function() {
+    after(function() {
+      instance.cancel();
+    });
     const instance = new Shepherd.Tour({
       defaults,
     });

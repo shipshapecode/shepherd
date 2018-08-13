@@ -1,7 +1,5 @@
 // Karma configuration
 // Generated on Wed Aug 01 2018 07:54:19 GMT-0400 (Eastern Daylight Time)
-// const webpack = require('./webpack.config.js');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function(config) {
   config.set({
@@ -14,9 +12,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // 'src/js/*.js',
-      'test/test.*.js',
-      'docs/welcome/index.html'
+      'src/js/*.js',
+      'test/test.*.js'
     ],
 
     // list of files / patterns to exclude
@@ -33,13 +30,21 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/js/*.js': ['webpack', 'coverage'],
-      'test/test.*.js': ['webpack']
+      'src/js/*.js': ['webpack', 'sourcemap', 'coverage'],
+      'test/test.*.js': ['webpack', 'sourcemap']
     },
 
     webpack: {
       module: {
         rules: [
+          {
+            enforce: 'pre',
+            test: /\.js$/,
+            loader: 'source-map-loader',
+            exclude: [
+              'node_modules'
+            ]
+          },
           {
             test: /\.js$/,
             exclude: [
@@ -58,9 +63,7 @@ module.exports = function(config) {
           }
         ]
       },
-      plugins: [
-
-      ]
+      devtool: 'inline-source-map'
     },
 
     // web server port
