@@ -21,9 +21,8 @@ module.exports = function(config) {
     ],
 
     coverageIstanbulReporter: {
-      dir: '../coverage',
       fixWebpackSourcePaths: true,
-      reports: ['cobertura', 'lcov', 'html', 'text', 'text-summary'],
+      reports: ['lcov', 'text'],
       skipFilesWithNoCoverage: true
     },
 
