@@ -12,6 +12,7 @@ module.exports = {
     'plugin:mocha/recommended'
   ],
   globals: {
+    cy: false,
     document: false,
     window: false,
     assert: false,
