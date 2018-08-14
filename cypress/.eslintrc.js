@@ -12,10 +12,13 @@ module.exports = {
     'plugin:mocha/recommended'
   ],
   globals: {
-    document: false,
-    window: false,
+    Cypress: false,
+    Shepherd: false,
     assert: false,
-    Shepherd: false
+    cy: false,
+    document: false,
+    expect: false,
+    window: false
   },
   env: {
     browser: false,
