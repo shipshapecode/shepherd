@@ -16,7 +16,7 @@ describe('Shepherd Acceptance Tests', () => {
   });
 
   it('attachTo works with selectors and DOM elements', () => {
-    const document = cy.document().then((document) => {
+    cy.document().then((document) => {
       const heroIncludingElement = document.querySelector('.hero-including');
 
       const steps = function(shepherd) {
