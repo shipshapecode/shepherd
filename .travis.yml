@@ -57,7 +57,7 @@ jobs:
           fi
     - stage: gh-pages release
       script:
-        - yarn docs
+        - yarn build
       before_deploy:
         - git add -f --all dist/
       deploy:
