@@ -1,73 +1,26 @@
-export default function(Shepherd, options) {
-  const defaults = options || {
+import defaultSteps from './default-steps';
+
+/**
+ * Setup a tour
+ * @param {Shepherd} Shepherd The Shepherd instance
+ * @param {Object} globalDefaults A hash of the `defaults`
+ * @param {[Object]} customSteps An array of the steps to add to the tour
+ */
+export default function(Shepherd, globalDefaults, customSteps) {
+  const defaults = Object.assign({}, {
     showCancelLink: true
-  };
+  }, globalDefaults);
+
   let shepherd = new Shepherd.Tour({
     defaults
   });
-  shepherd.addStep('welcome', {
-    text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
-    attachTo: '.hero-welcome bottom',
-    classes: 'shepherd shepherd-transparent-text',
-    buttons: [
-      {
-        action: shepherd.cancel,
-        classes: 'shepherd-button-secondary',
-        text: 'Exit'
-      }, {
-        action: shepherd.next,
-        classes: 'shepherd-button-example-primary',
-        text: 'Next'
-      }
-    ]
+
+  const steps = typeof customSteps === 'function' ? customSteps(shepherd) : defaultSteps(shepherd);
+
+  steps.forEach((step) => {
+    const { id, options } = step;
+    shepherd.addStep(id, options);
   });
-  shepherd.addStep('including', {
-    title: 'Including',
-    text: 'Including Shepherd is easy! Just include popper.js, shepherd.js, and a Shepherd theme file.',
-    attachTo: '.hero-including bottom',
-    buttons: [
-      {
-        action: shepherd.back,
-        classes: 'shepherd-button-secondary',
-        text: 'Back'
-      }, {
-        action: shepherd.next,
-        classes: 'shepherd-button-example-primary',
-        text: 'Next'
-      }
-    ]
-  });
-  shepherd.addStep('example', {
-    title: 'Example Shepherd',
-    text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.',
-    attachTo: '.hero-example bottom',
-    buttons: [
-      {
-        action: shepherd.back,
-        classes: 'shepherd-button-secondary',
-        text: 'Back'
-      }, {
-        action: shepherd.next,
-        classes: 'shepherd-button-example-primary',
-        text: 'Next'
-      }
-    ]
-  });
-  shepherd.addStep('followup', {
-    title: 'Learn more',
-    text: 'Star Shepherd on Github so you remember it for your next project',
-    attachTo: '.hero-followup left',
-    buttons: [
-      {
-        action: shepherd.back,
-        classes: 'shepherd-button-secondary',
-        text: 'Back'
-      }, {
-        action: shepherd.next,
-        classes: 'shepherd-button-example-primary',
-        text: 'Done'
-      }
-    ]
-  });
+
   return shepherd;
 }
