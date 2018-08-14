@@ -1,4 +1,4 @@
-import Popper from 'popper.js/dist/umd/popper';
+import Popper from 'popper.js';
 
 const uniqueId = (function() {
   let id = 0;
