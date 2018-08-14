@@ -62,6 +62,7 @@
     "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
     "glob": "^7.1.2",
+    "http-server": "^0.11.1",
     "istanbul-instrumenter-loader": "^3.0.1",
     "karma": "^2.0.5",
     "karma-chai": "^0.1.0",
