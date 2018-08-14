@@ -95,7 +95,7 @@ module.exports = [{
           {
             loader: 'sass-loader',
             options: {
-              outputStyle: 'compressed',
+              outputStyle: 'expanded',
               sourceMap: true
             }
           }
