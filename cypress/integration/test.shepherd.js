@@ -1,9 +1,23 @@
+import setupTour from '../utils/setup-tour';
+
+let Shepherd;
+
 describe('Shepherd Acceptance Tests', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8080/docs/welcome/');
-  })
+    Shepherd = null;
+
+    cy.visit('http://localhost:8080/cypress/dummy/', {
+      onLoad(contentWindow) {
+        if (contentWindow.Shepherd) {
+          return Shepherd = contentWindow.Shepherd;
+        }
+      }
+    });
+  });
 
   it('next/previous buttons work', () => {
+    const tour = setupTour(Shepherd);
+    tour.start();
     // Step one text should be visible
     cy.get('.shepherd-text')
       .contains('Shepherd is a javascript library').should('be.visible');
