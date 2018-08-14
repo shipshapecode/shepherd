@@ -1,0 +1,96 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden; }
+
+body {
+  background-color: #62c462;
+  background-image: linear-gradient(-45deg, #62c462, #75beaa);
+  font-family: "proxima-nova", "Helvetica Neue", sans-serif;
+  margin: 0; }
+
+.button {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: 500;
+  letter-spacing: 3px;
+  line-height: 1.3em;
+  padding: 1em 1.25em;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 140px; }
+  .button.dark {
+    background: #ffffff;
+    color: #75beaa; }
+  @media (max-width: 568px) {
+    .button {
+      display: block;
+      margin: 1em auto 0; } }
+
+.hero-scroll {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%; }
+
+.hero-outer {
+  box-sizing: border-box;
+  display: table;
+  height: 100%;
+  padding: 20px 0;
+  width: 100%; }
+  .hero-outer .hero-inner {
+    margin: 0 auto 1em;
+    text-align: center;
+    width: 540px; }
+    @media (max-width: 600px) {
+      .hero-outer .hero-inner {
+        width: 340px; } }
+    @media (max-width: 360px) {
+      .hero-outer .hero-inner {
+        width: 200px; } }
+    .hero-outer .hero-inner h1,
+    .hero-outer .hero-inner h2,
+    .hero-outer .hero-inner h3,
+    .hero-outer .hero-inner p {
+      color: #ffffff;
+      font-weight: normal;
+      line-height: 1;
+      margin: 0 0 20px; }
+    .hero-outer .hero-inner h3 {
+      font-size: 1.3em;
+      padding-top: 13px; }
+    .hero-outer .hero-inner h1 {
+      padding-top: 10px; }
+    .hero-outer .hero-inner > * {
+      opacity: 0.3;
+      pointer-events: none;
+      transition: opacity 0.4s; }
+      body:not(.shepherd-active) .hero-outer .hero-inner > * {
+        opacity: 1;
+        pointer-events: auto; }
+    .hero-outer .hero-inner .shepherd-target.shepherd-enabled {
+      opacity: 1;
+      pointer-events: auto; }
+  .hero-outer .hero-followup {
+    padding-top: 20px; }
+
+.shepherd-element.shepherd-transparent-text .shepherd-text {
+  color: #3b744f; }
+
+.shepherd-element .shepherd-content {
+  max-width: 100%;
+  width: 400px; }
+  .shepherd-element .shepherd-content a {
+    color: "inherit"; }
+  .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button-example-primary {
+    background: #55a892; }
+
+pre {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  line-height: 1.4em; }
+
+/*# sourceMappingURL=welcome.css.map */

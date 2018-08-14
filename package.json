@@ -20,6 +20,8 @@
     "build": "webpack && yarn copy-deps",
     "clean": "rm -rf dist",
     "copy-deps": "cp -R ./node_modules/popper.js/dist/umd/. dist/js",
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run": "./node_modules/.bin/cypress run",
     "prebuild:css": "node-sass --source-map true ./docs/welcome/sass/*.scss -o ./docs/welcome/css",
     "prefix:css": "postcss --use autoprefixer -b 'last 2 versions' < ./docs/welcome/css/welcome.css",
     "docs": "yarn build && yarn prebuild:css && yarn prefix:css",
@@ -27,8 +29,12 @@
     "lint:styles": "stylelint ./src/css/**/*.scss ./docs/welcome/sass/welcome.scss",
     "lint": "yarn lint:js && yarn lint:styles",
     "start": "webpack-dev-server --open",
-    "test:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
-    "test:watch": "karma start --browsers Chrome",
+    "start-test-server": "http-server",
+    "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
+    "test:cy:ci": "start-server-and-test start-test-server http://localhost:8080 cy:run",
+    "test:cy:watch": "start-server-and-test start-test-server http://localhost:8080 cy:open",
+    "test:unit:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
+    "test:unit:watch": "karma start --browsers Chrome",
     "test": "mocha",
     "watch": "webpack --watch"
   },
@@ -39,8 +45,7 @@
     "main": "shepherd.js"
   },
   "dependencies": {
-    "popper.js": "^1.14.3",
-    "yarn": "^1.9.2"
+    "popper.js": "^1.14.3"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.0",
@@ -51,11 +56,13 @@
     "chai": "^4.1.2",
     "codeclimate-test-reporter": "^0.5.0",
     "css-loader": "^1.0.0",
+    "cypress": "^3.0.3",
     "del": "^3.0.0",
     "eslint": "^5.1.0",
     "eslint-plugin-mocha": "^5.1.0",
     "eslint-plugin-ship-shape": "^0.6.0",
     "glob": "^7.1.2",
+    "http-server": "^0.11.1",
     "istanbul-instrumenter-loader": "^3.0.1",
     "karma": "^2.0.5",
     "karma-chai": "^0.1.0",
@@ -73,6 +80,7 @@
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.1.0",
     "source-map-loader": "^0.2.3",
+    "start-server-and-test": "^1.7.0",
     "style-loader": "^0.21.0",
     "stylelint": "^9.3.0",
     "stylelint-config-ship-shape": "^0.4.0",
