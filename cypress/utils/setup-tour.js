@@ -1,8 +1,9 @@
-export default function(Shepherd) {
+export default function(Shepherd, options) {
+  const defaults = options || {
+    showCancelLink: true
+  };
   let shepherd = new Shepherd.Tour({
-    defaults: {
-      showCancelLink: true
-    }
+    defaults
   });
   shepherd.addStep('welcome', {
     text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],

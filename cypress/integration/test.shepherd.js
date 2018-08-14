@@ -15,6 +15,39 @@ describe('Shepherd Acceptance Tests', () => {
     });
   });
 
+  it('Hides cancel link', () => {
+    const tour = setupTour(Shepherd, {
+      showCancelLink: false
+    });
+    tour.start();
+    cy.get('.shepherd-cancel-link')
+      .should('not.be.visible');
+  });
+
+  it('Shows cancel link', () => {
+    const tour = setupTour(Shepherd);
+    tour.start();
+    cy.get('.shepherd-cancel-link')
+      .should('be.visible');
+  });
+
+  it('Cancel link cancels the tour', () => {
+    const tour = setupTour(Shepherd);
+    tour.start();
+    cy.get('body').should('have.class', 'shepherd-active');
+    cy.get('.shepherd-cancel-link').click();
+    cy.get('body').should('not.have.class', 'shepherd-active');
+  });
+
+  it.skip('Defaults classes applied', () => {
+    const tour = setupTour(Shepherd, { 
+      classes: 'test-defaults test-more-defaults'
+    });
+    tour.start();
+    cy.get('.shepherd-element').should('have.class', 'test-defaults');
+    cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
+  });
+
   it('next/previous buttons work', () => {
     const tour = setupTour(Shepherd);
     tour.start();
