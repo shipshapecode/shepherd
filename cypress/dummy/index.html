@@ -1,0 +1,82 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Shepherd — Guide your users through a tour of your app.</title>
+  <meta name="description" content="Guide your users through a tour of your app.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="icon" href="https://static.hubspot.com/favicon.ico">
+
+  <!-- Shepherd themes -->
+  <link rel="stylesheet" href="/dist/css/shepherd-theme-arrows.css"/>
+
+  <!-- Welcome docs styles -->
+  <link rel="stylesheet" href="/cypress/dummy/css/prism.css"/>
+  <link rel="stylesheet" href="/cypress/dummy/css/welcome.css"/>
+</head>
+
+<body>
+<div class="hero-scroll">
+  <div class="hero-outer">
+    <div class="hero-inner">
+      <div class="hero-welcome">
+        <h1>Shepherd</h1>
+
+        <h2>Guide your users through a tour of your app.</h2>
+      </div>
+
+      <div class="hero-including">
+        <h3>Including</h3>
+
+        <script type="text/plain" class="language-markup" id="hero-including-code">
+          <link rel="stylesheet" href="shepherd-theme-arrows.css"/>
+          <script src="popper.min.js">&lt;/script>
+          <script src="shepherd.min.js">&lt;/script>
+        </script>
+      </div>
+
+      <div class="hero-example">
+        <h3>Example</h3>
+
+        <pre id="hero-example-code">
+          <code class="language-javascript">
+            const tour = new Shepherd.Tour({
+              defaults: {
+                classes: 'shepherd-theme-arrows'
+              }
+            });
+
+            tour.addStep('example', {
+              title: 'Example Shepherd',
+              text: 'Creating a Shepherd is easy too! Just create ...',
+              attachTo: '.hero-example bottom',
+              advanceOn: '.docs-link click'
+            });
+
+            tour.start();
+          </code>
+        </pre>
+      </div>
+
+      <div class="hero-followup">
+        <p>
+          <a class="button star" href="https://github.com/shipshapecode/shepherd">★ on Github</a> &nbsp;&nbsp;
+          <a class="button" href="https://shipshapecode.github.io/shepherd/">View Docs</a> &nbsp;&nbsp;
+          <!--a class="button dark" href="https://eager.io/app/shepherd/install?utm_source=shepherd_docs_welcome">↓ Install</a-->
+        </p>
+      </div>
+      <div>
+        <img src="/cypress/dummy/sheep.svg"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Shepherd -->
+<script src="/dist/js/popper.js"></script>
+<script src="/dist/js/shepherd.js"></script>
+
+<!-- Welcome page -->
+<script src="/cypress/dummy/js/prism.js"></script>
+</body>
+</html>

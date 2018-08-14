@@ -12,26 +12,57 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'dist/js/*.js',
-      'test/*.js'
+      'src/js/*.js',
+      'test/test.*.js'
     ],
 
     // list of files / patterns to exclude
     exclude: [
     ],
 
+    coverageIstanbulReporter: {
+      fixWebpackSourcePaths: true,
+      reports: ['lcov', 'text'],
+      skipFilesWithNoCoverage: true
+    },
+
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/js/*.js': ['webpack', 'coverage'],
-      'test/test.*.js': ['webpack']
+      'src/js/*.js': ['webpack', 'sourcemap', 'coverage'],
+      'test/test.*.js': ['webpack', 'sourcemap']
     },
 
-    coverageReporter: {
-      dir: 'coverage/',
-      reporters: [
-        { type: 'lcov', subdir: '.' }
-      ]
+    webpack: {
+      module: {
+        rules: [
+          {
+            enforce: 'pre',
+            test: /\.js$/,
+            loader: 'source-map-loader',
+            exclude: [
+              'node_modules'
+            ]
+          },
+          {
+            test: /\.js$/,
+            exclude: [
+              /node_modules/,
+              /test/
+            ],
+            use: [
+              { loader: 'istanbul-instrumenter-loader', options: { esModules: true } },
+              'babel-loader'
+            ]
+          },
+          {
+            test: /test.*\.js$/,
+            exclude: /node_modules/,
+            use: 'babel-loader'
+          }
+        ]
+      },
+      devtool: 'inline-source-map'
     },
 
     // web server port
@@ -65,7 +96,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['coverage-istanbul', 'mocha'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
