@@ -116,7 +116,19 @@ module.exports = [{
         port: 3000,
         notify: false,
         open: true,
-        server: ['./', 'docs/welcome', 'dist']
+        server: {
+          baseDir: 'docs/welcome',
+          routes: {
+            '/shepherd/dist/js/popper.js': 'dist/js/popper.js',
+            '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
+            '/shepherd/dist/css/shepherd-theme-arrows.css': 'dist/css/shepherd-theme-arrows.css',
+            '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
+            '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
+            '/shepherd/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
+            '/shepherd/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
+            '/shepherd/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
+          }
+        }
       }, {
         reload: true
       }
