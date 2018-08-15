@@ -26,7 +26,6 @@ jobs:
         - yarn lint
         - yarn build
         - yarn test:ci
-        - yarn test:cy:ci
       after_script:
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
