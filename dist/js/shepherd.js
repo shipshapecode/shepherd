@@ -4,14 +4,14 @@
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("popper.js/dist/umd/popper"));
+		module.exports = factory(require("popper.js"));
 	else if(typeof define === 'function' && define.amd)
-		define(["popper.js/dist/umd/popper"], factory);
+		define(["popper.js"], factory);
 	else if(typeof exports === 'object')
-		exports["Shepherd"] = factory(require("popper.js/dist/umd/popper"));
+		exports["Shepherd"] = factory(require("popper.js"));
 	else
 		root["Shepherd"] = factory(root["Popper"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE__1__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE__4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,7 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -111,140 +111,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _popper = __webpack_require__(1);
-
-var _popper2 = _interopRequireDefault(_popper);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var uniqueId = function () {
-  var id = 0;
-  return function () {
-    return ++id;
-  };
-}();
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
- * @param obj
- * @returns {*|boolean}
- */
-function isObject(obj) {
-  return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && Array.isArray(obj) === false;
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isObjectLoose(obj) {
-  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
-}
-
-/**
- * TODO rewrite the way items are being added to use more performant documentFragment code
- * @param html
- * @returns {HTMLElement}
- */
-function createFromHTML(html) {
-  var el = document.createElement('div');
-  el.innerHTML = html;
-  return el.children[0];
-}
-
-function matchesSelector(el, sel) {
-  var matches = void 0;
-  if (!isUndefined(el.matches)) {
-    matches = el.matches;
-  } else if (!isUndefined(el.matchesSelector)) {
-    matches = el.matchesSelector;
-  } else if (!isUndefined(el.msMatchesSelector)) {
-    matches = el.msMatchesSelector;
-  } else if (!isUndefined(el.webkitMatchesSelector)) {
-    matches = el.webkitMatchesSelector;
-  } else if (!isUndefined(el.mozMatchesSelector)) {
-    matches = el.mozMatchesSelector;
-  } else if (!isUndefined(el.oMatchesSelector)) {
-    matches = el.oMatchesSelector;
-  }
-  return matches.call(el, sel);
-}
-
-var positionRe = /^(.+) (top|left|right|bottom|center)$/;
-
-/**
- * @param str
- * @returns {*}
- */
-function parsePosition(str) {
-  if (isObjectLoose(str)) {
-    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
-      return str;
-    }
-    return null;
-  }
-
-  var matches = positionRe.exec(str);
-  if (!matches) {
-    return null;
-  }
-
-  var on = matches[2]; // eslint-disable-line
-  if (on[0] === '[') {
-    on = on.substring(1, on.length - 1);
-  }
-
-  return {
-    'element': matches[1],
-    on: on
-  };
-}
-
-/**
- * @param obj
- * @param {Array} props
- * @returns {*}
- */
-function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
-    return obj;
-  } else if (isObjectLoose(obj)) {
-    return obj;
-  }
-
-  var vals = obj.split(' ');
-  var out = {};
-  var j = props.length - 1;
-  for (var i = vals.length - 1; i >= 0; i--) {
-    if (j === 0) {
-      out[props[j]] = vals.slice(0, i + 1).join(' ');
-      break;
-    } else {
-      out[props[j]] = vals[i];
-    }
-
-    j--;
-  }
-
-  return out;
-}
-
-var Evented = function () {
+var Evented = exports.Evented = function () {
   function Evented() /* options = {}*/{
     // TODO: do we need this empty constructor?
 
@@ -328,7 +197,44 @@ var Evented = function () {
   return Evented;
 }();
 
-var Step = function (_Evented) {
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Step = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _popper = __webpack_require__(4);
+
+var _popper2 = _interopRequireDefault(_popper);
+
+var _evented = __webpack_require__(0);
+
+var _utils = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var uniqueId = function () {
+  var id = 0;
+  return function () {
+    return ++id;
+  };
+}();
+
+var Step = exports.Step = function (_Evented) {
   _inherits(Step, _Evented);
 
   function Step(tour, options) {
@@ -378,13 +284,13 @@ var Step = function (_Evented) {
       // Button configuration
 
       var buttonsJson = JSON.stringify(this.options.buttons);
-      var buttonsAreDefault = isUndefined(buttonsJson) || buttonsJson === 'true';
+      var buttonsAreDefault = (0, _utils.isUndefined)(buttonsJson) || buttonsJson === 'true';
 
       var buttonsAreEmpty = buttonsJson === '{}' || buttonsJson === '[]' || buttonsJson === 'null' || buttonsJson === 'false';
 
       var buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
 
-      var buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
+      var buttonsAreObject = !buttonsAreDefault && (0, _utils.isObject)(this.options.buttons);
 
       // Show default button if undefined or 'true'
       if (buttonsAreDefault) {
@@ -414,7 +320,7 @@ var Step = function (_Evented) {
       var _this3 = this;
 
       // An empty selector matches the step element
-      var _parseShorthand = parseShorthand(this.options.advanceOn, ['selector', 'event']),
+      var _parseShorthand = (0, _utils.parseShorthand)(this.options.advanceOn, ['selector', 'event']),
           event = _parseShorthand.event,
           selector = _parseShorthand.selector;
 
@@ -423,8 +329,8 @@ var Step = function (_Evented) {
           return;
         }
 
-        if (!isUndefined(selector)) {
-          if (matchesSelector(e.target, selector)) {
+        if (!(0, _utils.isUndefined)(selector)) {
+          if ((0, _utils.matchesSelector)(e.target, selector)) {
             _this3.tour.next();
           }
         } else {
@@ -443,7 +349,7 @@ var Step = function (_Evented) {
   }, {
     key: 'getAttachTo',
     value: function getAttachTo() {
-      var opts = parsePosition(this.options.attachTo) || {};
+      var opts = (0, _utils.parsePosition)(this.options.attachTo) || {};
       var returnOpts = Object.assign({}, opts);
 
       if (typeof opts.element === 'string') {
@@ -464,7 +370,7 @@ var Step = function (_Evented) {
   }, {
     key: 'setupPopper',
     value: function setupPopper() {
-      if (isUndefined(_popper2.default)) {
+      if ((0, _utils.isUndefined)(_popper2.default)) {
         throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
       }
 
@@ -473,7 +379,7 @@ var Step = function (_Evented) {
       var attachment = opts.on || 'right';
       opts.positionFixed = false;
 
-      if (isUndefined(opts.element)) {
+      if ((0, _utils.isUndefined)(opts.element)) {
         opts.element = document.body;
         attachment = 'top';
 
@@ -522,9 +428,9 @@ var Step = function (_Evented) {
     value: function show() {
       var _this4 = this;
 
-      if (!isUndefined(this.options.beforeShowPromise)) {
+      if (!(0, _utils.isUndefined)(this.options.beforeShowPromise)) {
         var beforeShowPromise = this.options.beforeShowPromise();
-        if (!isUndefined(beforeShowPromise)) {
+        if (!(0, _utils.isUndefined)(beforeShowPromise)) {
           return beforeShowPromise.then(function () {
             return _this4._show();
           });
@@ -606,16 +512,16 @@ var Step = function (_Evented) {
       var _getAttachTo = this.getAttachTo(),
           element = _getAttachTo.element;
 
-      if (!isUndefined(this.options.scrollToHandler)) {
+      if (!(0, _utils.isUndefined)(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
-      } else if (!isUndefined(element)) {
+      } else if (!(0, _utils.isUndefined)(element)) {
         element.scrollIntoView();
       }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      if (!isUndefined(this.el) && this.el.parentNode) {
+      if (!(0, _utils.isUndefined)(this.el) && this.el.parentNode) {
         this.el.parentNode.removeChild(this.el);
         delete this.el;
       }
@@ -632,14 +538,14 @@ var Step = function (_Evented) {
     value: function render() {
       var _this6 = this;
 
-      if (!isUndefined(this.el)) {
+      if (!(0, _utils.isUndefined)(this.el)) {
         this.destroy();
       }
 
-      this.el = createFromHTML('<div class=\'' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '>');
+      this.el = (0, _utils.createFromHTML)('<div class=\'' + (this.options.classes || '') + '\' data-id=\'' + this.id + '\' ' + (this.options.idAttribute ? 'id="' + this.options.idAttribute + '"' : '') + '>');
 
       if (this.options.attachTo) {
-        this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+        this.el.appendChild((0, _utils.createFromHTML)('<div class="popper__arrow" x-arrow></div>'));
       }
 
       var content = document.createElement('div');
@@ -655,7 +561,7 @@ var Step = function (_Evented) {
       }
 
       if (this.options.showCancelLink) {
-        var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+        var link = (0, _utils.createFromHTML)('<a href class="shepherd-cancel-link"></a>');
         header.appendChild(link);
 
         this.el.classList.add('shepherd-has-cancel-link');
@@ -663,8 +569,8 @@ var Step = function (_Evented) {
         this.bindCancelLink(link);
       }
 
-      if (!isUndefined(this.options.text)) {
-        var text = createFromHTML('<div class=\'shepherd-text\'></div>');
+      if (!(0, _utils.isUndefined)(this.options.text)) {
+        var text = (0, _utils.createFromHTML)('<div class=\'shepherd-text\'></div>');
         var paragraphs = this.options.text;
 
         if (typeof paragraphs === 'function') {
@@ -688,10 +594,10 @@ var Step = function (_Evented) {
 
       if (this.options.buttons) {
         var footer = document.createElement('footer');
-        var buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+        var buttons = (0, _utils.createFromHTML)('<ul class=\'shepherd-buttons\'></ul>');
 
         this.options.buttons.map(function (cfg) {
-          var button = createFromHTML('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
+          var button = (0, _utils.createFromHTML)('<li><a class=\'shepherd-button ' + (cfg.classes || '') + '\'>' + cfg.text + '</a>');
           buttons.appendChild(button);
           _this6.bindButtonEvents(cfg, button.querySelector('a'));
         });
@@ -735,7 +641,7 @@ var Step = function (_Evented) {
       var _this8 = this;
 
       cfg.events = cfg.events || {};
-      if (!isUndefined(cfg.action)) {
+      if (!(0, _utils.isUndefined)(cfg.action)) {
         // Including both a click event and an action is not supported
         cfg.events.click = cfg.action;
       }
@@ -767,62 +673,249 @@ var Step = function (_Evented) {
   }]);
 
   return Step;
-}(Evented);
+}(_evented.Evented);
 
-var Tour = function (_Evented2) {
-  _inherits(Tour, _Evented2);
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.createFromHTML = createFromHTML;
+exports.isObject = isObject;
+exports.isObjectLoose = isObjectLoose;
+exports.isUndefined = isUndefined;
+exports.matchesSelector = matchesSelector;
+exports.parsePosition = parsePosition;
+exports.parseShorthand = parseShorthand;
+/**
+ * TODO rewrite the way items are being added to use more performant documentFragment code
+ * @param html
+ * @returns {HTMLElement}
+ */
+function createFromHTML(html) {
+  var el = document.createElement('div');
+  el.innerHTML = html;
+  return el.children[0];
+}
+
+/**
+ * @param obj
+ * @returns {*|boolean}
+ */
+function isObject(obj) {
+  return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && Array.isArray(obj) === false;
+}
+
+/**
+ * @param obj
+ * @returns {boolean}
+ */
+function isObjectLoose(obj) {
+  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
+}
+
+/**
+ * @param obj
+ * @returns {boolean}
+ */
+function isUndefined(obj) {
+  return typeof obj === 'undefined';
+}
+
+function matchesSelector(el, sel) {
+  var matches = void 0;
+  if (!isUndefined(el.matches)) {
+    matches = el.matches;
+  } else if (!isUndefined(el.matchesSelector)) {
+    matches = el.matchesSelector;
+  } else if (!isUndefined(el.msMatchesSelector)) {
+    matches = el.msMatchesSelector;
+  } else if (!isUndefined(el.webkitMatchesSelector)) {
+    matches = el.webkitMatchesSelector;
+  } else if (!isUndefined(el.mozMatchesSelector)) {
+    matches = el.mozMatchesSelector;
+  } else if (!isUndefined(el.oMatchesSelector)) {
+    matches = el.oMatchesSelector;
+  }
+  return matches.call(el, sel);
+}
+
+/**
+ * @param str
+ * @returns {*}
+ */
+function parsePosition(str) {
+  if (isObjectLoose(str)) {
+    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
+      return str;
+    }
+    return null;
+  }
+
+  var positionRe = /^(.+) (top|left|right|bottom|center)$/;
+  var matches = positionRe.exec(str);
+  if (!matches) {
+    return null;
+  }
+
+  var on = matches[2]; // eslint-disable-line
+  if (on[0] === '[') {
+    on = on.substring(1, on.length - 1);
+  }
+
+  return {
+    'element': matches[1],
+    on: on
+  };
+}
+
+/**
+ * @param obj
+ * @param {Array} props
+ * @returns {*}
+ */
+function parseShorthand(obj, props) {
+  if (obj === null || isUndefined(obj)) {
+    return obj;
+  } else if (isObjectLoose(obj)) {
+    return obj;
+  }
+
+  var vals = obj.split(' ');
+  var out = {};
+  var j = props.length - 1;
+  for (var i = vals.length - 1; i >= 0; i--) {
+    if (j === 0) {
+      out[props[j]] = vals.slice(0, i + 1).join(' ');
+      break;
+    } else {
+      out[props[j]] = vals[i];
+    }
+
+    j--;
+  }
+
+  return out;
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _evented = __webpack_require__(0);
+
+var _step = __webpack_require__(1);
+
+var _tour = __webpack_require__(5);
+
+Object.assign(_tour.Shepherd, { Tour: _tour.Tour, Step: _step.Step, Evented: _evented.Evented });
+
+exports.default = _tour.Shepherd;
+module.exports = exports['default'];
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__4__;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Shepherd = exports.Tour = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _evented = __webpack_require__(0);
+
+var _step = __webpack_require__(1);
+
+var _utils = __webpack_require__(2);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Shepherd = new _evented.Evented();
+
+var Tour = exports.Tour = function (_Evented) {
+  _inherits(Tour, _Evented);
 
   function Tour() {
-    var _ret3;
+    var _ret;
 
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     _classCallCheck(this, Tour);
 
-    var _this9 = _possibleConstructorReturn(this, (Tour.__proto__ || Object.getPrototypeOf(Tour)).call(this, options));
+    var _this = _possibleConstructorReturn(this, (Tour.__proto__ || Object.getPrototypeOf(Tour)).call(this, options));
 
-    _this9.bindMethods();
-    _this9.options = options;
-    _this9.steps = _this9.options.steps || [];
+    _this.bindMethods();
+    _this.options = options;
+    _this.steps = _this.options.steps || [];
 
     // Pass these events onto the global Shepherd object
     var events = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];
     events.map(function (event) {
       (function (e) {
-        _this9.on(e, function (opts) {
+        _this.on(e, function (opts) {
           opts = opts || {};
-          opts.tour = _this9;
+          opts.tour = _this;
           Shepherd.trigger(e, opts);
         });
       })(event);
     });
 
-    return _ret3 = _this9, _possibleConstructorReturn(_this9, _ret3);
+    return _ret = _this, _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Tour, [{
     key: 'bindMethods',
     value: function bindMethods() {
-      var _this10 = this;
+      var _this2 = this;
 
       var methods = ['next', 'back', 'cancel', 'complete'];
       methods.map(function (method) {
-        _this10[method] = _this10[method].bind(_this10);
+        _this2[method] = _this2[method].bind(_this2);
       });
     }
   }, {
     key: 'addStep',
     value: function addStep(name, step) {
-      if (isUndefined(step)) {
+      if ((0, _utils.isUndefined)(step)) {
         step = name;
       }
 
-      if (!(step instanceof Step)) {
+      if (!(step instanceof _step.Step)) {
         if (typeof name === 'string' || typeof name === 'number') {
           step.id = name.toString();
         }
         step = Object.assign({}, this.options.defaults, step);
-        step = new Step(this, step);
+        step = new _step.Step(this, step);
       } else {
         step.tour = this;
       }
@@ -955,7 +1048,7 @@ var Tour = function (_Evented2) {
       }
 
       if (next) {
-        if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
+        if (!(0, _utils.isUndefined)(next.options.showOn) && !next.options.showOn()) {
           var index = this.steps.indexOf(next);
           var nextIndex = forward ? index + 1 : index - 1;
           this.show(nextIndex, forward);
@@ -981,19 +1074,9 @@ var Tour = function (_Evented2) {
   }]);
 
   return Tour;
-}(Evented);
+}(_evented.Evented);
 
-var Shepherd = new Evented();
-Object.assign(Shepherd, { Tour: Tour, Step: Step, Evented: Evented });
-
-exports.default = Shepherd;
-module.exports = exports['default'];
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__1__;
+exports.Shepherd = Shepherd;
 
 /***/ })
 /******/ ]);

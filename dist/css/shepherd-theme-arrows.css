@@ -1,7 +1,3 @@
-/*!
- * /*! shepherd.js 2.0.0-beta.16 * /
- * 
- */
 .shepherd-element, .shepherd-element:after, .shepherd-element:before,
 .shepherd-element *,
 .shepherd-element *:after,
@@ -146,6 +142,3 @@
   .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
     background: #eeeeee;
     color: #888888; }
-
-
-/*# sourceMappingURL=shepherd-theme-arrows.css.map*/
