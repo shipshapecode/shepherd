@@ -26,6 +26,7 @@ jobs:
         - yarn lint
         - yarn build
         - yarn test:ci
+        - yarn test:cy:ci
       after_script:
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
@@ -56,6 +57,8 @@ jobs:
             npm dist-tag rm shepherd.js next || true
           fi
     - stage: gh-pages release
+      script:
+        - yarn build
       before_deploy:
         - git add -f --all dist/
       deploy:
