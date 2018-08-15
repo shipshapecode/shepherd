@@ -4,7 +4,8 @@
 @function set-text-color($color) {
   @if (lightness($color) > 60) {
     @return #000000;
-  } @else {
+  }
+  @else {
     @return #ffffff;
   }
 }
