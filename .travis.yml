@@ -56,8 +56,6 @@ jobs:
             npm dist-tag rm shepherd.js next || true
           fi
     - stage: gh-pages release
-      script:
-        - yarn build
       before_deploy:
         - git add -f --all dist/
       deploy:
