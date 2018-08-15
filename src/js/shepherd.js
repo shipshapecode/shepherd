@@ -1,4 +1,13 @@
 import Popper from 'popper.js';
+import { Evented } from './evented';
+import {
+  createFromHTML,
+  isObject,
+  isUndefined,
+  matchesSelector,
+  parsePosition,
+  parseShorthand
+} from './utils';
 
 const uniqueId = (function() {
   let id = 0;
@@ -6,190 +15,6 @@ const uniqueId = (function() {
     return ++id;
   };
 })();
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
- * @param obj
- * @returns {*|boolean}
- */
-function isObject(obj) {
-  return obj !== null && typeof obj === 'object' && Array.isArray(obj) === false;
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isObjectLoose(obj) {
-  return typeof obj === 'object';
-}
-
-/**
- * TODO rewrite the way items are being added to use more performant documentFragment code
- * @param html
- * @returns {HTMLElement}
- */
-function createFromHTML(html) {
-  const el = document.createElement('div');
-  el.innerHTML = html;
-  return el.children[0];
-}
-
-function matchesSelector(el, sel) {
-  let matches;
-  if (!isUndefined(el.matches)) {
-    matches = el.matches;
-  } else if (!isUndefined(el.matchesSelector)) {
-    matches = el.matchesSelector;
-  } else if (!isUndefined(el.msMatchesSelector)) {
-    matches = el.msMatchesSelector;
-  } else if (!isUndefined(el.webkitMatchesSelector)) {
-    matches = el.webkitMatchesSelector;
-  } else if (!isUndefined(el.mozMatchesSelector)) {
-    matches = el.mozMatchesSelector;
-  } else if (!isUndefined(el.oMatchesSelector)) {
-    matches = el.oMatchesSelector;
-  }
-  return matches.call(el, sel);
-}
-
-const positionRe = /^(.+) (top|left|right|bottom|center)$/;
-
-/**
- * @param str
- * @returns {*}
- */
-function parsePosition(str) {
-  if (isObjectLoose(str)) {
-    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
-      return str;
-    }
-    return null;
-  }
-
-  const matches = positionRe.exec(str);
-  if (!matches) {
-    return null;
-  }
-
-  let on = matches[2]; // eslint-disable-line
-  if (on[0] === '[') {
-    on = on.substring(1, on.length - 1);
-  }
-
-  return {
-    'element': matches[1],
-    on
-  };
-}
-
-/**
- * @param obj
- * @param {Array} props
- * @returns {*}
- */
-function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
-    return obj;
-  } else if (isObjectLoose(obj)) {
-    return obj;
-  }
-
-  const vals = obj.split(' ');
-  const out = {};
-  let j = props.length - 1;
-  for (let i = vals.length - 1; i >= 0; i--) {
-    if (j === 0) {
-      out[props[j]] = vals.slice(0, i + 1).join(' ');
-      break;
-    } else {
-      out[props[j]] = vals[i];
-    }
-
-    j--;
-  }
-
-  return out;
-}
-
-class Evented {
-  constructor(/* options = {}*/) {
-    // TODO: do we need this empty constructor?
-  }
-
-  on(event, handler, ctx) {
-    const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-    if (typeof this.bindings === 'undefined') {
-      this.bindings = {};
-    }
-    if (typeof this.bindings[event] === 'undefined') {
-      this.bindings[event] = [];
-    }
-    this.bindings[event].push({ handler, ctx, once });
-  }
-
-  once(event, handler, ctx) {
-    this.on(event, handler, ctx, true);
-  }
-
-  off(event, handler) {
-    if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
-      return;
-    }
-
-    if (typeof handler === 'undefined') {
-      delete this.bindings[event];
-    } else {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        if (this.bindings[event][i].handler === handler) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
-        }
-      }
-    }
-  }
-
-  trigger(event) {
-    if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
-      const _len = arguments.length;
-      const args = Array(_len > 1 ? _len - 1 : 0);
-      let i = 0;
-
-      for (let _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      while (i < this.bindings[event].length) {
-        const _bindings$event$i = this.bindings[event][i];
-        const { ctx, handler, once } = _bindings$event$i;
-
-        let context = ctx;
-        if (typeof context === 'undefined') {
-          context = this;
-        }
-
-        handler.apply(context, args);
-
-        if (once) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
-        }
-      }
-    }
-  }
-
-}
 
 class Step extends Evented {
   constructor(tour, options) {
@@ -221,7 +46,7 @@ class Step extends Evented {
     this.options = options;
     this.destroy();
 
-    this.id = this.options.id || this.id || `step-${ uniqueId() }`;
+    this.id = this.options.id || this.id || `step-${uniqueId()}`;
 
     const { when } = this.options;
     if (when) {
@@ -472,7 +297,7 @@ class Step extends Evented {
       this.destroy();
     }
 
-    this.el = createFromHTML(`<div class='${ this.options.classes || '' }' data-id='${ this.id }' ${ this.options.idAttribute ? `id="${  this.options.idAttribute  }"` : '' }>`);
+    this.el = createFromHTML(`<div class='${this.options.classes || ''}' data-id='${this.id}' ${this.options.idAttribute ? `id="${this.options.idAttribute}"` : ''}>`);
 
     if (this.options.attachTo) {
       this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
@@ -486,7 +311,7 @@ class Step extends Evented {
     content.appendChild(header);
 
     if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${ this.options.title }</h3>`;
+      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
       this.el.classList.add('shepherd-has-title');
     }
 
@@ -515,7 +340,7 @@ class Step extends Evented {
         }
 
         paragraphs.map((paragraph) => {
-          text.innerHTML += `<p>${ paragraph }</p>`;
+          text.innerHTML += `<p>${paragraph}</p>`;
         });
       }
 
@@ -527,7 +352,7 @@ class Step extends Evented {
       const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
 
       this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><a class='shepherd-button ${ cfg.classes || '' }'>${ cfg.text }</a>`);
+        const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
         buttons.appendChild(button);
         this.bindButtonEvents(cfg, button.querySelector('a'));
       });
