@@ -38,6 +38,7 @@
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
+  "module": "src/js/shepherd.js",
   "spm": {
     "main": "shepherd.js"
   },
