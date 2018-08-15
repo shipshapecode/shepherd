@@ -15,8 +15,6 @@ cache:
   yarn: true
 
 install:
-  - yarn global add postcss-cli
-  - yarn global add autoprefixer
   - yarn install --ignore-engines
 
 jobs:
@@ -57,7 +55,7 @@ jobs:
           fi
     - stage: gh-pages release
       script:
-        - yarn docs
+        - yarn build
       before_deploy:
         - git add -f --all dist/
       deploy:
