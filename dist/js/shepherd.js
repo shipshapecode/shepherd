@@ -217,6 +217,8 @@ var _popper2 = _interopRequireDefault(_popper);
 
 var _evented = __webpack_require__(0);
 
+__webpack_require__(5);
+
 var _utils = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -330,7 +332,7 @@ var Step = exports.Step = function (_Evented) {
         }
 
         if (!(0, _utils.isUndefined)(selector)) {
-          if ((0, _utils.matchesSelector)(e.target, selector)) {
+          if (e.target.matches(selector)) {
             _this3.tour.next();
           }
         } else {
@@ -692,7 +694,6 @@ exports.createFromHTML = createFromHTML;
 exports.isObject = isObject;
 exports.isObjectLoose = isObjectLoose;
 exports.isUndefined = isUndefined;
-exports.matchesSelector = matchesSelector;
 exports.parsePosition = parsePosition;
 exports.parseShorthand = parseShorthand;
 /**
@@ -728,24 +729,6 @@ function isObjectLoose(obj) {
  */
 function isUndefined(obj) {
   return typeof obj === 'undefined';
-}
-
-function matchesSelector(el, sel) {
-  var matches = void 0;
-  if (!isUndefined(el.matches)) {
-    matches = el.matches;
-  } else if (!isUndefined(el.matchesSelector)) {
-    matches = el.matchesSelector;
-  } else if (!isUndefined(el.msMatchesSelector)) {
-    matches = el.msMatchesSelector;
-  } else if (!isUndefined(el.webkitMatchesSelector)) {
-    matches = el.webkitMatchesSelector;
-  } else if (!isUndefined(el.mozMatchesSelector)) {
-    matches = el.mozMatchesSelector;
-  } else if (!isUndefined(el.oMatchesSelector)) {
-    matches = el.oMatchesSelector;
-  }
-  return matches.call(el, sel);
 }
 
 /**
@@ -821,7 +804,7 @@ var _evented = __webpack_require__(0);
 
 var _step = __webpack_require__(1);
 
-var _tour = __webpack_require__(5);
+var _tour = __webpack_require__(6);
 
 Object.assign(_tour.Shepherd, { Tour: _tour.Tour, Step: _step.Step, Evented: _evented.Evented });
 
@@ -836,6 +819,18 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__4__;
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+if (!Element.prototype.matches) {
+    Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.webkitMatchesSelector;
+}
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
