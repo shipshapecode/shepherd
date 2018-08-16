@@ -33,24 +33,6 @@ export function isUndefined(obj) {
   return typeof obj === 'undefined';
 }
 
-export function matchesSelector(el, sel) {
-  let matches;
-  if (!isUndefined(el.matches)) {
-    matches = el.matches;
-  } else if (!isUndefined(el.matchesSelector)) {
-    matches = el.matchesSelector;
-  } else if (!isUndefined(el.msMatchesSelector)) {
-    matches = el.msMatchesSelector;
-  } else if (!isUndefined(el.webkitMatchesSelector)) {
-    matches = el.webkitMatchesSelector;
-  } else if (!isUndefined(el.mozMatchesSelector)) {
-    matches = el.mozMatchesSelector;
-  } else if (!isUndefined(el.oMatchesSelector)) {
-    matches = el.oMatchesSelector;
-  }
-  return matches.call(el, sel);
-}
-
 /**
  * @param str
  * @returns {*}
