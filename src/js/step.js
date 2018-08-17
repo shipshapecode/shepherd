@@ -1,10 +1,9 @@
+import _ from 'lodash';
 import Popper from 'popper.js';
 import { Evented } from './evented';
 import 'element-matches';
 import {
   createFromHTML,
-  isObject,
-  isUndefined,
   parsePosition,
   parseShorthand
 } from './utils';
@@ -61,7 +60,7 @@ export class Step extends Evented {
     // Button configuration
 
     const buttonsJson = JSON.stringify(this.options.buttons);
-    const buttonsAreDefault = isUndefined(buttonsJson) ||
+    const buttonsAreDefault = _.isUndefined(buttonsJson) ||
       buttonsJson === 'true';
 
     const buttonsAreEmpty = buttonsJson === '{}' ||
@@ -71,7 +70,7 @@ export class Step extends Evented {
 
     const buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
 
-    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
+    const buttonsAreObject = !buttonsAreDefault && _.isPlainObject(this.options.buttons);
 
     // Show default button if undefined or 'true'
     if (buttonsAreDefault) {
@@ -104,7 +103,7 @@ export class Step extends Evented {
         return;
       }
 
-      if (!isUndefined(selector)) {
+      if (!_.isUndefined(selector)) {
         if (e.target.matches(selector)) {
           this.tour.next();
         }
@@ -143,7 +142,7 @@ export class Step extends Evented {
   }
 
   setupPopper() {
-    if (isUndefined(Popper)) {
+    if (_.isUndefined(Popper)) {
       throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
     }
 
@@ -152,7 +151,7 @@ export class Step extends Evented {
     let attachment = opts.on || 'right';
     opts.positionFixed = false;
 
-    if (isUndefined(opts.element)) {
+    if (_.isUndefined(opts.element)) {
       opts.element = document.body;
       attachment = 'top';
 
@@ -198,9 +197,9 @@ export class Step extends Evented {
   }
 
   show() {
-    if (!isUndefined(this.options.beforeShowPromise)) {
+    if (!_.isUndefined(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
-      if (!isUndefined(beforeShowPromise)) {
+      if (!_.isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
       }
     }
@@ -271,15 +270,15 @@ export class Step extends Evented {
   scrollTo() {
     const { element } = this.getAttachTo();
 
-    if (!isUndefined(this.options.scrollToHandler)) {
+    if (!_.isUndefined(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (!isUndefined(element)) {
+    } else if (!_.isUndefined(element)) {
       element.scrollIntoView();
     }
   }
 
   destroy() {
-    if (!isUndefined(this.el) && this.el.parentNode) {
+    if (!_.isUndefined(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -293,7 +292,7 @@ export class Step extends Evented {
   }
 
   render() {
-    if (!isUndefined(this.el)) {
+    if (!_.isUndefined(this.el)) {
       this.destroy();
     }
 
@@ -324,7 +323,7 @@ export class Step extends Evented {
       this.bindCancelLink(link);
     }
 
-    if (!isUndefined(this.options.text)) {
+    if (!_.isUndefined(this.options.text)) {
       const text = createFromHTML('<div class=\'shepherd-text\'></div>');
       let paragraphs = this.options.text;
 
@@ -389,7 +388,7 @@ export class Step extends Evented {
 
   bindButtonEvents(cfg, el) {
     cfg.events = cfg.events || {};
-    if (!isUndefined(cfg.action)) {
+    if (!_.isUndefined(cfg.action)) {
       // Including both a click event and an action is not supported
       cfg.events.click = cfg.action;
     }

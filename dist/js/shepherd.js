@@ -11,7 +11,7 @@
 		exports["Shepherd"] = factory(require("popper.js"));
 	else
 		root["Shepherd"] = factory(root["Popper"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE__4__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE__9__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,7 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -199,6 +199,34 @@ var Evented = exports.Evented = function () {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -209,17 +237,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Step = undefined;
 
+var _isPlainObject2 = __webpack_require__(5);
+
+var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
+
+var _isUndefined2 = __webpack_require__(1);
+
+var _isUndefined3 = _interopRequireDefault(_isUndefined2);
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _popper = __webpack_require__(4);
+var _popper = __webpack_require__(9);
 
 var _popper2 = _interopRequireDefault(_popper);
 
 var _evented = __webpack_require__(0);
 
-__webpack_require__(5);
+__webpack_require__(10);
 
-var _utils = __webpack_require__(2);
+var _utils = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -286,13 +322,13 @@ var Step = exports.Step = function (_Evented) {
       // Button configuration
 
       var buttonsJson = JSON.stringify(this.options.buttons);
-      var buttonsAreDefault = (0, _utils.isUndefined)(buttonsJson) || buttonsJson === 'true';
+      var buttonsAreDefault = (0, _isUndefined3.default)(buttonsJson) || buttonsJson === 'true';
 
       var buttonsAreEmpty = buttonsJson === '{}' || buttonsJson === '[]' || buttonsJson === 'null' || buttonsJson === 'false';
 
       var buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
 
-      var buttonsAreObject = !buttonsAreDefault && (0, _utils.isObject)(this.options.buttons);
+      var buttonsAreObject = !buttonsAreDefault && (0, _isPlainObject3.default)(this.options.buttons);
 
       // Show default button if undefined or 'true'
       if (buttonsAreDefault) {
@@ -331,7 +367,7 @@ var Step = exports.Step = function (_Evented) {
           return;
         }
 
-        if (!(0, _utils.isUndefined)(selector)) {
+        if (!(0, _isUndefined3.default)(selector)) {
           if (e.target.matches(selector)) {
             _this3.tour.next();
           }
@@ -372,7 +408,7 @@ var Step = exports.Step = function (_Evented) {
   }, {
     key: 'setupPopper',
     value: function setupPopper() {
-      if ((0, _utils.isUndefined)(_popper2.default)) {
+      if ((0, _isUndefined3.default)(_popper2.default)) {
         throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
       }
 
@@ -381,7 +417,7 @@ var Step = exports.Step = function (_Evented) {
       var attachment = opts.on || 'right';
       opts.positionFixed = false;
 
-      if ((0, _utils.isUndefined)(opts.element)) {
+      if ((0, _isUndefined3.default)(opts.element)) {
         opts.element = document.body;
         attachment = 'top';
 
@@ -430,9 +466,9 @@ var Step = exports.Step = function (_Evented) {
     value: function show() {
       var _this4 = this;
 
-      if (!(0, _utils.isUndefined)(this.options.beforeShowPromise)) {
+      if (!(0, _isUndefined3.default)(this.options.beforeShowPromise)) {
         var beforeShowPromise = this.options.beforeShowPromise();
-        if (!(0, _utils.isUndefined)(beforeShowPromise)) {
+        if (!(0, _isUndefined3.default)(beforeShowPromise)) {
           return beforeShowPromise.then(function () {
             return _this4._show();
           });
@@ -514,16 +550,16 @@ var Step = exports.Step = function (_Evented) {
       var _getAttachTo = this.getAttachTo(),
           element = _getAttachTo.element;
 
-      if (!(0, _utils.isUndefined)(this.options.scrollToHandler)) {
+      if (!(0, _isUndefined3.default)(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
-      } else if (!(0, _utils.isUndefined)(element)) {
+      } else if (!(0, _isUndefined3.default)(element)) {
         element.scrollIntoView();
       }
     }
   }, {
     key: 'destroy',
     value: function destroy() {
-      if (!(0, _utils.isUndefined)(this.el) && this.el.parentNode) {
+      if (!(0, _isUndefined3.default)(this.el) && this.el.parentNode) {
         this.el.parentNode.removeChild(this.el);
         delete this.el;
       }
@@ -540,7 +576,7 @@ var Step = exports.Step = function (_Evented) {
     value: function render() {
       var _this6 = this;
 
-      if (!(0, _utils.isUndefined)(this.el)) {
+      if (!(0, _isUndefined3.default)(this.el)) {
         this.destroy();
       }
 
@@ -571,7 +607,7 @@ var Step = exports.Step = function (_Evented) {
         this.bindCancelLink(link);
       }
 
-      if (!(0, _utils.isUndefined)(this.options.text)) {
+      if (!(0, _isUndefined3.default)(this.options.text)) {
         var text = (0, _utils.createFromHTML)('<div class=\'shepherd-text\'></div>');
         var paragraphs = this.options.text;
 
@@ -643,7 +679,7 @@ var Step = exports.Step = function (_Evented) {
       var _this8 = this;
 
       cfg.events = cfg.events || {};
-      if (!(0, _utils.isUndefined)(cfg.action)) {
+      if (!(0, _isUndefined3.default)(cfg.action)) {
         // Including both a click event and an action is not supported
         cfg.events.click = cfg.action;
       }
@@ -678,7 +714,42 @@ var Step = exports.Step = function (_Evented) {
 }(_evented.Evented);
 
 /***/ }),
-/* 2 */
+/* 3 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -688,14 +759,193 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _evented = __webpack_require__(0);
+
+var _step = __webpack_require__(2);
+
+var _tour = __webpack_require__(19);
+
+Object.assign(_tour.Shepherd, { Tour: _tour.Tour, Step: _step.Step, Evented: _evented.Evented });
+
+exports.default = _tour.Shepherd;
+module.exports = exports['default'];
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(6),
+    getPrototype = __webpack_require__(7),
+    isObjectLike = __webpack_require__(3);
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) || baseGetTag(value) != objectTag) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+    funcToString.call(Ctor) == objectCtorString;
+}
+
+module.exports = isPlainObject;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var overArg = __webpack_require__(8);
+
+/** Built-in value references. */
+var getPrototype = overArg(Object.getPrototypeOf, Object);
+
+module.exports = getPrototype;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+module.exports = overArg;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__9__;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+if (!Element.prototype.matches) {
+    Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.webkitMatchesSelector;
+}
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _zipObject2 = __webpack_require__(12);
+
+var _zipObject3 = _interopRequireDefault(_zipObject2);
+
+var _isUndefined2 = __webpack_require__(1);
+
+var _isUndefined3 = _interopRequireDefault(_isUndefined2);
+
+var _isObjectLike2 = __webpack_require__(3);
+
+var _isObjectLike3 = _interopRequireDefault(_isObjectLike2);
 
 exports.createFromHTML = createFromHTML;
-exports.isObject = isObject;
-exports.isObjectLoose = isObjectLoose;
-exports.isUndefined = isUndefined;
 exports.parsePosition = parsePosition;
 exports.parseShorthand = parseShorthand;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
@@ -708,35 +958,11 @@ function createFromHTML(html) {
 }
 
 /**
- * @param obj
- * @returns {*|boolean}
- */
-function isObject(obj) {
-  return obj !== null && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && Array.isArray(obj) === false;
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isObjectLoose(obj) {
-  return (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object';
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
  * @param str
  * @returns {*}
  */
 function parsePosition(str) {
-  if (isObjectLoose(str)) {
+  if ((0, _isObjectLike3.default)(str)) {
     if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
       return str;
     }
@@ -766,71 +992,221 @@ function parsePosition(str) {
  * @returns {*}
  */
 function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
+  if (obj === null || (0, _isUndefined3.default)(obj)) {
     return obj;
-  } else if (isObjectLoose(obj)) {
+  } else if ((0, _isObjectLike3.default)(obj)) {
     return obj;
   }
 
-  var vals = obj.split(' ');
-  var out = {};
-  var j = props.length - 1;
-  for (var i = vals.length - 1; i >= 0; i--) {
-    if (j === 0) {
-      out[props[j]] = vals.slice(0, i + 1).join(' ');
-      break;
-    } else {
-      out[props[j]] = vals[i];
-    }
-
-    j--;
-  }
-
-  return out;
+  var values = obj.split(' ');
+  return (0, _zipObject3.default)(props, values);
 }
 
 /***/ }),
-/* 3 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var assignValue = __webpack_require__(13),
+    baseZipObject = __webpack_require__(18);
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _evented = __webpack_require__(0);
-
-var _step = __webpack_require__(1);
-
-var _tour = __webpack_require__(6);
-
-Object.assign(_tour.Shepherd, { Tour: _tour.Tour, Step: _step.Step, Evented: _evented.Evented });
-
-exports.default = _tour.Shepherd;
-module.exports = exports['default'];
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__4__;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-if (!Element.prototype.matches) {
-    Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.webkitMatchesSelector;
+/**
+ * This method is like `_.fromPairs` except that it accepts two arrays,
+ * one of property identifiers and one of corresponding values.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.4.0
+ * @category Array
+ * @param {Array} [props=[]] The property identifiers.
+ * @param {Array} [values=[]] The property values.
+ * @returns {Object} Returns the new object.
+ * @example
+ *
+ * _.zipObject(['a', 'b'], [1, 2]);
+ * // => { 'a': 1, 'b': 2 }
+ */
+function zipObject(props, values) {
+  return baseZipObject(props || [], values || [], assignValue);
 }
 
+module.exports = zipObject;
+
 
 /***/ }),
-/* 6 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseAssignValue = __webpack_require__(14),
+    eq = __webpack_require__(17);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Assigns `value` to `key` of `object` if the existing value is not equivalent
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    baseAssignValue(object, key, value);
+  }
+}
+
+module.exports = assignValue;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineProperty = __webpack_require__(15);
+
+/**
+ * The base implementation of `assignValue` and `assignMergeValue` without
+ * value checks.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__' && defineProperty) {
+    defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+
+module.exports = baseAssignValue;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getNative = __webpack_require__(16);
+
+var defineProperty = (function() {
+  try {
+    var func = getNative(Object, 'defineProperty');
+    func({}, '', {});
+    return func;
+  } catch (e) {}
+}());
+
+module.exports = defineProperty;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+module.exports = getValue;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+/**
+ * This base implementation of `_.zipObject` which assigns values using `assignFunc`.
+ *
+ * @private
+ * @param {Array} props The property identifiers.
+ * @param {Array} values The property values.
+ * @param {Function} assignFunc The function to assign values.
+ * @returns {Object} Returns the new object.
+ */
+function baseZipObject(props, values, assignFunc) {
+  var index = -1,
+      length = props.length,
+      valsLength = values.length,
+      result = {};
+
+  while (++index < length) {
+    var value = index < valsLength ? values[index] : undefined;
+    assignFunc(result, props[index], value);
+  }
+  return result;
+}
+
+module.exports = baseZipObject;
+
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -841,13 +1217,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Shepherd = exports.Tour = undefined;
 
+var _isUndefined2 = __webpack_require__(1);
+
+var _isUndefined3 = _interopRequireDefault(_isUndefined2);
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _evented = __webpack_require__(0);
 
-var _step = __webpack_require__(1);
+var _step = __webpack_require__(2);
 
-var _utils = __webpack_require__(2);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -901,7 +1281,7 @@ var Tour = exports.Tour = function (_Evented) {
   }, {
     key: 'addStep',
     value: function addStep(name, step) {
-      if ((0, _utils.isUndefined)(step)) {
+      if ((0, _isUndefined3.default)(step)) {
         step = name;
       }
 
@@ -1043,7 +1423,7 @@ var Tour = exports.Tour = function (_Evented) {
       }
 
       if (next) {
-        if (!(0, _utils.isUndefined)(next.options.showOn) && !next.options.showOn()) {
+        if (!(0, _isUndefined3.default)(next.options.showOn) && !next.options.showOn()) {
           var index = this.steps.indexOf(next);
           var nextIndex = forward ? index + 1 : index - 1;
           this.show(nextIndex, forward);

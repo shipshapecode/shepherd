@@ -9,13 +9,16 @@ describe('Shepherd', function() {
     classes: 'shepherd-theme-arrows',
     scrollTo: true
   };
+
   describe('.Tour()', function() {
     after(function() {
       instance.cancel();
     });
+
     const instance = new Shepherd.Tour({
       defaults,
     });
+
     it('creates a new tour instance', function() {
       assert.isOk(instance instanceof Shepherd.Tour);
     });
@@ -68,18 +71,19 @@ describe('Shepherd', function() {
         assert.equal(instance.getCurrentStep().id, 'test');
       });
     });
+
     describe('.next()', function() {
-      it('goes to the next step after next() is evoked', function() {
+      it('goes to the next step after next() is invoked', function() {
         instance.next();
         assert.equal(instance.getCurrentStep().id, 'test2');
       });
     });
+
     describe('.back()', function() {
-      it('goes to the previous step after back() is evoked', function() {
+      it('goes to the previous step after back() is invoked', function() {
         instance.back();
         assert.equal(instance.getCurrentStep().id, 'test');
       });
     });
-
   });
 });
