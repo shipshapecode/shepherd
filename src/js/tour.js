@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import { Evented } from './evented';
 import { Step } from './step';
-import { isUndefined } from './utils';
 
 const Shepherd = new Evented();
 
@@ -39,7 +39,7 @@ export class Tour extends Evented {
   }
 
   addStep(name, step) {
-    if (isUndefined(step)) {
+    if (_.isUndefined(step)) {
       step = name;
     }
 
@@ -163,7 +163,7 @@ export class Tour extends Evented {
     }
 
     if (next) {
-      if (!isUndefined(next.options.showOn) && !next.options.showOn()) {
+      if (!_.isUndefined(next.options.showOn) && !next.options.showOn()) {
         const index = this.steps.indexOf(next);
         const nextIndex = forward ? index + 1 : index - 1;
         this.show(nextIndex, forward);

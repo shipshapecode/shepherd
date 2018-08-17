@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
@@ -10,35 +12,11 @@ export function createFromHTML(html) {
 }
 
 /**
- * @param obj
- * @returns {*|boolean}
- */
-export function isObject(obj) {
-  return obj !== null && typeof obj === 'object' && Array.isArray(obj) === false;
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-export function isObjectLoose(obj) {
-  return typeof obj === 'object';
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-export function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
  * @param str
  * @returns {*}
  */
 export function parsePosition(str) {
-  if (isObjectLoose(str)) {
+  if (_.isObjectLike(str)) {
     if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
       return str;
     }
@@ -68,25 +46,12 @@ export function parsePosition(str) {
  * @returns {*}
  */
 export function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
+  if (obj === null || _.isUndefined(obj)) {
     return obj;
-  } else if (isObjectLoose(obj)) {
+  } else if (_.isObjectLike(obj)) {
     return obj;
   }
 
-  const vals = obj.split(' ');
-  const out = {};
-  let j = props.length - 1;
-  for (let i = vals.length - 1; i >= 0; i--) {
-    if (j === 0) {
-      out[props[j]] = vals.slice(0, i + 1).join(' ');
-      break;
-    } else {
-      out[props[j]] = vals[i];
-    }
-
-    j--;
-  }
-
-  return out;
+  const values = obj.split(' ');
+  return _.zipObject(props, values);
 }

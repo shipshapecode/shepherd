@@ -24,6 +24,7 @@ describe('Shepherd', function() {
         }
       ]
     });
+    
     const showTestStep = instance.addStep('test2', {
       id: 'test2',
       text: 'Another Step'
@@ -42,6 +43,7 @@ describe('Shepherd', function() {
         assert.notEqual(document.querySelector('[data-id=test]').getAttribute('hidden'), null);
       });
     });
+
     describe('.show()', function() {
       it('shows step evoking method, regardless of order', function() {
         showTestStep.show();
@@ -49,6 +51,5 @@ describe('Shepherd', function() {
         assert.equal(document.querySelector('[data-id=test2]').dataset.id, 'test2');
       });
     });
-
   });
 });
