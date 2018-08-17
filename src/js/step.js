@@ -1,10 +1,10 @@
 import Popper from 'popper.js';
 import { Evented } from './evented';
+import 'element-matches';
 import {
   createFromHTML,
   isObject,
   isUndefined,
-  matchesSelector,
   parsePosition,
   parseShorthand
 } from './utils';
@@ -105,7 +105,7 @@ export class Step extends Evented {
       }
 
       if (!isUndefined(selector)) {
-        if (matchesSelector(e.target, selector)) {
+        if (e.target.matches(selector)) {
           this.tour.next();
         }
       } else {

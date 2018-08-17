@@ -1,6 +1,6 @@
 /* global describe,it */
-import assert from 'assert';
-import Shepherd from '../src/js/shepherd.js';
+import { assert } from 'chai';
+import Shepherd from '../src/js/shepherd';
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 

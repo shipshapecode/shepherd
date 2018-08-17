@@ -43,6 +43,7 @@
     "main": "shepherd.js"
   },
   "dependencies": {
+    "element-matches": "^0.1.2",
     "popper.js": "^1.14.3"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 /* global window,require,describe,it */
-import assert from 'assert';
-import Shepherd from '../src/js/shepherd.js';
+import { assert } from 'chai';
+import Shepherd from '../src/js/shepherd';
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 
@@ -17,11 +17,11 @@ describe('Shepherd', function() {
       defaults,
     });
     it('creates a new tour instance', function() {
-      assert.ok(instance instanceof Shepherd.Tour);
+      assert.isOk(instance instanceof Shepherd.Tour);
     });
 
     it('returns the default options on the instance', function() {
-      assert.ok(instance.options);
+      assert.isOk(instance.options);
     });
 
     describe('.addStep()', function() {
