@@ -139,6 +139,7 @@ export class Tour extends Evented {
     Shepherd.activeTour.steps.forEach((step) => {
       step.destroy();
     });
+
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
     this.trigger('inactive', { tour: this });
@@ -154,28 +155,24 @@ export class Tour extends Evented {
 
     Shepherd.activeTour = this;
 
-    let next;
+    const next = typeof key === 'string' ? this.getById(key) : this.steps[key];
 
-    if (typeof key === 'string') {
-      next = this.getById(key);
-    } else {
-      next = this.steps[key];
+    if (!next) {
+      return;
     }
 
-    if (next) {
-      if (!_.isUndefined(next.options.showOn) && !next.options.showOn()) {
-        const index = this.steps.indexOf(next);
-        const nextIndex = forward ? index + 1 : index - 1;
-        this.show(nextIndex, forward);
-      } else {
-        this.trigger('show', {
-          step: next,
-          previous: this.currentStep
-        });
+    if (!_.isUndefined(next.options.showOn) && !next.options.showOn()) {
+      const index = this.steps.indexOf(next);
+      const nextIndex = forward ? index + 1 : index - 1;
+      this.show(nextIndex, forward);
+    } else {
+      this.trigger('show', {
+        step: next,
+        previous: this.currentStep
+      });
 
-        this.currentStep = next;
-        next.show();
-      }
+      this.currentStep = next;
+      next.show();
     }
   }
 
