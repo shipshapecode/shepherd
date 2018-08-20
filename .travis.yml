@@ -21,7 +21,6 @@ jobs:
   include:
     - stage: test
       script:
-        - yarn lint
         - yarn build
         - yarn test:ci
       after_script:
