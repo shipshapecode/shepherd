@@ -2,7 +2,7 @@
 /.log/
 /.nyc_output/
 /coverage/
-/cypress/videos/
+/cypress/
 /dist/
 /node_modules/
 /.DS_Store

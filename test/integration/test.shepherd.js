@@ -6,7 +6,7 @@ describe('Shepherd Acceptance Tests', () => {
   beforeEach(() => {
     Shepherd = null;
 
-    cy.visit('http://localhost:8080/cypress/dummy/', {
+    cy.visit('http://localhost:8080/test/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
           return Shepherd = contentWindow.Shepherd;
