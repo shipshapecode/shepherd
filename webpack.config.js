@@ -163,20 +163,28 @@ module.exports.push({
     }
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: path.resolve(__dirname, 'node_modules'),
-      include: [
-        path.resolve(__dirname, 'src/js')
-      ],
-      use: [{
-        loader: 'babel-loader',
-        options: {
-          'plugins': ['lodash'],
-          'presets': [['env', { 'modules': false, 'targets': { 'node': 6 } }]]
-        }
-      }]
-    }]
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: path.resolve(__dirname, 'node_modules'),
+        loader: 'eslint-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: path.resolve(__dirname, 'node_modules'),
+        include: [
+          path.resolve(__dirname, 'src/js')
+        ],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            'plugins': ['lodash'],
+            'presets': [['env', { 'modules': false, 'targets': { 'node': 6 } }]]
+          }
+        }]
+      }
+    ]
   },
   externals: {
     'popper.js': {
