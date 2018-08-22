@@ -1,5 +1,59 @@
 # Changelog
 
+## [Unreleased](https://github.com/shipshapecode/shepherd/tree/HEAD)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.17...HEAD)
+
+**Merged pull requests:**
+
+- Start refactoring for Code Climate [\#214](https://github.com/shipshapecode/shepherd/pull/214) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.0.0-beta.17](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.17) (2018-08-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.16...v2.0.0-beta.17)
+
+**Merged pull requests:**
+
+- Feature/webpack [\#212](https://github.com/shipshapecode/shepherd/pull/212) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.0.0-beta.16](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.16) (2018-08-14)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.15...v2.0.0-beta.16)
+
+**Implemented enhancements:**
+
+- \[feature/builder\] - replace Gulp with module loader and npm [\#203](https://github.com/shipshapecode/shepherd/pull/203) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Fixed bugs:**
+
+- Uncaught TypeError: \_shepherd2.default.Tour is not a constructor [\#202](https://github.com/shipshapecode/shepherd/issues/202)
+
+**Merged pull requests:**
+
+- Start on cypress [\#209](https://github.com/shipshapecode/shepherd/pull/209) ([rwwagner90](https://github.com/rwwagner90))
+- increase test coverage [\#206](https://github.com/shipshapecode/shepherd/pull/206) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+## [v2.0.0-beta.15](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.15) (2018-08-06)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.14...v2.0.0-beta.15)
+
+**Fixed bugs:**
+
+- Error: Cannot find module 'popper' from '\node\_modules\shepherd.js\dist\js' [\#201](https://github.com/shipshapecode/shepherd/issues/201)
+
+## [v2.0.0-beta.14](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.14) (2018-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.13...v2.0.0-beta.14)
+
+**Fixed bugs:**
+
+- Error thrown if element not visible anymore [\#197](https://github.com/shipshapecode/shepherd/issues/197)
+
+**Merged pull requests:**
+
+- Basic testing framework [\#199](https://github.com/shipshapecode/shepherd/pull/199) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Update documentation link in demo tour [\#195](https://github.com/shipshapecode/shepherd/pull/195) ([mikelkew](https://github.com/mikelkew))
+
 ## [v2.0.0-beta.13](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.13) (2018-07-16)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.12...v2.0.0-beta.13)
