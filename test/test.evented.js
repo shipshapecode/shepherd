@@ -2,7 +2,7 @@
 import { assert } from 'chai';
 import { Evented } from '../src/js/evented';
 
-describe('Evented', function() { //eslint-disable-line mocha/no-exclusive-tests
+describe('Evented', function() {
   const testEvent = new Evented();
   let testOnTriggered = false;
   describe('on()', function(){
@@ -14,7 +14,7 @@ describe('Evented', function() { //eslint-disable-line mocha/no-exclusive-tests
 
   describe('trigger()', function(){
     it('triggers a created event', function(){
-      testEvent.trigger('testOn')
+      testEvent.trigger('testOn');
       assert.ok(testOnTriggered, 'true is returned from event trigger');
     });
   });
@@ -23,6 +23,10 @@ describe('Evented', function() { //eslint-disable-line mocha/no-exclusive-tests
     it('removes an event binding', function(){
       testEvent.off('testOn');
       assert.notOk(testEvent.bindings.testOn, 'custom event removed');
+    });
+
+    it('does not remove uncreated events', function(){
+      assert.notOk(testEvent.off('testBlank'), 'returns false for non created events');
     });
   });
 
