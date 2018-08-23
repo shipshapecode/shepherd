@@ -41,6 +41,7 @@ module.exports = function(config) {
     },
 
     webpack: {
+      mode: 'development',
       module: {
         rules: [
           {
@@ -69,7 +70,7 @@ module.exports = function(config) {
           }
         ]
       },
-      devtool: 'inline-source-map'
+      devtool: 'source-map'
     },
 
     // web server port
