@@ -206,7 +206,6 @@ export class Step extends Evented {
   bindAdvance() {
     // An empty selector matches the step element
     const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
-
     const handler = (e) => {
       if (!this.isOpen()) {
         return;
@@ -224,7 +223,12 @@ export class Step extends Evented {
     };
 
     // TODO: this should also bind/unbind on show/hide
-    document.body.addEventListener(event, handler);
+    if (!_.isUndefined(selector)) {
+      const el = document.querySelector(selector);
+      el.addEventListener(event, handler);
+    } else {
+      document.body.addEventListener(event, handler);
+    }
     this.on('destroy', () => {
       return document.body.removeEventListener(event, handler);
     });
@@ -440,6 +444,7 @@ export class Step extends Evented {
           const page = handler;
           handler = () => this.tour.show(page);
         }
+        el.dataset.buttonEvent = true;
         el.addEventListener(event, handler);
       }
     }
@@ -448,6 +453,7 @@ export class Step extends Evented {
       for (const event in cfg.events) {
         if ({}.hasOwnProperty.call(cfg.events, event)) {
           const handler = cfg.events[event];
+          el.removeAttribute('data-button-event');
           el.removeEventListener(event, handler);
         }
       }
