@@ -35,12 +35,7 @@ export class Evented {
 
   trigger(event) {
     if (!_.isUndefined(this.bindings) && this.bindings[event]) {
-      const _len = arguments.length;
-      const args = Array(_len > 1 ? _len - 1 : 0);
-
-      for (let _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
+      const args = _.drop(arguments);
 
       this.bindings[event].forEach((binding, index) => {
         const { ctx, handler, once } = binding;
