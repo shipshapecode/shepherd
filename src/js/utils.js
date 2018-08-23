@@ -12,31 +12,28 @@ export function createFromHTML(html) {
 }
 
 /**
- * @param str
- * @returns {*}
+ * Parse the position object or string to return the attachment and element to attach to
+ * @param {Object|String} position Either a string or object denoting the selector and position for attachment
+ * @returns {Object}
  */
-export function parsePosition(str) {
-  if (_.isObjectLike(str)) {
-    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
-      return str;
+export function parsePosition(position) {
+  if (_.isObjectLike(position)) {
+    if (position.hasOwnProperty('element') && position.hasOwnProperty('on')) {
+      return position;
     }
     return null;
   }
 
   const positionRe = /^(.+) (top|left|right|bottom|center)$/;
-  const matches = positionRe.exec(str);
+  const matches = positionRe.exec(position);
+
   if (!matches) {
     return null;
   }
 
-  let on = matches[2]; // eslint-disable-line
-  if (on[0] === '[') {
-    on = on.substring(1, on.length - 1);
-  }
-
   return {
-    'element': matches[1],
-    on
+    element: matches[1],
+    on: matches[2]
   };
 }
 
