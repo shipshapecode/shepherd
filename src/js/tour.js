@@ -38,17 +38,27 @@ export class Tour extends Evented {
     });
   }
 
-  addStep(name, step) {
-    if (_.isUndefined(step)) {
-      step = name;
+  /**
+   * Adds a new step to the tour
+   * @param {Object|Number|Step|String} arg1
+   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
+   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
+   * @param {Object|Step} arg2 An object containing step options or a Step instance
+   * @returns {Step} The newly added step
+   */
+  addStep(arg1, arg2) {
+    let name, step;
+
+    // If we just have one argument, we can assume it is an object of step options, with an id
+    if (_.isUndefined(arg2)) {
+      step = arg1;
+    } else {
+      name = arg1;
+      step = arg2;
     }
 
     if (!(step instanceof Step)) {
-      if (typeof name === 'string' || typeof name === 'number') {
-        step.id = name.toString();
-      }
-      step = Object.assign({}, this.options.defaults, step);
-      step = new Step(this, step);
+      step = this.setupStep(step, name);
     } else {
       step.tour = this;
     }
@@ -83,6 +93,22 @@ export class Tour extends Evented {
     }
   }
 
+  /**
+   * Setup a new step object
+   * @param {Object} stepOptions The object describing the options for the step
+   * @param {String|Number} name The string or number to use as the `id` for the step
+   * @returns {Step}
+   */
+  setupStep(stepOptions, name) {
+    if (_.isString(name) || _.isNumber(name)) {
+      stepOptions.id = name.toString();
+    }
+
+    stepOptions = Object.assign({}, this.options.defaults, stepOptions);
+
+    return new Step(this, stepOptions);
+  }
+
   getById(id) {
     for (let i = 0; i < this.steps.length; ++i) {
       const step = this.steps[i];
@@ -96,16 +122,9 @@ export class Tour extends Evented {
     return this.currentStep;
   }
 
-  next() {
-    const index = this.steps.indexOf(this.currentStep);
-
-    if (index === this.steps.length - 1) {
-      this.complete();
-    } else {
-      this.show(index + 1, true);
-    }
-  }
-
+  /**
+   * Go to the previous step in the tour
+   */
   back() {
     const index = this.steps.indexOf(this.currentStep);
     this.show(index - 1, false);
@@ -136,13 +155,29 @@ export class Tour extends Evented {
 
     this.trigger(event);
 
-    Shepherd.activeTour.steps.forEach((step) => {
-      step.destroy();
-    });
+    if (Shepherd.activeTour) {
+      Shepherd.activeTour.steps.forEach((step) => {
+        step.destroy();
+      });
+    }
 
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
     this.trigger('inactive', { tour: this });
+  }
+
+  /**
+   * Go to the next step in the tour
+   * If we are at the end, call `complete`
+   */
+  next() {
+    const index = this.steps.indexOf(this.currentStep);
+
+    if (index === this.steps.length - 1) {
+      this.complete();
+    } else {
+      this.show(index + 1, true);
+    }
   }
 
   show(key = 0, forward = true) {
@@ -176,6 +211,9 @@ export class Tour extends Evented {
     }
   }
 
+  /**
+   * Start the tour
+   */
   start() {
     this.trigger('start');
 
