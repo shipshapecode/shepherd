@@ -67,29 +67,32 @@ export class Tour extends Evented {
     return step;
   }
 
+  /**
+   * Removes the step from the tour
+   * @param {String} name The id for the step to remove
+   */
   removeStep(name) {
     const current = this.getCurrentStep();
 
-    for (let i = 0; i < this.steps.length; ++i) {
-      const step = this.steps[i];
+    // Find the step, destroy it and remove it from this.steps
+    this.steps.some((step, i) => {
       if (step.id === name) {
         if (step.isOpen()) {
           step.hide();
         }
+
         step.destroy();
         this.steps.splice(i, 1);
-        break;
+
+        return true;
       }
-    }
+    });
 
     if (current && current.id === name) {
       this.currentStep = undefined;
 
-      if (this.steps.length) {
-        this.show(0);
-      } else {
-        this.cancel();
-      }
+      // If we have steps left, show the first one, otherwise just cancel the tour
+      this.steps.length ? this.show(0) : this.cancel();
     }
   }
 

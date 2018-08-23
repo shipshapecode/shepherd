@@ -117,6 +117,19 @@ describe('Tour', function() {
       instance.back();
       assert.equal(instance.getCurrentStep().id, 'test');
     });
+
+    it('next completes tour when on last step', function() {
+      let completeFired = false;
+      instance.on('complete', () => {
+        completeFired = true;
+      });
+
+      instance.start();
+      instance.show('test3');
+      assert.equal(instance.getCurrentStep().id, 'test3');
+      instance.next();
+      assert.isOk(completeFired, 'complete is called when next is clicked on last step');
+    });
   });
 
   describe('.complete()', function() {
@@ -150,6 +163,31 @@ describe('Tour', function() {
       assert.equal(instance.steps.length, 3);
       instance.removeStep('test2');
       assert.equal(instance.steps.length, 2);
+    });
+
+    it('hides the step before removing', function() {
+      let hideFired = false;
+      instance.start();
+      assert.equal(instance.steps.length, 3);
+      const step = instance.getById('test');
+      step.on('hide', () => {
+        hideFired = true;
+      });
+      instance.removeStep('test');
+      assert.equal(instance.steps.length, 2);
+      assert.isOk(hideFired, 'hide is fired before step is destroyed');
+    });
+  });
+
+  describe('.show()', function() {
+    it('show short circuits if next is not found', function() {
+      let showFired = false;
+      instance.start();
+      instance.on('show', () => {
+        showFired = true;
+      });
+      instance.show('not-a-real-key');
+      assert.isNotOk(showFired, 'showFired is false because show short circuits');
     });
   });
 });
