@@ -8,6 +8,12 @@ import {
   parseShorthand
 } from './utils';
 
+/**
+ * Creates incremented ID for each newly created step
+ *
+ * @private
+ * @returns {Number}
+ */
 const uniqueId = (function() {
   let id = 0;
   return function() {
@@ -22,6 +28,139 @@ export class Step extends Evented {
     this.bindMethods();
     this.setOptions(options);
     return this;
+  }
+
+  /**
+   * Adds buttons to the step as passed into options
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _addButtons(content) {
+    const footer = document.createElement('footer');
+    const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+
+    this.options.buttons.map((cfg) => {
+      const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
+      buttons.appendChild(button);
+      this.bindButtonEvents(cfg, button.querySelector('a'));
+    });
+
+    footer.appendChild(buttons);
+    content.appendChild(footer);
+  }
+
+  /**
+   * Adds text passed in as options
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _addContent(content) {
+    const text = createFromHTML('<div class=\'shepherd-text\'></div>');
+    let paragraphs = this.options.text;
+
+    if (typeof paragraphs === 'function') {
+      paragraphs = paragraphs.call(this, text);
+    }
+
+    if (paragraphs instanceof HTMLElement) {
+      text.appendChild(paragraphs);
+    } else {
+      if (typeof paragraphs === 'string') {
+        paragraphs = [paragraphs];
+      }
+
+      paragraphs.map((paragraph) => {
+        text.innerHTML += `<p>${paragraph}</p>`;
+      });
+    }
+
+    content.appendChild(text);
+  }
+
+  /**
+   * Attaches final element to default or passed location
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _attach(element) {
+    const { renderLocation } = this.options;
+
+    if (renderLocation) {
+      if (renderLocation instanceof HTMLElement) {
+        return renderLocation.appendChild(element);
+      }
+      if (typeof renderLocation === 'string') {
+        return document.querySelector(renderLocation).appendChild(element);
+      }
+    }
+    return document.body.appendChild(element);
+  }
+
+  /**
+   * Creates Shepherd element for step based on options
+   *
+   * @private
+   * @returns {HTMLElement} element
+   */
+  _createElement() {
+    const content = document.createElement('div');
+    const classes = this.options.classes || '';
+    const element = createFromHTML(`<div class='${classes}' data-id='${this.id}' id="${this.options.idAttribute}"}>`);
+    const header = document.createElement('header');
+
+    content.classList.add('shepherd-content');
+    element.appendChild(content);
+    content.appendChild(header);
+
+    if (this.options.attachTo) {
+      element.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+    }
+
+    if (!_.isUndefined(this.options.text)) {
+      this._addContent(content);
+    }
+
+    if (this.options.buttons) {
+      this._addButtons(content);
+    }
+
+    if (this.options.title) {
+      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
+      element.classList.add('shepherd-has-title');
+    }
+
+    return element;
+  }
+
+  /**
+   * Determines button options prior to rendering
+   *
+   * @private
+   */
+  _setUpButtons() {
+    const { buttons } = this.options;
+    if (!buttons) {
+      return;
+    }
+    const buttonsAreDefault = _.isUndefined(buttons) || _.isEmpty(buttons);
+    if (buttonsAreDefault) {
+      return this.options.buttons = [{
+        text: 'Next',
+        action: this.tour.next,
+        classes: 'btn'
+      }];
+    }
+
+    const buttonsAreObject = _.isPlainObject(buttons);
+    // Can pass in an object which will assume a single button
+    if (buttonsAreObject) {
+      return this.options.buttons = [this.options.buttons];
+    }
+
+    return buttons;
   }
 
   bindMethods() {
@@ -43,11 +182,11 @@ export class Step extends Evented {
 
   setOptions(options = {}) {
     this.options = options;
-    this.destroy();
+    const { when } = this.options;
 
+    this.destroy();
     this.id = this.options.id || this.id || `step-${uniqueId()}`;
 
-    const { when } = this.options;
     if (when) {
       for (const event in when) {
         if ({}.hasOwnProperty.call(when, event)) {
@@ -57,37 +196,7 @@ export class Step extends Evented {
       }
     }
 
-    // Button configuration
-
-    const buttonsJson = JSON.stringify(this.options.buttons);
-    const buttonsAreDefault = _.isUndefined(buttonsJson) ||
-      buttonsJson === 'true';
-
-    const buttonsAreEmpty = buttonsJson === '{}' ||
-      buttonsJson === '[]' ||
-      buttonsJson === 'null' ||
-      buttonsJson === 'false';
-
-    const buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
-
-    const buttonsAreObject = !buttonsAreDefault && _.isPlainObject(this.options.buttons);
-
-    // Show default button if undefined or 'true'
-    if (buttonsAreDefault) {
-      this.options.buttons = [{
-        text: 'Next',
-        action: this.tour.next,
-        classes: 'btn'
-      }];
-
-      // Can pass in an object which will assume asingle button
-    } else if (!buttonsAreEmpty && buttonsAreObject) {
-      this.options.buttons = [this.options.buttons];
-
-      // Falsey/empty values or non-object values prevent buttons from rendering
-    } else if (buttonsAreEmpty || !buttonsAreArray) {
-      this.options.buttons = false;
-    }
+    this._setUpButtons();
   }
 
   getTour() {
@@ -174,11 +283,6 @@ export class Step extends Evented {
     }
 
     const popperOpts = Object.assign({}, {
-      // constraints: [{ // Pretty much handled by popper
-      //     to: 'window',
-      //     pin: true,
-      //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
-      // }],
       placement: attachment,
       arrowElement: this.el.querySelector('.popper__arrow'),
       modifiers: opts.modifiers,
@@ -295,88 +399,24 @@ export class Step extends Evented {
     if (!_.isUndefined(this.el)) {
       this.destroy();
     }
-
-    this.el = createFromHTML(`<div class='${this.options.classes || ''}' data-id='${this.id}' ${this.options.idAttribute ? `id="${this.options.idAttribute}"` : ''}>`);
-
-    if (this.options.attachTo) {
-      this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
-    }
-
-    const content = document.createElement('div');
-    content.classList.add('shepherd-content');
-    this.el.appendChild(content);
-
-    const header = document.createElement('header');
-    content.appendChild(header);
-
-    if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
-      this.el.classList.add('shepherd-has-title');
-    }
+    this.el = this._createElement();
 
     if (this.options.showCancelLink) {
       const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-      header.appendChild(link);
+      document.querySelector('.shepherd-content header').appendChild(link);
 
       this.el.classList.add('shepherd-has-cancel-link');
 
       this.bindCancelLink(link);
     }
 
-    if (!_.isUndefined(this.options.text)) {
-      const text = createFromHTML('<div class=\'shepherd-text\'></div>');
-      let paragraphs = this.options.text;
-
-      if (typeof paragraphs === 'function') {
-        paragraphs = paragraphs.call(this, text);
-      }
-
-      if (paragraphs instanceof HTMLElement) {
-        text.appendChild(paragraphs);
-      } else {
-        if (typeof paragraphs === 'string') {
-          paragraphs = [paragraphs];
-        }
-
-        paragraphs.map((paragraph) => {
-          text.innerHTML += `<p>${paragraph}</p>`;
-        });
-      }
-
-      content.appendChild(text);
-    }
-
-    if (this.options.buttons) {
-      const footer = document.createElement('footer');
-      const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
-
-      this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
-        buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector('a'));
-      });
-
-      footer.appendChild(buttons);
-      content.appendChild(footer);
-    }
-
-    const { renderLocation } = this.options;
-
-    if (renderLocation) {
-      if (renderLocation instanceof HTMLElement) {
-        renderLocation.appendChild(this.el);
-      } else if (typeof renderLocation === 'string') {
-        document.querySelector(renderLocation).appendChild(this.el);
-      }
-    } else {
-      document.body.appendChild(this.el);
-    }
-
-    this.setupPopper();
-
     if (this.options.advanceOn) {
       this.bindAdvance();
     }
+
+    this._attach(this.el);
+
+    this.setupPopper();
   }
 
   bindCancelLink(link) {

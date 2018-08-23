@@ -17,6 +17,8 @@ module.exports = {
     assert: false,
     cy: false,
     document: false,
+    Event: true,
+    MouseEvent: true,
     expect: false,
     window: false
   },

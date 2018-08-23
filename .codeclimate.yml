@@ -1,4 +1,7 @@
 version: "2"
+plugins:
+  eslint:
+    enabled: true
 checks:
   method-lines:
     config:
