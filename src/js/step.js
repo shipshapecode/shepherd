@@ -208,6 +208,10 @@ export class Step extends Evented {
     this._setUpButtons();
   }
 
+  /**
+   * Returns the tour for the step
+   * @returns {Tour}
+   */
   getTour() {
     return this.tour;
   }
@@ -368,16 +372,26 @@ export class Step extends Evented {
     return this.el && !this.el.hidden;
   }
 
+  /**
+   * Cancel the tour and fire the `cancel` event
+   */
   cancel() {
     this.tour.cancel();
     this.trigger('cancel');
   }
 
+  /**
+   * Complete the tour and fire the `complete` event
+   */
   complete() {
     this.tour.complete();
     this.trigger('complete');
   }
 
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
   scrollTo() {
     const { element } = this.getAttachTo();
 
@@ -424,6 +438,11 @@ export class Step extends Evented {
     });
   }
 
+  /**
+   * Bind events to the buttons for next, back, etc
+   * @param {Object} cfg An object containing the config options for the button
+   * @param {HTMLElement} el The element for the button
+   */
   bindButtonEvents(cfg, el) {
     cfg.events = cfg.events || {};
     if (!_.isUndefined(cfg.action)) {
