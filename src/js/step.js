@@ -196,14 +196,9 @@ export class Step extends Evented {
     this.destroy();
     this.id = this.options.id || this.id || `step-${uniqueId()}`;
 
-    if (when) {
-      for (const event in when) {
-        if (_.has(when, event)) {
-          const handler = when[event];
-          this.on(event, handler, this);
-        }
-      }
-    }
+    _.forOwn(when, (handler, event) => {
+      this.on(event, handler, this);
+    });
 
     this._setUpButtons();
   }
@@ -312,7 +307,7 @@ export class Step extends Evented {
   }
 
   show() {
-    if (!_.isUndefined(this.options.beforeShowPromise)) {
+    if (_.isFunction(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
       if (!_.isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
@@ -395,15 +390,15 @@ export class Step extends Evented {
   scrollTo() {
     const { element } = this.getAttachTo();
 
-    if (!_.isUndefined(this.options.scrollToHandler)) {
+    if (_.isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (!_.isUndefined(element)) {
+    } else if (_.isElement(element)) {
       element.scrollIntoView();
     }
   }
 
   destroy() {
-    if (!_.isUndefined(this.el) && this.el.parentNode) {
+    if (_.isElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -450,22 +445,19 @@ export class Step extends Evented {
       cfg.events.click = cfg.action;
     }
 
-    for (const event in cfg.events) {
-      if (_.has(cfg.events, event)) {
-        let handler = cfg.events[event];
-        if (_.isString(handler)) {
-          const page = handler;
-          handler = () => this.tour.show(page);
-        }
-        el.dataset.buttonEvent = true;
-        el.addEventListener(event, handler);
-
-        // Cleanup event listeners on destroy
-        this.on('destroy', () => {
-          el.removeAttribute('data-button-event');
-          el.removeEventListener(event, handler);
-        });
+    _.forOwn(cfg.events, (handler, event) => {
+      if (_.isString(handler)) {
+        const page = handler;
+        handler = () => this.tour.show(page);
       }
-    }
+      el.dataset.buttonEvent = true;
+      el.addEventListener(event, handler);
+
+      // Cleanup event listeners on destroy
+      this.on('destroy', () => {
+        el.removeAttribute('data-button-event');
+        el.removeEventListener(event, handler);
+      });
+    });
   }
 }
