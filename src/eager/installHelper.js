@@ -1,6 +1,9 @@
 /* global Eager,INSTALL_ID,INSTALL_OPTIONS,Shepherd */
 (function() {
-  let buttonLocation, firstStepSelector, options, tour;
+  let buttonLocation = null;
+  let firstStepSelector = void 0;
+  let options = INSTALL_OPTIONS;
+  let tour = null;
 
   const addEventListener = function(el, eventName, handler) {
     if (el.addEventListener) {
@@ -26,13 +29,36 @@
     }
   };
 
-  firstStepSelector = void 0;
+  const setupButtons = function(i, steps, tour) {
+    const buttons = [];
+    if (i > 0) {
+      buttons.push({
+        text: 'Back',
+        action: tour.back,
+        classes: 'shepherd-button-secondary'
+      });
+    } else if (steps.length > 1) {
+      buttons.push({
+        text: 'Exit',
+        action: tour.cancel,
+        classes: 'shepherd-button-secondary'
+      });
+    }
 
-  options = INSTALL_OPTIONS;
+    if (i < steps.length - 1) {
+      buttons.push({
+        text: 'Next',
+        action: tour.next
+      });
+    } else {
+      buttons.push({
+        text: 'Done',
+        action: tour.next
+      });
+    }
 
-  tour = null;
-
-  buttonLocation = null;
+    return buttons;
+  };
 
   const render = function() {
     let existing, i, id, j, k, lastI, len, len1, ref1, step, stepOptions, textLines;
@@ -62,35 +88,11 @@
         title: step.title,
         text: step.text,
         showCancelLink: step.showCancelLink,
-        attachTo: `${step.attachToSelector  } ${  step.attachToDirection}`,
+        attachTo: `${step.attachToSelector} ${step.attachToDirection}`,
         classes: `shepherd-element shepherd-theme-${options.theme}`,
         scrollTo: options.scrollTo
       };
-      stepOptions.buttons = [];
-      if (i > 0) {
-        stepOptions.buttons.push({
-          text: 'Back',
-          action: tour.back,
-          classes: 'shepherd-button-secondary'
-        });
-      } else if (steps.length > 1) {
-        stepOptions.buttons.push({
-          text: 'Exit',
-          action: tour.cancel,
-          classes: 'shepherd-button-secondary'
-        });
-      }
-      if (i < steps.length - 1) {
-        stepOptions.buttons.push({
-          text: 'Next',
-          action: tour.next
-        });
-      } else {
-        stepOptions.buttons.push({
-          text: 'Done',
-          action: tour.next
-        });
-      }
+      stepOptions.buttons = setupButtons(i, steps, tour);
       id = `step-${i}`;
       existing = tour.getById(id);
       if (existing) {
@@ -100,7 +102,7 @@
           tour.show(id);
         }
       } else {
-        tour.addStep(`step-${  i}`, stepOptions);
+        tour.addStep(`step-${i}`, stepOptions);
       }
       lastI = i;
     }

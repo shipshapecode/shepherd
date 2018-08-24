@@ -1,10 +1,12 @@
 .idea/
 coverage/
 docs/
+test/
 tests/
 
 .eslintrc.js
 .gitignore
+.stylelintrc.js
 .travis.yml
 index.html
 yarn.lock

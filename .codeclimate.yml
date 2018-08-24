@@ -1,0 +1,16 @@
+version: "2"
+plugins:
+  eslint:
+    enabled: true
+checks:
+  method-lines:
+    config:
+      threshold: 30
+exclude_patterns:
+  - "dist/"
+  - "docs/"
+  - "**/node_modules/"
+  - "**/test/"
+  - "**/tests/"
+  - "**/vendor/"
+  - "karma.conf.js"
