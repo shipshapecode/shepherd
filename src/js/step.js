@@ -38,10 +38,10 @@ export class Step extends Evented {
    */
   _addButtons(content) {
     const footer = document.createElement('footer');
-    const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+    const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
     this.options.buttons.map((cfg) => {
-      const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
+      const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
       buttons.appendChild(button);
       this.bindButtonEvents(cfg, button.querySelector('a'));
     });
@@ -57,7 +57,7 @@ export class Step extends Evented {
    * @param {HTMLElement}
    */
   _addContent(content) {
-    const text = createFromHTML('<div class=\'shepherd-text\'></div>');
+    const text = createFromHTML('<div class="shepherd-text"></div>');
     let paragraphs = this.options.text;
 
     if (typeof paragraphs === 'function') {
@@ -137,7 +137,7 @@ export class Step extends Evented {
     }
 
     if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
+      header.innerHTML += `<h3 class="shepherd-title">${this.options.title}</h3>`;
       element.classList.add('shepherd-has-title');
     }
 
@@ -198,7 +198,7 @@ export class Step extends Evented {
 
     if (when) {
       for (const event in when) {
-        if ({}.hasOwnProperty.call(when, event)) {
+        if (_.has(when, event)) {
           const handler = when[event];
           this.on(event, handler, this);
         }
@@ -216,16 +216,10 @@ export class Step extends Evented {
     // An empty selector matches the step element
     const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
     const handler = (e) => {
-      if (!this.isOpen()) {
-        return;
-      }
-
-      if (!_.isUndefined(selector)) {
-        if (e.target.matches(selector)) {
-          this.tour.next();
-        }
-      } else {
-        if (this.el && e.target === this.el) {
+      if (this.isOpen()) {
+        const targetIsEl = this.el && e.target === this.el;
+        const targetIsSelector = !_.isUndefined(selector) && e.target.matches(selector);
+        if (targetIsSelector || targetIsEl) {
           this.tour.next();
         }
       }
@@ -438,25 +432,21 @@ export class Step extends Evented {
     }
 
     for (const event in cfg.events) {
-      if ({}.hasOwnProperty.call(cfg.events, event)) {
+      if (_.has(cfg.events, event)) {
         let handler = cfg.events[event];
-        if (typeof handler === 'string') {
+        if (_.isString(handler)) {
           const page = handler;
           handler = () => this.tour.show(page);
         }
         el.dataset.buttonEvent = true;
         el.addEventListener(event, handler);
-      }
-    }
 
-    this.on('destroy', () => {
-      for (const event in cfg.events) {
-        if ({}.hasOwnProperty.call(cfg.events, event)) {
-          const handler = cfg.events[event];
+        // Cleanup event listeners on destroy
+        this.on('destroy', () => {
           el.removeAttribute('data-button-event');
           el.removeEventListener(event, handler);
-        }
+        });
       }
-    });
+    }
   }
 }
