@@ -140,7 +140,7 @@ describe('Shepherd Acceptance Tests', () => {
     // Step one text should be visible
     cy.get('.shepherd-text')
       .contains('Shepherd is a javascript library').should('be.visible');
-    // Click next  
+    // Click next
     cy.contains('Next').click();
     // Step two text should be visible
     cy.get('.shepherd-text')
@@ -148,7 +148,7 @@ describe('Shepherd Acceptance Tests', () => {
     // Step one text should be hidden
     cy.get('.shepherd-text')
       .contains('Shepherd is a javascript library').should('not.be.visible');
-    // Click back  
+    // Click back
     cy.contains('Back').click();
     // Step one text should be visible again
     cy.get('.shepherd-text')

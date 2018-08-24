@@ -127,6 +127,15 @@ export class Step extends Evented {
       this._addButtons(content);
     }
 
+    if (this.options.showCancelLink) {
+      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      header.appendChild(link);
+
+      element.classList.add('shepherd-has-cancel-link');
+
+      this.bindCancelLink(link);
+    }
+
     if (this.options.title) {
       header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
       element.classList.add('shepherd-has-title');
@@ -404,15 +413,6 @@ export class Step extends Evented {
       this.destroy();
     }
     this.el = this._createElement();
-
-    if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-      document.querySelector('.shepherd-content header').appendChild(link);
-
-      this.el.classList.add('shepherd-has-cancel-link');
-
-      this.bindCancelLink(link);
-    }
 
     if (this.options.advanceOn) {
       this.bindAdvance();
