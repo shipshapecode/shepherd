@@ -37,17 +37,34 @@ export class Step extends Evented {
    * @param {HTMLElement}
    */
   _addButtons(content) {
-    const footer = document.createElement('footer');
-    const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
+    if (this.options.buttons) {
+      const footer = document.createElement('footer');
+      const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
-    this.options.buttons.map((cfg) => {
-      const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
-      buttons.appendChild(button);
-      this.bindButtonEvents(cfg, button.querySelector('a'));
-    });
+      this.options.buttons.map((cfg) => {
+        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
+        buttons.appendChild(button);
+        this.bindButtonEvents(cfg, button.querySelector('a'));
+      });
 
-    footer.appendChild(buttons);
-    content.appendChild(footer);
+      footer.appendChild(buttons);
+      content.appendChild(footer);
+    }
+  }
+
+  /**
+   * Adds the "x" button to cancel the tour
+   * @private
+   */
+  _addCancelLink(element, header) {
+    if (this.options.showCancelLink) {
+      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      header.appendChild(link);
+
+      element.classList.add('shepherd-has-cancel-link');
+
+      this.bindCancelLink(link);
+    }
   }
 
   /**
@@ -123,18 +140,8 @@ export class Step extends Evented {
       this._addContent(content);
     }
 
-    if (this.options.buttons) {
-      this._addButtons(content);
-    }
-
-    if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-      header.appendChild(link);
-
-      element.classList.add('shepherd-has-cancel-link');
-
-      this.bindCancelLink(link);
-    }
+    this._addButtons(content);
+    this._addCancelLink(element, header);
 
     if (this.options.title) {
       header.innerHTML += `<h3 class="shepherd-title">${this.options.title}</h3>`;
