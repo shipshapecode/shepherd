@@ -1,11 +1,25 @@
 # Changelog
 
-## [Unreleased](https://github.com/shipshapecode/shepherd/tree/HEAD)
+## [v2.0.0-beta.18](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.18) (2018-08-25)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.17...HEAD)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.17...v2.0.0-beta.18)
+
+**Implemented enhancements:**
+
+- Add some tour tests [\#216](https://github.com/shipshapecode/shepherd/pull/216) ([rwwagner90](https://github.com/rwwagner90))
+- Testing for Evented module [\#215](https://github.com/shipshapecode/shepherd/pull/215) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Fixed bugs:**
+
+- ES2015 imports not working [\#210](https://github.com/shipshapecode/shepherd/issues/210)
 
 **Merged pull requests:**
 
+- Move bind methods to their own file [\#222](https://github.com/shipshapecode/shepherd/pull/222) ([rwwagner90](https://github.com/rwwagner90))
+- Start some refactoring [\#221](https://github.com/shipshapecode/shepherd/pull/221) ([rwwagner90](https://github.com/rwwagner90))
+- \[Bug\] - fix issue with cancel button [\#220](https://github.com/shipshapecode/shepherd/pull/220) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Step.js coverage increase [\#218](https://github.com/shipshapecode/shepherd/pull/218) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Reduce Evented complexity [\#217](https://github.com/shipshapecode/shepherd/pull/217) ([rwwagner90](https://github.com/rwwagner90))
 - Start refactoring for Code Climate [\#214](https://github.com/shipshapecode/shepherd/pull/214) ([rwwagner90](https://github.com/rwwagner90))
 
 ## [v2.0.0-beta.17](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.17) (2018-08-15)
