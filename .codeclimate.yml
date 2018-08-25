@@ -6,6 +6,7 @@ checks:
 exclude_patterns:
   - "dist/"
   - "docs/"
+  - "src/eager/"
   - "**/node_modules/"
   - "**/test/"
   - "**/tests/"
