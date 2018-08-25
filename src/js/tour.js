@@ -1,18 +1,24 @@
 import _ from 'lodash';
 import { Evented } from './evented';
 import { Step } from './step';
+import { bindMethods } from './bind';
 
 const Shepherd = new Evented();
 
 export class Tour extends Evented {
   constructor(options = {}) {
     super(options);
-    this.bindMethods();
+    bindMethods.call(this, [
+      'back',
+      'cancel',
+      'complete',
+      'next'
+    ]);
     this.options = options;
     this.steps = this.options.steps || [];
 
     // Pass these events onto the global Shepherd object
-    const events = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];
+    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
     events.map((event) => {
       ((e) => {
         this.on(e, (opts) => {
@@ -24,18 +30,6 @@ export class Tour extends Evented {
     });
 
     return this;
-  }
-
-  bindMethods() {
-    const methods = [
-      'next',
-      'back',
-      'cancel',
-      'complete'
-    ];
-    methods.map((method) => {
-      this[method] = this[method].bind(this);
-    });
   }
 
   /**
@@ -193,7 +187,7 @@ export class Tour extends Evented {
 
     Shepherd.activeTour = this;
 
-    const next = typeof key === 'string' ? this.getById(key) : this.steps[key];
+    const next = _.isString(key) ? this.getById(key) : this.steps[key];
 
     if (!next) {
       return;
