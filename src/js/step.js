@@ -2,11 +2,8 @@ import _ from 'lodash';
 import Popper from 'popper.js';
 import { Evented } from './evented';
 import 'element-matches';
-import {
-  createFromHTML,
-  parsePosition,
-  parseShorthand
-} from './utils';
+import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind';
+import { createFromHTML, parsePosition } from './utils';
 
 /**
  * Creates incremented ID for each newly created step
@@ -25,8 +22,21 @@ export class Step extends Evented {
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
-    this.bindMethods();
+    bindMethods.call(this, [
+      '_show',
+      'cancel',
+      'complete',
+      'destroy',
+      'hide',
+      'isOpen',
+      'render',
+      'scrollTo',
+      'show'
+    ]);
     this.setOptions(options);
+    this.bindAdvance = bindAdvance.bind(this);
+    this.bindButtonEvents = bindButtonEvents.bind(this);
+    this.bindCancelLink = bindCancelLink.bind(this);
     return this;
   }
 
@@ -77,14 +87,14 @@ export class Step extends Evented {
     const text = createFromHTML('<div class="shepherd-text"></div>');
     let paragraphs = this.options.text;
 
-    if (typeof paragraphs === 'function') {
+    if (_.isFunction(paragraphs)) {
       paragraphs = paragraphs.call(this, text);
     }
 
     if (paragraphs instanceof HTMLElement) {
       text.appendChild(paragraphs);
     } else {
-      if (typeof paragraphs === 'string') {
+      if (_.isString(paragraphs)) {
         paragraphs = [paragraphs];
       }
 
@@ -109,7 +119,7 @@ export class Step extends Evented {
       if (renderLocation instanceof HTMLElement) {
         return renderLocation.appendChild(element);
       }
-      if (typeof renderLocation === 'string') {
+      if (_.isString(renderLocation)) {
         return document.querySelector(renderLocation).appendChild(element);
       }
     }
@@ -179,21 +189,32 @@ export class Step extends Evented {
     return buttons;
   }
 
-  bindMethods() {
-    const methods = [
-      '_show',
-      'show',
-      'hide',
-      'isOpen',
-      'cancel',
-      'complete',
-      'scrollTo',
-      'destroy',
-      'render'
-    ];
-    methods.map((method) => {
-      this[method] = this[method].bind(this);
-    });
+  /**
+   * Returns the tour for the step
+   * @returns {Tour}
+   */
+  getTour() {
+    return this.tour;
+  }
+
+  getAttachTo() {
+    const opts = parsePosition(this.options.attachTo) || {};
+    const returnOpts = Object.assign({}, opts);
+
+    if (_.isString(opts.element)) {
+      // Can't override the element in user opts reference because we can't
+      // guarantee that the element will exist in the future.
+      try {
+        returnOpts.element = document.querySelector(opts.element);
+      } catch(e) {
+        // TODO
+      }
+      if (!returnOpts.element) {
+        console.error(`The element for this Shepherd step was not found ${opts.element}`);
+      }
+    }
+
+    return returnOpts;
   }
 
   setOptions(options = {}) {
@@ -208,59 +229,6 @@ export class Step extends Evented {
     });
 
     this._setUpButtons();
-  }
-
-  /**
-   * Returns the tour for the step
-   * @returns {Tour}
-   */
-  getTour() {
-    return this.tour;
-  }
-
-  bindAdvance() {
-    // An empty selector matches the step element
-    const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
-    const handler = (e) => {
-      if (this.isOpen()) {
-        const targetIsEl = this.el && e.target === this.el;
-        const targetIsSelector = !_.isUndefined(selector) && e.target.matches(selector);
-        if (targetIsSelector || targetIsEl) {
-          this.tour.next();
-        }
-      }
-    };
-
-    // TODO: this should also bind/unbind on show/hide
-    if (!_.isUndefined(selector)) {
-      const el = document.querySelector(selector);
-      el.addEventListener(event, handler);
-    } else {
-      document.body.addEventListener(event, handler);
-    }
-    this.on('destroy', () => {
-      return document.body.removeEventListener(event, handler);
-    });
-  }
-
-  getAttachTo() {
-    const opts = parsePosition(this.options.attachTo) || {};
-    const returnOpts = Object.assign({}, opts);
-
-    if (typeof opts.element === 'string') {
-      // Can't override the element in user opts reference because we can't
-      // guarantee that the element will exist in the future.
-      try {
-        returnOpts.element = document.querySelector(opts.element);
-      } catch(e) {
-        // TODO
-      }
-      if (!returnOpts.element) {
-        console.error(`The element for this Shepherd step was not found ${opts.element}`);
-      }
-    }
-
-    return returnOpts;
   }
 
   setupPopper() {
@@ -431,40 +399,5 @@ export class Step extends Evented {
     this._attach(this.el);
 
     this.setupPopper();
-  }
-
-  bindCancelLink(link) {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.cancel();
-    });
-  }
-
-  /**
-   * Bind events to the buttons for next, back, etc
-   * @param {Object} cfg An object containing the config options for the button
-   * @param {HTMLElement} el The element for the button
-   */
-  bindButtonEvents(cfg, el) {
-    cfg.events = cfg.events || {};
-    if (!_.isUndefined(cfg.action)) {
-      // Including both a click event and an action is not supported
-      cfg.events.click = cfg.action;
-    }
-
-    _.forOwn(cfg.events, (handler, event) => {
-      if (_.isString(handler)) {
-        const page = handler;
-        handler = () => this.tour.show(page);
-      }
-      el.dataset.buttonEvent = true;
-      el.addEventListener(event, handler);
-
-      // Cleanup event listeners on destroy
-      this.on('destroy', () => {
-        el.removeAttribute('data-button-event');
-        el.removeEventListener(event, handler);
-      });
-    });
   }
 }
