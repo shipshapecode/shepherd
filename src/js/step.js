@@ -87,14 +87,14 @@ export class Step extends Evented {
     const text = createFromHTML('<div class="shepherd-text"></div>');
     let paragraphs = this.options.text;
 
-    if (typeof paragraphs === 'function') {
+    if (_.isFunction(paragraphs)) {
       paragraphs = paragraphs.call(this, text);
     }
 
     if (paragraphs instanceof HTMLElement) {
       text.appendChild(paragraphs);
     } else {
-      if (typeof paragraphs === 'string') {
+      if (_.isString(paragraphs)) {
         paragraphs = [paragraphs];
       }
 
@@ -119,7 +119,7 @@ export class Step extends Evented {
       if (renderLocation instanceof HTMLElement) {
         return renderLocation.appendChild(element);
       }
-      if (typeof renderLocation === 'string') {
+      if (_.isString(renderLocation)) {
         return document.querySelector(renderLocation).appendChild(element);
       }
     }
@@ -201,7 +201,7 @@ export class Step extends Evented {
     const opts = parsePosition(this.options.attachTo) || {};
     const returnOpts = Object.assign({}, opts);
 
-    if (typeof opts.element === 'string') {
+    if (_.isString(opts.element)) {
       // Can't override the element in user opts reference because we can't
       // guarantee that the element will exist in the future.
       try {

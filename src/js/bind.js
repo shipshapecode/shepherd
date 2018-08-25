@@ -17,6 +17,9 @@ function _setupAdvanceOnHandler(selector) {
   };
 }
 
+/**
+ * Bind the event handler for advanceOn
+ */
 export function bindAdvance() {
   // An empty selector matches the step element
   const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);

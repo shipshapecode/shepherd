@@ -187,7 +187,7 @@ export class Tour extends Evented {
 
     Shepherd.activeTour = this;
 
-    const next = typeof key === 'string' ? this.getById(key) : this.steps[key];
+    const next = _.isString(key) ? this.getById(key) : this.steps[key];
 
     if (!next) {
       return;
