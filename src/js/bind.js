@@ -1,10 +1,12 @@
 import { parseShorthand } from './utils';
 import _ from 'lodash';
 
-export function bindAdvance() {
-  // An empty selector matches the step element
-  const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
-  const handler = (e) => {
+/**
+ * Sets up the handler to determine if we should advance the tour
+ * @private
+ */
+function _setupAdvanceOnHandler(selector) {
+  return (e) => {
     if (this.isOpen()) {
       const targetIsEl = this.el && e.target === this.el;
       const targetIsSelector = !_.isUndefined(selector) && e.target.matches(selector);
@@ -13,6 +15,12 @@ export function bindAdvance() {
       }
     }
   };
+}
+
+export function bindAdvance() {
+  // An empty selector matches the step element
+  const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
+  const handler = _setupAdvanceOnHandler.call(this, selector);
 
   // TODO: this should also bind/unbind on show/hide
   if (!_.isUndefined(selector)) {
