@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import Popper from 'popper.js';
 import { Evented } from './evented';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind';
-import { createFromHTML, parsePosition } from './utils';
+import { createFromHTML, parsePosition, setupPopper } from './utils';
 
 /**
  * Creates incremented ID for each newly created step
@@ -37,6 +36,7 @@ export class Step extends Evented {
     this.bindAdvance = bindAdvance.bind(this);
     this.bindButtonEvents = bindButtonEvents.bind(this);
     this.bindCancelLink = bindCancelLink.bind(this);
+    this.setupPopper = setupPopper.bind(this);
     return this;
   }
 
@@ -229,66 +229,6 @@ export class Step extends Evented {
     });
 
     this._setUpButtons();
-  }
-
-  setupPopper() {
-    if (_.isUndefined(Popper)) {
-      throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
-    }
-
-    const opts = this.getAttachTo();
-    opts.modifiers = opts.modifiers || {};
-    let attachment = opts.on || 'right';
-    opts.positionFixed = false;
-
-    if (_.isUndefined(opts.element)) {
-      attachment = 'top';
-      this._setupCenteredPopper(opts);
-    }
-
-    const popperOpts = Object.assign({}, {
-      placement: attachment,
-      arrowElement: this.el.querySelector('.popper__arrow'),
-      modifiers: opts.modifiers,
-      positionFixed: opts.positionFixed
-    }, this.options.popperOptions);
-
-    if (this.popper) {
-      this.popper.destroy();
-    }
-
-    this.el.classList.add('shepherd-element');
-    this.popper = new Popper(opts.element, this.el, popperOpts);
-
-    this.target = opts.element;
-    this.target.classList.add('shepherd-enabled', 'shepherd-target');
-  }
-
-  /**
-   * Sets up a popper centered on the screen, when there is no attachTo element
-   * @param {Object} opts The config object
-   * @returns {*}
-   * @private
-   */
-  _setupCenteredPopper(opts) {
-    opts.element = document.body;
-
-    opts.modifiers = Object.assign({
-      computeStyle: {
-        enabled: true,
-        fn(data) {
-          data.styles = Object.assign({}, data.styles, {
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)'
-          });
-
-          return data;
-        }
-      }
-    }, opts.modifiers);
-
-    opts.positionFixed = true;
   }
 
   show() {

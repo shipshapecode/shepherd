@@ -11,7 +11,7 @@
 		exports["Shepherd"] = factory(require("popper.js"));
 	else
 		root["Shepherd"] = factory(root["Popper"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE__34__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE__42__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -385,13 +385,9 @@ var _isFunction3 = _interopRequireDefault(_isFunction2);
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _popper = __webpack_require__(34);
-
-var _popper2 = _interopRequireDefault(_popper);
-
 var _evented = __webpack_require__(3);
 
-__webpack_require__(35);
+__webpack_require__(34);
 
 var _bind = __webpack_require__(11);
 
@@ -434,6 +430,7 @@ var Step = exports.Step = function (_Evented) {
     _this.bindAdvance = _bind.bindAdvance.bind(_this);
     _this.bindButtonEvents = _bind.bindButtonEvents.bind(_this);
     _this.bindCancelLink = _bind.bindCancelLink.bind(_this);
+    _this.setupPopper = _utils.setupPopper.bind(_this);
     return _ret = _this, _possibleConstructorReturn(_this, _ret);
   }
 
@@ -659,70 +656,6 @@ var Step = exports.Step = function (_Evented) {
       });
 
       this._setUpButtons();
-    }
-  }, {
-    key: 'setupPopper',
-    value: function setupPopper() {
-      if ((0, _isUndefined3.default)(_popper2.default)) {
-        throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
-      }
-
-      var opts = this.getAttachTo();
-      opts.modifiers = opts.modifiers || {};
-      var attachment = opts.on || 'right';
-      opts.positionFixed = false;
-
-      if ((0, _isUndefined3.default)(opts.element)) {
-        attachment = 'top';
-        this._setupCenteredPopper(opts);
-      }
-
-      var popperOpts = Object.assign({}, {
-        placement: attachment,
-        arrowElement: this.el.querySelector('.popper__arrow'),
-        modifiers: opts.modifiers,
-        positionFixed: opts.positionFixed
-      }, this.options.popperOptions);
-
-      if (this.popper) {
-        this.popper.destroy();
-      }
-
-      this.el.classList.add('shepherd-element');
-      this.popper = new _popper2.default(opts.element, this.el, popperOpts);
-
-      this.target = opts.element;
-      this.target.classList.add('shepherd-enabled', 'shepherd-target');
-    }
-
-    /**
-     * Sets up a popper centered on the screen, when there is no attachTo element
-     * @param {Object} opts The config object
-     * @returns {*}
-     * @private
-     */
-
-  }, {
-    key: '_setupCenteredPopper',
-    value: function _setupCenteredPopper(opts) {
-      opts.element = document.body;
-
-      opts.modifiers = Object.assign({
-        computeStyle: {
-          enabled: true,
-          fn: function fn(data) {
-            data.styles = Object.assign({}, data.styles, {
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)'
-            });
-
-            return data;
-          }
-        }
-      }, opts.modifiers);
-
-      opts.positionFixed = true;
     }
   }, {
     key: 'show',
@@ -1197,7 +1130,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _zipObject2 = __webpack_require__(36);
+var _zipObject2 = __webpack_require__(35);
 
 var _zipObject3 = _interopRequireDefault(_zipObject2);
 
@@ -1212,6 +1145,11 @@ var _isObjectLike3 = _interopRequireDefault(_isObjectLike2);
 exports.createFromHTML = createFromHTML;
 exports.parsePosition = parsePosition;
 exports.parseShorthand = parseShorthand;
+exports.setupPopper = setupPopper;
+
+var _popper = __webpack_require__(42);
+
+var _popper2 = _interopRequireDefault(_popper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1266,6 +1204,69 @@ function parseShorthand(obj, props) {
 
   var values = obj.split(' ');
   return (0, _zipObject3.default)(props, values);
+}
+
+/**
+ * Determines options for Popper and initializes the Popper instance
+ */
+function setupPopper() {
+  if ((0, _isUndefined3.default)(_popper2.default)) {
+    throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
+  }
+
+  var opts = this.getAttachTo();
+  opts.modifiers = opts.modifiers || {};
+  var attachment = opts.on || 'right';
+  opts.positionFixed = false;
+
+  if ((0, _isUndefined3.default)(opts.element)) {
+    attachment = 'top';
+    _setupCenteredPopper(opts);
+  }
+
+  var popperOpts = Object.assign({}, {
+    placement: attachment,
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    modifiers: opts.modifiers,
+    positionFixed: opts.positionFixed
+  }, this.options.popperOptions);
+
+  if (this.popper) {
+    this.popper.destroy();
+  }
+
+  this.el.classList.add('shepherd-element');
+  this.popper = new _popper2.default(opts.element, this.el, popperOpts);
+
+  this.target = opts.element;
+  this.target.classList.add('shepherd-enabled', 'shepherd-target');
+}
+
+/**
+ * Sets up a popper centered on the screen, when there is no attachTo element
+ * @param {Object} opts The config object
+ * @returns {*}
+ * @private
+ */
+function _setupCenteredPopper(opts) {
+  opts.element = document.body;
+
+  opts.modifiers = Object.assign({
+    computeStyle: {
+      enabled: true,
+      fn: function fn(data) {
+        data.styles = Object.assign({}, data.styles, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
+        });
+
+        return data;
+      }
+    }
+  }, opts.modifiers);
+
+  opts.positionFixed = true;
 }
 
 /***/ }),
@@ -1895,12 +1896,6 @@ module.exports = stubFalse;
 /* 34 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__34__;
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
 if (!Element.prototype.matches) {
     Element.prototype.matches =
         Element.prototype.matchesSelector ||
@@ -1910,11 +1905,11 @@ if (!Element.prototype.matches) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(37),
-    baseZipObject = __webpack_require__(42);
+var assignValue = __webpack_require__(36),
+    baseZipObject = __webpack_require__(41);
 
 /**
  * This method is like `_.fromPairs` except that it accepts two arrays,
@@ -1940,11 +1935,11 @@ module.exports = zipObject;
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(38),
-    eq = __webpack_require__(41);
+var baseAssignValue = __webpack_require__(37),
+    eq = __webpack_require__(40);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1974,10 +1969,10 @@ module.exports = assignValue;
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(39);
+var defineProperty = __webpack_require__(38);
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -2005,10 +2000,10 @@ module.exports = baseAssignValue;
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(40);
+var getNative = __webpack_require__(39);
 
 var defineProperty = (function() {
   try {
@@ -2022,7 +2017,7 @@ module.exports = defineProperty;
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /**
@@ -2041,7 +2036,7 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /**
@@ -2084,7 +2079,7 @@ module.exports = eq;
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports) {
 
 /**
@@ -2111,6 +2106,12 @@ function baseZipObject(props, values, assignFunc) {
 
 module.exports = baseZipObject;
 
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__42__;
 
 /***/ }),
 /* 43 */
