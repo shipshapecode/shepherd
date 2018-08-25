@@ -242,25 +242,8 @@ export class Step extends Evented {
     opts.positionFixed = false;
 
     if (_.isUndefined(opts.element)) {
-      opts.element = document.body;
       attachment = 'top';
-
-      opts.modifiers = Object.assign({
-        computeStyle: {
-          enabled: true,
-          fn(data) {
-            data.styles = Object.assign({}, data.styles, {
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)'
-            });
-
-            return data;
-          }
-        }
-      }, opts.modifiers);
-
-      opts.positionFixed = true;
+      this._setupCenteredPopper(opts);
     }
 
     const popperOpts = Object.assign({}, {
@@ -279,6 +262,33 @@ export class Step extends Evented {
 
     this.target = opts.element;
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
+  }
+
+  /**
+   * Sets up a popper centered on the screen, when there is no attachTo element
+   * @param {Object} opts The config object
+   * @returns {*}
+   * @private
+   */
+  _setupCenteredPopper(opts) {
+    opts.element = document.body;
+
+    opts.modifiers = Object.assign({
+      computeStyle: {
+        enabled: true,
+        fn(data) {
+          data.styles = Object.assign({}, data.styles, {
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)'
+          });
+
+          return data;
+        }
+      }
+    }, opts.modifiers);
+
+    opts.positionFixed = true;
   }
 
   show() {
