@@ -12,7 +12,7 @@ module.exports = {
     browser: true
   },
   rules: {
-    'complexity': [2, 8],
+    'complexity': ['warn', 6],
     'no-console': 'off'
   },
   overrides: [
