@@ -37,17 +37,34 @@ export class Step extends Evented {
    * @param {HTMLElement}
    */
   _addButtons(content) {
-    const footer = document.createElement('footer');
-    const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
+    if (this.options.buttons) {
+      const footer = document.createElement('footer');
+      const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
-    this.options.buttons.map((cfg) => {
-      const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
-      buttons.appendChild(button);
-      this.bindButtonEvents(cfg, button.querySelector('a'));
-    });
+      this.options.buttons.map((cfg) => {
+        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
+        buttons.appendChild(button);
+        this.bindButtonEvents(cfg, button.querySelector('a'));
+      });
 
-    footer.appendChild(buttons);
-    content.appendChild(footer);
+      footer.appendChild(buttons);
+      content.appendChild(footer);
+    }
+  }
+
+  /**
+   * Adds the "x" button to cancel the tour
+   * @private
+   */
+  _addCancelLink(element, header) {
+    if (this.options.showCancelLink) {
+      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      header.appendChild(link);
+
+      element.classList.add('shepherd-has-cancel-link');
+
+      this.bindCancelLink(link);
+    }
   }
 
   /**
@@ -57,7 +74,7 @@ export class Step extends Evented {
    * @param {HTMLElement}
    */
   _addContent(content) {
-    const text = createFromHTML('<div class=\'shepherd-text\'></div>');
+    const text = createFromHTML('<div class="shepherd-text"></div>');
     let paragraphs = this.options.text;
 
     if (typeof paragraphs === 'function') {
@@ -123,21 +140,11 @@ export class Step extends Evented {
       this._addContent(content);
     }
 
-    if (this.options.buttons) {
-      this._addButtons(content);
-    }
-
-    if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-      header.appendChild(link);
-
-      element.classList.add('shepherd-has-cancel-link');
-
-      this.bindCancelLink(link);
-    }
+    this._addButtons(content);
+    this._addCancelLink(element, header);
 
     if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
+      header.innerHTML += `<h3 class="shepherd-title">${this.options.title}</h3>`;
       element.classList.add('shepherd-has-title');
     }
 
@@ -196,18 +203,17 @@ export class Step extends Evented {
     this.destroy();
     this.id = this.options.id || this.id || `step-${uniqueId()}`;
 
-    if (when) {
-      for (const event in when) {
-        if ({}.hasOwnProperty.call(when, event)) {
-          const handler = when[event];
-          this.on(event, handler, this);
-        }
-      }
-    }
+    _.forOwn(when, (handler, event) => {
+      this.on(event, handler, this);
+    });
 
     this._setUpButtons();
   }
 
+  /**
+   * Returns the tour for the step
+   * @returns {Tour}
+   */
   getTour() {
     return this.tour;
   }
@@ -216,16 +222,10 @@ export class Step extends Evented {
     // An empty selector matches the step element
     const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
     const handler = (e) => {
-      if (!this.isOpen()) {
-        return;
-      }
-
-      if (!_.isUndefined(selector)) {
-        if (e.target.matches(selector)) {
-          this.tour.next();
-        }
-      } else {
-        if (this.el && e.target === this.el) {
+      if (this.isOpen()) {
+        const targetIsEl = this.el && e.target === this.el;
+        const targetIsSelector = !_.isUndefined(selector) && e.target.matches(selector);
+        if (targetIsSelector || targetIsEl) {
           this.tour.next();
         }
       }
@@ -314,7 +314,7 @@ export class Step extends Evented {
   }
 
   show() {
-    if (!_.isUndefined(this.options.beforeShowPromise)) {
+    if (_.isFunction(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
       if (!_.isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
@@ -374,28 +374,38 @@ export class Step extends Evented {
     return this.el && !this.el.hidden;
   }
 
+  /**
+   * Cancel the tour and fire the `cancel` event
+   */
   cancel() {
     this.tour.cancel();
     this.trigger('cancel');
   }
 
+  /**
+   * Complete the tour and fire the `complete` event
+   */
   complete() {
     this.tour.complete();
     this.trigger('complete');
   }
 
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
   scrollTo() {
     const { element } = this.getAttachTo();
 
-    if (!_.isUndefined(this.options.scrollToHandler)) {
+    if (_.isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (!_.isUndefined(element)) {
+    } else if (_.isElement(element)) {
       element.scrollIntoView();
     }
   }
 
   destroy() {
-    if (!_.isUndefined(this.el) && this.el.parentNode) {
+    if (_.isElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -430,6 +440,11 @@ export class Step extends Evented {
     });
   }
 
+  /**
+   * Bind events to the buttons for next, back, etc
+   * @param {Object} cfg An object containing the config options for the button
+   * @param {HTMLElement} el The element for the button
+   */
   bindButtonEvents(cfg, el) {
     cfg.events = cfg.events || {};
     if (!_.isUndefined(cfg.action)) {
@@ -437,26 +452,19 @@ export class Step extends Evented {
       cfg.events.click = cfg.action;
     }
 
-    for (const event in cfg.events) {
-      if ({}.hasOwnProperty.call(cfg.events, event)) {
-        let handler = cfg.events[event];
-        if (typeof handler === 'string') {
-          const page = handler;
-          handler = () => this.tour.show(page);
-        }
-        el.dataset.buttonEvent = true;
-        el.addEventListener(event, handler);
+    _.forOwn(cfg.events, (handler, event) => {
+      if (_.isString(handler)) {
+        const page = handler;
+        handler = () => this.tour.show(page);
       }
-    }
+      el.dataset.buttonEvent = true;
+      el.addEventListener(event, handler);
 
-    this.on('destroy', () => {
-      for (const event in cfg.events) {
-        if ({}.hasOwnProperty.call(cfg.events, event)) {
-          const handler = cfg.events[event];
-          el.removeAttribute('data-button-event');
-          el.removeEventListener(event, handler);
-        }
-      }
+      // Cleanup event listeners on destroy
+      this.on('destroy', () => {
+        el.removeAttribute('data-button-event');
+        el.removeEventListener(event, handler);
+      });
     });
   }
 }
