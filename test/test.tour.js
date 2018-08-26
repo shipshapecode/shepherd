@@ -6,13 +6,14 @@ import { Step } from '../src/js/step';
 window.Shepherd = Shepherd;
 
 describe('Tour', function() {
-  let instance;
+  let instance, shouldShowStep;
   const defaults = {
     classes: 'shepherd-theme-arrows',
     scrollTo: true
   };
 
   beforeEach(() => {
+    shouldShowStep = false;
     instance = new Shepherd.Tour({
       defaults
     });
@@ -21,6 +22,15 @@ describe('Tour', function() {
       classes: 'foo',
       id: 'test',
       title: 'This is a test step for our tour'
+    });
+
+    instance.addStep('skipped-step', {
+      classes: 'skipped',
+      id: 'skipped-step',
+      title: 'This step should be skipped',
+      showOn() {
+        return shouldShowStep;
+      }
     });
 
     instance.addStep('test2', {
@@ -61,7 +71,7 @@ describe('Tour', function() {
 
   describe('.addStep()', function() {
     it('adds tour steps', function() {
-      assert.equal(instance.steps.length, 3);
+      assert.equal(instance.steps.length, 4);
       assert.equal(instance.getById('test').options.classes, 'foo', 'classes passed to step options');
     });
 
@@ -70,7 +80,7 @@ describe('Tour', function() {
         id: 'one-arg'
       });
 
-      assert.equal(instance.steps.length, 4);
+      assert.equal(instance.steps.length, 5);
       assert.equal(step.id, 'one-arg', 'id applied to step with just one arg');
     });
 
@@ -79,7 +89,7 @@ describe('Tour', function() {
         id: 'already-a-step'
       }));
 
-      assert.equal(instance.steps.length, 4);
+      assert.equal(instance.steps.length, 5);
       assert.equal(step.id, 'already-a-step', 'id applied to step instance');
       assert.equal(step.tour, instance, 'tour is set to `this`');
     });
@@ -87,7 +97,7 @@ describe('Tour', function() {
 
   describe('.getById()', function() {
     it('returns the step by ID with the right title', function() {
-      assert.equal(instance.steps.length, 3);
+      assert.equal(instance.steps.length, 4);
       assert.equal(instance.getById('test3').options.title, 'Yet, another test step');
     });
 
@@ -159,21 +169,21 @@ describe('Tour', function() {
   describe('.removeStep()', function() {
     it('removes the step when passed the id', function() {
       instance.start();
-      assert.equal(instance.steps.length, 3);
+      assert.equal(instance.steps.length, 4);
       instance.removeStep('test2');
-      assert.equal(instance.steps.length, 2);
+      assert.equal(instance.steps.length, 3);
     });
 
     it('hides the step before removing', function() {
       let hideFired = false;
       instance.start();
-      assert.equal(instance.steps.length, 3);
+      assert.equal(instance.steps.length, 4);
       const step = instance.getById('test');
       step.on('hide', () => {
         hideFired = true;
       });
       instance.removeStep('test');
-      assert.equal(instance.steps.length, 2);
+      assert.equal(instance.steps.length, 3);
       assert.isOk(hideFired, 'hide is fired before step is destroyed');
     });
   });
@@ -187,6 +197,18 @@ describe('Tour', function() {
       });
       instance.show('not-a-real-key');
       assert.isNotOk(showFired, 'showFired is false because show short circuits');
+    });
+
+    it('showOn determines which steps to skip', function() {
+      instance.start();
+      assert.equal(instance.getCurrentStep().id, 'test');
+      instance.next();
+      assert.equal(instance.getCurrentStep().id, 'test2');
+      assert.notEqual(instance.getCurrentStep().id, 'skipped-step', 'step skipped because `showOn` returns false');
+      instance.back();
+      shouldShowStep = true;
+      instance.next();
+      assert.equal(instance.getCurrentStep().id, 'skipped-step', 'step shown because `showOn` returns true');
     });
   });
 });

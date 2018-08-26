@@ -185,24 +185,24 @@ export class Tour extends Evented {
   show(key = 0, forward = true) {
     this._setupActiveTour();
 
-    const next = _.isString(key) ? this.getById(key) : this.steps[key];
+    const step = _.isString(key) ? this.getById(key) : this.steps[key];
 
-    if (!next) {
+    if (!step) {
       return;
     }
 
-    if (!_.isUndefined(next.options.showOn) && !next.options.showOn()) {
-      const index = this.steps.indexOf(next);
-      const nextIndex = forward ? index + 1 : index - 1;
-      this.show(nextIndex, forward);
+    const shouldSkipStep = _.isFunction(step.options.showOn) && !step.options.showOn();
+    // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+    if (shouldSkipStep) {
+      this._skipStep(step, forward);
     } else {
       this.trigger('show', {
-        step: next,
+        step,
         previous: this.currentStep
       });
 
-      this.currentStep = next;
-      next.show();
+      this.currentStep = step;
+      step.show();
     }
   }
 
@@ -230,6 +230,18 @@ export class Tour extends Evented {
     }
 
     Shepherd.activeTour = this;
+  }
+
+  /**
+   * Called when `showOn` evaluates to false, to skip the step
+   * @param {Step} step The step to skip
+   * @param {Boolean} forward True if we are going forward, false if backward
+   * @private
+   */
+  _skipStep(step, forward) {
+    const index = this.steps.indexOf(step);
+    const nextIndex = forward ? index + 1 : index - 1;
+    this.show(nextIndex, forward);
   }
 }
 
