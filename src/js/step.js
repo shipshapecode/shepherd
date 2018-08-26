@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { Evented } from './evented';
+import Popper from 'popper.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind';
 import { createFromHTML, parsePosition, setupPopper } from './utils';
@@ -254,7 +255,7 @@ export class Step extends Evented {
 
     document.body.setAttribute('data-shepherd-step', this.id);
 
-    this.setupPopper();
+    this.setupPopper(Popper);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -348,6 +349,6 @@ export class Step extends Evented {
 
     this._attach(this.el);
 
-    this.setupPopper();
+    this.setupPopper(Popper);
   }
 }
