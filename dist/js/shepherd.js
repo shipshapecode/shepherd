@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.0-beta.19 * /
+ * /*! shepherd.js 2.0.0-beta.20 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -312,7 +312,50 @@ module.exports = overArg;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(2),
-    isArray = __webpack_require__(9),
+    isObject = __webpack_require__(29);
+
+/** `Object#toString` result references. */
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+module.exports = isFunction;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(2),
+    isArray = __webpack_require__(10),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -344,7 +387,7 @@ module.exports = isString;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -359,11 +402,11 @@ var _isElement2 = __webpack_require__(17);
 
 var _isElement3 = _interopRequireDefault(_isElement2);
 
-var _forOwn2 = __webpack_require__(8);
+var _forOwn2 = __webpack_require__(9);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
-var _isPlainObject2 = __webpack_require__(7);
+var _isPlainObject2 = __webpack_require__(8);
 
 var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
 
@@ -375,11 +418,11 @@ var _isUndefined2 = __webpack_require__(0);
 
 var _isUndefined3 = _interopRequireDefault(_isUndefined2);
 
-var _isString2 = __webpack_require__(5);
+var _isString2 = __webpack_require__(6);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _isFunction2 = __webpack_require__(10);
+var _isFunction2 = __webpack_require__(5);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
@@ -805,7 +848,7 @@ var Step = exports.Step = function (_Evented) {
 }(_evented.Evented);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(2),
@@ -873,7 +916,7 @@ module.exports = isPlainObject;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseForOwn = __webpack_require__(19),
@@ -915,7 +958,7 @@ module.exports = forOwn;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /**
@@ -947,49 +990,6 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(2),
-    isObject = __webpack_require__(29);
-
-/** `Object#toString` result references. */
-var asyncTag = '[object AsyncFunction]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    proxyTag = '[object Proxy]';
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  if (!isObject(value)) {
-    return false;
-  }
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 9 which returns 'object' for typed arrays and other constructors.
-  var tag = baseGetTag(value);
-  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
-}
-
-module.exports = isFunction;
-
-
-/***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1000,11 +1000,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _isString2 = __webpack_require__(5);
+var _isString2 = __webpack_require__(6);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _forOwn2 = __webpack_require__(8);
+var _forOwn2 = __webpack_require__(9);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
@@ -1292,7 +1292,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _evented = __webpack_require__(3);
 
-var _step = __webpack_require__(6);
+var _step = __webpack_require__(7);
 
 var _tour = __webpack_require__(43);
 
@@ -1414,7 +1414,7 @@ module.exports = identity;
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObjectLike = __webpack_require__(1),
-    isPlainObject = __webpack_require__(7);
+    isPlainObject = __webpack_require__(8);
 
 /**
  * Checks if `value` is likely a DOM element.
@@ -1573,7 +1573,7 @@ module.exports = identity;
 var baseKeys = __webpack_require__(25),
     getTag = __webpack_require__(26),
     isArguments = __webpack_require__(27),
-    isArray = __webpack_require__(9),
+    isArray = __webpack_require__(10),
     isArrayLike = __webpack_require__(28),
     isBuffer = __webpack_require__(31),
     isPrototype = __webpack_require__(32),
@@ -1717,7 +1717,7 @@ module.exports = stubFalse;
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(10),
+var isFunction = __webpack_require__(5),
     isLength = __webpack_require__(30);
 
 /**
@@ -2135,11 +2135,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Shepherd = exports.Tour = undefined;
 
+var _isFunction2 = __webpack_require__(5);
+
+var _isFunction3 = _interopRequireDefault(_isFunction2);
+
 var _isNumber2 = __webpack_require__(44);
 
 var _isNumber3 = _interopRequireDefault(_isNumber2);
 
-var _isString2 = __webpack_require__(5);
+var _isString2 = __webpack_require__(6);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -2151,7 +2155,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _evented = __webpack_require__(3);
 
-var _step = __webpack_require__(6);
+var _step = __webpack_require__(7);
 
 var _bind = __webpack_require__(11);
 
@@ -2385,24 +2389,24 @@ var Tour = exports.Tour = function (_Evented) {
 
       this._setupActiveTour();
 
-      var next = (0, _isString3.default)(key) ? this.getById(key) : this.steps[key];
+      var step = (0, _isString3.default)(key) ? this.getById(key) : this.steps[key];
 
-      if (!next) {
+      if (!step) {
         return;
       }
 
-      if (!(0, _isUndefined3.default)(next.options.showOn) && !next.options.showOn()) {
-        var index = this.steps.indexOf(next);
-        var nextIndex = forward ? index + 1 : index - 1;
-        this.show(nextIndex, forward);
+      var shouldSkipStep = (0, _isFunction3.default)(step.options.showOn) && !step.options.showOn();
+      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+      if (shouldSkipStep) {
+        this._skipStep(step, forward);
       } else {
         this.trigger('show', {
-          step: next,
+          step: step,
           previous: this.currentStep
         });
 
-        this.currentStep = next;
-        next.show();
+        this.currentStep = step;
+        step.show();
       }
     }
 
@@ -2436,6 +2440,21 @@ var Tour = exports.Tour = function (_Evented) {
       }
 
       Shepherd.activeTour = this;
+    }
+
+    /**
+     * Called when `showOn` evaluates to false, to skip the step
+     * @param {Step} step The step to skip
+     * @param {Boolean} forward True if we are going forward, false if backward
+     * @private
+     */
+
+  }, {
+    key: '_skipStep',
+    value: function _skipStep(step, forward) {
+      var index = this.steps.indexOf(step);
+      var nextIndex = forward ? index + 1 : index - 1;
+      this.show(nextIndex, forward);
     }
   }]);
 
