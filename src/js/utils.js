@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Popper from 'popper.js';
 
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
@@ -57,7 +56,7 @@ export function parseShorthand(obj, props) {
 /**
  * Determines options for Popper and initializes the Popper instance
  */
-export function setupPopper() {
+export function setupPopper(Popper) {
   if (_.isUndefined(Popper)) {
     throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
   }
