@@ -38,4 +38,14 @@ describe('Utils', function() {
       assert.equal(selector, '.foo', 'maps selector from string to selector prop');
     });
   });
+
+  describe('setupPopper', function() {
+    it('when Popper is undefined, throws error', function() {
+      const UtilsInjector = require('inject-loader!../src/js/utils');
+      const Utils = UtilsInjector({
+        'popper.js': undefined
+      });
+      assert.throws(Utils.setupPopper, 'Using the attachment feature of Shepherd requires the Popper.js library');
+    });
+  });
 });

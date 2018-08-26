@@ -66,6 +66,7 @@
     "file-loader": "^1.1.11",
     "glob": "^7.1.2",
     "http-server": "^0.11.1",
+    "inject-loader": "^4.0.1",
     "istanbul-instrumenter-loader": "^3.0.1",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
