@@ -20,6 +20,7 @@ module.exports = {
     Event: true,
     MouseEvent: true,
     expect: false,
+    require: false,
     window: false
   },
   env: {

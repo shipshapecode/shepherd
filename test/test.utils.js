@@ -1,4 +1,3 @@
-/* global window,require,describe,it */
 import { assert } from 'chai';
 import {
   parsePosition,

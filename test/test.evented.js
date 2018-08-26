@@ -1,4 +1,3 @@
-/* global describe,it */
 import { assert } from 'chai';
 import { Evented } from '../src/js/evented';
 
