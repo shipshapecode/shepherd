@@ -1,4 +1,3 @@
-/* global window,require,describe,it */
 import _ from 'lodash';
 import { assert } from 'chai';
 import Shepherd from '../src/js/shepherd';

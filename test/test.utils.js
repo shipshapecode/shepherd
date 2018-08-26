@@ -1,4 +1,3 @@
-/* global window,require,describe,it */
 import { assert } from 'chai';
 import {
   parsePosition,
@@ -36,6 +35,16 @@ describe('Utils', function() {
       const { event, selector } = parseShorthand(values, ['selector', 'event']);
       assert.equal(event, 'click', 'maps event from string to event prop');
       assert.equal(selector, '.foo', 'maps selector from string to selector prop');
+    });
+  });
+
+  describe('setupPopper', function() {
+    it('when Popper is undefined, throws error', function() {
+      const UtilsInjector = require('inject-loader!../src/js/utils');
+      const Utils = UtilsInjector({
+        'popper.js': undefined
+      });
+      assert.throws(Utils.setupPopper, 'Using the attachment feature of Shepherd requires the Popper.js library');
     });
   });
 });
