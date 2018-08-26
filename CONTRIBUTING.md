@@ -5,7 +5,7 @@ You will need:
 - Node.js and npm
 - webpack
 
-Windows users will need additional to setup build capabilities in NPM:
+Windows users will need additional setup to enable build capabilities in NPM.
 From an administrative command window:
 
     npm install --global --production windows-build-tools
@@ -30,30 +30,14 @@ to contribute, we ask that you take the following steps:
 1. Most of the _editable_ code lives in the `src` directory while built code
    will end up in the `dist` directory upon running `npm run build`.
 
-2. Depending on how big your changes are, bump the version numbers appropriately
-   in `package.json`. We try to follow semver, so a good rule
-   of thumb for how to bump the version is:
-   - A fix to existing code, perform a patch bump e.g. x.x.0 -> x.x.1
-   - New feature, perform a minor bump e.g. x.0.x -> x.1.x
-   - Breaking changes such a rewrite, perform a major bump e.g.
-     1.x.x -> 2.x.x
-
-   Versioning is hard, so just use good judgement and we'll be more than happy
-   to help out.
-
-   __NOTE__: There is a `npm` method that will automate some of the versioning.
-   You can run `npm version {type}` where type is `patch|minor|major` to
-   update `package.json` as well as add the appropriate git tag.
-
-3. Provide a thoughtful commit message and push your changes to your fork using
+2. Provide a thoughtful commit message and push your changes to your fork using
    `git push origin master` (assuming your forked project is using `origin` for
    the remote name and you are on the `master` branch).
 
-4. Open a Pull Request on GitHub with a description of your changes.
+3. Open a Pull Request on GitHub with a description of your changes.
 
 
 ## Testing
 
-Work in progress. We are hoping to add some tests, so if you would like to help
-us get started, feel free to contact us through the Issues or open a Pull
-Request.
+All PRs, that change code functionality, are required to have accompanying tests.
+

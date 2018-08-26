@@ -72,22 +72,32 @@ export function setupPopper() {
     _setupCenteredPopper(opts);
   }
 
-  const popperOpts = Object.assign({}, {
-    placement: attachment,
-    arrowElement: this.el.querySelector('.popper__arrow'),
-    modifiers: opts.modifiers,
-    positionFixed: opts.positionFixed
-  }, this.options.popperOptions);
-
   if (this.popper) {
     this.popper.destroy();
   }
 
   this.el.classList.add('shepherd-element');
+  const popperOpts = _mergePopperOptions.call(this, attachment, opts);
   this.popper = new Popper(opts.element, this.el, popperOpts);
 
   this.target = opts.element;
   this.target.classList.add('shepherd-enabled', 'shepherd-target');
+}
+
+/**
+ * Merge the global popperOptions, and the local opts
+ * @param {String} attachment The direction for attachment
+ * @param {Object} opts The local options
+ * @returns {Object} The merged popperOpts object
+ * @private
+ */
+function _mergePopperOptions(attachment, opts) {
+  return Object.assign({}, {
+    placement: attachment,
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    modifiers: opts.modifiers,
+    positionFixed: opts.positionFixed
+  }, this.options.popperOptions);
 }
 
 /**

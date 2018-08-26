@@ -1224,22 +1224,32 @@ function setupPopper() {
     _setupCenteredPopper(opts);
   }
 
-  var popperOpts = Object.assign({}, {
-    placement: attachment,
-    arrowElement: this.el.querySelector('.popper__arrow'),
-    modifiers: opts.modifiers,
-    positionFixed: opts.positionFixed
-  }, this.options.popperOptions);
-
   if (this.popper) {
     this.popper.destroy();
   }
 
   this.el.classList.add('shepherd-element');
+  var popperOpts = _mergePopperOptions.call(this, attachment, opts);
   this.popper = new _popper2.default(opts.element, this.el, popperOpts);
 
   this.target = opts.element;
   this.target.classList.add('shepherd-enabled', 'shepherd-target');
+}
+
+/**
+ * Merge the global popperOptions, and the local opts
+ * @param {String} attachment The direction for attachment
+ * @param {Object} opts The local options
+ * @returns {Object} The merged popperOpts object
+ * @private
+ */
+function _mergePopperOptions(attachment, opts) {
+  return Object.assign({}, {
+    placement: attachment,
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    modifiers: opts.modifiers,
+    positionFixed: opts.positionFixed
+  }, this.options.popperOptions);
 }
 
 /**
@@ -2360,20 +2370,20 @@ var Tour = exports.Tour = function (_Evented) {
         this.show(index + 1, true);
       }
     }
+
+    /**
+     * Show a specific step in the tour
+     * @param {Number|String} key The key to look up the step by
+     * @param {Boolean} forward True if we are going forward, false if backward
+     */
+
   }, {
     key: 'show',
     value: function show() {
       var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       var forward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-      if (this.currentStep) {
-        this.currentStep.hide();
-      } else {
-        document.body.classList.add('shepherd-active');
-        this.trigger('active', { tour: this });
-      }
-
-      Shepherd.activeTour = this;
+      this._setupActiveTour();
 
       var next = (0, _isString3.default)(key) ? this.getById(key) : this.steps[key];
 
@@ -2407,6 +2417,25 @@ var Tour = exports.Tour = function (_Evented) {
 
       this.currentStep = null;
       this.next();
+    }
+
+    /**
+     * If we have a currentStep, the tour is active, so just hide the step and remain active.
+     * Otherwise, make the tour active.
+     * @private
+     */
+
+  }, {
+    key: '_setupActiveTour',
+    value: function _setupActiveTour() {
+      if (this.currentStep) {
+        this.currentStep.hide();
+      } else {
+        document.body.classList.add('shepherd-active');
+        this.trigger('active', { tour: this });
+      }
+
+      Shepherd.activeTour = this;
     }
   }]);
 

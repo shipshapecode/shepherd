@@ -177,15 +177,13 @@ export class Tour extends Evented {
     }
   }
 
+  /**
+   * Show a specific step in the tour
+   * @param {Number|String} key The key to look up the step by
+   * @param {Boolean} forward True if we are going forward, false if backward
+   */
   show(key = 0, forward = true) {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    } else {
-      document.body.classList.add('shepherd-active');
-      this.trigger('active', { tour: this });
-    }
-
-    Shepherd.activeTour = this;
+    this._setupActiveTour();
 
     const next = _.isString(key) ? this.getById(key) : this.steps[key];
 
@@ -216,6 +214,22 @@ export class Tour extends Evented {
 
     this.currentStep = null;
     this.next();
+  }
+
+  /**
+   * If we have a currentStep, the tour is active, so just hide the step and remain active.
+   * Otherwise, make the tour active.
+   * @private
+   */
+  _setupActiveTour() {
+    if (this.currentStep) {
+      this.currentStep.hide();
+    } else {
+      document.body.classList.add('shepherd-active');
+      this.trigger('active', { tour: this });
+    }
+
+    Shepherd.activeTour = this;
   }
 }
 
