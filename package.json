@@ -24,12 +24,13 @@
     "cy:run": "./node_modules/.bin/cypress run",
     "start": "yarn watch",
     "start-test-server": "http-server",
-    "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
-    "test:cy:ci": "start-server-and-test start-test-server http://localhost:8080 cy:run",
+    "test:build": "cross-env NODE_ENV=test yarn build",
+    "test:ci": "yarn test:cy:ci && yarn test:unit:ci",
+    "test:cy:ci": "yarn test:build && yarn cy:run --env coverage=true && yarn test:cy:coverage",
+    "test:cy:coverage": "nyc report --reporter=lcov",
     "test:cy:watch": "start-server-and-test start-test-server http://localhost:8080 cy:open",
-    "test:unit:ci": "karma start --single-run --browsers ChromeHeadlessNoSandbox",
+    "test:unit:ci": "yarn build && karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "test:unit:watch": "karma start --browsers Chrome",
-    "test": "mocha",
     "watch": "yarn clean && webpack --watch --mode development"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
@@ -48,6 +49,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^4.1.6",
     "babel-plugin-lodash": "^3.3.4",
     "babel-preset-env": "^1.6.1",
     "browser-sync": "^2.24.6",
@@ -55,6 +57,7 @@
     "chai": "^4.1.2",
     "codeclimate-test-reporter": "^0.5.0",
     "copy-webpack-plugin": "^4.5.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "cypress": "^3.0.3",
     "del": "^3.0.0",
@@ -68,6 +71,7 @@
     "http-server": "^0.11.1",
     "inject-loader": "^4.0.1",
     "istanbul-instrumenter-loader": "^3.0.1",
+    "istanbul-lib-coverage": "^1.2.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
@@ -79,6 +83,7 @@
     "lodash-webpack-plugin": "^0.11.5",
     "mocha": "^5.2.0",
     "node-sass": "^4.9.2",
+    "nyc": "^12.0.2",
     "postcss": "^7.0.2",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
@@ -94,5 +99,9 @@
   },
   "engines": {
     "node": ">= 6.*"
+  },
+  "nyc": {
+    "temp-directory": "./coverage",
+    "report-dir": "./coverage"
   }
 }

@@ -21,7 +21,6 @@ jobs:
   include:
     - stage: test
       script:
-        - yarn build
         - yarn test:ci
       after_script:
         - codeclimate-test-reporter < coverage/lcov.info
