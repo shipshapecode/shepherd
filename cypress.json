@@ -1,5 +1,5 @@
 {
-  "coverageFolder": "coverage",
+  "coverageFolder": "coverage/cypress",
   "fixturesFolder": "test/cypress/fixtures",
   "integrationFolder": "test/cypress/integration",
   "pluginsFile": "test/cypress/plugins/index.js",

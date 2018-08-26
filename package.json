@@ -21,13 +21,12 @@
     "postbuild": "rm -f dist/removable-*",
     "clean": "rm -rf dist",
     "cy:open": "./node_modules/.bin/cypress open",
-    "cy:run": "./node_modules/.bin/cypress run",
+    "cy:run": "./node_modules/.bin/cypress run --env coverage=true && nyc report --reporter=lcov",
     "start": "yarn watch",
     "start-test-server": "http-server",
     "test:build": "cross-env NODE_ENV=test yarn build",
     "test:ci": "yarn test:cy:ci && yarn test:unit:ci",
-    "test:cy:ci": "yarn test:build && yarn cy:run --env coverage=true && yarn test:cy:coverage",
-    "test:cy:coverage": "nyc report --reporter=lcov",
+    "test:cy:ci": "yarn test:build && start-server-and-test start-test-server http://localhost:8080 cy:run",
     "test:cy:watch": "start-server-and-test start-test-server http://localhost:8080 cy:open",
     "test:unit:ci": "yarn build && karma start --single-run --browsers ChromeHeadlessNoSandbox",
     "test:unit:watch": "karma start --browsers Chrome",
@@ -101,7 +100,7 @@
     "node": ">= 6.*"
   },
   "nyc": {
-    "temp-directory": "./coverage",
-    "report-dir": "./coverage"
+    "temp-directory": "./coverage/cypress",
+    "report-dir": "./coverage/cypress"
   }
 }
