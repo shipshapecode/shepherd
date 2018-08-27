@@ -1,8 +1,3 @@
-## v2.0.0
-- Moved dependency from tether to popper.js
-- Changed package name to shepherd.js on npm
-- 
-
 ## v1.7.0
 - Fixes bug where `buttons: false` resulted in the default Next button instead of showing the desired result of no buttons.
 
@@ -27,7 +22,7 @@
 - Exposes tour object on eager install
 
 ## v1.2.0
-- Adds `showOn` for conditonally showing tour steps
+- Adds `showOn` for conditionally showing tour steps
 
 ## v1.1.4
 - Eager - Install helper now checks for the presence of first attach node before starting

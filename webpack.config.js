@@ -2,10 +2,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const StyleLintWebpackPlugin = require('stylelint-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const PACKAGE = require('./package.json');
 const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
 const glob = require('glob');
@@ -162,16 +163,28 @@ module.exports.push({
     }
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: path.resolve(__dirname, 'node_modules'),
-      include: [
-        path.resolve(__dirname, 'src/js')
-      ],
-      use: [{
-        loader: 'babel-loader'
-      }]
-    }]
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: path.resolve(__dirname, 'node_modules'),
+        loader: 'eslint-loader'
+      },
+      {
+        test: /\.js$/,
+        exclude: path.resolve(__dirname, 'node_modules'),
+        include: [
+          path.resolve(__dirname, 'src/js')
+        ],
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            'plugins': ['lodash'],
+            'presets': [['env', { 'modules': false, 'targets': { 'node': 6 } }]]
+          }
+        }]
+      }
+    ]
   },
   externals: {
     'popper.js': {
@@ -197,6 +210,7 @@ module.exports.push({
         flatten: true
       }
     ]),
-    new webpack.BannerPlugin(banner)
+    new webpack.BannerPlugin(banner),
+    new LodashModuleReplacementPlugin
   ]
 });

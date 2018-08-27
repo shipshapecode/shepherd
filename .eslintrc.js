@@ -12,6 +12,8 @@ module.exports = {
     browser: true
   },
   rules: {
+    'complexity': ['warn', 6],
+    'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
     'no-console': 'off'
   },
   overrides: [
