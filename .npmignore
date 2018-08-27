@@ -1,10 +1,15 @@
 .idea/
 coverage/
+cypress/
 docs/
+test/
 tests/
 
+.codeclimate.yml
 .eslintrc.js
 .gitignore
+.stylelintrc.js
 .travis.yml
 index.html
 yarn.lock
+yarn-error.log

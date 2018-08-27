@@ -8,7 +8,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['chai', 'mocha'],
+    frameworks: ['mocha'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -19,6 +19,13 @@ module.exports = function(config) {
     // list of files / patterns to exclude
     exclude: [
     ],
+
+    client: {
+      mocha: {
+        // change Karma's debug.html to the mocha web reporter
+        reporter: 'html'
+      }
+    },
 
     coverageIstanbulReporter: {
       fixWebpackSourcePaths: true,
@@ -34,6 +41,7 @@ module.exports = function(config) {
     },
 
     webpack: {
+      mode: 'development',
       module: {
         rules: [
           {
@@ -62,7 +70,7 @@ module.exports = function(config) {
           }
         ]
       },
-      devtool: 'inline-source-map'
+      devtool: 'source-map'
     },
 
     // web server port

@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import Popper from 'popper.js';
+
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
@@ -10,55 +13,28 @@ export function createFromHTML(html) {
 }
 
 /**
- * @param obj
- * @returns {*|boolean}
+ * Parse the position object or string to return the attachment and element to attach to
+ * @param {Object|String} position Either a string or object denoting the selector and position for attachment
+ * @returns {Object}
  */
-export function isObject(obj) {
-  return obj !== null && typeof obj === 'object' && Array.isArray(obj) === false;
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-export function isObjectLoose(obj) {
-  return typeof obj === 'object';
-}
-
-/**
- * @param obj
- * @returns {boolean}
- */
-export function isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
- * @param str
- * @returns {*}
- */
-export function parsePosition(str) {
-  if (isObjectLoose(str)) {
-    if (str.hasOwnProperty('element') && str.hasOwnProperty('on')) {
-      return str;
+export function parsePosition(position) {
+  if (_.isObjectLike(position)) {
+    if (position.hasOwnProperty('element') && position.hasOwnProperty('on')) {
+      return position;
     }
     return null;
   }
 
   const positionRe = /^(.+) (top|left|right|bottom|center)$/;
-  const matches = positionRe.exec(str);
+  const matches = positionRe.exec(position);
+
   if (!matches) {
     return null;
   }
 
-  let on = matches[2]; // eslint-disable-line
-  if (on[0] === '[') {
-    on = on.substring(1, on.length - 1);
-  }
-
   return {
-    'element': matches[1],
-    on
+    element: matches[1],
+    on: matches[2]
   };
 }
 
@@ -68,25 +44,85 @@ export function parsePosition(str) {
  * @returns {*}
  */
 export function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
+  if (obj === null || _.isUndefined(obj)) {
     return obj;
-  } else if (isObjectLoose(obj)) {
+  } else if (_.isObjectLike(obj)) {
     return obj;
   }
 
-  const vals = obj.split(' ');
-  const out = {};
-  let j = props.length - 1;
-  for (let i = vals.length - 1; i >= 0; i--) {
-    if (j === 0) {
-      out[props[j]] = vals.slice(0, i + 1).join(' ');
-      break;
-    } else {
-      out[props[j]] = vals[i];
+  const values = obj.split(' ');
+  return _.zipObject(props, values);
+}
+
+/**
+ * Determines options for Popper and initializes the Popper instance
+ */
+export function setupPopper() {
+  if (_.isUndefined(Popper)) {
+    throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
+  }
+
+  const opts = this.getAttachTo();
+  opts.modifiers = opts.modifiers || {};
+  let attachment = opts.on || 'right';
+  opts.positionFixed = false;
+
+  if (_.isUndefined(opts.element)) {
+    attachment = 'top';
+    _setupCenteredPopper(opts);
+  }
+
+  if (this.popper) {
+    this.popper.destroy();
+  }
+
+  this.el.classList.add('shepherd-element');
+  const popperOpts = _mergePopperOptions.call(this, attachment, opts);
+  this.popper = new Popper(opts.element, this.el, popperOpts);
+
+  this.target = opts.element;
+  this.target.classList.add('shepherd-enabled', 'shepherd-target');
+}
+
+/**
+ * Merge the global popperOptions, and the local opts
+ * @param {String} attachment The direction for attachment
+ * @param {Object} opts The local options
+ * @returns {Object} The merged popperOpts object
+ * @private
+ */
+function _mergePopperOptions(attachment, opts) {
+  return Object.assign({}, {
+    placement: attachment,
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    modifiers: opts.modifiers,
+    positionFixed: opts.positionFixed
+  }, this.options.popperOptions);
+}
+
+/**
+ * Sets up a popper centered on the screen, when there is no attachTo element
+ * @param {Object} opts The config object
+ * @returns {*}
+ * @private
+ */
+function _setupCenteredPopper(opts) {
+  opts.element = document.body;
+
+  opts.modifiers = Object.assign({
+    computeStyle: {
+      enabled: true,
+      fn(data) {
+        data.styles = Object.assign({}, data.styles, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
+        });
+
+        return data;
+      }
     }
+  }, opts.modifiers);
 
-    j--;
-  }
-
-  return out;
+  opts.positionFixed = true;
 }

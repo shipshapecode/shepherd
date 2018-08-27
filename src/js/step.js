@@ -1,14 +1,15 @@
-import Popper from 'popper.js';
+import _ from 'lodash';
 import { Evented } from './evented';
 import 'element-matches';
-import {
-  createFromHTML,
-  isObject,
-  isUndefined,
-  parsePosition,
-  parseShorthand
-} from './utils';
+import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind';
+import { createFromHTML, parsePosition, setupPopper } from './utils';
 
+/**
+ * Creates incremented ID for each newly created step
+ *
+ * @private
+ * @returns {Number}
+ */
 const uniqueId = (function() {
   let id = 0;
   return function() {
@@ -20,113 +21,187 @@ export class Step extends Evented {
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
-    this.bindMethods();
+    bindMethods.call(this, [
+      '_show',
+      'cancel',
+      'complete',
+      'destroy',
+      'hide',
+      'isOpen',
+      'render',
+      'scrollTo',
+      'show'
+    ]);
     this.setOptions(options);
+    this.bindAdvance = bindAdvance.bind(this);
+    this.bindButtonEvents = bindButtonEvents.bind(this);
+    this.bindCancelLink = bindCancelLink.bind(this);
+    this.setupPopper = setupPopper.bind(this);
     return this;
   }
 
-  bindMethods() {
-    const methods = [
-      '_show',
-      'show',
-      'hide',
-      'isOpen',
-      'cancel',
-      'complete',
-      'scrollTo',
-      'destroy',
-      'render'
-    ];
-    methods.map((method) => {
-      this[method] = this[method].bind(this);
-    });
+  /**
+   * Adds buttons to the step as passed into options
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _addButtons(content) {
+    if (this.options.buttons) {
+      const footer = document.createElement('footer');
+      const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
+
+      this.options.buttons.map((cfg) => {
+        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
+        buttons.appendChild(button);
+        this.bindButtonEvents(cfg, button.querySelector('a'));
+      });
+
+      footer.appendChild(buttons);
+      content.appendChild(footer);
+    }
   }
 
-  setOptions(options = {}) {
-    this.options = options;
-    this.destroy();
+  /**
+   * Adds the "x" button to cancel the tour
+   * @private
+   */
+  _addCancelLink(element, header) {
+    if (this.options.showCancelLink) {
+      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      header.appendChild(link);
 
-    this.id = this.options.id || this.id || `step-${uniqueId()}`;
+      element.classList.add('shepherd-has-cancel-link');
 
-    const { when } = this.options;
-    if (when) {
-      for (const event in when) {
-        if ({}.hasOwnProperty.call(when, event)) {
-          const handler = when[event];
-          this.on(event, handler, this);
-        }
-      }
+      this.bindCancelLink(link);
+    }
+  }
+
+  /**
+   * Adds text passed in as options
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _addContent(content) {
+    const text = createFromHTML('<div class="shepherd-text"></div>');
+    let paragraphs = this.options.text;
+
+    if (_.isFunction(paragraphs)) {
+      paragraphs = paragraphs.call(this, text);
     }
 
-    // Button configuration
+    if (paragraphs instanceof HTMLElement) {
+      text.appendChild(paragraphs);
+    } else {
+      if (_.isString(paragraphs)) {
+        paragraphs = [paragraphs];
+      }
 
-    const buttonsJson = JSON.stringify(this.options.buttons);
-    const buttonsAreDefault = isUndefined(buttonsJson) ||
-      buttonsJson === 'true';
+      paragraphs.map((paragraph) => {
+        text.innerHTML += `<p>${paragraph}</p>`;
+      });
+    }
 
-    const buttonsAreEmpty = buttonsJson === '{}' ||
-      buttonsJson === '[]' ||
-      buttonsJson === 'null' ||
-      buttonsJson === 'false';
+    content.appendChild(text);
+  }
 
-    const buttonsAreArray = !buttonsAreDefault && Array.isArray(this.options.buttons);
+  /**
+   * Attaches final element to default or passed location
+   *
+   * @private
+   * @param {HTMLElement}
+   */
+  _attach(element) {
+    const { renderLocation } = this.options;
 
-    const buttonsAreObject = !buttonsAreDefault && isObject(this.options.buttons);
+    if (renderLocation) {
+      if (renderLocation instanceof HTMLElement) {
+        return renderLocation.appendChild(element);
+      }
+      if (_.isString(renderLocation)) {
+        return document.querySelector(renderLocation).appendChild(element);
+      }
+    }
+    return document.body.appendChild(element);
+  }
 
-    // Show default button if undefined or 'true'
+  /**
+   * Creates Shepherd element for step based on options
+   *
+   * @private
+   * @returns {HTMLElement} element
+   */
+  _createElement() {
+    const content = document.createElement('div');
+    const classes = this.options.classes || '';
+    const element = createFromHTML(`<div class='${classes}' data-id='${this.id}' id="${this.options.idAttribute}"}>`);
+    const header = document.createElement('header');
+
+    content.classList.add('shepherd-content');
+    element.appendChild(content);
+    content.appendChild(header);
+
+    if (this.options.attachTo) {
+      element.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
+    }
+
+    if (!_.isUndefined(this.options.text)) {
+      this._addContent(content);
+    }
+
+    this._addButtons(content);
+    this._addCancelLink(element, header);
+
+    if (this.options.title) {
+      header.innerHTML += `<h3 class="shepherd-title">${this.options.title}</h3>`;
+      element.classList.add('shepherd-has-title');
+    }
+
+    return element;
+  }
+
+  /**
+   * Determines button options prior to rendering
+   *
+   * @private
+   */
+  _setUpButtons() {
+    const { buttons } = this.options;
+    if (!buttons) {
+      return;
+    }
+    const buttonsAreDefault = _.isUndefined(buttons) || _.isEmpty(buttons);
     if (buttonsAreDefault) {
-      this.options.buttons = [{
+      return this.options.buttons = [{
         text: 'Next',
         action: this.tour.next,
         classes: 'btn'
       }];
-
-      // Can pass in an object which will assume asingle button
-    } else if (!buttonsAreEmpty && buttonsAreObject) {
-      this.options.buttons = [this.options.buttons];
-
-      // Falsey/empty values or non-object values prevent buttons from rendering
-    } else if (buttonsAreEmpty || !buttonsAreArray) {
-      this.options.buttons = false;
     }
+
+    const buttonsAreObject = _.isPlainObject(buttons);
+    // Can pass in an object which will assume a single button
+    if (buttonsAreObject) {
+      return this.options.buttons = [this.options.buttons];
+    }
+
+    return buttons;
   }
 
+  /**
+   * Returns the tour for the step
+   * @returns {Tour}
+   */
   getTour() {
     return this.tour;
-  }
-
-  bindAdvance() {
-    // An empty selector matches the step element
-    const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
-
-    const handler = (e) => {
-      if (!this.isOpen()) {
-        return;
-      }
-
-      if (!isUndefined(selector)) {
-        if (e.target.matches(selector)) {
-          this.tour.next();
-        }
-      } else {
-        if (this.el && e.target === this.el) {
-          this.tour.next();
-        }
-      }
-    };
-
-    // TODO: this should also bind/unbind on show/hide
-    document.body.addEventListener(event, handler);
-    this.on('destroy', () => {
-      return document.body.removeEventListener(event, handler);
-    });
   }
 
   getAttachTo() {
     const opts = parsePosition(this.options.attachTo) || {};
     const returnOpts = Object.assign({}, opts);
 
-    if (typeof opts.element === 'string') {
+    if (_.isString(opts.element)) {
       // Can't override the element in user opts reference because we can't
       // guarantee that the element will exist in the future.
       try {
@@ -142,65 +217,24 @@ export class Step extends Evented {
     return returnOpts;
   }
 
-  setupPopper() {
-    if (isUndefined(Popper)) {
-      throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
-    }
+  setOptions(options = {}) {
+    this.options = options;
+    const { when } = this.options;
 
-    const opts = this.getAttachTo();
-    opts.modifiers = opts.modifiers || {};
-    let attachment = opts.on || 'right';
-    opts.positionFixed = false;
+    this.destroy();
+    this.id = this.options.id || this.id || `step-${uniqueId()}`;
 
-    if (isUndefined(opts.element)) {
-      opts.element = document.body;
-      attachment = 'top';
+    _.forOwn(when, (handler, event) => {
+      this.on(event, handler, this);
+    });
 
-      opts.modifiers = Object.assign({
-        computeStyle: {
-          enabled: true,
-          fn(data) {
-            data.styles = Object.assign({}, data.styles, {
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)'
-            });
-
-            return data;
-          }
-        }
-      }, opts.modifiers);
-
-      opts.positionFixed = true;
-    }
-
-    const popperOpts = Object.assign({}, {
-      // constraints: [{ // Pretty much handled by popper
-      //     to: 'window',
-      //     pin: true,
-      //     attachment: 'together' // Might be interested in https://popper.js.org/popper-documentation.html#modifiers..keepTogether
-      // }],
-      placement: attachment,
-      arrowElement: this.el.querySelector('.popper__arrow'),
-      modifiers: opts.modifiers,
-      positionFixed: opts.positionFixed
-    }, this.options.popperOptions);
-
-    if (this.popper) {
-      this.popper.destroy();
-    }
-
-    this.el.classList.add('shepherd-element');
-    this.popper = new Popper(opts.element, this.el, popperOpts);
-
-    this.target = opts.element;
-    this.target.classList.add('shepherd-enabled', 'shepherd-target');
+    this._setUpButtons();
   }
 
   show() {
-    if (!isUndefined(this.options.beforeShowPromise)) {
+    if (_.isFunction(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
-      if (!isUndefined(beforeShowPromise)) {
+      if (!_.isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
       }
     }
@@ -258,28 +292,38 @@ export class Step extends Evented {
     return this.el && !this.el.hidden;
   }
 
+  /**
+   * Cancel the tour and fire the `cancel` event
+   */
   cancel() {
     this.tour.cancel();
     this.trigger('cancel');
   }
 
+  /**
+   * Complete the tour and fire the `complete` event
+   */
   complete() {
     this.tour.complete();
     this.trigger('complete');
   }
 
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
   scrollTo() {
     const { element } = this.getAttachTo();
 
-    if (!isUndefined(this.options.scrollToHandler)) {
+    if (_.isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (!isUndefined(element)) {
+    } else if (_.isElement(element)) {
       element.scrollIntoView();
     }
   }
 
   destroy() {
-    if (!isUndefined(this.el) && this.el.parentNode) {
+    if (_.isElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -293,127 +337,17 @@ export class Step extends Evented {
   }
 
   render() {
-    if (!isUndefined(this.el)) {
+    if (!_.isUndefined(this.el)) {
       this.destroy();
     }
-
-    this.el = createFromHTML(`<div class='${this.options.classes || ''}' data-id='${this.id}' ${this.options.idAttribute ? `id="${this.options.idAttribute}"` : ''}>`);
-
-    if (this.options.attachTo) {
-      this.el.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
-    }
-
-    const content = document.createElement('div');
-    content.classList.add('shepherd-content');
-    this.el.appendChild(content);
-
-    const header = document.createElement('header');
-    header.className = 'shepherd-header';
-    content.appendChild(header);
-
-    if (this.options.title) {
-      header.innerHTML += `<h3 class='shepherd-title'>${this.options.title}</h3>`;
-      this.el.classList.add('shepherd-has-title');
-    }
-
-    if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-      header.appendChild(link);
-
-      this.el.classList.add('shepherd-has-cancel-link');
-
-      this.bindCancelLink(link);
-    }
-
-    if (!isUndefined(this.options.text)) {
-      const text = createFromHTML('<main class=\'shepherd-text\'></main>');
-      let paragraphs = this.options.text;
-
-      if (typeof paragraphs === 'function') {
-        paragraphs = paragraphs.call(this, text);
-      }
-
-      if (paragraphs instanceof HTMLElement) {
-        text.appendChild(paragraphs);
-      } else {
-        if (typeof paragraphs === 'string') {
-          paragraphs = [paragraphs];
-        }
-
-        paragraphs.map((paragraph) => {
-          text.innerHTML += `<p>${paragraph}</p>`;
-        });
-      }
-
-      content.appendChild(text);
-    }
-
-    if (this.options.buttons) {
-      const footer = document.createElement('footer');
-      footer.className = 'shepherd-footer';
-      const buttons = createFromHTML('<ul class=\'shepherd-buttons\'></ul>');
-
-      this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><a class='shepherd-button ${cfg.classes || ''}'>${cfg.text}</a>`);
-        buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector('a'));
-      });
-
-      footer.appendChild(buttons);
-      content.appendChild(footer);
-    }
-
-    const { renderLocation } = this.options;
-
-    if (renderLocation) {
-      if (renderLocation instanceof HTMLElement) {
-        renderLocation.appendChild(this.el);
-      } else if (typeof renderLocation === 'string') {
-        document.querySelector(renderLocation).appendChild(this.el);
-      }
-    } else {
-      document.body.appendChild(this.el);
-    }
-
-    this.setupPopper();
+    this.el = this._createElement();
 
     if (this.options.advanceOn) {
       this.bindAdvance();
     }
-  }
 
-  bindCancelLink(link) {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.cancel();
-    });
-  }
+    this._attach(this.el);
 
-  bindButtonEvents(cfg, el) {
-    cfg.events = cfg.events || {};
-    if (!isUndefined(cfg.action)) {
-      // Including both a click event and an action is not supported
-      cfg.events.click = cfg.action;
-    }
-
-    for (const event in cfg.events) {
-      if ({}.hasOwnProperty.call(cfg.events, event)) {
-        let handler = cfg.events[event];
-        if (typeof handler === 'string') {
-          const page = handler;
-          handler = () => this.tour.show(page);
-        }
-        el.addEventListener(event, handler);
-      }
-    }
-
-    this.on('destroy', () => {
-      for (const event in cfg.events) {
-        if ({}.hasOwnProperty.call(cfg.events, event)) {
-          const handler = cfg.events[event];
-          el.removeEventListener(event, handler);
-        }
-      }
-    });
+    this.setupPopper();
   }
 }

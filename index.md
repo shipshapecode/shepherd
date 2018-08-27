@@ -183,6 +183,7 @@ the tour, it can be any event fired on any element on the page.  You can also al
 - `renderLocation`: An `HTMLElement` or selector string of the element you want the tour step to render in. Most of the time, you will
 not need to pass anything, and it will default to `document.body`, but this is needed for `<dialog>` and might as well support passing anything.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
+- `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,
 and possibly other logic.
