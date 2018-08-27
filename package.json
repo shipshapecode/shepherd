@@ -55,6 +55,7 @@
     "browser-sync": "^2.24.7",
     "browser-sync-webpack-plugin": "^2.2.2",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "codeclimate-test-reporter": "^0.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",

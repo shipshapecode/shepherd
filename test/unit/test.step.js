@@ -1,4 +1,8 @@
-import { assert } from 'chai';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+
+chai.use(chaiAsPromised);
+const { assert } = chai;
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 // since importing non UMD, needs assignment
@@ -30,6 +34,18 @@ describe('Step', () => {
       text: 'Another Step'
     });
 
+    const beforeShowPromise = new Promise((resolve) => {
+      return setTimeout(1000, resolve('beforeShowPromise worked!'));
+    });
+
+    const beforeShowPromiseTestStep = instance.addStep('test3', {
+      id: 'test3',
+      text: 'Before Show Promise Step',
+      beforeShowPromise() {
+        return beforeShowPromise;
+      }
+    });
+
     after(() => {
       instance.cancel();
     });
@@ -50,30 +66,15 @@ describe('Step', () => {
     });
 
     describe('.show()', () => {
+      it('beforeShowPromise called before `show`', () => {
+        assert.eventually.equal(beforeShowPromise, 'beforeShowPromise worked!', 'beforeShowPromise is called');
+        beforeShowPromiseTestStep.show();
+      });
+
       it('shows step evoking method, regardless of order', () => {
         showTestStep.show();
 
         assert.equal(document.querySelector('[data-id=test2]').dataset.id, 'test2');
-      });
-    });
-  });
-
-  describe('bindMethods()', () => {
-    it('binds the expected methods', () => {
-      const step = new Step();
-      const methods = [
-        '_show',
-        'show',
-        'hide',
-        'isOpen',
-        'cancel',
-        'complete',
-        'scrollTo',
-        'destroy',
-        'render'
-      ];
-      methods.forEach((method) => {
-        assert.isOk(step[method], `${method} has been bound`);
       });
     });
   });
@@ -145,7 +146,6 @@ describe('Step', () => {
     });
   });
 
-
   describe('bindButtonEvents()', () => {
     const link = document.createElement('a');
     const step = new Step();
@@ -192,16 +192,24 @@ describe('Step', () => {
     });
   });
 
-  describe('render()', () => {
-    it('calls destroy if element is already set', () => {
+  describe('bindMethods()', () => {
+    it('binds the expected methods', () => {
       const step = new Step();
-      let destroyCalled = false;
-      step.el = document.createElement('a');
-      step.destroy = () => destroyCalled = true;
-      step.render();
-      assert.isOk(destroyCalled, 'render method called destroy with element set');
+      const methods = [
+        '_show',
+        'show',
+        'hide',
+        'isOpen',
+        'cancel',
+        'complete',
+        'scrollTo',
+        'destroy',
+        'render'
+      ];
+      methods.forEach((method) => {
+        assert.isOk(step[method], `${method} has been bound`);
+      });
     });
-
   });
 
   describe('cancel()', () => {
@@ -266,6 +274,17 @@ describe('Step', () => {
 
     it('removes the data-shepherd-step attribute', () => {
       assert.isNotOk(document.body.hasAttribute('data-shepherd-step'), 'step attribute is removed');
+    });
+  });
+
+  describe('render()', () => {
+    it('calls destroy if element is already set', () => {
+      const step = new Step();
+      let destroyCalled = false;
+      step.el = document.createElement('a');
+      step.destroy = () => destroyCalled = true;
+      step.render();
+      assert.isOk(destroyCalled, 'render method called destroy with element set');
     });
   });
 
