@@ -5,5 +5,10 @@
   "plugins": [
     "add-module-exports",
     "lodash"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [ "istanbul" ]
+    }
+  }
 }

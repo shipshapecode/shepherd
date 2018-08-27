@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { Evented } from '../src/js/evented';
+import { Evented } from '../../src/js/evented.js';
 
 describe('Evented', () => {
   let testEvent, testOnTriggered;

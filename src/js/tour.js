@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { Evented } from './evented';
-import { Step } from './step';
-import { bindMethods } from './bind';
+import { Evented } from './evented.js';
+import { Step } from './step.js';
+import { bindMethods } from './bind.js';
 
 const Shepherd = new Evented();
 

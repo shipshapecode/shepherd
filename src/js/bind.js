@@ -1,4 +1,4 @@
-import { parseShorthand } from './utils';
+import { parseShorthand } from './utils.js';
 import _ from 'lodash';
 
 /**
