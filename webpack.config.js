@@ -10,7 +10,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const PACKAGE = require('./package.json');
 const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
 const glob = require('glob');
-const sassArray = glob.sync('./src/css/shepherd-*.scss');
+const sassArray = glob.sync('./src/scss/shepherd-*.scss');
 const sassEntries = sassArray.reduce((acc, item) => {
   const name = item.replace('.scss', '').replace('./src/', '');
   acc[name] = item;
@@ -18,7 +18,7 @@ const sassEntries = sassArray.reduce((acc, item) => {
 }, {});
 
 // Theme SCSS files
-sassEntries['css/welcome'] = './docs/welcome/sass/welcome.scss';
+sassEntries['css/welcome'] = './docs/welcome/scss/welcome.scss';
 
 module.exports = [{
   entry: sassEntries,
@@ -32,10 +32,10 @@ module.exports = [{
       {
         test: /\.s[c|a]ss$/,
         include: [
-          path.resolve(__dirname, 'src/css')
+          path.resolve(__dirname, 'src/scss')
         ],
         exclude: [
-          path.resolve(__dirname, 'docs/welcome/sass')
+          path.resolve(__dirname, 'docs/welcome/scss')
         ],
         use: [
           {
@@ -63,7 +63,7 @@ module.exports = [{
       {
         test: /welcome\.s[c|a]ss$/,
         include: [
-          path.resolve(__dirname, 'docs/welcome/sass')
+          path.resolve(__dirname, 'docs/welcome/scss')
         ],
         use: [
           {
