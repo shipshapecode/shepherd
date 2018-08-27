@@ -168,7 +168,7 @@ module.exports.push({
         enforce: 'pre',
         test: /\.js$/,
         exclude: path.resolve(__dirname, 'node_modules'),
-        loader: 'eslint-loader',
+        loader: 'eslint-loader'
       },
       {
         test: /\.js$/,

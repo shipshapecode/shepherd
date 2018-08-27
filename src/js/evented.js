@@ -1,15 +1,13 @@
-export class Evented {
-  constructor(/* options = {}*/) {
-    // TODO: do we need this empty constructor?
-  }
+import _ from 'lodash';
 
+export class Evented {
   on(event, handler, ctx) {
     const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-    if (typeof this.bindings === 'undefined') {
+    if (_.isUndefined(this.bindings)) {
       this.bindings = {};
     }
-    if (typeof this.bindings[event] === 'undefined') {
+    if (_.isUndefined(this.bindings[event])) {
       this.bindings[event] = [];
     }
     this.bindings[event].push({ handler, ctx, once });
@@ -20,51 +18,36 @@ export class Evented {
   }
 
   off(event, handler) {
-    if (typeof this.bindings === 'undefined' || typeof this.bindings[event] === 'undefined') {
+    if (_.isUndefined(this.bindings) || _.isUndefined(this.bindings[event])) {
       return false;
     }
 
-    if (typeof handler === 'undefined') {
+    if (_.isUndefined(handler)) {
       delete this.bindings[event];
     } else {
-      let i = 0;
-      while (i < this.bindings[event].length) {
-        if (this.bindings[event][i].handler === handler) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
+      this.bindings[event].forEach((binding, index) => {
+        if (binding.handler === handler) {
+          this.bindings[event].splice(index, 1);
         }
-      }
+      });
     }
   }
 
   trigger(event) {
-    if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
-      const _len = arguments.length;
-      const args = Array(_len > 1 ? _len - 1 : 0);
-      let i = 0;
+    if (!_.isUndefined(this.bindings) && this.bindings[event]) {
+      const args = _.drop(arguments);
 
-      for (let _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
+      this.bindings[event].forEach((binding, index) => {
+        const { ctx, handler, once } = binding;
 
-      while (i < this.bindings[event].length) {
-        const _bindings$event$i = this.bindings[event][i];
-        const { ctx, handler, once } = _bindings$event$i;
-
-        let context = ctx;
-        if (typeof context === 'undefined') {
-          context = this;
-        }
+        const context = ctx || this;
 
         handler.apply(context, args);
 
         if (once) {
-          this.bindings[event].splice(i, 1);
-        } else {
-          ++i;
+          this.bindings[event].splice(index, 1);
         }
-      }
+      });
     }
   }
 

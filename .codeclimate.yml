@@ -3,3 +3,12 @@ checks:
   method-lines:
     config:
       threshold: 30
+exclude_patterns:
+  - "dist/"
+  - "docs/"
+  - "src/eager/"
+  - "**/node_modules/"
+  - "**/test/"
+  - "**/tests/"
+  - "**/vendor/"
+  - "karma.conf.js"
