@@ -18,7 +18,7 @@ const sassEntries = sassArray.reduce((acc, item) => {
 }, {});
 
 // Theme SCSS files
-sassEntries['css/welcome'] = './src/docs/welcome/scss/welcome.scss';
+sassEntries['css/welcome'] = './docs/welcome/scss/welcome.scss';
 
 module.exports = [{
   entry: sassEntries,
@@ -35,7 +35,7 @@ module.exports = [{
           path.resolve(__dirname, 'src/scss')
         ],
         exclude: [
-          path.resolve(__dirname, 'src/docs/welcome/scss')
+          path.resolve(__dirname, 'docs/welcome/scss')
         ],
         use: [
           {
@@ -63,7 +63,7 @@ module.exports = [{
       {
         test: /welcome\.s[c|a]ss$/,
         include: [
-          path.resolve(__dirname, 'src/docs/welcome/scss')
+          path.resolve(__dirname, 'docs/welcome/scss')
         ],
         use: [
           {
