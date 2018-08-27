@@ -5,6 +5,7 @@
 /cypress/
 /dist/
 /node_modules/
+/test/unit/dist
 /.DS_Store
 /.sass-cache
 /npm-debug.log*

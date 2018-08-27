@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { assert } from 'chai';
-import Shepherd from '../src/js/shepherd';
-import { Step } from '../src/js/step';
+import Shepherd from '../../src/js/shepherd.js';
+import { Step } from '../../src/js/step.js';
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 

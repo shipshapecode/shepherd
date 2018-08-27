@@ -1,8 +1,9 @@
 import { assert } from 'chai';
+import UtilsInjector from 'inject-loader!../../src/js/utils';
 import {
   parsePosition,
   parseShorthand
-} from '../src/js/utils';
+} from '../../src/js/utils.js';
 
 describe('Utils', function() {
   describe('parsePosition', function() {
@@ -40,7 +41,6 @@ describe('Utils', function() {
 
   describe('setupPopper', function() {
     it('when Popper is undefined, throws error', function() {
-      const UtilsInjector = require('inject-loader!../src/js/utils');
       const Utils = UtilsInjector({
         'popper.js': undefined
       });

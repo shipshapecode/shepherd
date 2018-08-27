@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { Evented } from './evented';
+import { Evented } from './evented.js';
 import 'element-matches';
-import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind';
-import { createFromHTML, parsePosition, setupPopper } from './utils';
+import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';
+import { createFromHTML, parsePosition, setupPopper } from './utils.js';
 
 /**
  * Creates incremented ID for each newly created step
