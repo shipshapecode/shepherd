@@ -18,7 +18,8 @@
 
   // Care for enough space around title.
   // Especially on colored headers.
-  &.shepherd-has-title .shepherd-content {
+  &.shepherd-has-title .shepherd-content,
+  &.shepherd-has-cancel-link .shepherd-content {
     .shepherd-header {
       padding-bottom: 0.75em;
     }
@@ -28,6 +29,7 @@
     background: none;
     font-size: inherit;
 
+    header,
     .shepherd-header {
       @include pie-clearfix;
 
@@ -75,6 +77,19 @@
       line-height: $shepherd-text-line-height;
       padding: 0.75em;
 
+      a,
+      a:visited,
+      a:active {
+        border-bottom: 1px dotted;
+        border-bottom-color: map_get($shepherd-theme-text-colors, text);
+        color: map_get($shepherd-theme-text-colors, text);
+        text-decoration: none;
+
+        &:hover {
+          border-bottom-style: solid;
+        }
+      }
+
       p {
         margin-top: 0;
 
@@ -84,6 +99,7 @@
       }
     }
 
+    footer,
     .shepherd-footer {
       background: $shepherd-text-background;
       border-bottom-left-radius: $shepherd-element-border-radius;
