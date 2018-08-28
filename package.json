@@ -24,7 +24,7 @@
     "cy:run": "./node_modules/.bin/cypress run --env coverage=true",
     "mocha-headless-chrome": "mocha-headless-chrome -c coverage/coverage.json -f test/unit/index.html -a no-sandbox",
     "posttest:ci": "nyc report --reporter=lcov --reporter=text",
-    "rewrite-paths": "replace 'SF:.*src' 'SF:/src' coverage/lcov.info",
+    "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server",
     "test:build": "cross-env NODE_ENV=test yarn build",
