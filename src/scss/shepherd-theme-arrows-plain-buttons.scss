@@ -1,6 +1,4 @@
-$shepherd-theme-primary: #34495e !default;
-$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
 $shepherd-header-background: #eeeeee !default;
-$use-drop-shadow: false !default;
+$use-drop-shadow: true !default;
 
 @import 'base';
