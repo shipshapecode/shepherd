@@ -124,7 +124,15 @@ pre {
 .shepherd-welcome {
   @include popper-theme-arrows($header-bg: #ffffff);
 
+  &:not(.shepherd-has-title) .shepherd-content {
+    header,
+    .shepherd-header {
+      padding-bottom: 0;
+    }
+  }
+
   .shepherd-content {
+    header,
     .shepherd-header {
       background: #ffffff;
     }
