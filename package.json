@@ -6,6 +6,12 @@
     "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "description": "Guide your users through a tour of your app.",
+  "keywords": [
+    "site tour",
+    "tour",
+    "tutorial",
+    "shepherd"
+  ],
   "authors": [
     "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
     "Zack Bloom <zackbloom@gmail.com>"
