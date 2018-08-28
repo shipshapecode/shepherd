@@ -23,6 +23,7 @@ jobs:
       script:
         - yarn test:ci
       after_script:
+        - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
       script:
