@@ -3,11 +3,7 @@
 
   background: $shepherd-theme-primary;
   border: 0;
-
-  @if ($shepherd-element-border-radius > 0) {
-    border-radius: 3px;
-  }
-
+  border-radius: $shepherd-button-border-radius;
   color: map_get($shepherd-theme-text-colors, primary);
   cursor: pointer;
   font-family: inherit;
