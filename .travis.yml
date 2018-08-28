@@ -5,6 +5,11 @@ node_js:
 sudo: false
 dist: trusty
 
+env:
+  global:
+  - secure: K5sRZBHXcHoYfpYEul1tcK2hOp9QMV/T8xmfj1q20AKzw/+ovbsp+Pdb+PbKFr5vP4eN0ISAeHU3nseMGD9tW6BI/Jf1wW4r7qvGch9eH5v1fpAn7Xxm4AqxusxNck7j4uuo720J5nqioZPUjY5ynlgF0iuGJKjx3YVP7t8W4HQ=
+  - secure: NbSFG5O6U/6gBMG42vNoRY7Vt0TrDCGunM6MAsTENoRSAN5JFJ1Ne5HfSmOV4hyT63rSTUbNT1zBmqHCfUpZFp+ynVTS3Fs6jv6qgZSZm6l3k5SW1ZGFbDUjxCWuX2lg6n6dV2LyLTnnONa/U/OAb4FkceW9MeKVNjPNv/uYdEA=
+
 addons:
   chrome: stable
   code_climate:
@@ -14,15 +19,21 @@ addons:
 cache:
   yarn: true
 
+before_install:
+  - yarn global add greenkeeper-lockfile@1
+
 install:
   - yarn install --ignore-engines
 
 jobs:
   include:
     - stage: test
+      before_script:
+        - greenkeeper-lockfile-update
       script:
         - yarn test:ci
       after_script:
+        - greenkeeper-lockfile-upload
         - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
@@ -60,8 +71,7 @@ jobs:
       deploy:
         provider: pages
         skip-cleanup: true
-        github-token:
-          secure: "mEepiSPDRKYAC4tTk/jXqDQOGRvVi4tdcONlU8U/TCWd3ZYg8BStKO8mQlPSVE7kVo2HTscgo256jvt1ee47P0K0Oawe7eyOvH8E+bYt0bu/LqpbtwfkX95a4MiVWc717kU/AX6lKAU3Ggnhdkw4AII8ZDFr9NLMGiL4bVokki8="
+        github-token: $GH_TOKEN
         keep-history: true
         on:
           branch: master
