@@ -50,7 +50,8 @@
   "dependencies": {
     "element-matches": "^0.1.2",
     "lodash": "^4.17.10",
-    "popper.js": "^1.14.3"
+    "popper.js": "^1.14.3",
+    "sinon": "^6.1.5"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.3",

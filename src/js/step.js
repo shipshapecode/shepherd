@@ -72,7 +72,6 @@ export class Step extends Evented {
       header.appendChild(link);
 
       element.classList.add('shepherd-has-cancel-link');
-
       this.bindCancelLink(link);
     }
   }
@@ -138,6 +137,14 @@ export class Step extends Evented {
     const element = createFromHTML(`<div class='${classes}' data-id='${this.id}' id="${this.options.idAttribute}"}>`);
     const header = document.createElement('header');
 
+    if (this.options.title) {
+      const title = document.createElement('h3');
+      title.classList.add('shepherd-title');
+      title.innerHTML = `${this.options.title}`;
+      header.prepend(title);
+      element.classList.add('shepherd-has-title');
+    }
+
     content.classList.add('shepherd-content');
     element.appendChild(content);
     content.appendChild(header);
@@ -152,11 +159,6 @@ export class Step extends Evented {
 
     this._addButtons(content);
     this._addCancelLink(element, header);
-
-    if (this.options.title) {
-      header.innerHTML += `<h3 class="shepherd-title">${this.options.title}</h3>`;
-      element.classList.add('shepherd-has-title');
-    }
 
     return element;
   }
@@ -222,7 +224,7 @@ export class Step extends Evented {
     const { when } = this.options;
 
     this.destroy();
-    this.id = this.options.id || this.id || `step-${uniqueId()}`;
+    this.id = this.options.id || `step-${uniqueId()}`;
 
     _.forOwn(when, (handler, event) => {
       this.on(event, handler, this);
