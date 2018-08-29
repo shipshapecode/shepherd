@@ -6,6 +6,7 @@ chai.use(chaiAsPromised);
 const { assert } = chai;
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
+import { Tour } from '../../src/js/tour.js';
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 
@@ -31,8 +32,19 @@ describe('Step', () => {
     });
 
     const showTestStep = instance.addStep('test2', {
+      buttons: [],
       id: 'test2',
       text: 'Another Step'
+    });
+
+    // Add more steps for total _setUpButtons coverage
+    instance.addStep('test3', {
+      buttons: {
+        text: 'Next',
+        action: instance.next
+      },
+      id: 'test3',
+      text: 'Another Step part deux'
     });
 
     const beforeShowPromise = new Promise((resolve) => {
@@ -168,13 +180,15 @@ describe('Step', () => {
 
   describe('bindButtonEvents()', () => {
     const link = document.createElement('a');
-    const step = new Step();
+    const step = new Step(new Tour(), {});
     it('adds button events', () => {
       const event = new Event('test');
+      const hover = new Event('mouseover');
       let eventTriggered = false;
 
       step.bindButtonEvents({
         events: {
+          'mouseover': '1',
           test: () => eventTriggered = true
         },
         text: 'Next',
@@ -182,6 +196,7 @@ describe('Step', () => {
       }, link);
 
       link.dispatchEvent(event);
+      link.dispatchEvent(hover);
       assert.isOk(eventTriggered, 'custom button event was bound/triggered');
     });
 
@@ -297,6 +312,17 @@ describe('Step', () => {
     });
   });
 
+  describe('getAttachTo()', function(){
+    it('fails if element does not exist', function(){
+      const step = new Step({}, {
+        attachTo: { element: '.scroll-test', on: 'center' }
+      });
+
+      const { element } = step.getAttachTo();
+      assert.notOk(element);
+    });
+  });
+
   describe('render()', () => {
     it('calls destroy if element is already set', () => {
       const step = new Step();
@@ -305,6 +331,18 @@ describe('Step', () => {
       step.destroy = () => destroyCalled = true;
       step.render();
       assert.isOk(destroyCalled, 'render method called destroy with element set');
+    });
+
+    it('calls bindAdvance() if advanceOn passed', () => {
+      const step = new Step({
+        next: () =>  true
+      }, {
+          advanceOn: '.click-test test'
+      });
+      const bindFunction = spy(step, 'bindAdvance');
+      step.render();
+
+      assert.ok(bindFunction.called);
     });
   });
 
