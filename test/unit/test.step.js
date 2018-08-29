@@ -340,7 +340,7 @@ describe('Step', () => {
           advanceOn: '.click-test test'
       });
       const bindFunction = spy(step, 'bindAdvance');
-      step.render()
+      step.render();
 
       assert.ok(bindFunction.called);
     });
