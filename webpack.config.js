@@ -176,13 +176,7 @@ module.exports.push({
         include: [
           path.resolve(__dirname, 'src/js')
         ],
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            'plugins': ['lodash'],
-            'presets': [['env', { 'modules': false, 'targets': { 'node': 6 } }]]
-          }
-        }]
+        loader: 'babel-loader'
       }
     ]
   },

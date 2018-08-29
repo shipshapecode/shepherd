@@ -1,4 +1,12 @@
-import _ from 'lodash';
+import {
+  forOwn,
+  isElement,
+  isEmpty,
+  isFunction,
+  isPlainObject,
+  isString,
+  isUndefined
+} from 'lodash';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';
@@ -104,14 +112,14 @@ export class Step extends Evented {
     const text = createFromHTML('<div class="shepherd-text"></div>');
     let paragraphs = this.options.text;
 
-    if (_.isFunction(paragraphs)) {
+    if (isFunction(paragraphs)) {
       paragraphs = paragraphs.call(this, text);
     }
 
     if (paragraphs instanceof HTMLElement) {
       text.appendChild(paragraphs);
     } else {
-      if (_.isString(paragraphs)) {
+      if (isString(paragraphs)) {
         paragraphs = [paragraphs];
       }
 
@@ -136,7 +144,7 @@ export class Step extends Evented {
       if (renderLocation instanceof HTMLElement) {
         return renderLocation.appendChild(element);
       }
-      if (_.isString(renderLocation)) {
+      if (isString(renderLocation)) {
         return document.querySelector(renderLocation).appendChild(element);
       }
     }
@@ -171,7 +179,7 @@ export class Step extends Evented {
       element.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
     }
 
-    if (!_.isUndefined(this.options.text)) {
+    if (!isUndefined(this.options.text)) {
       this._addContent(content);
     }
 
@@ -197,7 +205,7 @@ export class Step extends Evented {
     const opts = parsePosition(this.options.attachTo) || {};
     const returnOpts = Object.assign({}, opts);
 
-    if (_.isString(opts.element)) {
+    if (isString(opts.element)) {
       // Can't override the element in user opts reference because we can't
       // guarantee that the element will exist in the future.
       try {
@@ -236,7 +244,7 @@ export class Step extends Evented {
    * Triggers `destroy` event
    */
   destroy() {
-    if (_.isElement(this.el) && this.el.parentNode) {
+    if (isElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       delete this.el;
     }
@@ -287,7 +295,7 @@ export class Step extends Evented {
    * Create the element and set up the popper instance
    */
   render() {
-    if (!_.isUndefined(this.el)) {
+    if (!isUndefined(this.el)) {
       this.destroy();
     }
     this.el = this._createElement();
@@ -308,9 +316,9 @@ export class Step extends Evented {
   scrollTo() {
     const { element } = this.getAttachTo();
 
-    if (_.isFunction(this.options.scrollToHandler)) {
+    if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (_.isElement(element)) {
+    } else if (isElement(element)) {
       element.scrollIntoView();
     }
   }
@@ -326,7 +334,7 @@ export class Step extends Evented {
     this.destroy();
     this.id = this.options.id || `step-${uniqueId()}`;
 
-    _.forOwn(when, (handler, event) => {
+    forOwn(when, (handler, event) => {
       this.on(event, handler, this);
     });
 
@@ -338,9 +346,9 @@ export class Step extends Evented {
    * @return {*|Promise}
    */
   show() {
-    if (_.isFunction(this.options.beforeShowPromise)) {
+    if (isFunction(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
-      if (!_.isUndefined(beforeShowPromise)) {
+      if (!isUndefined(beforeShowPromise)) {
         return beforeShowPromise.then(() => this._show());
       }
     }
@@ -355,7 +363,7 @@ export class Step extends Evented {
   _setUpButtons() {
     const { buttons } = this.options;
     if (buttons) {
-      const buttonsAreDefault = _.isUndefined(buttons) || _.isEmpty(buttons);
+      const buttonsAreDefault = isUndefined(buttons) || isEmpty(buttons);
       if (buttonsAreDefault) {
         this.options.buttons = [{
           text: 'Next',
@@ -363,7 +371,7 @@ export class Step extends Evented {
           classes: 'btn'
         }];
       } else {
-        const buttonsAreObject = _.isPlainObject(buttons);
+        const buttonsAreObject = isPlainObject(buttons);
         // Can pass in an object which will assume a single button
         if (buttonsAreObject) {
           this.options.buttons = [this.options.buttons];
