@@ -1,5 +1,5 @@
 import { parseShorthand } from './utils.js';
-import _ from 'lodash';
+import { forOwn, isString, isUndefined } from 'lodash';
 
 /**
  * Sets up the handler to determine if we should advance the tour
@@ -9,7 +9,7 @@ function _setupAdvanceOnHandler(selector) {
   return (e) => {
     if (this.isOpen()) {
       const targetIsEl = this.el && e.target === this.el;
-      const targetIsSelector = !_.isUndefined(selector) && e.target.matches(selector);
+      const targetIsSelector = !isUndefined(selector) && e.target.matches(selector);
       if (targetIsSelector || targetIsEl) {
         this.tour.next();
       }
@@ -26,7 +26,7 @@ export function bindAdvance() {
   const handler = _setupAdvanceOnHandler.call(this, selector);
 
   // TODO: this should also bind/unbind on show/hide
-  if (!_.isUndefined(selector)) {
+  if (!isUndefined(selector)) {
     const el = document.querySelector(selector);
     el.addEventListener(event, handler);
   } else {
@@ -44,13 +44,13 @@ export function bindAdvance() {
  */
 export function bindButtonEvents(cfg, el) {
   cfg.events = cfg.events || {};
-  if (!_.isUndefined(cfg.action)) {
+  if (!isUndefined(cfg.action)) {
     // Including both a click event and an action is not supported
     cfg.events.click = cfg.action;
   }
 
-  _.forOwn(cfg.events, (handler, event) => {
-    if (_.isString(handler)) {
+  forOwn(cfg.events, (handler, event) => {
+    if (isString(handler)) {
       const page = handler;
       handler = () => this.tour.show(page);
     }
@@ -78,7 +78,7 @@ export function bindCancelLink(link) {
 
 /**
  * Take an array of strings and look up methods by name, then bind them to `this`
- * @param {[String]} methods The names of methods to bind
+ * @param {String[]} methods The names of methods to bind
  */
 export function bindMethods(methods) {
   methods.map((method) => {

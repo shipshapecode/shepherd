@@ -1,11 +1,22 @@
-import _ from 'lodash';
+import { isFunction, isNumber, isString, isUndefined } from 'lodash';
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
 
 const Shepherd = new Evented();
 
+/**
+ * Class representing the site tour
+ * @extends {Evented}
+ */
 export class Tour extends Evented {
+  /**
+   *
+   * @param {Object} options The options for the tour
+   * @param {Object} options.defaults Default options for Steps created through `addStep`
+   * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+   * @returns {Tour}
+   */
   constructor(options = {}) {
     super(options);
     bindMethods.call(this, [
@@ -38,13 +49,13 @@ export class Tour extends Evented {
    * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
    * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
    * @param {Object|Step} arg2 An object containing step options or a Step instance
-   * @returns {Step} The newly added step
+   * @return {Step} The newly added step
    */
   addStep(arg1, arg2) {
     let name, step;
 
     // If we just have one argument, we can assume it is an object of step options, with an id
-    if (_.isUndefined(arg2)) {
+    if (isUndefined(arg2)) {
       step = arg1;
     } else {
       name = arg1;
@@ -59,6 +70,83 @@ export class Tour extends Evented {
 
     this.steps.push(step);
     return step;
+  }
+
+  /**
+   * Go to the previous step in the tour
+   */
+  back() {
+    const index = this.steps.indexOf(this.currentStep);
+    this.show(index - 1, false);
+  }
+
+  /**
+   * Calls done() triggering the `cancel` event
+   */
+  cancel() {
+    this.done('cancel');
+  }
+
+  /**
+   * Calls done() triggering the `complete` event
+   */
+  complete() {
+    this.done('complete');
+  }
+
+  /**
+   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+   * @param {String} event The event name to trigger
+   */
+  done(event) {
+    if (this.currentStep) {
+      this.currentStep.hide();
+    }
+
+    this.trigger(event);
+
+    if (Shepherd.activeTour) {
+      Shepherd.activeTour.steps.forEach((step) => {
+        step.destroy();
+      });
+    }
+
+    Shepherd.activeTour = null;
+    document.body.classList.remove('shepherd-active');
+    this.trigger('inactive', { tour: this });
+  }
+
+  /**
+   * Gets the step from a given id
+   * @param {Number|String} id The id of the step to retrieve
+   * @return {Step} The step corresponding to the `id`
+   */
+  getById(id) {
+    return this.steps.find((step) => {
+      return step.id === id;
+    });
+  }
+
+  /**
+   * Gets the current step
+   * @returns {Step|null}
+   */
+  getCurrentStep() {
+    return this.currentStep;
+  }
+
+  /**
+   * Go to the next step in the tour
+   * If we are at the end, call `complete`
+   */
+  next() {
+    const index = this.steps.indexOf(this.currentStep);
+
+    if (index === this.steps.length - 1) {
+      this.complete();
+    } else {
+      this.show(index + 1, true);
+    }
   }
 
   /**
@@ -94,87 +182,16 @@ export class Tour extends Evented {
    * Setup a new step object
    * @param {Object} stepOptions The object describing the options for the step
    * @param {String|Number} name The string or number to use as the `id` for the step
-   * @returns {Step}
+   * @return {Step} The step instance
    */
   setupStep(stepOptions, name) {
-    if (_.isString(name) || _.isNumber(name)) {
+    if (isString(name) || isNumber(name)) {
       stepOptions.id = name.toString();
     }
 
     stepOptions = Object.assign({}, this.options.defaults, stepOptions);
 
     return new Step(this, stepOptions);
-  }
-
-  getById(id) {
-    for (let i = 0; i < this.steps.length; ++i) {
-      const step = this.steps[i];
-      if (step.id === id) {
-        return step;
-      }
-    }
-  }
-
-  getCurrentStep() {
-    return this.currentStep;
-  }
-
-  /**
-   * Go to the previous step in the tour
-   */
-  back() {
-    const index = this.steps.indexOf(this.currentStep);
-    this.show(index - 1, false);
-  }
-
-  /**
-   * Calls done() triggering the 'cancel' event
-   */
-  cancel() {
-    this.done('cancel');
-  }
-
-  /**
-   * Calls done() triggering the 'complete' event
-   */
-  complete() {
-    this.done('complete');
-  }
-
-  /**
-   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param event
-   */
-  done(event) {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    }
-
-    this.trigger(event);
-
-    if (Shepherd.activeTour) {
-      Shepherd.activeTour.steps.forEach((step) => {
-        step.destroy();
-      });
-    }
-
-    Shepherd.activeTour = null;
-    document.body.classList.remove('shepherd-active');
-    this.trigger('inactive', { tour: this });
-  }
-
-  /**
-   * Go to the next step in the tour
-   * If we are at the end, call `complete`
-   */
-  next() {
-    const index = this.steps.indexOf(this.currentStep);
-
-    if (index === this.steps.length - 1) {
-      this.complete();
-    } else {
-      this.show(index + 1, true);
-    }
   }
 
   /**
@@ -185,13 +202,13 @@ export class Tour extends Evented {
   show(key = 0, forward = true) {
     this._setupActiveTour();
 
-    const step = _.isString(key) ? this.getById(key) : this.steps[key];
+    const step = isString(key) ? this.getById(key) : this.steps[key];
 
     if (!step) {
       return;
     }
 
-    const shouldSkipStep = _.isFunction(step.options.showOn) && !step.options.showOn();
+    const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
     // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
     if (shouldSkipStep) {
       this._skipStep(step, forward);

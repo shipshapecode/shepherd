@@ -147,6 +147,19 @@ describe('Shepherd Acceptance Tests', () => {
       cy.get('.shepherd-cancel-link').click();
       cy.get('body').should('not.have.class', 'shepherd-active');
     });
+
+    it('Cancel link cancels the tour from another step', () => {
+      const tour = setupTour(Shepherd);
+      tour.start();
+      cy.get('body').should('have.class', 'shepherd-active');
+      // Click next
+      cy.contains('Next').click();
+      // Step two text should be visible
+      cy.get('.shepherd-text')
+        .contains('Including Shepherd is easy!').should('be.visible');
+      cy.get('.shepherd-cancel-link:nth-child(2)').click();
+      cy.get('body').should('not.have.class', 'shepherd-active');
+    });
   });
 
   it.skip('Defaults classes applied', () => {
