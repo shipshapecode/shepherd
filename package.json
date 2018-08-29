@@ -90,6 +90,7 @@
     "postcss-loader": "^3.0.0",
     "replace": "^1.0.0",
     "sass-loader": "^7.1.0",
+    "sinon": "^6.1.5",
     "source-map-loader": "^0.2.3",
     "start-server-and-test": "^1.7.0",
     "style-loader": "^0.22.1",
