@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import { spy } from 'sinon';
 
 chai.use(chaiAsPromised);
 const { assert } = chai;
@@ -144,6 +145,25 @@ describe('Step', () => {
 
       assert.isOk(advanced, 'next triggered for advanceOn');
     });
+
+    it('it should call removeEventListener when destoryed', function(done){
+      const el = document.createElement('div');
+      const body = spy(document.body, 'removeEventListener');
+      const step = new Step({
+        next: () => true
+      }, {
+        advanceOn: { event: 'test' }
+      });
+      step.el = el;
+      step.el.hidden = false;
+
+      step.bindAdvance();
+      step.trigger('destroy');
+      assert.ok(body.called);
+      body.restore();
+      done();
+    });
+
   });
 
   describe('bindButtonEvents()', () => {

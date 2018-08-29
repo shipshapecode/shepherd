@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.0-beta.21 * /
+ * /*! shepherd.js 2.0.0-beta.22 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -312,7 +312,7 @@ module.exports = overArg;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(2),
-    isObject = __webpack_require__(29);
+    isObject = __webpack_require__(23);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -355,7 +355,7 @@ module.exports = isFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(2),
-    isArray = __webpack_require__(10),
+    isArray = __webpack_require__(9),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -398,21 +398,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Step = undefined;
 
-var _isElement2 = __webpack_require__(17);
-
-var _isElement3 = _interopRequireDefault(_isElement2);
-
-var _forOwn2 = __webpack_require__(9);
-
-var _forOwn3 = _interopRequireDefault(_forOwn2);
-
 var _isPlainObject2 = __webpack_require__(8);
 
 var _isPlainObject3 = _interopRequireDefault(_isPlainObject2);
 
-var _isEmpty2 = __webpack_require__(24);
+var _isEmpty2 = __webpack_require__(18);
 
 var _isEmpty3 = _interopRequireDefault(_isEmpty2);
+
+var _forOwn2 = __webpack_require__(10);
+
+var _forOwn3 = _interopRequireDefault(_forOwn2);
+
+var _isElement2 = __webpack_require__(33);
+
+var _isElement3 = _interopRequireDefault(_isElement2);
 
 var _isUndefined2 = __webpack_require__(0);
 
@@ -448,7 +448,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Creates incremented ID for each newly created step
  *
  * @private
- * @returns {Number}
+ * @return {Number} The unique id for the step
  */
 var uniqueId = function () {
   var id = 0;
@@ -457,9 +457,26 @@ var uniqueId = function () {
   };
 }();
 
+/**
+ * Class representing steps to be added to a tour
+ * @extends {Evented}
+ */
+
 var Step = exports.Step = function (_Evented) {
   _inherits(Step, _Evented);
 
+  /**
+   * Create a step
+   * @param {Tour} tour The tour for the step
+   * @param {Object} options The options for the step
+   * @param {function} options.beforeShowPromise A function that returns a promise.
+   * When the promise resolves, the rest of the `show` code for the step will execute.
+   * @param {Object[]} options.buttons An array of buttons to add to the step. By default
+   * we add a Next button which triggers `next()`, set this to `false` to disable.
+   * @param {Object} options.buttons.button.text The HTML text of the button
+   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
+   * @return {Step} The newly created Step instance
+   */
   function Step(tour, options) {
     var _ret;
 
@@ -481,7 +498,7 @@ var Step = exports.Step = function (_Evented) {
    * Adds buttons to the step as passed into options
    *
    * @private
-   * @param {HTMLElement}
+   * @param {HTMLElement} content The element for the step, to append the footer with buttons to
    */
 
 
@@ -507,6 +524,8 @@ var Step = exports.Step = function (_Evented) {
 
     /**
      * Adds the "x" button to cancel the tour
+     * @param {HTMLElement} element The step element
+     * @param {HTMLElement} header The header element for the step
      * @private
      */
 
@@ -518,7 +537,6 @@ var Step = exports.Step = function (_Evented) {
         header.appendChild(link);
 
         element.classList.add('shepherd-has-cancel-link');
-
         this.bindCancelLink(link);
       }
     }
@@ -527,7 +545,7 @@ var Step = exports.Step = function (_Evented) {
      * Adds text passed in as options
      *
      * @private
-     * @param {HTMLElement}
+     * @param {HTMLElement} content The content to append the text to
      */
 
   }, {
@@ -559,7 +577,7 @@ var Step = exports.Step = function (_Evented) {
      * Attaches final element to default or passed location
      *
      * @private
-     * @param {HTMLElement}
+     * @param {HTMLElement} element The element to attach
      */
 
   }, {
@@ -583,7 +601,7 @@ var Step = exports.Step = function (_Evented) {
      * Creates Shepherd element for step based on options
      *
      * @private
-     * @returns {HTMLElement} element
+     * @return {HTMLElement} The DOM element for the step
      */
 
   }, {
@@ -593,6 +611,14 @@ var Step = exports.Step = function (_Evented) {
       var classes = this.options.classes || '';
       var element = (0, _utils.createFromHTML)('<div class=\'' + classes + '\' data-id=\'' + this.id + '\' id="' + this.options.idAttribute + '"}>');
       var header = document.createElement('header');
+
+      if (this.options.title) {
+        var title = document.createElement('h3');
+        title.classList.add('shepherd-title');
+        title.innerHTML = '' + this.options.title;
+        header.prepend(title);
+        element.classList.add('shepherd-has-title');
+      }
 
       content.classList.add('shepherd-content');
       element.appendChild(content);
@@ -609,49 +635,12 @@ var Step = exports.Step = function (_Evented) {
       this._addButtons(content);
       this._addCancelLink(element, header);
 
-      if (this.options.title) {
-        header.innerHTML += '<h3 class="shepherd-title">' + this.options.title + '</h3>';
-        element.classList.add('shepherd-has-title');
-      }
-
       return element;
     }
 
     /**
-     * Determines button options prior to rendering
-     *
-     * @private
-     */
-
-  }, {
-    key: '_setUpButtons',
-    value: function _setUpButtons() {
-      var buttons = this.options.buttons;
-
-      if (!buttons) {
-        return;
-      }
-      var buttonsAreDefault = (0, _isUndefined3.default)(buttons) || (0, _isEmpty3.default)(buttons);
-      if (buttonsAreDefault) {
-        return this.options.buttons = [{
-          text: 'Next',
-          action: this.tour.next,
-          classes: 'btn'
-        }];
-      }
-
-      var buttonsAreObject = (0, _isPlainObject3.default)(buttons);
-      // Can pass in an object which will assume a single button
-      if (buttonsAreObject) {
-        return this.options.buttons = [this.options.buttons];
-      }
-
-      return buttons;
-    }
-
-    /**
      * Returns the tour for the step
-     * @returns {Tour}
+     * @return {Tour} The tour instance
      */
 
   }, {
@@ -659,6 +648,12 @@ var Step = exports.Step = function (_Evented) {
     value: function getTour() {
       return this.tour;
     }
+
+    /**
+     * Passes `options.attachTo` to `parsePosition` to get the correct `attachTo` format
+     * @returns {({} & {element, on}) | ({})}
+     */
+
   }, {
     key: 'getAttachTo',
     value: function getAttachTo() {
@@ -680,6 +675,136 @@ var Step = exports.Step = function (_Evented) {
 
       return returnOpts;
     }
+
+    /**
+     * Cancel the tour
+     * Triggers the `cancel` event
+     */
+
+  }, {
+    key: 'cancel',
+    value: function cancel() {
+      this.tour.cancel();
+      this.trigger('cancel');
+    }
+
+    /**
+     * Complete the tour
+     * Triggers the `complete` event
+     */
+
+  }, {
+    key: 'complete',
+    value: function complete() {
+      this.tour.complete();
+      this.trigger('complete');
+    }
+
+    /**
+     * Remove the step, delete the step's element, and destroy the popper for the step
+     * Triggers `destroy` event
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      if ((0, _isElement3.default)(this.el) && this.el.parentNode) {
+        this.el.parentNode.removeChild(this.el);
+        delete this.el;
+      }
+
+      if (this.popper) {
+        this.popper.destroy();
+      }
+      this.popper = null;
+
+      this.trigger('destroy');
+    }
+
+    /**
+     * Hide the step and destroy the popper
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide() {
+      this.trigger('before-hide');
+
+      if (this.el) {
+        this.el.hidden = true;
+        // We need to manually set styles for < IE11 support
+        this.el.style.display = 'none';
+      }
+
+      document.body.removeAttribute('data-shepherd-step');
+
+      if (this.target) {
+        this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+      }
+
+      if (this.popper) {
+        this.popper.destroy();
+      }
+      this.popper = null;
+
+      this.trigger('hide');
+    }
+
+    /**
+     * Check if the step is open and visible
+     * @return {*|boolean} True if the step is open and visible
+     */
+
+  }, {
+    key: 'isOpen',
+    value: function isOpen() {
+      return this.el && !this.el.hidden;
+    }
+
+    /**
+     * Create the element and set up the popper instance
+     */
+
+  }, {
+    key: 'render',
+    value: function render() {
+      if (!(0, _isUndefined3.default)(this.el)) {
+        this.destroy();
+      }
+      this.el = this._createElement();
+
+      if (this.options.advanceOn) {
+        this.bindAdvance();
+      }
+
+      this._attach(this.el);
+
+      this.setupPopper();
+    }
+
+    /**
+     * If a custom scrollToHandler is defined, call that, otherwise do the generic
+     * scrollIntoView call.
+     */
+
+  }, {
+    key: 'scrollTo',
+    value: function scrollTo() {
+      var _getAttachTo = this.getAttachTo(),
+          element = _getAttachTo.element;
+
+      if ((0, _isFunction3.default)(this.options.scrollToHandler)) {
+        this.options.scrollToHandler(element);
+      } else if ((0, _isElement3.default)(element)) {
+        element.scrollIntoView();
+      }
+    }
+
+    /**
+     * Sets the options for the step, maps `when` to events, sets up buttons
+     * @param {Object} options The options for the step
+     */
+
   }, {
     key: 'setOptions',
     value: function setOptions() {
@@ -692,7 +817,7 @@ var Step = exports.Step = function (_Evented) {
 
 
       this.destroy();
-      this.id = this.options.id || this.id || 'step-' + uniqueId();
+      this.id = this.options.id || 'step-' + uniqueId();
 
       (0, _forOwn3.default)(when, function (handler, event) {
         _this3.on(event, handler, _this3);
@@ -700,6 +825,12 @@ var Step = exports.Step = function (_Evented) {
 
       this._setUpButtons();
     }
+
+    /**
+     * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
+     * @return {*|Promise}
+     */
+
   }, {
     key: 'show',
     value: function show() {
@@ -715,6 +846,41 @@ var Step = exports.Step = function (_Evented) {
       }
       this._show();
     }
+
+    /**
+     * Determines button options prior to rendering
+     *
+     * @private
+     */
+
+  }, {
+    key: '_setUpButtons',
+    value: function _setUpButtons() {
+      var buttons = this.options.buttons;
+
+      if (buttons) {
+        var buttonsAreDefault = (0, _isUndefined3.default)(buttons) || (0, _isEmpty3.default)(buttons);
+        if (buttonsAreDefault) {
+          this.options.buttons = [{
+            text: 'Next',
+            action: this.tour.next,
+            classes: 'btn'
+          }];
+        } else {
+          var buttonsAreObject = (0, _isPlainObject3.default)(buttons);
+          // Can pass in an object which will assume a single button
+          if (buttonsAreObject) {
+            this.options.buttons = [this.options.buttons];
+          }
+        }
+      }
+    }
+
+    /**
+     * Triggers `before-show` then renders the element, shows it, sets up popper and triggers `show`
+     * @private
+     */
+
   }, {
     key: '_show',
     value: function _show() {
@@ -742,106 +908,6 @@ var Step = exports.Step = function (_Evented) {
 
       this.trigger('show');
     }
-  }, {
-    key: 'hide',
-    value: function hide() {
-      this.trigger('before-hide');
-
-      if (this.el) {
-        this.el.hidden = true;
-        // We need to manually set styles for < IE11 support
-        this.el.style.display = 'none';
-      }
-
-      document.body.removeAttribute('data-shepherd-step');
-
-      if (this.target) {
-        this.target.classList.remove('shepherd-enabled', 'shepherd-target');
-      }
-
-      if (this.popper) {
-        this.popper.destroy();
-      }
-      this.popper = null;
-
-      this.trigger('hide');
-    }
-  }, {
-    key: 'isOpen',
-    value: function isOpen() {
-      return this.el && !this.el.hidden;
-    }
-
-    /**
-     * Cancel the tour and fire the `cancel` event
-     */
-
-  }, {
-    key: 'cancel',
-    value: function cancel() {
-      this.tour.cancel();
-      this.trigger('cancel');
-    }
-
-    /**
-     * Complete the tour and fire the `complete` event
-     */
-
-  }, {
-    key: 'complete',
-    value: function complete() {
-      this.tour.complete();
-      this.trigger('complete');
-    }
-
-    /**
-     * If a custom scrollToHandler is defined, call that, otherwise do the generic
-     * scrollIntoView call.
-     */
-
-  }, {
-    key: 'scrollTo',
-    value: function scrollTo() {
-      var _getAttachTo = this.getAttachTo(),
-          element = _getAttachTo.element;
-
-      if ((0, _isFunction3.default)(this.options.scrollToHandler)) {
-        this.options.scrollToHandler(element);
-      } else if ((0, _isElement3.default)(element)) {
-        element.scrollIntoView();
-      }
-    }
-  }, {
-    key: 'destroy',
-    value: function destroy() {
-      if ((0, _isElement3.default)(this.el) && this.el.parentNode) {
-        this.el.parentNode.removeChild(this.el);
-        delete this.el;
-      }
-
-      if (this.popper) {
-        this.popper.destroy();
-      }
-      this.popper = null;
-
-      this.trigger('destroy');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      if (!(0, _isUndefined3.default)(this.el)) {
-        this.destroy();
-      }
-      this.el = this._createElement();
-
-      if (this.options.advanceOn) {
-        this.bindAdvance();
-      }
-
-      this._attach(this.el);
-
-      this.setupPopper();
-    }
   }]);
 
   return Step;
@@ -852,7 +918,7 @@ var Step = exports.Step = function (_Evented) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(2),
-    getPrototype = __webpack_require__(18),
+    getPrototype = __webpack_require__(17),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -917,10 +983,42 @@ module.exports = isPlainObject;
 
 /***/ }),
 /* 9 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseForOwn = __webpack_require__(19),
-    castFunction = __webpack_require__(23);
+var baseForOwn = __webpack_require__(28),
+    castFunction = __webpack_require__(32);
 
 /**
  * Iterates over own enumerable string keyed properties of an object and
@@ -958,38 +1056,6 @@ module.exports = forOwn;
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-
-/***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1004,7 +1070,7 @@ var _isString2 = __webpack_require__(6);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _forOwn2 = __webpack_require__(9);
+var _forOwn2 = __webpack_require__(10);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
@@ -1109,7 +1175,7 @@ function bindCancelLink(link) {
 
 /**
  * Take an array of strings and look up methods by name, then bind them to `this`
- * @param {[String]} methods The names of methods to bind
+ * @param {String[]} methods The names of methods to bind
  */
 function bindMethods(methods) {
   var _this4 = this;
@@ -1156,7 +1222,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
- * @returns {HTMLElement}
+ * @return {HTMLElement} The element created from the passed HTML string
  */
 function createFromHTML(html) {
   var el = document.createElement('div');
@@ -1167,7 +1233,7 @@ function createFromHTML(html) {
 /**
  * Parse the position object or string to return the attachment and element to attach to
  * @param {Object|String} position Either a string or object denoting the selector and position for attachment
- * @returns {Object}
+ * @return {Object} The object with `element` and `on` for the step
  */
 function parsePosition(position) {
   if ((0, _isObjectLike3.default)(position)) {
@@ -1193,7 +1259,7 @@ function parsePosition(position) {
 /**
  * @param obj
  * @param {Array} props
- * @returns {*}
+ * @return {*}
  */
 function parseShorthand(obj, props) {
   if (obj === null || (0, _isUndefined3.default)(obj)) {
@@ -1240,7 +1306,7 @@ function setupPopper() {
  * Merge the global popperOptions, and the local opts
  * @param {String} attachment The direction for attachment
  * @param {Object} opts The local options
- * @returns {Object} The merged popperOpts object
+ * @return {Object} The merged popperOpts object
  * @private
  */
 function _mergePopperOptions(attachment, opts) {
@@ -1255,7 +1321,7 @@ function _mergePopperOptions(attachment, opts) {
 /**
  * Sets up a popper centered on the screen, when there is no attachTo element
  * @param {Object} opts The config object
- * @returns {*}
+ * @return {*}
  * @private
  */
 function _setupCenteredPopper(opts) {
@@ -1413,37 +1479,6 @@ module.exports = identity;
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObjectLike = __webpack_require__(1),
-    isPlainObject = __webpack_require__(8);
-
-/**
- * Checks if `value` is likely a DOM element.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
- * @example
- *
- * _.isElement(document.body);
- * // => true
- *
- * _.isElement('<body>');
- * // => false
- */
-function isElement(value) {
-  return isObjectLike(value) && value.nodeType === 1 && !isPlainObject(value);
-}
-
-module.exports = isElement;
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var overArg = __webpack_require__(4);
 
 /** Built-in value references. */
@@ -1453,131 +1488,17 @@ module.exports = getPrototype;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFor = __webpack_require__(20),
-    keys = __webpack_require__(22);
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var createBaseFor = __webpack_require__(21);
-
-/**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` and invokes `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-/**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var overArg = __webpack_require__(4);
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeKeys = overArg(Object.keys, Object);
-
-module.exports = nativeKeys;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseKeys = __webpack_require__(25),
-    getTag = __webpack_require__(26),
-    isArguments = __webpack_require__(27),
-    isArray = __webpack_require__(10),
-    isArrayLike = __webpack_require__(28),
-    isBuffer = __webpack_require__(31),
-    isPrototype = __webpack_require__(32),
-    isTypedArray = __webpack_require__(33);
+var baseKeys = __webpack_require__(19),
+    getTag = __webpack_require__(20),
+    isArguments = __webpack_require__(21),
+    isArray = __webpack_require__(9),
+    isArrayLike = __webpack_require__(22),
+    isBuffer = __webpack_require__(25),
+    isPrototype = __webpack_require__(26),
+    isTypedArray = __webpack_require__(27);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -1650,7 +1571,7 @@ module.exports = isEmpty;
 
 
 /***/ }),
-/* 25 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var overArg = __webpack_require__(4);
@@ -1662,7 +1583,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 26 */
+/* 20 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -1690,7 +1611,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 27 */
+/* 21 */
 /***/ (function(module, exports) {
 
 /**
@@ -1714,11 +1635,11 @@ module.exports = stubFalse;
 
 
 /***/ }),
-/* 28 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(5),
-    isLength = __webpack_require__(30);
+    isLength = __webpack_require__(24);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -1753,7 +1674,7 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 29 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /**
@@ -1790,7 +1711,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 30 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -1831,7 +1752,7 @@ module.exports = isLength;
 
 
 /***/ }),
-/* 31 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /**
@@ -1852,6 +1773,141 @@ function stubFalse() {
 }
 
 module.exports = stubFalse;
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = stubFalse;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = stubFalse;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseFor = __webpack_require__(29),
+    keys = __webpack_require__(31);
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var createBaseFor = __webpack_require__(30);
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` and invokes `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var overArg = __webpack_require__(4);
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = overArg(Object.keys, Object);
+
+module.exports = nativeKeys;
 
 
 /***/ }),
@@ -1859,47 +1915,57 @@ module.exports = stubFalse;
 /***/ (function(module, exports) {
 
 /**
- * This method returns `false`.
+ * This method returns the first argument it receives.
  *
  * @static
+ * @since 0.1.0
  * @memberOf _
- * @since 4.13.0
  * @category Util
- * @returns {boolean} Returns `false`.
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
  * @example
  *
- * _.times(2, _.stubFalse);
- * // => [false, false]
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
  */
-function stubFalse() {
-  return false;
+function identity(value) {
+  return value;
 }
 
-module.exports = stubFalse;
+module.exports = identity;
 
 
 /***/ }),
 /* 33 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObjectLike = __webpack_require__(1),
+    isPlainObject = __webpack_require__(8);
 
 /**
- * This method returns `false`.
+ * Checks if `value` is likely a DOM element.
  *
  * @static
  * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
  * @example
  *
- * _.times(2, _.stubFalse);
- * // => [false, false]
+ * _.isElement(document.body);
+ * // => true
+ *
+ * _.isElement('<body>');
+ * // => false
  */
-function stubFalse() {
-  return false;
+function isElement(value) {
+  return isObjectLike(value) && value.nodeType === 1 && !isPlainObject(value);
 }
 
-module.exports = stubFalse;
+module.exports = isElement;
 
 
 /***/ }),
@@ -2169,9 +2235,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var Shepherd = new _evented.Evented();
 
+/**
+ * Class representing the site tour
+ * @extends {Evented}
+ */
+
 var Tour = exports.Tour = function (_Evented) {
   _inherits(Tour, _Evented);
 
+  /**
+   *
+   * @param {Object} options The options for the tour
+   * @param {Object} options.defaults Default options for Steps created through `addStep`
+   * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+   * @returns {Tour}
+   */
   function Tour() {
     var _ret;
 
@@ -2206,7 +2284,7 @@ var Tour = exports.Tour = function (_Evented) {
    * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
    * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
    * @param {Object|Step} arg2 An object containing step options or a Step instance
-   * @returns {Step} The newly added step
+   * @return {Step} The newly added step
    */
 
 
@@ -2232,6 +2310,104 @@ var Tour = exports.Tour = function (_Evented) {
 
       this.steps.push(step);
       return step;
+    }
+
+    /**
+     * Go to the previous step in the tour
+     */
+
+  }, {
+    key: 'back',
+    value: function back() {
+      var index = this.steps.indexOf(this.currentStep);
+      this.show(index - 1, false);
+    }
+
+    /**
+     * Calls done() triggering the `cancel` event
+     */
+
+  }, {
+    key: 'cancel',
+    value: function cancel() {
+      this.done('cancel');
+    }
+
+    /**
+     * Calls done() triggering the `complete` event
+     */
+
+  }, {
+    key: 'complete',
+    value: function complete() {
+      this.done('complete');
+    }
+
+    /**
+     * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+     * @param {String} event The event name to trigger
+     */
+
+  }, {
+    key: 'done',
+    value: function done(event) {
+      if (this.currentStep) {
+        this.currentStep.hide();
+      }
+
+      this.trigger(event);
+
+      if (Shepherd.activeTour) {
+        Shepherd.activeTour.steps.forEach(function (step) {
+          step.destroy();
+        });
+      }
+
+      Shepherd.activeTour = null;
+      document.body.classList.remove('shepherd-active');
+      this.trigger('inactive', { tour: this });
+    }
+
+    /**
+     * Gets the step from a given id
+     * @param {Number|String} id The id of the step to retrieve
+     * @return {Step} The step corresponding to the `id`
+     */
+
+  }, {
+    key: 'getById',
+    value: function getById(id) {
+      return this.steps.find(function (step) {
+        return step.id === id;
+      });
+    }
+
+    /**
+     * Gets the current step
+     * @returns {Step|null}
+     */
+
+  }, {
+    key: 'getCurrentStep',
+    value: function getCurrentStep() {
+      return this.currentStep;
+    }
+
+    /**
+     * Go to the next step in the tour
+     * If we are at the end, call `complete`
+     */
+
+  }, {
+    key: 'next',
+    value: function next() {
+      var index = this.steps.indexOf(this.currentStep);
+
+      if (index === this.steps.length - 1) {
+        this.complete();
+      } else {
+        this.show(index + 1, true);
+      }
     }
 
     /**
@@ -2272,7 +2448,7 @@ var Tour = exports.Tour = function (_Evented) {
      * Setup a new step object
      * @param {Object} stepOptions The object describing the options for the step
      * @param {String|Number} name The string or number to use as the `id` for the step
-     * @returns {Step}
+     * @return {Step} The step instance
      */
 
   }, {
@@ -2285,94 +2461,6 @@ var Tour = exports.Tour = function (_Evented) {
       stepOptions = Object.assign({}, this.options.defaults, stepOptions);
 
       return new _step.Step(this, stepOptions);
-    }
-  }, {
-    key: 'getById',
-    value: function getById(id) {
-      for (var i = 0; i < this.steps.length; ++i) {
-        var step = this.steps[i];
-        if (step.id === id) {
-          return step;
-        }
-      }
-    }
-  }, {
-    key: 'getCurrentStep',
-    value: function getCurrentStep() {
-      return this.currentStep;
-    }
-
-    /**
-     * Go to the previous step in the tour
-     */
-
-  }, {
-    key: 'back',
-    value: function back() {
-      var index = this.steps.indexOf(this.currentStep);
-      this.show(index - 1, false);
-    }
-
-    /**
-     * Calls done() triggering the 'cancel' event
-     */
-
-  }, {
-    key: 'cancel',
-    value: function cancel() {
-      this.done('cancel');
-    }
-
-    /**
-     * Calls done() triggering the 'complete' event
-     */
-
-  }, {
-    key: 'complete',
-    value: function complete() {
-      this.done('complete');
-    }
-
-    /**
-     * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-     * @param event
-     */
-
-  }, {
-    key: 'done',
-    value: function done(event) {
-      if (this.currentStep) {
-        this.currentStep.hide();
-      }
-
-      this.trigger(event);
-
-      if (Shepherd.activeTour) {
-        Shepherd.activeTour.steps.forEach(function (step) {
-          step.destroy();
-        });
-      }
-
-      Shepherd.activeTour = null;
-      document.body.classList.remove('shepherd-active');
-      this.trigger('inactive', { tour: this });
-    }
-
-    /**
-     * Go to the next step in the tour
-     * If we are at the end, call `complete`
-     */
-
-  }, {
-    key: 'next',
-    value: function next() {
-      var index = this.steps.indexOf(this.currentStep);
-
-      if (index === this.steps.length - 1) {
-        this.complete();
-      } else {
-        this.show(index + 1, true);
-      }
     }
 
     /**
