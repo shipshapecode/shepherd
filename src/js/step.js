@@ -25,9 +25,12 @@ export class Step extends Evented {
   /**
    * Create a step
    * @param {Tour} tour The tour for the step
-   * @param {Object} options
+   * @param {Object} options The options for the step
    * @param {function} options.beforeShowPromise A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
+   * @param {Object[]} options.buttons An array of buttons to add to the step. By default
+   * we add a Next button which triggers `next()`, set this to `false` to disable.
+   * @param {Object} options.buttons.button.text The HTML text of the button
    * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
    * @return {Step} The newly created Step instance
    */
@@ -332,7 +335,7 @@ export class Step extends Evented {
 
   /**
    * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
-   * @return {*}
+   * @return {*|Promise}
    */
   show() {
     if (_.isFunction(this.options.beforeShowPromise)) {
@@ -351,25 +354,22 @@ export class Step extends Evented {
    */
   _setUpButtons() {
     const { buttons } = this.options;
-    if (!buttons) {
-      return;
+    if (buttons) {
+      const buttonsAreDefault = _.isUndefined(buttons) || _.isEmpty(buttons);
+      if (buttonsAreDefault) {
+        this.options.buttons = [{
+          text: 'Next',
+          action: this.tour.next,
+          classes: 'btn'
+        }];
+      } else {
+        const buttonsAreObject = _.isPlainObject(buttons);
+        // Can pass in an object which will assume a single button
+        if (buttonsAreObject) {
+          this.options.buttons = [this.options.buttons];
+        }
+      }
     }
-    const buttonsAreDefault = _.isUndefined(buttons) || _.isEmpty(buttons);
-    if (buttonsAreDefault) {
-      return this.options.buttons = [{
-        text: 'Next',
-        action: this.tour.next,
-        classes: 'btn'
-      }];
-    }
-
-    const buttonsAreObject = _.isPlainObject(buttons);
-    // Can pass in an object which will assume a single button
-    if (buttonsAreObject) {
-      return this.options.buttons = [this.options.buttons];
-    }
-
-    return buttons;
   }
 
   /**
