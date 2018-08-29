@@ -186,6 +186,10 @@ export class Step extends Evented {
     return this.tour;
   }
 
+  /**
+   * Passes `options.attachTo` to `parsePosition` to get the correct `attachTo` format
+   * @returns {({} & {element, on}) | ({})}
+   */
   getAttachTo() {
     const opts = parsePosition(this.options.attachTo) || {};
     const returnOpts = Object.assign({}, opts);
@@ -276,6 +280,9 @@ export class Step extends Evented {
     return this.el && !this.el.hidden;
   }
 
+  /**
+   * Create the element and set up the popper instance
+   */
   render() {
     if (!_.isUndefined(this.el)) {
       this.destroy();
@@ -323,6 +330,10 @@ export class Step extends Evented {
     this._setUpButtons();
   }
 
+  /**
+   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
+   * @return {*}
+   */
   show() {
     if (_.isFunction(this.options.beforeShowPromise)) {
       const beforeShowPromise = this.options.beforeShowPromise();
@@ -361,6 +372,10 @@ export class Step extends Evented {
     return buttons;
   }
 
+  /**
+   * Triggers `before-show` then renders the element, shows it, sets up popper and triggers `show`
+   * @private
+   */
   _show() {
     this.trigger('before-show');
 
