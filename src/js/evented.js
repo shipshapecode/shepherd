@@ -1,13 +1,13 @@
-import _ from 'lodash';
+import { drop, isUndefined } from 'lodash';
 
 export class Evented {
   on(event, handler, ctx) {
     const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-    if (_.isUndefined(this.bindings)) {
+    if (isUndefined(this.bindings)) {
       this.bindings = {};
     }
-    if (_.isUndefined(this.bindings[event])) {
+    if (isUndefined(this.bindings[event])) {
       this.bindings[event] = [];
     }
     this.bindings[event].push({ handler, ctx, once });
@@ -18,11 +18,11 @@ export class Evented {
   }
 
   off(event, handler) {
-    if (_.isUndefined(this.bindings) || _.isUndefined(this.bindings[event])) {
+    if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return false;
     }
 
-    if (_.isUndefined(handler)) {
+    if (isUndefined(handler)) {
       delete this.bindings[event];
     } else {
       this.bindings[event].forEach((binding, index) => {
@@ -34,8 +34,8 @@ export class Evented {
   }
 
   trigger(event) {
-    if (!_.isUndefined(this.bindings) && this.bindings[event]) {
-      const args = _.drop(arguments);
+    if (!isUndefined(this.bindings) && this.bindings[event]) {
+      const args = drop(arguments);
 
       this.bindings[event].forEach((binding, index) => {
         const { ctx, handler, once } = binding;

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isObjectLike, isUndefined, zipObject } from 'lodash';
 import Popper from 'popper.js';
 
 /**
@@ -18,7 +18,7 @@ export function createFromHTML(html) {
  * @return {Object} The object with `element` and `on` for the step
  */
 export function parsePosition(position) {
-  if (_.isObjectLike(position)) {
+  if (isObjectLike(position)) {
     if (position.hasOwnProperty('element') && position.hasOwnProperty('on')) {
       return position;
     }
@@ -44,21 +44,21 @@ export function parsePosition(position) {
  * @return {*}
  */
 export function parseShorthand(obj, props) {
-  if (obj === null || _.isUndefined(obj)) {
+  if (obj === null || isUndefined(obj)) {
     return obj;
-  } else if (_.isObjectLike(obj)) {
+  } else if (isObjectLike(obj)) {
     return obj;
   }
 
   const values = obj.split(' ');
-  return _.zipObject(props, values);
+  return zipObject(props, values);
 }
 
 /**
  * Determines options for Popper and initializes the Popper instance
  */
 export function setupPopper() {
-  if (_.isUndefined(Popper)) {
+  if (isUndefined(Popper)) {
     throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
   }
 
@@ -67,7 +67,7 @@ export function setupPopper() {
   let attachment = opts.on || 'right';
   opts.positionFixed = false;
 
-  if (_.isUndefined(opts.element)) {
+  if (isUndefined(opts.element)) {
     attachment = 'top';
     _setupCenteredPopper(opts);
   }
