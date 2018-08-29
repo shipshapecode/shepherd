@@ -4,7 +4,7 @@ import Popper from 'popper.js';
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
- * @returns {HTMLElement}
+ * @return {HTMLElement} The element created from the passed HTML string
  */
 export function createFromHTML(html) {
   const el = document.createElement('div');
@@ -15,7 +15,7 @@ export function createFromHTML(html) {
 /**
  * Parse the position object or string to return the attachment and element to attach to
  * @param {Object|String} position Either a string or object denoting the selector and position for attachment
- * @returns {Object}
+ * @return {Object} The object with `element` and `on` for the step
  */
 export function parsePosition(position) {
   if (_.isObjectLike(position)) {
@@ -41,7 +41,7 @@ export function parsePosition(position) {
 /**
  * @param obj
  * @param {Array} props
- * @returns {*}
+ * @return {*}
  */
 export function parseShorthand(obj, props) {
   if (obj === null || _.isUndefined(obj)) {
@@ -88,7 +88,7 @@ export function setupPopper() {
  * Merge the global popperOptions, and the local opts
  * @param {String} attachment The direction for attachment
  * @param {Object} opts The local options
- * @returns {Object} The merged popperOpts object
+ * @return {Object} The merged popperOpts object
  * @private
  */
 function _mergePopperOptions(attachment, opts) {
@@ -103,7 +103,7 @@ function _mergePopperOptions(attachment, opts) {
 /**
  * Sets up a popper centered on the screen, when there is no attachTo element
  * @param {Object} opts The config object
- * @returns {*}
+ * @return {*}
  * @private
  */
 function _setupCenteredPopper(opts) {

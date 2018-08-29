@@ -24,6 +24,7 @@
   ],
   "scripts": {
     "build": "yarn clean && webpack --mode production",
+    "esdoc": "esdoc",
     "postbuild": "rm -f dist/removable-*",
     "clean": "rm -rf dist",
     "cy:open": "./node_modules/.bin/cypress open",
@@ -70,6 +71,9 @@
     "css-loader": "^1.0.0",
     "cypress": "^3.0.3",
     "del": "^3.0.0",
+    "esdoc": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^5.1.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-mocha": "^5.1.0",
