@@ -8,7 +8,7 @@ import { createFromHTML, parsePosition, setupPopper } from './utils.js';
  * Creates incremented ID for each newly created step
  *
  * @private
- * @returns {Number}
+ * @return {Number} The unique id for the step
  */
 const uniqueId = (function() {
   let id = 0;
@@ -17,7 +17,20 @@ const uniqueId = (function() {
   };
 })();
 
+/**
+ * Class representing steps to be added to a tour
+ * @extends {Evented}
+ */
 export class Step extends Evented {
+  /**
+   * Create a step
+   * @param {Tour} tour The tour for the step
+   * @param {Object} options
+   * @param {function} options.beforeShowPromise A function that returns a promise.
+   * When the promise resolves, the rest of the `show` code for the step will execute.
+   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
+   * @return {Step} The newly created Step instance
+   */
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
@@ -44,7 +57,7 @@ export class Step extends Evented {
    * Adds buttons to the step as passed into options
    *
    * @private
-   * @param {HTMLElement}
+   * @param {HTMLElement} content The element for the step, to append the footer with buttons to
    */
   _addButtons(content) {
     if (this.options.buttons) {
@@ -64,6 +77,8 @@ export class Step extends Evented {
 
   /**
    * Adds the "x" button to cancel the tour
+   * @param {HTMLElement} element The step element
+   * @param {HTMLElement} header The header element for the step
    * @private
    */
   _addCancelLink(element, header) {
@@ -80,7 +95,7 @@ export class Step extends Evented {
    * Adds text passed in as options
    *
    * @private
-   * @param {HTMLElement}
+   * @param {HTMLElement} content The content to append the text to
    */
   _addContent(content) {
     const text = createFromHTML('<div class="shepherd-text"></div>');
@@ -109,7 +124,7 @@ export class Step extends Evented {
    * Attaches final element to default or passed location
    *
    * @private
-   * @param {HTMLElement}
+   * @param {HTMLElement} element The element to attach
    */
   _attach(element) {
     const { renderLocation } = this.options;
@@ -129,7 +144,7 @@ export class Step extends Evented {
    * Creates Shepherd element for step based on options
    *
    * @private
-   * @returns {HTMLElement} element
+   * @return {HTMLElement} The DOM element for the step
    */
   _createElement() {
     const content = document.createElement('div');
@@ -164,6 +179,161 @@ export class Step extends Evented {
   }
 
   /**
+   * Returns the tour for the step
+   * @return {Tour} The tour instance
+   */
+  getTour() {
+    return this.tour;
+  }
+
+  getAttachTo() {
+    const opts = parsePosition(this.options.attachTo) || {};
+    const returnOpts = Object.assign({}, opts);
+
+    if (_.isString(opts.element)) {
+      // Can't override the element in user opts reference because we can't
+      // guarantee that the element will exist in the future.
+      try {
+        returnOpts.element = document.querySelector(opts.element);
+      } catch(e) {
+        // TODO
+      }
+      if (!returnOpts.element) {
+        console.error(`The element for this Shepherd step was not found ${opts.element}`);
+      }
+    }
+
+    return returnOpts;
+  }
+
+  /**
+   * Cancel the tour
+   * Triggers the `cancel` event
+   */
+  cancel() {
+    this.tour.cancel();
+    this.trigger('cancel');
+  }
+
+  /**
+   * Complete the tour
+   * Triggers the `complete` event
+   */
+  complete() {
+    this.tour.complete();
+    this.trigger('complete');
+  }
+
+  /**
+   * Remove the step, delete the step's element, and destroy the popper for the step
+   * Triggers `destroy` event
+   */
+  destroy() {
+    if (_.isElement(this.el) && this.el.parentNode) {
+      this.el.parentNode.removeChild(this.el);
+      delete this.el;
+    }
+
+    if (this.popper) {
+      this.popper.destroy();
+    }
+    this.popper = null;
+
+    this.trigger('destroy');
+  }
+
+  /**
+   * Hide the step and destroy the popper
+   */
+  hide() {
+    this.trigger('before-hide');
+
+    if (this.el) {
+      this.el.hidden = true;
+      // We need to manually set styles for < IE11 support
+      this.el.style.display = 'none';
+    }
+
+    document.body.removeAttribute('data-shepherd-step');
+
+    if (this.target) {
+      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+    }
+
+    if (this.popper) {
+      this.popper.destroy();
+    }
+    this.popper = null;
+
+    this.trigger('hide');
+  }
+
+  /**
+   * Check if the step is open and visible
+   * @return {*|boolean} True if the step is open and visible
+   */
+  isOpen() {
+    return this.el && !this.el.hidden;
+  }
+
+  render() {
+    if (!_.isUndefined(this.el)) {
+      this.destroy();
+    }
+    this.el = this._createElement();
+
+    if (this.options.advanceOn) {
+      this.bindAdvance();
+    }
+
+    this._attach(this.el);
+
+    this.setupPopper();
+  }
+
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
+  scrollTo() {
+    const { element } = this.getAttachTo();
+
+    if (_.isFunction(this.options.scrollToHandler)) {
+      this.options.scrollToHandler(element);
+    } else if (_.isElement(element)) {
+      element.scrollIntoView();
+    }
+  }
+
+  /**
+   * Sets the options for the step, maps `when` to events, sets up buttons
+   * @param {Object} options The options for the step
+   */
+  setOptions(options = {}) {
+    this.options = options;
+    const { when } = this.options;
+
+    this.destroy();
+    this.id = this.options.id || `step-${uniqueId()}`;
+
+    _.forOwn(when, (handler, event) => {
+      this.on(event, handler, this);
+    });
+
+    this._setUpButtons();
+  }
+
+  show() {
+    if (_.isFunction(this.options.beforeShowPromise)) {
+      const beforeShowPromise = this.options.beforeShowPromise();
+      if (!_.isUndefined(beforeShowPromise)) {
+        return beforeShowPromise.then(() => this._show());
+      }
+    }
+    this._show();
+  }
+
+  /**
    * Determines button options prior to rendering
    *
    * @private
@@ -191,58 +361,6 @@ export class Step extends Evented {
     return buttons;
   }
 
-  /**
-   * Returns the tour for the step
-   * @returns {Tour}
-   */
-  getTour() {
-    return this.tour;
-  }
-
-  getAttachTo() {
-    const opts = parsePosition(this.options.attachTo) || {};
-    const returnOpts = Object.assign({}, opts);
-
-    if (_.isString(opts.element)) {
-      // Can't override the element in user opts reference because we can't
-      // guarantee that the element will exist in the future.
-      try {
-        returnOpts.element = document.querySelector(opts.element);
-      } catch(e) {
-        // TODO
-      }
-      if (!returnOpts.element) {
-        console.error(`The element for this Shepherd step was not found ${opts.element}`);
-      }
-    }
-
-    return returnOpts;
-  }
-
-  setOptions(options = {}) {
-    this.options = options;
-    const { when } = this.options;
-
-    this.destroy();
-    this.id = this.options.id || `step-${uniqueId()}`;
-
-    _.forOwn(when, (handler, event) => {
-      this.on(event, handler, this);
-    });
-
-    this._setUpButtons();
-  }
-
-  show() {
-    if (_.isFunction(this.options.beforeShowPromise)) {
-      const beforeShowPromise = this.options.beforeShowPromise();
-      if (!_.isUndefined(beforeShowPromise)) {
-        return beforeShowPromise.then(() => this._show());
-      }
-    }
-    this._show();
-  }
-
   _show() {
     this.trigger('before-show');
 
@@ -265,91 +383,5 @@ export class Step extends Evented {
     }
 
     this.trigger('show');
-  }
-
-  hide() {
-    this.trigger('before-hide');
-
-    if (this.el) {
-      this.el.hidden = true;
-      // We need to manually set styles for < IE11 support
-      this.el.style.display = 'none';
-    }
-
-    document.body.removeAttribute('data-shepherd-step');
-
-    if (this.target) {
-      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
-    }
-
-    if (this.popper) {
-      this.popper.destroy();
-    }
-    this.popper = null;
-
-    this.trigger('hide');
-  }
-
-  isOpen() {
-    return this.el && !this.el.hidden;
-  }
-
-  /**
-   * Cancel the tour and fire the `cancel` event
-   */
-  cancel() {
-    this.tour.cancel();
-    this.trigger('cancel');
-  }
-
-  /**
-   * Complete the tour and fire the `complete` event
-   */
-  complete() {
-    this.tour.complete();
-    this.trigger('complete');
-  }
-
-  /**
-   * If a custom scrollToHandler is defined, call that, otherwise do the generic
-   * scrollIntoView call.
-   */
-  scrollTo() {
-    const { element } = this.getAttachTo();
-
-    if (_.isFunction(this.options.scrollToHandler)) {
-      this.options.scrollToHandler(element);
-    } else if (_.isElement(element)) {
-      element.scrollIntoView();
-    }
-  }
-
-  destroy() {
-    if (_.isElement(this.el) && this.el.parentNode) {
-      this.el.parentNode.removeChild(this.el);
-      delete this.el;
-    }
-
-    if (this.popper) {
-      this.popper.destroy();
-    }
-    this.popper = null;
-
-    this.trigger('destroy');
-  }
-
-  render() {
-    if (!_.isUndefined(this.el)) {
-      this.destroy();
-    }
-    this.el = this._createElement();
-
-    if (this.options.advanceOn) {
-      this.bindAdvance();
-    }
-
-    this._attach(this.el);
-
-    this.setupPopper();
   }
 }

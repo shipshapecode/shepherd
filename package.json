@@ -72,6 +72,7 @@
     "cypress": "^3.0.3",
     "del": "^3.0.0",
     "esdoc": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^5.1.0",
     "eslint-loader": "^2.1.0",
