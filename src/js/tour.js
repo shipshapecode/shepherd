@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { isFunction, isNumber, isString, isUndefined } from 'lodash';
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
@@ -55,7 +55,7 @@ export class Tour extends Evented {
     let name, step;
 
     // If we just have one argument, we can assume it is an object of step options, with an id
-    if (_.isUndefined(arg2)) {
+    if (isUndefined(arg2)) {
       step = arg1;
     } else {
       name = arg1;
@@ -185,7 +185,7 @@ export class Tour extends Evented {
    * @return {Step} The step instance
    */
   setupStep(stepOptions, name) {
-    if (_.isString(name) || _.isNumber(name)) {
+    if (isString(name) || isNumber(name)) {
       stepOptions.id = name.toString();
     }
 
@@ -202,13 +202,13 @@ export class Tour extends Evented {
   show(key = 0, forward = true) {
     this._setupActiveTour();
 
-    const step = _.isString(key) ? this.getById(key) : this.steps[key];
+    const step = isString(key) ? this.getById(key) : this.steps[key];
 
     if (!step) {
       return;
     }
 
-    const shouldSkipStep = _.isFunction(step.options.showOn) && !step.options.showOn();
+    const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
     // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
     if (shouldSkipStep) {
       this._skipStep(step, forward);
