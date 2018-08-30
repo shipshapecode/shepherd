@@ -53,7 +53,6 @@ tour.start();
 
 [Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
-
 ## Contributing
 
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).

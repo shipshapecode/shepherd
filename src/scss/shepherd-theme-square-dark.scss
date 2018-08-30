@@ -1,9 +1,7 @@
-@import "./variables";
+$shepherd-header-background: #303030 !default;
+$shepherd-text-background: #232323 !default;
+$shepherd-element-border-radius: 0 !default;
+$shepherd-button-border-radius: 0 !default;
+$use-drop-shadow: true !default;
 
-$background-color: #232323;
-$color: #eeeeee;
-$header-background-color: #303030;
-$use-drop-shadow: false;
-
-@import "./base";
-@import "./square";
+@import 'base';

@@ -1,62 +1,110 @@
-@import "./mixins/cancel-link";
-@import "./mixins/pie-clearfix";
-@import "./mixins/inline-block";
-@import "./mixins/shepherd-button";
-@import "./helpers/popper";
-@import "./helpers/popper-theme-arrows";
+@import 'variables';
+@import 'mixins';
+@import 'helpers';
 
-@include popper();
-@include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events, $background-color: $background-color, $color: $color, $use-drop-shadow: $use-drop-shadow);
+@include box-sizing();
 
 .shepherd-element {
-  // Make the arrow color the same as the header color when the arrow is on the top
+  @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
 
-  &[x-placement^="bottom"] {
-    &.shepherd-has-title {
-      .popper__arrow {
-        border-bottom-color: $header-background-color;
-      }
-    }
+  @if $use-drop-shadow {
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
   }
 
-  &.shepherd-has-title .shepherd-content header {
-    background: $header-background-color;
-    padding: 1em;
+  max-height: $shepherd-element-max-height;
+  max-width: $shepherd-element-max-width;
+  width: $shepherd-element-width;
+  z-index: $shepherd-element-z-index;
 
-    a.shepherd-cancel-link {
-      margin-bottom: 0;
-      padding: 0;
+  // Care for enough space around title.
+  // Especially on colored headers.
+  &.shepherd-has-title .shepherd-content,
+  &.shepherd-has-cancel-link .shepherd-content {
+    .shepherd-header {
+      padding-bottom: 0.75em;
     }
-  }
-
-  &.shepherd-has-cancel-link .shepherd-content header h3 {
-    float: left;
   }
 
   .shepherd-content {
-    padding: 0;
+    background: none;
+    font-size: inherit;
 
-    * {
-      font-size: inherit;
-    }
-
-    header {
+    header,
+    .shepherd-header {
       @include pie-clearfix;
 
-      padding: 1em 1em 0;
+      background: $shepherd-header-background;
+      border-top-left-radius: $shepherd-element-border-radius;
+      border-top-right-radius: $shepherd-element-border-radius;
+      line-height: 2em;
+      padding: 0.75em 0.75em 0;
 
-      h3 {
+      .shepherd-title,
+      .shepherd-cancel-link {
         font-weight: normal;
         margin: 0;
+        padding: 0;
+        position: relative;
+        vertical-align: middle;
       }
 
-      a.shepherd-cancel-link {
-        @include cancel-link;
+      .shepherd-title {
+        color: map_get($shepherd-theme-text-colors, header);
+        float: left;
+        font-size: 1.1em;
+      }
+
+      .shepherd-cancel-link {
+        color: lighten(map_get($shepherd-theme-text-colors, header), 70);
+        float: right;
+        font-size: 2em;
+        text-decoration: none;
+        transition: color 0.5s ease;
+
+        &:before {
+          content: '\00d7';
+        }
+
+        &:hover {
+          color: map_get($shepherd-theme-text-colors, header);
+        }
       }
     }
 
-    footer {
-      padding: 0 1em 1em;
+    .shepherd-text {
+      background: $shepherd-text-background;
+      color: map_get($shepherd-theme-text-colors, text);
+      line-height: $shepherd-text-line-height;
+      padding: 0.75em;
+
+      a,
+      a:visited,
+      a:active {
+        border-bottom: 1px dotted;
+        border-bottom-color: map_get($shepherd-theme-text-colors, text);
+        color: map_get($shepherd-theme-text-colors, text);
+        text-decoration: none;
+
+        &:hover {
+          border-bottom-style: solid;
+        }
+      }
+
+      p {
+        margin-top: 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    footer,
+    .shepherd-footer {
+      background: $shepherd-text-background;
+      border-bottom-left-radius: $shepherd-element-border-radius;
+      border-bottom-right-radius: $shepherd-element-border-radius;
+      padding: 0 0.75em 0.75em;
 
       .shepherd-buttons {
         list-style: none;
@@ -66,32 +114,15 @@
 
         li {
           display: inline;
-          margin: 0;
-          padding: 0;
+          margin: 0 0.5em 0 0;
 
-          .shepherd-button {
-            @include inline-block;
-
-            cursor: pointer;
-            margin: 0 0.5em 0 0;
-          }
-
-          &:last-child .shepherd-button {
+          &:last-child {
             margin-right: 0;
           }
-        }
-      }
-    }
 
-    .shepherd-text {
-      padding: 1em;
-
-      p {
-        line-height: 1.3em;
-        margin: 0 0 0.5em;
-
-        &:last-child {
-          margin-bottom: 0;
+          .shepherd-button {
+            @include shepherd-button;
+          }
         }
       }
     }

@@ -83,7 +83,7 @@ module.exports = [{
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: 'inline',
+              sourceMap: true,
               plugins: () => [
                 autoprefixer({
                   grid: false,
@@ -122,7 +122,6 @@ module.exports = [{
           routes: {
             '/shepherd/dist/js/popper.js': 'dist/js/popper.js',
             '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
-            '/shepherd/dist/css/shepherd-theme-arrows.css': 'dist/css/shepherd-theme-arrows.css',
             '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
             '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
             '/shepherd/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
