@@ -477,6 +477,7 @@ class Step extends _evented.Evented {
     if (this.options.buttons) {
       const footer = document.createElement('footer');
       const buttons = (0, _utils.createFromHTML)('<ul class="shepherd-buttons"></ul>');
+      footer.classList.add('shepherd-footer');
       this.options.buttons.map(cfg => {
         const button = (0, _utils.createFromHTML)(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
         buttons.appendChild(button);
@@ -578,6 +579,7 @@ class Step extends _evented.Evented {
     }
 
     content.classList.add('shepherd-content');
+    header.classList.add('shepherd-header');
     element.appendChild(content);
     content.appendChild(header);
 

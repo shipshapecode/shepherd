@@ -1,6 +1,10 @@
-$color-inherit: "inherit";
-$color-green: #3b744f;
-$color-white: #ffffff;
+// Themeing
+$shepherd-theme-primary: #55a892 !default;
+$shepherd-header-background: #eeeeee !default;
+$shepherd-element-width: 420px !default;
+
+// Docs
+$color-white: #ffffff !default;
 
 html,
 body {
@@ -108,26 +112,33 @@ body {
   }
 }
 
-.shepherd-element {
-  &.shepherd-transparent-text .shepherd-text {
-    color: $color-green;
-  }
-
-  .shepherd-content {
-    max-width: 100%;
-    width: 400px;
-
-    a {
-      color: $color-inherit;
-    }
-
-    footer .shepherd-buttons li .shepherd-button-example-primary {
-      background: #55a892;
-    }
-  }
-}
-
 pre {
   border: 1px solid rgba(0, 0, 0, 0.15);
   line-height: 1.4em;
+}
+
+// Import base theme
+@import '../../../src/scss/base';
+
+// Overwrite welcome-step with certain class
+.shepherd-welcome {
+  @include popper-theme-arrows($header-bg: #ffffff);
+
+  &:not(.shepherd-has-title) .shepherd-content {
+    header,
+    .shepherd-header {
+      padding-bottom: 0;
+    }
+  }
+
+  .shepherd-content {
+    header,
+    .shepherd-header {
+      background: #ffffff;
+    }
+
+    .shepherd-text {
+      color: darken($shepherd-theme-primary, 20);
+    }
+  }
 }

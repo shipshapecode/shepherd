@@ -75,6 +75,8 @@ export class Step extends Evented {
       const footer = document.createElement('footer');
       const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
+      footer.classList.add('shepherd-footer');
+
       this.options.buttons.map((cfg) => {
         const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
         buttons.appendChild(button);
@@ -172,6 +174,7 @@ export class Step extends Evented {
     }
 
     content.classList.add('shepherd-content');
+    header.classList.add('shepherd-header');
     element.appendChild(content);
     content.appendChild(header);
 

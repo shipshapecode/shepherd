@@ -1,0 +1,11 @@
+// ToDo: More reliable function to get best readable text color
+// MDC-Web has some very useful functions at https://github.com/material-components/material-components-web/blob/master/packages/mdc-theme/_functions.scss
+// More details at https://medium.com/dev-channel/using-sass-to-automatically-pick-text-colors-4ba7645d2796
+@function set-text-color($color) {
+  @if (lightness($color) > 60) {
+    @return #000000;
+  }
+  @else {
+    @return #ffffff;
+  }
+}
