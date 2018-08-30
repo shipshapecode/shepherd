@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { assert } from 'chai';
+import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 // since importing non UMD, needs assignment
@@ -138,6 +139,64 @@ describe('Tour', function() {
       assert.equal(instance.getCurrentStep().id, 'test3');
       instance.next();
       assert.isOk(completeFired, 'complete is called when next is clicked on last step');
+    });
+  });
+
+  describe('.cancel()', function() {
+    it('shows confirm dialog when confirmCancel is true', function() {
+      instance = new Shepherd.Tour({
+        defaults,
+        confirmCancel: true,
+        confirmCancelMessage: 'Confirm cancel?'
+      });
+
+      instance.addStep('test', {
+        classes: 'foo',
+        id: 'test',
+        title: 'This is a test step for our tour'
+      });
+
+      let inactiveFired = false;
+      instance.on('inactive', () => {
+        inactiveFired = true;
+      });
+
+      const windowConfirmStub = stub(window, 'confirm');
+      windowConfirmStub.returns(false);
+
+      instance.start();
+      assert.equal(instance, Shepherd.activeTour, 'activeTour is set to our tour');
+      instance.cancel();
+      assert.isOk(windowConfirmStub.called, 'window confirm is called');
+      assert.isNotOk(inactiveFired, 'tour still going, since confirm returned false');
+
+      windowConfirmStub.returns(true);
+      instance.cancel();
+      assert.isOk(windowConfirmStub.called, 'window confirm is called');
+      assert.isOk(inactiveFired, 'tour inactive, since confirm returned true');
+    });
+
+    it('tears down tour on cancel', function() {
+      let inactiveFired = false;
+      instance.on('inactive', () => {
+        inactiveFired = true;
+      });
+      instance.start();
+      assert.equal(instance, Shepherd.activeTour, 'activeTour is set to our tour');
+      instance.cancel();
+      assert.isNotOk(Shepherd.activeTour, 'activeTour is torn down');
+      assert.isOk(inactiveFired, 'inactive event fired');
+    });
+
+    it('triggers cancel event when cancel function is called', function() {
+      let cancelFired = false;
+      instance.on('cancel', () => {
+        cancelFired = true;
+      });
+
+      instance.start();
+      instance.cancel();
+      assert.isOk(cancelFired, 'cancel event fired');
     });
   });
 
