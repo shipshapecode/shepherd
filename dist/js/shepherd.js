@@ -2227,12 +2227,22 @@ class Tour extends _evented.Evented {
     this.show(index - 1, false);
   }
   /**
-   * Calls done() triggering the `cancel` event
+   * Calls done() triggering the 'cancel' event
+   * If `confirmCancel` is true, will show a window.confirm before cancelling
    */
 
 
   cancel() {
-    this.done('cancel');
+    if (this.options.confirmCancel) {
+      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
+      const stopTour = window.confirm(cancelMessage);
+
+      if (stopTour) {
+        this.done('cancel');
+      }
+    } else {
+      this.done('cancel');
+    }
   }
   /**
    * Calls done() triggering the `complete` event

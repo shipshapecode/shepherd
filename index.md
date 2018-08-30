@@ -117,6 +117,8 @@ const myTour = new Shepherd.Tour(options);
 
 - `steps`: An array of Step instances to initialize the tour with
 - `defaults`: Default options for Steps created through `addStep`
+- `confirmCancel`: If true, will issue a window.confirm before cancelling
+- `confirmCancelMessage`: The message to display in the confirm dialog
 
 ##### Tour Methods
 
