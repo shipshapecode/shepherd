@@ -26,14 +26,14 @@ export function bindAdvance() {
   const handler = _setupAdvanceOnHandler.call(this, selector);
 
   // TODO: this should also bind/unbind on show/hide
-  if (!isUndefined(selector)) {
-    const el = document.querySelector(selector);
+  const el = document.querySelector(selector);
+  if (!isUndefined(selector) && el) {
     el.addEventListener(event, handler);
   } else {
-    document.body.addEventListener(event, handler);
+    document.body.addEventListener(event, handler, true);
   }
   this.on('destroy', () => {
-    return document.body.removeEventListener(event, handler);
+    return document.body.removeEventListener(event, handler, true);
   });
 }
 
