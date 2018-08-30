@@ -6,7 +6,7 @@ Guide your users through a tour of your app.
 
 [Popper](https://popper.js.org/)
 
-### Install 
+### Install
 
 __npm__
 ```bash
@@ -35,7 +35,7 @@ First create a new `Tour` instance for your tour:
 
 ```javascript
 const tour = new Shepherd.Tour({
-  defaults: { 
+  defaults: {
     classes: 'shepherd-theme-arrows',
     scrollTo: true
   }
@@ -53,7 +53,7 @@ tour.addStep('example-step', {
   attachTo: '.example-css-selector bottom',
   classes: 'example-step-extra-class',
   buttons: [
-    { 
+    {
       text: 'Next',
       action: tour.next
     }
@@ -283,7 +283,7 @@ let tour = new Shepherd.Tour({
 ```
 
 ### Custom Themeing
-We use [SASS](https://sass-lang.com/) as pre-processor for CSS. In connection with SASS there are extensive possibilities to generate CSS. For example, SASS can calculate or increase the saturation of color values. In addition, variables can be defined (similar to a scripting language), which ultimately end up as values in the CSS result. We make use of these extended possibilities by extracting themeing-relevant values as variables (__variables.scss_). This makes it easy to individualise colors and shapes.
+We use [SASS](https://sass-lang.com/) as pre-processor for CSS. In connection with SASS there are extensive possibilities to generate CSS. For example, SASS can calculate or increase the saturation of color values. In addition, variables can be defined (similar to a scripting language), which ultimately end up as values in the CSS result. We make use of these extended possibilities by extracting themeing-relevant values as variables (__variables.scss__). This makes it easy to individualise colors and shapes.
 
 Basically, there are only a handful of variables that need to be adjusted. A distinction is made between color settings and other options.
 
@@ -294,7 +294,7 @@ Basically, there are only a handful of variables that need to be adjusted. A dis
 | $shepherd-theme-primary | Primary or brand color. Primary button gets this color. | #3288e6
 | $shepherd-theme-secondary | Secondary color. If it is not set explicitly, it is calculated using the primary color. | desaturate(lighten($shepherd-theme-primary, 40), 70)
 | $shepherd-text-background | Background color of the text area. | #ffffff
-| $shepherd-header-background | Background color of the header element. If it is not set explicitly, it is calculated using the text background color. | darken($shepherd-text-background, 10) 
+| $shepherd-header-background | Background color of the header element. If it is not set explicitly, it is calculated using the text background color. | darken($shepherd-text-background, 10)
 
 **Options**
 
@@ -339,4 +339,3 @@ Ember addon for the site tour library Shepherd
 ### Your Project Here
 
 If you have a cool open-source library built on Shepherd, PR this doc.
-

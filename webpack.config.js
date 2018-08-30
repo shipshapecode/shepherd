@@ -83,7 +83,7 @@ module.exports = [{
           {
             loader: 'postcss-loader',
             options: {
-              sourceMap: 'inline',
+              sourceMap: true,
               plugins: () => [
                 autoprefixer({
                   grid: false,
