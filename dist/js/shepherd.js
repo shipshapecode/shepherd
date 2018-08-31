@@ -444,12 +444,62 @@ class Step extends _evented.Evented {
    * Create a step
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
+   * @param {Object|string} options.attachTo What element the step should be attached to on the page.
+   * It can either be a string of the form "element on", or an object with those properties.
+   * For example: ".some #element left", or {element: '.some #element', on: 'left'}.
+   * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
+   * element will appear in the middle of the screen.
+   * @param {HTMLElement|string} options.attachTo.element
+   * @param {string} options.attachTo.on
+   * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
+   * It can be of the form `"selector event"`, or an object with those properties.
+   * For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.
+   * It doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
+   * You can also always manually advance the Tour by calling `myTour.next()`.
    * @param {function} options.beforeShowPromise A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
    * @param {Object[]} options.buttons An array of buttons to add to the step. By default
    * we add a Next button which triggers `next()`, set this to `false` to disable.
-   * @param {Object} options.buttons.button.text The HTML text of the button
+   * @param {function} options.buttons.button.action A function executed when the button is clicked on
+   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
+   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
+   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
+   * You can use events to skip steps or navigate to specific steps, with something like:
+   * ```js
+   * events: {
+   *   click: function() {
+   *     return Shepherd.activeTour.show('some_step_name');
+   *   }
+   * }
+   * ```
+   * @param {string} options.buttons.button.text The HTML text of the button
+   * @param {string} options.classes Extra classes to add to the step. `shepherd-theme-arrows` will give you our theme.
+   * @param {Object} options.popperOptions Extra options to pass to popper.js
+   * @param {HTMLElement|string} options.renderLocation An `HTMLElement` or selector string of the element you want the
+   * tour step to render in. Most of the time, you will not need to pass anything, and it will default to `document.body`,
+   * but this is needed for `<dialog>` and might as well support passing anything.
+   * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
+   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
+   * define a custom action to do the scrolling, and possibly other logic.
+   * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?
+   * @param {function} options.showOn A function that, when it returns `true`, will show the step.
+   * If it returns false, the step will be skipped.
+   * @param {string} options.text The text in the body of the step. It can be one of four types:
+   * ```
+   * - HTML string
+   * - Array of HTML strings
+   * - `HTMLElement` object
+   * - `Function` to be executed when the step is built. It must return one of the three options above.
+   * ```
    * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
+   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
+   * ```js
+   * when: {
+   *   show: function() {
+   *     window.scrollTo(0, 0);
+   *   }
+   * }
+   * ```
    * @return {Step} The newly created Step instance
    */
   constructor(tour, options) {
