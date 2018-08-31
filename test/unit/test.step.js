@@ -158,6 +158,28 @@ describe('Step', () => {
       assert.isOk(advanced, 'next triggered for advanceOn');
     });
 
+    it('should support bubbling events for nodes that do not exist yet', () => {
+      const event = new Event('blur');
+      let advanced = false;
+
+      const step = new Step({
+        next: () => advanced = true
+      }, {
+        text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
+        advanceOn: {
+          selector: 'a[href="https://popper.js.org/"]',
+          event: 'blur'
+        }
+      });
+      step.el = document.body;
+      step.el.hidden = false;
+
+      step.bindAdvance();
+      document.body.dispatchEvent(event);
+
+      assert.isOk(advanced, 'next triggered for advanceOn');
+    });
+
     it('it should call removeEventListener when destoryed', function(done){
       const el = document.createElement('div');
       const body = spy(document.body, 'removeEventListener');
