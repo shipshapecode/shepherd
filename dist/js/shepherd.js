@@ -1040,15 +1040,16 @@ function bindAdvance() {
   const handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
 
 
-  if (!(0, _isUndefined3.default)(selector)) {
-    const el = document.querySelector(selector);
+  const el = document.querySelector(selector);
+
+  if (!(0, _isUndefined3.default)(selector) && el) {
     el.addEventListener(event, handler);
   } else {
-    document.body.addEventListener(event, handler);
+    document.body.addEventListener(event, handler, true);
   }
 
   this.on('destroy', () => {
-    return document.body.removeEventListener(event, handler);
+    return document.body.removeEventListener(event, handler, true);
   });
 }
 /**
