@@ -46,7 +46,7 @@ const Shepherd = new Evented();
 export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
-   * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
+   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
