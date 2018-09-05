@@ -23,7 +23,7 @@ const uniqueId = (function() {
 })();
 
 /**
- * Class representing steps to be added to a tour
+ * A class representing steps to be added to a tour.
  * @extends {Evented}
  */
 export class Step extends Evented {
@@ -32,16 +32,40 @@ export class Step extends Evented {
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
    * @param {Object|string} options.attachTo What element the step should be attached to on the page.
-   * It can either be a string of the form "element on", or an object with those properties.
-   * For example: ".some #element left", or {element: '.some #element', on: 'left'}.
+   * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):
+   * ```js
+   * const new Step(tour, {
+   *   attachTo: '.some .selector-path left',
+   *   ...moreOptions,
+   * })'
+   * ```
+   * Or an object with those properties:
+   * ```js
+   * const new Step(tour, {
+   *   attachTo: { element: '.some .selector-path', on: 'left' },
+   *   ...moreOptions
+   * })'
+   * ```
    * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
    * element will appear in the middle of the screen.
    * @param {HTMLElement|string} options.attachTo.element
    * @param {string} options.attachTo.on
    * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
-   * It can be of the form `"selector event"`, or an object with those properties.
-   * For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.
-   * It doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
+   * It can be of the form `"selector event"`:
+  * ```js
+   * const new Step(tour, {
+   *   advanceOn: '.some .selector-path click',
+   *   ...moreOptions
+   * })'
+   * ```
+   * ...or an object with those properties:
+   * ```js
+   * const new Step(tour, {
+   *   advanceOn: { selector: '.some .selector-path', event: 'click' },
+   *   ...moreOptions
+   * })'
+   * ```
+   * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
    * You can also always manually advance the Tour by calling `myTour.next()`.
    * @param {function} options.beforeShowPromise A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
