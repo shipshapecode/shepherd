@@ -52,7 +52,7 @@
   .shepherd-element.shepherd-has-cancel-link .shepherd-content .shepherd-header {
     padding-bottom: 0.75em; }
   .shepherd-element .shepherd-content {
-    background: none;
+    background: #232323;
     font-size: inherit; }
     .shepherd-element .shepherd-content header,
     .shepherd-element .shepherd-content .shepherd-header {
@@ -95,7 +95,6 @@
         .shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-link:hover {
           color: rgba(255, 255, 255, 0.75); }
     .shepherd-element .shepherd-content .shepherd-text {
-      background: #232323;
       color: rgba(255, 255, 255, 0.75);
       line-height: 1.3em;
       padding: 0.75em; }
@@ -116,7 +115,6 @@
           margin-bottom: 0; }
     .shepherd-element .shepherd-content footer,
     .shepherd-element .shepherd-content .shepherd-footer {
-      background: #232323;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       padding: 0 0.75em 0.75em; }
