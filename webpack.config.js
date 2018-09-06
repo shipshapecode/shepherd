@@ -175,12 +175,7 @@ module.exports.push({
         include: [
           path.resolve(__dirname, 'src/js')
         ],
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            'presets': ['@babel/env']
-          }
-        }]
+        loader: 'babel-loader'
       }
     ]
   },
