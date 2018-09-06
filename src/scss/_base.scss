@@ -16,26 +16,24 @@
   width: $shepherd-element-width;
   z-index: $shepherd-element-z-index;
 
-  // Care for enough space around title.
-  // Especially on colored headers.
-  &.shepherd-has-title .shepherd-content,
-  &.shepherd-has-cancel-link .shepherd-content {
-    .shepherd-header {
-      padding-bottom: 0.75em;
-    }
+  &.shepherd-has-title .shepherd-content header {
+    background: $shepherd-header-background;
+    padding: 1em;
   }
 
   .shepherd-content {
     background: $shepherd-text-background;
     font-size: inherit;
+    padding: 0;
 
-    header,
-    .shepherd-header {
+    header {
       @include pie-clearfix;
 
-      background: $shepherd-header-background;
+      align-items: center;
       border-top-left-radius: $shepherd-element-border-radius;
       border-top-right-radius: $shepherd-element-border-radius;
+      display: flex;
+      justify-content: center;
       line-height: 2em;
       padding: 0.75em 0.75em 0;
 
@@ -50,14 +48,15 @@
 
       .shepherd-title {
         color: map_get($shepherd-theme-text-colors, header);
-        float: left;
+        display: flex;
+        flex: 1 0 auto;
         font-size: 1.1em;
       }
 
       .shepherd-cancel-link {
         color: lighten(map_get($shepherd-theme-text-colors, header), 70);
-        float: right;
         font-size: 2em;
+        margin-left: auto;
         text-decoration: none;
         transition: color 0.5s ease;
 
@@ -98,8 +97,7 @@
       }
     }
 
-    footer,
-    .shepherd-footer {
+    footer {
       border-bottom-left-radius: $shepherd-element-border-radius;
       border-bottom-right-radius: $shepherd-element-border-radius;
       padding: 0 0.75em 0.75em;

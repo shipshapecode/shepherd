@@ -48,51 +48,47 @@
       border-right-color: #ffffff;
       left: -16px;
       top: calc(50% - 16px); }
-  .shepherd-element.shepherd-has-title .shepherd-content .shepherd-header,
-  .shepherd-element.shepherd-has-cancel-link .shepherd-content .shepherd-header {
-    padding-bottom: 0.75em; }
+  .shepherd-element.shepherd-has-title .shepherd-content header {
+    background: #eeeeee;
+    padding: 1em; }
   .shepherd-element .shepherd-content {
     background: #ffffff;
-    font-size: inherit; }
-    .shepherd-element .shepherd-content header,
-    .shepherd-element .shepherd-content .shepherd-header {
+    font-size: inherit;
+    padding: 0; }
+    .shepherd-element .shepherd-content header {
       *zoom: 1;
-      background: #eeeeee;
+      align-items: center;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
+      display: flex;
+      justify-content: center;
       line-height: 2em;
       padding: 0.75em 0.75em 0; }
-      .shepherd-element .shepherd-content header:after,
-      .shepherd-element .shepherd-content .shepherd-header:after {
+      .shepherd-element .shepherd-content header:after {
         clear: both;
         content: '';
         display: table; }
       .shepherd-element .shepherd-content header .shepherd-title,
-      .shepherd-element .shepherd-content header .shepherd-cancel-link,
-      .shepherd-element .shepherd-content .shepherd-header .shepherd-title,
-      .shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-link {
+      .shepherd-element .shepherd-content header .shepherd-cancel-link {
         font-weight: normal;
         margin: 0;
         padding: 0;
         position: relative;
         vertical-align: middle; }
-      .shepherd-element .shepherd-content header .shepherd-title,
-      .shepherd-element .shepherd-content .shepherd-header .shepherd-title {
+      .shepherd-element .shepherd-content header .shepherd-title {
         color: rgba(0, 0, 0, 0.75);
-        float: left;
+        display: flex;
+        flex: 1 0 auto;
         font-size: 1.1em; }
-      .shepherd-element .shepherd-content header .shepherd-cancel-link,
-      .shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-link {
+      .shepherd-element .shepherd-content header .shepherd-cancel-link {
         color: rgba(179, 179, 179, 0.75);
-        float: right;
         font-size: 2em;
+        margin-left: auto;
         text-decoration: none;
         transition: color 0.5s ease; }
-        .shepherd-element .shepherd-content header .shepherd-cancel-link:before,
-        .shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-link:before {
+        .shepherd-element .shepherd-content header .shepherd-cancel-link:before {
           content: '\D7'; }
-        .shepherd-element .shepherd-content header .shepherd-cancel-link:hover,
-        .shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-link:hover {
+        .shepherd-element .shepherd-content header .shepherd-cancel-link:hover {
           color: rgba(0, 0, 0, 0.75); }
     .shepherd-element .shepherd-content .shepherd-text {
       color: rgba(0, 0, 0, 0.75);
@@ -113,26 +109,21 @@
         margin-top: 0; }
         .shepherd-element .shepherd-content .shepherd-text p:last-child {
           margin-bottom: 0; }
-    .shepherd-element .shepherd-content footer,
-    .shepherd-element .shepherd-content .shepherd-footer {
+    .shepherd-element .shepherd-content footer {
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
       padding: 0 0.75em 0.75em; }
-      .shepherd-element .shepherd-content footer .shepherd-buttons,
-      .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons {
+      .shepherd-element .shepherd-content footer .shepherd-buttons {
         list-style: none;
         margin: 0;
         padding: 0;
         text-align: right; }
-        .shepherd-element .shepherd-content footer .shepherd-buttons li,
-        .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li {
+        .shepherd-element .shepherd-content footer .shepherd-buttons li {
           display: inline;
           margin: 0 0.5em 0 0; }
-          .shepherd-element .shepherd-content footer .shepherd-buttons li:last-child,
-          .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li:last-child {
+          .shepherd-element .shepherd-content footer .shepherd-buttons li:last-child {
             margin-right: 0; }
-          .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button,
-          .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li .shepherd-button {
+          .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button {
             display: inline-block;
             *display: inline;
             vertical-align: middle;
@@ -150,14 +141,11 @@
             padding: 0.75em 2em;
             text-transform: uppercase;
             transition: all 0.5s ease; }
-            .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button:hover,
-            .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li .shepherd-button:hover {
+            .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button:hover {
               background: #196fcc; }
-            .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary,
-            .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+            .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
               background: #f1f2f3;
               color: rgba(0, 0, 0, 0.75); }
-              .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary:hover,
-              .shepherd-element .shepherd-content .shepherd-footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary:hover {
+              .shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary:hover {
                 background: #d5d8dc;
                 color: rgba(0, 0, 0, 0.75); }
