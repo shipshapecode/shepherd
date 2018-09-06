@@ -195,7 +195,7 @@ pre {
 }
 
 .shepherd-element .shepherd-content {
-  background: none;
+  background: #ffffff;
   font-size: inherit;
 }
 
@@ -255,7 +255,6 @@ pre {
 }
 
 .shepherd-element .shepherd-content .shepherd-text {
-  background: #ffffff;
   color: rgba(0, 0, 0, 0.75);
   line-height: 1.3em;
   padding: 0.75em;
@@ -286,7 +285,6 @@ pre {
 
 .shepherd-element .shepherd-content footer,
 .shepherd-element .shepherd-content .shepherd-footer {
-  background: #ffffff;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 0 0.75em 0.75em;

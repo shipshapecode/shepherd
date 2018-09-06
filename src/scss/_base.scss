@@ -26,7 +26,7 @@
   }
 
   .shepherd-content {
-    background: none;
+    background: $shepherd-text-background;
     font-size: inherit;
 
     header,
@@ -72,7 +72,6 @@
     }
 
     .shepherd-text {
-      background: $shepherd-text-background;
       color: map_get($shepherd-theme-text-colors, text);
       line-height: $shepherd-text-line-height;
       padding: 0.75em;
@@ -101,7 +100,6 @@
 
     footer,
     .shepherd-footer {
-      background: $shepherd-text-background;
       border-bottom-left-radius: $shepherd-element-border-radius;
       border-bottom-right-radius: $shepherd-element-border-radius;
       padding: 0 0.75em 0.75em;
