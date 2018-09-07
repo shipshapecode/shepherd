@@ -219,7 +219,7 @@ export class Step extends Evented {
       const title = document.createElement('h3');
       title.classList.add('shepherd-title');
       title.innerHTML = `${this.options.title}`;
-      header.prepend(title);
+      header.appendChild(title);
       element.classList.add('shepherd-has-title');
     }
 
