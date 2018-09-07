@@ -8,9 +8,9 @@
 [![Build Status](https://travis-ci.org/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.org/shipshapecode/shepherd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
+[![Greenkeeper badge](https://badges.greenkeeper.io/shipshapecode/shepherd.svg)](https://greenkeeper.io/)
 
-[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](https://shipshapecode.github.io/shepherd/docs/welcome/) [![Greenkeeper badge](https://badges.greenkeeper.io/shipshapecode/shepherd.svg)](https://greenkeeper.io/)
-
+[![Guide your users through a tour of your app](http://i.imgur.com/LDhfBvd.png)](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
 ## Install
 
