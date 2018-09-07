@@ -5,8 +5,7 @@
   box-sizing: border-box; }
 
 .shepherd-element {
-  -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
   max-height: 100%;
   max-width: 100%;
   width: 400px;
@@ -57,11 +56,14 @@
     padding: 0; }
     .shepherd-element .shepherd-content header {
       *zoom: 1;
-      align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
+      display: -ms-flexbox;
       display: flex;
-      justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
       line-height: 2em;
       padding: 0.75em 0.75em 0; }
       .shepherd-element .shepherd-content header:after {
@@ -77,8 +79,10 @@
         vertical-align: middle; }
       .shepherd-element .shepherd-content header .shepherd-title {
         color: rgba(0, 0, 0, 0.75);
+        display: -ms-flexbox;
         display: flex;
-        flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
         font-size: 1.1em; }
       .shepherd-element .shepherd-content header .shepherd-cancel-link {
         color: rgba(179, 179, 179, 0.75);
