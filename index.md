@@ -173,10 +173,10 @@ to disable.  Each button in the array is an object of the format:
   already have an `action` specified is not supported.
   You can use `events` to skip steps or navigate to specific steps, with something like:
   ```javascript
-  events: {  
-    click: function() {  
-      return Shepherd.activeTour.show('some_step_name');  
-    }  
+  events: {
+    click: function() {
+      return Shepherd.activeTour.show('some_step_name');
+    }
   }
   ```
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
@@ -264,7 +264,8 @@ mediator.on('user-create', () => {});
 IE9+ and all modern browsers
 
 ## Using Themes
-We deliver some predefined themes (e.g. shepherd-theme-default or shepherd-theme-square). You are welcome to use them and embed them into your page as additional stylesheets.
+
+We deliver some [predefined themes](/docs/themes.md) (e.g., `shepherd-theme-default` or `shepherd-theme-square`). You are welcome to use one of them by embedding its stylesheet into your app.
 
 ```html
 <head>
@@ -272,7 +273,7 @@ We deliver some predefined themes (e.g. shepherd-theme-default or shepherd-theme
 </head>
 ```
 
-Individual customizations to the standard themes must be made within the CSS file. Furthermore, individual CSS classes can be passed via the tour instance or for each step individually, to overwritte or supplement  existing style properties.
+If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance &mdash; or, as part of the options for each step &mdash; and use them as hooks for your own styling rules.
 
 ```javascript
 let tour = new Shepherd.Tour({
@@ -282,21 +283,22 @@ let tour = new Shepherd.Tour({
 });
 ```
 
-### Custom Themeing
-We use [SASS](https://sass-lang.com/) as pre-processor for CSS. In connection with SASS there are extensive possibilities to generate CSS. For example, SASS can calculate or increase the saturation of color values. In addition, variables can be defined (similar to a scripting language), which ultimately end up as values in the CSS result. We make use of these extended possibilities by extracting themeing-relevant values as variables (__variables.scss__). This makes it easy to individualise colors and shapes.
+### Custom Theming
 
-Basically, there are only a handful of variables that need to be adjusted. A distinction is made between color settings and other options.
+We use [SASS](https://sass-lang.com/) as pre-processor for CSS. This allows us to extend the CSS language with various syntax techniques &mdash; including variables and color functions that can be used to control theming.
 
-**Color Settings**
+These values and variables can be found in [**_variables.scss**](/src/scss/_variables.scss), and the ones that can be adjusted for theming are listed below.
+
+**🎨 Color Settings**
 
 | Variable | Purpose | Default
 |---|---|---
-| $shepherd-theme-primary | Primary or brand color. Primary button gets this color. | #3288e6
+| $shepherd-theme-primary | Primary or brand color. The primary button gets this color. | #3288e6
 | $shepherd-theme-secondary | Secondary color. If it is not set explicitly, it is calculated using the primary color. | desaturate(lighten($shepherd-theme-primary, 40), 70)
 | $shepherd-text-background | Background color of the text area. | #ffffff
 | $shepherd-header-background | Background color of the header element. If it is not set explicitly, it is calculated using the text background color. | darken($shepherd-text-background, 10)
 
-**Options**
+**⚙️ Options**
 
 | Variable | Purpose | Default
 |---|---|---
