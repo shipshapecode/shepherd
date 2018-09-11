@@ -1347,7 +1347,7 @@ Object.assign(_tour.Shepherd, {
   Evented: _evented.Evented
 });
 exports.default = _tour.Shepherd;
-module.exports = exports["default"];
+module.exports = exports.default;
 
 /***/ }),
 /* 14 */
