@@ -13,7 +13,7 @@ export class Tour extends Evented {
   /**
    *
    * @param {Object} options The options for the tour
-   * @param {Object} options.defaults Default options for Steps created through `addStep`
+   * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @returns {Tour}
    */
@@ -198,7 +198,7 @@ export class Tour extends Evented {
       stepOptions.id = name.toString();
     }
 
-    stepOptions = Object.assign({}, this.options.defaults, stepOptions);
+    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
 
     return new Step(this, stepOptions);
   }

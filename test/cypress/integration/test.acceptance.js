@@ -162,7 +162,7 @@ describe('Shepherd Acceptance Tests', () => {
     });
   });
 
-  it.skip('Defaults classes applied', () => {
+  it.skip('Default classes applied', () => {
     const tour = setupTour(Shepherd, {
       classes: 'test-defaults test-more-defaults'
     });

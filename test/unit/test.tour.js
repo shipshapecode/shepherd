@@ -8,7 +8,7 @@ window.Shepherd = Shepherd;
 
 describe('Tour', function() {
   let instance, shouldShowStep;
-  const defaults = {
+  const defaultStepOptions = {
     classes: 'shepherd-theme-arrows',
     scrollTo: true
   };
@@ -16,7 +16,7 @@ describe('Tour', function() {
   beforeEach(() => {
     shouldShowStep = false;
     instance = new Shepherd.Tour({
-      defaults
+      defaultStepOptions
     });
 
     instance.addStep('test', {
@@ -55,7 +55,7 @@ describe('Tour', function() {
     });
 
     it('returns the default options on the instance', function() {
-      assert.deepEqual(instance.options.defaults, {
+      assert.deepEqual(instance.options.defaultStepOptions, {
         classes: 'shepherd-theme-arrows',
         scrollTo: true
       });
@@ -145,7 +145,7 @@ describe('Tour', function() {
   describe('.cancel()', function() {
     it('shows confirm dialog when confirmCancel is true', function() {
       instance = new Shepherd.Tour({
-        defaults,
+        defaultStepOptions,
         confirmCancel: true,
         confirmCancelMessage: 'Confirm cancel?'
       });

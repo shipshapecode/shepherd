@@ -3,16 +3,16 @@ import defaultSteps from './default-steps';
 /**
  * Setup a tour
  * @param {Shepherd} Shepherd The Shepherd instance
- * @param {Object} globalDefaults A hash of the `defaults`
+ * @param {Object} globalDefaults A hash of the `defaultStepOptions`
  * @param {[Object]} customSteps An array of the steps to add to the tour
  */
 export default function(Shepherd, globalDefaults, customSteps) {
-  const defaults = Object.assign({}, {
+  const defaultStepOptions = Object.assign({}, {
     showCancelLink: true
   }, globalDefaults);
 
   let shepherd = new Shepherd.Tour({
-    defaults
+    defaultStepOptions
   });
 
   const steps = typeof customSteps === 'function' ? customSteps(shepherd) : defaultSteps(shepherd);

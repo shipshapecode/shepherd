@@ -13,7 +13,7 @@ window.Shepherd = Shepherd;
 describe('Step', () => {
   describe('Shepherd.Step()', () => {
     const instance = new Shepherd.Tour({
-      defaults: {
+      defaultStepOptions: {
         classes: 'shepherd-theme-arrows',
         scrollTo: true
       }
