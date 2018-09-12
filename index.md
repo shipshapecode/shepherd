@@ -35,14 +35,14 @@ First create a new `Tour` instance for your tour:
 
 ```javascript
 const tour = new Shepherd.Tour({
-  defaults: {
+  defaultStepOptions: {
     classes: 'shepherd-theme-arrows',
     scrollTo: true
   }
 });
 ```
 
-The `defaults` option allows you to specify any options which should be applied
+The `defaultStepOptions` option allows you to specify any options which should be applied
 to all this tour's steps by default.
 
 Next, add your steps:
@@ -116,7 +116,7 @@ const myTour = new Shepherd.Tour(options);
 ##### Tour Options
 
 - `steps`: An array of Step instances to initialize the tour with
-- `defaults`: Default options for Steps created through `addStep`
+- `defaultStepOptions`: Default options for Steps created through `addStep`
 - `confirmCancel`: If true, will issue a window.confirm before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 
@@ -173,10 +173,10 @@ to disable.  Each button in the array is an object of the format:
   already have an `action` specified is not supported.
   You can use `events` to skip steps or navigate to specific steps, with something like:
   ```javascript
-  events: {  
-    click: function() {  
-      return Shepherd.activeTour.show('some_step_name');  
-    }  
+  events: {
+    click: function() {
+      return Shepherd.activeTour.show('some_step_name');
+    }
   }
   ```
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
@@ -276,7 +276,7 @@ Individual customizations to the standard themes must be made within the CSS fil
 
 ```javascript
 let tour = new Shepherd.Tour({
-  defaults: {
+  defaultStepOptions: {
     classes: 'shepherd-theme-custom'
   }
 });

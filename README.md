@@ -34,7 +34,7 @@ yarn add shepherd.js
 
 ```javascript
 let tour = new Shepherd.Tour({
-  defaults: {
+  defaultStepOptions: {
     classes: 'shepherd-theme-arrows'
   }
 });

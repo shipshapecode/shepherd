@@ -34,6 +34,7 @@
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server",
+    "test": "yarn test:ci",
     "test:build": "cross-env NODE_ENV=test yarn build",
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
     "test:cy:ci": "yarn test:build && start-server-and-test start-test-server http://localhost:8080 cy:run",

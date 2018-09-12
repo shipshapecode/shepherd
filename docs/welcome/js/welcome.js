@@ -8,7 +8,7 @@
   setupShepherd = function() {
     var shepherd;
     shepherd = new Shepherd.Tour({
-      defaults: {
+      defaultStepOptions: {
         showCancelLink: true
       }
     });
