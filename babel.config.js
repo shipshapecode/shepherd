@@ -3,7 +3,7 @@ module.exports = function(api) {
 
   return {
     presets: [
-      ['@babel/preset-env', { targets: { 'node': 6 } }]
+      ['@babel/preset-env']
     ],
     plugins: [
       'add-module-exports',
