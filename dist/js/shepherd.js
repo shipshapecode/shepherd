@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.0-beta.26 * /
+ * /*! shepherd.js 2.0.0-beta.27 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
