@@ -162,7 +162,16 @@ created.
 on: 'left'}`.  If you use the object syntax, `element` can also be a DOM element.  If you don't specify an `attachTo`
 the element will appear in the middle of the screen.
 - `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
-the step will execute.
+the step will execute. For example:
+```javascript
+beforeShowPromise: function() {
+  return new Promise(function(resolve) {
+    $('#my-bootstrap-modal').on('shown.bs.modal', function () {
+      resolve();
+    });
+  });
+},
+```
 - `classes`: Extra classes to add to the step.  `shepherd-theme-arrows` will give you our theme.
 - `buttons`: An array of buttons to add to the step.  By default we add a Next button which triggers `next()`, set this to false
 to disable.  Each button in the array is an object of the format:
