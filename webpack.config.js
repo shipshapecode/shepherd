@@ -120,7 +120,7 @@ module.exports = [{
         server: {
           baseDir: 'docs/welcome',
           routes: {
-            '/shepherd/dist/js/popper.js': 'dist/js/popper.js',
+            '/shepherd/dist/js/tippy.all.min.js': 'dist/js/tippy.all.min.js',
             '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
             '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
             '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
@@ -154,11 +154,11 @@ module.exports.push({
     filename: '[name].js',
     library: 'Shepherd',
     libraryTarget: 'umd',
-    globalObject: 'this'
+    globalObject: 'this',
   },
   resolve: {
     alias: {
-      'popper.js': 'popper.js/dist/umd/popper.js'
+      'tippy.js': 'tippy.js/dist/tippy.all.min.js'
     }
   },
   module: {
@@ -180,11 +180,11 @@ module.exports.push({
     ]
   },
   externals: {
-    'popper.js': {
-      root: 'Popper',
-      commonjs2: 'popper.js',
-      commonjs: 'popper.js',
-      amd: 'popper.js'
+    'tippy.js': {
+      root: 'tippy',
+      commonjs2: 'tippy.js',
+      commonjs: 'tippy.js',
+      amd: 'tippy.js'
     }
   },
   optimization: {
@@ -198,10 +198,15 @@ module.exports.push({
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: './node_modules/popper.js/dist/umd/',
+        from: './node_modules/tippy.js/dist/tippy.all.min.js',
         to: 'js',
         flatten: true
-      }
+      },
+      {
+        from: './node_modules/tippy.js/dist/tippy.all.min.js.map',
+        to: 'js',
+        flatten: true
+      },
     ]),
     new webpack.BannerPlugin(banner),
     new LodashModuleReplacementPlugin

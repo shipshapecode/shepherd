@@ -2,6 +2,8 @@ import { isFunction, isNumber, isString, isUndefined } from 'lodash';
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
+import tippy from 'tippy.js';
+import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
 const Shepherd = new Evented();
 
@@ -39,6 +41,8 @@ export class Tour extends Evented {
         });
       })(event);
     });
+
+    this._setTooltipDefaults();
 
     return this;
   }
@@ -268,6 +272,10 @@ export class Tour extends Evented {
     const index = this.steps.indexOf(step);
     const nextIndex = forward ? index + 1 : index - 1;
     this.show(nextIndex, forward);
+  }
+
+  _setTooltipDefaults() {
+    tippy.setDefaults(tooltipDefaults);
   }
 }
 

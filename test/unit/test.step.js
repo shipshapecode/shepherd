@@ -37,7 +37,7 @@ describe('Step', () => {
       text: 'Another Step'
     });
 
-    // Add more steps for total _setUpButtons coverage
+    // Add more steps for total _setupButtons coverage
     instance.addStep('test3', {
       buttons: {
         text: 'Next',
@@ -165,9 +165,9 @@ describe('Step', () => {
       const step = new Step({
         next: () => advanced = true
       }, {
-        text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
+        text: 'Lorem ipsum dolor: <a href="https://example.com">sit amet</a>',
         advanceOn: {
-          selector: 'a[href="https://popper.js.org/"]',
+          selector: 'a[href="https://example.com"]',
           event: 'blur'
         }
       });
@@ -254,14 +254,14 @@ describe('Step', () => {
       const step = new Step();
       const methods = [
         '_show',
-        'show',
-        'hide',
-        'isOpen',
         'cancel',
         'complete',
-        'scrollTo',
         'destroy',
-        'render'
+        'hide',
+        'isOpen',
+        'scrollTo',
+        'setupElements',
+        'show'
       ];
       methods.forEach((method) => {
         assert.isOk(step[method], `${method} has been bound`);
@@ -334,25 +334,25 @@ describe('Step', () => {
     });
   });
 
-  describe('getAttachTo()', function(){
+  describe('parseAttachTo()', function(){
     it('fails if element does not exist', function(){
       const step = new Step({}, {
         attachTo: { element: '.scroll-test', on: 'center' }
       });
 
-      const { element } = step.getAttachTo();
+      const { element } = step.parseAttachTo();
       assert.notOk(element);
     });
   });
 
-  describe('render()', () => {
+  describe('setupElements()', () => {
     it('calls destroy if element is already set', () => {
       const step = new Step();
       let destroyCalled = false;
       step.el = document.createElement('a');
       step.destroy = () => destroyCalled = true;
-      step.render();
-      assert.isOk(destroyCalled, 'render method called destroy with element set');
+      step.setupElements();
+      assert.isOk(destroyCalled, 'setupElements method called destroy with element set');
     });
 
     it('calls bindAdvance() if advanceOn passed', () => {
@@ -362,7 +362,7 @@ describe('Step', () => {
           advanceOn: '.click-test test'
       });
       const bindFunction = spy(step, 'bindAdvance');
-      step.render();
+      step.setupElements();
 
       assert.ok(bindFunction.called);
     });
@@ -394,9 +394,8 @@ describe('Step', () => {
     });
   });
 
-
   describe('setOptions()', () => {
-    it('calls the function passed in the when option', () => {
+    it('calls event handlers passed in as properties to the `when` option', () => {
       let whenCalled = false;
       const step = new Step('test', {
         when: {
@@ -408,6 +407,15 @@ describe('Step', () => {
       assert.isOk(whenCalled);
     });
 
+    it('sets up buttons', () => {
+      const setupButtonsSpy = spy(Step.prototype, '_setupButtons');
+
+      assert.equal(setupButtonsSpy.callCount, 0);
+
+      new Step('test', {});
+
+      assert.equal(setupButtonsSpy.callCount, 1);
+    });
   });
 
   describe('getTour()', () => {
@@ -462,38 +470,6 @@ describe('Step', () => {
 
       assert.isOk(typeof step.options.text === 'function');
       assert.equal('I am some test text.', content.querySelector('.shepherd-text p').innerHTML);
-    });
-  });
-
-  describe('_attach()', () => {
-    it('uses a passed renderLocation as string', () => {
-      const element = document.createElement('div');
-      const testElement = document.createElement('div');
-      element.classList.add('string-element');
-      testElement.classList.add('test-element');
-      document.body.appendChild(element);
-
-      const step = new Step('test', {
-        renderLocation: '.string-element'
-      });
-
-      step._attach(testElement);
-      assert.isOk(element.querySelector('.test-element'));
-    });
-
-    it('uses a passed renderLocation as an HTML element', () => {
-      const element = document.createElement('div');
-      const renderLocation = document.createElement('div');
-      element.classList.add('html-element');
-      renderLocation.classList.add('render-element');
-      document.body.appendChild(renderLocation);
-
-      const step = new Step('test', {
-        renderLocation
-      });
-
-      step._attach(element);
-      assert.isOk(renderLocation.querySelector('.html-element'));
     });
   });
 });

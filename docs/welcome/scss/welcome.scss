@@ -120,25 +120,26 @@ pre {
 // Import base theme
 @import '../../../src/scss/base';
 
-// Overwrite welcome-step with certain class
-.shepherd-welcome {
+.tippy-popper {
   @include popper-theme-arrows($header-bg: #ffffff);
 
-  &:not(.shepherd-has-title) .shepherd-content {
-    header,
-    .shepherd-header {
-      padding-bottom: 0;
-    }
-  }
-
-  .shepherd-content {
-    header,
-    .shepherd-header {
-      background: #ffffff;
+  .shepherd-welcome {
+    &:not(.shepherd-has-title) .shepherd-content {
+      header,
+      .shepherd-header {
+        padding-bottom: 0;
+      }
     }
 
-    .shepherd-text {
-      color: darken($shepherd-theme-primary, 20);
+    .shepherd-content {
+      header,
+      .shepherd-header {
+        background: #ffffff;
+      }
+
+      .shepherd-text {
+        color: darken($shepherd-theme-primary, 20);
+      }
     }
   }
 }

@@ -1,27 +1,27 @@
 import { assert } from 'chai';
 import UtilsInjector from 'inject-loader!../../src/js/utils';
 import {
-  parsePosition,
+  _parseAttachToOpts,
   parseShorthand
 } from '../../src/js/utils.js';
 
 describe('Utils', function() {
-  describe('parsePosition', function() {
+  describe('_parseAttachToOpts', function() {
     it('attachTo as an object', function() {
       const attachTo = {
         element: '.foo',
         on: 'bottom'
       };
-      assert.equal(parsePosition(attachTo), attachTo, 'when attachTo already includes `element` and `on` return as is');
-      assert.equal(parsePosition({}), null, 'when attachTo does not include `element` and `on`, return null');
+      assert.equal(_parseAttachToOpts(attachTo), attachTo, 'when attachTo already includes `element` and `on` return as is');
+      assert.equal(_parseAttachToOpts({}), null, 'when attachTo does not include `element` and `on`, return null');
     });
 
     it('attachTo as a string', function() {
       let attachTo = '.foo bottom';
-      assert.deepEqual(parsePosition(attachTo), { element: '.foo', on: 'bottom' }, 'when attachTo is a string, return as object with `element` and `on`');
+      assert.deepEqual(_parseAttachToOpts(attachTo), { element: '.foo', on: 'bottom' }, 'when attachTo is a string, return as object with `element` and `on`');
 
       attachTo = '.foo notValid';
-      assert.equal(parsePosition(attachTo), null, 'when `on` is not a valid direction, return null');
+      assert.equal(_parseAttachToOpts(attachTo), null, 'when `on` is not a valid direction, return null');
     });
   });
 
@@ -39,12 +39,12 @@ describe('Utils', function() {
     });
   });
 
-  describe('setupPopper', function() {
-    it('when Popper is undefined, throws error', function() {
+  describe('setupTooltip', function() {
+    it('when Tippy is undefined, throws error', function() {
       const Utils = UtilsInjector({
-        'popper.js': undefined
+        'tippy.js': undefined
       });
-      assert.throws(Utils.setupPopper, 'Using the attachment feature of Shepherd requires the Popper.js library');
+      assert.throws(Utils.setupTooltip, 'Using the attachment feature of Shepherd requires the Tippy.js library');
     });
   });
 });
