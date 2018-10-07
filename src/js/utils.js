@@ -25,7 +25,7 @@ export function parsePosition(position) {
     return null;
   }
 
-  const positionRe = /^(.+) (top|left|right|bottom|center)$/;
+  const positionRe = /^(.+) ((auto|top|left|right|bottom)(-start|-end)?)$/;
   const matches = positionRe.exec(position);
 
   if (!matches) {

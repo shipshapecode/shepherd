@@ -1307,7 +1307,7 @@ function parsePosition(position) {
     return null;
   }
 
-  var positionRe = /^(.+) (top|left|right|bottom|center)$/;
+  var positionRe = /^(.+) ((auto|top|left|right|bottom)(-start|-end)?)$/;
   var matches = positionRe.exec(position);
 
   if (!matches) {
