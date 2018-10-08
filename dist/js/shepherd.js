@@ -4,14 +4,14 @@
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("popper.js"));
+		module.exports = factory(require("tippy.js"));
 	else if(typeof define === 'function' && define.amd)
-		define(["popper.js"], factory);
+		define(["tippy.js"], factory);
 	else if(typeof exports === 'object')
-		exports["Shepherd"] = factory(require("popper.js"));
+		exports["Shepherd"] = factory(require("tippy.js"));
 	else
-		root["Shepherd"] = factory(root["Popper"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE__42__) {
+		root["Shepherd"] = factory(root["tippy"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE__13__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -95,7 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -163,6 +163,42 @@ module.exports = isObjectLike;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(3),
+    isArray = __webpack_require__(8),
+    isObjectLike = __webpack_require__(1);
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a string, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
+}
+
+module.exports = isString;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -190,7 +226,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -205,7 +241,7 @@ var _isUndefined2 = __webpack_require__(0);
 
 var _isUndefined3 = _interopRequireDefault(_isUndefined2);
 
-var _drop2 = __webpack_require__(14);
+var _drop2 = __webpack_require__(15);
 
 var _drop3 = _interopRequireDefault(_drop2);
 
@@ -293,42 +329,6 @@ exports.Evented = function () {
 }();
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(2),
-    isArray = __webpack_require__(8),
-    isObjectLike = __webpack_require__(1);
-
-/** `Object#toString` result references. */
-var stringTag = '[object String]';
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a string, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
-}
-
-module.exports = isString;
-
-
-/***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
@@ -353,8 +353,8 @@ module.exports = overArg;
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(2),
-    isObject = __webpack_require__(18);
+var baseGetTag = __webpack_require__(3),
+    isObject = __webpack_require__(19);
 
 /** `Object#toString` result references. */
 var asyncTag = '[object AsyncFunction]',
@@ -408,7 +408,7 @@ var _isUndefined2 = __webpack_require__(0);
 
 var _isUndefined3 = _interopRequireDefault(_isUndefined2);
 
-var _isString2 = __webpack_require__(4);
+var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -420,11 +420,11 @@ var _isFunction2 = __webpack_require__(6);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
-var _isEmpty2 = __webpack_require__(19);
+var _isEmpty2 = __webpack_require__(20);
 
 var _isEmpty3 = _interopRequireDefault(_isEmpty2);
 
-var _isElement2 = __webpack_require__(28);
+var _isElement2 = __webpack_require__(29);
 
 var _isElement3 = _interopRequireDefault(_isElement2);
 
@@ -432,9 +432,9 @@ var _forOwn2 = __webpack_require__(10);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
-var _evented = __webpack_require__(3);
+var _evented = __webpack_require__(4);
 
-__webpack_require__(34);
+__webpack_require__(35);
 
 var _bind = __webpack_require__(11);
 
@@ -517,10 +517,7 @@ exports.Step = function (_Evented) {
    * ```
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes Extra classes to add to the step. `shepherd-theme-arrows` will give you our theme.
-   * @param {Object} options.popperOptions Extra options to pass to popper.js
-   * @param {HTMLElement|string} options.renderLocation An `HTMLElement` or selector string of the element you want the
-   * tour step to render in. Most of the time, you will not need to pass anything, and it will default to `document.body`,
-   * but this is needed for `<dialog>` and might as well support passing anything.
+   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
    * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
@@ -553,14 +550,15 @@ exports.Step = function (_Evented) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Step).call(this, tour, options));
     _this.tour = tour;
 
-    _bind.bindMethods.call(_assertThisInitialized(_assertThisInitialized(_this)), ['_show', 'cancel', 'complete', 'destroy', 'hide', 'isOpen', 'render', 'scrollTo', 'show']);
+    _bind.bindMethods.call(_assertThisInitialized(_assertThisInitialized(_this)), ['_show', 'cancel', 'complete', 'destroy', 'hide', 'isOpen', 'scrollTo', 'setupElements', 'show']);
 
     _this.setOptions(options);
 
     _this.bindAdvance = _bind.bindAdvance.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.bindButtonEvents = _bind.bindButtonEvents.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.bindCancelLink = _bind.bindCancelLink.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.setupPopper = _utils.setupPopper.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.setupTooltip = _utils.setupTooltip.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.parseAttachTo = _utils.parseAttachTo.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _possibleConstructorReturn(_this, _assertThisInitialized(_assertThisInitialized(_this)));
   }
   /**
@@ -639,39 +637,15 @@ exports.Step = function (_Evented) {
       content.appendChild(text);
     }
     /**
-     * Attaches final element to default or passed location
-     *
-     * @private
-     * @param {HTMLElement} element The element to attach
-     */
-
-  }, {
-    key: "_attach",
-    value: function _attach(element) {
-      var renderLocation = this.options.renderLocation;
-
-      if (renderLocation) {
-        if (renderLocation instanceof HTMLElement) {
-          return renderLocation.appendChild(element);
-        }
-
-        if ((0, _isString3.default)(renderLocation)) {
-          return document.querySelector(renderLocation).appendChild(element);
-        }
-      }
-
-      return document.body.appendChild(element);
-    }
-    /**
      * Creates Shepherd element for step based on options
      *
      * @private
-     * @return {HTMLElement} The DOM element for the step
+     * @return {HTMLElement} The DOM element for the step tooltip
      */
 
   }, {
-    key: "_createElement",
-    value: function _createElement() {
+    key: "_createTooltipContent",
+    value: function _createTooltipContent() {
       var content = document.createElement('div');
       var classes = this.options.classes || '';
       var element = (0, _utils.createFromHTML)("<div class='".concat(classes, "' data-id='").concat(this.id, "' id=\"step-").concat(this.options.id, "-").concat(uniqueId(), "\"}>"));
@@ -715,32 +689,6 @@ exports.Step = function (_Evented) {
       return this.tour;
     }
     /**
-     * Passes `options.attachTo` to `parsePosition` to get the correct `attachTo` format
-     * @returns {({} & {element, on}) | ({})}
-     */
-
-  }, {
-    key: "getAttachTo",
-    value: function getAttachTo() {
-      var opts = (0, _utils.parsePosition)(this.options.attachTo) || {};
-      var returnOpts = Object.assign({}, opts);
-
-      if ((0, _isString3.default)(opts.element)) {
-        // Can't override the element in user opts reference because we can't
-        // guarantee that the element will exist in the future.
-        try {
-          returnOpts.element = document.querySelector(opts.element);
-        } catch (e) {// TODO
-        }
-
-        if (!returnOpts.element) {
-          console.error("The element for this Shepherd step was not found ".concat(opts.element));
-        }
-      }
-
-      return returnOpts;
-    }
-    /**
      * Cancel the tour
      * Triggers the `cancel` event
      */
@@ -763,7 +711,7 @@ exports.Step = function (_Evented) {
       this.trigger('complete');
     }
     /**
-     * Remove the step, delete the step's element, and destroy the popper for the step
+     * Remove the step, delete the step's element, and destroy the tippy instance for the step
      * Triggers `destroy` event
      */
 
@@ -775,15 +723,15 @@ exports.Step = function (_Evented) {
         delete this.el;
       }
 
-      if (this.popper) {
-        this.popper.destroy();
+      if (this.tooltip) {
+        this.tooltip.destroy();
+        this.tooltip = null;
       }
 
-      this.popper = null;
       this.trigger('destroy');
     }
     /**
-     * Hide the step and destroy the popper
+     * Hide the step and destroy the tippy instance
      */
 
   }, {
@@ -803,11 +751,10 @@ exports.Step = function (_Evented) {
         this.target.classList.remove('shepherd-enabled', 'shepherd-target');
       }
 
-      if (this.popper) {
-        this.popper.destroy();
+      if (this.tooltip) {
+        this.tooltip.hide();
       }
 
-      this.popper = null;
       this.trigger('hide');
     }
     /**
@@ -821,25 +768,23 @@ exports.Step = function (_Evented) {
       return this.el && !this.el.hidden;
     }
     /**
-     * Create the element and set up the popper instance
+     * Create the element and set up the tippy instance
      */
 
   }, {
-    key: "render",
-    value: function render() {
+    key: "setupElements",
+    value: function setupElements() {
       if (!(0, _isUndefined3.default)(this.el)) {
         this.destroy();
       }
 
-      this.el = this._createElement();
+      this.el = this._createTooltipContent();
 
       if (this.options.advanceOn) {
         this.bindAdvance();
       }
 
-      this._attach(this.el);
-
-      this.setupPopper();
+      this.setupTooltip();
     }
     /**
      * If a custom scrollToHandler is defined, call that, otherwise do the generic
@@ -849,8 +794,8 @@ exports.Step = function (_Evented) {
   }, {
     key: "scrollTo",
     value: function scrollTo() {
-      var _this$getAttachTo = this.getAttachTo(),
-          element = _this$getAttachTo.element;
+      var _this$parseAttachTo = this.parseAttachTo(),
+          element = _this$parseAttachTo.element;
 
       if ((0, _isFunction3.default)(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
@@ -877,7 +822,7 @@ exports.Step = function (_Evented) {
         _this3.on(event, handler, _this3);
       });
 
-      this._setUpButtons();
+      this._setupButtons();
     }
     /**
      * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
@@ -908,8 +853,8 @@ exports.Step = function (_Evented) {
      */
 
   }, {
-    key: "_setUpButtons",
-    value: function _setUpButtons() {
+    key: "_setupButtons",
+    value: function _setupButtons() {
       var buttons = this.options.buttons;
 
       if (buttons) {
@@ -931,7 +876,8 @@ exports.Step = function (_Evented) {
       }
     }
     /**
-     * Triggers `before-show` then renders the element, shows it, sets up popper and triggers `show`
+     * Triggers `before-show`, generates the tooltip DOM content,
+     * sets up a tippy instance for the tooltip, then triggers `show`.
      * @private
      */
 
@@ -943,14 +889,13 @@ exports.Step = function (_Evented) {
       this.trigger('before-show');
 
       if (!this.el) {
-        this.render();
+        this.setupElements();
       }
 
       this.el.hidden = false; // We need to manually set styles for < IE11 support
 
       this.el.style.display = 'block';
       document.body.setAttribute('data-shepherd-step', this.id);
-      this.setupPopper();
 
       if (this.options.scrollTo) {
         setTimeout(function () {
@@ -958,6 +903,7 @@ exports.Step = function (_Evented) {
         });
       }
 
+      this.tooltip.show();
       this.trigger('show');
     }
   }]);
@@ -1001,8 +947,8 @@ module.exports = isArray;
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(2),
-    getPrototype = __webpack_require__(17),
+var baseGetTag = __webpack_require__(3),
+    getPrototype = __webpack_require__(18),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -1069,8 +1015,8 @@ module.exports = isPlainObject;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseForOwn = __webpack_require__(29),
-    castFunction = __webpack_require__(33);
+var baseForOwn = __webpack_require__(30),
+    castFunction = __webpack_require__(34);
 
 /**
  * Iterates over own enumerable string keyed properties of an object and
@@ -1122,7 +1068,7 @@ var _isUndefined2 = __webpack_require__(0);
 
 var _isUndefined3 = _interopRequireDefault(_isUndefined2);
 
-var _isString2 = __webpack_require__(4);
+var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
@@ -1258,7 +1204,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _zipObject2 = __webpack_require__(35);
+var _zipObject2 = __webpack_require__(36);
 
 var _zipObject3 = _interopRequireDefault(_zipObject2);
 
@@ -1270,16 +1216,27 @@ var _isObjectLike2 = __webpack_require__(1);
 
 var _isObjectLike3 = _interopRequireDefault(_isObjectLike2);
 
+var _isString2 = __webpack_require__(2);
+
+var _isString3 = _interopRequireDefault(_isString2);
+
 exports.createFromHTML = createFromHTML;
-exports.parsePosition = parsePosition;
+exports._parseAttachToOpts = _parseAttachToOpts;
 exports.parseShorthand = parseShorthand;
-exports.setupPopper = setupPopper;
+exports.setupTooltip = setupTooltip;
+exports.parseAttachTo = parseAttachTo;
 
-var _popper = __webpack_require__(42);
+var _tippy = __webpack_require__(13);
 
-var _popper2 = _interopRequireDefault(_popper);
+var _tippy2 = _interopRequireDefault(_tippy);
+
+var _errorMessages = __webpack_require__(43);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
@@ -1295,20 +1252,21 @@ function createFromHTML(html) {
  * Parse the position object or string to return the attachment and element to attach to
  * @param {Object|String} position Either a string or object denoting the selector and position for attachment
  * @return {Object} The object with `element` and `on` for the step
+ * @private
  */
 
 
-function parsePosition(position) {
-  if ((0, _isObjectLike3.default)(position)) {
-    if (position.hasOwnProperty('element') && position.hasOwnProperty('on')) {
-      return position;
+function _parseAttachToOpts(opts) {
+  if ((0, _isObjectLike3.default)(opts)) {
+    if (opts.hasOwnProperty('element') && opts.hasOwnProperty('on')) {
+      return opts;
     }
 
     return null;
   }
 
   var positionRe = /^(.+) ((auto|top|left|right|bottom)(-start|-end)?)$/;
-  var matches = positionRe.exec(position);
+  var matches = positionRe.exec(opts);
 
   if (!matches) {
     return null;
@@ -1337,83 +1295,147 @@ function parseShorthand(obj, props) {
   return (0, _zipObject3.default)(props, values);
 }
 /**
- * Determines options for Popper and initializes the Popper instance
+ * Determines options for the tooltip and initializes
+ * `this.tooltip` as a Tippy.js instance.
  */
 
 
-function setupPopper() {
-  if ((0, _isUndefined3.default)(_popper2.default)) {
-    throw new Error('Using the attachment feature of Shepherd requires the Popper.js library');
+function setupTooltip() {
+  if ((0, _isUndefined3.default)(_tippy2.default)) {
+    throw new Error(_errorMessages.missingTippy);
   }
 
-  var opts = this.getAttachTo();
-  opts.modifiers = opts.modifiers || {};
-  var attachment = opts.on || 'right';
-  opts.positionFixed = false;
-
-  if ((0, _isUndefined3.default)(opts.element)) {
-    attachment = 'top';
-
-    _setupCenteredPopper(opts);
+  if (this.tooltip) {
+    this.tooltip.destroy();
   }
 
-  if (this.popper) {
-    this.popper.destroy();
-  }
-
-  this.el.classList.add('shepherd-element');
-
-  var popperOpts = _mergePopperOptions.call(this, attachment, opts);
-
-  this.popper = new _popper2.default(opts.element, this.el, popperOpts);
-  this.target = opts.element;
+  var attachToOpts = this.parseAttachTo();
+  this.tooltip = _makeTippyInstance.call(this, attachToOpts);
+  this.target = attachToOpts.element || document.body;
   this.target.classList.add('shepherd-enabled', 'shepherd-target');
+  this.el.classList.add('shepherd-element');
 }
 /**
- * Merge the global popperOptions, and the local opts
- * @param {String} attachment The direction for attachment
- * @param {Object} opts The local options
- * @return {Object} The merged popperOpts object
- * @private
+ * Passes `options.attachTo` to `_parseAttachToOpts` to get the correct `attachTo` format
+ * @returns {({} & {element, on}) | ({})}
+ * `element` is a qualified HTML Element
+ * `on` is a string position value
  */
 
 
-function _mergePopperOptions(attachment, opts) {
-  return Object.assign({}, {
-    placement: attachment,
-    arrowElement: this.el.querySelector('.popper__arrow'),
-    modifiers: opts.modifiers,
-    positionFixed: opts.positionFixed
-  }, this.options.popperOptions);
-}
-/**
- * Sets up a popper centered on the screen, when there is no attachTo element
- * @param {Object} opts The config object
- * @return {*}
- * @private
- */
+function parseAttachTo() {
+  var options = _parseAttachToOpts(this.options.attachTo) || {};
+  var returnOpts = Object.assign({}, options);
 
-
-function _setupCenteredPopper(opts) {
-  opts.element = document.body;
-  opts.modifiers = Object.assign({
-    computeStyle: {
-      enabled: true,
-      fn: function fn(data) {
-        data.styles = Object.assign({}, data.styles, {
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)'
-        });
-        return data;
-      }
+  if ((0, _isString3.default)(options.element)) {
+    // Can't override the element in user opts reference because we can't
+    // guarantee that the element will exist in the future.
+    try {
+      returnOpts.element = document.querySelector(options.element);
+    } catch (e) {// TODO
     }
-  }, opts.modifiers);
-  opts.positionFixed = true;
+
+    if (!returnOpts.element) {
+      console.error("The element for this Shepherd step was not found ".concat(options.element));
+    }
+  }
+
+  return returnOpts;
+}
+/**
+ * Generates a `Tippy` instance from a set of base `attachTo` options
+ *
+ * @return {tippy} The final tippy instance
+ * @private
+ */
+
+
+function _makeTippyInstance(attachToOptions) {
+  if (!attachToOptions.element) {
+    return _makeCenteredTippy.call(this);
+  }
+
+  var tippyOptions = _makeAttachedTippyOptions.call(this, attachToOptions);
+
+  return _tippy2.default.one(attachToOptions.element, tippyOptions);
+}
+/**
+ * Generates the hash of options that will be passed to `Tippy` instances
+ * target an element in the DOM.
+ *
+ * @param {Object} attachToOptions The local `attachTo` options
+ * @return {Object} The final tippy options  object
+ * @private
+ */
+
+
+function _makeAttachedTippyOptions(attachToOptions) {
+  var resultingTippyOptions = _objectSpread({
+    content: this.el,
+    placement: attachToOptions.on || 'right'
+  }, this.options.tippyOptions); // Build the proper settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+
+
+  var popperOptsToMerge = {
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    positionFixed: true
+  };
+
+  if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
+    Object.assign(popperOptsToMerge, this.options.tippyOptions.popperOptions);
+  }
+
+  resultingTippyOptions.popperOptions = popperOptsToMerge;
+  return resultingTippyOptions;
+}
+/**
+ * Generates a `Tippy` instance for a tooltip that doesn't have a
+ * target element in the DOM -- and thus is positioned in the center
+ * of the view
+ *
+ * @return {tippy} The final tippy instance
+ * @private
+ */
+
+
+function _makeCenteredTippy() {
+  var tippyOptions = _objectSpread({
+    content: this.el,
+    placement: 'top'
+  }, this.options.tippyOptions);
+
+  var popperOptsToMerge = {
+    arrowElement: this.el.querySelector('.popper__arrow'),
+    positionFixed: true
+  };
+  tippyOptions.popperOptions = tippyOptions.popperOptions || {};
+  var finalPopperOptions = Object.assign({}, popperOptsToMerge, tippyOptions.popperOptions, {
+    modifiers: Object.assign({
+      computeStyle: {
+        enabled: true,
+        fn: function fn(data) {
+          data.styles = Object.assign({}, data.styles, {
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)'
+          });
+          return data;
+        }
+      }
+    }, tippyOptions.popperOptions.modifiers)
+  });
+  tippyOptions.popperOptions = finalPopperOptions;
+  return _tippy2.default.one(document.body, tippyOptions);
 }
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE__13__;
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1423,11 +1445,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _evented = __webpack_require__(3);
+var _evented = __webpack_require__(4);
 
 var _step = __webpack_require__(7);
 
-var _tour = __webpack_require__(43);
+var _tour = __webpack_require__(44);
 
 Object.assign(_tour.Shepherd, {
   Tour: _tour.Tour,
@@ -1438,11 +1460,11 @@ exports.default = _tour.Shepherd;
 module.exports = exports.default;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(15),
-    toInteger = __webpack_require__(16);
+var baseSlice = __webpack_require__(16),
+    toInteger = __webpack_require__(17);
 
 /**
  * Creates a slice of `array` with `n` elements dropped from the beginning.
@@ -1482,7 +1504,7 @@ module.exports = drop;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 /**
@@ -1519,7 +1541,7 @@ module.exports = baseSlice;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /**
@@ -1546,7 +1568,7 @@ module.exports = identity;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var overArg = __webpack_require__(5);
@@ -1558,7 +1580,7 @@ module.exports = getPrototype;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 /**
@@ -1595,17 +1617,17 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseKeys = __webpack_require__(20),
-    getTag = __webpack_require__(21),
-    isArguments = __webpack_require__(22),
+var baseKeys = __webpack_require__(21),
+    getTag = __webpack_require__(22),
+    isArguments = __webpack_require__(23),
     isArray = __webpack_require__(8),
-    isArrayLike = __webpack_require__(23),
-    isBuffer = __webpack_require__(25),
-    isPrototype = __webpack_require__(26),
-    isTypedArray = __webpack_require__(27);
+    isArrayLike = __webpack_require__(24),
+    isBuffer = __webpack_require__(26),
+    isPrototype = __webpack_require__(27),
+    isTypedArray = __webpack_require__(28);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -1678,7 +1700,7 @@ module.exports = isEmpty;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var overArg = __webpack_require__(5);
@@ -1690,7 +1712,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -1718,7 +1740,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /**
@@ -1742,11 +1764,11 @@ module.exports = stubFalse;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isFunction = __webpack_require__(6),
-    isLength = __webpack_require__(24);
+    isLength = __webpack_require__(25);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -1781,7 +1803,7 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -1819,30 +1841,6 @@ function isLength(value) {
 }
 
 module.exports = isLength;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns `false`.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {boolean} Returns `false`.
- * @example
- *
- * _.times(2, _.stubFalse);
- * // => [false, false]
- */
-function stubFalse() {
-  return false;
-}
-
-module.exports = stubFalse;
 
 
 /***/ }),
@@ -1895,6 +1893,30 @@ module.exports = stubFalse;
 
 /***/ }),
 /* 28 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = stubFalse;
+
+
+/***/ }),
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObjectLike = __webpack_require__(1),
@@ -1925,11 +1947,11 @@ module.exports = isElement;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFor = __webpack_require__(30),
-    keys = __webpack_require__(32);
+var baseFor = __webpack_require__(31),
+    keys = __webpack_require__(33);
 
 /**
  * The base implementation of `_.forOwn` without support for iteratee shorthands.
@@ -1947,10 +1969,10 @@ module.exports = baseForOwn;
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createBaseFor = __webpack_require__(31);
+var createBaseFor = __webpack_require__(32);
 
 /**
  * The base implementation of `baseForOwn` which iterates over `object`
@@ -1969,7 +1991,7 @@ module.exports = baseFor;
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /**
@@ -2000,7 +2022,7 @@ module.exports = createBaseFor;
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var overArg = __webpack_require__(5);
@@ -2012,7 +2034,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /**
@@ -2039,7 +2061,7 @@ module.exports = identity;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports) {
 
 if (!Element.prototype.matches) {
@@ -2051,11 +2073,11 @@ if (!Element.prototype.matches) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var assignValue = __webpack_require__(36),
-    baseZipObject = __webpack_require__(41);
+var assignValue = __webpack_require__(37),
+    baseZipObject = __webpack_require__(42);
 
 /**
  * This method is like `_.fromPairs` except that it accepts two arrays,
@@ -2081,11 +2103,11 @@ module.exports = zipObject;
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseAssignValue = __webpack_require__(37),
-    eq = __webpack_require__(40);
+var baseAssignValue = __webpack_require__(38),
+    eq = __webpack_require__(41);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2115,10 +2137,10 @@ module.exports = assignValue;
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(38);
+var defineProperty = __webpack_require__(39);
 
 /**
  * The base implementation of `assignValue` and `assignMergeValue` without
@@ -2146,10 +2168,10 @@ module.exports = baseAssignValue;
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getNative = __webpack_require__(39);
+var getNative = __webpack_require__(40);
 
 var defineProperty = (function() {
   try {
@@ -2163,7 +2185,7 @@ module.exports = defineProperty;
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports) {
 
 /**
@@ -2182,7 +2204,7 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 /**
@@ -2225,7 +2247,7 @@ module.exports = eq;
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 /**
@@ -2254,13 +2276,19 @@ module.exports = baseZipObject;
 
 
 /***/ }),
-/* 42 */
-/***/ (function(module, exports) {
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__42__;
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var missingTippy = exports.missingTippy = 'Using the attachment feature of Shepherd requires the Tippy.js library';
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2275,11 +2303,11 @@ var _isUndefined2 = __webpack_require__(0);
 
 var _isUndefined3 = _interopRequireDefault(_isUndefined2);
 
-var _isString2 = __webpack_require__(4);
+var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _isNumber2 = __webpack_require__(44);
+var _isNumber2 = __webpack_require__(45);
 
 var _isNumber3 = _interopRequireDefault(_isNumber2);
 
@@ -2287,11 +2315,17 @@ var _isFunction2 = __webpack_require__(6);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
-var _evented = __webpack_require__(3);
+var _evented = __webpack_require__(4);
 
 var _step = __webpack_require__(7);
 
 var _bind = __webpack_require__(11);
+
+var _tippy = __webpack_require__(13);
+
+var _tippy2 = _interopRequireDefault(_tippy);
+
+var _tooltipDefaults = __webpack_require__(46);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2355,6 +2389,9 @@ exports.Tour = function (_Evented) {
         });
       })(event);
     });
+
+    _this._setTooltipDefaults();
+
     return _possibleConstructorReturn(_this, _assertThisInitialized(_assertThisInitialized(_this)));
   }
   /**
@@ -2618,6 +2655,11 @@ exports.Tour = function (_Evented) {
       var nextIndex = forward ? index + 1 : index - 1;
       this.show(nextIndex, forward);
     }
+  }, {
+    key: "_setTooltipDefaults",
+    value: function _setTooltipDefaults() {
+      _tippy2.default.setDefaults(_tooltipDefaults.defaults);
+    }
   }]);
 
   return Tour;
@@ -2626,10 +2668,10 @@ exports.Tour = function (_Evented) {
 exports.Shepherd = Shepherd;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(2),
+var baseGetTag = __webpack_require__(3),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -2668,6 +2710,32 @@ function isNumber(value) {
 
 module.exports = isNumber;
 
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var defaults = exports.defaults = {
+  trigger: 'manual',
+  animation: 'fade',
+  delay: 200,
+  duration: 420,
+  flip: true,
+  animateFill: false,
+  // https://atomiks.github.io/tippyjs/#animate-fill-option
+  interactive: true,
+  // https://atomiks.github.io/tippyjs/#interactive-option
+  hideOnClick: 'toggle',
+  // https://atomiks.github.io/tippyjs/#hide-on-click-option
+  multiple: true // https://atomiks.github.io/tippyjs/#multiple-option
+
+};
 
 /***/ })
 /******/ ]);

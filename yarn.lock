@@ -6701,7 +6701,7 @@ pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
-popper.js@^1.14.3:
+popper.js@^1.14.4:
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.14.4.tgz#8eec1d8ff02a5a3a152dd43414a15c7b79fd69b6"
 
@@ -8612,6 +8612,12 @@ timers-browserify@^2.0.4:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.10.tgz#1d28e3d2aadf1d5a5996c4e9f95601cd053480ae"
   dependencies:
     setimmediate "^1.0.4"
+
+tippy.js@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.0.3.tgz#ee543943808201e75d3a9369464576585d9d5305"
+  dependencies:
+    popper.js "^1.14.4"
 
 tmp@0.0.31:
   version "0.0.31"

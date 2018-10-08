@@ -10,7 +10,7 @@ import {
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';
-import { createFromHTML, parsePosition, setupPopper } from './utils.js';
+import { createFromHTML, setupTooltip, parseAttachTo } from './utils.js';
 
 /**
  * Creates incremented ID for each newly created step
@@ -64,10 +64,7 @@ export class Step extends Evented {
    * ```
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes Extra classes to add to the step. `shepherd-theme-arrows` will give you our theme.
-   * @param {Object} options.popperOptions Extra options to pass to popper.js
-   * @param {HTMLElement|string} options.renderLocation An `HTMLElement` or selector string of the element you want the
-   * tour step to render in. Most of the time, you will not need to pass anything, and it will default to `document.body`,
-   * but this is needed for `<dialog>` and might as well support passing anything.
+   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
    * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
@@ -102,15 +99,17 @@ export class Step extends Evented {
       'destroy',
       'hide',
       'isOpen',
-      'render',
       'scrollTo',
+      'setupElements',
       'show'
     ]);
     this.setOptions(options);
     this.bindAdvance = bindAdvance.bind(this);
     this.bindButtonEvents = bindButtonEvents.bind(this);
     this.bindCancelLink = bindCancelLink.bind(this);
-    this.setupPopper = setupPopper.bind(this);
+    this.setupTooltip = setupTooltip.bind(this);
+    this.parseAttachTo = parseAttachTo.bind(this);
+
     return this;
   }
 
@@ -184,32 +183,12 @@ export class Step extends Evented {
   }
 
   /**
-   * Attaches final element to default or passed location
-   *
-   * @private
-   * @param {HTMLElement} element The element to attach
-   */
-  _attach(element) {
-    const { renderLocation } = this.options;
-
-    if (renderLocation) {
-      if (renderLocation instanceof HTMLElement) {
-        return renderLocation.appendChild(element);
-      }
-      if (isString(renderLocation)) {
-        return document.querySelector(renderLocation).appendChild(element);
-      }
-    }
-    return document.body.appendChild(element);
-  }
-
-  /**
    * Creates Shepherd element for step based on options
    *
    * @private
-   * @return {HTMLElement} The DOM element for the step
+   * @return {HTMLElement} The DOM element for the step tooltip
    */
-  _createElement() {
+  _createTooltipContent() {
     const content = document.createElement('div');
     const classes = this.options.classes || '';
     const element = createFromHTML(`<div class='${classes}' data-id='${this.id}' id="step-${this.options.id}-${uniqueId()}"}>`);
@@ -251,30 +230,6 @@ export class Step extends Evented {
   }
 
   /**
-   * Passes `options.attachTo` to `parsePosition` to get the correct `attachTo` format
-   * @returns {({} & {element, on}) | ({})}
-   */
-  getAttachTo() {
-    const opts = parsePosition(this.options.attachTo) || {};
-    const returnOpts = Object.assign({}, opts);
-
-    if (isString(opts.element)) {
-      // Can't override the element in user opts reference because we can't
-      // guarantee that the element will exist in the future.
-      try {
-        returnOpts.element = document.querySelector(opts.element);
-      } catch(e) {
-        // TODO
-      }
-      if (!returnOpts.element) {
-        console.error(`The element for this Shepherd step was not found ${opts.element}`);
-      }
-    }
-
-    return returnOpts;
-  }
-
-  /**
    * Cancel the tour
    * Triggers the `cancel` event
    */
@@ -293,7 +248,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Remove the step, delete the step's element, and destroy the popper for the step
+   * Remove the step, delete the step's element, and destroy the tippy instance for the step
    * Triggers `destroy` event
    */
   destroy() {
@@ -302,16 +257,16 @@ export class Step extends Evented {
       delete this.el;
     }
 
-    if (this.popper) {
-      this.popper.destroy();
+    if (this.tooltip) {
+      this.tooltip.destroy();
+      this.tooltip = null;
     }
-    this.popper = null;
 
     this.trigger('destroy');
   }
 
   /**
-   * Hide the step and destroy the popper
+   * Hide the step and destroy the tippy instance
    */
   hide() {
     this.trigger('before-hide');
@@ -328,10 +283,9 @@ export class Step extends Evented {
       this.target.classList.remove('shepherd-enabled', 'shepherd-target');
     }
 
-    if (this.popper) {
-      this.popper.destroy();
+    if (this.tooltip) {
+      this.tooltip.hide();
     }
-    this.popper = null;
 
     this.trigger('hide');
   }
@@ -345,21 +299,20 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the popper instance
+   * Create the element and set up the tippy instance
    */
-  render() {
+  setupElements() {
     if (!isUndefined(this.el)) {
       this.destroy();
     }
-    this.el = this._createElement();
+
+    this.el = this._createTooltipContent();
 
     if (this.options.advanceOn) {
       this.bindAdvance();
     }
 
-    this._attach(this.el);
-
-    this.setupPopper();
+    this.setupTooltip();
   }
 
   /**
@@ -367,7 +320,7 @@ export class Step extends Evented {
    * scrollIntoView call.
    */
   scrollTo() {
-    const { element } = this.getAttachTo();
+    const { element } = this.parseAttachTo();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -391,7 +344,7 @@ export class Step extends Evented {
       this.on(event, handler, this);
     });
 
-    this._setUpButtons();
+    this._setupButtons();
   }
 
   /**
@@ -413,7 +366,7 @@ export class Step extends Evented {
    *
    * @private
    */
-  _setUpButtons() {
+  _setupButtons() {
     const { buttons } = this.options;
     if (buttons) {
       const buttonsAreDefault = isUndefined(buttons) || isEmpty(buttons);
@@ -434,14 +387,15 @@ export class Step extends Evented {
   }
 
   /**
-   * Triggers `before-show` then renders the element, shows it, sets up popper and triggers `show`
+   * Triggers `before-show`, generates the tooltip DOM content,
+   * sets up a tippy instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {
     this.trigger('before-show');
 
     if (!this.el) {
-      this.render();
+      this.setupElements();
     }
 
     this.el.hidden = false;
@@ -450,14 +404,13 @@ export class Step extends Evented {
 
     document.body.setAttribute('data-shepherd-step', this.id);
 
-    this.setupPopper();
-
     if (this.options.scrollTo) {
       setTimeout(() => {
         this.scrollTo();
       });
     }
 
+    this.tooltip.show();
     this.trigger('show');
   }
 }

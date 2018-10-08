@@ -7,7 +7,7 @@
       },
       {
         "type": "script",
-        "src": "./dist/js/popper.js"
+        "src": "./dist/js/tippy.all.min.js"
       },
       {
         "type": "script",

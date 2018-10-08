@@ -4,7 +4,7 @@ Guide your users through a tour of your app.
 
 ### Dependencies
 
-[Popper](https://popper.js.org/)
+[Tippy.js](https://atomiks.github.io/tippyjs/)
 
 ### Install
 
@@ -191,8 +191,6 @@ to disable.  Each button in the array is an object of the format:
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
 properties.  For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
-- `renderLocation`: An `HTMLElement` or selector string of the element you want the tour step to render in. Most of the time, you will
-not need to pass anything, and it will default to `document.body`, but this is needed for `<dialog>` and might as well support passing anything.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
@@ -206,7 +204,7 @@ when: {
   }
 }
 ```
-- `popperOptions`: Extra options to pass to [popper.js](https://github.com/FezVrasta/popper.js)
+- `tippyOptions`: Extra [options to pass to `Tippy.js`](https://atomiks.github.io/tippyjs/#all-options)
 
 ##### Step Methods
 
@@ -291,6 +289,12 @@ let tour = new Shepherd.Tour({
   }
 });
 ```
+
+### Rendering Tours in Specific Locations
+
+By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
+[`appendTo` option](https://atomiks.github.io/tippyjs/#append-to-option) by defining it on the
+`tippyOptions` hash inside of each Step's options hash.
 
 ### Custom Theming
 

@@ -1,16 +1,20 @@
-.shepherd-element, .shepherd-element:after, .shepherd-element:before,
-.shepherd-element *,
-.shepherd-element *:after,
-.shepherd-element *:before {
-  box-sizing: border-box; }
-
-.shepherd-element {
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
-  max-height: 100%;
-  max-width: 100%;
-  width: 400px;
+/**
+ * Styles to support usage of Tippy.js tooltips (https://atomiks.github.io/tippyjs)
+ */
+/**
+ * Tippy tooltips have the following base structure:
+ *
+ * <div class="tippy-popper" x-placement="top">
+ *   <div class="tippy-tooltip">
+ *     <div class="tippy-content">
+ *       [[ Content Here ]]
+ *     </div>
+ *   </div>
+ * </div>
+ */
+.tippy-popper {
   z-index: 9999; }
-  .shepherd-element .popper__arrow {
+  .tippy-popper .popper__arrow {
     border: 16px solid transparent;
     content: '';
     display: block;
@@ -18,35 +22,50 @@
     pointer-events: none;
     position: absolute;
     width: 0; }
-  .shepherd-element[x-placement^='top'] {
+  .tippy-popper[x-placement^='top'] {
     margin-bottom: 16px; }
-    .shepherd-element[x-placement^='top'] .popper__arrow {
+    .tippy-popper[x-placement^='top'] .popper__arrow {
       border-bottom: 0;
       border-top-color: #f6f6f6;
       bottom: -16px;
       left: calc(50% - 16px); }
-  .shepherd-element[x-placement^='bottom'] {
+  .tippy-popper[x-placement^='bottom'] {
     margin-top: 16px; }
-    .shepherd-element[x-placement^='bottom'] .popper__arrow {
+    .tippy-popper[x-placement^='bottom'] .popper__arrow {
       border-bottom-color: #e6e6e6;
       border-top: 0;
       left: calc(50% - 16px);
       top: -16px; }
-  .shepherd-element[x-placement^='left'] {
+  .tippy-popper[x-placement^='left'] {
     margin-right: 16px; }
-    .shepherd-element[x-placement^='left'] .popper__arrow {
+    .tippy-popper[x-placement^='left'] .popper__arrow {
       border-left-color: #f6f6f6;
       border-right: 0;
       margin-top: -16px;
       right: -16px;
       top: calc(50% - 16px); }
-  .shepherd-element[x-placement^='right'] {
+  .tippy-popper[x-placement^='right'] {
     margin-left: 16px; }
-    .shepherd-element[x-placement^='right'] .popper__arrow {
+    .tippy-popper[x-placement^='right'] .popper__arrow {
       border-left: 0;
       border-right-color: #f6f6f6;
       left: -16px;
       top: calc(50% - 16px); }
+  .tippy-popper .tippy-tooltip {
+    background-color: rgba(0, 0, 0, 0);
+    max-height: 100%;
+    max-width: 100%;
+    padding: 0;
+    width: 400px; }
+
+.shepherd-element, .shepherd-element:after, .shepherd-element:before,
+.shepherd-element *,
+.shepherd-element *:after,
+.shepherd-element *:before {
+  box-sizing: border-box; }
+
+.shepherd-element {
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2)); }
   .shepherd-element.shepherd-has-title .shepherd-content header {
     background: #e6e6e6;
     padding: 1em; }
