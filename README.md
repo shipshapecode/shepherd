@@ -16,7 +16,7 @@
 
 __Dependencies__
 
-* __[Popper.js](https://github.com/FezVrasta/popper.js)__
+* __[Tippy.js](https://atomiks.github.io/tippyjs/)__
 
 Installing via `npm` will bring in the above dependencies as well.
 

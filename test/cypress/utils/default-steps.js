@@ -3,9 +3,23 @@ export default function(shepherd) {
     {
       id: 'welcome',
       options: {
-        text: ['Shepherd is a javascript library for guiding users through your app. It uses <a href="https://popper.js.org/">Popper.js</a>, another open source library, to position all of its steps.', 'Popper makes sure your steps never end up off screen or cropped by an overflow. Try resizing your browser to see what we mean.'],
+        text: [
+          `
+            Shepherd is a JavaScript library for guiding users through your app.
+            It uses <a href="https://atomiks.github.io/tippyjs//">Tippy.js</a>,
+            another open source library, to render dialogs for each tour "step".
+          `,
+          `
+            Among many things, Tippy makes sure your steps never end up off screen or cropped by an overflow.
+            (Try resizing your browser to see what we mean.)
+          `,
+          `
+            It also offers a robust API for styling animations of steps
+            as they enter and exit the view.
+          `
+        ],
         attachTo: '.hero-welcome bottom',
-        classes: 'shepherd shepherd-transparent-text',
+        classes: 'shepherd-step-element shepherd-transparent-text',
         buttons: [
           {
             action: shepherd.cancel,
@@ -23,7 +37,7 @@ export default function(shepherd) {
       id: 'including',
       options: {
         title: 'Including',
-        text: 'Including Shepherd is easy! Just include popper.js, shepherd.js, and a Shepherd theme file.',
+        text: 'Including Shepherd is easy! Just include tippy.all.min.js, shepherd.js, and a Shepherd theme file.',
         attachTo: '.hero-including bottom',
         buttons: [
           {
@@ -35,7 +49,8 @@ export default function(shepherd) {
             classes: 'shepherd-button-example-primary',
             text: 'Next'
           }
-        ]
+        ],
+        classes: 'shepherd-step-element'
       }
     },
     {
@@ -54,7 +69,8 @@ export default function(shepherd) {
             classes: 'shepherd-button-example-primary',
             text: 'Next'
           }
-        ]
+        ],
+        classes: 'shepherd-step-element'
       }
     },
     {
@@ -73,7 +89,8 @@ export default function(shepherd) {
             classes: 'shepherd-button-example-primary',
             text: 'Done'
           }
-        ]
+        ],
+        classes: 'shepherd-step-element'
       }
     }
   ];
