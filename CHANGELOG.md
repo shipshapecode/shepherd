@@ -1,5 +1,126 @@
 # Changelog
 
+## [v2.0.0-beta.28](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.28) (2018-10-08)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.27...v2.0.0-beta.28)
+
+**Implemented enhancements:**
+
+- Not all of popper.js placement values are supported [\#259](https://github.com/shipshapecode/shepherd/issues/259)
+- Integrate Tippy for step modal creation [\#255](https://github.com/shipshapecode/shepherd/issues/255)
+- Tippy.js Integration [\#261](https://github.com/shipshapecode/shepherd/pull/261) ([BrianSipple](https://github.com/BrianSipple))
+
+**Merged pull requests:**
+
+- use uniqueId for step ID prop over idAttribute [\#262](https://github.com/shipshapecode/shepherd/pull/262) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Support placement values and modifiers according to popper.js API \(\#259\) [\#260](https://github.com/shipshapecode/shepherd/pull/260) ([tedbeer](https://github.com/tedbeer))
+- Change localhost port for cypress tests and document how its used [\#257](https://github.com/shipshapecode/shepherd/pull/257) ([BrianSipple](https://github.com/BrianSipple))
+- replace hubspot favicons with shipshape favicons [\#256](https://github.com/shipshapecode/shepherd/pull/256) ([BrianSipple](https://github.com/BrianSipple))
+- documentation update: add beforeShowPromise example [\#253](https://github.com/shipshapecode/shepherd/pull/253) ([jaffadog](https://github.com/jaffadog))
+- Update uglifyjs-webpack-plugin to the latest version 🚀 [\#247](https://github.com/shipshapecode/shepherd/pull/247) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update theming documentation. [\#242](https://github.com/shipshapecode/shepherd/pull/242) ([BrianSipple](https://github.com/BrianSipple))
+
+## [v2.0.0-beta.27](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.27) (2018-09-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.26...v2.0.0-beta.27)
+
+**Breaking changes:**
+
+- Rename `Tour.options.defaults` to `Tour.options.defaultStepOptions`. [\#244](https://github.com/shipshapecode/shepherd/pull/244) ([BrianSipple](https://github.com/BrianSipple))
+
+**Implemented enhancements:**
+
+- Change `tour.options.defaults` to `tour.options.stepOptions` [\#240](https://github.com/shipshapecode/shepherd/issues/240)
+
+**Merged pull requests:**
+
+- Greenkeeper/babel plugin add module exports 1.0.0 [\#246](https://github.com/shipshapecode/shepherd/pull/246) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.0.0-beta.26](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.26) (2018-09-07)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.25...v2.0.0-beta.26)
+
+**Fixed bugs:**
+
+- Build syntax errors and element.prepend function not supported \(Internet Explorer\) [\#238](https://github.com/shipshapecode/shepherd/issues/238)
+- Syntax errors and ParentNode.prepend not supported in IE [\#239](https://github.com/shipshapecode/shepherd/pull/239) ([alexdaube](https://github.com/alexdaube))
+
+## [v2.0.0-beta.25](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.25) (2018-09-06)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.24...v2.0.0-beta.25)
+
+## [v2.0.0-beta.24](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.24) (2018-09-05)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.23...v2.0.0-beta.24)
+
+**Implemented enhancements:**
+
+- Way to get user to confirm quitting a tutorial [\#133](https://github.com/shipshapecode/shepherd/issues/133)
+- Add step options to ESDoc [\#234](https://github.com/shipshapecode/shepherd/pull/234) ([rwwagner90](https://github.com/rwwagner90))
+- Add Confirm cancel [\#232](https://github.com/shipshapecode/shepherd/pull/232) ([rwwagner90](https://github.com/rwwagner90))
+- improved theming [\#204](https://github.com/shipshapecode/shepherd/pull/204) ([bm2u](https://github.com/bm2u))
+
+**Fixed bugs:**
+
+- advanceOn doesn't complete tour [\#93](https://github.com/shipshapecode/shepherd/issues/93)
+- advanceOn blur? [\#89](https://github.com/shipshapecode/shepherd/issues/89)
+
+**Closed issues:**
+
+- Action required: Greenkeeper could not be activated 🚨 [\#227](https://github.com/shipshapecode/shepherd/issues/227)
+
+**Merged pull requests:**
+
+- add `.vscode` directory to `.gitignore` [\#237](https://github.com/shipshapecode/shepherd/pull/237) ([BrianSipple](https://github.com/BrianSipple))
+- Update extract-loader to the latest version 🚀 [\#236](https://github.com/shipshapecode/shepherd/pull/236) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- \[Issue/89\]- add onCapture setting to bubble events such as blur for tour elements… [\#233](https://github.com/shipshapecode/shepherd/pull/233) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+## [v2.0.0-beta.23](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.23) (2018-08-29)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.22...v2.0.0-beta.23)
+
+**Implemented enhancements:**
+
+- Update to Babel 7, use lodash-es [\#231](https://github.com/shipshapecode/shepherd/pull/231) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- add more tests for increased coverage [\#230](https://github.com/shipshapecode/shepherd/pull/230) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Update dependencies to enable Greenkeeper 🌴 [\#229](https://github.com/shipshapecode/shepherd/pull/229) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.0.0-beta.22](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.22) (2018-08-29)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.21...v2.0.0-beta.22)
+
+**Implemented enhancements:**
+
+- Implement ESDoc [\#226](https://github.com/shipshapecode/shepherd/pull/226) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Fix cancel on any step with a title [\#228](https://github.com/shipshapecode/shepherd/pull/228) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+## [v2.0.0-beta.21](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.21) (2018-08-27)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.20...v2.0.0-beta.21)
+
+**Merged pull requests:**
+
+- Merge coverage from cypress and unit tests [\#225](https://github.com/shipshapecode/shepherd/pull/225) ([rwwagner90](https://github.com/rwwagner90))
+- Renaming of scss source dir [\#219](https://github.com/shipshapecode/shepherd/pull/219) ([bm2u](https://github.com/bm2u))
+
+## [v2.0.0-beta.20](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.20) (2018-08-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.19...v2.0.0-beta.20)
+
+**Implemented enhancements:**
+
+- Increase test coverage, refactor, and cleanup [\#224](https://github.com/shipshapecode/shepherd/pull/224) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.0.0-beta.19](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.19) (2018-08-25)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.18...v2.0.0-beta.19)
+
 ## [v2.0.0-beta.18](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.18) (2018-08-25)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.17...v2.0.0-beta.18)
@@ -12,12 +133,12 @@
 **Fixed bugs:**
 
 - ES2015 imports not working [\#210](https://github.com/shipshapecode/shepherd/issues/210)
+- Fix issue with cancel button [\#220](https://github.com/shipshapecode/shepherd/pull/220) ([chuckcarpenter](https://github.com/chuckcarpenter))
 
 **Merged pull requests:**
 
 - Move bind methods to their own file [\#222](https://github.com/shipshapecode/shepherd/pull/222) ([rwwagner90](https://github.com/rwwagner90))
 - Start some refactoring [\#221](https://github.com/shipshapecode/shepherd/pull/221) ([rwwagner90](https://github.com/rwwagner90))
-- \[Bug\] - fix issue with cancel button [\#220](https://github.com/shipshapecode/shepherd/pull/220) ([chuckcarpenter](https://github.com/chuckcarpenter))
 - Step.js coverage increase [\#218](https://github.com/shipshapecode/shepherd/pull/218) ([chuckcarpenter](https://github.com/chuckcarpenter))
 - Reduce Evented complexity [\#217](https://github.com/shipshapecode/shepherd/pull/217) ([rwwagner90](https://github.com/rwwagner90))
 - Start refactoring for Code Climate [\#214](https://github.com/shipshapecode/shepherd/pull/214) ([rwwagner90](https://github.com/rwwagner90))
@@ -217,11 +338,6 @@
 - Link correct demo site [\#186](https://github.com/shipshapecode/shepherd/pull/186) ([drucci](https://github.com/drucci))
 - Add Repo to package.json [\#149](https://github.com/shipshapecode/shepherd/pull/149) ([bm2u](https://github.com/bm2u))
 
-## v2.0.0
-- Moved dependency from tether to popper.js
-- Changed package name to shepherd.js on npm
-- 
-
 ## v1.7.0
 - Fixes bug where `buttons: false` resulted in the default Next button instead of showing the desired result of no buttons.
 
@@ -246,7 +362,7 @@
 - Exposes tour object on eager install
 
 ## v1.2.0
-- Adds `showOn` for conditonally showing tour steps
+- Adds `showOn` for conditionally showing tour steps
 
 ## v1.1.4
 - Eager - Install helper now checks for the presence of first attach node before starting
