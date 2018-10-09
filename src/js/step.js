@@ -247,14 +247,10 @@ export class Step extends Evented {
    * Triggers `destroy` event
    */
   destroy() {
-    if (isElement(this.el) && this.el.parentNode) {
-      this.el.parentNode.removeChild(this.el);
-      delete this.el;
-    }
-
     if (this.tooltip) {
       this.tooltip.destroy();
       this.tooltip = null;
+      this.el = null;
     }
 
     this.trigger('destroy');
@@ -265,12 +261,6 @@ export class Step extends Evented {
    */
   hide() {
     this.trigger('before-hide');
-
-    if (this.el) {
-      this.el.hidden = true;
-      // We need to manually set styles for < IE11 support
-      this.el.style.display = 'none';
-    }
 
     document.body.removeAttribute('data-shepherd-step');
 
@@ -290,7 +280,11 @@ export class Step extends Evented {
    * @return {boolean} True if the step is open and visible
    */
   isOpen() {
-    return Boolean(this.el && !this.el.hidden);
+    return Boolean(
+      this.tooltip &&
+      this.tooltip.state &&
+      this.tooltip.state.isVisible
+    );
   }
 
   /**

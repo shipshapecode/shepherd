@@ -226,10 +226,14 @@ describe('Shepherd Acceptance Tests', () => {
     });
 
     describe('Cleaning up', () => {
-      it('renders no steps when the tour completes', () => {
-        const tour = setupTour(Shepherd);
+      let tour;
 
+      beforeEach(() => {
+        tour = setupTour(Shepherd);
         tour.start();
+      });
+
+      it('renders no steps after the tour completes', () => {
         tour.complete();
 
         cy.get('.shepherd-step-element').should('not.exist');
