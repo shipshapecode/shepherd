@@ -147,6 +147,24 @@ describe('Tour', function() {
       });
     });
 
+    describe('.hide()', function() {
+      it('hides the current step', () => {
+        const firstStep = instance.steps[0];
+        const hideStepSpy = spy(firstStep, 'hide');
+
+        assert.equal(firstStep.isOpen(), false);
+
+        instance.start();
+
+        assert.equal(firstStep.isOpen(), true);
+
+        instance.hide();
+
+        assert.equal(firstStep.isOpen(), false);
+        assert.equal(hideStepSpy.callCount, 1);
+      });
+    });
+
     describe('.next()/.back()', function() {
       it('goes to the next/previous steps', function() {
         instance.start();

@@ -292,10 +292,10 @@ export class Step extends Evented {
 
   /**
    * Check if the step is open and visible
-   * @return {*|boolean} True if the step is open and visible
+   * @return {boolean} True if the step is open and visible
    */
   isOpen() {
-    return this.el && !this.el.hidden;
+    return Boolean(this.el && !this.el.hidden);
   }
 
   /**
