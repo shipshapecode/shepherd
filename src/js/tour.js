@@ -149,6 +149,17 @@ export class Tour extends Evented {
   }
 
   /**
+   * Hide the current step
+   */
+  hide() {
+    const currentStep = this.getCurrentStep();
+
+    if (currentStep) {
+      return currentStep.hide();
+    }
+  }
+
+  /**
    * Go to the next step in the tour
    * If we are at the end, call `complete`
    */

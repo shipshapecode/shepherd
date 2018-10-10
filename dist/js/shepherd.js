@@ -759,13 +759,13 @@ exports.Step = function (_Evented) {
     }
     /**
      * Check if the step is open and visible
-     * @return {*|boolean} True if the step is open and visible
+     * @return {boolean} True if the step is open and visible
      */
 
   }, {
     key: "isOpen",
     value: function isOpen() {
-      return this.el && !this.el.hidden;
+      return Boolean(this.el && !this.el.hidden);
     }
     /**
      * Create the element and set up the tippy instance
@@ -2511,6 +2511,19 @@ exports.Tour = function (_Evented) {
     key: "getCurrentStep",
     value: function getCurrentStep() {
       return this.currentStep;
+    }
+    /**
+     * Hide the current step
+     */
+
+  }, {
+    key: "hide",
+    value: function hide() {
+      var currentStep = this.getCurrentStep();
+
+      if (currentStep) {
+        return currentStep.hide();
+      }
     }
     /**
      * Go to the next step in the tour
