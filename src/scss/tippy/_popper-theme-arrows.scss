@@ -17,7 +17,6 @@
     .tippy-arrow {
       border-bottom: 0;
       border-top-color: $text-bg;
-      bottom: -$arrow-size;
       left: calc(50% - #{$arrow-size});
     }
   }
