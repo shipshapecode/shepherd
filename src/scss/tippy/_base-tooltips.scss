@@ -13,7 +13,7 @@
  */
 
 .tippy-popper {
-  // @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
+  @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
 
   z-index: $shepherd-element-z-index;
 
