@@ -207,10 +207,6 @@ export class Step extends Evented {
     element.appendChild(content);
     content.appendChild(header);
 
-    if (this.options.attachTo) {
-      element.appendChild(createFromHTML('<div class="popper__arrow" x-arrow></div>'));
-    }
-
     if (!isUndefined(this.options.text)) {
       this._addContent(content);
     }

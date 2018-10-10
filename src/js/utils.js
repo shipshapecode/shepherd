@@ -138,7 +138,6 @@ function _makeAttachedTippyOptions(attachToOptions) {
 
   // Build the proper settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
   const popperOptsToMerge = {
-    arrowElement: this.el.querySelector('.popper__arrow'),
     positionFixed: true
   };
 
@@ -167,7 +166,6 @@ function _makeCenteredTippy() {
   };
 
   const popperOptsToMerge = {
-    arrowElement: this.el.querySelector('.popper__arrow'),
     positionFixed: true
   };
 
