@@ -31,7 +31,7 @@
           as they enter and exit the view.
         `
       ],
-      attachTo: '.hero-welcome bottom',
+      attachTo: '.hero-welcome bottom-start',
       classes: 'shepherd shepherd-welcome',
       buttons: [
         {
@@ -109,7 +109,7 @@
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
-      attachTo: '.hero-followup left',
+      attachTo: '.hero-followup top-start',
       buttons: [
         {
           action: shepherd.back,
