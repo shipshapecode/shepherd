@@ -5425,9 +5425,9 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.17.10:
-  version "4.17.10"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
+lodash-es@^4.17.11:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
 
 lodash-webpack-plugin@^0.11.5:
   version "0.11.5"
@@ -8613,9 +8613,9 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tippy.js@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.0.3.tgz#ee543943808201e75d3a9369464576585d9d5305"
+tippy.js@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-3.0.6.tgz#ad29361e96129de582bf4088f00ea8413632ceb4"
   dependencies:
     popper.js "^1.14.4"
 
