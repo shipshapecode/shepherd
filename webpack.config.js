@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const StyleLintWebpackPlugin = require('stylelint-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -120,7 +119,6 @@ module.exports = [{
         server: {
           baseDir: 'docs/welcome',
           routes: {
-            '/shepherd/dist/js/tippy.all.min.js': 'dist/js/tippy.all.min.js',
             '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
             '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
             '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
@@ -179,14 +177,6 @@ module.exports.push({
       }
     ]
   },
-  externals: {
-    'tippy.js': {
-      root: 'tippy',
-      commonjs2: 'tippy.js',
-      commonjs: 'tippy.js',
-      amd: 'tippy.js'
-    }
-  },
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
@@ -196,18 +186,6 @@ module.exports.push({
     ]
   },
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: './node_modules/tippy.js/dist/tippy.all.min.js',
-        to: 'js',
-        flatten: true
-      },
-      {
-        from: './node_modules/tippy.js/dist/tippy.all.min.js.map',
-        to: 'js',
-        flatten: true
-      },
-    ]),
     new webpack.BannerPlugin(banner),
     new LodashModuleReplacementPlugin
   ]
