@@ -664,10 +664,6 @@ exports.Step = function (_Evented) {
       element.appendChild(content);
       content.appendChild(header);
 
-      if (this.options.attachTo) {
-        element.appendChild((0, _utils.createFromHTML)('<div class="popper__arrow" x-arrow></div>'));
-      }
-
       if (!(0, _isUndefined3.default)(this.options.text)) {
         this._addContent(content);
       }
@@ -1377,7 +1373,6 @@ function _makeAttachedTippyOptions(attachToOptions) {
 
 
   var popperOptsToMerge = {
-    arrowElement: this.el.querySelector('.popper__arrow'),
     positionFixed: true
   };
 
@@ -1405,7 +1400,6 @@ function _makeCenteredTippy() {
   }, this.options.tippyOptions);
 
   var popperOptsToMerge = {
-    arrowElement: this.el.querySelector('.popper__arrow'),
     positionFixed: true
   };
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
@@ -2765,6 +2759,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var defaults = exports.defaults = {
   trigger: 'manual',
+  arrow: true,
+  arrowTransform: 'scale(2)',
   animation: 'fade',
   delay: 200,
   duration: 420,
