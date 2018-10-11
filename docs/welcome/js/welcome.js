@@ -109,7 +109,7 @@
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
-      attachTo: '.hero-followup left',
+      attachTo: '.hero-followup top',
       buttons: [
         {
           action: shepherd.back,

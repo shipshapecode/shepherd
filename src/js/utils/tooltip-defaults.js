@@ -1,5 +1,7 @@
 export const defaults = {
   trigger: 'manual',
+  arrow: true,
+  arrowTransform: 'scale(2)',
   animation: 'fade',
   delay: 200,
   duration: 420,
