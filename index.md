@@ -157,7 +157,7 @@ created.
   - Array of HTML strings
   - `HTMLElement` object
   - Function to be executed when the step is built. It must return one the three options above.
-- `title`: The steps title.  It becomes an `h3` at the top of the step.
+- `title`: The step's title. It becomes an `h3` at the top of the step.
 - `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form `"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
 on: 'left'}`.  If you use the object syntax, `element` can also be a DOM element.  If you don't specify an `attachTo`
 the element will appear in the middle of the screen.
