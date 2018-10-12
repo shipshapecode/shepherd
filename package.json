@@ -41,6 +41,7 @@
     "test:cy:watch": "yarn test:build && start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "cross-env NODE_ENV=test webpack --config webpack.test.config.js && yarn mocha-headless-chrome",
     "test:unit:watch": "webpack-dev-server --config webpack.test.config.js",
+    "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && webpack --watch --mode development"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
