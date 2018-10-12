@@ -74,7 +74,6 @@ export function setupTooltip() {
   this.tooltip = _makeTippyInstance.call(this, attachToOpts);
 
   this.target = attachToOpts.element || document.body;
-  this.target.classList.add('shepherd-enabled', 'shepherd-target');
 
   this.el.classList.add('shepherd-element');
 }
