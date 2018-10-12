@@ -122,15 +122,10 @@ describe('Shepherd Acceptance Tests', () => {
         cy.contains('Next').click();
 
         // Step two text should be visible
-        cy.contains('Including Shepherd is easy!')
+        cy.get('.shepherd-text')
+          .contains('Including Shepherd is easy!')
           .should('exist')
           .and('be.visible');
-
-        // Step one text should be hidden
-        cy.get('.shepherd-text')
-          .contains('Shepherd is a JavaScript library')
-          .should('exist')
-          .and('be.hidden');
 
         // Click back
         cy.contains('Back').click();
@@ -140,11 +135,6 @@ describe('Shepherd Acceptance Tests', () => {
           .contains('Shepherd is a JavaScript library')
           .should('exist')
           .and('be.visible');
-
-        // Step twp text should be hidden
-        cy.contains('Including Shepherd is easy!')
-          .should('exist')
-          .and('be.hidden');
       });
     });
 
