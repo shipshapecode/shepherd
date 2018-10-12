@@ -7,6 +7,8 @@ const { assert } = chai;
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 import { Tour } from '../../src/js/tour.js';
+import defaultButtons from '../cypress/utils/default-buttons';
+
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 
@@ -406,16 +408,6 @@ describe('Step', () => {
       step.destroy();
       assert.isOk(whenCalled);
     });
-
-    it('sets up buttons', () => {
-      const setupButtonsSpy = spy(Step.prototype, '_setupButtons');
-
-      assert.equal(setupButtonsSpy.callCount, 0);
-
-      new Step('test', {});
-
-      assert.equal(setupButtonsSpy.callCount, 1);
-    });
   });
 
   describe('getTour()', () => {
@@ -446,7 +438,7 @@ describe('Step', () => {
       step._addContent(content);
       assert.equal(content.querySelectorAll('.shepherd-text p').length, 2);
       assert.equal(step.options.text.join(' '),
-        Array.from(content.querySelectorAll('.shepherd-text p')).map((text) => text.innerHTML).join(' '));
+      Array.from(content.querySelectorAll('.shepherd-text p')).map((text) => text.innerHTML).join(' '));
     });
 
     it('applies HTML element directly to content', () => {
@@ -470,6 +462,50 @@ describe('Step', () => {
 
       assert.isOk(typeof step.options.text === 'function');
       assert.equal('I am some test text.', content.querySelector('.shepherd-text p').innerHTML);
+    });
+  });
+
+  describe('_addButtons', () => {
+    it('renders no buttons if an empty array is passed to `options.buttons`', () => {
+      const content = document.createElement('div');
+      const step = new Step();
+
+      step.options.buttons = [];
+
+      step._addButtons(content);
+
+      assert.equal(content.children.length, 0);
+    });
+
+    it('renders no buttons if nothing is passed to `options.buttons`', () => {
+      const content = document.createElement('div');
+      const step = new Step();
+
+      step._addButtons(content);
+
+      assert.equal(content.children.length, 0);
+    });
+
+    it('renders buttons for each item passed to `options.buttons`', () => {
+      const content = document.createElement('div');
+      const step = new Step();
+
+      step.options.buttons = [
+        defaultButtons.cancel,
+        defaultButtons.next,
+      ];
+
+      step._addButtons(content);
+
+      assert.equal(content.children.length, 1);
+
+      const buttonContainer = content.querySelector('.shepherd-buttons');
+
+      assert.equal(buttonContainer instanceof HTMLElement, true);
+
+      const buttons = buttonContainer.querySelectorAll('.shepherd-button');
+
+      assert.equal(buttons.length, 2);
     });
   });
 });

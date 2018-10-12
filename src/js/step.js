@@ -3,7 +3,6 @@ import {
   isElement,
   isEmpty,
   isFunction,
-  isPlainObject,
   isString,
   isUndefined
 } from 'lodash';
@@ -48,8 +47,8 @@ export class Step extends Evented {
    * You can also always manually advance the Tour by calling `myTour.next()`.
    * @param {function} options.beforeShowPromise A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
-   * @param {Object[]} options.buttons An array of buttons to add to the step. By default
-   * we add a Next button which triggers `next()`, set this to `false` to disable.
+   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
+   * footer below the main body text.
    * @param {function} options.buttons.button.action A function executed when the button is clicked on
    * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
    * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
@@ -120,7 +119,7 @@ export class Step extends Evented {
    * @param {HTMLElement} content The element for the step, to append the footer with buttons to
    */
   _addButtons(content) {
-    if (this.options.buttons) {
+    if (!isEmpty(this.options.buttons)) {
       const footer = document.createElement('footer');
       const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
@@ -339,8 +338,6 @@ export class Step extends Evented {
     forOwn(when, (handler, event) => {
       this.on(event, handler, this);
     });
-
-    this._setupButtons();
   }
 
   /**
@@ -355,31 +352,6 @@ export class Step extends Evented {
       }
     }
     this._show();
-  }
-
-  /**
-   * Determines button options prior to rendering
-   *
-   * @private
-   */
-  _setupButtons() {
-    const { buttons } = this.options;
-    if (buttons) {
-      const buttonsAreDefault = isUndefined(buttons) || isEmpty(buttons);
-      if (buttonsAreDefault) {
-        this.options.buttons = [{
-          text: 'Next',
-          action: this.tour.next,
-          classes: 'btn'
-        }];
-      } else {
-        const buttonsAreObject = isPlainObject(buttons);
-        // Can pass in an object which will assume a single button
-        if (buttonsAreObject) {
-          this.options.buttons = [this.options.buttons];
-        }
-      }
-    }
   }
 
   /**

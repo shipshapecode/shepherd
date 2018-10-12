@@ -127,12 +127,6 @@ describe('Shepherd Acceptance Tests', () => {
           .should('exist')
           .and('be.visible');
 
-        // // Step one text should be hidden
-        // cy.get('.shepherd-text')
-        //   .contains('Shepherd is a JavaScript library')
-        //   .should('exist')
-        //   .and('be.hidden');
-
         // Click back
         cy.contains('Back').click();
 
