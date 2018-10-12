@@ -173,8 +173,7 @@ the step will execute. For example:
   },
   ```
 - `classes`: Extra classes to add to the step.  `shepherd-theme-arrows` will give you our theme.
-- `buttons`: An array of buttons to add to the step.  By default we add a Next button which triggers `next()`, set this to false
-to disable.  Each button in the array is an object of the format:
+- `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
   - `classes`: Extra classes to apply to the `<a>`
   - `action`: A function executed when the button is clicked on
