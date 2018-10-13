@@ -63,6 +63,27 @@ jobs:
           if [ "$(npm_dist_tag)" == "latest" ]; then
             npm dist-tag rm shepherd.js next || true
           fi
+    - stage: github releases
+      script:
+        - yarn build
+      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
+      before_deploy: |
+        function gh_prerelease() {
+          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
+            echo true
+          else
+            echo false
+          fi
+        }
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        file_glob: true
+        file: dist/*
+        skip_cleanup: true
+        prerelease: $(gh_prerelease)
+        on:
+          tags: true
     - stage: gh-pages release
       script:
         - yarn build
