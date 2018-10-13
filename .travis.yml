@@ -79,7 +79,9 @@ jobs:
         provider: releases
         api_key: $GH_TOKEN
         file_glob: true
-        file: dist/*
+        file:
+          - dist/css/*
+          - dist/js/*
         skip_cleanup: true
         prerelease: $(gh_prerelease)
         on:
