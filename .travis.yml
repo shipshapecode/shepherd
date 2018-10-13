@@ -63,6 +63,15 @@ jobs:
           if [ "$(npm_dist_tag)" == "latest" ]; then
             npm dist-tag rm shepherd.js next || true
           fi
+    - stage: github releases
+      deploy:
+        provider: releases
+        api_key: $GH_TOKEN
+        file_glob: true
+        file: dist/*
+        skip_cleanup: true
+        on:
+          tags: true
     - stage: gh-pages release
       script:
         - yarn build
