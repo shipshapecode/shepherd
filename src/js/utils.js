@@ -169,6 +169,7 @@ function _makeCenteredTippy() {
     positionFixed: true
   };
 
+  tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
   const finalPopperOptions = Object.assign(
