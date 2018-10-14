@@ -1299,6 +1299,7 @@ function _makeCenteredTippy() {
   var popperOptsToMerge = {
     positionFixed: true
   };
+  tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
   var finalPopperOptions = Object.assign({}, popperOptsToMerge, tippyOptions.popperOptions, {
     modifiers: Object.assign({
