@@ -367,7 +367,7 @@ export class Step extends Evented {
     }
 
     this.el.hidden = false;
-    // // We need to manually set styles for < IE11 support
+    // We need to manually set styles for < IE11 support
     this.el.style.display = 'block';
 
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
