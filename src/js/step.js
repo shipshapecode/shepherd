@@ -250,7 +250,15 @@ export class Step extends Evented {
     if (this.tooltip) {
       this.tooltip.destroy();
       this.tooltip = null;
+    }
+
+    if (this.el && this.el instanceof HTMLElement) {
+      this.el.parentNode.removeChild(this.el);
       this.el = null;
+    }
+
+    if (this.target) {
+      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
     }
 
     this.trigger('destroy');

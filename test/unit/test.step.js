@@ -7,6 +7,7 @@ const { assert } = chai;
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 import { Tour } from '../../src/js/tour.js';
+import tippy from 'tippy.js';
 import defaultButtons from '../cypress/utils/default-buttons';
 
 // since importing non UMD, needs assignment
@@ -14,7 +15,7 @@ window.Shepherd = Shepherd;
 
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 
-describe('Step', () => {
+describe('Tour | Step', () => {
   describe('Shepherd.Step()', () => {
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
@@ -63,10 +64,13 @@ describe('Step', () => {
       }
     });
 
-    after(() => {
-      instance.cancel();
+    beforeEach(() => {
+      tippy.disableAnimations();
     });
 
+    afterEach(() => {
+      instance.complete();
+    });
 
     it('has all the correct properties', () => {
       const values = ['classes', 'scrollTo', 'attachTo', 'id', 'text', 'buttons'];
@@ -102,7 +106,6 @@ describe('Step', () => {
   });
 
   describe('bindAdvance()', () => {
-    let tooltipElem;
     let event;
     let link;
     let hasAdvanced = false;
@@ -114,7 +117,8 @@ describe('Step', () => {
     };
 
     before(() => {
-      tooltipElem = document.createElement('div');
+      const tooltipElem = document.createElement('div');
+
       event = new Event(advanceOnEventName);
 
       link = document.createElement('a');

@@ -1,4 +1,4 @@
-import { isFunction, isNumber, isString, isUndefined } from 'lodash';
+import { isFunction, isNumber, isString, isUndefined, isEmpty } from 'lodash';
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
@@ -112,17 +112,11 @@ export class Tour extends Evented {
    * @param {String} event The event name to trigger
    */
   done(event) {
-    if (this.currentStep) {
-      this.currentStep.hide();
+    if (!isEmpty(this.steps)) {
+      this.steps.forEach((step) => step.destroy());
     }
 
     this.trigger(event);
-
-    if (Shepherd.activeTour) {
-      Shepherd.activeTour.steps.forEach((step) => {
-        step.destroy();
-      });
-    }
 
     Shepherd.activeTour = null;
     document.body.classList.remove('shepherd-active');
@@ -224,6 +218,10 @@ export class Tour extends Evented {
    * @param {Boolean} forward True if we are going forward, false if backward
    */
   show(key = 0, forward = true) {
+    if (this.currentStep) {
+      this.currentStep.hide();
+    }
+
     this._setupActiveTour();
 
     const step = isString(key) ? this.getById(key) : this.steps[key];
@@ -258,17 +256,12 @@ export class Tour extends Evented {
   }
 
   /**
-   * If we have a currentStep, the tour is active, so just hide the step and remain active.
-   * Otherwise, make the tour active.
+   * Make this tour "active"
    * @private
    */
   _setupActiveTour() {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    } else {
-      document.body.classList.add('shepherd-active');
-      this.trigger('active', { tour: this });
-    }
+    document.body.classList.add('shepherd-active');
+    this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
   }

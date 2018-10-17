@@ -224,20 +224,5 @@ describe('Shepherd Acceptance Tests', () => {
         cy.get('.shepherd-step-element').should('have.length', 1);
       });
     });
-
-    describe('Cleaning up', () => {
-      let tour;
-
-      beforeEach(() => {
-        tour = setupTour(Shepherd);
-        tour.start();
-      });
-
-      it('renders no steps after the tour completes', () => {
-        tour.complete();
-
-        cy.get('.shepherd-step-element').should('not.exist');
-      });
-    });
   });
 });

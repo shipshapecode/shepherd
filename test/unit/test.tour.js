@@ -7,20 +7,25 @@ import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';
 import { spy } from 'sinon';
 
-
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 
-describe('Tour', function() {
+const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
+
+describe('Tour | Top-Level Class', function() {
   let instance, shouldShowStep;
 
   const defaultStepOptions = {
-    classes: 'shepherd-theme-arrows',
+    classes: DEFAULT_STEP_CLASS,
     scrollTo: true
   };
 
+  beforeEach(() => {
+    tippy.disableAnimations();
+  });
+
   afterEach(() => {
-    instance.cancel();
+    instance.complete();
   });
 
   describe('constructor', function() {
@@ -34,7 +39,7 @@ describe('Tour', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       assert.deepEqual(instance.options.defaultStepOptions, {
-        classes: 'shepherd-theme-arrows',
+        classes: DEFAULT_STEP_CLASS,
         scrollTo: true
       });
     });
@@ -73,7 +78,6 @@ describe('Tour', function() {
       });
 
       instance.addStep('test', {
-        classes: 'foo',
         id: 'test',
         title: 'This is a test step for our tour'
       });
@@ -101,7 +105,7 @@ describe('Tour', function() {
     describe('.addStep()', function() {
       it('adds tour steps', function() {
         assert.equal(instance.steps.length, 4);
-        assert.equal(instance.getById('test').options.classes, 'foo', 'classes passed to step options');
+        assert.equal(instance.getById('test').options.classes, DEFAULT_STEP_CLASS, 'classes passed to step options');
       });
 
       it('adds steps with only one arg', function() {
@@ -197,7 +201,6 @@ describe('Tour', function() {
         });
 
         instance.addStep('test', {
-          classes: 'foo',
           id: 'test',
           title: 'This is a test step for our tour'
         });
@@ -247,20 +250,9 @@ describe('Tour', function() {
     });
 
     describe('.complete()', function() {
-      it('tears down tour on complete', function() {
-        let inactiveFired = false;
-        instance.on('inactive', () => {
-          inactiveFired = true;
-        });
-        instance.start();
-        assert.equal(instance, Shepherd.activeTour, 'activeTour is set to our tour');
-        instance.complete();
-        assert.isNotOk(Shepherd.activeTour, 'activeTour is torn down');
-        assert.isOk(inactiveFired, 'inactive event fired');
-      });
-
       it('triggers complete event when complete function is called', function() {
         let completeFired = false;
+
         instance.on('complete', () => {
           completeFired = true;
         });
@@ -269,7 +261,67 @@ describe('Tour', function() {
         instance.complete();
         assert.isOk(completeFired, 'complete event fired');
       });
+
+      it('calls `done()`', () => {
+        const doneSpy = spy(instance, 'done');
+
+        assert.equal(doneSpy.callCount, 0);
+
+        instance.start();
+        instance.complete();
+
+        assert.equal(doneSpy.callCount, 1);
+      });
     });
+
+    describe('.done()', function() {
+      it('tears down the active tour', function() {
+        instance.start();
+
+        assert.equal(instance, Shepherd.activeTour, 'activeTour is set to our tour');
+
+        instance.complete();
+
+        assert.equal(Shepherd.activeTour, null, '`activeTour` is torn down and removed from the `Shepherd` global');
+      });
+
+
+      it('removes any of its `Step` tooltip elements from the DOM', function() {
+        const testStep = {
+          id: 'element-removal-test',
+          classes: 'element-removal-test',
+          title: 'This is a test step for our tour'
+        };
+
+        instance.addStep(testStep);
+        instance.start();
+        instance.show('element-removal-test');
+
+        assert.exists(document.querySelector(`.element-removal-test`), 'a step is rendered in the DOM after the tour starts');
+
+        instance.complete();
+
+        assert.notExists(document.querySelector(`.element-removal-test`), 'steps are removed from the DOM after the tour completes');
+      });
+
+
+      it('fires the `inactive` event', function() {
+        let inactiveFired = false;
+
+        instance.on('inactive', () => {
+          inactiveFired = true;
+        });
+
+        instance.start();
+
+        assert.equal(inactiveFired, false, 'inactive event does not fire before `complete()`');
+
+        instance.complete();
+
+        assert.equal(inactiveFired, true, 'inactive event fires after `complete()`');
+      });
+    });
+
 
     describe('.removeStep()', function() {
       it('removes the step when passed the id', function() {
