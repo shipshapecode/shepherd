@@ -370,6 +370,8 @@ export class Step extends Evented {
     // We need to manually set styles for < IE11 support
     this.el.style.display = 'block';
 
+    this.target.classList.add('shepherd-enabled', 'shepherd-target');
+
     document.body.setAttribute('data-shepherd-step', this.id);
 
     if (this.options.scrollTo) {
