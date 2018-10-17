@@ -856,6 +856,7 @@ exports.Step = function (_Evented) {
       this.el.hidden = false; // We need to manually set styles for < IE11 support
 
       this.el.style.display = 'block';
+      this.target.classList.add('shepherd-enabled', 'shepherd-target');
       document.body.setAttribute('data-shepherd-step', this.id);
 
       if (this.options.scrollTo) {
@@ -1205,7 +1206,6 @@ function setupTooltip() {
   var attachToOpts = this.parseAttachTo();
   this.tooltip = _makeTippyInstance.call(this, attachToOpts);
   this.target = attachToOpts.element || document.body;
-  this.target.classList.add('shepherd-enabled', 'shepherd-target');
   this.el.classList.add('shepherd-element');
 }
 /**
