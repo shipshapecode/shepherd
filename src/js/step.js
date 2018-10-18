@@ -252,7 +252,7 @@ export class Step extends Evented {
       this.tooltip = null;
     }
 
-    if (this.el && this.el instanceof HTMLElement) {
+    if (isElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       this.el = null;
     }
