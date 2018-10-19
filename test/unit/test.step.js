@@ -7,24 +7,27 @@ const { assert } = chai;
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 import { Tour } from '../../src/js/tour.js';
+import tippy from 'tippy.js';
 import defaultButtons from '../cypress/utils/default-buttons';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
 
-describe('Step', () => {
+const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
+
+describe('Tour | Step', () => {
   describe('Shepherd.Step()', () => {
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
-        classes: 'shepherd-theme-arrows',
+        classes: DEFAULT_STEP_CLASS,
         scrollTo: true
       }
     });
 
     const testStep = instance.addStep('test', {
+      attachTo: 'body',
       id: 'test',
       text: 'This is a step for testing',
-      classes: 'example-step-extra-class',
       buttons: [
         {
           text: 'Next',
@@ -61,22 +64,30 @@ describe('Step', () => {
       }
     });
 
-    after(() => {
-      instance.cancel();
+    beforeEach(() => {
+      tippy.disableAnimations();
     });
 
+    afterEach(() => {
+      instance.complete();
+    });
 
     it('has all the correct properties', () => {
-      const values = ['classes', 'scrollTo', 'id', 'text', 'buttons'];
+      const values = ['classes', 'scrollTo', 'attachTo', 'id', 'text', 'buttons'];
       assert.deepEqual(values, Object.keys(testStep.options));
     });
 
     describe('.hide()', () => {
-      it('shows step evoking method, regardless of order', () => {
+      it('detaches from the step target', () => {
         instance.start();
+
+        const targetElem = document.body;
+
+        assert.equal(targetElem.classList.contains('shepherd-enabled'), true);
+
         testStep.hide();
 
-        assert.notEqual(document.querySelector('[data-id=test]').getAttribute('hidden'), null);
+        assert.equal(targetElem.classList.contains('shepherd-enabled'), false);
       });
     });
 
@@ -95,111 +106,108 @@ describe('Step', () => {
   });
 
   describe('bindAdvance()', () => {
-    it('should trigger the advanceOn option via string', () => {
-      const el = document.createElement('div');
-      const event = new Event('test');
-      const link = document.createElement('a');
-      let advanced = false;
-      link.classList.add('click-test');
-      document.body.appendChild(link);
+    let event;
+    let link;
+    let hasAdvanced = false;
 
-      const step = new Step({
-        next: () => advanced = true
-      }, {
-        advanceOn: '.click-test test'
+    const advanceOnSelector = 'test-selector';
+    const advanceOnEventName = 'test-event';
+    const tourProto = {
+      next() { hasAdvanced = true; }
+    };
+
+    before(() => {
+      const tooltipElem = document.createElement('div');
+
+      event = new Event(advanceOnEventName);
+
+      link = document.createElement('a');
+      link.classList.add(advanceOnSelector);
+      link.textContent = 'Click Me 👋';
+
+      document.body.appendChild(link);
+    });
+
+    after(() => {
+      link.remove();
+    });
+
+    it('triggers the `advanceOn` option via string', () => {
+      const step = new Step(tourProto, {
+        advanceOn: `.${advanceOnSelector} ${advanceOnEventName}`
       });
-      step.el = el;
-      step.el.hidden = false;
+
+      step.isOpen = () => true;
 
       step.bindAdvance();
       link.dispatchEvent(event);
 
-      assert.isOk(link.classList.contains('click-test'));
-      assert.isOk(advanced);
+      assert.equal(link.classList.contains(advanceOnSelector), true);
+      assert.equal(hasAdvanced, true);
     });
 
-    it('should trigger the advanceOn option via object', () => {
-      const el = document.createElement('div');
-      const event = new Event('test');
-      const link = document.createElement('a');
-      let advanced = false;
-      link.classList.add('object-test');
-      document.body.appendChild(link);
-
-      const step = new Step({
-        next: () => advanced = true
-      }, {
-        advanceOn: { selector: '.object-test', event: 'test' }
+    it('triggers the `advanceOn` option via object', () => {
+      const step = new Step(tourProto, {
+        advanceOn: { selector: `.${advanceOnSelector}`, event: advanceOnEventName }
       });
-      step.el = el;
-      step.el.hidden = false;
+
+      step.isOpen = () => true;
 
       step.bindAdvance();
       link.dispatchEvent(event);
 
-      assert.isOk(link.classList.contains('object-test'));
-      assert.isOk(advanced, 'next triggered for advanceOn');
+      assert.equal(link.classList.contains(advanceOnSelector), true);
+      assert.equal(hasAdvanced, true, '`next()` triggered for advanceOn');
     });
 
-    it('should capture events attached to no selector', () => {
-      const event = new Event('test');
-      let advanced = false;
-
-      const step = new Step({
-        next: () => advanced = true
-      }, {
-        advanceOn: { event: 'test' }
+    it('captures events attached to no element', () => {
+      const step = new Step(tourProto, {
+        advanceOn: { event: advanceOnEventName }
       });
 
-      step.el = document.body;
-      step.el.hidden = false;
+      step.isOpen = () => true;
 
       step.bindAdvance();
       document.body.dispatchEvent(event);
 
-      assert.isOk(advanced, 'next triggered for advanceOn');
+      assert.isOk(hasAdvanced, '`next()` triggered for advanceOn');
     });
 
     it('should support bubbling events for nodes that do not exist yet', () => {
       const event = new Event('blur');
-      let advanced = false;
 
-      const step = new Step({
-        next: () => advanced = true
-      }, {
+      const step = new Step(tourProto, {
         text: 'Lorem ipsum dolor: <a href="https://example.com">sit amet</a>',
         advanceOn: {
           selector: 'a[href="https://example.com"]',
           event: 'blur'
         }
       });
-      step.el = document.body;
-      step.el.hidden = false;
+
+      step.isOpen = () => true;
 
       step.bindAdvance();
       document.body.dispatchEvent(event);
 
-      assert.isOk(advanced, 'next triggered for advanceOn');
+      assert.isOk(hasAdvanced, '`next()` triggered for advanceOn');
     });
 
-    it('it should call removeEventListener when destoryed', function(done){
-      const el = document.createElement('div');
-      const body = spy(document.body, 'removeEventListener');
-      const step = new Step({
-        next: () => true
-      }, {
-        advanceOn: { event: 'test' }
+    it('calls `removeEventListener` when destroyed', function(done){
+      const bodySpy = spy(document.body, 'removeEventListener');
+      const step = new Step(tourProto, {
+        advanceOn: { event: advanceOnEventName }
       });
-      step.el = el;
-      step.el.hidden = false;
+
+      step.isOpen = () => true;
 
       step.bindAdvance();
       step.trigger('destroy');
-      assert.ok(body.called);
-      body.restore();
+
+      assert.equal(bodySpy.called, true);
+      bodySpy.restore();
+
       done();
     });
-
   });
 
   describe('bindButtonEvents()', () => {

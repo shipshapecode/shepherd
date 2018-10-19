@@ -6,10 +6,11 @@ import { forOwn, isString, isUndefined } from 'lodash';
  * @private
  */
 function _setupAdvanceOnHandler(selector) {
-  return (e) => {
+  return (event) => {
     if (this.isOpen()) {
-      const targetIsEl = this.el && e.target === this.el;
-      const targetIsSelector = !isUndefined(selector) && e.target.matches(selector);
+      const targetIsEl = this.el && event.target === this.el;
+      const targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
+
       if (targetIsSelector || targetIsEl) {
         this.tour.next();
       }

@@ -3,7 +3,6 @@ export const defaults = {
   arrow: true,
   arrowTransform: 'scale(2)',
   animation: 'fade',
-  delay: 200,
   duration: 420,
   flip: true,
   animateFill: false, // https://atomiks.github.io/tippyjs/#animate-fill-option

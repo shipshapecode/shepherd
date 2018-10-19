@@ -18,8 +18,17 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
   });
 
   describe('Adding/Removing class names to the target of the current step', () => {
+    let tour;
+
+    beforeEach(() => {
+      tour = setupTour(Shepherd);
+    });
+
+    afterEach(() => {
+      tour.complete();
+    });
+
     it('Adds the "shepherd-target" and "shepherd-enabled" classes upon showing a step', () => {
-      const tour = setupTour(Shepherd);
       tour.start();
 
       cy.get('.hero-welcome')
@@ -28,7 +37,6 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
     });
 
     it('Removes the "shepherd-target" and "shepherd-enabled" upon hiding a step', () => {
-      const tour = setupTour(Shepherd);
       tour.start();
       tour.next();
 
