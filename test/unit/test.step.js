@@ -100,7 +100,7 @@ describe('Tour | Step', () => {
       it('shows step evoking method, regardless of order', () => {
         showTestStep.show();
 
-        assert.equal(document.querySelector('[data-id=test2]').dataset.id, 'test2');
+        assert.exists(document.querySelector('[data-shepherd-step-id=test2]'));
       });
     });
   });
