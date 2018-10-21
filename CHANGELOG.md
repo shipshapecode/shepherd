@@ -1,5 +1,69 @@
 # Changelog
 
+## [v2.0.0-beta.33](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.33) (2018-10-19)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.32...v2.0.0-beta.33)
+
+**Implemented enhancements:**
+
+- Add minified js + css to release package [\#258](https://github.com/shipshapecode/shepherd/issues/258)
+- Bump a bunch of deps [\#281](https://github.com/shipshapecode/shepherd/pull/281) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Exit animations don't play before step tooltip disappears. [\#277](https://github.com/shipshapecode/shepherd/issues/277)
+- Allow exit animations to play before step tooltip disappears. [\#279](https://github.com/shipshapecode/shepherd/pull/279) ([BrianSipple](https://github.com/BrianSipple))
+- Remove default arrow setting on centered tippy [\#275](https://github.com/shipshapecode/shepherd/pull/275) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Merged pull requests:**
+
+- Fix bug of classes not being added to targets on returned-to steps. [\#276](https://github.com/shipshapecode/shepherd/pull/276) ([BrianSipple](https://github.com/BrianSipple))
+
+## [v2.0.0-beta.32](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.32) (2018-10-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.31...v2.0.0-beta.32)
+
+## [v2.0.0-beta.31](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.31) (2018-10-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.30...v2.0.0-beta.31)
+
+## [v2.0.0-beta.30](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.30) (2018-10-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.29...v2.0.0-beta.30)
+
+**Implemented enhancements:**
+
+- Hide buttons if none are passed to `Step.options.buttons` [\#243](https://github.com/shipshapecode/shepherd/issues/243)
+- Constrain input for `Step.options.buttons` to an array of buttons. [\#271](https://github.com/shipshapecode/shepherd/pull/271) ([BrianSipple](https://github.com/BrianSipple))
+
+**Merged pull requests:**
+
+- fix docs typo [\#272](https://github.com/shipshapecode/shepherd/pull/272) ([BrianSipple](https://github.com/BrianSipple))
+
+## [v2.0.0-beta.29](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.29) (2018-10-11)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.28...v2.0.0-beta.29)
+
+**Implemented enhancements:**
+
+- Bundle minified Tippy code with distribution [\#263](https://github.com/shipshapecode/shepherd/issues/263)
+- Implement `Tour.hide` [\#265](https://github.com/shipshapecode/shepherd/pull/265) ([BrianSipple](https://github.com/BrianSipple))
+
+**Fixed bugs:**
+
+- Remove or restore hide method on Tour instance [\#249](https://github.com/shipshapecode/shepherd/issues/249)
+
+**Closed issues:**
+
+- An in-range update of tippy.js is breaking the build 🚨 [\#266](https://github.com/shipshapecode/shepherd/issues/266)
+
+**Merged pull requests:**
+
+- Bundle tippy with the main Shepherd distribution file. [\#270](https://github.com/shipshapecode/shepherd/pull/270) ([BrianSipple](https://github.com/BrianSipple))
+- remove spm from package.json [\#269](https://github.com/shipshapecode/shepherd/pull/269) ([BrianSipple](https://github.com/BrianSipple))
+- remove some popper arrow styles and target tippy-arrow [\#268](https://github.com/shipshapecode/shepherd/pull/268) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Update screenshot of intro step in README [\#264](https://github.com/shipshapecode/shepherd/pull/264) ([BrianSipple](https://github.com/BrianSipple))
+
 ## [v2.0.0-beta.28](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.28) (2018-10-08)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.27...v2.0.0-beta.28)
