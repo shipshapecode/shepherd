@@ -190,7 +190,7 @@ export class Step extends Evented {
   _createTooltipContent() {
     const content = document.createElement('div');
     const classes = this.options.classes || '';
-    const element = createFromHTML(`<div class='${classes}' data-id='${this.id}' id="step-${this.options.id}-${uniqueId()}"}>`);
+    const element = createFromHTML(`<div class='${classes}' data-shepherd-step-id='${this.id}' id="step-${this.options.id}-${uniqueId()}"}>`);
     const header = document.createElement('header');
 
     if (this.options.title) {
