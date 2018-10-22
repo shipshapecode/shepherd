@@ -644,7 +644,7 @@ exports.Step = function (_Evented) {
     value: function _createTooltipContent() {
       var content = document.createElement('div');
       var classes = this.options.classes || '';
-      var element = (0, _utils.createFromHTML)("<div class='".concat(classes, "' data-id='").concat(this.id, "' id=\"step-").concat(this.options.id, "-").concat(uniqueId(), "\"}>"));
+      var element = (0, _utils.createFromHTML)("<div class='".concat(classes, "' data-shepherd-step-id='").concat(this.id, "' id=\"step-").concat(this.options.id, "-").concat(uniqueId(), "\"}>"));
       var header = document.createElement('header');
 
       if (this.options.title) {
