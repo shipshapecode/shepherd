@@ -153,6 +153,10 @@ export class Tour extends Evented {
     }
   }
 
+  isActive() {
+    return Shepherd.activeTour === this;
+  }
+
   /**
    * Go to the next step in the tour
    * If we are at the end, call `complete`
@@ -218,30 +222,25 @@ export class Tour extends Evented {
    * @param {Boolean} forward True if we are going forward, false if backward
    */
   show(key = 0, forward = true) {
-    if (this.currentStep) {
-      this.currentStep.hide();
-    }
-
-    this._setupActiveTour();
-
     const step = isString(key) ? this.getById(key) : this.steps[key];
 
-    if (!step) {
-      return;
-    }
+    if (step) {
+      this._updateStateBeforeShow();
 
-    const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
-    // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
-    if (shouldSkipStep) {
-      this._skipStep(step, forward);
-    } else {
-      this.trigger('show', {
-        step,
-        previous: this.currentStep
-      });
+      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
 
-      this.currentStep = step;
-      step.show();
+      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+      if (shouldSkipStep) {
+        this._skipStep(step, forward);
+      } else {
+        this.trigger('show', {
+          step,
+          previous: this.currentStep
+        });
+
+        this.currentStep = step;
+        step.show();
+      }
     }
   }
 
@@ -252,6 +251,7 @@ export class Tour extends Evented {
     this.trigger('start');
 
     this.currentStep = null;
+    this._setupActiveTour();
     this.next();
   }
 
@@ -280,6 +280,16 @@ export class Tour extends Evented {
 
   _setTooltipDefaults() {
     tippy.setDefaults(tooltipDefaults);
+  }
+
+  _updateStateBeforeShow() {
+    if (this.currentStep) {
+      this.currentStep.hide();
+    }
+
+    if (!this.isActive) {
+      this._setupActiveTour();
+    }
   }
 }
 
