@@ -2,6 +2,26 @@ import { isString, isObjectLike, isUndefined, zipObject } from 'lodash';
 import tippy from 'tippy.js';
 import { missingTippy } from './utils/error-messages';
 
+const centeredStylePopperModifier = {
+  computeStyle: {
+    enabled: true,
+    fn(data) {
+      data.styles = Object.assign({}, data.styles, {
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      });
+
+      return data;
+    }
+  }
+};
+
+// Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+const defaultPopperOptions = {
+  positionFixed: true
+};
+
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
@@ -135,16 +155,11 @@ function _makeAttachedTippyOptions(attachToOptions) {
     ...this.options.tippyOptions
   };
 
-  // Build the proper settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
-  const popperOptsToMerge = {
-    positionFixed: true
-  };
-
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-    Object.assign(popperOptsToMerge, this.options.tippyOptions.popperOptions);
+    Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
   }
 
-  resultingTippyOptions.popperOptions = popperOptsToMerge;
+  resultingTippyOptions.popperOptions = defaultPopperOptions;
 
   return resultingTippyOptions;
 }
@@ -164,32 +179,18 @@ function _makeCenteredTippy() {
     ...this.options.tippyOptions
   };
 
-  const popperOptsToMerge = {
-    positionFixed: true
-  };
-
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
   const finalPopperOptions = Object.assign(
     {},
-    popperOptsToMerge,
+    defaultPopperOptions,
     tippyOptions.popperOptions,
     {
-      modifiers: Object.assign({
-        computeStyle: {
-          enabled: true,
-          fn(data) {
-            data.styles = Object.assign({}, data.styles, {
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)'
-            });
-
-            return data;
-          }
-        }
-      }, tippyOptions.popperOptions.modifiers)
+      modifiers: Object.assign(
+        { centeredStylePopperModifier },
+        tippyOptions.popperOptions.modifiers
+      )
     }
   );
 

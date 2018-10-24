@@ -356,13 +356,23 @@ describe('Tour | Step', () => {
   });
 
   describe('setupElements()', () => {
-    it('calls destroy if element is already set', () => {
+    it('calls destroy on the step if the content element is already set', () => {
       const step = new Step();
       let destroyCalled = false;
       step.el = document.createElement('a');
       step.destroy = () => destroyCalled = true;
       step.setupElements();
       assert.isOk(destroyCalled, 'setupElements method called destroy with element set');
+    });
+
+    it('calls destroy on the tooltip if it already exists', () => {
+      const step = new Step();
+      let destroyCalled = false;
+      step.tooltip = {
+        destroy() { destroyCalled = true; }
+      };
+      step.setupElements();
+      assert.equal(destroyCalled, true, 'setupElements method called destroy on the existing tooltip');
     });
 
     it('calls bindAdvance() if advanceOn passed', () => {
