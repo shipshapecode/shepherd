@@ -1209,11 +1209,29 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var centeredStylePopperModifier = {
+  computeStyle: {
+    enabled: true,
+    fn: function fn(data) {
+      data.styles = Object.assign({}, data.styles, {
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      });
+      return data;
+    }
+  }
+}; // Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+
+var defaultPopperOptions = {
+  positionFixed: true
+};
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
  * @param html
  * @return {HTMLElement} The element created from the passed HTML string
  */
+
 function createFromHTML(html) {
   var el = document.createElement('div');
   el.innerHTML = html;
@@ -1343,18 +1361,13 @@ function _makeAttachedTippyOptions(attachToOptions) {
   var resultingTippyOptions = _objectSpread({
     content: this.el,
     placement: attachToOptions.on || 'right'
-  }, this.options.tippyOptions); // Build the proper settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
-
-
-  var popperOptsToMerge = {
-    positionFixed: true
-  };
+  }, this.options.tippyOptions);
 
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-    Object.assign(popperOptsToMerge, this.options.tippyOptions.popperOptions);
+    Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
   }
 
-  resultingTippyOptions.popperOptions = popperOptsToMerge;
+  resultingTippyOptions.popperOptions = defaultPopperOptions;
   return resultingTippyOptions;
 }
 /**
@@ -1373,24 +1386,11 @@ function _makeCenteredTippy() {
     placement: 'top'
   }, this.options.tippyOptions);
 
-  var popperOptsToMerge = {
-    positionFixed: true
-  };
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
-  var finalPopperOptions = Object.assign({}, popperOptsToMerge, tippyOptions.popperOptions, {
+  var finalPopperOptions = Object.assign({}, defaultPopperOptions, tippyOptions.popperOptions, {
     modifiers: Object.assign({
-      computeStyle: {
-        enabled: true,
-        fn: function fn(data) {
-          data.styles = Object.assign({}, data.styles, {
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)'
-          });
-          return data;
-        }
-      }
+      centeredStylePopperModifier: centeredStylePopperModifier
     }, tippyOptions.popperOptions.modifiers)
   });
   tippyOptions.popperOptions = finalPopperOptions;
@@ -2507,6 +2507,11 @@ exports.Tour = function (_Evented) {
         return currentStep.hide();
       }
     }
+  }, {
+    key: "isActive",
+    value: function isActive() {
+      return Shepherd.activeTour === this;
+    }
     /**
      * Go to the next step in the tour
      * If we are at the end, call `complete`
@@ -2583,30 +2588,23 @@ exports.Tour = function (_Evented) {
     value: function show() {
       var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       var forward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-      if (this.currentStep) {
-        this.currentStep.hide();
-      }
-
-      this._setupActiveTour();
-
       var step = (0, _isString3.default)(key) ? this.getById(key) : this.steps[key];
 
-      if (!step) {
-        return;
-      }
+      if (step) {
+        this._updateStateBeforeShow();
 
-      var shouldSkipStep = (0, _isFunction3.default)(step.options.showOn) && !step.options.showOn(); // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+        var shouldSkipStep = (0, _isFunction3.default)(step.options.showOn) && !step.options.showOn(); // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
 
-      if (shouldSkipStep) {
-        this._skipStep(step, forward);
-      } else {
-        this.trigger('show', {
-          step: step,
-          previous: this.currentStep
-        });
-        this.currentStep = step;
-        step.show();
+        if (shouldSkipStep) {
+          this._skipStep(step, forward);
+        } else {
+          this.trigger('show', {
+            step: step,
+            previous: this.currentStep
+          });
+          this.currentStep = step;
+          step.show();
+        }
       }
     }
     /**
@@ -2618,6 +2616,9 @@ exports.Tour = function (_Evented) {
     value: function start() {
       this.trigger('start');
       this.currentStep = null;
+
+      this._setupActiveTour();
+
       this.next();
     }
     /**
@@ -2652,6 +2653,17 @@ exports.Tour = function (_Evented) {
     key: "_setTooltipDefaults",
     value: function _setTooltipDefaults() {
       _tippy2.default.setDefaults(_tooltipDefaults.defaults);
+    }
+  }, {
+    key: "_updateStateBeforeShow",
+    value: function _updateStateBeforeShow() {
+      if (this.currentStep) {
+        this.currentStep.hide();
+      }
+
+      if (!this.isActive) {
+        this._setupActiveTour();
+      }
     }
   }]);
 
