@@ -36,7 +36,7 @@ First create a new `Tour` instance for your tour:
 ```javascript
 const tour = new Shepherd.Tour({
   defaultStepOptions: {
-    classes: 'shepherd-theme-arrows',
+    classes: 'shadow-md bg-purple-dark',
     scrollTo: true
   }
 });
@@ -172,7 +172,7 @@ the step will execute. For example:
     });
   },
   ```
-- `classes`: Extra classes to add to the step.  `shepherd-theme-arrows` will give you our theme.
+- `classes`: A string of extra classes to add to the step's content element.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
   - `classes`: Extra classes to apply to the `<a>`
@@ -265,11 +265,19 @@ And listen for them in other areas:
 mediator.on('user-create', () => {});
 ```
 
+### Rendering Tours in Specific Locations
+
+By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
+[`appendTo` option](https://atomiks.github.io/tippyjs/#append-to-option) by defining it on the
+`tippyOptions` hash inside of each Step's options hash.
+
+
 ### Browser Support
 
 IE9+ and all modern browsers
 
-## Using Themes
+
+## Theming and Styling
 
 We deliver some [predefined themes](/docs/themes.md) (e.g., `shepherd-theme-default` or `shepherd-theme-square`). You are welcome to use one of them by embedding its stylesheet into your app.
 
@@ -289,13 +297,7 @@ let tour = new Shepherd.Tour({
 });
 ```
 
-### Rendering Tours in Specific Locations
-
-By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
-[`appendTo` option](https://atomiks.github.io/tippyjs/#append-to-option) by defining it on the
-`tippyOptions` hash inside of each Step's options hash.
-
-### Custom Theming
+### Leveraging Sass Variables
 
 We use [SASS](https://sass-lang.com/) as pre-processor for CSS. This allows us to extend the CSS language with various syntax techniques &mdash; including variables and color functions that can be used to control theming.
 
@@ -337,6 +339,22 @@ $use-drop-shadow: true !default;
 ```
 
 As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements. The header is colored in a light gray tone.
+
+### 🔼 Displaying Arrows
+
+By default, Shepherd will generate and position an "arrow" element that points to the target
+of a step. This is done by setting [Tippy's `arrow` option](https://atomiks.github.io/tippyjs/#arrow-option) to `true` on each ``Step.options.tippyOptions` &mdash; but you can disable the arrow manually by setting it to false:
+
+```js
+myTour.addStep('Step 1', {
+  tippyOptions: {
+    arrow: false
+  }
+});
+```
+
+Furthermore, while each of [Shepherd's themes]((/docs/themes.md)) provides some basic arrow styling, you can style it as you wish by targeting [the markup that's genereated by Tippy](https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure).
+
 
 ## Projects Using Shepherd
 
