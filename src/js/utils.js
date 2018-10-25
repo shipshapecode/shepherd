@@ -188,7 +188,7 @@ function _makeCenteredTippy() {
     tippyOptions.popperOptions,
     {
       modifiers: Object.assign(
-        { centeredStylePopperModifier },
+        centeredStylePopperModifier,
         tippyOptions.popperOptions.modifiers
       )
     }
