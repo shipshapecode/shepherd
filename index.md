@@ -67,6 +67,13 @@ Finally, to start the tour, just call `start` on your `Tour` instance:
 tour.start();
 ```
 
+If you need to remove a step from your tour, call `removeStep` on your `Tour` instance. If the step currently being displayed is the one you're removing, and there are steps left in the tour, then the first one will be shown, otherwise, the tour will be cancelled.
+
+```javascript
+tour.removeStep('example-step');
+```
+
+
 ### API
 
 #### Global Shepherd Object
