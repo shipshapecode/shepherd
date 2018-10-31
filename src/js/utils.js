@@ -1,6 +1,7 @@
-import { isString, isObjectLike, isUndefined, zipObject } from 'lodash';
+import { isString, isArray, isObjectLike, isUndefined, zipObject } from 'lodash';
 import tippy from 'tippy.js';
 import { missingTippy } from './utils/error-messages';
+import { alignTargetElement, setupOverlayElements } from './overlay.js';
 
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
@@ -74,6 +75,7 @@ export function setupTooltip() {
   this.tooltip = _makeTippyInstance.call(this, attachToOpts);
 
   this.target = attachToOpts.element || document.body;
+  this.nonTargetElements = setupOverlayElements.call(this, attachToOpts, this.virtualTargetEl);
 
   this.el.classList.add('shepherd-element');
 }
@@ -91,17 +93,59 @@ export function parseAttachTo() {
   if (isString(options.element)) {
     // Can't override the element in user opts reference because we can't
     // guarantee that the element will exist in the future.
-    try {
-      returnOpts.element = document.querySelector(options.element);
-    } catch(e) {
-      // TODO
-    }
-    if (!returnOpts.element) {
-      console.error(`The element for this Shepherd step was not found ${options.element}`);
-    }
+    const rd = _selectSubElement(document, options.element);
+    returnOpts.element = rd.element;
+  } else if (isArray(options.element)) {
+    // An array of selectors.  Useful for selecting into shadow dom of child web components
+    Object.assign(returnOpts, _parseAttachToMultiSel.call(this, options.element));
+  }
+  if (options.element && !returnOpts.element) {
+    console.error(`The element for this Shepherd step was not found ${options.element}`);
   }
 
   return returnOpts;
+}
+
+/**
+ * Selects an element from an array of selector.  Supports shadow DOM elements in a hierarchy.
+ *
+ * @return {Object} Has properties of element (the found element, may be null) and useVirtualElement (Boolean)
+ * @private
+ */
+function _parseAttachToMultiSel(selectors) {
+  let el = document;
+  const returnData = {};
+
+  for (const selector of selectors) {
+    const rd = _selectSubElement(el, selector);
+    rd.useVirtualElement && (returnData.useVirtualElement = rd.useVirtualElement);
+    el = rd.element;
+  }
+  returnData.element = (selectors.length) ? el : null;
+  return returnData;
+}
+
+/**
+ * Selects a sub-element of an element using a selector.
+ *
+ * @param el The parent element.  May be an element with shadow dom.
+ * @param selector css selector
+ * @return {Object} Has properties of element (the found element, may be null) and useVirtualElement (Boolean)
+ * @private
+ */
+function _selectSubElement(el, selector) {
+  const returnData = {};
+
+  if (el && el.shadowRoot) {  // only works on open shadowRoots
+    el = el.shadowRoot;
+    returnData.useVirtualElement = true;
+  }
+  try {
+    el && (returnData.element = el.querySelector(selector));
+  } catch(e) {
+    returnData.element = null;
+  }
+  return returnData;
 }
 
 /**
@@ -117,7 +161,23 @@ function _makeTippyInstance(attachToOptions) {
 
   const tippyOptions = _makeAttachedTippyOptions.call(this, attachToOptions);
 
-  return tippy.one(attachToOptions.element, tippyOptions);
+  if (attachToOptions.useVirtualElement) {
+    // Need to get in its visible position before creating the virtual element from it
+    if (this.options.scrollTo) {
+      this.scrollTo();
+    }
+    this.virtualTargetEl = document.createElement('div');
+    this.virtualTargetEl.style.background = 'transparent';
+    this.virtualTargetEl.style.position = 'absolute';
+    this.virtualTargetEl.style.pointerEvents = 'none';
+    this.virtualTargetEl.classList.add('shepherd-virtual-target');
+    document.body.appendChild(this.virtualTargetEl);
+    alignTargetElement(this.virtualTargetEl, attachToOptions.element);
+
+    return tippy.one(this.virtualTargetEl, tippyOptions);
+  } else {
+    return tippy.one(attachToOptions.element, tippyOptions);
+  }
 }
 
 /**

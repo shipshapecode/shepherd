@@ -86,6 +86,15 @@ export class Step extends Evented {
    *   }
    * }
    * ```
+   * @param {boolean} options.overlay Can be either true, false or an object.  If truthy, then overlay elements
+   * are generated to cover the non-target areas of the screen as a backdrop overlay.  If specified as an object,
+   * then the following properties are supported:
+   * ```
+   *    classes             Extra classed to add the the overlay elements
+   *    styles              Extra styles to apply to the overlay elements.  This can be useful to deal with
+   *                        browser inconsistencies (MS Edge).  Specify as hash of style names to values.
+   *    cancelTourOnClick   If true, cancel tour on click on the non-target overlay.  Default is false.
+   * ```
    * @return {Step} The newly created Step instance
    */
   constructor(tour, options) {
@@ -257,6 +266,16 @@ export class Step extends Evented {
       this.tooltip = null;
     }
 
+    // Destroy the non-target covering elements (if any)
+    if (this.nonTargetElements) {
+      this.nonTargetElements.remove();
+      this.nonTargetElements = null;
+    }
+    if (this.virtualTargetEl) {
+      this.virtualTargetEl.parentNode.removeChild(this.virtualTargetEl);
+      this.virtualTargetEl = null;
+    }
+
     this.trigger('destroy');
   }
 
@@ -276,6 +295,14 @@ export class Step extends Evented {
 
     if (this.target) {
       this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+    }
+
+    // Hide the non-target covering elements (if any)
+    if (this.nonTargetElements) {
+      this.nonTargetElements.hide();
+    }
+    if (this.virtualTargetEl) {
+      this.virtualTargetEl.style.display = 'none';
     }
 
     if (this.tooltip) {
@@ -373,6 +400,14 @@ export class Step extends Evented {
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
 
     document.body.setAttribute('data-shepherd-step', this.id);
+
+    // Hide the non-target covering elements (if any)
+    if (this.nonTargetElements) {
+      this.nonTargetElements.show();
+    }
+    if (this.virtualTargetEl) {
+      this.virtualTargetEl.style.display = 'block';
+    }
 
     if (this.options.scrollTo) {
       setTimeout(() => {
