@@ -36,7 +36,7 @@
         <h3>Including</h3>
 
         <script type="text/plain" class="language-markup" id="hero-including-code">
-          <link rel="stylesheet" href="shepherd-theme-arrows.css"/>
+          <link rel="stylesheet" href="/dist/css/shepherd-theme-default.css"/>
           <script src="shepherd.min.js">&lt;/script>
         </script>
       </div>
@@ -48,7 +48,8 @@
           <code class="language-javascript">
             const tour = new Shepherd.Tour({
               defaultStepOptions: {
-                classes: 'shepherd-theme-arrows'
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
               }
             });
 
