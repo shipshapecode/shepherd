@@ -62,7 +62,7 @@ export class Step extends Evented {
    * }
    * ```
    * @param {string} options.buttons.button.text The HTML text of the button
-   * @param {string} options.classes Extra classes to add to the step. `shepherd-theme-arrows` will give you our theme.
+   * @param {string} options.classes A string of extra classes to add to the step's content element.
    * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
    * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
