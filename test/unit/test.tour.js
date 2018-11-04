@@ -169,6 +169,19 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
+    describe('isActive', function() {
+      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {
+        Shepherd.activeTour = '';
+        assert.equal(instance.isActive(), false);
+
+        Shepherd.activeTour = instance;
+        assert.equal(instance.isActive(), true);
+
+        Shepherd.activeTour = '';
+        assert.equal(instance.isActive(), false);
+      });
+    });
+
     describe('.next()/.back()', function() {
       it('goes to the next/previous steps', function() {
         instance.start();
@@ -322,7 +335,6 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
-
     describe('.removeStep()', function() {
       it('removes the step when passed the id', function() {
         instance.start();
@@ -346,7 +358,7 @@ describe('Tour | Top-Level Class', function() {
     });
 
     describe('.show()', function() {
-      it('show short circuits if next is not found', function() {
+      it('show short-circuits if next is not found', function() {
         let showFired = false;
         instance.start();
         instance.on('show', () => {
@@ -366,6 +378,18 @@ describe('Tour | Top-Level Class', function() {
         shouldShowStep = true;
         instance.next();
         assert.equal(instance.getCurrentStep().id, 'skipped-step', 'step shown because `showOn` returns true');
+      });
+
+      it(`sets the instance on \`Shepherd.activeTour\` if it's not already set`, function() {
+        const setupFuncSpy = spy(instance, '_setupActiveTour');
+        Shepherd.activeTour = null;
+
+        assert.equal(setupFuncSpy.callCount, 0);
+
+        instance.start();
+
+        assert.equal(setupFuncSpy.callCount, 1);
+        assert.equal(Shepherd.activeTour, instance);
       });
     });
   });
