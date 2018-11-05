@@ -64,6 +64,40 @@
         </pre>
       </div>
 
+      <!-- New: Web Component Support -->
+      <web-component-intro id="example-web-component"></web-component-intro>
+
+      <!-- New: Now Supporting a Backdrop Overlay -->
+      <div class="hero-example hero-example-overlay">
+        <h3>New: Now Supporting a Backdrop Overlay</h3>
+
+        <pre id="hero-example-code">
+          <code class="language-javascript">
+            const tour = new Shepherd.Tour({
+              defaultStepOptions: {
+                classes: 'shepherd-theme-arrows'
+              }
+            });
+
+            tour.addStep('example-using-overlay', {
+              title: 'Example Step Using a Backdrop Overlay',
+              text: 'You can now easily create a styleable backdrop overlay for a tour/step.',
+              attachTo: '.hero-example-overlay bottom',
+              overlay: true,
+              buttons: [
+                {
+                  action: shepherd.next,
+                  text: 'Next'
+                }
+              ]
+            });
+
+            tour.start();
+          </code>
+        </pre>
+      </div>
+
+
       <div class="hero-followup">
         <p>
           <a class="button star" href="https://github.com/shipshapecode/shepherd">★ on Github</a> &nbsp;&nbsp;
@@ -84,5 +118,9 @@
 <!-- Welcome page -->
 <script src="/shepherd/docs/welcome/js/prism.js"></script>
 <script src="/shepherd/docs/welcome/js/welcome.js"></script>
+
+<!-- Very Simple Web Component -->
+<script type="text/javascript" src="./js/web-component-intro.js"></script>
+
 </body>
 </html>

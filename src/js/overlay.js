@@ -92,7 +92,11 @@ function _configureOverlayElement(element) {
       element.style[style] = this.options.overlay.styles[style];
     }
   }
-  this.options.overlay.classes && element.classList.add(this.options.overlay.classes);
+  if (this.options.overlay.classes) {
+    for (const cls of this.options.overlay.classes.split(' ')) {
+      element.classList.add(cls);
+    }
+  }
 }
 
 /**

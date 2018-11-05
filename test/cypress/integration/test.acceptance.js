@@ -82,6 +82,36 @@ describe('Shepherd Acceptance Tests', () => {
         });
       });
 
+      it('works with Shadow DOM elements', () => {
+        cy.document().then((document) => {
+          const shadowDomElement = document.querySelector('#example-web-component').shadowRoot.querySelector('#shadow-dom-example-step-code');
+
+          const steps = () => {
+            return [
+              {
+                id: 'shadow-dom-selector',
+                options: {
+                  title: 'Select Shadow DOM',
+                  text: 'Selecting Shadow DOM elements is easy!',
+                  attachTo: {
+                    element: ['#example-web-component', '#shadow-dom-example-step-code'],
+                    on: 'bottom'
+                  }
+                }
+              }
+            ];
+          };
+          const tour = setupTour(Shepherd, {
+            showCancelLink: false
+          }, steps);
+          tour.start();
+          // Step text should be visible
+          cy.get('.shepherd-text')
+            .contains('Selecting Shadow DOM elements is easy!').should('be.visible');
+          assert.deepEqual(shadowDomElement, tour.getCurrentStep().target, 'shadowDomElement is the target');
+        });
+      });
+
       it('works when undefined', () => {
         const steps = () => {
           return [
@@ -207,6 +237,92 @@ describe('Shepherd Acceptance Tests', () => {
         cy.get('.hero-scroll').should('have.prop', 'scrollTop').and('eq', 0);
       });
     });
+
+    describe('overlay', () => {
+      it('works and adds overlay elements', () => {
+        const steps = () => {
+          return [
+            {
+              id: 'welcome',
+              options: {
+                text: ['Shepherd is a JavaScript library'],
+                attachTo: {
+                  element: '.hero-welcome',
+                  on: 'bottom'
+                },
+                overlay: true
+              }
+            }
+          ];
+        };
+
+        const tour = setupTour(Shepherd, {
+          showCancelLink: false
+        }, steps);
+
+        tour.start();
+
+        // overlay elements should be visible
+        cy.get('.shepherd-non-target').should('be.visible');
+      });
+
+      it('it adds one overlay when no attachTo', () => {
+        const steps = () => {
+          return [
+            {
+              id: 'welcome',
+              options: {
+                text: ['Shepherd is a JavaScript library'],
+                overlay: true
+              }
+            }
+          ];
+        };
+
+        const tour = setupTour(Shepherd, {
+          showCancelLink: false
+        }, steps);
+
+        tour.start();
+
+        // one overlay element should be visible
+        cy.get('.shepherd-non-target').should('have.length', 1).should('be.visible');
+      });
+
+      it('it adds classes to overlay elements', () => {
+        const steps = () => {
+          return [
+            {
+              id: 'welcome',
+              options: {
+                text: ['Shepherd is a JavaScript library'],
+                attachTo: {
+                  element: '.hero-welcome',
+                  on: 'bottom'
+                },
+                overlay: {
+                  classes: 'class1 class2'
+                }
+              }
+            }
+          ];
+        };
+
+        const tour = setupTour(Shepherd, {
+          showCancelLink: false
+        }, steps);
+
+        tour.start();
+
+        // overlay elements should have classes
+        cy.get('.shepherd-non-target')
+          .should('be.visible')
+          .should('have.class', 'class1')
+          .should('have.class', 'class2');
+      });
+
+    });
+
   });
 
   describe('Steps: rendering', () => {

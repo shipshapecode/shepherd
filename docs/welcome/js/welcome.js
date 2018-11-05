@@ -106,6 +106,46 @@
         }
       ]
     });
+    shepherd.addStep('example-attach-to-shadow-dom', {
+      title: 'Example Attaching Step to Shadow Dom',
+      text: `You can easily attach to shadow DOM inside a web component using an array of selectors.\n \
+      This new form of selector is now supported using the "object" format of the attachTo step option. \
+      Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.`,
+      attachTo: {element: ['#example-web-component', '#shadow-dom-example-step-code'], on: 'top'},
+      scrollTo: true,
+      buttons: [
+        {
+          action: shepherd.back,
+          classes: 'shepherd-button-secondary',
+          text: 'Back'
+        }, {
+          action: shepherd.next,
+          text: 'Next'
+        }
+      ]
+    });
+    shepherd.addStep('example-step-overlay', {
+      title: 'Example Step Using Backdrop Overlay',
+      text: `You can now easily create a styleable backdrop overlay for a tour/step.\n \
+      The new overlay property can be specified for all or selected tour steps. \
+      Adding custom classes or styles to the overlay element is supported.  Notice the background is darker for this step. \
+      Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.`,
+      attachTo: '.hero-example-overlay right',
+      scrollTo: true,
+      overlay: {
+        styles: {'background-color':'black', 'opacity': 0.4}
+      },
+      buttons: [
+        {
+          action: shepherd.back,
+          classes: 'shepherd-button-secondary',
+          text: 'Back'
+        }, {
+          action: shepherd.next,
+          text: 'Next'
+        }
+      ]
+    });
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
