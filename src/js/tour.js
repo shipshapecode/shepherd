@@ -287,7 +287,7 @@ export class Tour extends Evented {
       this.currentStep.hide();
     }
 
-    if (!this.isActive) {
+    if (!this.isActive()) {
       this._setupActiveTour();
     }
   }
