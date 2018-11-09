@@ -1,5 +1,42 @@
 # Changelog
 
+## [v2.0.0-beta.35](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.35) (2018-11-09)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.34...v2.0.0-beta.35)
+
+**Implemented enhancements:**
+
+- Document Tour.removeStep [\#278](https://github.com/shipshapecode/shepherd/issues/278)
+- Update documentation to clarify arrow usage. [\#287](https://github.com/shipshapecode/shepherd/pull/287) ([BrianSipple](https://github.com/BrianSipple))
+
+**Fixed bugs:**
+
+- fix tooltip centering [\#288](https://github.com/shipshapecode/shepherd/pull/288) ([BrianSipple](https://github.com/BrianSipple))
+
+**Closed issues:**
+
+- An in-range update of start-server-and-test is breaking the build 🚨 [\#283](https://github.com/shipshapecode/shepherd/issues/283)
+
+**Merged pull requests:**
+
+- Bump deps [\#291](https://github.com/shipshapecode/shepherd/pull/291) ([rwwagner90](https://github.com/rwwagner90))
+- Add testing for `Tour.isActive`. [\#290](https://github.com/shipshapecode/shepherd/pull/290) ([BrianSipple](https://github.com/BrianSipple))
+- Added documentation for tour.removeStep \(fixes \#278\) [\#289](https://github.com/shipshapecode/shepherd/pull/289) ([joeinnes](https://github.com/joeinnes))
+- Improve CodeClimate and test coverage. [\#286](https://github.com/shipshapecode/shepherd/pull/286) ([BrianSipple](https://github.com/BrianSipple))
+- Remove unnecessary management of `this.el.hidden` [\#285](https://github.com/shipshapecode/shepherd/pull/285) ([BrianSipple](https://github.com/BrianSipple))
+
+## [v2.0.0-beta.34](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.34) (2018-10-23)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.33...v2.0.0-beta.34)
+
+**Implemented enhancements:**
+
+- Change `data-id` to `data-shepherd-step-id` on Step content elements. [\#282](https://github.com/shipshapecode/shepherd/pull/282) ([BrianSipple](https://github.com/BrianSipple))
+
+**Closed issues:**
+
+- An in-range update of webpack is breaking the build 🚨 [\#280](https://github.com/shipshapecode/shepherd/issues/280)
+
 ## [v2.0.0-beta.33](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.33) (2018-10-19)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.32...v2.0.0-beta.33)
