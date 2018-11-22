@@ -5,6 +5,19 @@ import { bindMethods } from './bind.js';
 import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
+/**
+ * Creates incremented ID for each newly created tour
+ *
+ * @private
+ * @return {Number} The unique id for the tour
+ */
+const uniqueId = (function() {
+  let id = 0;
+  return function() {
+    return ++id;
+  };
+})();
+
 const Shepherd = new Evented();
 
 /**
@@ -17,6 +30,9 @@ export class Tour extends Evented {
    * @param {Object} options The options for the tour
    * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+   * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
+   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
+   * whenever the tour becomes active.
    * @returns {Tour}
    */
   constructor(options = {}) {
@@ -43,6 +59,7 @@ export class Tour extends Evented {
     });
 
     this._setTooltipDefaults();
+    this._setTourID();
 
     return this;
   }
@@ -119,7 +136,7 @@ export class Tour extends Evented {
     this.trigger(event);
 
     Shepherd.activeTour = null;
-    document.body.classList.remove('shepherd-active');
+    this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
   }
 
@@ -260,7 +277,7 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    document.body.classList.add('shepherd-active');
+    this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -291,6 +308,24 @@ export class Tour extends Evented {
       this._setupActiveTour();
     }
   }
+
+  _setTourID() {
+    const tourName = this.options.tourName || 'tour';
+    const uuid = uniqueId();
+
+    this.id = `${tourName}--${uuid}`;
+  }
+
+  _addBodyAttrs() {
+    document.body.setAttribute('data-shepherd-active-tour', this.id);
+    document.body.classList.add('shepherd-active');
+  }
+
+  _removeBodyAttrs() {
+    document.body.removeAttribute('data-shepherd-active-tour');
+    document.body.classList.remove('shepherd-active');
+  }
+
 }
 
 export { Shepherd };

@@ -124,6 +124,8 @@ const myTour = new Shepherd.Tour(options);
 
 - `steps`: An array of Step instances to initialize the tour with
 - `defaultStepOptions`: Default options for Steps created through `addStep`
+- `tourName`: An optional "name" for the tour. This will be appended to the the tour's
+dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute whenever the tour becomes active.
 - `confirmCancel`: If true, will issue a window.confirm before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 

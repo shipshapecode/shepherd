@@ -67,6 +67,19 @@ describe('Tour | Top-Level Class', function() {
       assert.equal(tippySpy.callCount, 1);
       assert.equal(tippySpy.calledWith(tooltipDefaults), true);
     });
+
+    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {
+      const instance1 = new Shepherd.Tour();
+      const instance2 = new Shepherd.Tour({ tourName: 'select-avatar'});
+
+      assert.equal(instance1.id.startsWith('tour--'), true);
+      assert.equal(instance2.id.startsWith('select-avatar--'), true);
+
+      const uniqueId1 = instance1.id.split('--')[1];
+      const uniqueId2 = instance2.id.split('--')[1];
+
+      assert.notEqual(uniqueId1, uniqueId2);
+    });
   });
 
   describe('methods', () => {
@@ -141,6 +154,14 @@ describe('Tour | Top-Level Class', function() {
         instance.start();
 
         assert.equal(instance, Shepherd.activeTour);
+      });
+
+      it('adds the current tour\'s "id" property to the body as a data attribute', function() {
+        instance.id = 'test-id';
+        instance.start();
+
+        assert.equal(document.body.hasAttribute('data-shepherd-active-tour'), true);
+        assert.equal(document.body.getAttribute('data-shepherd-active-tour'), 'test-id');
       });
     });
 
