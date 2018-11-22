@@ -644,7 +644,7 @@ exports.Step = function (_Evented) {
     value: function _createTooltipContent() {
       var content = document.createElement('div');
       var classes = this.options.classes || '';
-      var element = (0, _utils.createFromHTML)("<div class='".concat(classes, "' data-shepherd-step-id='").concat(this.id, "' id=\"step-").concat(this.options.id, "-").concat(uniqueId(), "\"}>"));
+      var element = (0, _utils.createFromHTML)("<div class=\"".concat(classes, "\" data-shepherd-step-id=\"").concat(this.id, "\">"));
       var header = document.createElement('header');
 
       if (this.options.title) {
@@ -2332,6 +2332,19 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+/**
+ * Creates incremented ID for each newly created tour
+ *
+ * @private
+ * @return {Number} The unique id for the tour
+ */
+var uniqueId = function () {
+  var id = 0;
+  return function () {
+    return ++id;
+  };
+}();
+
 var Shepherd = new _evented.Evented();
 /**
  * Class representing the site tour
@@ -2348,6 +2361,9 @@ exports.Tour = function (_Evented) {
    * @param {Object} options The options for the tour
    * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+   * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
+   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
+   * whenever the tour becomes active.
    * @returns {Tour}
    */
   function Tour() {
@@ -2376,6 +2392,8 @@ exports.Tour = function (_Evented) {
     });
 
     _this._setTooltipDefaults();
+
+    _this._setTourID();
 
     return _possibleConstructorReturn(_this, _assertThisInitialized(_assertThisInitialized(_this)));
   }
@@ -2464,7 +2482,9 @@ exports.Tour = function (_Evented) {
 
       this.trigger(event);
       Shepherd.activeTour = null;
-      document.body.classList.remove('shepherd-active');
+
+      this._removeBodyAttrs();
+
       this.trigger('inactive', {
         tour: this
       });
@@ -2627,7 +2647,8 @@ exports.Tour = function (_Evented) {
   }, {
     key: "_setupActiveTour",
     value: function _setupActiveTour() {
-      document.body.classList.add('shepherd-active');
+      this._addBodyAttrs();
+
       this.trigger('active', {
         tour: this
       });
@@ -2662,6 +2683,25 @@ exports.Tour = function (_Evented) {
       if (!this.isActive()) {
         this._setupActiveTour();
       }
+    }
+  }, {
+    key: "_setTourID",
+    value: function _setTourID() {
+      var tourName = this.options.tourName || 'tour';
+      var uuid = uniqueId();
+      this.id = "".concat(tourName, "--").concat(uuid);
+    }
+  }, {
+    key: "_addBodyAttrs",
+    value: function _addBodyAttrs() {
+      document.body.setAttribute('data-shepherd-active-tour', this.id);
+      document.body.classList.add('shepherd-active');
+    }
+  }, {
+    key: "_removeBodyAttrs",
+    value: function _removeBodyAttrs() {
+      document.body.removeAttribute('data-shepherd-active-tour');
+      document.body.classList.remove('shepherd-active');
     }
   }]);
 
