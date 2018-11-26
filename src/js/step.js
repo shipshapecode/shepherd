@@ -63,6 +63,8 @@ export class Step extends Evented {
    * ```
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes A string of extra classes to add to the step's content element.
+   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
+   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
    * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
@@ -258,7 +260,7 @@ export class Step extends Evented {
     }
 
     if (this.target) {
-      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+      this._updateStepTargetOnHide();
     }
 
     this.trigger('destroy');
@@ -273,7 +275,7 @@ export class Step extends Evented {
     document.body.removeAttribute('data-shepherd-step');
 
     if (this.target) {
-      this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+      this._updateStepTargetOnHide();
     }
 
     if (this.tooltip) {
@@ -362,6 +364,7 @@ export class Step extends Evented {
    * @private
    */
   _show() {
+    this.tour.beforeShowStep(this);
     this.trigger('before-show');
 
     if (!this.el) {
@@ -380,5 +383,13 @@ export class Step extends Evented {
 
     this.tooltip.show();
     this.trigger('show');
+  }
+
+  _updateStepTargetOnHide() {
+    if (this.options.highlightClass) {
+      this.target.classList.remove(this.options.highlightClass);
+    }
+
+    this.target.classList.remove('shepherd-enabled', 'shepherd-target');
   }
 }
