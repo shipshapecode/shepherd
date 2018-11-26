@@ -1,0 +1,40 @@
+/* stylelint-disable selector-max-id */
+#shepherdModalOverlayContainer {
+  height: 100%;
+  left: 0;
+  -moz-opacity: 0.5;
+  position: fixed;
+  -ms-filter: "progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)";
+  width: 100%;
+  filter: alpha(opacity=50);
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  top: 0;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  z-index: 9997;
+}
+
+.shepherd-modal.shepherd-enabled {
+  position: relative;
+  z-index: 9998;
+}
+
+/**
+ * Block clicks except for those that would occur
+ * on Shepherd elements or on the target element.
+*/
+.shepherd-active.shepherd-modal-is-visible :not(.shepherd-target) {
+  pointer-events: none;
+}
+
+.shepherd-active.shepherd-modal-is-visible .shepherd-target,
+.shepherd-active.shepherd-modal-is-visible .shepherd-cancel-link,
+.shepherd-active.shepherd-modal-is-visible .shepherd-button {
+  pointer-events: auto;
+}
+
+/* stylelint-enable */

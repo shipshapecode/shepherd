@@ -126,6 +126,7 @@ const myTour = new Shepherd.Tour(options);
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's
 dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute whenever the tour becomes active.
+- `useModalOverlay`: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.
 - `confirmCancel`: If true, will issue a window.confirm before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 
@@ -199,6 +200,7 @@ the step will execute. For example:
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
 properties.  For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
 the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
+- `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
