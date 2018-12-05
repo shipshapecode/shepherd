@@ -31,7 +31,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
     it('Adds the "shepherd-target" and "shepherd-enabled" classes upon showing a step', () => {
       tour.start();
 
-      cy.get('.hero-welcome')
+      cy.get('[data-test-hero-welcome]')
         .should('have.class', 'shepherd-target')
         .and('have.class', 'shepherd-enabled');
     });
@@ -40,7 +40,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
       tour.start();
       tour.next();
 
-      cy.get('.hero-welcome')
+      cy.get('[data-test-hero-welcome]')
         .should('not.have.class', 'shepherd-target')
         .and('not.have.class', 'shepherd-enabled');
     });
