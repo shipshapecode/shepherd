@@ -338,9 +338,7 @@ export class Tour extends Evented {
       window.addEventListener('touchmove', preventModalBodyTouch, false);
 
       // Allows content to move on touch.
-      overlay
-        .querySelector('.body-container')
-        .addEventListener('touchmove', preventModalOverlayTouch, false);
+      overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
     }
   }
 
