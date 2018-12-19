@@ -137,6 +137,14 @@ function getModalMaskOpening(modalElement) {
   return modalElement.querySelector(`#${elementIds.modalOverlayMaskOpening}`);
 }
 
+function preventModalBodyTouch(event) {
+  event.preventDefault();
+}
+
+function preventModalOverlayTouch(event) {
+  event.stopPropagation();
+}
+
 /**
  * Remove any leftover modal target classes and add the modal target class to the currentElement
  * @param {HTMLElement} currentElement The element for the current step
@@ -154,6 +162,8 @@ function toggleShepherdModalClass(currentElement) {
 export {
   createModalOverlay,
   positionModalOpening,
+  preventModalBodyTouch,
+  preventModalOverlayTouch,
   closeModalOpening,
   getModalMaskOpening,
   elementIds,
