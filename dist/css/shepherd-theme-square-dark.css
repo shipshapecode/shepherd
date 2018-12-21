@@ -106,7 +106,7 @@
         text-decoration: none;
         transition: color 0.5s ease; }
         .shepherd-element .shepherd-content header .shepherd-cancel-link:before {
-          content: '\D7'; }
+          content: '\00d7'; }
         .shepherd-element .shepherd-content header .shepherd-cancel-link:hover {
           color: rgba(255, 255, 255, 0.75); }
     .shepherd-element .shepherd-content .shepherd-text {

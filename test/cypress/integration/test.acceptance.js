@@ -48,13 +48,13 @@ describe('Shepherd Acceptance Tests', () => {
           .contains('Shepherd is a JavaScript library').should('be.visible');
 
         cy.document().then((document) => {
-          assert.deepEqual(document.querySelector('.hero-welcome'), tour.getCurrentStep().target, '.hero-welcome is the target');
+          assert.deepEqual(document.querySelector('[data-test-hero-welcome]'), tour.getCurrentStep().target, 'hero welcome is the target');
         });
       });
 
       it('works with DOM elements', () => {
         cy.document().then((document) => {
-          const heroIncludingElement = document.querySelector('.hero-including');
+          const heroIncludingElement = document.querySelector('[data-test-hero-including]');
 
           const steps = () => {
             return [
@@ -192,9 +192,9 @@ describe('Shepherd Acceptance Tests', () => {
           scrollTo: true
         });
         tour.start();
-        cy.get('.hero-scroll').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.get('.hero-scroll').should('have.prop', 'scrollTop').and('gt', 0);
+        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('gt', 0);
       });
 
       it('scrollTo:false does not scroll', () => {
@@ -202,9 +202,9 @@ describe('Shepherd Acceptance Tests', () => {
           scrollTo: false
         });
         tour.start();
-        cy.get('.hero-scroll').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.get('.hero-scroll').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
       });
     });
   });
