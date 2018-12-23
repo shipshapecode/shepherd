@@ -1,3 +1,5 @@
+import { preventModalBodyTouch, preventModalOverlayTouch } from './modal';
+
 /**
  * Helper method to check if element is hidden, since we cannot use :visible without jQuery
  * @param {HTMLElement} element The element to check for visibility
@@ -78,6 +80,13 @@ function addStepEventListeners() {
 
   window.addEventListener('resize', this._onScreenChange, false);
   window.addEventListener('scroll', this._onScreenChange, false);
+
+  const overlay = document.querySelector('#shepherdModalOverlayContainer');
+  // Prevents window from moving on touch.
+  window.addEventListener('touchmove', preventModalBodyTouch, false);
+
+  // Allows content to move on touch.
+  overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
 }
 
 /**

@@ -19,8 +19,6 @@ import {
 import {
   getModalMaskOpening,
   createModalOverlay,
-  preventModalBodyTouch,
-  preventModalOverlayTouch,
   positionModalOpening,
   closeModalOpening,
   classNames as modalClassNames,
@@ -160,8 +158,6 @@ export class Tour extends Evented {
     cleanupStepEventListeners.call(this);
     cleanupSteps(this.tourObject);
     cleanupModal.call(this);
-
-    window.removeEventListener('touchmove', preventModalBodyTouch, false);
 
     this.trigger(event);
 
@@ -332,13 +328,6 @@ export class Tour extends Evented {
       this._hideModalOverlay();
 
       document.body.appendChild(this._modalOverlayElem);
-
-      const overlay = document.querySelector('#shepherdModalOverlayContainer');
-      // Prevents window from moving on touch.
-      window.addEventListener('touchmove', preventModalBodyTouch, false);
-
-      // Allows content to move on touch.
-      overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
     }
   }
 
