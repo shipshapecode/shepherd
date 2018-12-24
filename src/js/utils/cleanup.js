@@ -1,5 +1,5 @@
 import { defer } from 'lodash';
-import { classNames as modalClassNames } from './modal';
+import { classNames as modalClassNames, preventModalBodyTouch } from './modal';
 import { getElementForStep } from './dom';
 
 /**
@@ -45,6 +45,7 @@ export function cleanupStepEventListeners() {
   if (typeof this._onScreenChange === 'function') {
     window.removeEventListener('resize', this._onScreenChange, false);
     window.removeEventListener('scroll', this._onScreenChange, false);
+    window.removeEventListener('touchmove', preventModalBodyTouch, false);
 
     this._onScreenChange = null;
   }
