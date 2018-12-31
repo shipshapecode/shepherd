@@ -1,3 +1,4 @@
+import { elementIds } from './modal';
 import { preventModalBodyTouch, preventModalOverlayTouch } from './modal';
 
 /**
@@ -81,12 +82,14 @@ function addStepEventListeners() {
   window.addEventListener('resize', this._onScreenChange, false);
   window.addEventListener('scroll', this._onScreenChange, false);
 
-  const overlay = document.querySelector('#shepherdModalOverlayContainer');
+  const overlay = document.querySelector(`#${elementIds.modalOverlay}`);
   // Prevents window from moving on touch.
   window.addEventListener('touchmove', preventModalBodyTouch, false);
 
   // Allows content to move on touch.
-  overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
+  if (overlay) {
+    overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
+  }
 }
 
 /**

@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.0 * /
+ * /*! shepherd.js 2.0.1 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -1770,11 +1770,13 @@ function addStepEventListeners() {
 
   window.addEventListener('resize', this._onScreenChange, false);
   window.addEventListener('scroll', this._onScreenChange, false);
-  var overlay = document.querySelector('#shepherdModalOverlayContainer'); // Prevents window from moving on touch.
+  var overlay = document.querySelector("#".concat(_modal.elementIds.modalOverlay)); // Prevents window from moving on touch.
 
   window.addEventListener('touchmove', _modal.preventModalBodyTouch, false); // Allows content to move on touch.
 
-  overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
+  if (overlay) {
+    overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
+  }
 }
 /**
  * Remove resize and scroll event listeners
