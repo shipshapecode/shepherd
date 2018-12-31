@@ -26,6 +26,7 @@ describe('Tour | Step', () => {
 
     const testStep = instance.addStep('test', {
       attachTo: 'body',
+      highlightClass: 'highlight',
       id: 'test',
       text: 'This is a step for testing',
       buttons: [
@@ -73,7 +74,7 @@ describe('Tour | Step', () => {
     });
 
     it('has all the correct properties', () => {
-      const values = ['classes', 'scrollTo', 'attachTo', 'id', 'text', 'buttons'];
+      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'id', 'text', 'buttons'];
       assert.deepEqual(values, Object.keys(testStep.options));
     });
 
@@ -192,7 +193,7 @@ describe('Tour | Step', () => {
       assert.isOk(hasAdvanced, '`next()` triggered for advanceOn');
     });
 
-    it('calls `removeEventListener` when destroyed', function(done){
+    it('calls `removeEventListener` when destroyed', function(done) {
       const bodySpy = spy(document.body, 'removeEventListener');
       const step = new Step(tourProto, {
         advanceOn: { event: advanceOnEventName }
@@ -344,8 +345,8 @@ describe('Tour | Step', () => {
     });
   });
 
-  describe('parseAttachTo()', function(){
-    it('fails if element does not exist', function(){
+  describe('parseAttachTo()', function() {
+    it('fails if element does not exist', function() {
       const step = new Step({}, {
         attachTo: { element: '.scroll-test', on: 'center' }
       });
@@ -377,9 +378,9 @@ describe('Tour | Step', () => {
 
     it('calls bindAdvance() if advanceOn passed', () => {
       const step = new Step({
-        next: () =>  true
+        next: () => true
       }, {
-          advanceOn: '.click-test test'
+        advanceOn: '.click-test test'
       });
       const bindFunction = spy(step, 'bindAdvance');
       step.setupElements();
@@ -456,7 +457,7 @@ describe('Tour | Step', () => {
       step._addContent(content);
       assert.equal(content.querySelectorAll('.shepherd-text p').length, 2);
       assert.equal(step.options.text.join(' '),
-      Array.from(content.querySelectorAll('.shepherd-text p')).map((text) => text.innerHTML).join(' '));
+        Array.from(content.querySelectorAll('.shepherd-text p')).map((text) => text.innerHTML).join(' '));
     });
 
     it('applies HTML element directly to content', () => {
@@ -510,7 +511,7 @@ describe('Tour | Step', () => {
 
       step.options.buttons = [
         defaultButtons.cancel,
-        defaultButtons.next,
+        defaultButtons.next
       ];
 
       step._addButtons(content);

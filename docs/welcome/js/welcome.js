@@ -12,7 +12,8 @@
     const shepherd = new Shepherd.Tour({
       defaultStepOptions: {
         showCancelLink: true
-      }
+      },
+      useModalOverlay: true
     });
 
     shepherd.addStep('welcome', {

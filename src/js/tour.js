@@ -1,9 +1,29 @@
-import { isFunction, isNumber, isString, isUndefined, isEmpty } from 'lodash';
+import { isFunction, isNumber, isString, isUndefined, isEmpty, debounce } from 'lodash';
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
 import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
+
+import {
+  cleanupModal,
+  cleanupSteps
+} from './utils/cleanup';
+
+import {
+  addStepEventListeners,
+  cleanupStepEventListeners,
+  getElementForStep
+} from './utils/dom';
+
+import {
+  getModalMaskOpening,
+  createModalOverlay,
+  positionModalOpening,
+  closeModalOpening,
+  classNames as modalClassNames,
+  toggleShepherdModalClass
+} from './utils/modal';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -26,13 +46,15 @@ const Shepherd = new Evented();
  */
 export class Tour extends Evented {
   /**
-   *
    * @param {Object} options The options for the tour
    * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
    * whenever the tour becomes active.
+   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
+   * modal overlay. If true, the overlay will create an opening around the target element so that it
+   * can remain interactive
    * @returns {Tour}
    */
   constructor(options = {}) {
@@ -132,6 +154,10 @@ export class Tour extends Evented {
     if (!isEmpty(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
+
+    cleanupStepEventListeners.call(this);
+    cleanupSteps(this.tourObject);
+    cleanupModal.call(this);
 
     this.trigger(event);
 
@@ -233,6 +259,11 @@ export class Tour extends Evented {
     return new Step(this, stepOptions);
   }
 
+  beforeShowStep(step) {
+    this._setupModalForStep(step);
+    this._styleTargetElementForStep(step);
+  }
+
   /**
    * Show a specific step in the tour
    * @param {Number|String} key The key to look up the step by
@@ -269,6 +300,8 @@ export class Tour extends Evented {
 
     this.currentStep = null;
     this._setupActiveTour();
+    this._initModalOverlay();
+    addStepEventListeners.call(this);
     this.next();
   }
 
@@ -281,6 +314,105 @@ export class Tour extends Evented {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
+  }
+
+  /**
+   *
+   */
+  _initModalOverlay() {
+    if (!this._modalOverlayElem) {
+      this._modalOverlayElem = createModalOverlay();
+      this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
+
+      // don't show yet -- each step will control that
+      this._hideModalOverlay();
+
+      document.body.appendChild(this._modalOverlayElem);
+    }
+  }
+
+  /**
+   * Modulates the styles of the passed step's target element, based on the step's options and
+   * the tour's `modal` option, to visually emphasize the element
+   *
+   * @param step The step object that attaches to the element
+   * @private
+   */
+  _styleTargetElementForStep(step) {
+    const targetElement = getElementForStep(step);
+
+    if (!targetElement) {
+      return;
+    }
+
+    toggleShepherdModalClass(targetElement);
+
+    if (step.options.highlightClass) {
+      targetElement.classList.add(step.options.highlightClass);
+    }
+
+    if (step.options.canClickTarget === false) {
+      targetElement.style.pointerEvents = 'none';
+    }
+  }
+
+  /**
+   * If modal is enabled, setup the svg mask opening and modal overlay for the step
+   * @param step
+   * @private
+   */
+  _setupModalForStep(step) {
+    if (this.options.useModalOverlay) {
+      this._styleModalOpeningForStep(step);
+      this._showModalOverlay();
+
+    } else {
+      this._hideModalOverlay();
+    }
+  }
+
+  _styleModalOpeningForStep(step) {
+    const modalOverlayOpening = this._modalOverlayOpening;
+    const targetElement = getElementForStep(step);
+
+    if (targetElement) {
+      positionModalOpening(targetElement, modalOverlayOpening);
+
+      this._onScreenChange = debounce(
+        positionModalOpening.bind(this, targetElement, modalOverlayOpening),
+        0,
+        { leading: false, trailing: true } // see https://lodash.com/docs/#debounce
+      );
+
+      addStepEventListeners.call(this);
+
+    } else {
+      closeModalOpening(this._modalOverlayOpening);
+    }
+  }
+
+  /**
+   * Show the modal overlay
+   * @private
+   */
+  _showModalOverlay() {
+    document.body.classList.add(modalClassNames.isVisible);
+
+    if (this._modalOverlayElem) {
+      this._modalOverlayElem.style.display = 'block';
+    }
+  }
+
+  /**
+   * Hide the modal overlay
+   * @private
+   */
+  _hideModalOverlay() {
+    document.body.classList.remove(modalClassNames.isVisible);
+
+    if (this._modalOverlayElem) {
+      this._modalOverlayElem.style.display = 'none';
+    }
   }
 
   /**
