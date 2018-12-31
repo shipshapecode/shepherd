@@ -1,5 +1,26 @@
 # Changelog
 
+## [v2.0.0](https://github.com/shipshapecode/shepherd/tree/v2.0.0) (2018-12-31)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.35...v2.0.0)
+
+**Implemented enhancements:**
+
+- Add data attribute to the body for the currently active tour name and current step [\#284](https://github.com/shipshapecode/shepherd/issues/284)
+- Use data attributes for element selection in demo/tests [\#273](https://github.com/shipshapecode/shepherd/issues/273)
+
+**Closed issues:**
+
+- An in-range update of autoprefixer is breaking the build 🚨 [\#298](https://github.com/shipshapecode/shepherd/issues/298)
+- An in-range update of webpack is breaking the build 🚨 [\#297](https://github.com/shipshapecode/shepherd/issues/297)
+
+**Merged pull requests:**
+
+- Integrate modal functionality that was originally in Ember Shepherd [\#301](https://github.com/shipshapecode/shepherd/pull/301) ([BrianSipple](https://github.com/BrianSipple))
+- Use data attributes for test selectors [\#299](https://github.com/shipshapecode/shepherd/pull/299) ([rwwagner90](https://github.com/rwwagner90))
+- Remove redundant `id` attribute on step tooltip containers. [\#295](https://github.com/shipshapecode/shepherd/pull/295) ([BrianSipple](https://github.com/BrianSipple))
+- Link to Shepherd's Tippy defaults in docs [\#294](https://github.com/shipshapecode/shepherd/pull/294) ([BrianSipple](https://github.com/BrianSipple))
+
 ## [v2.0.0-beta.35](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.35) (2018-11-09)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.34...v2.0.0-beta.35)
