@@ -1,20 +1,14 @@
 /* stylelint-disable selector-max-id */
 #shepherdModalOverlayContainer {
+  -ms-filter: "progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)";
+  filter: alpha(opacity=50);
   height: 100%;
   left: 0;
-  -moz-opacity: 0.5;
-  position: fixed;
-  -ms-filter: "progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)";
-  width: 100%;
-  filter: alpha(opacity=50);
-  -khtml-opacity: 0.5;
   opacity: 0.5;
+  position: fixed;
   top: 0;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
+  width: 100%;
   z-index: 9997;
 }
 
