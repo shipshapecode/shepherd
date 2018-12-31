@@ -1,3 +1,33 @@
+/* stylelint-disable selector-max-id */
+#shepherdModalOverlayContainer {
+  -ms-filter: "progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  height: 100%;
+  left: 0;
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  transition: all 0.3s ease-out;
+  width: 100%;
+  z-index: 9997; }
+
+.shepherd-modal.shepherd-enabled {
+  position: relative;
+  z-index: 9998; }
+
+/**
+ * Block clicks except for those that would occur
+ * on Shepherd elements or on the target element.
+*/
+.shepherd-active.shepherd-modal-is-visible :not(.shepherd-target) {
+  pointer-events: none; }
+
+.shepherd-active.shepherd-modal-is-visible .shepherd-target,
+.shepherd-active.shepherd-modal-is-visible .shepherd-cancel-link,
+.shepherd-active.shepherd-modal-is-visible .shepherd-button {
+  pointer-events: auto; }
+
+/* stylelint-enable */
 /**
  * Styles to support usage of Tippy.js tooltips (https://atomiks.github.io/tippyjs)
  */

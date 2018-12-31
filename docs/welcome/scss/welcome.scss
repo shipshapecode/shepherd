@@ -89,22 +89,6 @@ body {
     h1 {
       padding-top: 10px;
     }
-
-    > * {
-      opacity: 0.3;
-      pointer-events: none;
-      transition: opacity 0.4s;
-
-      body:not(.shepherd-active) & {
-        opacity: 1;
-        pointer-events: auto;
-      }
-    }
-
-    .shepherd-target.shepherd-enabled {
-      opacity: 1;
-      pointer-events: auto;
-    }
   }
 
   .hero-followup {
