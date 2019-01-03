@@ -409,9 +409,7 @@ export class Tour extends Evented {
    * @private
    */
   _hideModalOverlay() {
-    if (document.body.classList.contains(modalClassNames.isVisible)) {
-      document.body.classList.remove(modalClassNames.isVisible);
-    }
+    document.body.classList.remove(modalClassNames.isVisible);
 
     if (this._modalOverlayElem) {
       this._modalOverlayElem.style.display = 'none';
