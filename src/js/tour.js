@@ -192,6 +192,7 @@ export class Tour extends Evented {
     const currentStep = this.getCurrentStep();
 
     if (currentStep) {
+      this._hideModalOverlay();
       return currentStep.hide();
     }
   }
@@ -408,7 +409,9 @@ export class Tour extends Evented {
    * @private
    */
   _hideModalOverlay() {
-    document.body.classList.remove(modalClassNames.isVisible);
+    if (document.body.classList.contains(modalClassNames.isVisible)) {
+      document.body.classList.remove(modalClassNames.isVisible);
+    }
 
     if (this._modalOverlayElem) {
       this._modalOverlayElem.style.display = 'none';

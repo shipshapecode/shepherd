@@ -96,4 +96,24 @@ describe('Modal mode', () => {
       assert.isOk(tour.getCurrentStep().target.classList.contains('highlight'));
     });
   });
+  
+  describe('hide', () => {
+    let tour;
+
+    beforeEach(() => {
+      tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
+    });
+
+    afterEach(() => {
+      tour.complete();
+    });
+
+    it('adds and then removes shepherd-modal-is-visible class from the BODY', async function() {
+      await tour.start();
+      await cy.get("body").should("have.class", modalClassNames.isVisible);
+      
+      await tour.getCurrentStep().hide();
+      await cy.get('body').should('not.have.class', modalClassNames.isVisible);
+    });
+  });
 });
