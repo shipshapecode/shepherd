@@ -8,6 +8,7 @@ import { assert } from 'chai';
 
 describe('Modal mode', () => {
   let Shepherd;
+  let tour;
 
   beforeEach(() => {
     Shepherd = null;
@@ -21,18 +22,16 @@ describe('Modal mode', () => {
       }
     });
   });
+  
+  afterEach(() => {
+    tour.complete();
+  });
 
   describe('Modal enabled', () => {
-    let tour;
-
     beforeEach(() => {
       tour = setupTour(Shepherd, {}, null, {
         useModalOverlay: true
       });
-    });
-
-    afterEach(() => {
-      tour.complete();
     });
 
     it('Displaying the modal during tours when modal mode is enabled', () => {
@@ -44,16 +43,10 @@ describe('Modal mode', () => {
   });
 
   describe('Modal disabled', () => {
-    let tour;
-
     beforeEach(() => {
       tour = setupTour(Shepherd, {}, null, {
         useModalOverlay: false
       });
-    });
-
-    afterEach(() => {
-      tour.complete();
     });
 
     it('Hiding the modal during tours when modal mode is not enabled', () => {
@@ -63,10 +56,24 @@ describe('Modal mode', () => {
       cy.get('body').should('not.have.class', modalClassNames.isVisible);
     });
   });
+  
+  describe('hide', () => {
+    beforeEach(() => {
+      tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
+    });
+
+    it('removes shepherd-modal-is-visible class from the BODY', () => {
+      tour.start();
+      cy.get('body').should('have.class', modalClassNames.isVisible);
+
+      setTimeout(() => {
+        tour.hide();
+        cy.get('body').should('not.have.class', modalClassNames.isVisible);
+      }, 0);
+    });
+  });
 
   describe('highlight', () => {
-    let tour;
-
     const steps = () => {
       return [
         {
@@ -86,34 +93,10 @@ describe('Modal mode', () => {
       });
     });
 
-    afterEach(() => {
-      tour.complete();
-    });
-
     it('applying highlight classes to the target element', () => {
       tour.start();
 
       assert.isOk(tour.getCurrentStep().target.classList.contains('highlight'));
-    });
-  });
-  
-  describe('hide', () => {
-    let tour;
-
-    beforeEach(() => {
-      tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
-    });
-
-    afterEach(() => {
-      tour.complete();
-    });
-
-    it('adds and then removes shepherd-modal-is-visible class from the BODY', async function() {
-      await tour.start();
-      await cy.get("body").should("have.class", modalClassNames.isVisible);
-      
-      await tour.getCurrentStep().hide();
-      await cy.get('body').should('not.have.class', modalClassNames.isVisible);
     });
   });
 });
