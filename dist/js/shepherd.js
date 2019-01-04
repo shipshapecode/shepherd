@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.1 * /
+ * /*! shepherd.js 2.0.2 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -2869,6 +2869,8 @@ exports.Tour = function (_Evented) {
       var currentStep = this.getCurrentStep();
 
       if (currentStep) {
+        this._hideModalOverlay();
+
         return currentStep.hide();
       }
     }
