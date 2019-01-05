@@ -84,7 +84,7 @@ function addStepEventListeners() {
 
   const overlay = document.querySelector(`#${elementIds.modalOverlay}`);
   // Prevents window from moving on touch.
-  window.addEventListener('touchmove', preventModalBodyTouch, false);
+  window.addEventListener('touchmove', preventModalBodyTouch, { passive: false }
 
   // Allows content to move on touch.
   if (overlay) {
