@@ -1772,7 +1772,9 @@ function addStepEventListeners() {
   window.addEventListener('scroll', this._onScreenChange, false);
   var overlay = document.querySelector("#".concat(_modal.elementIds.modalOverlay)); // Prevents window from moving on touch.
 
-  window.addEventListener('touchmove', _modal.preventModalBodyTouch, false); // Allows content to move on touch.
+  window.addEventListener('touchmove', _modal.preventModalBodyTouch, {
+    passive: false
+  }); // Allows content to move on touch.
 
   if (overlay) {
     overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
