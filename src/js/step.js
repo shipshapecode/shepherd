@@ -270,6 +270,8 @@ export class Step extends Evented {
    * Hide the step and destroy the tippy instance
    */
   hide() {
+    this.tour.modal.hide();
+
     this.trigger('before-hide');
 
     document.body.removeAttribute('data-shepherd-step');
