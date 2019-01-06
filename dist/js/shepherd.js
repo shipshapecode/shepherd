@@ -1,5 +1,5 @@
 /*!
- * /*! shepherd.js 2.0.2 * /
+ * /*! shepherd.js 2.1.0 * /
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -166,7 +166,7 @@ module.exports = isObjectLike;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(3),
-    isArray = __webpack_require__(9),
+    isArray = __webpack_require__(10),
     isObjectLike = __webpack_require__(1);
 
 /** `Object#toString` result references. */
@@ -227,173 +227,6 @@ module.exports = objectToString;
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Evented = undefined;
-
-var _isUndefined2 = __webpack_require__(0);
-
-var _isUndefined3 = _interopRequireDefault(_isUndefined2);
-
-var _drop2 = __webpack_require__(19);
-
-var _drop3 = _interopRequireDefault(_drop2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Evented =
-/*#__PURE__*/
-exports.Evented = function () {
-  function Evented() {
-    _classCallCheck(this, Evented);
-  }
-
-  _createClass(Evented, [{
-    key: "on",
-    value: function on(event, handler, ctx) {
-      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-      if ((0, _isUndefined3.default)(this.bindings)) {
-        this.bindings = {};
-      }
-
-      if ((0, _isUndefined3.default)(this.bindings[event])) {
-        this.bindings[event] = [];
-      }
-
-      this.bindings[event].push({
-        handler: handler,
-        ctx: ctx,
-        once: once
-      });
-    }
-  }, {
-    key: "once",
-    value: function once(event, handler, ctx) {
-      this.on(event, handler, ctx, true);
-    }
-  }, {
-    key: "off",
-    value: function off(event, handler) {
-      var _this = this;
-
-      if ((0, _isUndefined3.default)(this.bindings) || (0, _isUndefined3.default)(this.bindings[event])) {
-        return false;
-      }
-
-      if ((0, _isUndefined3.default)(handler)) {
-        delete this.bindings[event];
-      } else {
-        this.bindings[event].forEach(function (binding, index) {
-          if (binding.handler === handler) {
-            _this.bindings[event].splice(index, 1);
-          }
-        });
-      }
-    }
-  }, {
-    key: "trigger",
-    value: function trigger(event) {
-      var _this2 = this;
-
-      if (!(0, _isUndefined3.default)(this.bindings) && this.bindings[event]) {
-        var args = (0, _drop3.default)(arguments);
-        this.bindings[event].forEach(function (binding, index) {
-          var ctx = binding.ctx,
-              handler = binding.handler,
-              once = binding.once;
-          var context = ctx || _this2;
-          handler.apply(context, args);
-
-          if (once) {
-            _this2.bindings[event].splice(index, 1);
-          }
-        });
-      }
-    }
-  }]);
-
-  return Evented;
-}();
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(3),
-    isObject = __webpack_require__(10);
-
-/** `Object#toString` result references. */
-var asyncTag = '[object AsyncFunction]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    proxyTag = '[object Proxy]';
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  if (!isObject(value)) {
-    return false;
-  }
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 9 which returns 'object' for typed arrays and other constructors.
-  var tag = baseGetTag(value);
-  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
-}
-
-module.exports = isFunction;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-module.exports = overArg;
-
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -574,7 +407,312 @@ exports.classNames = classNames;
 exports.toggleShepherdModalClass = toggleShepherdModalClass;
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Evented = undefined;
+
+var _isUndefined2 = __webpack_require__(0);
+
+var _isUndefined3 = _interopRequireDefault(_isUndefined2);
+
+var _drop2 = __webpack_require__(19);
+
+var _drop3 = _interopRequireDefault(_drop2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Evented =
+/*#__PURE__*/
+exports.Evented = function () {
+  function Evented() {
+    _classCallCheck(this, Evented);
+  }
+
+  _createClass(Evented, [{
+    key: "on",
+    value: function on(event, handler, ctx) {
+      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+      if ((0, _isUndefined3.default)(this.bindings)) {
+        this.bindings = {};
+      }
+
+      if ((0, _isUndefined3.default)(this.bindings[event])) {
+        this.bindings[event] = [];
+      }
+
+      this.bindings[event].push({
+        handler: handler,
+        ctx: ctx,
+        once: once
+      });
+    }
+  }, {
+    key: "once",
+    value: function once(event, handler, ctx) {
+      this.on(event, handler, ctx, true);
+    }
+  }, {
+    key: "off",
+    value: function off(event, handler) {
+      var _this = this;
+
+      if ((0, _isUndefined3.default)(this.bindings) || (0, _isUndefined3.default)(this.bindings[event])) {
+        return false;
+      }
+
+      if ((0, _isUndefined3.default)(handler)) {
+        delete this.bindings[event];
+      } else {
+        this.bindings[event].forEach(function (binding, index) {
+          if (binding.handler === handler) {
+            _this.bindings[event].splice(index, 1);
+          }
+        });
+      }
+    }
+  }, {
+    key: "trigger",
+    value: function trigger(event) {
+      var _this2 = this;
+
+      if (!(0, _isUndefined3.default)(this.bindings) && this.bindings[event]) {
+        var args = (0, _drop3.default)(arguments);
+        this.bindings[event].forEach(function (binding, index) {
+          var ctx = binding.ctx,
+              handler = binding.handler,
+              once = binding.once;
+          var context = ctx || _this2;
+          handler.apply(context, args);
+
+          if (once) {
+            _this2.bindings[event].splice(index, 1);
+          }
+        });
+      }
+    }
+  }]);
+
+  return Evented;
+}();
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(3),
+    isObject = __webpack_require__(11);
+
+/** `Object#toString` result references. */
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+module.exports = isFunction;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+module.exports = overArg;
+
+
+/***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getElementForStep = exports.elementIsHidden = exports.cleanupStepEventListeners = exports.addStepEventListeners = undefined;
+
+var _modal = __webpack_require__(4);
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/**
+ * Helper method to check if element is hidden, since we cannot use :visible without jQuery
+ * @param {HTMLElement} element The element to check for visibility
+ * @returns {boolean} true if element is hidden
+ * @private
+ */
+function elementIsHidden(element) {
+  return element.offsetWidth === 0 && element.offsetHeight === 0;
+}
+/**
+ * Get the element from an option object
+ *
+ * @method getElementFromObject
+ * @param Object attachTo
+ * @returns {Element}
+ * @private
+ */
+
+
+function getElementFromObject(attachTo) {
+  var op = attachTo.element;
+
+  if (op instanceof HTMLElement) {
+    return op;
+  }
+
+  return document.querySelector(op);
+}
+/**
+ * Return the element for a step
+ *
+ * @method getElementForStep
+ * @param step step the step to get an element for
+ * @returns {Element} the element for this step
+ * @private
+ */
+
+
+function getElementForStep(step) {
+  var attachTo = step.options.attachTo;
+
+  if (!attachTo) {
+    return null;
+  }
+
+  var type = _typeof(attachTo);
+
+  var element;
+
+  if (type === 'string') {
+    element = getElementFromString(attachTo);
+  } else if (type === 'object') {
+    element = getElementFromObject(attachTo);
+  } else {
+    /* istanbul ignore next: cannot test undefined attachTo, but it does work! */
+    element = null;
+  }
+
+  return element;
+}
+/**
+ * Get the element from an option string
+ *
+ * @method getElementFromString
+ * @param element the string in the step configuration
+ * @returns {Element} the element from the string
+ * @private
+ */
+
+
+function getElementFromString(element) {
+  var _element$split = element.split(' '),
+      _element$split2 = _slicedToArray(_element$split, 1),
+      selector = _element$split2[0];
+
+  return document.querySelector(selector);
+}
+
+function addStepEventListeners() {
+  if (typeof this._onScreenChange === 'function') {
+    window.removeEventListener('resize', this._onScreenChange, false);
+    window.removeEventListener('scroll', this._onScreenChange, false);
+  }
+
+  window.addEventListener('resize', this._onScreenChange, false);
+  window.addEventListener('scroll', this._onScreenChange, false);
+  var overlay = document.querySelector("#".concat(_modal.elementIds.modalOverlay)); // Prevents window from moving on touch.
+
+  window.addEventListener('touchmove', _modal.preventModalBodyTouch, {
+    passive: false
+  }); // Allows content to move on touch.
+
+  if (overlay) {
+    overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
+  }
+}
+/**
+ * Remove resize and scroll event listeners
+ */
+
+
+function cleanupStepEventListeners() {
+  if (typeof this._onScreenChange === 'function') {
+    window.removeEventListener('resize', this._onScreenChange, false);
+    window.removeEventListener('scroll', this._onScreenChange, false);
+    this._onScreenChange = null;
+  }
+}
+
+exports.addStepEventListeners = addStepEventListeners;
+exports.cleanupStepEventListeners = cleanupStepEventListeners;
+exports.elementIsHidden = elementIsHidden;
+exports.getElementForStep = getElementForStep;
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -593,11 +731,11 @@ var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _isFunction2 = __webpack_require__(5);
+var _isFunction2 = __webpack_require__(6);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
-var _isEmpty2 = __webpack_require__(11);
+var _isEmpty2 = __webpack_require__(12);
 
 var _isEmpty3 = _interopRequireDefault(_isEmpty2);
 
@@ -605,17 +743,17 @@ var _isElement2 = __webpack_require__(30);
 
 var _isElement3 = _interopRequireDefault(_isElement2);
 
-var _forOwn2 = __webpack_require__(12);
+var _forOwn2 = __webpack_require__(13);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
-var _evented = __webpack_require__(4);
+var _evented = __webpack_require__(5);
 
 __webpack_require__(38);
 
-var _bind = __webpack_require__(13);
+var _bind = __webpack_require__(14);
 
-var _utils = __webpack_require__(14);
+var _utils = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -916,6 +1054,7 @@ exports.Step = function (_Evented) {
   }, {
     key: "hide",
     value: function hide() {
+      this.tour.modal.hide();
       this.trigger('before-hide');
       document.body.removeAttribute('data-shepherd-step');
 
@@ -1061,7 +1200,7 @@ exports.Step = function (_Evented) {
 }(_evented.Evented);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /**
@@ -1093,7 +1232,7 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 /**
@@ -1130,13 +1269,13 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseKeys = __webpack_require__(22),
     getTag = __webpack_require__(23),
     isArguments = __webpack_require__(24),
-    isArray = __webpack_require__(9),
+    isArray = __webpack_require__(10),
     isArrayLike = __webpack_require__(25),
     isBuffer = __webpack_require__(27),
     isPrototype = __webpack_require__(28),
@@ -1213,7 +1352,7 @@ module.exports = isEmpty;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseForOwn = __webpack_require__(33),
@@ -1255,7 +1394,7 @@ module.exports = forOwn;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1273,7 +1412,7 @@ var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _forOwn2 = __webpack_require__(12);
+var _forOwn2 = __webpack_require__(13);
 
 var _forOwn3 = _interopRequireDefault(_forOwn2);
 
@@ -1282,7 +1421,7 @@ exports.bindButtonEvents = bindButtonEvents;
 exports.bindCancelLink = bindCancelLink;
 exports.bindMethods = bindMethods;
 
-var _utils = __webpack_require__(14);
+var _utils = __webpack_require__(15);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1395,7 +1534,7 @@ function bindMethods(methods) {
 }
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1427,7 +1566,7 @@ exports.parseShorthand = parseShorthand;
 exports.setupTooltip = setupTooltip;
 exports.parseAttachTo = parseAttachTo;
 
-var _tippy = __webpack_require__(15);
+var _tippy = __webpack_require__(16);
 
 var _tippy2 = _interopRequireDefault(_tippy);
 
@@ -1626,16 +1765,16 @@ function _makeCenteredTippy() {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function(e,t){ true?module.exports=t():undefined})(this,function(){'use strict';function e(e){return e&&'[object Function]'==={}.toString.call(e)}function t(e,t){if(1!==e.nodeType)return[];var r=e.ownerDocument.defaultView,a=r.getComputedStyle(e,null);return t?a[t]:a}function r(e){return'HTML'===e.nodeName?e:e.parentNode||e.host}function a(e){if(!e)return document.body;switch(e.nodeName){case'HTML':case'BODY':return e.ownerDocument.body;case'#document':return e.body;}var p=t(e),o=p.overflow,i=p.overflowX,n=p.overflowY;return /(auto|scroll|overlay)/.test(o+n+i)?e:a(r(e))}function p(e){return 11===e?ke:10===e?Ee:ke||Ee}function o(e){if(!e)return document.documentElement;for(var r=p(10)?document.body:null,a=e.offsetParent||null;a===r&&e.nextElementSibling;)a=(e=e.nextElementSibling).offsetParent;var i=a&&a.nodeName;return i&&'BODY'!==i&&'HTML'!==i?-1!==['TH','TD','TABLE'].indexOf(a.nodeName)&&'static'===t(a,'position')?o(a):a:e?e.ownerDocument.documentElement:document.documentElement}function n(e){var t=e.nodeName;return'BODY'!==t&&('HTML'===t||o(e.firstElementChild)===e)}function s(e){return null===e.parentNode?e:s(e.parentNode)}function l(e,t){if(!e||!e.nodeType||!t||!t.nodeType)return document.documentElement;var r=e.compareDocumentPosition(t)&Node.DOCUMENT_POSITION_FOLLOWING,a=r?e:t,p=r?t:e,i=document.createRange();i.setStart(a,0),i.setEnd(p,0);var d=i.commonAncestorContainer;if(e!==d&&t!==d||a.contains(p))return n(d)?d:o(d);var m=s(e);return m.host?l(m.host,t):l(e,s(t).host)}function d(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:'top',r='top'===t?'scrollTop':'scrollLeft',a=e.nodeName;if('BODY'===a||'HTML'===a){var p=e.ownerDocument.documentElement,o=e.ownerDocument.scrollingElement||p;return o[r]}return e[r]}function m(e,t){var r=!!(2<arguments.length&&void 0!==arguments[2])&&arguments[2],a=d(t,'top'),p=d(t,'left'),o=r?-1:1;return e.top+=a*o,e.bottom+=a*o,e.left+=p*o,e.right+=p*o,e}function c(e,t){var r='x'===t?'Left':'Top',a='Left'===r?'Right':'Bottom';return parseFloat(e['border'+r+'Width'],10)+parseFloat(e['border'+a+'Width'],10)}function f(e,t,r,a){return ae(t['offset'+e],t['scroll'+e],r['client'+e],r['offset'+e],r['scroll'+e],p(10)?parseInt(r['offset'+e])+parseInt(a['margin'+('Height'===e?'Top':'Left')])+parseInt(a['margin'+('Height'===e?'Bottom':'Right')]):0)}function h(e){var t=e.body,r=e.documentElement,a=p(10)&&getComputedStyle(r);return{height:f('Height',t,r,a),width:f('Width',t,r,a)}}function b(e){return Te({},e,{right:e.left+e.width,bottom:e.top+e.height})}function u(e){var r={};try{if(p(10)){r=e.getBoundingClientRect();var a=d(e,'top'),o=d(e,'left');r.top+=a,r.left+=o,r.bottom+=a,r.right+=o}else r=e.getBoundingClientRect()}catch(t){}var i={left:r.left,top:r.top,width:r.right-r.left,height:r.bottom-r.top},n='HTML'===e.nodeName?h(e.ownerDocument):{},s=n.width||e.clientWidth||i.right-i.left,l=n.height||e.clientHeight||i.bottom-i.top,m=e.offsetWidth-s,f=e.offsetHeight-l;if(m||f){var y=t(e);m-=c(y,'x'),f-=c(y,'y'),i.width-=m,i.height-=f}return b(i)}function y(e,r){var o=!!(2<arguments.length&&void 0!==arguments[2])&&arguments[2],i=p(10),n='HTML'===r.nodeName,s=u(e),l=u(r),d=a(e),c=t(r),f=parseFloat(c.borderTopWidth,10),h=parseFloat(c.borderLeftWidth,10);o&&n&&(l.top=ae(l.top,0),l.left=ae(l.left,0));var y=b({top:s.top-l.top-f,left:s.left-l.left-h,width:s.width,height:s.height});if(y.marginTop=0,y.marginLeft=0,!i&&n){var g=parseFloat(c.marginTop,10),x=parseFloat(c.marginLeft,10);y.top-=f-g,y.bottom-=f-g,y.left-=h-x,y.right-=h-x,y.marginTop=g,y.marginLeft=x}return(i&&!o?r.contains(d):r===d&&'BODY'!==d.nodeName)&&(y=m(y,r)),y}function g(e){var t=!!(1<arguments.length&&void 0!==arguments[1])&&arguments[1],r=e.ownerDocument.documentElement,a=y(e,r),p=ae(r.clientWidth,window.innerWidth||0),o=ae(r.clientHeight,window.innerHeight||0),i=t?0:d(r),n=t?0:d(r,'left'),s={top:i-a.top+a.marginTop,left:n-a.left+a.marginLeft,width:p,height:o};return b(s)}function x(e){var a=e.nodeName;return'BODY'!==a&&'HTML'!==a&&('fixed'===t(e,'position')||x(r(e)))}function w(e){if(!e||!e.parentElement||p())return document.documentElement;for(var r=e.parentElement;r&&'none'===t(r,'transform');)r=r.parentElement;return r||document.documentElement}function v(e,t,p,o){var i=!!(4<arguments.length&&void 0!==arguments[4])&&arguments[4],n={top:0,left:0},s=i?w(e):l(e,t);if('viewport'===o)n=g(s,i);else{var d;'scrollParent'===o?(d=a(r(t)),'BODY'===d.nodeName&&(d=e.ownerDocument.documentElement)):'window'===o?d=e.ownerDocument.documentElement:d=o;var m=y(d,s,i);if('HTML'===d.nodeName&&!x(s)){var c=h(e.ownerDocument),f=c.height,b=c.width;n.top+=m.top-m.marginTop,n.bottom=f+m.top,n.left+=m.left-m.marginLeft,n.right=b+m.left}else n=m}p=p||0;var u='number'==typeof p;return n.left+=u?p:p.left||0,n.top+=u?p:p.top||0,n.right-=u?p:p.right||0,n.bottom-=u?p:p.bottom||0,n}function k(e){var t=e.width,r=e.height;return t*r}function E(e,t,r,a,p){var o=5<arguments.length&&void 0!==arguments[5]?arguments[5]:0;if(-1===e.indexOf('auto'))return e;var i=v(r,a,o,p),n={top:{width:i.width,height:t.top-i.top},right:{width:i.right-t.right,height:i.height},bottom:{width:i.width,height:i.bottom-t.bottom},left:{width:t.left-i.left,height:i.height}},s=Object.keys(n).map(function(e){return Te({key:e},n[e],{area:k(n[e])})}).sort(function(e,t){return t.area-e.area}),l=s.filter(function(e){var t=e.width,a=e.height;return t>=r.clientWidth&&a>=r.clientHeight}),d=0<l.length?l[0].key:s[0].key,m=e.split('-')[1];return d+(m?'-'+m:'')}function O(e,t,r){var a=3<arguments.length&&void 0!==arguments[3]?arguments[3]:null,p=a?w(t):l(t,r);return y(r,p,a)}function C(e){var t=e.ownerDocument.defaultView,r=t.getComputedStyle(e),a=parseFloat(r.marginTop||0)+parseFloat(r.marginBottom||0),p=parseFloat(r.marginLeft||0)+parseFloat(r.marginRight||0),o={width:e.offsetWidth+p,height:e.offsetHeight+a};return o}function L(e){var t={left:'right',right:'left',bottom:'top',top:'bottom'};return e.replace(/left|right|bottom|top/g,function(e){return t[e]})}function T(e,t,r){r=r.split('-')[0];var a=C(e),p={width:a.width,height:a.height},o=-1!==['right','left'].indexOf(r),i=o?'top':'left',n=o?'left':'top',s=o?'height':'width',l=o?'width':'height';return p[i]=t[i]+t[s]/2-a[s]/2,p[n]=r===n?t[n]-a[l]:t[L(n)],p}function A(e,t){return Array.prototype.find?e.find(t):e.filter(t)[0]}function Y(e,t,r){if(Array.prototype.findIndex)return e.findIndex(function(e){return e[t]===r});var a=A(e,function(e){return e[t]===r});return e.indexOf(a)}function S(t,r,a){var p=void 0===a?t:t.slice(0,Y(t,'name',a));return p.forEach(function(t){t['function']&&console.warn('`modifier.function` is deprecated, use `modifier.fn`!');var a=t['function']||t.fn;t.enabled&&e(a)&&(r.offsets.popper=b(r.offsets.popper),r.offsets.reference=b(r.offsets.reference),r=a(r,t))}),r}function P(){if(!this.state.isDestroyed){var e={instance:this,styles:{},arrowStyles:{},attributes:{},flipped:!1,offsets:{}};e.offsets.reference=O(this.state,this.popper,this.reference,this.options.positionFixed),e.placement=E(this.options.placement,e.offsets.reference,this.popper,this.reference,this.options.modifiers.flip.boundariesElement,this.options.modifiers.flip.padding),e.originalPlacement=e.placement,e.positionFixed=this.options.positionFixed,e.offsets.popper=T(this.popper,e.offsets.reference,e.placement),e.offsets.popper.position=this.options.positionFixed?'fixed':'absolute',e=S(this.modifiers,e),this.state.isCreated?this.options.onUpdate(e):(this.state.isCreated=!0,this.options.onCreate(e))}}function D(e,t){return e.some(function(e){var r=e.name,a=e.enabled;return a&&r===t})}function X(e){for(var t=[!1,'ms','Webkit','Moz','O'],r=e.charAt(0).toUpperCase()+e.slice(1),a=0;a<t.length;a++){var p=t[a],o=p?''+p+r:e;if('undefined'!=typeof document.body.style[o])return o}return null}function I(){return this.state.isDestroyed=!0,D(this.modifiers,'applyStyle')&&(this.popper.removeAttribute('x-placement'),this.popper.style.position='',this.popper.style.top='',this.popper.style.left='',this.popper.style.right='',this.popper.style.bottom='',this.popper.style.willChange='',this.popper.style[X('transform')]=''),this.disableEventListeners(),this.options.removeOnDestroy&&this.popper.parentNode.removeChild(this.popper),this}function N(e){var t=e.ownerDocument;return t?t.defaultView:window}function H(e,t,r,p){var o='BODY'===e.nodeName,i=o?e.ownerDocument.defaultView:e;i.addEventListener(t,r,{passive:!0}),o||H(a(i.parentNode),t,r,p),p.push(i)}function R(e,t,r,p){r.updateBound=p,N(e).addEventListener('resize',r.updateBound,{passive:!0});var o=a(e);return H(o,'scroll',r.updateBound,r.scrollParents),r.scrollElement=o,r.eventsEnabled=!0,r}function W(){this.state.eventsEnabled||(this.state=R(this.reference,this.options,this.state,this.scheduleUpdate))}function B(e,t){return N(e).removeEventListener('resize',t.updateBound),t.scrollParents.forEach(function(e){e.removeEventListener('scroll',t.updateBound)}),t.updateBound=null,t.scrollParents=[],t.scrollElement=null,t.eventsEnabled=!1,t}function M(){this.state.eventsEnabled&&(cancelAnimationFrame(this.scheduleUpdate),this.state=B(this.reference,this.state))}function z(e){return''!==e&&!isNaN(parseFloat(e))&&isFinite(e)}function _(e,t){Object.keys(t).forEach(function(r){var a='';-1!==['width','height','top','right','bottom','left'].indexOf(r)&&z(t[r])&&(a='px'),e.style[r]=t[r]+a})}function F(e,t){Object.keys(t).forEach(function(r){var a=t[r];!1===a?e.removeAttribute(r):e.setAttribute(r,t[r])})}function U(e,t){var r=e.offsets,a=r.popper,p=r.reference,o=re,i=function(e){return e},n=o(a.width),s=o(p.width),l=-1!==['left','right'].indexOf(e.placement),d=-1!==e.placement.indexOf('-'),m=t?l||d||s%2==n%2?o:te:i,c=t?o:i;return{left:m(1==s%2&&1==n%2&&!d&&t?a.left-1:a.left),top:c(a.top),bottom:c(a.bottom),right:m(a.right)}}function V(e,t,r){var a=A(e,function(e){var r=e.name;return r===t}),p=!!a&&e.some(function(e){return e.name===r&&e.enabled&&e.order<a.order});if(!p){var o='`'+t+'`';console.warn('`'+r+'`'+' modifier is required by '+o+' modifier in order to work, be sure to include it before '+o+'!')}return p}function q(e){return'end'===e?'start':'start'===e?'end':e}function j(e){var t=!!(1<arguments.length&&void 0!==arguments[1])&&arguments[1],r=Se.indexOf(e),a=Se.slice(r+1).concat(Se.slice(0,r));return t?a.reverse():a}function K(e,t,r,a){var p=e.match(/((?:\-|\+)?\d*\.?\d*)(.*)/),o=+p[1],i=p[2];if(!o)return e;if(0===i.indexOf('%')){var n;switch(i){case'%p':n=r;break;case'%':case'%r':default:n=a;}var s=b(n);return s[t]/100*o}if('vh'===i||'vw'===i){var l;return l='vh'===i?ae(document.documentElement.clientHeight,window.innerHeight||0):ae(document.documentElement.clientWidth,window.innerWidth||0),l/100*o}return o}function G(e,t,r,a){var p=[0,0],o=-1!==['right','left'].indexOf(a),i=e.split(/(\+|\-)/).map(function(e){return e.trim()}),n=i.indexOf(A(i,function(e){return-1!==e.search(/,|\s/)}));i[n]&&-1===i[n].indexOf(',')&&console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.');var s=/\s*,\s*|\s+/,l=-1===n?[i]:[i.slice(0,n).concat([i[n].split(s)[0]]),[i[n].split(s)[1]].concat(i.slice(n+1))];return l=l.map(function(e,a){var p=(1===a?!o:o)?'height':'width',i=!1;return e.reduce(function(e,t){return''===e[e.length-1]&&-1!==['+','-'].indexOf(t)?(e[e.length-1]=t,i=!0,e):i?(e[e.length-1]+=t,i=!1,e):e.concat(t)},[]).map(function(e){return K(e,p,t,r)})}),l.forEach(function(e,t){e.forEach(function(r,a){z(r)&&(p[t]+=r*('-'===e[a-1]?-1:1))})}),p}function J(e,t){var r=t.offset,a=e.placement,p=e.offsets,o=p.popper,i=p.reference,n=a.split('-')[0],s=void 0;return s=z(+r)?[+r,0]:G(r,o,i,n),'left'===n?(o.top+=s[0],o.left-=s[1]):'right'===n?(o.top+=s[0],o.left+=s[1]):'top'===n?(o.left+=s[0],o.top-=s[1]):'bottom'===n&&(o.left+=s[0],o.top+=s[1]),e.popper=o,e}function Z(){document.addEventListener('click',Yt,!0),document.addEventListener('touchstart',Lt,{passive:!0}),window.addEventListener('blur',St),window.addEventListener('resize',Pt),!ye&&(navigator.maxTouchPoints||navigator.msMaxTouchPoints)&&document.addEventListener('pointerdown',Lt)}function $(e,t){function r(){yt(function(){z=!1})}function a(){X=new MutationObserver(function(){q.popperInstance.update()}),X.observe(U,{childList:!0,subtree:!0,characterData:!0})}function p(e){var t=N=e,r=t.clientX,a=t.clientY;if(q.popperInstance){var p=xt(q.popper),o=q.popperChildren.arrow?20:5,i='top'===p||'bottom'===p,n='left'===p||'right'===p,s=i?ae(o,r):r,l=n?ae(o,a):a;i&&s>o&&(s=ee(r,window.innerWidth-o)),n&&l>o&&(l=ee(a,window.innerHeight-o));var d=q.reference.getBoundingClientRect(),m=q.props.followCursor,c='horizontal'===m,f='vertical'===m;q.popperInstance.reference={getBoundingClientRect:function(){return{width:0,height:0,top:c?d.top:l,bottom:c?d.bottom:l,left:f?d.left:s,right:f?d.right:s}},clientWidth:0,clientHeight:0},q.popperInstance.scheduleUpdate()}}function o(e){var t=pt(e.target,q.props.target);t&&!t._tippy&&($(t,ie({},q.props,{target:'',showOnInit:!0})),i(e))}function i(e){if(T(),!q.state.isVisible){if(q.props.target)return o(e);if(W=!0,q.props.wait)return q.props.wait(q,e);x()&&document.addEventListener('mousemove',p);var t=Ve(q.props.delay,0,ne.delay);t?H=setTimeout(function(){Y()},t):Y()}}function n(){if(T(),!q.state.isVisible)return s();W=!1;var e=Ve(q.props.delay,1,ne.delay);e?R=setTimeout(function(){q.state.isVisible&&S()},e):S()}function s(){document.removeEventListener('mousemove',p),N=null}function l(){document.body.removeEventListener('mouseleave',n),document.removeEventListener('mousemove',_)}function d(e){!q.state.isEnabled||y(e)||(!q.state.isVisible&&(I=e),'click'===e.type&&!1!==q.props.hideOnClick&&q.state.isVisible?n():i(e))}function m(e){var t=ot(e.target,function(e){return e._tippy}),r=pt(e.target,Xe.POPPER)===q.popper,a=t===q.reference;r||a||ut(xt(q.popper),q.popper.getBoundingClientRect(),e,q.props)&&(l(),n())}function c(e){return y(e)?void 0:q.props.interactive?(document.body.addEventListener('mouseleave',n),void document.addEventListener('mousemove',_)):void n()}function f(e){if(e.target===q.reference){if(q.props.interactive){if(!e.relatedTarget)return;if(pt(e.relatedTarget,Xe.POPPER))return}n()}}function h(e){pt(e.target,q.props.target)&&i(e)}function b(e){pt(e.target,q.props.target)&&n()}function y(e){var t=-1<e.type.indexOf('touch'),r=ye&&Ct&&q.props.touchHold&&!t,a=Ct&&!q.props.touchHold&&t;return r||a}function u(){var e=q.popperChildren.tooltip,t=q.props.popperOptions,r=Xe['round'===q.props.arrowType?'ROUND_ARROW':'ARROW'],p=e.querySelector(r),o=ie({placement:q.props.placement},t||{},{modifiers:ie({},t?t.modifiers:{},{arrow:ie({element:r},t&&t.modifiers?t.modifiers.arrow:{}),flip:ie({enabled:q.props.flip,padding:q.props.distance+5,behavior:q.props.flipBehavior},t&&t.modifiers?t.modifiers.flip:{}),offset:ie({offset:q.props.offset},t&&t.modifiers?t.modifiers.offset:{})}),onCreate:function(){e.style[xt(q.popper)]=gt(q.props.distance,ne.distance),p&&q.props.arrowTransform&&ft(p,q.props.arrowTransform)},onUpdate:function(){var t=e.style;t.top='',t.bottom='',t.left='',t.right='',t[xt(q.popper)]=gt(q.props.distance,ne.distance),p&&q.props.arrowTransform&&ft(p,q.props.arrowTransform)}});return X||a(),new De(q.reference,q.popper,o)}function g(e){q.popperInstance?!x()&&(q.popperInstance.scheduleUpdate(),q.props.livePlacement&&q.popperInstance.enableEventListeners()):(q.popperInstance=u(),(!q.props.livePlacement||x())&&q.popperInstance.disableEventListeners()),q.popperInstance.reference=q.reference;var t=q.popperChildren.arrow;if(x()){t&&(t.style.margin='0');var r=Ve(q.props.delay,0,ne.delay);I.type&&p(r&&N?N:I)}else t&&(t.style.margin='');bt(q.popperInstance,e),q.props.appendTo.contains(q.popper)||(q.props.appendTo.appendChild(q.popper),q.props.onMount(q),q.state.isMounted=!0)}function x(){return q.props.followCursor&&!Ct&&'focus'!==I.type}function w(){We([q.popper],he?0:q.props.updateDuration);(function e(){q.popperInstance&&q.popperInstance.scheduleUpdate(),q.state.isMounted?requestAnimationFrame(e):We([q.popper],0)})()}function v(e,t){E(e,function(){!q.state.isVisible&&q.props.appendTo.contains(q.popper)&&t()})}function k(e,t){E(e,t)}function E(e,t){if(0===e)return t();var r=q.popperChildren.tooltip,a=function a(p){p.target===r&&(vt(r,'remove',a),t())};vt(r,'remove',B),vt(r,'add',a),B=a}function O(e,t,r){q.reference.addEventListener(e,t),r.push({eventType:e,handler:t})}function C(){M=q.props.trigger.trim().split(' ').reduce(function(e,t){return'manual'===t?e:(q.props.target?'mouseenter'===t?(O('mouseover',h,e),O('mouseout',b,e)):'focus'===t?(O('focusin',h,e),O('focusout',b,e)):'click'===t?O(t,h,e):void 0:(O(t,d,e),q.props.touchHold&&(O('touchstart',d,e),O('touchend',c,e)),'mouseenter'===t?O('mouseleave',c,e):'focus'===t?O(he?'focusout':'blur',f,e):void 0),e)},[])}function L(){M.forEach(function(e){var t=e.eventType,r=e.handler;q.reference.removeEventListener(t,r)})}function T(){clearTimeout(H),clearTimeout(R)}function A(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{};Et(e,ne);var t=q.props,r=wt(q.reference,ie({},q.props,e,{performance:!0}));r.performance=Ot(e,'performance')?e.performance:t.performance,q.props=r,(Ot(e,'trigger')||Ot(e,'touchHold'))&&(L(),C()),Ot(e,'interactiveDebounce')&&(l(),_=kt(m,e.interactiveDebounce)),Qe(q.popper,t,r),q.popperChildren=Be(q.popper),q.popperInstance&&le.some(function(t){return Ot(e,t)})&&(q.popperInstance.destroy(),q.popperInstance=u(),!q.state.isVisible&&q.popperInstance.disableEventListeners(),q.props.followCursor&&N&&p(N))}function Y(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:Ve(q.props.duration,0,ne.duration[0]);return q.state.isDestroyed||!q.state.isEnabled||Ct&&!q.props.touch?void 0:q.reference.isVirtual||document.documentElement.contains(q.reference)?q.reference.hasAttribute('disabled')?void 0:z?void(z=!1):void(!1===q.props.onShow(q)||(q.popper.style.visibility='visible',q.state.isVisible=!0,We([q.popper,q.popperChildren.tooltip,q.popperChildren.backdrop],0),g(function(){q.state.isVisible&&(!x()&&q.popperInstance.update(),We([q.popperChildren.tooltip,q.popperChildren.backdrop,q.popperChildren.content],e),q.popperChildren.backdrop&&(q.popperChildren.content.style.transitionDelay=re(e/6)+'ms'),q.props.interactive&&q.reference.classList.add('tippy-active'),q.props.sticky&&w(),ht([q.popperChildren.tooltip,q.popperChildren.backdrop,q.popperChildren.content],'visible'),k(e,function(){0===q.props.updateDuration&&q.popperChildren.tooltip.classList.add('tippy-notransition'),q.props.interactive&&-1<['focus','click'].indexOf(I.type)&&it(q.popper),q.reference.setAttribute('aria-describedby',q.popper.id),q.props.onShown(q),q.state.isShown=!0}))}))):P()}function S(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:Ve(q.props.duration,1,ne.duration[1]);q.state.isDestroyed||!q.state.isEnabled||!1===q.props.onHide(q)||(0===q.props.updateDuration&&q.popperChildren.tooltip.classList.remove('tippy-notransition'),q.props.interactive&&q.reference.classList.remove('tippy-active'),q.popper.style.visibility='hidden',q.state.isVisible=!1,q.state.isShown=!1,We([q.popperChildren.tooltip,q.popperChildren.backdrop,q.popperChildren.content],e),ht([q.popperChildren.tooltip,q.popperChildren.backdrop,q.popperChildren.content],'hidden'),q.props.interactive&&!z&&-1<['focus','click'].indexOf(I.type)&&('focus'===I.type&&(z=!0),it(q.reference)),v(e,function(){W||s(),q.reference.removeAttribute('aria-describedby'),q.popperInstance.disableEventListeners(),q.props.appendTo.removeChild(q.popper),q.state.isMounted=!1,q.props.onHidden(q)}))}function P(e){q.state.isDestroyed||(q.state.isMounted&&S(0),L(),q.reference.removeEventListener('click',r),delete q.reference._tippy,q.props.target&&e&&Ne(q.reference.querySelectorAll(q.props.target)).forEach(function(e){return e._tippy&&e._tippy.destroy()}),q.popperInstance&&q.popperInstance.destroy(),X&&X.disconnect(),q.state.isDestroyed=!0)}var D=wt(e,t);if(!D.multiple&&e._tippy)return null;var X=null,I={},N=null,H=0,R=0,W=!1,B=function(){},M=[],z=!1,_=0<D.interactiveDebounce?kt(m,D.interactiveDebounce):m,F=Dt++,U=$e(F,D);U.addEventListener('mouseenter',function(e){q.props.interactive&&q.state.isVisible&&'mouseenter'===I.type&&i(e)}),U.addEventListener('mouseleave',function(e){q.props.interactive&&'mouseenter'===I.type&&0===q.props.interactiveDebounce&&ut(xt(U),U.getBoundingClientRect(),e,q.props)&&n()});var V=Be(U),q={id:F,reference:e,popper:U,popperChildren:V,popperInstance:null,props:D,state:{isEnabled:!0,isVisible:!1,isDestroyed:!1,isMounted:!1,isShown:!1},clearDelayTimeouts:T,set:A,setContent:function(e){A({content:e})},show:Y,hide:S,enable:function(){q.state.isEnabled=!0},disable:function(){q.state.isEnabled=!1},destroy:P};return C(),e.addEventListener('click',r),D.lazy||(q.popperInstance=u(),q.popperInstance.disableEventListeners()),D.showOnInit&&i(),!D.a11y||D.target||Re(e)||e.setAttribute('tabindex','0'),e._tippy=q,U._tippy=q,q}function Q(e,t,r){Et(t,ne),Xt||(Z(),Xt=!0);var a=ie({},ne,t);Me(e)&&rt(e);var p=Fe(e),o=p[0],i=(r&&o?[o]:p).reduce(function(e,t){var r=t&&$(t,a);return r&&e.push(r),e},[]);return{targets:e,props:a,instances:i,destroyAll:function(){this.instances.forEach(function(e){e.destroy()}),this.instances=[]}}}for(var ee=Math.min,te=Math.floor,re=Math.round,ae=Math.max,pe='.tippy-iOS{cursor:pointer!important}.tippy-notransition{transition:none!important}.tippy-popper{-webkit-perspective:700px;perspective:700px;z-index:9999;outline:0;transition-timing-function:cubic-bezier(.165,.84,.44,1);pointer-events:none;line-height:1.4;max-width:calc(100% - 10px)}.tippy-popper[x-placement^=top] .tippy-backdrop{border-radius:40% 40% 0 0}.tippy-popper[x-placement^=top] .tippy-roundarrow{bottom:-8px;-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=top] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(180deg);transform:rotate(180deg)}.tippy-popper[x-placement^=top] .tippy-arrow{border-top:8px solid #333;border-right:8px solid transparent;border-left:8px solid transparent;bottom:-7px;margin:0 6px;-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=top] .tippy-backdrop{-webkit-transform-origin:0 25%;transform-origin:0 25%}.tippy-popper[x-placement^=top] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-55%);transform:scale(1) translate(-50%,-55%)}.tippy-popper[x-placement^=top] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-50%,-45%);transform:scale(.2) translate(-50%,-45%);opacity:0}.tippy-popper[x-placement^=top] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateY(-20px);transform:translateY(-20px)}.tippy-popper[x-placement^=top] [data-animation=perspective]{-webkit-transform-origin:bottom;transform-origin:bottom}.tippy-popper[x-placement^=top] [data-animation=perspective][data-state=visible]{-webkit-transform:translateY(-10px) rotateX(0);transform:translateY(-10px) rotateX(0)}.tippy-popper[x-placement^=top] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) rotateX(60deg);transform:translateY(0) rotateX(60deg)}.tippy-popper[x-placement^=top] [data-animation=fade][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateY(-10px);transform:translateY(-10px)}.tippy-popper[x-placement^=top] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateY(0);transform:translateY(0)}.tippy-popper[x-placement^=top] [data-animation=scale][data-state=visible]{-webkit-transform:translateY(-10px) scale(1);transform:translateY(-10px) scale(1)}.tippy-popper[x-placement^=top] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) scale(.5);transform:translateY(0) scale(.5)}.tippy-popper[x-placement^=bottom] .tippy-backdrop{border-radius:0 0 30% 30%}.tippy-popper[x-placement^=bottom] .tippy-roundarrow{top:-8px;-webkit-transform-origin:50% 100%;transform-origin:50% 100%}.tippy-popper[x-placement^=bottom] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(0);transform:rotate(0)}.tippy-popper[x-placement^=bottom] .tippy-arrow{border-bottom:8px solid #333;border-right:8px solid transparent;border-left:8px solid transparent;top:-7px;margin:0 6px;-webkit-transform-origin:50% 100%;transform-origin:50% 100%}.tippy-popper[x-placement^=bottom] .tippy-backdrop{-webkit-transform-origin:0 -50%;transform-origin:0 -50%}.tippy-popper[x-placement^=bottom] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-45%);transform:scale(1) translate(-50%,-45%)}.tippy-popper[x-placement^=bottom] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-50%);transform:scale(.2) translate(-50%);opacity:0}.tippy-popper[x-placement^=bottom] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px)}.tippy-popper[x-placement^=bottom] [data-animation=perspective]{-webkit-transform-origin:top;transform-origin:top}.tippy-popper[x-placement^=bottom] [data-animation=perspective][data-state=visible]{-webkit-transform:translateY(10px) rotateX(0);transform:translateY(10px) rotateX(0)}.tippy-popper[x-placement^=bottom] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) rotateX(-60deg);transform:translateY(0) rotateX(-60deg)}.tippy-popper[x-placement^=bottom] [data-animation=fade][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateY(10px);transform:translateY(10px)}.tippy-popper[x-placement^=bottom] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateY(0);transform:translateY(0)}.tippy-popper[x-placement^=bottom] [data-animation=scale][data-state=visible]{-webkit-transform:translateY(10px) scale(1);transform:translateY(10px) scale(1)}.tippy-popper[x-placement^=bottom] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateY(0) scale(.5);transform:translateY(0) scale(.5)}.tippy-popper[x-placement^=left] .tippy-backdrop{border-radius:50% 0 0 50%}.tippy-popper[x-placement^=left] .tippy-roundarrow{right:-16px;-webkit-transform-origin:33.33333333% 50%;transform-origin:33.33333333% 50%}.tippy-popper[x-placement^=left] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(90deg);transform:rotate(90deg)}.tippy-popper[x-placement^=left] .tippy-arrow{border-left:8px solid #333;border-top:8px solid transparent;border-bottom:8px solid transparent;right:-7px;margin:3px 0;-webkit-transform-origin:0 50%;transform-origin:0 50%}.tippy-popper[x-placement^=left] .tippy-backdrop{-webkit-transform-origin:50% 0;transform-origin:50% 0}.tippy-popper[x-placement^=left] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-50%);transform:scale(1) translate(-50%,-50%)}.tippy-popper[x-placement^=left] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-75%,-50%);transform:scale(.2) translate(-75%,-50%);opacity:0}.tippy-popper[x-placement^=left] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateX(-20px);transform:translateX(-20px)}.tippy-popper[x-placement^=left] [data-animation=perspective]{-webkit-transform-origin:right;transform-origin:right}.tippy-popper[x-placement^=left] [data-animation=perspective][data-state=visible]{-webkit-transform:translateX(-10px) rotateY(0);transform:translateX(-10px) rotateY(0)}.tippy-popper[x-placement^=left] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) rotateY(-60deg);transform:translateX(0) rotateY(-60deg)}.tippy-popper[x-placement^=left] [data-animation=fade][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateX(-10px);transform:translateX(-10px)}.tippy-popper[x-placement^=left] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateX(0);transform:translateX(0)}.tippy-popper[x-placement^=left] [data-animation=scale][data-state=visible]{-webkit-transform:translateX(-10px) scale(1);transform:translateX(-10px) scale(1)}.tippy-popper[x-placement^=left] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) scale(.5);transform:translateX(0) scale(.5)}.tippy-popper[x-placement^=right] .tippy-backdrop{border-radius:0 50% 50% 0}.tippy-popper[x-placement^=right] .tippy-roundarrow{left:-16px;-webkit-transform-origin:66.66666666% 50%;transform-origin:66.66666666% 50%}.tippy-popper[x-placement^=right] .tippy-roundarrow svg{position:absolute;left:0;-webkit-transform:rotate(-90deg);transform:rotate(-90deg)}.tippy-popper[x-placement^=right] .tippy-arrow{border-right:8px solid #333;border-top:8px solid transparent;border-bottom:8px solid transparent;left:-7px;margin:3px 0;-webkit-transform-origin:100% 50%;transform-origin:100% 50%}.tippy-popper[x-placement^=right] .tippy-backdrop{-webkit-transform-origin:-50% 0;transform-origin:-50% 0}.tippy-popper[x-placement^=right] .tippy-backdrop[data-state=visible]{-webkit-transform:scale(1) translate(-50%,-50%);transform:scale(1) translate(-50%,-50%)}.tippy-popper[x-placement^=right] .tippy-backdrop[data-state=hidden]{-webkit-transform:scale(.2) translate(-25%,-50%);transform:scale(.2) translate(-25%,-50%);opacity:0}.tippy-popper[x-placement^=right] [data-animation=shift-toward][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-toward][data-state=hidden]{opacity:0;-webkit-transform:translateX(20px);transform:translateX(20px)}.tippy-popper[x-placement^=right] [data-animation=perspective]{-webkit-transform-origin:left;transform-origin:left}.tippy-popper[x-placement^=right] [data-animation=perspective][data-state=visible]{-webkit-transform:translateX(10px) rotateY(0);transform:translateX(10px) rotateY(0)}.tippy-popper[x-placement^=right] [data-animation=perspective][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) rotateY(60deg);transform:translateX(0) rotateY(60deg)}.tippy-popper[x-placement^=right] [data-animation=fade][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=fade][data-state=hidden]{opacity:0;-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-away][data-state=visible]{-webkit-transform:translateX(10px);transform:translateX(10px)}.tippy-popper[x-placement^=right] [data-animation=shift-away][data-state=hidden]{opacity:0;-webkit-transform:translateX(0);transform:translateX(0)}.tippy-popper[x-placement^=right] [data-animation=scale][data-state=visible]{-webkit-transform:translateX(10px) scale(1);transform:translateX(10px) scale(1)}.tippy-popper[x-placement^=right] [data-animation=scale][data-state=hidden]{opacity:0;-webkit-transform:translateX(0) scale(.5);transform:translateX(0) scale(.5)}.tippy-tooltip{position:relative;color:#fff;border-radius:4px;font-size:.9rem;padding:.3rem .6rem;max-width:350px;text-align:center;will-change:transform;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:#333}.tippy-tooltip[data-size=small]{padding:.2rem .4rem;font-size:.75rem}.tippy-tooltip[data-size=large]{padding:.4rem .8rem;font-size:1rem}.tippy-tooltip[data-animatefill]{overflow:hidden;background-color:transparent}.tippy-tooltip[data-interactive],.tippy-tooltip[data-interactive] path{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.53,2,.36,.85)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow,.tippy-roundarrow{position:absolute;width:0;height:0}.tippy-roundarrow{width:24px;height:8px;fill:#333;pointer-events:none}.tippy-backdrop{position:absolute;will-change:transform;background-color:#333;border-radius:50%;width:calc(110% + 2rem);left:50%;top:50%;z-index:-1;transition:all cubic-bezier(.46,.1,.52,.98);-webkit-backface-visibility:hidden;backface-visibility:hidden}.tippy-backdrop:after{content:"";float:left;padding-top:100%}.tippy-backdrop+.tippy-content{transition-property:opacity;will-change:opacity}.tippy-backdrop+.tippy-content[data-state=visible]{opacity:1}.tippy-backdrop+.tippy-content[data-state=hidden]{opacity:0}',oe='3.3.0',ie=Object.assign||function(e){for(var t,r=1;r<arguments.length;r++)for(var a in t=arguments[r],t)Object.prototype.hasOwnProperty.call(t,a)&&(e[a]=t[a]);return e},ne={a11y:!0,allowHTML:!0,animateFill:!0,animation:'shift-away',appendTo:function(){return document.body},arrow:!1,arrowTransform:'',arrowType:'sharp',content:'',delay:[0,20],distance:10,duration:[325,275],flip:!0,flipBehavior:'flip',followCursor:!1,hideOnClick:!0,inertia:!1,interactive:!1,interactiveBorder:2,interactiveDebounce:0,lazy:!0,livePlacement:!0,maxWidth:'',multiple:!1,offset:0,onHidden:function(){},onHide:function(){},onMount:function(){},onShow:function(){},onShown:function(){},performance:!1,placement:'top',popperOptions:{},shouldPopperHideOnBlur:function(){return!0},showOnInit:!1,size:'regular',sticky:!1,target:'',theme:'dark',touch:!0,touchHold:!1,trigger:'mouseenter focus',updateDuration:200,wait:null,zIndex:9999},se=function(e){ne=ie({},ne,e)},le=['arrowType','distance','flip','flipBehavior','offset','placement','popperOptions'],de='undefined'!=typeof window,me=de?navigator:{},ce=de?window:{},fe=('MutationObserver'in ce),he=/MSIE |Trident\//.test(me.userAgent),be=/iPhone|iPad|iPod/.test(me.platform)&&!ce.MSStream,ye=('ontouchstart'in ce),ue='undefined'!=typeof window&&'undefined'!=typeof document,ge=['Edge','Trident','Firefox'],xe=0,we=0;we<ge.length;we+=1)if(ue&&0<=navigator.userAgent.indexOf(ge[we])){xe=1;break}var i=ue&&window.Promise,ve=i?function(e){var t=!1;return function(){t||(t=!0,window.Promise.resolve().then(function(){t=!1,e()}))}}:function(e){var t=!1;return function(){t||(t=!0,setTimeout(function(){t=!1,e()},xe))}},ke=ue&&!!(window.MSInputMethodContext&&document.documentMode),Ee=ue&&/MSIE 10/.test(navigator.userAgent),Oe=function(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')},Ce=function(){function e(e,t){for(var r,a=0;a<t.length;a++)r=t[a],r.enumerable=r.enumerable||!1,r.configurable=!0,'value'in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}return function(t,r,a){return r&&e(t.prototype,r),a&&e(t,a),t}}(),Le=function(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e},Te=Object.assign||function(e){for(var t,r=1;r<arguments.length;r++)for(var a in t=arguments[r],t)Object.prototype.hasOwnProperty.call(t,a)&&(e[a]=t[a]);return e},Ae=ue&&/Firefox/i.test(navigator.userAgent),Ye=['auto-start','auto','auto-end','top-start','top','top-end','right-start','right','right-end','bottom-end','bottom','bottom-start','left-end','left','left-start'],Se=Ye.slice(3),Pe={FLIP:'flip',CLOCKWISE:'clockwise',COUNTERCLOCKWISE:'counterclockwise'},De=function(){function t(r,a){var p=this,o=2<arguments.length&&void 0!==arguments[2]?arguments[2]:{};Oe(this,t),this.scheduleUpdate=function(){return requestAnimationFrame(p.update)},this.update=ve(this.update.bind(this)),this.options=Te({},t.Defaults,o),this.state={isDestroyed:!1,isCreated:!1,scrollParents:[]},this.reference=r&&r.jquery?r[0]:r,this.popper=a&&a.jquery?a[0]:a,this.options.modifiers={},Object.keys(Te({},t.Defaults.modifiers,o.modifiers)).forEach(function(e){p.options.modifiers[e]=Te({},t.Defaults.modifiers[e]||{},o.modifiers?o.modifiers[e]:{})}),this.modifiers=Object.keys(this.options.modifiers).map(function(e){return Te({name:e},p.options.modifiers[e])}).sort(function(e,t){return e.order-t.order}),this.modifiers.forEach(function(t){t.enabled&&e(t.onLoad)&&t.onLoad(p.reference,p.popper,p.options,t,p.state)}),this.update();var i=this.options.eventsEnabled;i&&this.enableEventListeners(),this.state.eventsEnabled=i}return Ce(t,[{key:'update',value:function(){return P.call(this)}},{key:'destroy',value:function(){return I.call(this)}},{key:'enableEventListeners',value:function(){return W.call(this)}},{key:'disableEventListeners',value:function(){return M.call(this)}}]),t}();De.Utils=('undefined'==typeof window?global:window).PopperUtils,De.placements=Ye,De.Defaults={placement:'bottom',positionFixed:!1,eventsEnabled:!0,removeOnDestroy:!1,onCreate:function(){},onUpdate:function(){},modifiers:{shift:{order:100,enabled:!0,fn:function(e){var t=e.placement,r=t.split('-')[0],a=t.split('-')[1];if(a){var p=e.offsets,o=p.reference,i=p.popper,n=-1!==['bottom','top'].indexOf(r),s=n?'left':'top',l=n?'width':'height',d={start:Le({},s,o[s]),end:Le({},s,o[s]+o[l]-i[l])};e.offsets.popper=Te({},i,d[a])}return e}},offset:{order:200,enabled:!0,fn:J,offset:0},preventOverflow:{order:300,enabled:!0,fn:function(e,t){var r=t.boundariesElement||o(e.instance.popper);e.instance.reference===r&&(r=o(r));var a=X('transform'),p=e.instance.popper.style,i=p.top,n=p.left,s=p[a];p.top='',p.left='',p[a]='';var l=v(e.instance.popper,e.instance.reference,t.padding,r,e.positionFixed);p.top=i,p.left=n,p[a]=s,t.boundaries=l;var d=t.priority,m=e.offsets.popper,c={primary:function(e){var r=m[e];return m[e]<l[e]&&!t.escapeWithReference&&(r=ae(m[e],l[e])),Le({},e,r)},secondary:function(e){var r='right'===e?'left':'top',a=m[r];return m[e]>l[e]&&!t.escapeWithReference&&(a=ee(m[r],l[e]-('right'===e?m.width:m.height))),Le({},r,a)}};return d.forEach(function(e){var t=-1===['left','top'].indexOf(e)?'secondary':'primary';m=Te({},m,c[t](e))}),e.offsets.popper=m,e},priority:['left','right','top','bottom'],padding:5,boundariesElement:'scrollParent'},keepTogether:{order:400,enabled:!0,fn:function(e){var t=e.offsets,r=t.popper,a=t.reference,p=e.placement.split('-')[0],o=te,i=-1!==['top','bottom'].indexOf(p),n=i?'right':'bottom',s=i?'left':'top',l=i?'width':'height';return r[n]<o(a[s])&&(e.offsets.popper[s]=o(a[s])-r[l]),r[s]>o(a[n])&&(e.offsets.popper[s]=o(a[n])),e}},arrow:{order:500,enabled:!0,fn:function(e,r){var a;if(!V(e.instance.modifiers,'arrow','keepTogether'))return e;var p=r.element;if('string'==typeof p){if(p=e.instance.popper.querySelector(p),!p)return e;}else if(!e.instance.popper.contains(p))return console.warn('WARNING: `arrow.element` must be child of its popper element!'),e;var o=e.placement.split('-')[0],i=e.offsets,n=i.popper,s=i.reference,l=-1!==['left','right'].indexOf(o),d=l?'height':'width',m=l?'Top':'Left',c=m.toLowerCase(),f=l?'left':'top',h=l?'bottom':'right',y=C(p)[d];s[h]-y<n[c]&&(e.offsets.popper[c]-=n[c]-(s[h]-y)),s[c]+y>n[h]&&(e.offsets.popper[c]+=s[c]+y-n[h]),e.offsets.popper=b(e.offsets.popper);var u=s[c]+s[d]/2-y/2,g=t(e.instance.popper),x=parseFloat(g['margin'+m],10),w=parseFloat(g['border'+m+'Width'],10),v=u-e.offsets.popper[c]-x-w;return v=ae(ee(n[d]-y,v),0),e.arrowElement=p,e.offsets.arrow=(a={},Le(a,c,re(v)),Le(a,f,''),a),e},element:'[x-arrow]'},flip:{order:600,enabled:!0,fn:function(e,t){if(D(e.instance.modifiers,'inner'))return e;if(e.flipped&&e.placement===e.originalPlacement)return e;var r=v(e.instance.popper,e.instance.reference,t.padding,t.boundariesElement,e.positionFixed),a=e.placement.split('-')[0],p=L(a),o=e.placement.split('-')[1]||'',i=[];switch(t.behavior){case Pe.FLIP:i=[a,p];break;case Pe.CLOCKWISE:i=j(a);break;case Pe.COUNTERCLOCKWISE:i=j(a,!0);break;default:i=t.behavior;}return i.forEach(function(n,s){if(a!==n||i.length===s+1)return e;a=e.placement.split('-')[0],p=L(a);var l=e.offsets.popper,d=e.offsets.reference,m=te,c='left'===a&&m(l.right)>m(d.left)||'right'===a&&m(l.left)<m(d.right)||'top'===a&&m(l.bottom)>m(d.top)||'bottom'===a&&m(l.top)<m(d.bottom),f=m(l.left)<m(r.left),h=m(l.right)>m(r.right),b=m(l.top)<m(r.top),y=m(l.bottom)>m(r.bottom),u='left'===a&&f||'right'===a&&h||'top'===a&&b||'bottom'===a&&y,g=-1!==['top','bottom'].indexOf(a),x=!!t.flipVariations&&(g&&'start'===o&&f||g&&'end'===o&&h||!g&&'start'===o&&b||!g&&'end'===o&&y);(c||u||x)&&(e.flipped=!0,(c||u)&&(a=i[s+1]),x&&(o=q(o)),e.placement=a+(o?'-'+o:''),e.offsets.popper=Te({},e.offsets.popper,T(e.instance.popper,e.offsets.reference,e.placement)),e=S(e.instance.modifiers,e,'flip'))}),e},behavior:'flip',padding:5,boundariesElement:'viewport'},inner:{order:700,enabled:!1,fn:function(e){var t=e.placement,r=t.split('-')[0],a=e.offsets,p=a.popper,o=a.reference,i=-1!==['left','right'].indexOf(r),n=-1===['top','left'].indexOf(r);return p[i?'left':'top']=o[r]-(n?p[i?'width':'height']:0),e.placement=L(t),e.offsets.popper=b(p),e}},hide:{order:800,enabled:!0,fn:function(e){if(!V(e.instance.modifiers,'hide','preventOverflow'))return e;var t=e.offsets.reference,r=A(e.instance.modifiers,function(e){return'preventOverflow'===e.name}).boundaries;if(t.bottom<r.top||t.left>r.right||t.top>r.bottom||t.right<r.left){if(!0===e.hide)return e;e.hide=!0,e.attributes['x-out-of-boundaries']=''}else{if(!1===e.hide)return e;e.hide=!1,e.attributes['x-out-of-boundaries']=!1}return e}},computeStyle:{order:850,enabled:!0,fn:function(e,t){var r=t.x,a=t.y,p=e.offsets.popper,i=A(e.instance.modifiers,function(e){return'applyStyle'===e.name}).gpuAcceleration;void 0!==i&&console.warn('WARNING: `gpuAcceleration` option moved to `computeStyle` modifier and will not be supported in future versions of Popper.js!');var n=void 0===i?t.gpuAcceleration:i,s=o(e.instance.popper),l=u(s),d={position:p.position},m=U(e,2>window.devicePixelRatio||!Ae),c='bottom'===r?'top':'bottom',f='right'===a?'left':'right',h=X('transform'),b=void 0,y=void 0;if(y='bottom'==c?'HTML'===s.nodeName?-s.clientHeight+m.bottom:-l.height+m.bottom:m.top,b='right'==f?'HTML'===s.nodeName?-s.clientWidth+m.right:-l.width+m.right:m.left,n&&h)d[h]='translate3d('+b+'px, '+y+'px, 0)',d[c]=0,d[f]=0,d.willChange='transform';else{var g='bottom'==c?-1:1,x='right'==f?-1:1;d[c]=y*g,d[f]=b*x,d.willChange=c+', '+f}var w={"x-placement":e.placement};return e.attributes=Te({},w,e.attributes),e.styles=Te({},d,e.styles),e.arrowStyles=Te({},e.offsets.arrow,e.arrowStyles),e},gpuAcceleration:!0,x:'bottom',y:'right'},applyStyle:{order:900,enabled:!0,fn:function(e){return _(e.instance.popper,e.styles),F(e.instance.popper,e.attributes),e.arrowElement&&Object.keys(e.arrowStyles).length&&_(e.arrowElement,e.arrowStyles),e},onLoad:function(e,t,r,a,p){var o=O(p,t,e,r.positionFixed),i=E(r.placement,o,t,e,r.modifiers.flip.boundariesElement,r.modifiers.flip.padding);return t.setAttribute('x-placement',i),_(t,{position:r.positionFixed?'fixed':'absolute'}),r},gpuAcceleration:void 0}}};var Xe={POPPER:'.tippy-popper',TOOLTIP:'.tippy-tooltip',CONTENT:'.tippy-content',BACKDROP:'.tippy-backdrop',ARROW:'.tippy-arrow',ROUND_ARROW:'.tippy-roundarrow'},Ie={x:!0},Ne=function(e){return[].slice.call(e)},He=function(e,t){t.content instanceof Element?(_e(e,''),e.appendChild(t.content)):e[t.allowHTML?'innerHTML':'textContent']=t.content},Re=function(e){return!(e instanceof Element)||at.call(e,'a[href],area[href],button,details,input,textarea,select,iframe,[tabindex]')&&!e.hasAttribute('disabled')},We=function(e,t){e.filter(Boolean).forEach(function(e){e.style.transitionDuration=t+'ms'})},Be=function(e){var t=function(t){return e.querySelector(t)};return{tooltip:t(Xe.TOOLTIP),backdrop:t(Xe.BACKDROP),content:t(Xe.CONTENT),arrow:t(Xe.ARROW)||t(Xe.ROUND_ARROW)}},Me=function(e){return'[object Object]'==={}.toString.call(e)},ze=function(){return document.createElement('div')},_e=function(e,t){e[Ie.x&&'innerHTML']=t instanceof Element?t[Ie.x&&'innerHTML']:t},Fe=function(e){if(e instanceof Element||Me(e))return[e];if(e instanceof NodeList)return Ne(e);if(Array.isArray(e))return e;try{return Ne(document.querySelectorAll(e))}catch(t){return[]}},Ue=function(e){return!isNaN(e)&&!isNaN(parseFloat(e))},Ve=function(e,t,r){if(Array.isArray(e)){var a=e[t];return null==a?r:a}return e},qe=function(e){var t=ze();return'round'===e?(t.className='tippy-roundarrow',_e(t,'<svg viewBox="0 0 24 8" xmlns="http://www.w3.org/2000/svg"><path d="M3 8s2.021-.015 5.253-4.218C9.584 2.051 10.797 1.007 12 1c1.203-.007 2.416 1.035 3.761 2.782C19.012 8.005 21 8 21 8H3z"/></svg>')):t.className='tippy-arrow',t},je=function(){var e=ze();return e.className='tippy-backdrop',e.setAttribute('data-state','hidden'),e},Ke=function(e,t){e.setAttribute('tabindex','-1'),t.setAttribute('data-interactive','')},Ge=function(e,t){e.removeAttribute('tabindex'),t.removeAttribute('data-interactive')},Je=function(e){e.setAttribute('data-inertia','')},Ze=function(e){e.removeAttribute('data-inertia')},$e=function(e,t){var r=ze();r.className='tippy-popper',r.setAttribute('role','tooltip'),r.id='tippy-'+e,r.style.zIndex=t.zIndex;var a=ze();a.className='tippy-tooltip',a.style.maxWidth=t.maxWidth+('number'==typeof t.maxWidth?'px':''),a.setAttribute('data-size',t.size),a.setAttribute('data-animation',t.animation),a.setAttribute('data-state','hidden'),t.theme.split(' ').forEach(function(e){a.classList.add(e+'-theme')});var p=ze();return p.className='tippy-content',p.setAttribute('data-state','hidden'),t.interactive&&Ke(r,a),t.arrow&&a.appendChild(qe(t.arrowType)),t.animateFill&&(a.appendChild(je()),a.setAttribute('data-animatefill','')),t.inertia&&a.setAttribute('data-inertia',''),He(p,t),a.appendChild(p),r.appendChild(a),r.addEventListener('focusout',function(t){t.relatedTarget&&r._tippy&&!ot(t.relatedTarget,function(e){return e===r})&&t.relatedTarget!==r._tippy.reference&&r._tippy.props.shouldPopperHideOnBlur(t)&&r._tippy.hide()}),r},Qe=function(e,t,r){var a=Be(e),p=a.tooltip,o=a.content,i=a.backdrop,n=a.arrow;e.style.zIndex=r.zIndex,p.setAttribute('data-size',r.size),p.setAttribute('data-animation',r.animation),p.style.maxWidth=r.maxWidth+('number'==typeof r.maxWidth?'px':''),t.content!==r.content&&He(o,r),!t.animateFill&&r.animateFill?(p.appendChild(je()),p.setAttribute('data-animatefill','')):t.animateFill&&!r.animateFill&&(p.removeChild(i),p.removeAttribute('data-animatefill')),!t.arrow&&r.arrow?p.appendChild(qe(r.arrowType)):t.arrow&&!r.arrow&&p.removeChild(n),t.arrow&&r.arrow&&t.arrowType!==r.arrowType&&p.replaceChild(qe(r.arrowType),n),!t.interactive&&r.interactive?Ke(e,p):t.interactive&&!r.interactive&&Ge(e,p),!t.inertia&&r.inertia?Je(p):t.inertia&&!r.inertia&&Ze(p),t.theme!==r.theme&&(t.theme.split(' ').forEach(function(e){p.classList.remove(e+'-theme')}),r.theme.split(' ').forEach(function(e){p.classList.add(e+'-theme')}))},et=function(e){Ne(document.querySelectorAll(Xe.POPPER)).forEach(function(t){var r=t._tippy;r&&!0===r.props.hideOnClick&&(!e||t!==e.popper)&&r.hide()})},tt=function(e){return Object.keys(ne).reduce(function(t,r){var a=(e.getAttribute('data-tippy-'+r)||'').trim();return a?(t[r]='content'===r?a:'true'===a||'false'!==a&&(Ue(a)?+a:'['===a[0]||'{'===a[0]?JSON.parse(a):a),t):t},{})},rt=function(e){var t={isVirtual:!0,attributes:e.attributes||{},setAttribute:function(t,r){e.attributes[t]=r},getAttribute:function(t){return e.attributes[t]},removeAttribute:function(t){delete e.attributes[t]},hasAttribute:function(t){return t in e.attributes},addEventListener:function(){},removeEventListener:function(){},classList:{classNames:{},add:function(t){e.classList.classNames[t]=!0},remove:function(t){delete e.classList.classNames[t]},contains:function(t){return t in e.classList.classNames}}};for(var r in t)e[r]=t[r];return e},at=function(){if(de){var t=Element.prototype;return t.matches||t.matchesSelector||t.webkitMatchesSelector||t.mozMatchesSelector||t.msMatchesSelector}}(),pt=function(e,t){return(Element.prototype.closest||function(e){for(var t=this;t;){if(at.call(t,e))return t;t=t.parentElement}}).call(e,t)},ot=function(e,t){for(;e;){if(t(e))return e;e=e.parentElement}},it=function(e){var t=window.scrollX||window.pageXOffset,r=window.scrollY||window.pageYOffset;e.focus(),scroll(t,r)},nt=function(e){void e.offsetHeight},st=function(e,t){return(t?e:{X:'Y',Y:'X'}[e])||''},lt=function(e,t,r,p){var o=t[0],i=t[1];if(!o&&!i)return'';var n={scale:function(){return i?r?o+', '+i:i+', '+o:''+o}(),translate:function(){return i?r?p?o+'px, '+-i+'px':o+'px, '+i+'px':p?-i+'px, '+o+'px':i+'px, '+o+'px':p?-o+'px':o+'px'}()};return n[e]},dt=function(e,t){var r=e.match(new RegExp(t+'([XY])'));return r?r[1]:''},mt=function(e,t){var r=e.match(t);return r?r[1].split(',').map(parseFloat):[]},ct={translate:/translateX?Y?\(([^)]+)\)/,scale:/scaleX?Y?\(([^)]+)\)/},ft=function(e,t){var r=xt(pt(e,Xe.POPPER)),a='top'===r||'bottom'===r,p='right'===r||'bottom'===r,o={translate:{axis:dt(t,'translate'),numbers:mt(t,ct.translate)},scale:{axis:dt(t,'scale'),numbers:mt(t,ct.scale)}},i=t.replace(ct.translate,'translate'+st(o.translate.axis,a)+'('+lt('translate',o.translate.numbers,a,p)+')').replace(ct.scale,'scale'+st(o.scale.axis,a)+'('+lt('scale',o.scale.numbers,a,p)+')');e.style['undefined'==typeof document.body.style.transform?'webkitTransform':'transform']=i},ht=function(e,t){e.filter(Boolean).forEach(function(e){e.setAttribute('data-state',t)})},bt=function(e,t){var r=e.popper,a=e.options,p=a.onCreate,o=a.onUpdate;a.onCreate=a.onUpdate=function(){nt(r),t(),o(),a.onCreate=p,a.onUpdate=o}},yt=function(e){setTimeout(e,1)},ut=function(e,t,r,a){if(!e)return!0;var p=r.clientX,o=r.clientY,i=a.interactiveBorder,n=a.distance,s=t.top-o>('top'===e?i+n:i),l=o-t.bottom>('bottom'===e?i+n:i),d=t.left-p>('left'===e?i+n:i),m=p-t.right>('right'===e?i+n:i);return s||l||d||m},gt=function(e,t){return-(e-t)+'px'},xt=function(e){var t=e.getAttribute('x-placement');return t?t.split('-')[0]:''},wt=function(e,t){var r=ie({},t,t.performance?{}:tt(e));return r.arrow&&(r.animateFill=!1),'function'==typeof r.appendTo&&(r.appendTo=t.appendTo(e)),'function'==typeof r.content&&(r.content=t.content(e)),r},vt=function(e,t,r){e[t+'EventListener']('transitionend',r)},kt=function(e,t){var r;return function(){var a=this,p=arguments;clearTimeout(r),r=setTimeout(function(){return e.apply(a,p)},t)}},Et=function(e,t){for(var r in e||{})if(!(r in t))throw Error('[tippy]: `'+r+'` is not a valid option')},Ot=function(e,t){return{}.hasOwnProperty.call(e,t)},Ct=!1,Lt=function(){Ct||(Ct=!0,be&&document.body.classList.add('tippy-iOS'),window.performance&&document.addEventListener('mousemove',At))},Tt=0,At=function e(){var t=performance.now();20>t-Tt&&(Ct=!1,document.removeEventListener('mousemove',e),!be&&document.body.classList.remove('tippy-iOS')),Tt=t},Yt=function(e){var t=e.target;if(!(t instanceof Element))return et();var r=pt(t,Xe.POPPER);if(!(r&&r._tippy&&r._tippy.props.interactive)){var a=ot(t,function(e){return e._tippy&&e._tippy.reference===e});if(a){var p=a._tippy,o=-1<p.props.trigger.indexOf('click');if(Ct||o)return et(p);if(!0!==p.props.hideOnClick||o)return;p.clearDelayTimeouts()}et()}},St=function(){var e=document,t=e.activeElement;t&&t.blur&&t._tippy&&t.blur()},Pt=function(){Ne(document.querySelectorAll(Xe.POPPER)).forEach(function(e){var t=e._tippy;t.props.livePlacement||t.popperInstance.scheduleUpdate()})},Dt=1,Xt=!1;Q.version=oe,Q.defaults=ne,Q.one=function(e,t){return Q(e,t,!0).instances[0]},Q.setDefaults=function(e){se(e),Q.defaults=ne},Q.disableAnimations=function(){Q.setDefaults({duration:0,updateDuration:0,animateFill:!1})},Q.hideAllPoppers=et,Q.useCapture=function(){};return de&&setTimeout(function(){Ne(document.querySelectorAll('[data-tippy]')).forEach(function(e){var t=e.getAttribute('data-tippy');t&&Q(e,{content:t})})}),function(e){if(fe){var t=document.createElement('style');t.type='text/css',t.textContent=e,document.head.insertBefore(t,document.head.firstChild)}}(pe),Q});
 //# sourceMappingURL=tippy.all.min.js.map
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17)))
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 var g;
@@ -1661,144 +1800,6 @@ module.exports = g;
 
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getElementForStep = exports.elementIsHidden = exports.cleanupStepEventListeners = exports.addStepEventListeners = undefined;
-
-var _modal = __webpack_require__(7);
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-/**
- * Helper method to check if element is hidden, since we cannot use :visible without jQuery
- * @param {HTMLElement} element The element to check for visibility
- * @returns {boolean} true if element is hidden
- * @private
- */
-function elementIsHidden(element) {
-  return element.offsetWidth === 0 && element.offsetHeight === 0;
-}
-/**
- * Get the element from an option object
- *
- * @method getElementFromObject
- * @param Object attachTo
- * @returns {Element}
- * @private
- */
-
-
-function getElementFromObject(attachTo) {
-  var op = attachTo.element;
-
-  if (op instanceof HTMLElement) {
-    return op;
-  }
-
-  return document.querySelector(op);
-}
-/**
- * Return the element for a step
- *
- * @method getElementForStep
- * @param step step the step to get an element for
- * @returns {Element} the element for this step
- * @private
- */
-
-
-function getElementForStep(step) {
-  var attachTo = step.options.attachTo;
-
-  if (!attachTo) {
-    return null;
-  }
-
-  var type = _typeof(attachTo);
-
-  var element;
-
-  if (type === 'string') {
-    element = getElementFromString(attachTo);
-  } else if (type === 'object') {
-    element = getElementFromObject(attachTo);
-  } else {
-    /* istanbul ignore next: cannot test undefined attachTo, but it does work! */
-    element = null;
-  }
-
-  return element;
-}
-/**
- * Get the element from an option string
- *
- * @method getElementFromString
- * @param element the string in the step configuration
- * @returns {Element} the element from the string
- * @private
- */
-
-
-function getElementFromString(element) {
-  var _element$split = element.split(' '),
-      _element$split2 = _slicedToArray(_element$split, 1),
-      selector = _element$split2[0];
-
-  return document.querySelector(selector);
-}
-
-function addStepEventListeners() {
-  if (typeof this._onScreenChange === 'function') {
-    window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
-  }
-
-  window.addEventListener('resize', this._onScreenChange, false);
-  window.addEventListener('scroll', this._onScreenChange, false);
-  var overlay = document.querySelector("#".concat(_modal.elementIds.modalOverlay)); // Prevents window from moving on touch.
-
-  window.addEventListener('touchmove', _modal.preventModalBodyTouch, {
-    passive: false
-  }); // Allows content to move on touch.
-
-  if (overlay) {
-    overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
-  }
-}
-/**
- * Remove resize and scroll event listeners
- */
-
-
-function cleanupStepEventListeners() {
-  if (typeof this._onScreenChange === 'function') {
-    window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
-    this._onScreenChange = null;
-  }
-}
-
-exports.addStepEventListeners = addStepEventListeners;
-exports.cleanupStepEventListeners = cleanupStepEventListeners;
-exports.elementIsHidden = elementIsHidden;
-exports.getElementForStep = getElementForStep;
-
-/***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1809,9 +1810,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _evented = __webpack_require__(4);
+var _evented = __webpack_require__(5);
 
-var _step = __webpack_require__(8);
+var _step = __webpack_require__(9);
 
 var _tour = __webpack_require__(47);
 
@@ -1935,7 +1936,7 @@ module.exports = identity;
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(6);
+var overArg = __webpack_require__(7);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -1999,7 +2000,7 @@ module.exports = stubFalse;
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(5),
+var isFunction = __webpack_require__(6),
     isLength = __webpack_require__(26);
 
 /**
@@ -2250,7 +2251,7 @@ module.exports = isPlainObject;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(6);
+var overArg = __webpack_require__(7);
 
 /** Built-in value references. */
 var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -2337,7 +2338,7 @@ module.exports = createBaseFor;
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(6);
+var overArg = __webpack_require__(7);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -2611,11 +2612,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Shepherd = exports.Tour = undefined;
 
-var _debounce2 = __webpack_require__(48);
-
-var _debounce3 = _interopRequireDefault(_debounce2);
-
-var _isEmpty2 = __webpack_require__(11);
+var _isEmpty2 = __webpack_require__(12);
 
 var _isEmpty3 = _interopRequireDefault(_isEmpty2);
 
@@ -2627,31 +2624,33 @@ var _isString2 = __webpack_require__(2);
 
 var _isString3 = _interopRequireDefault(_isString2);
 
-var _isNumber2 = __webpack_require__(53);
+var _isNumber2 = __webpack_require__(48);
 
 var _isNumber3 = _interopRequireDefault(_isNumber2);
 
-var _isFunction2 = __webpack_require__(5);
+var _isFunction2 = __webpack_require__(6);
 
 var _isFunction3 = _interopRequireDefault(_isFunction2);
 
-var _evented = __webpack_require__(4);
+var _evented = __webpack_require__(5);
 
-var _step = __webpack_require__(8);
+var _modal = __webpack_require__(49);
 
-var _bind = __webpack_require__(13);
+var _step = __webpack_require__(9);
 
-var _tippy = __webpack_require__(15);
+var _bind = __webpack_require__(14);
+
+var _tippy = __webpack_require__(16);
 
 var _tippy2 = _interopRequireDefault(_tippy);
 
-var _tooltipDefaults = __webpack_require__(54);
+var _tooltipDefaults = __webpack_require__(62);
 
-var _cleanup = __webpack_require__(55);
+var _cleanup = __webpack_require__(63);
 
-var _dom = __webpack_require__(17);
+var _dom = __webpack_require__(8);
 
-var _modal = __webpack_require__(7);
+var _modal2 = __webpack_require__(4);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2733,6 +2732,7 @@ exports.Tour = function (_Evented) {
         });
       })(event);
     });
+    _this.modal = new _modal.Modal(options);
 
     _this._setTooltipDefaults();
 
@@ -2826,9 +2826,7 @@ exports.Tour = function (_Evented) {
       _dom.cleanupStepEventListeners.call(this);
 
       (0, _cleanup.cleanupSteps)(this.tourObject);
-
-      _cleanup.cleanupModal.call(this);
-
+      this.modal.cleanup();
       this.trigger(event);
       Shepherd.activeTour = null;
 
@@ -2871,8 +2869,6 @@ exports.Tour = function (_Evented) {
       var currentStep = this.getCurrentStep();
 
       if (currentStep) {
-        this._hideModalOverlay();
-
         return currentStep.hide();
       }
     }
@@ -2949,7 +2945,7 @@ exports.Tour = function (_Evented) {
   }, {
     key: "beforeShowStep",
     value: function beforeShowStep(step) {
-      this._setupModalForStep(step);
+      this.modal.setupForStep(step);
 
       this._styleTargetElementForStep(step);
     }
@@ -2995,8 +2991,6 @@ exports.Tour = function (_Evented) {
 
       this._setupActiveTour();
 
-      this._initModalOverlay();
-
       _dom.addStepEventListeners.call(this);
 
       this.next();
@@ -3017,22 +3011,6 @@ exports.Tour = function (_Evented) {
       Shepherd.activeTour = this;
     }
     /**
-     *
-     */
-
-  }, {
-    key: "_initModalOverlay",
-    value: function _initModalOverlay() {
-      if (!this._modalOverlayElem) {
-        this._modalOverlayElem = (0, _modal.createModalOverlay)();
-        this._modalOverlayOpening = (0, _modal.getModalMaskOpening)(this._modalOverlayElem); // don't show yet -- each step will control that
-
-        this._hideModalOverlay();
-
-        document.body.appendChild(this._modalOverlayElem);
-      }
-    }
-    /**
      * Modulates the styles of the passed step's target element, based on the step's options and
      * the tour's `modal` option, to visually emphasize the element
      *
@@ -3049,7 +3027,7 @@ exports.Tour = function (_Evented) {
         return;
       }
 
-      (0, _modal.toggleShepherdModalClass)(targetElement);
+      (0, _modal2.toggleShepherdModalClass)(targetElement);
 
       if (step.options.highlightClass) {
         targetElement.classList.add(step.options.highlightClass);
@@ -3057,70 +3035,6 @@ exports.Tour = function (_Evented) {
 
       if (step.options.canClickTarget === false) {
         targetElement.style.pointerEvents = 'none';
-      }
-    }
-    /**
-     * If modal is enabled, setup the svg mask opening and modal overlay for the step
-     * @param step
-     * @private
-     */
-
-  }, {
-    key: "_setupModalForStep",
-    value: function _setupModalForStep(step) {
-      if (this.options.useModalOverlay) {
-        this._styleModalOpeningForStep(step);
-
-        this._showModalOverlay();
-      } else {
-        this._hideModalOverlay();
-      }
-    }
-  }, {
-    key: "_styleModalOpeningForStep",
-    value: function _styleModalOpeningForStep(step) {
-      var modalOverlayOpening = this._modalOverlayOpening;
-      var targetElement = (0, _dom.getElementForStep)(step);
-
-      if (targetElement) {
-        (0, _modal.positionModalOpening)(targetElement, modalOverlayOpening);
-        this._onScreenChange = (0, _debounce3.default)(_modal.positionModalOpening.bind(this, targetElement, modalOverlayOpening), 0, {
-          leading: false,
-          trailing: true // see https://lodash.com/docs/#debounce
-
-        });
-
-        _dom.addStepEventListeners.call(this);
-      } else {
-        (0, _modal.closeModalOpening)(this._modalOverlayOpening);
-      }
-    }
-    /**
-     * Show the modal overlay
-     * @private
-     */
-
-  }, {
-    key: "_showModalOverlay",
-    value: function _showModalOverlay() {
-      document.body.classList.add(_modal.classNames.isVisible);
-
-      if (this._modalOverlayElem) {
-        this._modalOverlayElem.style.display = 'block';
-      }
-    }
-    /**
-     * Hide the modal overlay
-     * @private
-     */
-
-  }, {
-    key: "_hideModalOverlay",
-    value: function _hideModalOverlay() {
-      document.body.classList.remove(_modal.classNames.isVisible);
-
-      if (this._modalOverlayElem) {
-        this._modalOverlayElem.style.display = 'none';
       }
     }
     /**
@@ -3183,9 +3097,400 @@ exports.Shepherd = Shepherd;
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(10),
-    now = __webpack_require__(49),
-    toNumber = __webpack_require__(52);
+var baseGetTag = __webpack_require__(3),
+    isObjectLike = __webpack_require__(1);
+
+/** `Object#toString` result references. */
+var numberTag = '[object Number]';
+
+/**
+ * Checks if `value` is classified as a `Number` primitive or object.
+ *
+ * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
+ * classified as numbers, use the `_.isFinite` method.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a number, else `false`.
+ * @example
+ *
+ * _.isNumber(3);
+ * // => true
+ *
+ * _.isNumber(Number.MIN_VALUE);
+ * // => true
+ *
+ * _.isNumber(Infinity);
+ * // => true
+ *
+ * _.isNumber('3');
+ * // => false
+ */
+function isNumber(value) {
+  return typeof value == 'number' ||
+    (isObjectLike(value) && baseGetTag(value) == numberTag);
+}
+
+module.exports = isNumber;
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Modal = undefined;
+
+var _defer2 = __webpack_require__(50);
+
+var _defer3 = _interopRequireDefault(_defer2);
+
+var _debounce2 = __webpack_require__(57);
+
+var _debounce3 = _interopRequireDefault(_debounce2);
+
+var _modal = __webpack_require__(4);
+
+var _dom = __webpack_require__(8);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Modal =
+/*#__PURE__*/
+exports.Modal = function () {
+  function Modal(options) {
+    _classCallCheck(this, Modal);
+
+    if (!this._modalOverlayElem) {
+      this._modalOverlayElem = (0, _modal.createModalOverlay)();
+      this._modalOverlayOpening = (0, _modal.getModalMaskOpening)(this._modalOverlayElem); // don't show yet -- each step will control that
+
+      this.hide();
+      document.body.appendChild(this._modalOverlayElem);
+    }
+
+    this.options = options;
+    return this;
+  }
+  /**
+   * Removes svg mask from modal overlay and removes classes for modal being visible
+   */
+
+
+  _createClass(Modal, [{
+    key: "cleanup",
+    value: function cleanup() {
+      var _this = this;
+
+      (0, _defer3.default)(function () {
+        var element = _this._modalOverlayElem;
+
+        if (element && element instanceof SVGElement) {
+          element.parentNode.removeChild(element);
+        }
+
+        _this._modalOverlayElem = null;
+        document.body.classList.remove(_modal.classNames.isVisible);
+      });
+    }
+    /**
+     * Hide the modal overlay
+     */
+
+  }, {
+    key: "hide",
+    value: function hide() {
+      document.body.classList.remove(_modal.classNames.isVisible);
+
+      if (this._modalOverlayElem) {
+        this._modalOverlayElem.style.display = 'none';
+      }
+    }
+    /**
+     * If modal is enabled, setup the svg mask opening and modal overlay for the step
+     * @param step
+     */
+
+  }, {
+    key: "setupForStep",
+    value: function setupForStep(step) {
+      if (this.options.useModalOverlay) {
+        this._styleForStep(step);
+
+        this.show();
+      } else {
+        this.hide();
+      }
+    }
+    /**
+     * Show the modal overlay
+     */
+
+  }, {
+    key: "show",
+    value: function show() {
+      document.body.classList.add(_modal.classNames.isVisible);
+
+      if (this._modalOverlayElem) {
+        this._modalOverlayElem.style.display = 'block';
+      }
+    }
+    /**
+     * Style the modal for the step
+     * @param {Step} step The step to style the opening for
+     * @private
+     */
+
+  }, {
+    key: "_styleForStep",
+    value: function _styleForStep(step) {
+      var modalOverlayOpening = this._modalOverlayOpening;
+      var targetElement = (0, _dom.getElementForStep)(step);
+
+      if (targetElement) {
+        (0, _modal.positionModalOpening)(targetElement, modalOverlayOpening);
+        this._onScreenChange = (0, _debounce3.default)(_modal.positionModalOpening.bind(this, targetElement, modalOverlayOpening), 0, {
+          leading: false,
+          trailing: true // see https://lodash.com/docs/#debounce
+
+        });
+
+        _dom.addStepEventListeners.call(this);
+      } else {
+        (0, _modal.closeModalOpening)(this._modalOverlayOpening);
+      }
+    }
+  }]);
+
+  return Modal;
+}();
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseDelay = __webpack_require__(51),
+    baseRest = __webpack_require__(52);
+
+/**
+ * Defers invoking the `func` until the current call stack has cleared. Any
+ * additional arguments are provided to `func` when it's invoked.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to defer.
+ * @param {...*} [args] The arguments to invoke `func` with.
+ * @returns {number} Returns the timer id.
+ * @example
+ *
+ * _.defer(function(text) {
+ *   console.log(text);
+ * }, 'deferred');
+ * // => Logs 'deferred' after one millisecond.
+ */
+var defer = baseRest(function(func, args) {
+  return baseDelay(func, 1, args);
+});
+
+module.exports = defer;
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * The base implementation of `_.delay` and `_.defer` which accepts `args`
+ * to provide to `func`.
+ *
+ * @private
+ * @param {Function} func The function to delay.
+ * @param {number} wait The number of milliseconds to delay invocation.
+ * @param {Array} args The arguments to provide to `func`.
+ * @returns {number|Object} Returns the timer id or timeout object.
+ */
+function baseDelay(func, wait, args) {
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  return setTimeout(function() { func.apply(undefined, args); }, wait);
+}
+
+module.exports = baseDelay;
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var identity = __webpack_require__(53),
+    overRest = __webpack_require__(54),
+    setToString = __webpack_require__(56);
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  return setToString(overRest(func, start, identity), func + '');
+}
+
+module.exports = baseRest;
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var apply = __webpack_require__(55);
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * A specialized version of `baseRest` which transforms the rest array.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @param {Function} transform The rest array transform.
+ * @returns {Function} Returns the new function.
+ */
+function overRest(func, start, transform) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = transform(array);
+    return apply(func, this, otherArgs);
+  };
+}
+
+module.exports = overRest;
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports) {
+
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+module.exports = apply;
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(11),
+    now = __webpack_require__(58),
+    toNumber = __webpack_require__(61);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -3376,10 +3681,10 @@ module.exports = debounce;
 
 
 /***/ }),
-/* 49 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(50);
+var root = __webpack_require__(59);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -3405,10 +3710,10 @@ module.exports = now;
 
 
 /***/ }),
-/* 50 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(51);
+var freeGlobal = __webpack_require__(60);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -3420,7 +3725,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 51 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -3428,10 +3733,10 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(17)))
 
 /***/ }),
-/* 52 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -3458,51 +3763,7 @@ module.exports = identity;
 
 
 /***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(3),
-    isObjectLike = __webpack_require__(1);
-
-/** `Object#toString` result references. */
-var numberTag = '[object Number]';
-
-/**
- * Checks if `value` is classified as a `Number` primitive or object.
- *
- * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are
- * classified as numbers, use the `_.isFinite` method.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a number, else `false`.
- * @example
- *
- * _.isNumber(3);
- * // => true
- *
- * _.isNumber(Number.MIN_VALUE);
- * // => true
- *
- * _.isNumber(Infinity);
- * // => true
- *
- * _.isNumber('3');
- * // => false
- */
-function isNumber(value) {
-  return typeof value == 'number' ||
-    (isObjectLike(value) && baseGetTag(value) == numberTag);
-}
-
-module.exports = isNumber;
-
-
-/***/ }),
-/* 54 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3529,7 +3790,7 @@ var defaults = exports.defaults = {
 };
 
 /***/ }),
-/* 55 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3538,44 +3799,17 @@ var defaults = exports.defaults = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _defer2 = __webpack_require__(56);
-
-var _defer3 = _interopRequireDefault(_defer2);
-
-exports.cleanupModal = cleanupModal;
 exports.cleanupSteps = cleanupSteps;
 exports.cleanupStepEventListeners = cleanupStepEventListeners;
 
-var _modal = __webpack_require__(7);
+var _modal = __webpack_require__(4);
 
-var _dom = __webpack_require__(17);
+var _dom = __webpack_require__(8);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Removes svg mask from modal overlay and removes classes for modal being visible
- */
-function cleanupModal() {
-  var _this = this;
-
-  (0, _defer3.default)(function () {
-    var element = _this._modalOverlayElem;
-
-    if (element && element instanceof SVGElement) {
-      element.parentNode.removeChild(element);
-    }
-
-    _this._modalOverlayElem = null;
-    document.body.classList.remove(_modal.classNames.isVisible);
-  });
-}
 /**
  * Cleanup the steps and set pointerEvents back to 'auto'
  * @param tour The tour object
  */
-
-
 function cleanupSteps(tour) {
   if (tour) {
     var steps = tour.steps;
@@ -3603,211 +3837,6 @@ function cleanupStepEventListeners() {
     this._onScreenChange = null;
   }
 }
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseDelay = __webpack_require__(57),
-    baseRest = __webpack_require__(58);
-
-/**
- * Defers invoking the `func` until the current call stack has cleared. Any
- * additional arguments are provided to `func` when it's invoked.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to defer.
- * @param {...*} [args] The arguments to invoke `func` with.
- * @returns {number} Returns the timer id.
- * @example
- *
- * _.defer(function(text) {
- *   console.log(text);
- * }, 'deferred');
- * // => Logs 'deferred' after one millisecond.
- */
-var defer = baseRest(function(func, args) {
-  return baseDelay(func, 1, args);
-});
-
-module.exports = defer;
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports) {
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * The base implementation of `_.delay` and `_.defer` which accepts `args`
- * to provide to `func`.
- *
- * @private
- * @param {Function} func The function to delay.
- * @param {number} wait The number of milliseconds to delay invocation.
- * @param {Array} args The arguments to provide to `func`.
- * @returns {number|Object} Returns the timer id or timeout object.
- */
-function baseDelay(func, wait, args) {
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  return setTimeout(function() { func.apply(undefined, args); }, wait);
-}
-
-module.exports = baseDelay;
-
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var identity = __webpack_require__(59),
-    overRest = __webpack_require__(60),
-    setToString = __webpack_require__(62);
-
-/**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */
-function baseRest(func, start) {
-  return setToString(overRest(func, start, identity), func + '');
-}
-
-module.exports = baseRest;
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var apply = __webpack_require__(61);
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * A specialized version of `baseRest` which transforms the rest array.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @param {Function} transform The rest array transform.
- * @returns {Function} Returns the new function.
- */
-function overRest(func, start, transform) {
-  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    index = -1;
-    var otherArgs = Array(start + 1);
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = transform(array);
-    return apply(func, this, otherArgs);
-  };
-}
-
-module.exports = overRest;
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports) {
-
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply(func, thisArg, args) {
-  switch (args.length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-module.exports = apply;
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports) {
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
 
 /***/ })
 /******/ ]);

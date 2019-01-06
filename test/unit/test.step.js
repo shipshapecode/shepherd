@@ -326,18 +326,29 @@ describe('Tour | Step', () => {
   });
 
   describe('hide()', () => {
-    const step = new Step();
-    let eventTriggered = false;
+    let beforeHideTriggered = false;
+    let modalHideCalled = false;
+    const step = new Step({
+      modal: {
+        hide() {
+          modalHideCalled = true;
+        }
+      }
+    });
 
     before(() => {
       document.body.setAttribute('data-shepherd-step', 1);
     });
 
     it('triggers the before-hide event', () => {
-      step.on('before-hide', () => eventTriggered = true);
+      step.on('before-hide', () => beforeHideTriggered = true);
       step.hide();
 
-      assert.isOk(eventTriggered, 'before-hide event was triggered');
+      assert.isOk(beforeHideTriggered, 'before-hide event was triggered');
+    });
+
+    it('calls tour.modal.hide', () => {
+      assert.isOk(modalHideCalled, 'tour.modal.hide called');
     });
 
     it('removes the data-shepherd-step attribute', () => {
