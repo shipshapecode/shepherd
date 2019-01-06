@@ -26,8 +26,7 @@ export class Modal {
   }
 
   /**
-   * Remove the SVG element, set this._modalOverlayElem to null and remove the
-   * modal class name from the body.
+   * Removes svg mask from modal overlay and removes classes for modal being visible
    */
   cleanup() {
     defer(() => {
