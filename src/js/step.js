@@ -5,7 +5,7 @@ import {
   isFunction,
   isString,
   isUndefined
-} from 'lodash';
+} from 'lodash-es';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';

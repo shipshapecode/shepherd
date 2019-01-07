@@ -1,4 +1,4 @@
-import { drop, isUndefined } from 'lodash';
+import { drop, isUndefined } from 'lodash-es';
 
 export class Evented {
   on(event, handler, ctx) {

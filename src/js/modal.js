@@ -6,7 +6,7 @@ import {
   classNames as modalClassNames
 } from './utils/modal';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
-import { debounce, defer } from 'lodash';
+import { debounce, defer } from 'lodash-es';
 
 export class Modal {
   constructor(options) {

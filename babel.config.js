@@ -7,8 +7,7 @@ module.exports = function(api) {
     ],
     plugins: [
       'add-module-exports',
-      'lodash',
-      'transform-es2015-modules-commonjs'
+      'lodash'
     ],
     env: {
       test: {

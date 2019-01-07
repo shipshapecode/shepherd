@@ -3,11 +3,8 @@ const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const StyleLintWebpackPlugin = require('stylelint-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const PACKAGE = require('./package.json');
-const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
+
 const glob = require('glob');
 const sassArray = glob.sync('./src/scss/shepherd-*.scss');
 const sassEntries = sassArray.reduce((acc, item) => {
@@ -130,63 +127,6 @@ module.exports = [{
       }, {
         reload: true
       }
-    ),
-    new webpack.BannerPlugin(banner)
+    )
   ]
 }];
-
-// Library Shepherd files
-module.exports.push({
-  entry: {
-    'js/shepherd': './src/js/shepherd.js',
-    'js/shepherd.min': './src/js/shepherd.js'
-  },
-  devtool: 'source-map',
-  target: 'web',
-  performance: {
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    library: 'Shepherd',
-    libraryTarget: 'umd',
-    globalObject: 'this',
-  },
-  resolve: {
-    alias: {
-      'tippy.js': 'tippy.js/dist/tippy.all.min.js'
-    }
-  },
-  module: {
-    rules: [
-      {
-        enforce: 'pre',
-        test: /\.js$/,
-        exclude: path.resolve(__dirname, 'node_modules'),
-        loader: 'eslint-loader'
-      },
-      {
-        test: /\.js$/,
-        exclude: path.resolve(__dirname, 'node_modules'),
-        include: [
-          path.resolve(__dirname, 'src/js')
-        ],
-        loader: 'babel-loader'
-      }
-    ]
-  },
-  optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        include: /\.min\.js$/,
-        sourceMap: true
-      })
-    ]
-  },
-  plugins: [
-    new webpack.BannerPlugin(banner),
-    new LodashModuleReplacementPlugin
-  ]
-});
