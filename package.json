@@ -23,7 +23,7 @@
     "Chuck Carpenter <charleswcarpenter3@gmail.com>"
   ],
   "scripts": {
-    "build": "yarn clean && webpack --mode production",
+    "build": "yarn clean && rollup -c && webpack --mode production",
     "esdoc": "esdoc",
     "postbuild": "rm -f dist/removable-*",
     "clean": "rm -rf dist",
@@ -59,7 +59,6 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-istanbul": "^5.1.0",
-    "babel-plugin-lodash": "^3.3.4",
     "browser-sync": "^2.26.3",
     "browser-sync-webpack-plugin": "^2.2.2",
     "chai": "^4.2.0",

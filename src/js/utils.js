@@ -1,4 +1,7 @@
-import { isString, isObjectLike, isUndefined, zipObject } from 'lodash-es';
+import isObjectLike from 'lodash-es/isObjectLike';
+import isString from 'lodash-es/isString';
+import isUndefined from 'lodash-es/isUndefined';
+import zipObject from 'lodash-es/zipObject';
 import tippy from 'tippy.js';
 import { missingTippy } from './utils/error-messages';
 

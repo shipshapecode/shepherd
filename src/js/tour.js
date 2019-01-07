@@ -1,4 +1,8 @@
-import { isFunction, isNumber, isString, isUndefined, isEmpty } from 'lodash-es';
+import isEmpty from 'lodash-es/isEmpty';
+import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
+import isString from 'lodash-es/isString';
+import isUndefined from 'lodash-es/isUndefined';
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';

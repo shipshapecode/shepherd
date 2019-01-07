@@ -1,11 +1,9 @@
-import {
-  forOwn,
-  isElement,
-  isEmpty,
-  isFunction,
-  isString,
-  isUndefined
-} from 'lodash-es';
+import forOwn from 'lodash-es/forOwn';
+import isElement from 'lodash-es/isElement';
+import isEmpty from 'lodash-es/isEmpty';
+import isFunction from 'lodash-es/isFunction';
+import isString from 'lodash-es/isString';
+import isUndefined from 'lodash-es/isUndefined';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';

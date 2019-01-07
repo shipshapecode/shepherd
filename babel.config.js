@@ -6,8 +6,7 @@ module.exports = function(api) {
       ['@babel/preset-env']
     ],
     plugins: [
-      'add-module-exports',
-      'lodash'
+      'add-module-exports'
     ],
     env: {
       test: {
