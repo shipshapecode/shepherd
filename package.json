@@ -40,9 +40,9 @@
     "test:cy:ci": "yarn test:build && start-server-and-test start-test-server http://localhost:9002 cy:run",
     "test:cy:watch": "yarn test:build && start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "cross-env NODE_ENV=test rollup -c rollup.test.config.js && yarn mocha-headless-chrome",
-    "test:unit:watch": "webpack-dev-server --config webpack.test.config.js",
+    "test:unit:watch": "rollup -c rollup.test.config.js --watch",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
-    "watch": "yarn clean && webpack --watch --mode development"
+    "watch": "yarn clean && rollup -c --environment DEVELOPMENT"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
@@ -88,6 +88,7 @@
     "rollup-plugin-alias": "^1.5.1",
     "rollup-plugin-babel": "^4.2.0",
     "rollup-plugin-babel-minify": "^6.2.0",
+    "rollup-plugin-browsersync": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-filesize": "^6.0.0",
