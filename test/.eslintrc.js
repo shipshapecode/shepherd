@@ -5,11 +5,11 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'mocha'
+    'jest'
   ],
   extends: [
     'eslint:recommended',
-    'plugin:mocha/recommended'
+    'plugin:jest/recommended'
   ],
   globals: {
     Cypress: false,
