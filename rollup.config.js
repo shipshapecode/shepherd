@@ -7,7 +7,6 @@ import { eslint } from 'rollup-plugin-eslint';
 import fs from 'fs';
 import license from 'rollup-plugin-license';
 import postcss from 'postcss';
-import progress from 'rollup-plugin-progress';
 import filesize from 'rollup-plugin-filesize';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
@@ -32,7 +31,6 @@ const plugins = [
   license({
     banner
   }),
-  progress(),
   filesize()
 ];
 
@@ -114,7 +112,6 @@ if (!process.env.DEVELOPMENT) {
             .process(css)
             .then(result => result.css)
         }),
-        progress(),
         filesize()
       ]
     });
