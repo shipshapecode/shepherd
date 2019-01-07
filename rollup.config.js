@@ -1,3 +1,4 @@
+import alias from 'rollup-plugin-alias';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import { eslint } from 'rollup-plugin-eslint';
@@ -23,6 +24,10 @@ export default [
       name: 'Shepherd'
     },
     plugins: [
+      resolve(),
+      alias({
+        'tippy.js': 'tippy.js/dist/tippy.all.min.js'
+      }),
       sass({
         output: false
       }),
@@ -30,7 +35,6 @@ export default [
       babel({
         exclude: 'node_modules/**'
       }),
-      resolve(),
       license({
         banner
       }),
@@ -47,10 +51,13 @@ export default [
       name: 'Shepherd'
     },
     plugins: [
+      resolve(),
+      alias({
+        'tippy.js': 'tippy.js/dist/tippy.all.min.js'
+      }),
       babel({
         exclude: 'node_modules/**'
       }),
-      resolve(),
       uglify(),
       license({
         banner

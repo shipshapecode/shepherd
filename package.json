@@ -85,6 +85,7 @@
     "postcss": "^7.0.7",
     "replace": "^1.0.1",
     "rollup": "^1.0.2",
+    "rollup-plugin-alias": "^1.5.1",
     "rollup-plugin-babel": "^4.2.0",
     "rollup-plugin-babel-minify": "^6.2.0",
     "rollup-plugin-commonjs": "^9.2.0",
