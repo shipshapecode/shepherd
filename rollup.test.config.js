@@ -1,60 +1,27 @@
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
-import { eslint } from 'rollup-plugin-eslint';
 import fs from 'fs';
-import license from 'rollup-plugin-license';
 import postcss from 'postcss';
 import progress from 'rollup-plugin-progress';
 import filesize from 'rollup-plugin-filesize';
+import multiEntry from "rollup-plugin-multi-entry";
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
-import { uglify } from 'rollup-plugin-uglify';
-
-const PACKAGE = require('./package.json');
-const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
+import serve from 'rollup-plugin-serve';
 
 export default [
-  // Generate unminifed bundle
   {
-    input: './src/js/shepherd.js',
+    input: ['./test/unit/setup.js', './test/unit/run.js'],
     output: {
-      file: 'dist/js/shepherd.js',
-      format: 'umd',
-      name: 'Shepherd'
+      file: 'test/unit/dist/bundle.js',
+      format: 'umd'
     },
     plugins: [
-      sass({
-        output: false
-      }),
-      eslint(),
+      multiEntry(),
       babel({
         exclude: 'node_modules/**'
       }),
       resolve(),
-      license({
-        banner
-      }),
-      progress(),
-      filesize()
-    ]
-  },
-  // Generate minifed bundle
-  {
-    input: './src/js/shepherd.js',
-    output: {
-      file: 'dist/js/shepherd.min.js',
-      format: 'umd',
-      name: 'Shepherd'
-    },
-    plugins: [
-      babel({
-        exclude: 'node_modules/**'
-      }),
-      resolve(),
-      uglify(),
-      license({
-        banner
-      }),
       sass({
         output(styles, styleNodes) {
           fs.mkdirSync('dist/css', { recursive: true }, (err) => {
@@ -72,6 +39,11 @@ export default [
         processor: css => postcss([autoprefixer])
           .process(css)
           .then(result => result.css)
+      }),
+      serve({
+        contentBase: './',
+        open: true,
+        openPage: '/test/unit'
       }),
       progress(),
       filesize()

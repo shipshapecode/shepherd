@@ -23,7 +23,7 @@
     "Chuck Carpenter <charleswcarpenter3@gmail.com>"
   ],
   "scripts": {
-    "build": "yarn clean && rollup -c && webpack --mode production",
+    "build": "yarn clean && rollup -c",
     "esdoc": "esdoc",
     "postbuild": "rm -f dist/removable-*",
     "clean": "rm -rf dist",
@@ -39,7 +39,7 @@
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci",
     "test:cy:ci": "yarn test:build && start-server-and-test start-test-server http://localhost:9002 cy:run",
     "test:cy:watch": "yarn test:build && start-server-and-test start-test-server http://localhost:9002 cy:open",
-    "test:unit:ci": "cross-env NODE_ENV=test webpack --config webpack.test.config.js && yarn mocha-headless-chrome",
+    "test:unit:ci": "cross-env NODE_ENV=test rollup -c rollup.test.config.js && yarn mocha-headless-chrome",
     "test:unit:watch": "webpack-dev-server --config webpack.test.config.js",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && webpack --watch --mode development"
@@ -59,8 +59,6 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-istanbul": "^5.1.0",
-    "browser-sync": "^2.26.3",
-    "browser-sync-webpack-plugin": "^2.2.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codeclimate-test-reporter": "^0.5.1",
@@ -93,9 +91,11 @@
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-filesize": "^6.0.0",
     "rollup-plugin-license": "^0.7.0",
+    "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-progress": "^1.0.0",
     "rollup-plugin-sass": "^0.9.3",
+    "rollup-plugin-serve": "^0.6.1",
     "rollup-plugin-uglify": "^6.0.0",
     "sass-loader": "^7.1.0",
     "sinon": "^7.2.2",
@@ -103,11 +103,7 @@
     "start-server-and-test": "^1.7.11",
     "style-loader": "^0.23.1",
     "stylelint": "^8.4.0",
-    "stylelint-config-ship-shape": "^0.4.0",
-    "stylelint-webpack-plugin": "^0.10.5",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "stylelint-config-ship-shape": "^0.4.0"
   },
   "engines": {
     "node": ">= 6.*"
