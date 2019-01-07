@@ -2,6 +2,7 @@ import alias from 'rollup-plugin-alias';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
+import commonjs from 'rollup-plugin-commonjs';
 import { eslint } from 'rollup-plugin-eslint';
 import fs from 'fs';
 import license from 'rollup-plugin-license';
@@ -17,6 +18,7 @@ const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
 
 const plugins = [
   resolve(),
+  commonjs(),
   alias({
     'tippy.js': 'tippy.js/dist/tippy.all.min.js'
   }),
@@ -63,7 +65,8 @@ const rollupBuilds = [
     output: {
       file: 'dist/js/shepherd.js',
       format: 'umd',
-      name: 'Shepherd'
+      name: 'Shepherd',
+      sourcemap: true
     },
     plugins
   }
@@ -77,10 +80,12 @@ if (!process.env.DEVELOPMENT) {
       output: {
         file: 'dist/js/shepherd.min.js',
         format: 'umd',
-        name: 'Shepherd'
+        name: 'Shepherd',
+        sourcemap: true
       },
       plugins: [
         resolve(),
+        commonjs(),
         alias({
           'tippy.js': 'tippy.js/dist/tippy.all.min.js'
         }),

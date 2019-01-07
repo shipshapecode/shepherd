@@ -1,4 +1,3 @@
-import { assert } from 'chai';
 import { Evented } from '../../src/js/evented.js';
 
 describe('Evented', () => {
@@ -12,33 +11,33 @@ describe('Evented', () => {
 
   describe('on()', () => {
     it('adds a new event binding', () => {
-      assert.ok(testEvent.bindings.testOn, 'custom event added');
+      expect(testEvent.bindings.testOn, 'custom event added').toBeTruthy();
     });
   });
 
   describe('trigger()', () => {
     it('triggers a created event', () => {
       testEvent.trigger('testOn');
-      assert.ok(testOnTriggered, 'true is returned from event trigger');
+      expect(testOnTriggered, 'true is returned from event trigger').toBeTruthy();
     });
   });
 
   describe('off()', () => {
     it('removes a generic event binding when no handler passed', () => {
       testEvent.off('testOn');
-      assert.notOk(testEvent.bindings.testOn, 'custom event removed');
+      expect(testEvent.bindings.testOn, 'custom event removed').toBeUndefined();
     });
 
     it('removes a specific event binding when handler is passed', () => {
       const handler = () => {};
       testEvent.on('testOn', handler);
-      assert.equal(testEvent.bindings.testOn.length, 2, '2 event listeners for testOn');
+      expect(testEvent.bindings.testOn.length, '2 event listeners for testOn').toBe(2);
       testEvent.off('testOn', handler);
-      assert.equal(testEvent.bindings.testOn.length, 1, '1 event listener for testOn');
+      expect(testEvent.bindings.testOn.length, '1 event listener for testOn').toBe(1);
     });
 
     it('does not remove uncreated events', () => {
-      assert.notOk(testEvent.off('testBlank'), 'returns false for non created events');
+      expect(testEvent.off('testBlank'), 'returns false for non created events').toBeFalsy();
     });
   });
 
@@ -46,7 +45,7 @@ describe('Evented', () => {
     it('adds a new event binding that only triggers once', () => {
       testEvent.once('testOnce', () => true);
       testEvent.trigger('testOnce');
-      assert.ok(testEvent.bindings.testOnce, 'custom event removed after one trigger');
+      expect(testEvent.bindings.testOnce, 'custom event removed after one trigger').toBeTruthy();
     });
   });
 });

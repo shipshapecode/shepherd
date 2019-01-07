@@ -3,14 +3,29 @@ module.exports = function(api) {
 
   return {
     presets: [
-      ['@babel/preset-env']
-    ],
-    plugins: [
-      'add-module-exports'
+      [
+        '@babel/preset-env',
+        {
+          modules: false,
+          targets: {
+            browsers: 'ie >= 11'
+          }
+        }
+      ]
     ],
     env: {
       test: {
-        plugins: ['istanbul']
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              modules: false
+            }
+          ]
+        ],
+        plugins: [
+          'transform-es2015-modules-commonjs'
+        ]
       }
     }
   };
