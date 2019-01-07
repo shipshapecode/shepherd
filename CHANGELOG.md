@@ -1,5 +1,29 @@
 # Changelog
 
+## [v2.1.0](https://github.com/shipshapecode/shepherd/tree/v2.1.0) (2019-01-06)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.2...v2.1.0)
+
+**Fixed bugs:**
+
+- fix: turn off passive events for touchmove on Safari \> 10 [\#307](https://github.com/shipshapecode/shepherd/pull/307) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Merged pull requests:**
+
+- Move modal to its own class [\#308](https://github.com/shipshapecode/shepherd/pull/308) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.0.2](https://github.com/shipshapecode/shepherd/tree/v2.0.2) (2019-01-04)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.1...v2.0.2)
+
+**Fixed bugs:**
+
+- fix: remove class when modal hidden so elements are clickable [\#305](https://github.com/shipshapecode/shepherd/pull/305) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+## [v2.0.1](https://github.com/shipshapecode/shepherd/tree/v2.0.1) (2018-12-31)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0...v2.0.1)
+
 ## [v2.0.0](https://github.com/shipshapecode/shepherd/tree/v2.0.0) (2018-12-31)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.0-beta.35...v2.0.0)
