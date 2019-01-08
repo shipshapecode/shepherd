@@ -8530,6 +8530,13 @@ rollup-plugin-serve@^0.6.1:
     mime "^1.3.6"
     opener "^1.4.3"
 
+rollup-plugin-stylelint@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-stylelint/-/rollup-plugin-stylelint-0.0.4.tgz#1c7b8fb896ed1e7b5e929c6f4d4d8c2c85b3d39a"
+  integrity sha512-+x1+AOPGl59ObL4X//VCQAu4URoTpLNkHE1/Sg9bg6tRAKS3/qbaunKgV9Tyo2aXOi5a7cyu9Ar2QXrS1W5Vug==
+  dependencies:
+    rollup-pluginutils "^2.0.1"
+
 rollup-plugin-uglify@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-uglify/-/rollup-plugin-uglify-6.0.0.tgz#15aa8919e5cdc63b7cfc9319c781788b40084ce4"
@@ -8540,7 +8547,7 @@ rollup-plugin-uglify@^6.0.0:
     serialize-javascript "^1.5.0"
     uglify-js "^3.4.9"
 
-"rollup-pluginutils@>= 1.3.1", rollup-pluginutils@^2.3.0, rollup-pluginutils@^2.3.3:
+"rollup-pluginutils@>= 1.3.1", rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.0, rollup-pluginutils@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.3.3.tgz#3aad9b1eb3e7fe8262820818840bf091e5ae6794"
   integrity sha512-2XZwja7b6P5q4RZ5FhyX1+f46xi1Z3qBKigLRZ6VTZjwbN0K1IFGMlwm06Uu0Emcre2Z63l77nq/pzn+KxIEoA==

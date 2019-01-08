@@ -10,6 +10,7 @@ import postcss from 'postcss';
 import filesize from 'rollup-plugin-filesize';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
+import stylelint from 'rollup-plugin-stylelint';
 import { uglify } from 'rollup-plugin-uglify';
 
 const PACKAGE = require('./package.json');
@@ -20,6 +21,12 @@ const plugins = [
   commonjs(),
   alias({
     'tippy.js': 'tippy.js/dist/tippy.all.min.js'
+  }),
+  stylelint({
+    fix: false,
+    include: ['src/**.scss'],
+    syntax: 'scss',
+    quiet: false
   }),
   sass({
     output: false
