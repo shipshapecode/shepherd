@@ -25,7 +25,6 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "esdoc": "esdoc",
-    "postbuild": "rm -f dist/removable-*",
     "clean": "rm -rf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run --env coverage=true",
@@ -48,15 +47,14 @@
   "dependencies": {
     "element-matches": "^0.1.2",
     "lodash-es": "^4.17.11",
-    "tippy.js": "^3.3.0"
+    "tippy.js": "^3.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
-    "autoprefixer": "^9.4.3",
+    "autoprefixer": "^9.4.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
-    "babel-plugin-add-module-exports": "^1.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
@@ -96,7 +94,6 @@
     "rollup-plugin-uglify": "^6.0.0",
     "sinon": "^7.2.2",
     "start-server-and-test": "^1.7.11",
-    "stylelint": "^8.4.0",
     "stylelint-config-ship-shape": "^0.4.0"
   },
   "engines": {

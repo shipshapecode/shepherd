@@ -115,7 +115,11 @@ if (!process.env.DEVELOPMENT) {
               fs.writeFileSync(`dist/css/${name}.css`, content);
             });
           },
-          processor: css => postcss([autoprefixer])
+          processor: css => postcss([
+            autoprefixer({
+              grid: false
+            })
+          ])
             .process(css)
             .then(result => result.css)
         }),
