@@ -13,8 +13,8 @@ import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
 import { uglify } from 'rollup-plugin-uglify';
 
-const PACKAGE = require('./package.json');
-const banner = ['/*!', PACKAGE.name, PACKAGE.version, '*/\n'].join(' ');
+const pkg = require('./package.json');
+const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const plugins = [
   resolve(),
@@ -67,12 +67,20 @@ const rollupBuilds = [
   // Generate unminifed bundle
   {
     input: './src/js/shepherd.js',
-    output: {
-      file: 'dist/js/shepherd.js',
-      format: 'umd',
-      name: 'Shepherd',
-      sourcemap: true
-    },
+
+    output: [
+      {
+        file: pkg.main,
+        format: 'umd',
+        name: 'Shepherd',
+        sourcemap: true
+      },
+      {
+        file: pkg.module,
+        format: 'esm',
+        sourcemap: true
+      }
+    ],
     plugins
   }
 ];
