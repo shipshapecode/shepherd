@@ -27,8 +27,7 @@
     "esdoc": "esdoc",
     "clean": "rm -rf dist",
     "cy:open": "./node_modules/.bin/cypress open",
-    "cy:run": "./node_modules/.bin/cypress run --env coverage=true",
-    "posttest:ci": "nyc report --reporter=lcov --reporter=text",
+    "cy:run": "./node_modules/.bin/cypress run",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
@@ -69,13 +68,11 @@
     "eslint-plugin-ship-shape": "^0.6.0",
     "glob": "^7.1.3",
     "http-server": "^0.11.1",
-    "istanbul-lib-coverage": "^2.0.1",
     "jest": "^23.6.0",
     "jest-dom": "^3.0.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
     "mutationobserver-shim": "^0.3.2",
-    "nyc": "13.0.1",
     "postcss": "^7.0.8",
     "replace": "^1.0.1",
     "rollup": "^1.1.0",
@@ -99,9 +96,5 @@
   },
   "engines": {
     "node": ">= 6.*"
-  },
-  "nyc": {
-    "temp-directory": "./coverage",
-    "report-dir": "./coverage"
   }
 }
