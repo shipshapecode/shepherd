@@ -1,4 +1,4 @@
-import { elementIsHidden } from '../../src/js/utils/dom';
+import { elementIsHidden } from '../../../src/js/utils/dom';
 
 describe('DOM Utils', function() {
   describe('elementIsHidden', function() {
