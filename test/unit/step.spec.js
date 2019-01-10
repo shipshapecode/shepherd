@@ -22,7 +22,7 @@ describe('Tour | Step', () => {
     const testStep = instance.addStep('test', {
       attachTo: 'body',
       highlightClass: 'highlight',
-      id: 'test',
+      id: 'test-id',
       text: 'This is a step for testing',
       buttons: [
         {
@@ -34,7 +34,7 @@ describe('Tour | Step', () => {
 
     const showTestStep = instance.addStep('test2', {
       buttons: [],
-      id: 'test2',
+      id: 'test2-id',
       text: 'Another Step'
     });
 
@@ -44,8 +44,33 @@ describe('Tour | Step', () => {
         text: 'Next',
         action: instance.next
       },
-      id: 'test3',
+      id: 'test3-id',
       text: 'Another Step part deux'
+    });
+
+    const stepWithoutNameWithId = instance.addStep({
+      attachTo: 'body',
+      highlightClass: 'highlight',
+      id: 'no-name',
+      text: 'This is a step without a name, but with an id',
+      buttons: [
+        {
+          text: 'Next',
+          action: instance.next
+        }
+      ]
+    });
+
+    const stepWithoutNameWithoutId = instance.addStep({
+      attachTo: 'body',
+      highlightClass: 'highlight',
+      text: 'This is a step without a name, and without an id',
+      buttons: [
+        {
+          text: 'Next',
+          action: instance.next
+        }
+      ]
     });
 
     const beforeShowPromise = new Promise((resolve) => {
@@ -53,7 +78,6 @@ describe('Tour | Step', () => {
     });
 
     const beforeShowPromiseTestStep = instance.addStep('test3', {
-      id: 'test3',
       text: 'Before Show Promise Step',
       beforeShowPromise() {
         return beforeShowPromise;
@@ -71,6 +95,10 @@ describe('Tour | Step', () => {
     it('has all the correct properties', () => {
       const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'id', 'text', 'buttons'];
       expect(values).toEqual(Object.keys(testStep.options));
+
+      expect(testStep.id, 'passed name set as id').toBe('test');
+      expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');
+      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed').toBe('step-1');
     });
 
     describe('.hide()', () => {
