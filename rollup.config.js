@@ -63,6 +63,8 @@ if (!process.env.DEVELOPMENT) {
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
+  plugins.push(sass(sassOptions));
+
   plugins.push(browsersync({
     host: 'localhost',
     watch: true,
@@ -82,8 +84,6 @@ if (process.env.DEVELOPMENT) {
       }
     }
   }));
-
-  plugins.push(sass(sassOptions));
 }
 
 plugins.push(license({ banner }));
