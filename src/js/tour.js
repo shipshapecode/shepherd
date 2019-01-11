@@ -7,12 +7,12 @@ import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
 import {
-  cleanupSteps
+  cleanupSteps,
+  cleanupStepEventListeners
 } from './utils/cleanup';
 
 import {
   addStepEventListeners,
-  cleanupStepEventListeners,
   getElementForStep
 } from './utils/dom';
 

@@ -583,7 +583,7 @@ module.exports = overArg;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getElementForStep = exports.elementIsHidden = exports.cleanupStepEventListeners = exports.addStepEventListeners = undefined;
+exports.getElementForStep = exports.elementIsHidden = exports.addStepEventListeners = undefined;
 
 var _modal = __webpack_require__(4);
 
@@ -693,21 +693,8 @@ function addStepEventListeners() {
     overlay.addEventListener('touchmove', _modal.preventModalOverlayTouch, false);
   }
 }
-/**
- * Remove resize and scroll event listeners
- */
-
-
-function cleanupStepEventListeners() {
-  if (typeof this._onScreenChange === 'function') {
-    window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
-    this._onScreenChange = null;
-  }
-}
 
 exports.addStepEventListeners = addStepEventListeners;
-exports.cleanupStepEventListeners = cleanupStepEventListeners;
 exports.elementIsHidden = elementIsHidden;
 exports.getElementForStep = getElementForStep;
 
@@ -2823,7 +2810,7 @@ exports.Tour = function (_Evented) {
         });
       }
 
-      _dom.cleanupStepEventListeners.call(this);
+      _cleanup.cleanupStepEventListeners.call(this);
 
       (0, _cleanup.cleanupSteps)(this.tourObject);
       this.modal.cleanup();
