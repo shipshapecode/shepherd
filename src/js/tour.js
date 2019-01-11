@@ -8,7 +8,6 @@ import { Modal } from './modal.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
 import tippy from 'tippy.js';
-import 'tippy.js/dist/tippy.all.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
 import {

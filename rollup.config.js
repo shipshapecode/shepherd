@@ -1,3 +1,4 @@
+import atImport from 'postcss-import';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
@@ -15,6 +16,30 @@ import { uglify } from 'rollup-plugin-uglify';
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
+const sassOptions = {
+  output(styles, styleNodes) {
+    fs.mkdirSync('dist/css', { recursive: true }, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+
+    styleNodes.forEach(({ id, content }) => {
+      const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
+      const name = scssName.split('.')[0];
+      fs.writeFileSync(`dist/css/${name}.css`, content);
+    });
+  },
+  processor: css => postcss([
+    atImport(),
+    autoprefixer({
+      grid: false
+    })
+  ])
+    .process(css)
+    .then(result => result.css)
+};
+
 const plugins = [
   resolve(),
   commonjs(),
@@ -24,18 +49,17 @@ const plugins = [
     syntax: 'scss',
     quiet: false
   }),
-  sass({
-    output: false
-  }),
   eslint(),
   babel({
     exclude: 'node_modules/**'
-  }),
-  license({
-    banner
-  }),
-  filesize()
+  })
 ];
+
+if (!process.env.DEVELOPMENT) {
+  plugins.push(sass({
+    output: false
+  }));
+}
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
@@ -48,6 +72,7 @@ if (process.env.DEVELOPMENT) {
     server: {
       baseDir: 'docs/welcome',
       routes: {
+        '/shepherd/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
         '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
         '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
         '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
@@ -57,7 +82,12 @@ if (process.env.DEVELOPMENT) {
       }
     }
   }));
+
+  plugins.push(sass(sassOptions));
 }
+
+plugins.push(license({ banner }));
+plugins.push(filesize());
 
 const rollupBuilds = [
   // Generate unminifed bundle
@@ -98,32 +128,11 @@ if (!process.env.DEVELOPMENT) {
         babel({
           exclude: 'node_modules/**'
         }),
-        uglify(),
         license({
           banner
         }),
-        sass({
-          output(styles, styleNodes) {
-            fs.mkdirSync('dist/css', { recursive: true }, (err) => {
-              if (err) {
-                throw err;
-              }
-            });
-
-            styleNodes.forEach(({ id, content }) => {
-              const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
-              const name = scssName.split('.')[0];
-              fs.writeFileSync(`dist/css/${name}.css`, content);
-            });
-          },
-          processor: css => postcss([
-            autoprefixer({
-              grid: false
-            })
-          ])
-            .process(css)
-            .then(result => result.css)
-        }),
+        sass(sassOptions),
+        uglify(),
         filesize()
       ]
     });
