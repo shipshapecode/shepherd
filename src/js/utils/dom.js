@@ -92,21 +92,8 @@ function addStepEventListeners() {
   }
 }
 
-/**
- * Remove resize and scroll event listeners
- */
-function cleanupStepEventListeners() {
-  if (typeof this._onScreenChange === 'function') {
-    window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
-
-    this._onScreenChange = null;
-  }
-}
-
 export {
   addStepEventListeners,
-  cleanupStepEventListeners,
   elementIsHidden,
   getElementForStep
 };
