@@ -1,4 +1,3 @@
-import alias from 'rollup-plugin-alias';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
@@ -19,9 +18,6 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const plugins = [
   resolve(),
   commonjs(),
-  alias({
-    'tippy.js': 'tippy.js/dist/tippy.all.min.js'
-  }),
   stylelint({
     fix: false,
     include: ['src/**.scss'],
@@ -99,9 +95,6 @@ if (!process.env.DEVELOPMENT) {
       plugins: [
         resolve(),
         commonjs(),
-        alias({
-          'tippy.js': 'tippy.js/dist/tippy.all.min.js'
-        }),
         babel({
           exclude: 'node_modules/**'
         }),
