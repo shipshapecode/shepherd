@@ -29,6 +29,29 @@ Click Install to create a tour right on your site with no coding required.-->
 
 <!--iframe style="height: 48px; width: 180px" src="//install.eager.io?appId=AalP5veMma6s" allowtransparency="true" scroll="no" frameBorder="0"></iframe-->
 
+### Importing Shepherd into your app 
+
+#### Ember Apps
+
+There is an official Ember Addon, [ember-shepherd](https://github.com/shipshapecode/ember-shepherd), for using Shepherd with Ember apps.
+
+#### Rollup/Webpack Based Builds
+
+The latest versions of Rollup and Webpack support ES6 imports. We have an ES module
+exported to `dist/js/shepherd.esm.js`. This is also specified as `"module"` in
+`package.json`, which should allow you to import using standard ES import syntax.
+
+i.e. 
+
+```js
+import Shepherd from 'shepherd.js';
+```
+
+#### GitHub Releases
+
+Whenever we release a new version, the contents of the `dist` are uploaded
+to the release in GitHub. You can find those assets [here](https://github.com/shipshapecode/shepherd/releases).
+
 ### Usage
 
 First create a new `Tour` instance for your tour:
