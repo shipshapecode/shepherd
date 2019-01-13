@@ -28,8 +28,13 @@ function _createModalContainer() {
 function _createMaskContainer() {
   const element = document.createElementNS(svgNS, 'mask');
 
-  element.setAttribute('id', elementIds.modalOverlayMask);
-  _setElementDimensions(element, '0', '0', '100%', '100%');
+  _setAttributes(element, {
+    height: '100%',
+    id: elementIds.modalOverlayMask,
+    width: '100%',
+    x: '0',
+    y: '0'
+  });
 
   return element;
 }
@@ -40,8 +45,13 @@ function _createMaskContainer() {
 function _createMaskRect() {
   const element = document.createElementNS(svgNS, 'rect');
 
-  _setElementDimensions(element, '0', '0', '100%', '100%');
-  element.setAttribute('fill', '#FFFFFF');
+  _setAttributes(element, {
+    fill: '#FFFFFF',
+    height: '100%',
+    width: '100%',
+    x: '0',
+    y: '0'
+  });
 
   return element;
 }
@@ -52,8 +62,10 @@ function _createMaskRect() {
 function _createMaskOpening() {
   const element = document.createElementNS(svgNS, 'rect');
 
-  element.setAttribute('id', elementIds.modalOverlayMaskOpening);
-  element.setAttribute('fill', '#000000');
+  _setAttributes(element, {
+    fill: '#000000',
+    id: elementIds.modalOverlayMaskOpening
+  });
 
   return element;
 }
@@ -64,7 +76,12 @@ function _createMaskOpening() {
 function _createMaskConsumer() {
   const element = document.createElementNS(svgNS, 'rect');
 
-  _setElementDimensions(element, '0', '0', '100%', '100%');
+  _setAttributes(element, {
+    height: '100%',
+    width: '100%',
+    x: '0',
+    y: '0'
+  });
   element.setAttribute('mask', `url(#${elementIds.modalOverlayMask})`);
 
   return element;
@@ -113,15 +130,18 @@ function positionModalOpening(targetElement, openingElement) {
   if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
     const { x, y, width, height } = targetElement.getBoundingClientRect();
 
-    console.log('x', x);
-    console.log('y', y);
-    _setElementDimensions(openingElement, x, y, width, height);
+    _setAttributes(openingElement, { x, y, width, height });
   }
 }
 
 function closeModalOpening(openingElement) {
   if (openingElement && openingElement instanceof SVGElement) {
-    _setElementDimensions(openingElement, '0', '0', '0', '0');
+    _setAttributes(openingElement, {
+      height: '0',
+      x: '0',
+      y: '0',
+      width: '0'
+    });
   }
 }
 
@@ -152,19 +172,15 @@ function toggleShepherdModalClass(currentElement) {
 }
 
 /**
- *
- * @param {SVGElement} element The SVG to set the dimensions on
- * @param {string} x The x coordinate to set on the element
- * @param {string} y The y coordinate to set on the element
- * @param {string} width A string representing the width of the element
- * @param {string} height A string representing the height of the element
+ * Set multiple attributes on an element, via a hash
+ * @param {HTMLElement|SVGElement} el The element to set the attributes on
+ * @param {Object} attrs A hash of key value pairs for attributes to set
  * @private
  */
-function _setElementDimensions(element, x, y, width, height) {
-  element.setAttribute('x', x);
-  element.setAttribute('y', y);
-  element.setAttribute('width', width);
-  element.setAttribute('height', height);
+function _setAttributes(el, attrs) {
+  Object.keys(attrs).forEach((key) => {
+    el.setAttribute(key, attrs[key]);
+  });
 }
 
 export {
