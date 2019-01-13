@@ -80,7 +80,7 @@
 .tippy-tooltip[data-size=large]{padding:.4rem .8rem;font-size:1rem}
 .tippy-tooltip[data-animatefill]{overflow:hidden;background-color:transparent}
 .tippy-tooltip[data-interactive],.tippy-tooltip[data-interactive] path{pointer-events:auto}
-.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.53,2,.36,.85)}
+.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}
 .tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}
 .tippy-arrow,.tippy-roundarrow{position:absolute;width:0;height:0}
 .tippy-roundarrow{width:24px;height:8px;fill:#333;pointer-events:none}

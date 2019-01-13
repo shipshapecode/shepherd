@@ -4320,12 +4320,12 @@
   Popper.Defaults = Defaults;
 
   /*!
-  * Tippy.js v3.4.0
+  * Tippy.js v3.4.1
   * (c) 2017-2019 atomiks
   * MIT
   */
 
-  var version = "3.4.0";
+  var version = "3.4.1";
 
   var isBrowser$1 = typeof window !== 'undefined';
 
@@ -4448,6 +4448,13 @@
       element = element.parentElement;
     }
   }
+
+  var PASSIVE = { passive: true };
+
+  /**
+   * Returns a new `div` element
+   * @return {HTMLDivElement}
+   */
   function div() {
     return document.createElement('div');
   }
@@ -4805,109 +4812,6 @@
     return -(distance - defaultDistance) + 'px';
   }
 
-  var isUsingTouch = false;
-
-  function onDocumentTouch() {
-    if (isUsingTouch) {
-      return;
-    }
-
-    isUsingTouch = true;
-
-    if (isIOS) {
-      document.body.classList.add('tippy-iOS');
-    }
-
-    if (window.performance) {
-      document.addEventListener('mousemove', onDocumentMouseMove);
-    }
-  }
-
-  var lastMouseMoveTime = 0;
-  function onDocumentMouseMove() {
-    var now = performance.now();
-
-    // Chrome 60+ is 1 mousemove per animation frame, use 20ms time difference
-    if (now - lastMouseMoveTime < 20) {
-      isUsingTouch = false;
-      document.removeEventListener('mousemove', onDocumentMouseMove);
-      if (!isIOS) {
-        document.body.classList.remove('tippy-iOS');
-      }
-    }
-
-    lastMouseMoveTime = now;
-  }
-
-  function onDocumentClick(_ref) {
-    var target = _ref.target;
-
-    // Simulated events dispatched on the document
-    if (!(target instanceof Element)) {
-      return hideAllPoppers();
-    }
-
-    // Clicked on an interactive popper
-    var popper = closest(target, Selectors.POPPER);
-    if (popper && popper._tippy && popper._tippy.props.interactive) {
-      return;
-    }
-
-    // Clicked on a reference
-    var reference = closestCallback(target, function (el) {
-      return el._tippy && el._tippy.reference === el;
-    });
-    if (reference) {
-      var tip = reference._tippy;
-      var isClickTrigger = tip.props.trigger.indexOf('click') > -1;
-
-      if (isUsingTouch || isClickTrigger) {
-        return hideAllPoppers(tip);
-      }
-
-      if (tip.props.hideOnClick !== true || isClickTrigger) {
-        return;
-      }
-
-      tip.clearDelayTimeouts();
-    }
-
-    hideAllPoppers();
-  }
-
-  function onWindowBlur() {
-    var _document = document,
-        activeElement = _document.activeElement;
-
-    if (activeElement && activeElement.blur && activeElement._tippy) {
-      activeElement.blur();
-    }
-  }
-
-  function onWindowResize() {
-    arrayFrom(document.querySelectorAll(Selectors.POPPER)).forEach(function (popper) {
-      var tippyInstance = popper._tippy;
-      if (!tippyInstance.props.livePlacement) {
-        tippyInstance.popperInstance.scheduleUpdate();
-      }
-    });
-  }
-
-  /**
-   * Adds the needed global event listeners
-   */
-  function bindGlobalEventListeners() {
-    document.addEventListener('click', onDocumentClick, true);
-    // Old browsers will use capture phase but the phase does not matter anyway
-    document.addEventListener('touchstart', onDocumentTouch, { passive: true });
-    window.addEventListener('blur', onWindowBlur);
-    window.addEventListener('resize', onWindowResize);
-
-    if (!supportsTouch && (navigator.maxTouchPoints || navigator.msMaxTouchPoints)) {
-      document.addEventListener('pointerdown', onDocumentTouch);
-    }
-  }
-
   /**
    * Determines if a value is a plain object
    * @param {any} value
@@ -5020,6 +4924,118 @@
    */
   function getModifier(obj, key) {
     return obj && obj.modifiers && obj.modifiers[key];
+  }
+
+  /**
+   * Determines if an array or string includes a value
+   * @param {Array|String} a
+   * @param {any} b
+   * @return {Boolean}
+   */
+  function includes(a, b) {
+    return a.indexOf(b) > -1;
+  }
+
+  var isUsingTouch = false;
+
+  function onDocumentTouch() {
+    if (isUsingTouch) {
+      return;
+    }
+
+    isUsingTouch = true;
+
+    if (isIOS) {
+      document.body.classList.add('tippy-iOS');
+    }
+
+    if (window.performance) {
+      document.addEventListener('mousemove', onDocumentMouseMove);
+    }
+  }
+
+  var lastMouseMoveTime = 0;
+  function onDocumentMouseMove() {
+    var now = performance.now();
+
+    // Chrome 60+ is 1 mousemove per animation frame, use 20ms time difference
+    if (now - lastMouseMoveTime < 20) {
+      isUsingTouch = false;
+      document.removeEventListener('mousemove', onDocumentMouseMove);
+      if (!isIOS) {
+        document.body.classList.remove('tippy-iOS');
+      }
+    }
+
+    lastMouseMoveTime = now;
+  }
+
+  function onDocumentClick(_ref) {
+    var target = _ref.target;
+
+    // Simulated events dispatched on the document
+    if (!(target instanceof Element)) {
+      return hideAllPoppers();
+    }
+
+    // Clicked on an interactive popper
+    var popper = closest(target, Selectors.POPPER);
+    if (popper && popper._tippy && popper._tippy.props.interactive) {
+      return;
+    }
+
+    // Clicked on a reference
+    var reference = closestCallback(target, function (el) {
+      return el._tippy && el._tippy.reference === el;
+    });
+    if (reference) {
+      var tip = reference._tippy;
+      var isClickTrigger = includes(tip.props.trigger, 'click');
+
+      if (isUsingTouch || isClickTrigger) {
+        return hideAllPoppers(tip);
+      }
+
+      if (tip.props.hideOnClick !== true || isClickTrigger) {
+        return;
+      }
+
+      tip.clearDelayTimeouts();
+    }
+
+    hideAllPoppers();
+  }
+
+  function onWindowBlur() {
+    var _document = document,
+        activeElement = _document.activeElement;
+
+    if (activeElement && activeElement.blur && activeElement._tippy) {
+      activeElement.blur();
+    }
+  }
+
+  function onWindowResize() {
+    arrayFrom(document.querySelectorAll(Selectors.POPPER)).forEach(function (popper) {
+      var tippyInstance = popper._tippy;
+      if (!tippyInstance.props.livePlacement) {
+        tippyInstance.popperInstance.scheduleUpdate();
+      }
+    });
+  }
+
+  /**
+   * Adds the needed global event listeners
+   */
+  function bindGlobalEventListeners() {
+    document.addEventListener('click', onDocumentClick, true);
+    document.addEventListener('touchstart', onDocumentTouch, PASSIVE);
+    window.addEventListener('blur', onWindowBlur);
+    window.addEventListener('resize', onWindowResize);
+
+    if (!supportsTouch && (navigator.maxTouchPoints || navigator.msMaxTouchPoints)) {
+      document.addEventListener('pointerdown', onDocumentTouch);
+    }
   }
 
   var keys$1 = Object.keys(Defaults$1);
@@ -5242,8 +5258,8 @@
    */
   function computeArrowTransform(arrow, arrowTransform) {
     var placement = getPopperPlacement(closest(arrow, Selectors.POPPER));
-    var isVertical = placement === 'top' || placement === 'bottom';
-    var isReverse = placement === 'right' || placement === 'bottom';
+    var isVertical = includes(['top', 'bottom'], placement);
+    var isReverse = includes(['right', 'bottom'], placement);
 
     var matches$$1 = {
       translate: {
@@ -5436,8 +5452,8 @@
       // overflowing. Maybe Popper.js issue?
       var placement = getPopperPlacement(tip.popper);
       var padding = tip.popperChildren.arrow ? 20 : 5;
-      var isVerticalPlacement = placement === 'top' || placement === 'bottom';
-      var isHorizontalPlacement = placement === 'left' || placement === 'right';
+      var isVerticalPlacement = includes(['top', 'bottom'], placement);
+      var isHorizontalPlacement = includes(['left', 'right'], placement);
 
       // Top / left boundary
       var x = isVerticalPlacement ? Math.max(padding, clientX) : clientX;
@@ -5516,8 +5532,10 @@
 
       // If the tooltip has a delay, we need to be listening to the mousemove as
       // soon as the trigger event is fired, so that it's in the correct position
-      // upon mount
-      if (hasFollowCursorBehavior()) {
+      // upon mount.
+      // Edge case: if the tooltip is still mounted, but then prepareShow() is
+      // called, it causes a jump.
+      if (hasFollowCursorBehavior() && !tip.state.isMounted) {
         document.addEventListener('mousemove', positionVirtualReferenceNearCursor);
       }
 
@@ -5675,7 +5693,7 @@
      * `touchHold` option
      */
     function isEventListenerStopped(event) {
-      var isTouchEvent = event.type.indexOf('touch') > -1;
+      var isTouchEvent = includes(event.type, 'touch');
       var caseA = supportsTouch && isUsingTouch && tip.props.touchHold && !isTouchEvent;
       var caseB = isUsingTouch && !tip.props.touchHold && isTouchEvent;
       return caseA || caseB;
@@ -5853,56 +5871,55 @@
     }
 
     /**
-     * Adds an event listener to the reference
+     * Adds an event listener to the reference and stores it in `listeners`
      */
-    function on(eventType, handler, acc) {
-      tip.reference.addEventListener(eventType, handler);
-      acc.push({ eventType: eventType, handler: handler });
+    function on(eventType, handler) {
+      var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      tip.reference.addEventListener(eventType, handler, options);
+      listeners.push({ eventType: eventType, handler: handler, options: options });
     }
 
     /**
      * Adds event listeners to the reference based on the `trigger` prop
      */
     function addTriggersToReference() {
-      listeners = tip.props.trigger.trim().split(' ').reduce(function (acc, eventType) {
+      if (tip.props.touchHold && !tip.props.target) {
+        on('touchstart', onTrigger, PASSIVE);
+        on('touchend', onMouseLeave, PASSIVE);
+      }
+
+      tip.props.trigger.trim().split(' ').forEach(function (eventType) {
         if (eventType === 'manual') {
-          return acc;
+          return;
         }
 
         if (!tip.props.target) {
-          on(eventType, onTrigger, acc);
-
-          if (tip.props.touchHold) {
-            on('touchstart', onTrigger, acc);
-            on('touchend', onMouseLeave, acc);
-          }
-
+          on(eventType, onTrigger);
           switch (eventType) {
             case 'mouseenter':
-              on('mouseleave', onMouseLeave, acc);
+              on('mouseleave', onMouseLeave);
               break;
             case 'focus':
-              on(isIE$1 ? 'focusout' : 'blur', onBlur, acc);
+              on(isIE$1 ? 'focusout' : 'blur', onBlur);
               break;
           }
         } else {
           switch (eventType) {
             case 'mouseenter':
-              on('mouseover', onDelegateShow, acc);
-              on('mouseout', onDelegateHide, acc);
+              on('mouseover', onDelegateShow);
+              on('mouseout', onDelegateHide);
               break;
             case 'focus':
-              on('focusin', onDelegateShow, acc);
-              on('focusout', onDelegateHide, acc);
+              on('focusin', onDelegateShow);
+              on('focusout', onDelegateHide);
               break;
             case 'click':
-              on(eventType, onDelegateShow, acc);
+              on(eventType, onDelegateShow);
               break;
           }
         }
-
-        return acc;
-      }, []);
+      });
     }
 
     /**
@@ -5911,10 +5928,12 @@
     function removeTriggersFromReference() {
       listeners.forEach(function (_ref) {
         var eventType = _ref.eventType,
-            handler = _ref.handler;
+            handler = _ref.handler,
+            options = _ref.options;
 
-        tip.reference.removeEventListener(eventType, handler);
+        tip.reference.removeEventListener(eventType, handler, options);
       });
+      listeners = [];
     }
 
     /* ======================= 🔑 Public methods 🔑 ======================= */
@@ -6056,11 +6075,13 @@
             tip.popperChildren.tooltip.classList.add('tippy-notransition');
           }
 
-          if (tip.props.autoFocus && tip.props.interactive && ['focus', 'click'].indexOf(lastTriggerEvent.type) > -1) {
+          if (tip.props.autoFocus && tip.props.interactive && includes(['focus', 'click'], lastTriggerEvent.type)) {
             focus(tip.popper);
           }
 
-          tip.reference.setAttribute('aria-' + tip.props.aria, tip.popper.id);
+          if (tip.props.aria) {
+            tip.reference.setAttribute('aria-' + tip.props.aria, tip.popper.id);
+          }
 
           tip.props.onShown(tip);
           tip.state.isShown = true;
@@ -6098,7 +6119,7 @@
 
       setVisibilityState([tip.popperChildren.tooltip, tip.popperChildren.backdrop, tip.popperChildren.content], 'hidden');
 
-      if (tip.props.autoFocus && tip.props.interactive && !referenceJustProgrammaticallyFocused && ['focus', 'click'].indexOf(lastTriggerEvent.type) > -1) {
+      if (tip.props.autoFocus && tip.props.interactive && !referenceJustProgrammaticallyFocused && includes(['focus', 'click'], lastTriggerEvent.type)) {
         if (lastTriggerEvent.type === 'focus') {
           referenceJustProgrammaticallyFocused = true;
         }
@@ -6110,7 +6131,9 @@
           removeFollowCursorListener();
         }
 
-        tip.reference.removeAttribute('aria-' + tip.props.aria);
+        if (tip.props.aria) {
+          tip.reference.removeAttribute('aria-' + tip.props.aria);
+        }
 
         tip.popperInstance.disableEventListeners();
 
