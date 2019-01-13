@@ -7028,11 +7028,15 @@
 
   function _createMaskContainer() {
     var element = document.createElementNS(svgNS, 'mask');
-    element.setAttributeNS(null, 'id', elementIds.modalOverlayMask);
-    element.setAttributeNS(null, 'x', '0');
-    element.setAttributeNS(null, 'y', '0');
-    element.setAttributeNS(null, 'width', '100%');
-    element.setAttributeNS(null, 'height', '100%');
+
+    _setAttributes(element, {
+      height: '100%',
+      id: elementIds.modalOverlayMask,
+      width: '100%',
+      x: '0',
+      y: '0'
+    });
+
     return element;
   }
   /**
@@ -7042,11 +7046,15 @@
 
   function _createMaskRect() {
     var element = document.createElementNS(svgNS, 'rect');
-    element.setAttributeNS(null, 'x', '0');
-    element.setAttributeNS(null, 'y', '0');
-    element.setAttributeNS(null, 'width', '100%');
-    element.setAttributeNS(null, 'height', '100%');
-    element.setAttributeNS(null, 'fill', '#FFFFFF');
+
+    _setAttributes(element, {
+      fill: '#FFFFFF',
+      height: '100%',
+      width: '100%',
+      x: '0',
+      y: '0'
+    });
+
     return element;
   }
   /**
@@ -7056,8 +7064,12 @@
 
   function _createMaskOpening() {
     var element = document.createElementNS(svgNS, 'rect');
-    element.setAttributeNS(null, 'id', elementIds.modalOverlayMaskOpening);
-    element.setAttributeNS(null, 'fill', '#000000');
+
+    _setAttributes(element, {
+      fill: '#000000',
+      id: elementIds.modalOverlayMaskOpening
+    });
+
     return element;
   }
   /**
@@ -7067,26 +7079,30 @@
 
   function _createMaskConsumer() {
     var element = document.createElementNS(svgNS, 'rect');
-    element.setAttributeNS(null, 'x', '0');
-    element.setAttributeNS(null, 'y', '0');
-    element.setAttributeNS(null, 'width', '100%');
-    element.setAttributeNS(null, 'height', '100%');
-    element.setAttributeNS(null, 'mask', "url(#".concat(elementIds.modalOverlayMask, ")"));
+
+    _setAttributes(element, {
+      height: '100%',
+      width: '100%',
+      x: '0',
+      y: '0'
+    });
+
+    element.setAttribute('mask', "url(#".concat(elementIds.modalOverlayMask, ")"));
     return element;
   }
   /**
    * Generates an SVG with the following structure:
    * ```html
    *  <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
-            <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
-            <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
-            <rect id="shepherdModalMaskOpening"/>
-          </mask>
-        </defs>
-        <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
-      </svg>
+   <defs>
+   <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
+   <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
+   <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
+   <rect id="shepherdModalMaskOpening"/>
+   </mask>
+   </defs>
+   <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
+   </svg>
    * ```
    */
 
@@ -7111,6 +7127,12 @@
     containerElement.appendChild(maskConsumer);
     return containerElement;
   }
+  /**
+   * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
+   * @param {HTMLElement} targetElement The element the opening will expose
+   * @param {SVGElement} openingElement The svg mask for the opening
+   */
+
 
   function positionModalOpening(targetElement, openingElement) {
     if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
@@ -7120,19 +7142,23 @@
           width = _targetElement$getBou.width,
           height = _targetElement$getBou.height;
 
-      openingElement.setAttributeNS(null, 'x', x);
-      openingElement.setAttributeNS(null, 'y', y);
-      openingElement.setAttributeNS(null, 'width', width);
-      openingElement.setAttributeNS(null, 'height', height);
+      _setAttributes(openingElement, {
+        x: x,
+        y: y,
+        width: width,
+        height: height
+      });
     }
   }
 
   function closeModalOpening(openingElement) {
     if (openingElement && openingElement instanceof SVGElement) {
-      openingElement.setAttributeNS(null, 'x', '0');
-      openingElement.setAttributeNS(null, 'y', '0');
-      openingElement.setAttributeNS(null, 'width', '0');
-      openingElement.setAttributeNS(null, 'height', '0');
+      _setAttributes(openingElement, {
+        height: '0',
+        x: '0',
+        y: '0',
+        width: '0'
+      });
     }
   }
 
@@ -7161,6 +7187,19 @@
     }
 
     currentElement.classList.add(classNames.modalTarget);
+  }
+  /**
+   * Set multiple attributes on an element, via a hash
+   * @param {HTMLElement|SVGElement} el The element to set the attributes on
+   * @param {Object} attrs A hash of key value pairs for attributes to set
+   * @private
+   */
+
+
+  function _setAttributes(el, attrs) {
+    Object.keys(attrs).forEach(function (key) {
+      el.setAttribute(key, attrs[key]);
+    });
   }
 
   /**
