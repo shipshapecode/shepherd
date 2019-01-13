@@ -3,7 +3,6 @@
 You will need:
 
 - [Yarn](https://yarnpkg.com/)
-- [Webpack](https://webpack.js.org/)
 
 Windows users will need additional setup to enable build capabilities in NPM.
 From an administrative command window:
@@ -25,7 +24,7 @@ From an administrative command window:
 
 ## Writing code!
 
-We use `webpack` to facilitate things like transpilation, minification, etc. so
+We use `rollup` to facilitate things like transpilation, minification, etc. so
 you can focus on writing relevant code. If there is a fix or feature you would like
 to contribute, we ask that you take the following steps:
 
