@@ -1,3 +1,4 @@
+import { injectCSS } from './css';
 import isEmpty from 'lodash-es/isEmpty';
 import isFunction from 'lodash-es/isFunction';
 import isNumber from 'lodash-es/isNumber';
@@ -8,6 +9,7 @@ import { Modal } from './modal.js';
 import { Step } from './step.js';
 import { bindMethods } from './bind.js';
 import tippy from 'tippy.js';
+import tippyStyles from 'tippy.js/dist/tippy.css';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
 import {
@@ -83,6 +85,8 @@ export class Tour extends Evented {
 
     this._setTooltipDefaults();
     this._setTourID();
+
+    injectCSS(tippyStyles);
 
     return this;
   }
