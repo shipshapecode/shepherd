@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.3.0](https://github.com/shipshapecode/shepherd/tree/v2.3.0) (2019-01-14)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.2.0...v2.3.0)
+
+**Implemented enhancements:**
+
+- Inject tippy CSS to head [\#315](https://github.com/shipshapecode/shepherd/pull/315) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.2.0](https://github.com/shipshapecode/shepherd/tree/v2.2.0) (2019-01-14)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.1.1...v2.2.0)
