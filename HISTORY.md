@@ -1,5 +1,3 @@
-# Changelog
-
 ## [v2.1.0](https://github.com/shipshapecode/shepherd/tree/v2.1.0) (2019-01-06)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.2...v2.1.0)
