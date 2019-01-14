@@ -84,7 +84,7 @@
     "rollup-plugin-css-only": "^0.4.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-filesize": "^6.0.0",
-    "rollup-plugin-license": "^0.7.0",
+    "rollup-plugin-license": "^0.8.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-sass": "^1.1.0",
