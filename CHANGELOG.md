@@ -1,5 +1,24 @@
 # Changelog
 
+## [v2.2.0](https://github.com/shipshapecode/shepherd/tree/v2.2.0) (2019-01-14)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.1.1...v2.2.0)
+
+**Implemented enhancements:**
+
+- setAttributeNS -\> setAttribute, add modal utils tests [\#312](https://github.com/shipshapecode/shepherd/pull/312) ([rwwagner90](https://github.com/rwwagner90))
+- Use rollup instead of webpack [\#309](https://github.com/shipshapecode/shepherd/pull/309) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.1.1](https://github.com/shipshapecode/shepherd/tree/v2.1.1) (2019-01-11)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.1.0...v2.1.1)
+
+**Fixed bugs:**
+
+- Use correct cleanupStepEventListeners [\#311](https://github.com/shipshapecode/shepherd/pull/311) ([rwwagner90](https://github.com/rwwagner90))
+
+# Changelog
+
 ## [v2.1.0](https://github.com/shipshapecode/shepherd/tree/v2.1.0) (2019-01-06)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.2...v2.1.0)
