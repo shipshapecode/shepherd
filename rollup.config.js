@@ -1,8 +1,9 @@
-import atImport from 'postcss-import';
 import autoprefixer from 'autoprefixer';
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
 import commonjs from 'rollup-plugin-commonjs';
+import css from 'rollup-plugin-css-only';
+import cssnano from 'cssnano';
 import { eslint } from 'rollup-plugin-eslint';
 import fs from 'fs';
 import license from 'rollup-plugin-license';
@@ -31,10 +32,10 @@ const sassOptions = {
     });
   },
   processor: css => postcss([
-    atImport(),
     autoprefixer({
       grid: false
-    })
+    }),
+    cssnano()
   ])
     .process(css)
     .then(result => result.css)
@@ -52,7 +53,8 @@ const plugins = [
   eslint(),
   babel({
     exclude: 'node_modules/**'
-  })
+  }),
+  css({ output: false })
 ];
 
 if (!process.env.DEVELOPMENT) {
@@ -132,6 +134,7 @@ if (!process.env.DEVELOPMENT) {
           banner
         }),
         sass(sassOptions),
+        css({ output: false }),
         uglify(),
         filesize()
       ]
