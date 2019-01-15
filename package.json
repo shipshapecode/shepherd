@@ -38,7 +38,7 @@
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
-    "watch": "yarn clean && rollup -c --environment DEVELOPMENT"
+    "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
