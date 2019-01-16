@@ -7320,11 +7320,11 @@
   function addStepEventListeners() {
     if (typeof this._onScreenChange === 'function') {
       window.removeEventListener('resize', this._onScreenChange, false);
-      window.removeEventListener('scroll', this._onScreenChange, false);
+      window.removeEventListener('scroll', this._onScreenChange, true);
     }
 
     window.addEventListener('resize', this._onScreenChange, false);
-    window.addEventListener('scroll', this._onScreenChange, false);
+    window.addEventListener('scroll', this._onScreenChange, true);
     var overlay = document.querySelector("#".concat(elementIds.modalOverlay)); // Prevents window from moving on touch.
 
     window.addEventListener('touchmove', preventModalBodyTouch, {
