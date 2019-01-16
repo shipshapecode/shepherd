@@ -7050,6 +7050,7 @@
   var elementIds = {
     modalOverlay: 'shepherdModalOverlayContainer',
     modalOverlayMask: 'shepherdModalMask',
+    modalOverlayMaskRect: 'shepherdModalMaskRect',
     modalOverlayMaskOpening: 'shepherdModalMaskOpening'
   };
   var classNames = {
@@ -7084,7 +7085,7 @@
     return element;
   }
   /**
-   *  <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
+   *  <rect id="modalOverlayMaskRect" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
    */
 
 
@@ -7094,6 +7095,7 @@
     _setAttributes(element, {
       fill: '#FFFFFF',
       height: '100%',
+      id: elementIds.modalOverlayMaskRect,
       width: '100%',
       x: '0',
       y: '0'
