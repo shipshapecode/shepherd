@@ -76,11 +76,11 @@ function getElementFromString(element) {
 function addStepEventListeners() {
   if (typeof this._onScreenChange === 'function') {
     window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
+    window.removeEventListener('scroll', this._onScreenChange, true);
   }
 
   window.addEventListener('resize', this._onScreenChange, false);
-  window.addEventListener('scroll', this._onScreenChange, false);
+  window.addEventListener('scroll', this._onScreenChange, true);
 
   const overlay = document.querySelector(`#${elementIds.modalOverlay}`);
   // Prevents window from moving on touch.
