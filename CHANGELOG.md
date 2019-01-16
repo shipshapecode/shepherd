@@ -1,5 +1,33 @@
 # Changelog
 
+## [v2.3.2](https://github.com/shipshapecode/shepherd/tree/v2.3.2) (2019-01-16)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.1...v2.3.2)
+
+**Fixed bugs:**
+
+- Object.assign not transpiled [\#323](https://github.com/shipshapecode/shepherd/issues/323)
+- Toggling developer tools breaks modal mask [\#320](https://github.com/shipshapecode/shepherd/issues/320)
+- Scrolling to an element causes modal overlay to appear in wrong place [\#319](https://github.com/shipshapecode/shepherd/issues/319)
+
+**Merged pull requests:**
+
+- Use @babel/plugin-transform-object-assign [\#324](https://github.com/shipshapecode/shepherd/pull/324) ([rwwagner90](https://github.com/rwwagner90))
+- Apply scroll listener to all scroll events [\#322](https://github.com/shipshapecode/shepherd/pull/322) ([rwwagner90](https://github.com/rwwagner90))
+- Use vh and vw to ensure modal is always full screen [\#321](https://github.com/shipshapecode/shepherd/pull/321) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.3.1](https://github.com/shipshapecode/shepherd/tree/v2.3.1) (2019-01-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.0...v2.3.1)
+
+**Fixed bugs:**
+
+- fix: move touchmove event listener cleanup out of if statement [\#317](https://github.com/shipshapecode/shepherd/pull/317) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-license to the latest version 🚀 [\#318](https://github.com/shipshapecode/shepherd/pull/318) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.3.0](https://github.com/shipshapecode/shepherd/tree/v2.3.0) (2019-01-14)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.2.0...v2.3.0)
