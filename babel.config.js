@@ -6,12 +6,12 @@ module.exports = function(api) {
       [
         '@babel/preset-env',
         {
-          modules: false,
-          targets: {
-            browsers: 'ie >= 11'
-          }
+          modules: false
         }
       ]
+    ],
+    plugins: [
+      '@babel/plugin-transform-object-assign'
     ],
     env: {
       test: {

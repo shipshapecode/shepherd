@@ -57,6 +57,24 @@
     return obj;
   }
 
+  function _extends() {
+    _extends = Object.assign || function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+
+      return target;
+    };
+
+    return _extends.apply(this, arguments);
+  }
+
   function _objectSpread(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i] != null ? arguments[i] : {};
@@ -6284,7 +6302,7 @@
     computeStyle: {
       enabled: true,
       fn: function fn(data) {
-        data.styles = Object.assign({}, data.styles, {
+        data.styles = _extends({}, data.styles, {
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)'
@@ -6380,7 +6398,8 @@
 
   function parseAttachTo() {
     var options = _parseAttachToOpts(this.options.attachTo) || {};
-    var returnOpts = Object.assign({}, options);
+
+    var returnOpts = _extends({}, options);
 
     if (isString(options.element)) {
       // Can't override the element in user opts reference because we can't
@@ -6430,7 +6449,7 @@
     }, this.options.tippyOptions);
 
     if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-      Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
+      _extends(defaultPopperOptions, this.options.tippyOptions.popperOptions);
     }
 
     resultingTippyOptions.popperOptions = defaultPopperOptions;
@@ -6454,9 +6473,11 @@
 
     tippyOptions.arrow = false;
     tippyOptions.popperOptions = tippyOptions.popperOptions || {};
-    var finalPopperOptions = Object.assign({}, defaultPopperOptions, tippyOptions.popperOptions, {
-      modifiers: Object.assign(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
+
+    var finalPopperOptions = _extends({}, defaultPopperOptions, tippyOptions.popperOptions, {
+      modifiers: _extends(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
     });
+
     tippyOptions.popperOptions = finalPopperOptions;
     return tippy$1.one(document.body, tippyOptions);
   }
@@ -8165,7 +8186,7 @@
           stepOptions.id = name.toString();
         }
 
-        stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
+        stepOptions = _extends({}, this.options.defaultStepOptions, stepOptions);
         return new Step(this, stepOptions);
       }
     }, {
@@ -8316,7 +8337,7 @@
     return Tour;
   }(Evented);
 
-  Object.assign(Shepherd, {
+  _extends(Shepherd, {
     Tour: Tour,
     Step: Step,
     Evented: Evented
