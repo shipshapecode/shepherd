@@ -7965,7 +7965,7 @@
       _classCallCheck(this, Tour);
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Tour).call(this, options));
-      bindMethods.call(_assertThisInitialized(_assertThisInitialized(_this)), ['back', 'cancel', 'complete', 'next']);
+      bindMethods.call(_assertThisInitialized(_assertThisInitialized(_this)), ['back', 'cancel', 'complete', 'hide', 'next']);
       _this.options = options;
       _this.steps = _this.options.steps || []; // Pass these events onto the global Shepherd object
 

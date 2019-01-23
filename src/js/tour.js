@@ -64,6 +64,7 @@ export class Tour extends Evented {
       'back',
       'cancel',
       'complete',
+      'hide',
       'next'
     ]);
     this.options = options;
