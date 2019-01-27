@@ -3608,11 +3608,6 @@ estraverse@^4.0.0, estraverse@^4.1.0, estraverse@^4.1.1, estraverse@^4.2.0:
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
   integrity sha1-De4/7TH81GlhjOc0IJn8GvoL2xM=
 
-estree-walker@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.2.1.tgz#bdafe8095383d8414d5dc2ecf4c9173b6db9412e"
-  integrity sha1-va/oCVOD2EFNXcLs9MkXO225QS4=
-
 estree-walker@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.5.2.tgz#d3850be7529c9580d815600b53126515e146dd39"
@@ -8447,13 +8442,13 @@ rollup-plugin-commonjs@^9.2.0:
     resolve "^1.8.1"
     rollup-pluginutils "^2.3.3"
 
-rollup-plugin-css-only@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-css-only/-/rollup-plugin-css-only-0.4.0.tgz#eaf10c79b17c88dc95712fe91518e3afedfb657a"
-  integrity sha512-a9hhQnwajgrVEyyp+QPvOyV5QC9AN6PILO4Teg2+MCKTZgYAQkZy4B1pYjAuMOH9qgyFiJY8hAu6CEVIDU5Zjw==
+rollup-plugin-css-only@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-css-only/-/rollup-plugin-css-only-1.0.0.tgz#dc027d657d02e7706b855d856dcb0fdd49935135"
+  integrity sha512-WY8bISLKzWCnUmHMOhsgbQ/bZz1J1eigwMROixTWZb4yPrMCA4vbfQog6n3bsOQMfq39Kih6jWY9Xn9rYjiqXw==
   dependencies:
     mkdirp "^0.5.1"
-    rollup-pluginutils "^1.5.2"
+    rollup-pluginutils "^2.3.3"
 
 rollup-plugin-eslint@^5.0.0:
   version "5.0.0"
@@ -8539,14 +8534,6 @@ rollup-plugin-uglify@^6.0.1:
   dependencies:
     estree-walker "^0.5.2"
     micromatch "^2.3.11"
-
-rollup-pluginutils@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-1.5.2.tgz#1e156e778f94b7255bfa1b3d0178be8f5c552408"
-  integrity sha1-HhVud4+UtyVb+hs9AXi+j1xVJAg=
-  dependencies:
-    estree-walker "^0.2.1"
-    minimatch "^3.0.2"
 
 rollup@^1.1.2:
   version "1.1.2"
