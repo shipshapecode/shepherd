@@ -82,7 +82,7 @@
     "rollup-plugin-babel-minify": "^7.0.0",
     "rollup-plugin-browsersync": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-css-only": "^0.4.0",
+    "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-eslint": "^5.0.0",
     "rollup-plugin-filesize": "^6.0.1",
     "rollup-plugin-license": "^0.8.1",
