@@ -87,7 +87,9 @@ export class Step extends Evented {
    * }
    * ```
    * @param {boolean} options.overlay Can be either true, false or an object.  If truthy, then overlay elements
-   * are generated to cover the non-target areas of the screen as a backdrop overlay.  If specified as an object,
+   * are generated to cover the non-target areas of the screen as a backdrop overlay.
+   * Also may use the useModalOverlay tour option instead.
+   * If specified as an object,
    * then the following properties are supported:
    * ```
    *    classes             Extra classed to add the the overlay elements

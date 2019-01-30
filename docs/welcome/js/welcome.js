@@ -12,7 +12,8 @@
     const shepherd = new Shepherd.Tour({
       defaultStepOptions: {
         showCancelLink: true
-      }
+      },
+      useModalOverlay: true
     });
 
     shepherd.addStep('welcome', {
@@ -132,9 +133,9 @@
       Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.`,
       attachTo: '.hero-example-overlay right',
       scrollTo: true,
-      overlay: {
-        styles: {'background-color':'black', 'opacity': 0.4}
-      },
+      //overlay: {
+      //  styles: {'background-color':'black', 'opacity': 0.4}
+      //},
       buttons: [
         {
           action: shepherd.back,

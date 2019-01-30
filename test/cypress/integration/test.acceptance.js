@@ -289,6 +289,30 @@ describe('Shepherd Acceptance Tests', () => {
         cy.get('.shepherd-non-target').should('have.length', 1).should('be.visible');
       });
 
+      it('it adds an overlay when tour option useModalOverlay=true', () => {
+        const steps = () => {
+          return [
+            {
+              id: 'welcome',
+              options: {
+                text: ['Shepherd is a JavaScript library']
+              }
+            }
+          ];
+        };
+
+        const tour = setupTour(Shepherd, {
+          showCancelLink: false
+        }, steps, {
+          useModalOverlay: true
+        });
+
+        tour.start();
+
+        // one overlay element should be visible
+        cy.get('.shepherd-overlay').should('have.length', 1).should('be.visible');
+      });
+
       it('it adds classes to overlay elements', () => {
         const steps = () => {
           return [

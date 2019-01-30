@@ -30,7 +30,8 @@ export function setupOverlayElements(attachToOptions, virtualTargetEl) {
   overlayElements.show = _showOverlayElements.bind(overlayElements);
   overlayElements.remove = _removeOverlayElements.bind(overlayElements);
 
-  if (this.options.overlay) {
+  // Supporting the new useModalOverlay as an alternate
+  if (this.tour.options.useModalOverlay || this.options.overlay) {
 
     if (attachToOptions.element) {
       // area to the left of the target
@@ -82,19 +83,22 @@ export function setupOverlayElements(attachToOptions, virtualTargetEl) {
 function _configureOverlayElement(element) {
   element.style.position = 'absolute';
   element.classList.add('shepherd-non-target');
-  if (this.options.overlay.cancelTourOnClick) {
-    element.addEventListener('click', () => {
-      window.Shepherd.activeTour.cancel();
-    });
-  }
-  if (this.options.overlay.styles) {
-    for (const style in this.options.overlay.styles) {
-      element.style[style] = this.options.overlay.styles[style];
+  element.classList.add('shepherd-overlay');
+  if (this.options.overlay) {
+    if (this.options.overlay.cancelTourOnClick) {
+      element.addEventListener('click', () => {
+        window.Shepherd.activeTour.cancel();
+      });
     }
-  }
-  if (this.options.overlay.classes) {
-    for (const cls of this.options.overlay.classes.split(' ')) {
-      element.classList.add(cls);
+    if (this.options.overlay.styles) {
+      for (const style in this.options.overlay.styles) {
+        element.style[style] = this.options.overlay.styles[style];
+      }
+    }
+    if (this.options.overlay.classes) {
+      for (const cls of this.options.overlay.classes.split(' ')) {
+        element.classList.add(cls);
+      }
     }
   }
 }
