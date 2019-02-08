@@ -130,9 +130,9 @@ function createModalOverlay() {
  */
 function positionModalOpening(targetElement, openingElement) {
   if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
-    const { x, y, width, height } = targetElement.getBoundingClientRect();
+    const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
-    _setAttributes(openingElement, { x, y, width, height });
+    _setAttributes(openingElement, { x:  x || left, y: y || top, width, height });
   }
 }
 
