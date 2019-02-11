@@ -23,6 +23,7 @@ We strive to make it easy to use Shepherd in all the major frameworks, and have 
 * [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
 * [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
 * [react-shepherd](https://github.com/shipshapecode/react-shepherd)
+* [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
 
 
 ### Install Directly
