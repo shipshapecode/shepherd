@@ -394,13 +394,33 @@ Furthermore, while each of [Shepherd's themes]((/docs/themes.md)) provides some 
 
 Here we showcase some of the awesome libraries built using Shepherd.
 
+### JS Framework Wrappers
+
 ### [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
 
 Ember addon for the site tour library Shepherd
 
+### [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
+
+An Angular wrapper for the site tour library Shepherd
+
+### [react-shepherd](https://github.com/shipshapecode/react-shepherd)
+
+A React wrapper for the site tour library Shepherd
+
+### [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
+
+A Vue wrapper for the site tour library Shepherd
+
+### Websites and Apps
+
 ### [SimplePlanner](https://simpleplanner.io)
 
-[SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. You do need to sign up via OAuth or email to see the scheduling tour. Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplus.com/series/building-your-startup-with-php--cms-742) which describes how Simple Planner was built.
+[SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
+You do need to sign up via OAuth or email to see the scheduling tour. 
+Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplus.com/series/building-your-startup-with-php--cms-742) which describes how Simple Planner was built.
+
+[Brokermate](https://www.brokermate.com/) uses Shepherd to guide users through initial setup steps.
 
 ### Your Project Here
 
