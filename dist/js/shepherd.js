@@ -7207,11 +7207,13 @@
           x = _targetElement$getBou.x,
           y = _targetElement$getBou.y,
           width = _targetElement$getBou.width,
-          height = _targetElement$getBou.height;
+          height = _targetElement$getBou.height,
+          left = _targetElement$getBou.left,
+          top = _targetElement$getBou.top;
 
       _setAttributes(openingElement, {
-        x: x,
-        y: y,
+        x: x || left,
+        y: y || top,
         width: width,
         height: height
       });
