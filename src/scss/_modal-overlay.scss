@@ -1,4 +1,3 @@
-/* stylelint-disable selector-max-id */
 #shepherdModalOverlayContainer {
   -ms-filter: "progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)";
   filter: alpha(opacity=50);
@@ -27,14 +26,21 @@
  * Block clicks except for those that would occur
  * on Shepherd elements or on the target element.
 */
-.shepherd-active.shepherd-modal-is-visible :not(.shepherd-target) {
-  pointer-events: none;
-}
+.shepherd-active {
+  &.shepherd-modal-is-visible {
+    :not(.shepherd-target) {
+      pointer-events: none;
+    }
 
-.shepherd-active.shepherd-modal-is-visible .shepherd-target,
-.shepherd-active.shepherd-modal-is-visible .shepherd-cancel-link,
-.shepherd-active.shepherd-modal-is-visible .shepherd-button {
-  pointer-events: auto;
-}
+    .shepherd-button,
+    .shepherd-cancel-link,
+    .shepherd-element,
+    .shepherd-target {
+      pointer-events: auto;
 
-/* stylelint-enable */
+      * {
+        pointer-events: auto;
+      }
+    }
+  }
+}
