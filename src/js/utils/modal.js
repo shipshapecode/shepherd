@@ -132,7 +132,8 @@ function positionModalOpening(targetElement, openingElement) {
   if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
     const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
-    _setAttributes(openingElement, { x:  x || left, y: y || top, width, height });
+    // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+    _setAttributes(openingElement, { x: x || left, y: y || top, width, height });
   }
 }
 

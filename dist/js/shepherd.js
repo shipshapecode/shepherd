@@ -7209,7 +7209,8 @@
           width = _targetElement$getBou.width,
           height = _targetElement$getBou.height,
           left = _targetElement$getBou.left,
-          top = _targetElement$getBou.top;
+          top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+
 
       _setAttributes(openingElement, {
         x: x || left,
