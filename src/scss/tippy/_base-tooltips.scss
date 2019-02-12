@@ -12,6 +12,10 @@
  * </div>
  */
 
+.tippy-arrow {
+  transform: scale(2);
+}
+
 .tippy-popper {
   @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
 
