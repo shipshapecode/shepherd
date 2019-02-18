@@ -12,7 +12,7 @@ describe('Modal mode', () => {
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.disableAnimations();
+    tippy.setDefaults({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
@@ -22,7 +22,7 @@ describe('Modal mode', () => {
       }
     });
   });
-  
+
   afterEach(() => {
     tour.complete();
   });
@@ -56,7 +56,7 @@ describe('Modal mode', () => {
       cy.get('body').should('not.have.class', modalClassNames.isVisible);
     });
   });
-  
+
   describe('hide', () => {
     beforeEach(() => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
