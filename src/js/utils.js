@@ -140,7 +140,7 @@ function _makeTippyInstance(attachToOptions) {
 
   const tippyOptions = _makeAttachedTippyOptions.call(this, attachToOptions);
 
-  return tippy.one(attachToOptions.element, tippyOptions);
+  return tippy(attachToOptions.element, tippyOptions);
 }
 
 /**
@@ -199,5 +199,5 @@ function _makeCenteredTippy() {
 
   tippyOptions.popperOptions = finalPopperOptions;
 
-  return tippy.one(document.body, tippyOptions);
+  return tippy(document.body, tippyOptions);
 }

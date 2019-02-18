@@ -20,7 +20,7 @@ describe('Tour | Top-Level Class', function() {
   };
 
   beforeEach(() => {
-    tippy.disableAnimations();
+    tippy.setDefaults({ duration: 0, delay: 0 });
   });
 
   afterEach(() => {

@@ -47,7 +47,8 @@
   "dependencies": {
     "element-matches": "^0.1.2",
     "lodash-es": "^4.17.11",
-    "tippy.js": "^3.4.1"
+    "popper.js": "^1.14.7",
+    "tippy.js": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

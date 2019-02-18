@@ -7,7 +7,7 @@ let Shepherd;
 describe('Shepherd Acceptance Tests', () => {
   beforeEach(() => {
     Shepherd = null;
-    tippy.disableAnimations();
+    tippy.setDefaults({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
