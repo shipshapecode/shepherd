@@ -1,5 +1,37 @@
 # Changelog
 
+## [v2.4.0](https://github.com/shipshapecode/shepherd/tree/v2.4.0) (2019-02-27)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.3...v2.4.0)
+
+**Implemented enhancements:**
+
+- Angular wrapper [\#332](https://github.com/shipshapecode/shepherd/issues/332)
+- Add tabindex="0" to shepherd-button [\#337](https://github.com/shipshapecode/shepherd/pull/337) ([knoobie](https://github.com/knoobie))
+
+**Fixed bugs:**
+
+- Links in modal mode [\#328](https://github.com/shipshapecode/shepherd/issues/328)
+- svg mask for the opening in browsers do not support getBoundingClientRect\(\).x|y [\#330](https://github.com/shipshapecode/shepherd/pull/330) ([yaxinr](https://github.com/yaxinr))
+
+**Merged pull requests:**
+
+- Tippy 4 [\#336](https://github.com/shipshapecode/shepherd/pull/336) ([rwwagner90](https://github.com/rwwagner90))
+- Fix inability to click things in shepherd-element [\#334](https://github.com/shipshapecode/shepherd/pull/334) ([rwwagner90](https://github.com/rwwagner90))
+- Update rollup-plugin-css-only to the latest version 🚀 [\#327](https://github.com/shipshapecode/shepherd/pull/327) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.3.3](https://github.com/shipshapecode/shepherd/tree/v2.3.3) (2019-01-23)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.2...v2.3.3)
+
+**Fixed bugs:**
+
+- Adds missing 'hide' to binded methods list in Tour [\#326](https://github.com/shipshapecode/shepherd/pull/326) ([seppsepp](https://github.com/seppsepp))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-babel-minify to the latest version 🚀 [\#325](https://github.com/shipshapecode/shepherd/pull/325) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.3.2](https://github.com/shipshapecode/shepherd/tree/v2.3.2) (2019-01-16)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.1...v2.3.2)
