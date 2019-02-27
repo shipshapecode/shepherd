@@ -6659,7 +6659,7 @@
           var buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
           footer.classList.add('shepherd-footer');
           this.options.buttons.map(function (cfg) {
-            var button = createFromHTML("<li><a class=\"shepherd-button ".concat(cfg.classes || '', "\">").concat(cfg.text, "</a>"));
+            var button = createFromHTML("<li><a class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</a>"));
             buttons.appendChild(button);
 
             _this2.bindButtonEvents(cfg, button.querySelector('a'));
