@@ -126,7 +126,7 @@ export class Step extends Evented {
       footer.classList.add('shepherd-footer');
 
       this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}">${cfg.text}</a>`);
+        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</a>`);
         buttons.appendChild(button);
         this.bindButtonEvents(cfg, button.querySelector('a'));
       });
