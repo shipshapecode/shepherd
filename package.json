@@ -80,7 +80,7 @@
     "replace": "^1.0.1",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-babel-minify": "^7.0.0",
+    "rollup-plugin-babel-minify": "^8.0.0",
     "rollup-plugin-browsersync": "^1.0.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-css-only": "^1.0.0",
