@@ -161,8 +161,8 @@ function _makeAttachedTippyOptions(attachToOptions) {
   Object.assign(resultingTippyOptions, this.options.tippyOptions);
 
   if (this.options.title) {
-    const existingTheme = resultingTippyOptions.theme || '';
-    resultingTippyOptions.theme = `${existingTheme} shepherd-has-title`;
+    const existingTheme = resultingTippyOptions.theme;
+    resultingTippyOptions.theme = existingTheme ? `${existingTheme} shepherd-has-title` : 'shepherd-has-title';
   }
 
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
