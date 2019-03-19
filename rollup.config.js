@@ -12,7 +12,7 @@ import filesize from 'rollup-plugin-filesize';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
-import { uglify } from 'rollup-plugin-uglify';
+import minify from 'rollup-plugin-babel-minify';
 
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -135,7 +135,7 @@ if (!process.env.DEVELOPMENT) {
         }),
         sass(sassOptions),
         css({ output: false }),
-        uglify(),
+        minify(),
         filesize()
       ]
     });
