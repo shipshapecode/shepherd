@@ -47,7 +47,7 @@ body {
 
 .hero-outer {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: table;
   height: 100%;
   padding: 20px 0;
@@ -164,6 +164,10 @@ pre {
   left: calc(50% - 16px);
 }
 
+.tippy-popper[x-placement^='bottom'] .shepherd-has-title-theme .tippy-arrow {
+  border-bottom-color: #e6e6e6;
+}
+
 .tippy-popper[x-placement^='left'] {
   margin-right: 16px;
 }
@@ -191,11 +195,6 @@ pre {
   padding-bottom: 0;
 }
 
-.tippy-popper .shepherd-welcome .shepherd-content header,
-.tippy-popper .shepherd-welcome .shepherd-content .shepherd-header {
-  background: #ffffff;
-}
-
-.tippy-popper .shepherd-welcome .shepherd-content .shepherd-text {
+.tippy-popper .shepherd-element .shepherd-content .shepherd-text {
   color: #336457;
 }
