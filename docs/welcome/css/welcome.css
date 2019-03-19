@@ -185,8 +185,9 @@ pre {
   top: calc(50% - 16px);
 }
 
-.tippy-popper .shepherd-welcome:not(.shepherd-has-title) .shepherd-content header,
-.tippy-popper .shepherd-welcome:not(.shepherd-has-title) .shepherd-content .shepherd-header {
+.tippy-popper .shepherd-element:not(.shepherd-has-title) .shepherd-content header,
+.tippy-popper .shepherd-element:not(.shepherd-has-title) .shepherd-content .shepherd-header {
+  background: transparent;
   padding-bottom: 0;
 }
 

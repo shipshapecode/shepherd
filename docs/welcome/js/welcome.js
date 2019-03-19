@@ -11,6 +11,7 @@
   function setupShepherd () {
     const shepherd = new Shepherd.Tour({
       defaultStepOptions: {
+        scrollTo: true,
         showCancelLink: true
       },
       useModalOverlay: true

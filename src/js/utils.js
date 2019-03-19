@@ -154,9 +154,11 @@ function _makeTippyInstance(attachToOptions) {
 function _makeAttachedTippyOptions(attachToOptions) {
   const resultingTippyOptions = {
     content: this.el,
-    placement: attachToOptions.on || 'right',
-    ...this.options.tippyOptions
+    flipOnUpdate: true,
+    placement: attachToOptions.on || 'right'
   };
+
+  Object.assign(resultingTippyOptions, this.options.tippyOptions);
 
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
     Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
