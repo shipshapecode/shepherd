@@ -10,9 +10,6 @@ module.exports = function(api) {
         }
       ]
     ],
-    plugins: [
-      '@babel/plugin-transform-object-assign'
-    ],
     env: {
       test: {
         presets: [
