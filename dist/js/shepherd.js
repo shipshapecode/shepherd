@@ -6270,10 +6270,17 @@
 
 
   function _makeAttachedTippyOptions(attachToOptions) {
-    const resultingTippyOptions = _objectSpread({
+    const resultingTippyOptions = {
       content: this.el,
+      flipOnUpdate: true,
       placement: attachToOptions.on || 'right'
-    }, this.options.tippyOptions);
+    };
+    Object.assign(resultingTippyOptions, this.options.tippyOptions);
+
+    if (this.options.title) {
+      const existingTheme = resultingTippyOptions.theme;
+      resultingTippyOptions.theme = existingTheme ? `${existingTheme} shepherd-has-title` : 'shepherd-has-title';
+    }
 
     if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
       Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
