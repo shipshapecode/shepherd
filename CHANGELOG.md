@@ -1,5 +1,23 @@
 # Changelog
 
+## [v2.5.0](https://github.com/shipshapecode/shepherd/tree/v2.5.0) (2019-03-20)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.4.0...v2.5.0)
+
+**Breaking changes:**
+
+- Drop IE support, bump some deps [\#344](https://github.com/shipshapecode/shepherd/pull/344) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Shepherd Doesn't Work Good On Mobile [\#339](https://github.com/shipshapecode/shepherd/issues/339)
+- Fix demo app arrows to be title color [\#314](https://github.com/shipshapecode/shepherd/issues/314)
+
+**Merged pull requests:**
+
+- Add flipping tippy by default, scrollTo for demo [\#345](https://github.com/shipshapecode/shepherd/pull/345) ([rwwagner90](https://github.com/rwwagner90))
+- Update del to the latest version 🚀 [\#340](https://github.com/shipshapecode/shepherd/pull/340) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.4.0](https://github.com/shipshapecode/shepherd/tree/v2.4.0) (2019-02-27)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.3...v2.4.0)
