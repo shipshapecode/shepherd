@@ -77,7 +77,7 @@
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.14",
     "replace": "^1.1.0",
-    "rollup": "^1.6.0",
+    "rollup": "^1.10.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-babel-minify": "^8.0.0",
     "rollup-plugin-browsersync": "^1.0.0",
