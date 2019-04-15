@@ -1,5 +1,18 @@
 # Changelog
 
+## [v2.6.0](https://github.com/shipshapecode/shepherd/tree/v2.6.0) (2019-04-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.5.0...v2.6.0)
+
+**Implemented enhancements:**
+
+- React wrapper [\#331](https://github.com/shipshapecode/shepherd/issues/331)
+
+**Fixed bugs:**
+
+- Minified File Size [\#354](https://github.com/shipshapecode/shepherd/issues/354)
+- Fix inflated build size, bump some deps [\#355](https://github.com/shipshapecode/shepherd/pull/355) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.5.0](https://github.com/shipshapecode/shepherd/tree/v2.5.0) (2019-03-20)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.4.0...v2.5.0)
