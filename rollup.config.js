@@ -12,7 +12,7 @@ import filesize from 'rollup-plugin-filesize';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
-import minify from 'rollup-plugin-babel-minify';
+import { terser } from 'rollup-plugin-terser';
 
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -118,24 +118,31 @@ if (!process.env.DEVELOPMENT) {
     // Generate minifed bundle
     {
       input: './src/js/shepherd.js',
-      output: {
-        file: 'dist/js/shepherd.min.js',
-        format: 'umd',
-        name: 'Shepherd',
-        sourcemap: true
-      },
+      output: [
+        {
+          file: 'dist/js/shepherd.min.js',
+          format: 'umd',
+          name: 'Shepherd',
+          sourcemap: true
+        },
+        {
+          file: 'dist/js/shepherd.esm.min.js',
+          format: 'esm',
+          sourcemap: true
+        }
+      ],
       plugins: [
         resolve(),
         commonjs(),
         babel({
           exclude: 'node_modules/**'
         }),
+        sass(sassOptions),
+        css({ output: false }),
+        terser(),
         license({
           banner
         }),
-        sass(sassOptions),
-        css({ output: false }),
-        minify(),
         filesize()
       ]
     });
