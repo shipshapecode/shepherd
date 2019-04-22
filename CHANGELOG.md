@@ -1,5 +1,18 @@
 # Changelog
 
+## [v2.7.0](https://github.com/shipshapecode/shepherd/tree/v2.7.0) (2019-04-22)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.6.0...v2.7.0)
+
+**Fixed bugs:**
+
+- After tour is canceled/completed and started again, overlay is not present anymore [\#347](https://github.com/shipshapecode/shepherd/issues/347)
+- Add createModalOverlay function [\#358](https://github.com/shipshapecode/shepherd/pull/358) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- \[BugFix\] Issue \#347 [\#357](https://github.com/shipshapecode/shepherd/pull/357) ([jayjfletcher](https://github.com/jayjfletcher))
+
 ## [v2.6.0](https://github.com/shipshapecode/shepherd/tree/v2.6.0) (2019-04-15)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.5.0...v2.6.0)
