@@ -11,16 +11,7 @@ import defer from 'lodash-es/defer';
 
 export class Modal {
   constructor(options) {
-    if (!this._modalOverlayElem) {
-      this._modalOverlayElem = createModalOverlay();
-      this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
-
-      // don't show yet -- each step will control that
-      this.hide();
-
-      document.body.appendChild(this._modalOverlayElem);
-    }
-
+    this.createModalOverlay();
     this.options = options;
 
     return this;
@@ -40,6 +31,21 @@ export class Modal {
       this._modalOverlayElem = null;
       document.body.classList.remove(modalClassNames.isVisible);
     });
+  }
+
+  /**
+   * Create the modal overlay, if it does not already exist
+   */
+  createModalOverlay() {
+    if (!this._modalOverlayElem) {
+      this._modalOverlayElem = createModalOverlay();
+      this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
+
+      // don't show yet -- each step will control that
+      this.hide();
+
+      document.body.appendChild(this._modalOverlayElem);
+    }
   }
 
   /**

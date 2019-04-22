@@ -311,6 +311,7 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
+    this.modal.createModalOverlay();
     this._addBodyAttrs();
     this.trigger('active', { tour: this });
 

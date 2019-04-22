@@ -7533,14 +7533,7 @@
 
   class Modal {
     constructor(options) {
-      if (!this._modalOverlayElem) {
-        this._modalOverlayElem = createModalOverlay();
-        this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem); // don't show yet -- each step will control that
-
-        this.hide();
-        document.body.appendChild(this._modalOverlayElem);
-      }
-
+      this.createModalOverlay();
       this.options = options;
       return this;
     }
@@ -7560,6 +7553,20 @@
         this._modalOverlayElem = null;
         document.body.classList.remove(classNames.isVisible);
       });
+    }
+    /**
+     * Create the modal overlay, if it does not already exist
+     */
+
+
+    createModalOverlay() {
+      if (!this._modalOverlayElem) {
+        this._modalOverlayElem = createModalOverlay();
+        this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem); // don't show yet -- each step will control that
+
+        this.hide();
+        document.body.appendChild(this._modalOverlayElem);
+      }
     }
     /**
      * Hide the modal overlay
@@ -7973,6 +7980,8 @@
 
 
     _setupActiveTour() {
+      this.modal.createModalOverlay();
+
       this._addBodyAttrs();
 
       this.trigger('active', {
