@@ -80,8 +80,6 @@ export class Tour extends Evented {
       })(event);
     });
 
-    this.modal = new Modal(options);
-
     this._setTooltipDefaults();
     this._setTourID();
 
@@ -311,6 +309,7 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
+    this.modal = new Modal(this.options);
     this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
