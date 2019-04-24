@@ -5,6 +5,9 @@ import Evented from "./evented";
 //TODO superheri are arrays really readonly?
 
 declare namespace Step {
+    /**
+     * The options for the step
+     */
     interface StepOptions {
         /**
          * What element the step should be attached to on the page.
