@@ -17,12 +17,28 @@ const centeredStylePopperModifier = {
 
       return data;
     }
+  },
+  addShepherdClass: {
+    enabled: true,
+    fn: (data) => {
+      data.instance.popper.classList.add('shepherd-popper');
+      return data;
+    }
   }
 };
 
 // Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
 const defaultPopperOptions = {
-  positionFixed: true
+  positionFixed: true,
+  modifiers: {
+    addShepherdClass: {
+      enabled: true,
+      fn: (data) => {
+        data.instance.popper.classList.add('shepherd-popper');
+        return data;
+      }
+    }
+  }
 };
 
 /**

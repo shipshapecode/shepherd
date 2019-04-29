@@ -27,7 +27,7 @@ const sassOptions = {
     });
 
     styleNodes.forEach(({ id, content }) => {
-      const scssName = id.substring(id.lastIndexOf('/') + 1, id.length);
+      const scssName = id.substring(id.lastIndexOf('\\') + 1, id.length);
       const name = scssName.split('.')[0];
       fs.writeFileSync(`dist/css/${name}.css`, content);
     });
