@@ -6,7 +6,7 @@ import isString from 'lodash-es/isString';
 import isUndefined from 'lodash-es/isUndefined';
 import { Evented } from './evented.js';
 import 'element-matches';
-import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './bind.js';
+import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils.js';
 
 /**
@@ -409,6 +409,11 @@ export class Step extends Evented {
     this.trigger('show');
   }
 
+  /**
+   * When a step is hidden, remove the highlightClass and 'shepherd-enabled'
+   * and 'shepherd-target' classes
+   * @private
+   */
   _updateStepTargetOnHide() {
     if (this.options.highlightClass) {
       this.target.classList.remove(this.options.highlightClass);
