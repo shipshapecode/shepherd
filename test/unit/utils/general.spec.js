@@ -1,7 +1,7 @@
 import {
   _parseAttachToOpts,
   parseShorthand
-} from '../../src/js/utils.js';
+} from '../../../src/js/utils/general.js';
 
 describe('Utils', function() {
   describe('_parseAttachToOpts', function() {

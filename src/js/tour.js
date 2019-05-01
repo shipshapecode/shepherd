@@ -6,7 +6,7 @@ import isUndefined from 'lodash-es/isUndefined';
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';
-import { bindMethods } from './bind.js';
+import { bindMethods } from './utils/bind.js';
 import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
@@ -46,7 +46,7 @@ const Shepherd = new Evented();
 export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
-   * @param {Object} options.defaultStepOptions Default options for Steps created through `addStep`
+   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -198,6 +198,10 @@ export class Tour extends Evented {
     }
   }
 
+  /**
+   * Check if the tour is active
+   * @return {boolean}
+   */
   isActive() {
     return Shepherd.activeTour === this;
   }
@@ -355,10 +359,19 @@ export class Tour extends Evented {
     this.show(nextIndex, forward);
   }
 
+  /**
+   * Set the tippy defaults
+   * @private
+   */
   _setTooltipDefaults() {
     tippy.setDefaults(tooltipDefaults);
   }
 
+  /**
+   * Before showing, hide the current step and if the tour is not
+   * already active, call `this._setupActiveTour`.
+   * @private
+   */
   _updateStateBeforeShow() {
     if (this.currentStep) {
       this.currentStep.hide();
@@ -369,6 +382,10 @@ export class Tour extends Evented {
     }
   }
 
+  /**
+   * Sets this.id to `${tourName}--${uuid}`
+   * @private
+   */
   _setTourID() {
     const tourName = this.options.tourName || 'tour';
     const uuid = uniqueId();
@@ -376,11 +393,21 @@ export class Tour extends Evented {
     this.id = `${tourName}--${uuid}`;
   }
 
+  /**
+   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
+   * class to the body.
+   * @private
+   */
   _addBodyAttrs() {
     document.body.setAttribute('data-shepherd-active-tour', this.id);
     document.body.classList.add('shepherd-active');
   }
 
+  /**
+   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
+   * class from the body.
+   * @private
+   */
   _removeBodyAttrs() {
     document.body.removeAttribute('data-shepherd-active-tour');
     document.body.classList.remove('shepherd-active');

@@ -1,4 +1,4 @@
-import { parseShorthand } from './utils.js';
+import { parseShorthand } from './general.js';
 import forOwn from 'lodash-es/forOwn';
 import isString from 'lodash-es/isString';
 import isUndefined from 'lodash-es/isUndefined';
