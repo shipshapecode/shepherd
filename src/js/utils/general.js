@@ -3,7 +3,7 @@ import isString from 'lodash-es/isString';
 import isUndefined from 'lodash-es/isUndefined';
 import zipObject from 'lodash-es/zipObject';
 import tippy from 'tippy.js';
-import { missingTippy } from './utils/error-messages';
+import { missingTippy } from './error-messages';
 
 const centeredStylePopperModifier = {
   computeStyle: {
