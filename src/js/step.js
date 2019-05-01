@@ -7,7 +7,7 @@ import isUndefined from 'lodash-es/isUndefined';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
-import { createFromHTML, setupTooltip, parseAttachTo } from './utils.js';
+import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
 
 /**
  * Creates incremented ID for each newly created step
