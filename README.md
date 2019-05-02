@@ -69,7 +69,7 @@ tour.start();
 Documentation
 ----------------------------------------------------------
 
-[API documentation](https://shipshapecode.github.io/shepherd/docs/esdoc/)
+[API documentation](https://shipshapecode.github.io/shepherd/esdoc/)
 
 Demo
 ----------------------------------------------------------
