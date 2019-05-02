@@ -1,0 +1,60 @@
+{
+  "coverage": "63.29%",
+  "expectCount": 79,
+  "actualCount": 50,
+  "files": {
+    "src/js/evented.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        9,
+        17,
+        21,
+        37
+      ]
+    },
+    "src/js/modal.js": {
+      "expectCount": 12,
+      "actualCount": 6,
+      "undocumentLines": [
+        12,
+        13,
+        15,
+        31,
+        42,
+        99
+      ]
+    },
+    "src/js/step.js": {
+      "expectCount": 29,
+      "actualCount": 19,
+      "undocumentLines": [
+        116,
+        129,
+        130,
+        131,
+        132,
+        133,
+        275,
+        280,
+        359,
+        363
+      ]
+    },
+    "src/js/tour.js": {
+      "expectCount": 32,
+      "actualCount": 25,
+      "undocumentLines": [
+        67,
+        68,
+        82,
+        244,
+        267,
+        392,
+        39
+      ]
+    }
+  }
+}
