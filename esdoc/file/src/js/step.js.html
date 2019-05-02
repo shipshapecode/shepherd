@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/js/step.js | Shepherd</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Guide your users through a tour of your app."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="Shepherd"><meta property="twitter:description" content="Guide your users through a tour of your app."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  <a href="test.html" data-ice="testLink">Test</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/shipshapecode/shepherd.git"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#js">js</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/js/evented.js~Evented.html">Evented</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/js/modal.js~Modal.html">Modal</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/js/step.js~Step.html">Step</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/js/tour.js~Tour.html">Tour</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Shepherd">Shepherd</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/js/step.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import forOwn from &apos;lodash.forown&apos;;
+import isElement from &apos;lodash.iselement&apos;;
+import isFunction from &apos;lodash.isfunction&apos;;
+import isString from &apos;lodash.isstring&apos;;
+import isUndefined from &apos;lodash.isundefined&apos;;
+import { Evented } from &apos;./evented.js&apos;;
+import &apos;element-matches&apos;;
+import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
+import { createFromHTML, setupTooltip, parseAttachTo } from &apos;./utils/general.js&apos;;
+
+/**
+ * Creates incremented ID for each newly created step
+ *
+ * @private
+ * @return {Number} The unique id for the step
+ */
+const uniqueId = (function() {
+  let id = 0;
+  return function() {
+    return ++id;
+  };
+})();
+
+/**
+ * A class representing steps to be added to a tour.
+ * @extends {Evented}
+ */
+export class Step extends Evented {
+  /**
+   * Create a step
+   * @param {Tour} tour The tour for the step
+   * @param {Object} options The options for the step
+   * @param {Object|string} options.attachTo What element the step should be attached to on the page.
+   * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):
+   * ```js
+   * const new Step(tour, {
+   *   attachTo: &apos;.some .selector-path left&apos;,
+   *   ...moreOptions,
+   * })&apos;
+   * ```
+   * Or an object with those properties:
+   * ```js
+   * const new Step(tour, {
+   *   attachTo: { element: &apos;.some .selector-path&apos;, on: &apos;left&apos; },
+   *   ...moreOptions
+   * })&apos;
+   * ```
+   * If you use the object syntax, element can also be a DOM element. If you don&#x2019;t specify an attachTo the
+   * element will appear in the middle of the screen.
+   * @param {HTMLElement|string} options.attachTo.element
+   * @param {string} options.attachTo.on
+   * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
+   * It can be of the form `&quot;selector event&quot;`:
+  * ```js
+   * const new Step(tour, {
+   *   advanceOn: &apos;.some .selector-path click&apos;,
+   *   ...moreOptions
+   * })&apos;
+   * ```
+   * ...or an object with those properties:
+   * ```js
+   * const new Step(tour, {
+   *   advanceOn: { selector: &apos;.some .selector-path&apos;, event: &apos;click&apos; },
+   *   ...moreOptions
+   * })&apos;
+   * ```
+   * `event` doesn&#x2019;t have to be an event inside the tour, it can be any event fired on any element on the page.
+   * You can also always manually advance the Tour by calling `myTour.next()`.
+   * @param {function} options.beforeShowPromise A function that returns a promise.
+   * When the promise resolves, the rest of the `show` code for the step will execute.
+   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
+   * footer below the main body text.
+   * @param {function} options.buttons.button.action A function executed when the button is clicked on
+   * @param {string} options.buttons.button.classes Extra classes to apply to the `&lt;a&gt;`
+   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
+   * `{&apos;mouseover&apos;: function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
+   * You can use events to skip steps or navigate to specific steps, with something like:
+   * ```js
+   * events: {
+   *   click: function() {
+   *     return Shepherd.activeTour.show(&apos;some_step_name&apos;);
+   *   }
+   * }
+   * ```
+   * @param {string} options.buttons.button.text The HTML text of the button
+   * @param {string} options.classes A string of extra classes to add to the step&apos;s content element.
+   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
+   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
+   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
+   * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
+   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
+   * define a custom action to do the scrolling, and possibly other logic.
+   * @param {boolean} options.showCancelLink Should a cancel &#x201C;&#x2715;&#x201D; be shown in the header of the step?
+   * @param {function} options.showOn A function that, when it returns `true`, will show the step.
+   * If it returns false, the step will be skipped.
+   * @param {string} options.text The text in the body of the step. It can be one of four types:
+   * ```
+   * - HTML string
+   * - Array of HTML strings
+   * - `HTMLElement` object
+   * - `Function` to be executed when the step is built. It must return one of the three options above.
+   * ```
+   * @param {string} options.title The step&apos;s title. It becomes an `h3` at the top of the step.
+   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
+   * ```js
+   * when: {
+   *   show: function() {
+   *     window.scrollTo(0, 0);
+   *   }
+   * }
+   * ```
+   * @return {Step} The newly created Step instance
+   */
+  constructor(tour, options) {
+    super(tour, options);
+    this.tour = tour;
+    bindMethods.call(this, [
+      &apos;_show&apos;,
+      &apos;cancel&apos;,
+      &apos;complete&apos;,
+      &apos;destroy&apos;,
+      &apos;hide&apos;,
+      &apos;isOpen&apos;,
+      &apos;scrollTo&apos;,
+      &apos;setupElements&apos;,
+      &apos;show&apos;
+    ]);
+    this.setOptions(options);
+    this.bindAdvance = bindAdvance.bind(this);
+    this.bindButtonEvents = bindButtonEvents.bind(this);
+    this.bindCancelLink = bindCancelLink.bind(this);
+    this.setupTooltip = setupTooltip.bind(this);
+    this.parseAttachTo = parseAttachTo.bind(this);
+
+    return this;
+  }
+
+  /**
+   * Adds buttons to the step as passed into options
+   *
+   * @private
+   * @param {HTMLElement} content The element for the step, to append the footer with buttons to
+   */
+  _addButtons(content) {
+    if (Array.isArray(this.options.buttons) &amp;&amp; this.options.buttons.length) {
+      const footer = document.createElement(&apos;footer&apos;);
+      const buttons = createFromHTML(&apos;&lt;ul class=&quot;shepherd-buttons&quot;&gt;&lt;/ul&gt;&apos;);
+
+      footer.classList.add(&apos;shepherd-footer&apos;);
+
+      this.options.buttons.map((cfg) =&gt; {
+        const button = createFromHTML(`&lt;li&gt;&lt;a class=&quot;shepherd-button ${cfg.classes || &apos;&apos;}&quot; tabindex=&quot;0&quot;&gt;${cfg.text}&lt;/a&gt;`);
+        buttons.appendChild(button);
+        this.bindButtonEvents(cfg, button.querySelector(&apos;a&apos;));
+      });
+
+      footer.appendChild(buttons);
+      content.appendChild(footer);
+    }
+  }
+
+  /**
+   * Adds the &quot;x&quot; button to cancel the tour
+   * @param {HTMLElement} element The step element
+   * @param {HTMLElement} header The header element for the step
+   * @private
+   */
+  _addCancelLink(element, header) {
+    if (this.options.showCancelLink) {
+      const link = createFromHTML(&apos;&lt;a href class=&quot;shepherd-cancel-link&quot;&gt;&lt;/a&gt;&apos;);
+      header.appendChild(link);
+
+      element.classList.add(&apos;shepherd-has-cancel-link&apos;);
+      this.bindCancelLink(link);
+    }
+  }
+
+  /**
+   * Adds text passed in as options
+   *
+   * @private
+   * @param {HTMLElement} content The content to append the text to
+   */
+  _addContent(content) {
+    const text = createFromHTML(&apos;&lt;div class=&quot;shepherd-text&quot;&gt;&lt;/div&gt;&apos;);
+    let paragraphs = this.options.text;
+
+    if (isFunction(paragraphs)) {
+      paragraphs = paragraphs.call(this, text);
+    }
+
+    if (paragraphs instanceof HTMLElement) {
+      text.appendChild(paragraphs);
+    } else {
+      if (isString(paragraphs)) {
+        paragraphs = [paragraphs];
+      }
+
+      paragraphs.map((paragraph) =&gt; {
+        text.innerHTML += `&lt;p&gt;${paragraph}&lt;/p&gt;`;
+      });
+    }
+
+    content.appendChild(text);
+  }
+
+  /**
+   * Creates Shepherd element for step based on options
+   *
+   * @private
+   * @return {HTMLElement} The DOM element for the step tooltip
+   */
+  _createTooltipContent() {
+    const content = document.createElement(&apos;div&apos;);
+    const classes = this.options.classes || &apos;&apos;;
+    const element = createFromHTML(`&lt;div class=&quot;${classes}&quot; data-shepherd-step-id=&quot;${this.id}&quot;&gt;`);
+    const header = document.createElement(&apos;header&apos;);
+
+    if (this.options.title) {
+      const title = document.createElement(&apos;h3&apos;);
+      title.classList.add(&apos;shepherd-title&apos;);
+      title.innerHTML = `${this.options.title}`;
+      header.appendChild(title);
+      element.classList.add(&apos;shepherd-has-title&apos;);
+    }
+
+    content.classList.add(&apos;shepherd-content&apos;);
+    header.classList.add(&apos;shepherd-header&apos;);
+    element.appendChild(content);
+    content.appendChild(header);
+
+    if (!isUndefined(this.options.text)) {
+      this._addContent(content);
+    }
+
+    this._addButtons(content);
+    this._addCancelLink(element, header);
+
+    return element;
+  }
+
+  /**
+   * Returns the tour for the step
+   * @return {Tour} The tour instance
+   */
+  getTour() {
+    return this.tour;
+  }
+
+  /**
+   * Cancel the tour
+   * Triggers the `cancel` event
+   */
+  cancel() {
+    this.tour.cancel();
+    this.trigger(&apos;cancel&apos;);
+  }
+
+  /**
+   * Complete the tour
+   * Triggers the `complete` event
+   */
+  complete() {
+    this.tour.complete();
+    this.trigger(&apos;complete&apos;);
+  }
+
+  /**
+   * Remove the step, delete the step&apos;s element, and destroy the tippy instance for the step
+   * Triggers `destroy` event
+   */
+  destroy() {
+    if (this.tooltip) {
+      this.tooltip.destroy();
+      this.tooltip = null;
+    }
+
+    if (isElement(this.el) &amp;&amp; this.el.parentNode) {
+      this.el.parentNode.removeChild(this.el);
+      this.el = null;
+    }
+
+    if (this.target) {
+      this._updateStepTargetOnHide();
+    }
+
+    this.trigger(&apos;destroy&apos;);
+  }
+
+  /**
+   * Hide the step and destroy the tippy instance
+   */
+  hide() {
+    this.tour.modal.hide();
+
+    this.trigger(&apos;before-hide&apos;);
+
+    document.body.removeAttribute(&apos;data-shepherd-step&apos;);
+
+    if (this.target) {
+      this._updateStepTargetOnHide();
+    }
+
+    if (this.tooltip) {
+      this.tooltip.hide();
+    }
+
+    this.trigger(&apos;hide&apos;);
+  }
+
+  /**
+   * Check if the step is open and visible
+   * @return {boolean} True if the step is open and visible
+   */
+  isOpen() {
+    return Boolean(
+      this.tooltip &amp;&amp;
+      this.tooltip.state &amp;&amp;
+      this.tooltip.state.isVisible
+    );
+  }
+
+  /**
+   * Create the element and set up the tippy instance
+   */
+  setupElements() {
+    if (!isUndefined(this.el)) {
+      this.destroy();
+    }
+
+    this.el = this._createTooltipContent();
+
+    if (this.options.advanceOn) {
+      this.bindAdvance();
+    }
+
+    this.setupTooltip();
+  }
+
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
+  scrollTo() {
+    const { element } = this.parseAttachTo();
+
+    if (isFunction(this.options.scrollToHandler)) {
+      this.options.scrollToHandler(element);
+    } else if (isElement(element)) {
+      element.scrollIntoView();
+    }
+  }
+
+  /**
+   * Sets the options for the step, maps `when` to events, sets up buttons
+   * @param {Object} options The options for the step
+   */
+  setOptions(options = {}) {
+    this.options = options;
+    const { when } = this.options;
+
+    this.destroy();
+    this.id = this.options.id || `step-${uniqueId()}`;
+
+    forOwn(when, (handler, event) =&gt; {
+      this.on(event, handler, this);
+    });
+  }
+
+  /**
+   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
+   * @return {*|Promise}
+   */
+  show() {
+    if (isFunction(this.options.beforeShowPromise)) {
+      const beforeShowPromise = this.options.beforeShowPromise();
+      if (!isUndefined(beforeShowPromise)) {
+        return beforeShowPromise.then(() =&gt; this._show());
+      }
+    }
+    this._show();
+  }
+
+  /**
+   * Triggers `before-show`, generates the tooltip DOM content,
+   * sets up a tippy instance for the tooltip, then triggers `show`.
+   * @private
+   */
+  _show() {
+    this.tour.beforeShowStep(this);
+    this.trigger(&apos;before-show&apos;);
+
+    if (!this.el) {
+      this.setupElements();
+    }
+
+    this.target.classList.add(&apos;shepherd-enabled&apos;, &apos;shepherd-target&apos;);
+
+    document.body.setAttribute(&apos;data-shepherd-step&apos;, this.id);
+
+    if (this.options.scrollTo) {
+      setTimeout(() =&gt; {
+        this.scrollTo();
+      });
+    }
+
+    this.tooltip.show();
+    this.trigger(&apos;show&apos;);
+  }
+
+  /**
+   * When a step is hidden, remove the highlightClass and &apos;shepherd-enabled&apos;
+   * and &apos;shepherd-target&apos; classes
+   * @private
+   */
+  _updateStepTargetOnHide() {
+    if (this.options.highlightClass) {
+      this.target.classList.remove(this.options.highlightClass);
+    }
+
+    this.target.classList.remove(&apos;shepherd-enabled&apos;, &apos;shepherd-target&apos;);
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
