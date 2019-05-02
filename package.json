@@ -40,7 +40,7 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "homepage": "http://shipshapecode.github.io/shepherd/docs/welcome/",
+  "homepage": "https://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "module": "dist/js/shepherd.esm.js",

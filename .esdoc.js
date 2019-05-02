@@ -13,13 +13,6 @@ module.exports = {
           logo: './docs/assets/img/ship-shape-logo.png',
           description: 'Guide your users through a tour of your app.',
           repository: 'https://github.com/shipshapecode/shepherd.git'
-        },
-        manual: {
-          index: './README.md',
-          files: [
-            './manual/overview.md',
-            './CHANGELOG.md'
-          ]
         }
       }
     },
