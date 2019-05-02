@@ -1,9 +1,8 @@
-import forOwn from 'lodash-es/forOwn';
-import isElement from 'lodash-es/isElement';
-import isEmpty from 'lodash-es/isEmpty';
-import isFunction from 'lodash-es/isFunction';
-import isString from 'lodash-es/isString';
-import isUndefined from 'lodash-es/isUndefined';
+import forOwn from 'lodash.forown';
+import isElement from 'lodash.iselement';
+import isFunction from 'lodash.isfunction';
+import isString from 'lodash.isstring';
+import isUndefined from 'lodash.isundefined';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
@@ -143,7 +142,7 @@ export class Step extends Evented {
    * @param {HTMLElement} content The element for the step, to append the footer with buttons to
    */
   _addButtons(content) {
-    if (!isEmpty(this.options.buttons)) {
+    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
       const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 

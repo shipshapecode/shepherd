@@ -13,6 +13,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
 import { terser } from 'rollup-plugin-terser';
+import visualizer from 'rollup-plugin-visualizer';
 
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -90,6 +91,7 @@ if (process.env.DEVELOPMENT) {
 
 plugins.push(license({ banner }));
 plugins.push(filesize());
+plugins.push(visualizer());
 
 const rollupBuilds = [
   // Generate unminifed bundle
@@ -143,7 +145,8 @@ if (!process.env.DEVELOPMENT) {
         license({
           banner
         }),
-        filesize()
+        filesize(),
+        visualizer()
       ]
     });
 }
