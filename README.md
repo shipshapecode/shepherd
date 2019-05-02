@@ -14,7 +14,8 @@
 
 [![Guide your users through a tour of your app](/docs/assets/img/intro-step.png)](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
-## Install
+Installation
+----------------------------------------------------------
 
 ### JS Framework Wrappers
 
@@ -44,7 +45,8 @@ __yarn__
 yarn add shepherd.js
 ```
 
-## Usage
+Usage
+----------------------------------------------------------
 
 ```javascript
 let tour = new Shepherd.Tour({
@@ -64,14 +66,21 @@ tour.addStep('example', {
 tour.start();
 ```
 
-[API documentation](https://shipshapecode.github.io/shepherd/)
+Documentation
+----------------------------------------------------------
+
+[API documentation](https://shipshapecode.github.io/shepherd/docs/esdoc/)
+
+Demo
+----------------------------------------------------------
 
 [Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
 
-## Contributing
+Contributing
+----------------------------------------------------------
 
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
-
-## License
+License
+----------------------------------------------------------
 [MIT License](LICENSE)
