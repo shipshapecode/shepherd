@@ -1,7 +1,7 @@
 import { parseShorthand } from './general.js';
-import forOwn from 'lodash-es/forOwn';
-import isString from 'lodash-es/isString';
-import isUndefined from 'lodash-es/isUndefined';
+import forOwn from 'lodash.forown';
+import isString from 'lodash.isstring';
+import isUndefined from 'lodash.isundefined';
 
 /**
  * Sets up the handler to determine if we should advance the tour

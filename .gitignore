@@ -13,4 +13,5 @@
 /.DS_Store
 /.sass-cache
 /npm-debug.log*
+/stats.html
 /yarn-error.log

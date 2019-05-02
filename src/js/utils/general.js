@@ -1,7 +1,7 @@
-import isObjectLike from 'lodash-es/isObjectLike';
-import isString from 'lodash-es/isString';
-import isUndefined from 'lodash-es/isUndefined';
-import zipObject from 'lodash-es/zipObject';
+import isObjectLike from 'lodash.isobjectlike';
+import isString from 'lodash.isstring';
+import isUndefined from 'lodash.isundefined';
+import zipObject from 'lodash.zipobject';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
@@ -34,6 +34,20 @@ export function createFromHTML(html) {
   const el = document.createElement('div');
   el.innerHTML = html;
   return el.children[0];
+}
+
+/**
+ * Creates a slice of `arr` with n elements dropped from the beginning.
+ * @param {Array} arr
+ * @param {Number} n
+ * @return {*}
+ */
+export function drop(arr, n = 1) {
+  if (Array.isArray(arr)) {
+    return arr.slice(n);
+  }
+
+  return [];
 }
 
 /**

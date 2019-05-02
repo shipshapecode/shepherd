@@ -1,5 +1,5 @@
-import drop from 'lodash-es/drop';
-import isUndefined from 'lodash-es/isUndefined';
+import { drop } from './utils/general';
+import isUndefined from 'lodash.isundefined';
 
 export class Evented {
   on(event, handler, ctx) {

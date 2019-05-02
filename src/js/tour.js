@@ -1,8 +1,7 @@
-import isEmpty from 'lodash-es/isEmpty';
-import isFunction from 'lodash-es/isFunction';
-import isNumber from 'lodash-es/isNumber';
-import isString from 'lodash-es/isString';
-import isUndefined from 'lodash-es/isUndefined';
+import isFunction from 'lodash.isfunction';
+import isNumber from 'lodash.isnumber';
+import isString from 'lodash.isstring';
+import isUndefined from 'lodash.isundefined';
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';
@@ -153,7 +152,7 @@ export class Tour extends Evented {
    * @param {String} event The event name to trigger
    */
   done(event) {
-    if (!isEmpty(this.steps)) {
+    if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
 
