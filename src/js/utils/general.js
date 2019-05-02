@@ -5,6 +5,15 @@ import zipObject from 'lodash.zipobject';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
+// popperOption modifier, to add shepherd-popper class to both default and centeredStyle poppers
+const addShepherdClass = {
+  enabled: true,
+  fn: (data) => {
+    data.instance.popper.classList.add('shepherd-popper');
+    return data;
+  }
+};
+
 const centeredStylePopperModifier = {
   computeStyle: {
     enabled: true,
@@ -17,12 +26,16 @@ const centeredStylePopperModifier = {
 
       return data;
     }
-  }
+  },
+  addShepherdClass
 };
 
 // Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
 const defaultPopperOptions = {
-  positionFixed: true
+  positionFixed: true,
+  modifiers: {
+    addShepherdClass
+  }
 };
 
 /**
