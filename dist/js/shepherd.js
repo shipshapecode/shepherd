@@ -4918,6 +4918,13 @@
 
   const missingTippy = 'Using the attachment feature of Shepherd requires the Tippy.js library';
 
+  const addShepherdClass = {
+    enabled: true,
+    fn: data => {
+      data.instance.popper.classList.add('shepherd-popper');
+      return data;
+    }
+  };
   const centeredStylePopperModifier = {
     computeStyle: {
       enabled: true,
@@ -4931,11 +4938,15 @@
         return data;
       }
 
-    }
+    },
+    addShepherdClass
   }; // Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
 
   const defaultPopperOptions = {
-    positionFixed: true
+    positionFixed: true,
+    modifiers: {
+      addShepherdClass
+    }
   };
   /**
    * TODO rewrite the way items are being added to use more performant documentFragment code

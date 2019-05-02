@@ -1,9 +1,9 @@
 @import 'popper-theme-arrows';
 
 /**
- * Tippy tooltips have the following base structure:
+ * Shepherd-Tippy tooltips have the following base structure:
  *
- * <div class="tippy-popper" x-placement="top">
+ * <div class="tippy-popper shepherd-popper" x-placement="top">
  *   <div class="tippy-tooltip">
  *     <div class="tippy-content">
  *       [[ Content Here ]]
@@ -12,11 +12,11 @@
  * </div>
  */
 
-.tippy-arrow {
-  transform: scale(2);
+.shepherd-popper .tippy-arrow {
+  transform: scale(1.5);
 }
 
-.tippy-popper {
+.tippy-popper.shepherd-popper {
   @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
 
   z-index: $shepherd-element-z-index;
