@@ -1,6 +1,5 @@
 import isObjectLike from 'lodash.isobjectlike';
-import isString from 'lodash.isstring';
-import isUndefined from 'lodash.isundefined';
+import { isString, isUndefined } from './type-check';
 import zipObject from 'lodash.zipobject';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';

@@ -1,4 +1,4 @@
-/*! shepherd.js 2.7.0 */
+/*! shepherd.js 2.8.0 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -117,131 +117,36 @@
   var lodash_isobjectlike = isObjectLike;
 
   /**
-   * lodash 4.0.1 (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   * Available under MIT license <https://lodash.com/license>
+   * Checks if `value` is classified as a `Function` object.
+   * @param {*} value The param to check if it is a function
    */
-
-  /** `Object#toString` result references. */
-  var stringTag = '[object String]';
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype;
-
-  /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString = objectProto.toString;
-
-  /**
-   * Checks if `value` is classified as an `Array` object.
-   *
-   * @static
-   * @memberOf _
-   * @type Function
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isArray([1, 2, 3]);
-   * // => true
-   *
-   * _.isArray(document.body.children);
-   * // => false
-   *
-   * _.isArray('abc');
-   * // => false
-   *
-   * _.isArray(_.noop);
-   * // => false
-   */
-  var isArray = Array.isArray;
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike$1(value) {
-    return !!value && typeof value == 'object';
+  function isFunction(value) {
+    return typeof value === 'function';
   }
-
   /**
-   * Checks if `value` is classified as a `String` primitive or object.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isString('abc');
-   * // => true
-   *
-   * _.isString(1);
-   * // => false
+   * Checks if `value` is classified as a `Number` object.
+   * @param {*} value The param to check if it is a number
    */
+
+  function isNumber(value) {
+    return typeof value === 'number';
+  }
+  /**
+   * Checks if `value` is classified as a `String` object.
+   * @param {*} value The param to check if it is a string
+   */
+
   function isString(value) {
-    return typeof value == 'string' ||
-      (!isArray(value) && isObjectLike$1(value) && objectToString.call(value) == stringTag);
+    return typeof value === 'string';
   }
-
-  var lodash_isstring = isString;
-
   /**
-   * lodash 3.0.1 (Custom Build) <https://lodash.com/>
-   * Build: `lodash modern modularize exports="npm" -o ./`
-   * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   * Available under MIT license <https://lodash.com/license>
+   * Checks if `value` is undefined.
+   * @param {*} value The param to check if it is undefined
    */
 
-  /**
-   * Checks if `value` is `undefined`.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
-   * @example
-   *
-   * _.isUndefined(void 0);
-   * // => true
-   *
-   * _.isUndefined(null);
-   * // => false
-   */
   function isUndefined(value) {
     return value === undefined;
   }
-
-  var lodash_isundefined = isUndefined;
 
   /**
    * lodash 4.1.3 (Custom Build) <https://lodash.com/>
@@ -253,10 +158,10 @@
    */
 
   /** Used for built-in method references. */
-  var objectProto$1 = Object.prototype;
+  var objectProto = Object.prototype;
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty = objectProto$1.hasOwnProperty;
+  var hasOwnProperty = objectProto.hasOwnProperty;
 
   /**
    * Assigns `value` to `key` of `object` if the existing value is not equivalent
@@ -438,7 +343,7 @@
    * @argument {Any} functionToCheck - variable to check
    * @returns {Boolean} answer to: is a function?
    */
-  function isFunction(functionToCheck) {
+  function isFunction$1(functionToCheck) {
     var getType = {};
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
   }
@@ -1236,7 +1141,7 @@
         console.warn('`modifier.function` is deprecated, use `modifier.fn`!');
       }
       var fn = modifier['function'] || modifier.fn; // eslint-disable-line dot-notation
-      if (modifier.enabled && isFunction(fn)) {
+      if (modifier.enabled && isFunction$1(fn)) {
         // Add properties to offsets to make them a complete clientRect object
         // we do this before each modifier to make sure the previous one doesn't
         // mess with these values
@@ -2863,7 +2768,7 @@
       // they could add new properties to their options configuration
       // BE AWARE: don't add options to `options.modifiers.name` but to `modifierOptions`!
       this.modifiers.forEach(function (modifierOptions) {
-        if (modifierOptions.enabled && isFunction(modifierOptions.onLoad)) {
+        if (modifierOptions.enabled && isFunction$1(modifierOptions.onLoad)) {
           modifierOptions.onLoad(_this.reference, _this.popper, _this.options, modifierOptions, _this.state);
         }
       });
@@ -5044,7 +4949,7 @@
    */
 
   function parseShorthand(obj, props) {
-    if (obj === null || lodash_isundefined(obj)) {
+    if (obj === null || isUndefined(obj)) {
       return obj;
     } else if (lodash_isobjectlike(obj)) {
       return obj;
@@ -5059,7 +4964,7 @@
    */
 
   function setupTooltip() {
-    if (lodash_isundefined(tippy)) {
+    if (isUndefined(tippy)) {
       throw new Error(missingTippy);
     }
 
@@ -5083,7 +4988,7 @@
     const options = _parseAttachToOpts(this.options.attachTo) || {};
     const returnOpts = Object.assign({}, options);
 
-    if (lodash_isstring(options.element)) {
+    if (isString(options.element)) {
       // Can't override the element in user opts reference because we can't
       // guarantee that the element will exist in the future.
       try {
@@ -5173,11 +5078,11 @@
     on(event, handler, ctx) {
       const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-      if (lodash_isundefined(this.bindings)) {
+      if (isUndefined(this.bindings)) {
         this.bindings = {};
       }
 
-      if (lodash_isundefined(this.bindings[event])) {
+      if (isUndefined(this.bindings[event])) {
         this.bindings[event] = [];
       }
 
@@ -5193,11 +5098,11 @@
     }
 
     off(event, handler) {
-      if (lodash_isundefined(this.bindings) || lodash_isundefined(this.bindings[event])) {
+      if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
         return false;
       }
 
-      if (lodash_isundefined(handler)) {
+      if (isUndefined(handler)) {
         delete this.bindings[event];
       } else {
         this.bindings[event].forEach((binding, index) => {
@@ -5209,7 +5114,7 @@
     }
 
     trigger(event) {
-      if (!lodash_isundefined(this.bindings) && this.bindings[event]) {
+      if (!isUndefined(this.bindings) && this.bindings[event]) {
         const args = drop(arguments);
         this.bindings[event].forEach((binding, index) => {
           const ctx = binding.ctx,
@@ -5226,509 +5131,6 @@
     }
 
   }
-
-  /**
-   * lodash (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-   * Released under MIT license <https://lodash.com/license>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   */
-
-  /** Used as references for various `Number` constants. */
-  var MAX_SAFE_INTEGER = 9007199254740991;
-
-  /** `Object#toString` result references. */
-  var argsTag = '[object Arguments]',
-      funcTag = '[object Function]',
-      genTag = '[object GeneratorFunction]';
-
-  /** Used to detect unsigned integer values. */
-  var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-  /**
-   * The base implementation of `_.times` without support for iteratee shorthands
-   * or max array length checks.
-   *
-   * @private
-   * @param {number} n The number of times to invoke `iteratee`.
-   * @param {Function} iteratee The function invoked per iteration.
-   * @returns {Array} Returns the array of results.
-   */
-  function baseTimes(n, iteratee) {
-    var index = -1,
-        result = Array(n);
-
-    while (++index < n) {
-      result[index] = iteratee(index);
-    }
-    return result;
-  }
-
-  /**
-   * Creates a unary function that invokes `func` with its argument transformed.
-   *
-   * @private
-   * @param {Function} func The function to wrap.
-   * @param {Function} transform The argument transform.
-   * @returns {Function} Returns the new function.
-   */
-  function overArg(func, transform) {
-    return function(arg) {
-      return func(transform(arg));
-    };
-  }
-
-  /** Used for built-in method references. */
-  var objectProto$2 = Object.prototype;
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
-
-  /**
-   * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString$1 = objectProto$2.toString;
-
-  /** Built-in value references. */
-  var propertyIsEnumerable = objectProto$2.propertyIsEnumerable;
-
-  /* Built-in method references for those with the same name as other `lodash` methods. */
-  var nativeKeys = overArg(Object.keys, Object);
-
-  /**
-   * Creates an array of the enumerable property names of the array-like `value`.
-   *
-   * @private
-   * @param {*} value The value to query.
-   * @param {boolean} inherited Specify returning inherited property names.
-   * @returns {Array} Returns the array of property names.
-   */
-  function arrayLikeKeys(value, inherited) {
-    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-    // Safari 9 makes `arguments.length` enumerable in strict mode.
-    var result = (isArray$1(value) || isArguments(value))
-      ? baseTimes(value.length, String)
-      : [];
-
-    var length = result.length,
-        skipIndexes = !!length;
-
-    for (var key in value) {
-      if ((inherited || hasOwnProperty$2.call(value, key)) &&
-          !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
-        result.push(key);
-      }
-    }
-    return result;
-  }
-
-  /**
-   * The base implementation of `baseForOwn` which iterates over `object`
-   * properties returned by `keysFunc` and invokes `iteratee` for each property.
-   * Iteratee functions may exit iteration early by explicitly returning `false`.
-   *
-   * @private
-   * @param {Object} object The object to iterate over.
-   * @param {Function} iteratee The function invoked per iteration.
-   * @param {Function} keysFunc The function to get the keys of `object`.
-   * @returns {Object} Returns `object`.
-   */
-  var baseFor = createBaseFor();
-
-  /**
-   * The base implementation of `_.forOwn` without support for iteratee shorthands.
-   *
-   * @private
-   * @param {Object} object The object to iterate over.
-   * @param {Function} iteratee The function invoked per iteration.
-   * @returns {Object} Returns `object`.
-   */
-  function baseForOwn(object, iteratee) {
-    return object && baseFor(object, iteratee, keys$1);
-  }
-
-  /**
-   * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
-   *
-   * @private
-   * @param {Object} object The object to query.
-   * @returns {Array} Returns the array of property names.
-   */
-  function baseKeys(object) {
-    if (!isPrototype(object)) {
-      return nativeKeys(object);
-    }
-    var result = [];
-    for (var key in Object(object)) {
-      if (hasOwnProperty$2.call(object, key) && key != 'constructor') {
-        result.push(key);
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Creates a base function for methods like `_.forIn` and `_.forOwn`.
-   *
-   * @private
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {Function} Returns the new base function.
-   */
-  function createBaseFor(fromRight) {
-    return function(object, iteratee, keysFunc) {
-      var index = -1,
-          iterable = Object(object),
-          props = keysFunc(object),
-          length = props.length;
-
-      while (length--) {
-        var key = props[fromRight ? length : ++index];
-        if (iteratee(iterable[key], key, iterable) === false) {
-          break;
-        }
-      }
-      return object;
-    };
-  }
-
-  /**
-   * Checks if `value` is a valid array-like index.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-   * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-   */
-  function isIndex(value, length) {
-    length = length == null ? MAX_SAFE_INTEGER : length;
-    return !!length &&
-      (typeof value == 'number' || reIsUint.test(value)) &&
-      (value > -1 && value % 1 == 0 && value < length);
-  }
-
-  /**
-   * Checks if `value` is likely a prototype object.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
-   */
-  function isPrototype(value) {
-    var Ctor = value && value.constructor,
-        proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto$2;
-
-    return value === proto;
-  }
-
-  /**
-   * Checks if `value` is likely an `arguments` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an `arguments` object,
-   *  else `false`.
-   * @example
-   *
-   * _.isArguments(function() { return arguments; }());
-   * // => true
-   *
-   * _.isArguments([1, 2, 3]);
-   * // => false
-   */
-  function isArguments(value) {
-    // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-    return isArrayLikeObject(value) && hasOwnProperty$2.call(value, 'callee') &&
-      (!propertyIsEnumerable.call(value, 'callee') || objectToString$1.call(value) == argsTag);
-  }
-
-  /**
-   * Checks if `value` is classified as an `Array` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array, else `false`.
-   * @example
-   *
-   * _.isArray([1, 2, 3]);
-   * // => true
-   *
-   * _.isArray(document.body.children);
-   * // => false
-   *
-   * _.isArray('abc');
-   * // => false
-   *
-   * _.isArray(_.noop);
-   * // => false
-   */
-  var isArray$1 = Array.isArray;
-
-  /**
-   * Checks if `value` is array-like. A value is considered array-like if it's
-   * not a function and has a `value.length` that's an integer greater than or
-   * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-   * @example
-   *
-   * _.isArrayLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isArrayLike(document.body.children);
-   * // => true
-   *
-   * _.isArrayLike('abc');
-   * // => true
-   *
-   * _.isArrayLike(_.noop);
-   * // => false
-   */
-  function isArrayLike(value) {
-    return value != null && isLength(value.length) && !isFunction$1(value);
-  }
-
-  /**
-   * This method is like `_.isArrayLike` except that it also checks if `value`
-   * is an object.
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an array-like object,
-   *  else `false`.
-   * @example
-   *
-   * _.isArrayLikeObject([1, 2, 3]);
-   * // => true
-   *
-   * _.isArrayLikeObject(document.body.children);
-   * // => true
-   *
-   * _.isArrayLikeObject('abc');
-   * // => false
-   *
-   * _.isArrayLikeObject(_.noop);
-   * // => false
-   */
-  function isArrayLikeObject(value) {
-    return isObjectLike$2(value) && isArrayLike(value);
-  }
-
-  /**
-   * Checks if `value` is classified as a `Function` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a function, else `false`.
-   * @example
-   *
-   * _.isFunction(_);
-   * // => true
-   *
-   * _.isFunction(/abc/);
-   * // => false
-   */
-  function isFunction$1(value) {
-    // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 8-9 which returns 'object' for typed array and other constructors.
-    var tag = isObject(value) ? objectToString$1.call(value) : '';
-    return tag == funcTag || tag == genTag;
-  }
-
-  /**
-   * Checks if `value` is a valid array-like length.
-   *
-   * **Note:** This method is loosely based on
-   * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-   * @example
-   *
-   * _.isLength(3);
-   * // => true
-   *
-   * _.isLength(Number.MIN_VALUE);
-   * // => false
-   *
-   * _.isLength(Infinity);
-   * // => false
-   *
-   * _.isLength('3');
-   * // => false
-   */
-  function isLength(value) {
-    return typeof value == 'number' &&
-      value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-  }
-
-  /**
-   * Checks if `value` is the
-   * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-   * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-   * @example
-   *
-   * _.isObject({});
-   * // => true
-   *
-   * _.isObject([1, 2, 3]);
-   * // => true
-   *
-   * _.isObject(_.noop);
-   * // => true
-   *
-   * _.isObject(null);
-   * // => false
-   */
-  function isObject(value) {
-    var type = typeof value;
-    return !!value && (type == 'object' || type == 'function');
-  }
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike$2(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Iterates over own enumerable string keyed properties of an object and
-   * invokes `iteratee` for each property. The iteratee is invoked with three
-   * arguments: (value, key, object). Iteratee functions may exit iteration
-   * early by explicitly returning `false`.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.3.0
-   * @category Object
-   * @param {Object} object The object to iterate over.
-   * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-   * @returns {Object} Returns `object`.
-   * @see _.forOwnRight
-   * @example
-   *
-   * function Foo() {
-   *   this.a = 1;
-   *   this.b = 2;
-   * }
-   *
-   * Foo.prototype.c = 3;
-   *
-   * _.forOwn(new Foo, function(value, key) {
-   *   console.log(key);
-   * });
-   * // => Logs 'a' then 'b' (iteration order is not guaranteed).
-   */
-  function forOwn(object, iteratee) {
-    return object && baseForOwn(object, typeof iteratee == 'function' ? iteratee : identity);
-  }
-
-  /**
-   * Creates an array of the own enumerable property names of `object`.
-   *
-   * **Note:** Non-object values are coerced to objects. See the
-   * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
-   * for more details.
-   *
-   * @static
-   * @since 0.1.0
-   * @memberOf _
-   * @category Object
-   * @param {Object} object The object to query.
-   * @returns {Array} Returns the array of property names.
-   * @example
-   *
-   * function Foo() {
-   *   this.a = 1;
-   *   this.b = 2;
-   * }
-   *
-   * Foo.prototype.c = 3;
-   *
-   * _.keys(new Foo);
-   * // => ['a', 'b'] (iteration order is not guaranteed)
-   *
-   * _.keys('hi');
-   * // => ['0', '1']
-   */
-  function keys$1(object) {
-    return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
-  }
-
-  /**
-   * This method returns the first argument it receives.
-   *
-   * @static
-   * @since 0.1.0
-   * @memberOf _
-   * @category Util
-   * @param {*} value Any value.
-   * @returns {*} Returns `value`.
-   * @example
-   *
-   * var object = { 'a': 1 };
-   *
-   * console.log(_.identity(object) === object);
-   * // => true
-   */
-  function identity(value) {
-    return value;
-  }
-
-  var lodash_forown = forOwn;
 
   /**
    * lodash (Custom Build) <https://lodash.com/>
@@ -5769,7 +5171,7 @@
    * @param {Function} transform The argument transform.
    * @returns {Function} Returns the new function.
    */
-  function overArg$1(func, transform) {
+  function overArg(func, transform) {
     return function(arg) {
       return func(transform(arg));
     };
@@ -5777,13 +5179,13 @@
 
   /** Used for built-in method references. */
   var funcProto = Function.prototype,
-      objectProto$3 = Object.prototype;
+      objectProto$1 = Object.prototype;
 
   /** Used to resolve the decompiled source of functions. */
   var funcToString = funcProto.toString;
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$3 = objectProto$3.hasOwnProperty;
+  var hasOwnProperty$2 = objectProto$1.hasOwnProperty;
 
   /** Used to infer the `Object` constructor. */
   var objectCtorString = funcToString.call(Object);
@@ -5793,10 +5195,10 @@
    * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
-  var objectToString$2 = objectProto$3.toString;
+  var objectToString = objectProto$1.toString;
 
   /** Built-in value references. */
-  var getPrototype = overArg$1(Object.getPrototypeOf, Object);
+  var getPrototype = overArg(Object.getPrototypeOf, Object);
 
   /**
    * Checks if `value` is likely a DOM element.
@@ -5816,7 +5218,7 @@
    * // => false
    */
   function isElement(value) {
-    return !!value && value.nodeType === 1 && isObjectLike$3(value) && !isPlainObject(value);
+    return !!value && value.nodeType === 1 && isObjectLike$1(value) && !isPlainObject(value);
   }
 
   /**
@@ -5843,7 +5245,7 @@
    * _.isObjectLike(null);
    * // => false
    */
-  function isObjectLike$3(value) {
+  function isObjectLike$1(value) {
     return !!value && typeof value == 'object';
   }
 
@@ -5876,178 +5278,20 @@
    * // => true
    */
   function isPlainObject(value) {
-    if (!isObjectLike$3(value) ||
-        objectToString$2.call(value) != objectTag || isHostObject(value)) {
+    if (!isObjectLike$1(value) ||
+        objectToString.call(value) != objectTag || isHostObject(value)) {
       return false;
     }
     var proto = getPrototype(value);
     if (proto === null) {
       return true;
     }
-    var Ctor = hasOwnProperty$3.call(proto, 'constructor') && proto.constructor;
+    var Ctor = hasOwnProperty$2.call(proto, 'constructor') && proto.constructor;
     return (typeof Ctor == 'function' &&
       Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
   }
 
   var lodash_iselement = isElement;
-
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  /**
-   * Lodash (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright JS Foundation and other contributors <https://js.foundation/>
-   * Released under MIT license <https://lodash.com/license>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   */
-
-  /** `Object#toString` result references. */
-  var asyncTag = '[object AsyncFunction]',
-      funcTag$1 = '[object Function]',
-      genTag$1 = '[object GeneratorFunction]',
-      nullTag = '[object Null]',
-      proxyTag = '[object Proxy]',
-      undefinedTag = '[object Undefined]';
-
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-  /** Detect free variable `self`. */
-  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-  /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || Function('return this')();
-
-  /** Used for built-in method references. */
-  var objectProto$4 = Object.prototype;
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty$4 = objectProto$4.hasOwnProperty;
-
-  /**
-   * Used to resolve the
-   * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var nativeObjectToString = objectProto$4.toString;
-
-  /** Built-in value references. */
-  var Symbol$1 = root.Symbol,
-      symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
-
-  /**
-   * The base implementation of `getTag` without fallbacks for buggy environments.
-   *
-   * @private
-   * @param {*} value The value to query.
-   * @returns {string} Returns the `toStringTag`.
-   */
-  function baseGetTag(value) {
-    if (value == null) {
-      return value === undefined ? undefinedTag : nullTag;
-    }
-    return (symToStringTag && symToStringTag in Object(value))
-      ? getRawTag(value)
-      : objectToString$3(value);
-  }
-
-  /**
-   * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
-   *
-   * @private
-   * @param {*} value The value to query.
-   * @returns {string} Returns the raw `toStringTag`.
-   */
-  function getRawTag(value) {
-    var isOwn = hasOwnProperty$4.call(value, symToStringTag),
-        tag = value[symToStringTag];
-
-    try {
-      value[symToStringTag] = undefined;
-      var unmasked = true;
-    } catch (e) {}
-
-    var result = nativeObjectToString.call(value);
-    if (unmasked) {
-      if (isOwn) {
-        value[symToStringTag] = tag;
-      } else {
-        delete value[symToStringTag];
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Converts `value` to a string using `Object.prototype.toString`.
-   *
-   * @private
-   * @param {*} value The value to convert.
-   * @returns {string} Returns the converted string.
-   */
-  function objectToString$3(value) {
-    return nativeObjectToString.call(value);
-  }
-
-  /**
-   * Checks if `value` is classified as a `Function` object.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is a function, else `false`.
-   * @example
-   *
-   * _.isFunction(_);
-   * // => true
-   *
-   * _.isFunction(/abc/);
-   * // => false
-   */
-  function isFunction$2(value) {
-    if (!isObject$1(value)) {
-      return false;
-    }
-    // The use of `Object#toString` avoids issues with the `typeof` operator
-    // in Safari 9 which returns 'object' for typed arrays and other constructors.
-    var tag = baseGetTag(value);
-    return tag == funcTag$1 || tag == genTag$1 || tag == asyncTag || tag == proxyTag;
-  }
-
-  /**
-   * Checks if `value` is the
-   * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
-   * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-   *
-   * @static
-   * @memberOf _
-   * @since 0.1.0
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-   * @example
-   *
-   * _.isObject({});
-   * // => true
-   *
-   * _.isObject([1, 2, 3]);
-   * // => true
-   *
-   * _.isObject(_.noop);
-   * // => true
-   *
-   * _.isObject(null);
-   * // => false
-   */
-  function isObject$1(value) {
-    var type = typeof value;
-    return value != null && (type == 'object' || type == 'function');
-  }
-
-  var lodash_isfunction = isFunction$2;
 
   if (!Element.prototype.matches) {
       Element.prototype.matches =
@@ -6065,7 +5309,7 @@
     return event => {
       if (this.isOpen()) {
         const targetIsEl = this.el && event.target === this.el;
-        const targetIsSelector = !lodash_isundefined(selector) && event.target.matches(selector);
+        const targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
 
         if (targetIsSelector || targetIsEl) {
           this.tour.next();
@@ -6089,7 +5333,7 @@
 
     const el = document.querySelector(selector);
 
-    if (!lodash_isundefined(selector) && el) {
+    if (!isUndefined(selector) && el) {
       el.addEventListener(event, handler);
     } else {
       document.body.addEventListener(event, handler, true);
@@ -6108,26 +5352,32 @@
   function bindButtonEvents(cfg, el) {
     cfg.events = cfg.events || {};
 
-    if (!lodash_isundefined(cfg.action)) {
+    if (!isUndefined(cfg.action)) {
       // Including both a click event and an action is not supported
       cfg.events.click = cfg.action;
     }
 
-    lodash_forown(cfg.events, (handler, event) => {
-      if (lodash_isstring(handler)) {
-        const page = handler;
+    if (cfg.events) {
+      Object.entries(cfg.events).forEach((_ref) => {
+        let _ref2 = _slicedToArray(_ref, 2),
+            event = _ref2[0],
+            handler = _ref2[1];
 
-        handler = () => this.tour.show(page);
-      }
+        if (isString(handler)) {
+          const page = handler;
 
-      el.dataset.buttonEvent = true;
-      el.addEventListener(event, handler); // Cleanup event listeners on destroy
+          handler = () => this.tour.show(page);
+        }
 
-      this.on('destroy', () => {
-        el.removeAttribute('data-button-event');
-        el.removeEventListener(event, handler);
+        el.dataset.buttonEvent = true;
+        el.addEventListener(event, handler); // Cleanup event listeners on destroy
+
+        this.on('destroy', () => {
+          el.removeAttribute('data-button-event');
+          el.removeEventListener(event, handler);
+        });
       });
-    });
+    }
   }
   /**
    * Add a click listener to the cancel link that cancels the tour
@@ -6196,7 +5446,7 @@
      * @param {string} options.attachTo.on
      * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
      * It can be of the form `"selector event"`:
-    * ```js
+     * ```js
      * const new Step(tour, {
      *   advanceOn: '.some .selector-path click',
      *   ...moreOptions
@@ -6318,14 +5568,14 @@
       const text = createFromHTML('<div class="shepherd-text"></div>');
       let paragraphs = this.options.text;
 
-      if (lodash_isfunction(paragraphs)) {
+      if (isFunction(paragraphs)) {
         paragraphs = paragraphs.call(this, text);
       }
 
       if (paragraphs instanceof HTMLElement) {
         text.appendChild(paragraphs);
       } else {
-        if (lodash_isstring(paragraphs)) {
+        if (isString(paragraphs)) {
           paragraphs = [paragraphs];
         }
 
@@ -6363,7 +5613,7 @@
       element.appendChild(content);
       content.appendChild(header);
 
-      if (!lodash_isundefined(this.options.text)) {
+      if (!isUndefined(this.options.text)) {
         this._addContent(content);
       }
 
@@ -6460,7 +5710,7 @@
 
 
     setupElements() {
-      if (!lodash_isundefined(this.el)) {
+      if (!isUndefined(this.el)) {
         this.destroy();
       }
 
@@ -6482,7 +5732,7 @@
       const _this$parseAttachTo = this.parseAttachTo(),
             element = _this$parseAttachTo.element;
 
-      if (lodash_isfunction(this.options.scrollToHandler)) {
+      if (isFunction(this.options.scrollToHandler)) {
         this.options.scrollToHandler(element);
       } else if (lodash_iselement(element)) {
         element.scrollIntoView();
@@ -6500,9 +5750,16 @@
       const when = this.options.when;
       this.destroy();
       this.id = this.options.id || "step-".concat(uniqueId());
-      lodash_forown(when, (handler, event) => {
-        this.on(event, handler, this);
-      });
+
+      if (when) {
+        Object.entries(when).forEach((_ref) => {
+          let _ref2 = _slicedToArray(_ref, 2),
+              event = _ref2[0],
+              handler = _ref2[1];
+
+          this.on(event, handler, this);
+        });
+      }
     }
     /**
      * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
@@ -6511,10 +5768,10 @@
 
 
     show() {
-      if (lodash_isfunction(this.options.beforeShowPromise)) {
+      if (isFunction(this.options.beforeShowPromise)) {
         const beforeShowPromise = this.options.beforeShowPromise();
 
-        if (!lodash_isundefined(beforeShowPromise)) {
+        if (!isUndefined(beforeShowPromise)) {
           return beforeShowPromise.then(() => this._show());
         }
       }
@@ -6564,86 +5821,6 @@
     }
 
   }
-
-  /**
-   * lodash 3.0.3 (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   * Available under MIT license <https://lodash.com/license>
-   */
-
-  /** `Object#toString` result references. */
-  var numberTag = '[object Number]';
-
-  /** Used for built-in method references. */
-  var objectProto$5 = Object.prototype;
-
-  /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString$4 = objectProto$5.toString;
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike$4(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Checks if `value` is classified as a `Number` primitive or object.
-   *
-   * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
-   * as numbers, use the `_.isFinite` method.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isNumber(3);
-   * // => true
-   *
-   * _.isNumber(Number.MIN_VALUE);
-   * // => true
-   *
-   * _.isNumber(Infinity);
-   * // => true
-   *
-   * _.isNumber('3');
-   * // => false
-   */
-  function isNumber(value) {
-    return typeof value == 'number' ||
-      (isObjectLike$4(value) && objectToString$4.call(value) == numberTag);
-  }
-
-  var lodash_isnumber = isNumber;
 
   const svgNS = 'http://www.w3.org/2000/svg';
   const elementIds = {
@@ -7262,7 +6439,7 @@
     addStep(arg1, arg2) {
       let name, step; // If we just have one argument, we can assume it is an object of step options, with an id
 
-      if (lodash_isundefined(arg2)) {
+      if (isUndefined(arg2)) {
         step = arg1;
       } else {
         name = arg1;
@@ -7429,7 +6606,7 @@
 
 
     setupStep(stepOptions, name) {
-      if (lodash_isstring(name) || lodash_isnumber(name)) {
+      if (isString(name) || isNumber(name)) {
         stepOptions.id = name.toString();
       }
 
@@ -7452,12 +6629,12 @@
     show() {
       let key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       let forward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      const step = lodash_isstring(key) ? this.getById(key) : this.steps[key];
+      const step = isString(key) ? this.getById(key) : this.steps[key];
 
       if (step) {
         this._updateStateBeforeShow();
 
-        const shouldSkipStep = lodash_isfunction(step.options.showOn) && !step.options.showOn(); // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+        const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn(); // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
 
         if (shouldSkipStep) {
           this._skipStep(step, forward);

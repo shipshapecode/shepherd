@@ -40,7 +40,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/js/evented.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { drop } from &apos;./utils/general&apos;;
-import isUndefined from &apos;lodash.isundefined&apos;;
+import { isUndefined } from &apos;./utils/type-check&apos;;
 
 export class Evented {
   on(event, handler, ctx) {

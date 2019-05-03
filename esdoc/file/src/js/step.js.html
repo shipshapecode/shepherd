@@ -39,11 +39,8 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/js/step.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import forOwn from &apos;lodash.forown&apos;;
-import isElement from &apos;lodash.iselement&apos;;
-import isFunction from &apos;lodash.isfunction&apos;;
-import isString from &apos;lodash.isstring&apos;;
-import isUndefined from &apos;lodash.isundefined&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import isElement from &apos;lodash.iselement&apos;;
+import { isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
 import { Evented } from &apos;./evented.js&apos;;
 import &apos;element-matches&apos;;
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
@@ -92,7 +89,7 @@ export class Step extends Evented {
    * @param {string} options.attachTo.on
    * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
    * It can be of the form `&quot;selector event&quot;`:
-  * ```js
+   * ```js
    * const new Step(tour, {
    *   advanceOn: &apos;.some .selector-path click&apos;,
    *   ...moreOptions
@@ -403,9 +400,11 @@ export class Step extends Evented {
     this.destroy();
     this.id = this.options.id || `step-${uniqueId()}`;
 
-    forOwn(when, (handler, event) =&gt; {
-      this.on(event, handler, this);
-    });
+    if (when) {
+      Object.entries(when).forEach(([event, handler]) =&gt; {
+        this.on(event, handler, this);
+      });
+    }
   }
 
   /**
