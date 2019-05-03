@@ -6,7 +6,9 @@ module.exports = function(api) {
       [
         '@babel/preset-env',
         {
-          modules: false
+          corejs: 3,
+          modules: false,
+          useBuiltIns: 'entry'
         }
       ]
     ],
@@ -16,7 +18,9 @@ module.exports = function(api) {
           [
             '@babel/preset-env',
             {
-              modules: false
+              corejs: 3,
+              modules: false,
+              useBuiltIns: 'entry'
             }
           ]
         ],

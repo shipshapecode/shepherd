@@ -1,7 +1,5 @@
 import { parseShorthand } from './general.js';
-import forOwn from 'lodash.forown';
-import isString from 'lodash.isstring';
-import isUndefined from 'lodash.isundefined';
+import { isString, isUndefined } from './type-check';
 
 /**
  * Sets up the handler to determine if we should advance the tour
@@ -52,20 +50,22 @@ export function bindButtonEvents(cfg, el) {
     cfg.events.click = cfg.action;
   }
 
-  forOwn(cfg.events, (handler, event) => {
-    if (isString(handler)) {
-      const page = handler;
-      handler = () => this.tour.show(page);
-    }
-    el.dataset.buttonEvent = true;
-    el.addEventListener(event, handler);
+  if (cfg.events) {
+    Object.entries(cfg.events).forEach(([event, handler]) => {
+      if (isString(handler)) {
+        const page = handler;
+        handler = () => this.tour.show(page);
+      }
+      el.dataset.buttonEvent = true;
+      el.addEventListener(event, handler);
 
-    // Cleanup event listeners on destroy
-    this.on('destroy', () => {
-      el.removeAttribute('data-button-event');
-      el.removeEventListener(event, handler);
+      // Cleanup event listeners on destroy
+      this.on('destroy', () => {
+        el.removeAttribute('data-button-event');
+        el.removeEventListener(event, handler);
+      });
     });
-  });
+  }
 }
 
 /**

@@ -1,5 +1,5 @@
 import { drop } from './utils/general';
-import isUndefined from 'lodash.isundefined';
+import { isUndefined } from './utils/type-check';
 
 export class Evented {
   on(event, handler, ctx) {

@@ -1,8 +1,5 @@
-import forOwn from 'lodash.forown';
 import isElement from 'lodash.iselement';
-import isFunction from 'lodash.isfunction';
-import isString from 'lodash.isstring';
-import isUndefined from 'lodash.isundefined';
+import { isFunction, isString, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
 import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
@@ -51,7 +48,7 @@ export class Step extends Evented {
    * @param {string} options.attachTo.on
    * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
    * It can be of the form `"selector event"`:
-  * ```js
+   * ```js
    * const new Step(tour, {
    *   advanceOn: '.some .selector-path click',
    *   ...moreOptions
@@ -362,9 +359,11 @@ export class Step extends Evented {
     this.destroy();
     this.id = this.options.id || `step-${uniqueId()}`;
 
-    forOwn(when, (handler, event) => {
-      this.on(event, handler, this);
-    });
+    if (when) {
+      Object.entries(when).forEach(([event, handler]) => {
+        this.on(event, handler, this);
+      });
+    }
   }
 
   /**
