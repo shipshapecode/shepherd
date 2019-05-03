@@ -46,7 +46,6 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "element-matches": "^0.1.2",
-    "lodash.debounce": "^4.0.8",
     "lodash.defer": "^4.1.0",
     "lodash.forown": "^4.4.0",
     "lodash.iselement": "^4.1.1",
@@ -85,7 +84,7 @@
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.14",
     "replace": "^1.1.0",
-    "rollup": "^1.10.1",
+    "rollup": "^1.11.0",
     "rollup-plugin-analyzer": "^3.0.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-browsersync": "^1.0.0",

@@ -6,7 +6,7 @@ import {
   classNames as modalClassNames
 } from './utils/modal';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
-import debounce from 'lodash.debounce';
+import { debounce } from './utils/general';
 import defer from 'lodash.defer';
 
 export class Modal {
@@ -98,8 +98,7 @@ export class Modal {
 
       this._onScreenChange = debounce(
         positionModalOpening.bind(this, targetElement, modalOverlayOpening),
-        0,
-        { leading: false, trailing: true } // see https://lodash.com/docs/#debounce
+        0
       );
 
       addStepEventListeners.call(this);
