@@ -1,5 +1,28 @@
 # Changelog
 
+## [v2.8.0](https://github.com/shipshapecode/shepherd/tree/v2.8.0) (2019-05-03)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.7.0...v2.8.0)
+
+**Implemented enhancements:**
+
+- Convert several lodash functions to internal utils [\#368](https://github.com/shipshapecode/shepherd/pull/368) ([rwwagner90](https://github.com/rwwagner90))
+- Use internal debounce function [\#367](https://github.com/shipshapecode/shepherd/pull/367) ([rwwagner90](https://github.com/rwwagner90))
+- Greenkeeper/stylelint 10.0.1 [\#362](https://github.com/shipshapecode/shepherd/pull/362) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Shepherd popper-tippy CSS styles mixing up with non-shepherd tippy styles on the page [\#363](https://github.com/shipshapecode/shepherd/issues/363)
+
+**Closed issues:**
+
+- An in-range update of rollup is breaking the build 🚨 [\#350](https://github.com/shipshapecode/shepherd/issues/350)
+
+**Merged pull requests:**
+
+- Added 'shepherd-popper' css class [\#366](https://github.com/shipshapecode/shepherd/pull/366) ([rwwagner90](https://github.com/rwwagner90))
+- Add ESDoc, bump some deps [\#365](https://github.com/shipshapecode/shepherd/pull/365) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.7.0](https://github.com/shipshapecode/shepherd/tree/v2.7.0) (2019-04-22)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.6.0...v2.7.0)
