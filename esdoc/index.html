@@ -38,54 +38,345 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h2 id="shepherd">Shepherd</h2><p><a href="https://shipshape.io/"><img src="http://i.imgur.com/DWHQjA5.png" width="100" height="100"></a></p>
-<p><strong><a href="https://shipshape.io/ember-consulting/">Shepherd is maintained by Ship Shape. Contact us for Ember.js consulting, development, and training for your project</a></strong>.</p>
-<p><a href="http://badge.fury.io/js/shepherd.js"><img src="https://badge.fury.io/js/shepherd.js.svg" alt="npm version"></a>
-<img src="https://img.shields.io/npm/dt/shepherd.js.svg" alt="Download count all time">
-<a href><img src="https://img.shields.io/npm/dm/shepherd.js.svg" alt="npm"></a>
-<a href="https://travis-ci.org/shipshapecode/shepherd"><img src="https://travis-ci.org/shipshapecode/shepherd.svg?branch=master" alt="Build Status"></a>
-<a href="https://codeclimate.com/github/shipshapecode/shepherd/maintainability"><img src="https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability" alt="Maintainability"></a>
-<a href="https://codeclimate.com/github/shipshapecode/shepherd/test_coverage"><img src="https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage" alt="Test Coverage"></a>
-<a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/shipshapecode/shepherd.svg" alt="Greenkeeper badge"></a></p>
-<p><a href="https://shipshapecode.github.io/shepherd/docs/welcome/"><img src="/docs/assets/img/intro-step.png" alt="Guide your users through a tour of your app"></a></p>
-<h2 id="installation">Installation</h2><h3 id="js-framework-wrappers">JS Framework Wrappers</h3><p>We strive to make it easy to use Shepherd in all the major frameworks, and have written wrappers to facilitate this.</p>
-<ul>
-<li><a href="https://github.com/shipshapecode/angular-shepherd">angular-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/ember-shepherd">ember-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/react-shepherd">react-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/vue-shepherd">vue-shepherd</a></li>
-</ul>
-<h3 id="install-directly">Install Directly</h3><p><strong>Dependencies</strong></p>
-<ul>
-<li><strong><a href="https://atomiks.github.io/tippyjs/">Tippy.js</a></strong></li>
-</ul>
-<p>Installing via <code>npm</code> will bring in the above dependencies as well.</p>
-<p><strong>npm</strong></p>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h2 id="shepherd">Shepherd</h2><p>Guide your users through a tour of your app.</p>
+<h3 id="dependencies">Dependencies</h3><p><a href="https://atomiks.github.io/tippyjs/">Tippy.js</a></p>
+<h3 id="install">Install</h3><p><strong>npm</strong></p>
 <pre><code class="lang-bash"><code class="source-code prettyprint">npm install shepherd.js --save</code>
 </code></pre>
 <p><strong>yarn</strong></p>
 <pre><code class="lang-bash"><code class="source-code prettyprint">yarn add shepherd.js</code>
 </code></pre>
-<h2 id="usage">Usage</h2><pre><code class="lang-javascript"><code class="source-code prettyprint">let tour = new Shepherd.Tour({
+<h3 id="install-with-eager">Install with Eager</h3><p><strong>Note: Eager is now Cloudflare Apps and likely does not currently work.</strong></p>
+<h3 id="importing-shepherd-into-your-app">Importing Shepherd into your app</h3><h4 id="ember-apps">Ember Apps</h4><p>There is an official Ember Addon, <a href="https://github.com/shipshapecode/ember-shepherd">ember-shepherd</a>, for using Shepherd with Ember apps.</p>
+<h4 id="rollup-webpack-based-builds">Rollup/Webpack Based Builds</h4><p>The latest versions of Rollup and Webpack support ES6 imports. We have an ES module
+exported to <code>dist/js/shepherd.esm.js</code>. This is also specified as <code>&quot;module&quot;</code> in
+<code>package.json</code>, which should allow you to import using standard ES import syntax.</p>
+<p>i.e. </p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import Shepherd from &apos;shepherd.js&apos;;</code>
+</code></pre>
+<h4 id="github-releases">GitHub Releases</h4><p>Whenever we release a new version, the contents of the <code>dist</code> are uploaded
+to the release in GitHub. You can find those assets <a href="https://github.com/shipshapecode/shepherd/releases">here</a>.</p>
+<h3 id="usage">Usage</h3><p>First create a new <code>Tour</code> instance for your tour:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const tour = new Shepherd.Tour({
   defaultStepOptions: {
     classes: &apos;shadow-md bg-purple-dark&apos;,
     scrollTo: true
   }
-});
-
-tour.addStep(&apos;example&apos;, {
-  title: &apos;Example Shepherd&apos;,
-  text: &apos;Creating a Shepherd is easy too! Just create ...&apos;,
-  attachTo: &apos;.hero-example bottom&apos;,
-  advanceOn: &apos;.docs-link click&apos;
-});
-
-tour.start();</code>
+});</code>
 </code></pre>
-<h2 id="documentation">Documentation</h2><p><a href="https://shipshapecode.github.io/shepherd/esdoc/">API documentation</a></p>
-<h2 id="demo">Demo</h2><p><a href="https://shipshapecode.github.io/shepherd/docs/welcome/">Demo</a></p>
-<h2 id="contributing">Contributing</h2><p>We encourage contributions of all kinds. If you would like to contribute in some way, please review our <a href="CONTRIBUTING.md">guidelines for contributing</a>.</p>
-<h2 id="license">License</h2><p><a href="LICENSE">MIT License</a></p>
+<p>The <code>defaultStepOptions</code> option allows you to specify any options which should be applied
+to all this tour&apos;s steps by default.</p>
+<p>Next, add your steps:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">tour.addStep(&apos;example-step&apos;, {
+  text: &apos;This step is attached to the bottom of the &lt;code&gt;.example-css-selector&lt;/code&gt; element.&apos;,
+  attachTo: &apos;.example-css-selector bottom&apos;,
+  classes: &apos;example-step-extra-class&apos;,
+  buttons: [
+    {
+      text: &apos;Next&apos;,
+      action: tour.next
+    }
+  ]
+});</code>
+</code></pre>
+<p>Finally, to start the tour, just call <code>start</code> on your <code>Tour</code> instance:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">tour.start();</code>
+</code></pre>
+<p>If you need to remove a step from your tour, call <code>removeStep</code> on your <code>Tour</code> instance. If the step currently being displayed is the one you&apos;re removing, and there are steps left in the tour, then the first one will be shown, otherwise, the tour will be cancelled.</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">tour.removeStep(&apos;example-step&apos;);</code>
+</code></pre>
+<h3 id="api">API</h3><h4 id="global-shepherd-object">Global Shepherd Object</h4><p>Shepherd exposes a single object onto the window, <code>Shepherd</code>.</p>
+<p>That global object fires several events to let you link up actions with events
+occurring in <em>any</em> tour:</p>
+<h5 id="methods">Methods</h5><ul>
+<li><code>Shepherd.on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>Shepherd.off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>Shepherd.once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="events">Events</h5><p>The global Shepherd fires the following events whenever a <code>Tour</code> instance fires them.  It adds to the object passed to the
+event handlers a <code>tour</code> key pointing to the instance which fired the event:</p>
+<ul>
+<li><code>complete</code></li>
+<li><code>cancel</code></li>
+<li><code>hide</code></li>
+<li><code>show</code></li>
+<li><code>start</code></li>
+<li><code>active</code></li>
+<li><code>inactive</code></li>
+</ul>
+<h5 id="current-tour">Current Tour</h5><p>The global <code>Shepherd</code> includes a property which is always set to the currently active tour, or null if there is no active tour:</p>
+<ul>
+<li><code>Shepherd.activeTour</code></li>
+</ul>
+<h4 id="tour-instances">Tour Instances</h4><h5 id="creation">Creation</h5><p>You create a <code>Tour</code> object for each tour you&apos;d like to create.</p>
+<p>Tour&apos;s constructor accepts a hash of options:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const myTour = new Shepherd.Tour(options);</code>
+</code></pre>
+<h5 id="tour-options">Tour Options</h5><ul>
+<li><code>steps</code>: An array of Step instances to initialize the tour with</li>
+<li><code>defaultStepOptions</code>: Default options for Steps created through <code>addStep</code></li>
+<li><code>tourName</code>: An optional &quot;name&quot; for the tour. This will be appended to the the tour&apos;s
+dynamically generated <code>id</code> property -- which is also set on the <code>body</code> element as the <code>data-shepherd-active-tour</code> attribute whenever the tour becomes active.</li>
+<li><code>useModalOverlay</code>: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.</li>
+<li><code>confirmCancel</code>: If true, will issue a window.confirm before cancelling</li>
+<li><code>confirmCancelMessage</code>: The message to display in the confirm dialog</li>
+</ul>
+<h5 id="tour-methods">Tour Methods</h5><ul>
+<li><code>addStep(id, options)</code>: Creates a new Step object with options, and returns the <code>Step</code> instance it created.  If you&apos;d like you can also just pass an options hash which includes <code>id</code> as a key.
+If the options hash doesn&apos;t include an <code>id</code>, one will be generated.
+You can also pass an existing <code>Step</code> instance rather than <code>options</code>, but note that Shepherd does not support a Step being attached to multiple Tours.</li>
+<li><code>getById(id)</code>: Return a step with a specific id</li>
+<li><code>next()</code>: Advance to the next step, in the order they were added</li>
+<li><code>back()</code>: Show the previous step, in the order they were added</li>
+<li><code>cancel()</code>: Trigger cancel on the current step, hiding it without advancing</li>
+<li><code>hide()</code>: Hide the current step</li>
+<li><code>show([id])</code>: Show the step specified by id (if it&apos;s a string), or index (if it&apos;s a number) provided.  Defaults to the first step.</li>
+<li><code>start()</code>: Show the first step and begin the tour</li>
+<li><code>getCurrentStep()</code>: Returns the currently shown step</li>
+<li><code>on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="tour-events">Tour Events</h5><ul>
+<li><code>complete</code>: Triggered when the last step is advanced</li>
+<li><code>cancel</code></li>
+<li><code>hide</code></li>
+<li><code>show</code>: Triggered with a hash of the <code>step</code> and the <code>previous</code> step</li>
+<li><code>start</code></li>
+</ul>
+<p>Steps are instances of the Step object.  They are generally created by the <code>Tour::addStep</code> method, which returns the <code>Step</code> instance it
+created.</p>
+<h4 id="steps">Steps</h4><h5 id="step-options">Step Options</h5><ul>
+<li><code>text</code>: The text in the body of the step.  It can be one of four types:<ul>
+<li>HTML string</li>
+<li>Array of HTML strings</li>
+<li><code>HTMLElement</code> object</li>
+<li>Function to be executed when the step is built. It must return one the three options above.</li>
+</ul>
+</li>
+<li><code>title</code>: The step&apos;s title. It becomes an <code>h3</code> at the top of the step.</li>
+<li><code>attachTo</code>: What element the step should be attached to on the page.  It can either be a string of the form <code>&quot;element on&quot;</code>, or an object with those properties.  For example: <code>&quot;.some #element left&quot;</code>, or <code>{element: &apos;.some #element&apos;,
+on: &apos;left&apos;}</code>.  If you use the object syntax, <code>element</code> can also be a DOM element.  If you don&apos;t specify an <code>attachTo</code>
+the element will appear in the middle of the screen.</li>
+<li><code>beforeShowPromise</code>: A function that returns a promise. When the promise resolves, the rest of the <code>show</code> code for
+the step will execute. For example:<pre><code class="lang-javascript"><code class="source-code prettyprint">beforeShowPromise: function() {
+  return new Promise(function(resolve) {
+    $(&apos;#my-bootstrap-modal&apos;).on(&apos;shown.bs.modal&apos;, function () {
+      resolve();
+    });
+  });
+},</code>
+</code></pre>
+</li>
+<li><code>classes</code>: A string of extra classes to add to the step&apos;s content element.</li>
+<li><code>buttons</code>: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:<ul>
+<li><code>text</code>: The HTML text of the button</li>
+<li><code>classes</code>: Extra classes to apply to the <code>&lt;a&gt;</code></li>
+<li><code>action</code>: A function executed when the button is clicked on</li>
+<li><code>events</code>: A hash of events to bind onto the button, for example <code>{&apos;mouseover&apos;: function(){}}</code>.  Adding a click event to <code>events</code> when you
+already have an <code>action</code> specified is not supported.
+You can use <code>events</code> to skip steps or navigate to specific steps, with something like:<pre><code class="lang-javascript"><code class="source-code prettyprint">events: {
+click: function() {
+  return Shepherd.activeTour.show(&apos;some_step_name&apos;);
+}
+}</code>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><code>advanceOn</code>: An action on the page which should advance shepherd to the next step.  It can be of the form <code>&quot;selector event&quot;</code>, or an object with those
+properties.  For example: <code>&quot;.some-element click&quot;</code>, or <code>{selector: &apos;.some-element&apos;, event: &apos;click&apos;}</code>.  It doesn&apos;t have to be an event inside
+the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling <code>myTour.next()</code>.</li>
+<li><code>highlightClass</code>: An extra class to apply to the <code>attachTo</code> element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.</li>
+<li><code>showCancelLink</code>: Should a cancel &quot;&#x2715;&quot; be shown in the header of the step?</li>
+<li><code>showOn</code>: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.</li>
+<li><code>scrollTo</code>: Should the element be scrolled to when this step is shown?</li>
+<li><code>scrollToHandler</code>: A function that lets you override the default <code>scrollTo</code> behavior and define a custom action to do the scrolling,
+and possibly other logic.</li>
+<li><code>when</code>: You can define show, hide, etc events inside when. For example:<pre><code class="lang-javascript"><code class="source-code prettyprint">when: {
+show: function() {
+  window.scrollTo(0, 0);
+}
+}</code>
+</code></pre>
+</li>
+<li><code>tippyOptions</code>: Extra <a href="https://atomiks.github.io/tippyjs/#all-options">options to pass to <code>Tippy.js</code></a>. Shepherd <a href="./src/js/utils/tooltip-defaults.js">sets a few defaults out of the box</a>, but anything you set here will override these.</li>
+</ul>
+<h5 id="step-methods">Step Methods</h5><ul>
+<li><code>show()</code>: Show this step</li>
+<li><code>hide()</code>: Hide this step</li>
+<li><code>cancel()</code>: Hide this step and trigger the <code>cancel</code> event</li>
+<li><code>complete()</code>: Hide this step and trigger the <code>complete</code> event</li>
+<li><code>scrollTo()</code>: Scroll to this step&apos;s element</li>
+<li><code>isOpen()</code>: Returns true if the step is currently shown</li>
+<li><code>destroy()</code>: Remove the element</li>
+<li><code>on(eventName, handler, [context])</code>: Bind an event</li>
+<li><code>off(eventName, [handler])</code>: Unbind an event</li>
+<li><code>once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
+</ul>
+<h5 id="step-events">Step Events</h5><ul>
+<li><code>before-show</code></li>
+<li><code>show</code></li>
+<li><code>before-hide</code></li>
+<li><code>hide</code></li>
+<li><code>complete</code></li>
+<li><code>cancel</code></li>
+<li><code>destroy</code></li>
+</ul>
+<p>Please note that <code>complete</code> and <code>cancel</code> are only ever triggered if you call the associated methods in your code.</p>
+<h3 id="advancing-on-actions">Advancing on Actions</h3><p>You can use the <code>advanceOn</code> option, or the Next button, to advance steps.  If you would like however to have a step advance on a
+complex user action, you can do the following:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const myStep = myTour.addStep(&apos;my-step&apos;, options);
+
+yourApp.on(&apos;some-event&apos;, () =&gt; {
+  if (myStep.isOpen()){
+    Shepherd.activeTour.next();
+  }
+});</code>
+</code></pre>
+<p>It&apos;s strongly recommended that you use some sort of event mediator to connect your app&apos;s actions with Shepherd, to prevent
+having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
+mediator if need be using the <code>Evented</code> object which is provided with Shepherd:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">const mediator = new Shepherd.Evented();</code>
+</code></pre>
+<p>You can then trigger events in one part of your app:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">mediator.trigger(&apos;user-create&apos;);</code>
+</code></pre>
+<p>And listen for them in other areas:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">mediator.on(&apos;user-create&apos;, () =&gt; {});</code>
+</code></pre>
+<h3 id="rendering-tours-in-specific-locations">Rendering Tours in Specific Locations</h3><p>By default, tour steps will append their elements to the <code>body</code> element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy&apos;s
+<a href="https://atomiks.github.io/tippyjs/#append-to-option"><code>appendTo</code> option</a> by defining it on the
+<code>tippyOptions</code> hash inside of each Step&apos;s options hash.</p>
+<h3 id="browser-support">Browser Support</h3><p>IE9+ and all modern browsers</p>
+<h2 id="theming-and-styling">Theming and Styling</h2><p>We deliver some <a href="/docs/themes.md">predefined themes</a> (e.g., <code>shepherd-theme-default</code> or <code>shepherd-theme-square</code>). You are welcome to use one of them by embedding its stylesheet into your app.</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-default.css&quot;&gt;
+&lt;/head&gt;</code>
+</code></pre>
+<p>If you&apos;d like to extend a theme within your own CSS, you can pass custom class names to the tour instance &#x2014; or, as part of the options for each step &#x2014; and use them as hooks for your own styling rules.</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">let tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    classes: &apos;shepherd-theme-custom&apos;
+  }
+});</code>
+</code></pre>
+<h3 id="leveraging-sass-variables">Leveraging Sass Variables</h3><p>We use <a href="https://sass-lang.com/">SASS</a> as pre-processor for CSS. This allows us to extend the CSS language with various syntax techniques &#x2014; including variables and color functions that can be used to control theming.</p>
+<p>These values and variables can be found in <a href="/src/scss/_variables.scss"><strong>_variables.scss</strong></a>, and the ones that can be adjusted for theming are listed below.</p>
+<p><strong>&#x1F3A8; Color Settings</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$shepherd-theme-primary</td>
+<td>Primary or brand color. The primary button gets this color.</td>
+<td>#3288e6</td>
+</tr>
+<tr>
+<td>$shepherd-theme-secondary</td>
+<td>Secondary color. If it is not set explicitly, it is calculated using the primary color.</td>
+<td>desaturate(lighten($shepherd-theme-primary, 40), 70)</td>
+</tr>
+<tr>
+<td>$shepherd-text-background</td>
+<td>Background color of the text area.</td>
+<td>#ffffff</td>
+</tr>
+<tr>
+<td>$shepherd-header-background</td>
+<td>Background color of the header element. If it is not set explicitly, it is calculated using the text background color.</td>
+<td>darken($shepherd-text-background, 10)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>&#x2699;&#xFE0F; Options</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$shepherd-element-width</td>
+<td>Width of the step element</td>
+<td>400px</td>
+</tr>
+<tr>
+<td>$shepherd-element-border-radius</td>
+<td>Set radius of rounded corners. 0 means (sharp) pointed corners.</td>
+<td>5px</td>
+</tr>
+<tr>
+<td>$shepherd-element-max-height</td>
+<td>Maximum height of the element</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>$shepherd-element-max-width</td>
+<td>Maximum width of the element</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>$shepherd-element-z-index</td>
+<td>Move the element forward or backward</td>
+<td>9999</td>
+</tr>
+<tr>
+<td>$shepherd-text-line-height</td>
+<td>Determine the line height of the body text</td>
+<td>1.3em</td>
+</tr>
+<tr>
+<td>$shepherd-button-border-radius</td>
+<td>Decide whether the buttons should have rounded or pointed corners. 0 means (sharp) pointed corners.</td>
+<td>3px</td>
+</tr>
+<tr>
+<td>$use-drop-shadow</td>
+<td>The element casts a shadow</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>The example below is intended to illustrate the individual customizations. Please make sure that the values are set before the import of the <em>base-theme</em>.</p>
+<pre><code class="lang-scss"><code class="source-code prettyprint">$shepherd-theme-primary: #9b59b6 !default;
+$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
+$shepherd-header-background: #eeeeee !default;
+$shepherd-element-border-radius: 0 !default;
+$shepherd-button-border-radius: 0 !default;
+$use-drop-shadow: true !default;
+
+@import &apos;base&apos;;</code>
+</code></pre>
+<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements. The header is colored in a light gray tone.</p>
+<h3 id="&#x1F53C;-displaying-arrows">&#x1F53C; Displaying Arrows</h3><p>By default, Shepherd will generate and position an &quot;arrow&quot; element that points to the target
+of a step. This is done by setting <a href="https://atomiks.github.io/tippyjs/#arrow-option">Tippy&apos;s <code>arrow</code> option</a> to <code>true</code> on each <code></code>Step.options.tippyOptions` &#x2014; but you can disable the arrow manually by setting it to false:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">myTour.addStep(&apos;Step 1&apos;, {
+  tippyOptions: {
+    arrow: false
+  }
+});</code>
+</code></pre>
+<p>Furthermore, while each of <a href="(/docs/themes.md">Shepherd&apos;s themes</a>) provides some basic arrow styling, you can style it as you wish by targeting <a href="https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure">the markup that&apos;s genereated by Tippy</a>.</p>
+<h2 id="projects-using-shepherd">Projects Using Shepherd</h2><p>Here we showcase some of the awesome libraries built using Shepherd.</p>
+<h3 id="js-framework-wrappers">JS Framework Wrappers</h3><h3 id="-a-href--https---github-com-shipshapecode-ember-shepherd--ember-shepherd--a-"><a href="https://github.com/shipshapecode/ember-shepherd">ember-shepherd</a></h3><p>Ember addon for the site tour library Shepherd</p>
+<h3 id="-a-href--https---github-com-shipshapecode-angular-shepherd--angular-shepherd--a-"><a href="https://github.com/shipshapecode/angular-shepherd">angular-shepherd</a></h3><p>An Angular wrapper for the site tour library Shepherd</p>
+<h3 id="-a-href--https---github-com-shipshapecode-react-shepherd--react-shepherd--a-"><a href="https://github.com/shipshapecode/react-shepherd">react-shepherd</a></h3><p>A React wrapper for the site tour library Shepherd</p>
+<h3 id="-a-href--https---github-com-shipshapecode-vue-shepherd--vue-shepherd--a-"><a href="https://github.com/shipshapecode/vue-shepherd">vue-shepherd</a></h3><p>A Vue wrapper for the site tour library Shepherd</p>
+<h3 id="websites-and-apps">Websites and Apps</h3><h3 id="-a-href--https---simpleplanner-io--simpleplanner--a-"><a href="https://simpleplanner.io">SimplePlanner</a></h3><p><a href="https://simpleplanner.io">SimplePlanner</a> uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
+You do need to sign up via OAuth or email to see the scheduling tour. 
+Check out the <a href="https://code.tutsplus.com/series/building-your-startup-with-php--cms-742">Envato Tuts+ Startup Series on its codebase</a> which describes how Simple Planner was built.</p>
+<p><a href="https://www.brokermate.com/">Brokermate</a> uses Shepherd to guide users through initial setup steps.</p>
+<h3 id="your-project-here">Your Project Here</h3><p>If you have a cool open-source library built on Shepherd, PR this doc.</p>
 </div>
 </div>
 

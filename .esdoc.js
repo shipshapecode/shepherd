@@ -1,7 +1,7 @@
 module.exports = {
   source: './src',
   destination: './esdoc',
-  index: "./README.md",
+  index: "./index.md",
   excludes: ['utils'],
   plugins: [
     {

@@ -2864,7 +2864,7 @@
   Popper.Defaults = Defaults;
 
   /**!
-  * tippy.js v4.3.0
+  * tippy.js v4.3.1
   * (c) 2017-2019 atomiks
   * MIT License
   */
@@ -2889,7 +2889,7 @@
     return _extends$1.apply(this, arguments);
   }
 
-  var version = "4.3.0";
+  var version = "4.3.1";
 
   var isBrowser$1 = typeof window !== 'undefined' && typeof document !== 'undefined';
   var ua = isBrowser$1 ? navigator.userAgent : '';
@@ -3001,15 +3001,69 @@
   var PLACEMENT_ATTRIBUTE = 'x-placement';
   var OUT_OF_BOUNDARIES_ATTRIBUTE = 'x-out-of-boundaries'; // Classes
 
-  var IOS_CLASS = 'tippy-iOS';
-  var ACTIVE_CLASS = 'tippy-active'; // Selectors
+  var IOS_CLASS = "tippy-iOS";
+  var ACTIVE_CLASS = "tippy-active";
+  var POPPER_CLASS = "tippy-popper";
+  var TOOLTIP_CLASS = "tippy-tooltip";
+  var CONTENT_CLASS = "tippy-content";
+  var BACKDROP_CLASS = "tippy-backdrop";
+  var ARROW_CLASS = "tippy-arrow";
+  var ROUND_ARROW_CLASS = "tippy-roundarrow"; // Selectors
 
-  var POPPER_SELECTOR = '.tippy-popper';
-  var TOOLTIP_SELECTOR = '.tippy-tooltip';
-  var CONTENT_SELECTOR = '.tippy-content';
-  var BACKDROP_SELECTOR = '.tippy-backdrop';
-  var ARROW_SELECTOR = '.tippy-arrow';
-  var ROUND_ARROW_SELECTOR = '.tippy-roundarrow';
+  var POPPER_SELECTOR = ".".concat(POPPER_CLASS);
+  var TOOLTIP_SELECTOR = ".".concat(TOOLTIP_CLASS);
+  var CONTENT_SELECTOR = ".".concat(CONTENT_CLASS);
+  var BACKDROP_SELECTOR = ".".concat(BACKDROP_CLASS);
+  var ARROW_SELECTOR = ".".concat(ARROW_CLASS);
+  var ROUND_ARROW_SELECTOR = ".".concat(ROUND_ARROW_CLASS);
+
+  var isUsingTouch = false;
+  function onDocumentTouch() {
+    if (isUsingTouch) {
+      return;
+    }
+
+    isUsingTouch = true;
+
+    if (isIOS) {
+      document.body.classList.add(IOS_CLASS);
+    }
+
+    if (window.performance) {
+      document.addEventListener('mousemove', onDocumentMouseMove);
+    }
+  }
+  var lastMouseMoveTime = 0;
+  function onDocumentMouseMove() {
+    var now = performance.now(); // Chrome 60+ is 1 mousemove per animation frame, use 20ms time difference
+
+    if (now - lastMouseMoveTime < 20) {
+      isUsingTouch = false;
+      document.removeEventListener('mousemove', onDocumentMouseMove);
+
+      if (!isIOS) {
+        document.body.classList.remove(IOS_CLASS);
+      }
+    }
+
+    lastMouseMoveTime = now;
+  }
+  function onWindowBlur() {
+    var _document = document,
+        activeElement = _document.activeElement;
+
+    if (activeElement && activeElement.blur && activeElement._tippy) {
+      activeElement.blur();
+    }
+  }
+  /**
+   * Adds the needed global event listeners
+   */
+
+  function bindGlobalEventListeners() {
+    document.addEventListener('touchstart', onDocumentTouch, PASSIVE);
+    window.addEventListener('blur', onWindowBlur);
+  }
 
   var keys = Object.keys(defaultProps);
   /**
@@ -3046,6 +3100,7 @@
     var polyfills = {
       isVirtual: true,
       attributes: virtualReference.attributes || {},
+      contains: function contains() {},
       setAttribute: function setAttribute(key, value) {
         virtualReference.attributes[key] = value;
       },
@@ -3214,7 +3269,7 @@
    */
 
   function canReceiveFocus(element) {
-    return element instanceof Element ? matches.call(element, 'a[href],area[href],button,details,input,textarea,select,iframe,[tabindex]') && !element.hasAttribute('disabled') : true;
+    return isRealElement(element) ? matches.call(element, 'a[href],area[href],button,details,input,textarea,select,iframe,[tabindex]') && !element.hasAttribute('disabled') : true;
   }
   /**
    * Returns a new `div` element
@@ -3278,14 +3333,14 @@
    */
 
   function setInnerHTML(element, html) {
-    element[innerHTML()] = html instanceof Element ? html[innerHTML()] : html;
+    element[innerHTML()] = isRealElement(html) ? html[innerHTML()] : html;
   }
   /**
    * Sets the content of a tooltip
    */
 
   function setContent(contentEl, props) {
-    if (props.content instanceof Element) {
+    if (isRealElement(props.content)) {
       setInnerHTML(contentEl, '');
       contentEl.appendChild(props.content);
     } else if (typeof props.content !== 'function') {
@@ -3327,10 +3382,10 @@
     var arrow = div();
 
     if (arrowType === 'round') {
-      arrow.className = 'tippy-roundarrow';
+      arrow.className = ROUND_ARROW_CLASS;
       setInnerHTML(arrow, '<svg viewBox="0 0 18 7" xmlns="http://www.w3.org/2000/svg"><path d="M0 7s2.021-.015 5.253-4.218C6.584 1.051 7.797.007 9 0c1.203-.007 2.416 1.035 3.761 2.782C16.012 7.005 18 7 18 7H0z"/></svg>');
     } else {
-      arrow.className = 'tippy-arrow';
+      arrow.className = ARROW_CLASS;
     }
 
     return arrow;
@@ -3341,7 +3396,7 @@
 
   function createBackdropElement() {
     var backdrop = div();
-    backdrop.className = 'tippy-backdrop';
+    backdrop.className = BACKDROP_CLASS;
     backdrop.setAttribute('data-state', 'hidden');
     return backdrop;
   }
@@ -3401,7 +3456,7 @@
 
   function createPopperElement(id, props) {
     var popper = div();
-    popper.className = 'tippy-popper';
+    popper.className = POPPER_CLASS;
     popper.id = "tippy-".concat(id);
     popper.style.zIndex = '' + props.zIndex;
 
@@ -3410,14 +3465,14 @@
     }
 
     var tooltip = div();
-    tooltip.className = 'tippy-tooltip';
+    tooltip.className = TOOLTIP_CLASS;
     tooltip.style.maxWidth = props.maxWidth + (typeof props.maxWidth === 'number' ? 'px' : '');
     tooltip.setAttribute('data-size', props.size);
     tooltip.setAttribute('data-animation', props.animation);
     tooltip.setAttribute('data-state', 'hidden');
     updateTheme(tooltip, 'add', props.theme);
     var content = div();
-    content.className = 'tippy-content';
+    content.className = CONTENT_CLASS;
     content.setAttribute('data-state', 'hidden');
 
     if (props.interactive) {
@@ -3515,7 +3570,6 @@
 
   function hideAll() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        checkHideOnClick = _ref.checkHideOnClick,
         excludedReferenceOrInstance = _ref.exclude,
         duration = _ref.duration;
 
@@ -3523,14 +3577,13 @@
       var instance = popper._tippy;
 
       if (instance) {
-        var shouldHideDueToHideOnClickOption = checkHideOnClick ? instance.props.hideOnClick === true : true;
         var isExcluded = false;
 
         if (excludedReferenceOrInstance) {
           isExcluded = isReferenceElement(excludedReferenceOrInstance) ? instance.reference === excludedReferenceOrInstance : popper === excludedReferenceOrInstance.popper;
         }
 
-        if (shouldHideDueToHideOnClickOption && !isExcluded) {
+        if (!isExcluded) {
           instance.hide(duration);
         }
       }
@@ -3563,98 +3616,6 @@
 
   function getOffsetDistanceInPx(distance) {
     return -(distance - 10) + 'px';
-  }
-
-  var isUsingTouch = false;
-  function onDocumentTouch() {
-    if (isUsingTouch) {
-      return;
-    }
-
-    isUsingTouch = true;
-
-    if (isIOS) {
-      document.body.classList.add(IOS_CLASS);
-    }
-
-    if (window.performance) {
-      document.addEventListener('mousemove', onDocumentMouseMove);
-    }
-  }
-  var lastMouseMoveTime = 0;
-  function onDocumentMouseMove() {
-    var now = performance.now(); // Chrome 60+ is 1 mousemove per animation frame, use 20ms time difference
-
-    if (now - lastMouseMoveTime < 20) {
-      isUsingTouch = false;
-      document.removeEventListener('mousemove', onDocumentMouseMove);
-
-      if (!isIOS) {
-        document.body.classList.remove(IOS_CLASS);
-      }
-    }
-
-    lastMouseMoveTime = now;
-  }
-  function onDocumentClick(event) {
-    // Simulated events dispatched on the document
-    if (!(event.target instanceof Element)) {
-      return hideAll();
-    } // Clicked on an interactive popper
-
-
-    var popper = closest(event.target, POPPER_SELECTOR);
-
-    if (popper && popper._tippy && popper._tippy.props.interactive) {
-      return;
-    } // Clicked on a reference
-
-
-    var reference = closestCallback(event.target, function (el) {
-      return el._tippy && el._tippy.reference === el;
-    });
-
-    if (reference) {
-      var instance = reference._tippy;
-
-      if (instance) {
-        var isClickTrigger = includes(instance.props.trigger || '', 'click');
-
-        if (isUsingTouch || isClickTrigger) {
-          return hideAll({
-            exclude: reference,
-            checkHideOnClick: true
-          });
-        }
-
-        if (instance.props.hideOnClick !== true || isClickTrigger) {
-          return;
-        }
-
-        instance.clearDelayTimeouts();
-      }
-    }
-
-    hideAll({
-      checkHideOnClick: true
-    });
-  }
-  function onWindowBlur() {
-    var _document = document,
-        activeElement = _document.activeElement;
-
-    if (activeElement && activeElement.blur && activeElement._tippy) {
-      activeElement.blur();
-    }
-  }
-  /**
-   * Adds the needed global event listeners
-   */
-
-  function bindGlobalEventListeners() {
-    document.addEventListener('click', onDocumentClick, true);
-    document.addEventListener('touchstart', onDocumentTouch, PASSIVE);
-    window.addEventListener('blur', onWindowBlur);
   }
 
   var idCounter = 1;
@@ -3729,7 +3690,6 @@
     };
     reference._tippy = instance;
     popper._tippy = instance;
-    getEventListenersTarget()._tippy = instance;
     addTriggersToReference();
 
     if (!props.lazy) {
@@ -3738,10 +3698,10 @@
 
     if (props.showOnInit) {
       scheduleShow();
-    } // Ensure the reference element can receive focus (and is not a delegate)
+    } // Ensure the event listeners target can receive focus
 
 
-    if (props.a11y && !props.target && !canReceiveFocus(reference)) {
+    if (props.a11y && !props.target && !canReceiveFocus(getEventListenersTarget())) {
       getEventListenersTarget().setAttribute('tabindex', '0');
     } // Prevent a tippy with a delay from hiding if the cursor left then returned
     // before it started hiding
@@ -3785,6 +3745,22 @@
 
     function getEventListenersTarget() {
       return instance.props.triggerTarget || reference;
+    }
+    /**
+     * Adds the document click event listener for the instance
+     */
+
+
+    function addDocumentClickListener() {
+      document.addEventListener('click', onDocumentClick, true);
+    }
+    /**
+     * Removes the document click event listener for the instance
+     */
+
+
+    function removeDocumentClickListener() {
+      document.removeEventListener('click', onDocumentClick, true);
     }
     /**
      * Returns transitionable inner elements used in show/hide methods
@@ -4085,11 +4061,10 @@
 
 
     function onMouseMove(event) {
-      var referenceTheCursorIsOver = closestCallback(event.target, function (el) {
-        return el._tippy;
-      });
       var isCursorOverPopper = closest(event.target, POPPER_SELECTOR) === popper;
-      var isCursorOverReference = referenceTheCursorIsOver === reference;
+      var isCursorOverReference = closestCallback(event.target, function (el) {
+        return el === reference;
+      });
 
       if (isCursorOverPopper || isCursorOverReference) {
         return;
@@ -4389,6 +4364,7 @@
         document.addEventListener('mousemove', positionVirtualReferenceNearCursor);
       }
 
+      addDocumentClickListener();
       var delay = getValue(instance.props.delay, 0, defaultProps.delay);
 
       if (delay) {
@@ -4426,6 +4402,34 @@
         animationFrameId = requestAnimationFrame(function () {
           hide();
         });
+      }
+    }
+    /**
+     * Listener to handle clicks on the document to determine if the
+     * instance should hide
+     */
+
+
+    function onDocumentClick(event) {
+      // Clicked on interactive popper
+      if (instance.props.interactive && popper.contains(event.target)) {
+        return;
+      } // Clicked on the event listeners target
+
+
+      if (getEventListenersTarget().contains(event.target)) {
+        if (isUsingTouch) {
+          return;
+        }
+
+        if (instance.state.isVisible && includes(instance.props.trigger, 'click')) {
+          return;
+        }
+      }
+
+      if (instance.props.hideOnClick === true) {
+        clearDelayTimeouts();
+        hide();
       }
     }
     /* ======================= 🔑 Public methods 🔑 ======================= */
@@ -4466,18 +4470,12 @@
       options = options || {};
       validateOptions(options, defaultProps);
       removeTriggersFromReference();
-
-      if (instance.props.triggerTarget) {
-        delete instance.props.triggerTarget._tippy;
-      }
-
       var prevProps = instance.props;
       var nextProps = evaluateProps(reference, _extends$1({}, instance.props, options, {
         ignoreAttributes: true
       }));
       nextProps.ignoreAttributes = hasOwnProperty$1(options, 'ignoreAttributes') ? options.ignoreAttributes || false : prevProps.ignoreAttributes;
       instance.props = nextProps;
-      getEventListenersTarget()._tippy = instance;
       addTriggersToReference();
       cleanupOldMouseListeners();
       debouncedOnMouseMove = debounce$1(onMouseMove, options.interactiveDebounce || 0);
@@ -4485,8 +4483,6 @@
       instance.popperChildren = getChildren(popper);
 
       if (instance.popperInstance) {
-        instance.popperInstance.update();
-
         if (POPPER_INSTANCE_DEPENDENCIES.some(function (prop) {
           return hasOwnProperty$1(options, prop) && options[prop] !== prevProps[prop];
         })) {
@@ -4500,6 +4496,8 @@
           if (instance.props.followCursor && lastMouseMoveEvent) {
             positionVirtualReferenceNearCursor(lastMouseMoveEvent);
           }
+        } else {
+          instance.popperInstance.update();
         }
       }
     }
@@ -4536,6 +4534,7 @@
         return;
       }
 
+      addDocumentClickListener();
       popper.style.visibility = 'visible';
       instance.state.isVisible = true;
 
@@ -4596,6 +4595,7 @@
         return;
       }
 
+      removeDocumentClickListener();
       popper.style.visibility = 'hidden';
       instance.state.isVisible = false;
       instance.state.isShown = false;
@@ -4642,7 +4642,6 @@
 
       removeTriggersFromReference();
       delete reference._tippy;
-      delete getEventListenersTarget()._tippy;
       var target = instance.props.target;
 
       if (target && destroyTargetInstances && isRealElement(reference)) {
@@ -4693,7 +4692,10 @@
         instance.set({
           duration: duration
         });
-        instance.hide();
+
+        if (instance.state.isVisible) {
+          instance.hide();
+        }
       });
       setIsAnyTippyOpen(true);
     }
@@ -4808,6 +4810,7 @@
       var style = document.createElement('style');
       style.type = 'text/css';
       style.textContent = css;
+      style.setAttribute('data-tippy-stylesheet', '');
       var head = document.head;
       var firstChild = head.firstChild;
 
