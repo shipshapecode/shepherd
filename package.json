@@ -89,7 +89,7 @@
     "rollup-plugin-filesize": "^6.0.1",
     "rollup-plugin-license": "^0.8.1",
     "rollup-plugin-multi-entry": "^2.1.0",
-    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-stylelint": "^0.0.4",
     "rollup-plugin-terser": "^4.0.4",
