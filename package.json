@@ -85,7 +85,7 @@
     "rollup-plugin-browsersync": "^1.0.0",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-css-only": "^1.0.0",
-    "rollup-plugin-eslint": "^5.1.0",
+    "rollup-plugin-eslint": "^6.0.0",
     "rollup-plugin-filesize": "^6.0.1",
     "rollup-plugin-license": "^0.8.1",
     "rollup-plugin-multi-entry": "^2.1.0",
