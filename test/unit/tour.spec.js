@@ -5,6 +5,7 @@ import { Step } from '../../src/js/step.js';
 import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';
 import { spy } from 'sinon';
+import { drop, rewire$drop, restore } from '../../src/js/utils/general';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -379,6 +380,14 @@ describe('Tour | Top-Level Class', function() {
     });
 
     describe('.show()', function() {
+      let dropSpy;
+
+      beforeEach(() => {
+        rewire$drop(dropSpy = spy(drop));
+      });
+
+      afterEach(restore);
+
       it('show short-circuits if next is not found', function() {
         let showFired = false;
         instance.start();
@@ -399,6 +408,15 @@ describe('Tour | Top-Level Class', function() {
         shouldShowStep = true;
         instance.next();
         expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');
+
+        // This spy checks that, when we call `trigger` with `show`, that we pass `arguments` down.
+        const dropArguments = dropSpy.args[2][0];
+        const dropReturnValue = dropSpy.returnValues[2][0];
+        expect(dropArguments[0]).toBe('show');
+        expect(dropArguments[1].previous).toBe(null);
+        expect(dropArguments[1].step.id).toBe('test');
+        expect(dropReturnValue.previous).toBe(null);
+        expect(dropReturnValue.step.id).toBe('test');
       });
 
       it(`sets the instance on \`Shepherd.activeTour\` if it's not already set`, function() {

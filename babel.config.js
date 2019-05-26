@@ -28,6 +28,7 @@ module.exports = function(api) {
           ]
         ],
         plugins: [
+          'rewire-exports',
           'transform-es2015-modules-commonjs'
         ]
       }
