@@ -36,7 +36,7 @@ export class Evented {
 
   trigger(event) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
-      const args = drop(arguments);
+      const args = drop(Array.prototype.slice.call(arguments));
 
       this.bindings[event].forEach((binding, index) => {
         const { ctx, handler, once } = binding;
