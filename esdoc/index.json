@@ -578,7 +578,7 @@
     "__docId__": 49,
     "kind": "file",
     "name": "src/js/evented.js",
-    "content": "import { drop } from './utils/general';\nimport { isUndefined } from './utils/type-check';\n\nexport class Evented {\n  on(event, handler, ctx) {\n    const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];\n\n    if (isUndefined(this.bindings)) {\n      this.bindings = {};\n    }\n    if (isUndefined(this.bindings[event])) {\n      this.bindings[event] = [];\n    }\n    this.bindings[event].push({ handler, ctx, once });\n  }\n\n  once(event, handler, ctx) {\n    this.on(event, handler, ctx, true);\n  }\n\n  off(event, handler) {\n    if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {\n      return false;\n    }\n\n    if (isUndefined(handler)) {\n      delete this.bindings[event];\n    } else {\n      this.bindings[event].forEach((binding, index) => {\n        if (binding.handler === handler) {\n          this.bindings[event].splice(index, 1);\n        }\n      });\n    }\n  }\n\n  trigger(event) {\n    if (!isUndefined(this.bindings) && this.bindings[event]) {\n      const args = drop(arguments);\n\n      this.bindings[event].forEach((binding, index) => {\n        const { ctx, handler, once } = binding;\n\n        const context = ctx || this;\n\n        handler.apply(context, args);\n\n        if (once) {\n          this.bindings[event].splice(index, 1);\n        }\n      });\n    }\n  }\n\n}\n",
+    "content": "import { drop } from './utils/general';\nimport { isUndefined } from './utils/type-check';\n\nexport class Evented {\n  on(event, handler, ctx) {\n    const once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];\n\n    if (isUndefined(this.bindings)) {\n      this.bindings = {};\n    }\n    if (isUndefined(this.bindings[event])) {\n      this.bindings[event] = [];\n    }\n    this.bindings[event].push({ handler, ctx, once });\n  }\n\n  once(event, handler, ctx) {\n    this.on(event, handler, ctx, true);\n  }\n\n  off(event, handler) {\n    if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {\n      return false;\n    }\n\n    if (isUndefined(handler)) {\n      delete this.bindings[event];\n    } else {\n      this.bindings[event].forEach((binding, index) => {\n        if (binding.handler === handler) {\n          this.bindings[event].splice(index, 1);\n        }\n      });\n    }\n  }\n\n  trigger(event) {\n    if (!isUndefined(this.bindings) && this.bindings[event]) {\n      const args = drop(Array.prototype.slice.call(arguments));\n\n      this.bindings[event].forEach((binding, index) => {\n        const { ctx, handler, once } = binding;\n\n        const context = ctx || this;\n\n        handler.apply(context, args);\n\n        if (once) {\n          this.bindings[event].splice(index, 1);\n        }\n      });\n    }\n  }\n\n}\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/src/js/evented.js",
     "access": "public",
@@ -2557,7 +2557,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"shepherd.js\",\n  \"version\": \"2.8.0\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/shipshapecode/shepherd.git\"\n  },\n  \"description\": \"Guide your users through a tour of your app.\",\n  \"keywords\": [\n    \"site tour\",\n    \"tour\",\n    \"tutorial\",\n    \"shepherd\"\n  ],\n  \"authors\": [\n    \"Adam Schwartz <adam.flynn.schwartz@gmail.com>\",\n    \"Zack Bloom <zackbloom@gmail.com>\"\n  ],\n  \"maintainers\": [\n    \"Nicholas Hwang <nick.joosung.hwang@gmail.com>\",\n    \"Geoff Daigle <geoffreydaigle@gmail.com>\",\n    \"Robert Wagner <rwwagner90@gmail.com>\",\n    \"Chuck Carpenter <charleswcarpenter3@gmail.com>\"\n  ],\n  \"scripts\": {\n    \"build\": \"yarn clean && rollup -c\",\n    \"esdoc\": \"esdoc\",\n    \"clean\": \"rm -rf dist\",\n    \"cy:open\": \"./node_modules/.bin/cypress open\",\n    \"cy:run\": \"./node_modules/.bin/cypress run\",\n    \"rewrite-paths\": \"replace 'SF:.*src' 'SF:src' coverage/lcov.info\",\n    \"start\": \"yarn watch\",\n    \"start-test-server\": \"http-server -p 9002\",\n    \"test\": \"yarn test:ci\",\n    \"test:ci\": \"yarn test:unit:ci && yarn test:cy:ci\",\n    \"test:cy:ci\": \"yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run\",\n    \"test:cy:watch\": \"yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open\",\n    \"test:unit:ci\": \"jest --coverage\",\n    \"test:unit:watch\": \"jest --watch\",\n    \"view-coverage\": \"http-server -p 9003 ./coverage/lcov-report -o\",\n    \"watch\": \"yarn clean && rollup -c --environment DEVELOPMENT --watch\"\n  },\n  \"homepage\": \"https://shipshapecode.github.io/shepherd/docs/welcome/\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/js/shepherd.js\",\n  \"module\": \"dist/js/shepherd.esm.js\",\n  \"dependencies\": {\n    \"element-matches\": \"^0.1.2\",\n    \"lodash.defer\": \"^4.1.0\",\n    \"lodash.iselement\": \"^4.1.1\",\n    \"lodash.isobjectlike\": \"^4.0.0\",\n    \"lodash.zipobject\": \"^4.1.3\",\n    \"tippy.js\": \"^4.3.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/core\": \"^7.4.4\",\n    \"@babel/plugin-transform-object-assign\": \"^7.2.0\",\n    \"@babel/preset-env\": \"^7.4.4\",\n    \"autoprefixer\": \"^9.5.1\",\n    \"babel-core\": \"^7.0.0-bridge.0\",\n    \"babel-jest\": \"^24.7.1\",\n    \"babel-plugin-transform-es2015-modules-commonjs\": \"^6.26.2\",\n    \"chai\": \"^4.2.0\",\n    \"codeclimate-test-reporter\": \"^0.5.1\",\n    \"cssnano\": \"^4.1.10\",\n    \"cypress\": \"^3.2.0\",\n    \"del\": \"^4.1.1\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.16.0\",\n    \"eslint-plugin-jest\": \"^22.5.1\",\n    \"eslint-plugin-ship-shape\": \"^0.6.0\",\n    \"glob\": \"^7.1.3\",\n    \"http-server\": \"^0.11.1\",\n    \"jest\": \"^24.7.1\",\n    \"jest-dom\": \"^3.1.4\",\n    \"jest-expect-message\": \"^1.0.2\",\n    \"jest-transform-css\": \"^2.0.0\",\n    \"mutationobserver-shim\": \"^0.3.3\",\n    \"postcss\": \"^7.0.14\",\n    \"replace\": \"^1.1.0\",\n    \"rollup\": \"^1.11.0\",\n    \"rollup-plugin-analyzer\": \"^3.0.0\",\n    \"rollup-plugin-babel\": \"^4.3.2\",\n    \"rollup-plugin-browsersync\": \"^1.0.0\",\n    \"rollup-plugin-commonjs\": \"^9.3.4\",\n    \"rollup-plugin-css-only\": \"^1.0.0\",\n    \"rollup-plugin-eslint\": \"^6.0.0\",\n    \"rollup-plugin-filesize\": \"^6.0.1\",\n    \"rollup-plugin-license\": \"^0.8.1\",\n    \"rollup-plugin-multi-entry\": \"^2.1.0\",\n    \"rollup-plugin-node-resolve\": \"^5.0.0\",\n    \"rollup-plugin-sass\": \"^1.2.2\",\n    \"rollup-plugin-stylelint\": \"^0.0.4\",\n    \"rollup-plugin-terser\": \"^5.0.0\",\n    \"rollup-plugin-visualizer\": \"^1.1.1\",\n    \"sinon\": \"^7.3.2\",\n    \"start-server-and-test\": \"^1.9.0\",\n    \"stylelint\": \"^10.0.1\",\n    \"stylelint-config-ship-shape\": \"^0.5.2\"\n  },\n  \"engines\": {\n    \"node\": \">= 6.*\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"shepherd.js\",\n  \"version\": \"2.8.0\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/shipshapecode/shepherd.git\"\n  },\n  \"description\": \"Guide your users through a tour of your app.\",\n  \"keywords\": [\n    \"site tour\",\n    \"tour\",\n    \"tutorial\",\n    \"shepherd\"\n  ],\n  \"authors\": [\n    \"Adam Schwartz <adam.flynn.schwartz@gmail.com>\",\n    \"Zack Bloom <zackbloom@gmail.com>\"\n  ],\n  \"maintainers\": [\n    \"Nicholas Hwang <nick.joosung.hwang@gmail.com>\",\n    \"Geoff Daigle <geoffreydaigle@gmail.com>\",\n    \"Robert Wagner <rwwagner90@gmail.com>\",\n    \"Chuck Carpenter <charleswcarpenter3@gmail.com>\"\n  ],\n  \"scripts\": {\n    \"build\": \"yarn clean && rollup -c\",\n    \"esdoc\": \"esdoc\",\n    \"clean\": \"rm -rf dist\",\n    \"cy:open\": \"./node_modules/.bin/cypress open\",\n    \"cy:run\": \"./node_modules/.bin/cypress run\",\n    \"rewrite-paths\": \"replace 'SF:.*src' 'SF:src' coverage/lcov.info\",\n    \"start\": \"yarn watch\",\n    \"start-test-server\": \"http-server -p 9002\",\n    \"test\": \"yarn test:ci\",\n    \"test:ci\": \"yarn test:unit:ci && yarn test:cy:ci\",\n    \"test:cy:ci\": \"yarn build && start-server-and-test start-test-server http://localhost:9002 cy:run\",\n    \"test:cy:watch\": \"yarn build && start-server-and-test start-test-server http://localhost:9002 cy:open\",\n    \"test:unit:ci\": \"jest --coverage\",\n    \"test:unit:watch\": \"jest --watch\",\n    \"view-coverage\": \"http-server -p 9003 ./coverage/lcov-report -o\",\n    \"watch\": \"yarn clean && rollup -c --environment DEVELOPMENT --watch\"\n  },\n  \"homepage\": \"https://shipshapecode.github.io/shepherd/docs/welcome/\",\n  \"license\": \"MIT\",\n  \"main\": \"dist/js/shepherd.js\",\n  \"module\": \"dist/js/shepherd.esm.js\",\n  \"dependencies\": {\n    \"element-matches\": \"^0.1.2\",\n    \"lodash.defer\": \"^4.1.0\",\n    \"lodash.iselement\": \"^4.1.1\",\n    \"lodash.isobjectlike\": \"^4.0.0\",\n    \"lodash.zipobject\": \"^4.1.3\",\n    \"tippy.js\": \"^4.3.0\"\n  },\n  \"devDependencies\": {\n    \"@babel/core\": \"^7.4.5\",\n    \"@babel/plugin-transform-object-assign\": \"^7.2.0\",\n    \"@babel/preset-env\": \"^7.4.5\",\n    \"autoprefixer\": \"^9.5.1\",\n    \"babel-core\": \"^7.0.0-bridge.0\",\n    \"babel-jest\": \"^24.7.1\",\n    \"babel-plugin-rewire-exports\": \"^1.1.0\",\n    \"babel-plugin-transform-es2015-modules-commonjs\": \"^6.26.2\",\n    \"chai\": \"^4.2.0\",\n    \"codeclimate-test-reporter\": \"^0.5.1\",\n    \"cssnano\": \"^4.1.10\",\n    \"cypress\": \"^3.3.1\",\n    \"del\": \"^4.1.1\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.16.0\",\n    \"eslint-plugin-jest\": \"^22.5.1\",\n    \"eslint-plugin-ship-shape\": \"^0.6.0\",\n    \"glob\": \"^7.1.3\",\n    \"http-server\": \"^0.11.1\",\n    \"jest\": \"^24.7.1\",\n    \"jest-dom\": \"^3.1.4\",\n    \"jest-expect-message\": \"^1.0.2\",\n    \"jest-transform-css\": \"^2.0.0\",\n    \"mutationobserver-shim\": \"^0.3.3\",\n    \"postcss\": \"^7.0.14\",\n    \"replace\": \"^1.1.0\",\n    \"rollup\": \"^1.11.0\",\n    \"rollup-plugin-analyzer\": \"^3.0.0\",\n    \"rollup-plugin-babel\": \"^4.3.2\",\n    \"rollup-plugin-browsersync\": \"^1.0.0\",\n    \"rollup-plugin-commonjs\": \"^9.3.4\",\n    \"rollup-plugin-css-only\": \"^1.0.0\",\n    \"rollup-plugin-eslint\": \"^6.0.0\",\n    \"rollup-plugin-filesize\": \"^6.1.0\",\n    \"rollup-plugin-license\": \"^0.8.1\",\n    \"rollup-plugin-multi-entry\": \"^2.1.0\",\n    \"rollup-plugin-node-resolve\": \"^5.0.0\",\n    \"rollup-plugin-sass\": \"^1.2.2\",\n    \"rollup-plugin-stylelint\": \"^0.0.4\",\n    \"rollup-plugin-terser\": \"^5.0.0\",\n    \"rollup-plugin-visualizer\": \"^1.1.1\",\n    \"sinon\": \"^7.3.2\",\n    \"start-server-and-test\": \"^1.9.1\",\n    \"stylelint\": \"^10.0.1\",\n    \"stylelint-config-ship-shape\": \"^0.5.2\"\n  },\n  \"engines\": {\n    \"node\": \">= 6.*\"\n  }\n}\n",
     "longname": "/home/travis/build/shipshapecode/shepherd/package.json",
     "name": "package.json",
     "static": true,
@@ -3675,7 +3675,7 @@
     "__docId__": 223,
     "kind": "testFile",
     "name": "test/unit/tour.spec.js",
-    "content": "import _ from 'lodash';\nimport { stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';\nimport { spy } from 'sinon';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Top-Level Class', function() {\n  let instance, shouldShowStep;\n\n  const defaultStepOptions = {\n    classes: DEFAULT_STEP_CLASS,\n    scrollTo: true\n  };\n\n  beforeEach(() => {\n    tippy.setDefaults({ duration: 0, delay: 0 });\n  });\n\n  afterEach(() => {\n    instance.complete();\n  });\n\n  describe('constructor', function() {\n    it('creates a new tour instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance instanceof Shepherd.Tour).toBe(true);\n    });\n\n    it('returns the default options on the instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance.options.defaultStepOptions).toEqual({\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      });\n    });\n\n    it('sets the correct bindings', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      const bindings = Object.keys(instance.bindings);\n      const tourEvents = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];\n      // Check that all bindings are included\n      const difference = _.difference(tourEvents, bindings);\n      expect(difference.length, 'all tour events bound').toBe(0);\n    });\n\n    it('sets defaults for tippy', function() {\n      const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');\n      const tippySpy = spy(tippy, 'setDefaults');\n\n      expect(tourSpy.callCount).toBe(0);\n      expect(tippySpy.callCount).toBe(0);\n\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(tourSpy.callCount).toBe(1);\n      expect(tippySpy.callCount).toBe(1);\n      expect(tippySpy.calledWith(tooltipDefaults)).toBe(true);\n    });\n\n    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {\n      const instance1 = new Shepherd.Tour();\n      const instance2 = new Shepherd.Tour({ tourName: 'select-avatar' });\n\n      expect(instance1.id.startsWith('tour--')).toBe(true);\n      expect(instance2.id.startsWith('select-avatar--')).toBe(true);\n\n      const uniqueId1 = instance1.id.split('--')[1];\n      const uniqueId2 = instance2.id.split('--')[1];\n\n      expect(uniqueId1).not.toBe(uniqueId2);\n    });\n  });\n\n  describe('methods', () => {\n    beforeEach(() => {\n      shouldShowStep = false;\n\n      instance = new Shepherd.Tour({\n        defaultStepOptions\n      });\n\n      instance.addStep('test', {\n        id: 'test',\n        title: 'This is a test step for our tour'\n      });\n\n      instance.addStep('skipped-step', {\n        classes: 'skipped',\n        id: 'skipped-step',\n        title: 'This step should be skipped',\n        showOn() {\n          return shouldShowStep;\n        }\n      });\n\n      instance.addStep('test2', {\n        id: 'test2',\n        title: 'Another Step'\n      });\n\n      instance.addStep('test3', {\n        id: 'test3',\n        title: 'Yet, another test step'\n      });\n    });\n\n    describe('.addStep()', function() {\n      it('adds tour steps', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);\n      });\n\n      it('adds steps with only one arg', function() {\n        const step = instance.addStep({\n          id: 'one-arg'\n        });\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step with just one arg').toBe('one-arg');\n      });\n\n      it('adds steps that are already Step instances', function() {\n        const step = instance.addStep(new Step(instance, {\n          id: 'already-a-step'\n        }));\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step instance').toBe('already-a-step');\n        expect(step.tour, 'tour is set to `this`').toBe(instance);\n      });\n    });\n\n    describe('.getById()', function() {\n      it('returns the step by ID with the right title', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test3').options.title).toBe('Yet, another test step');\n      });\n    });\n\n    describe('.start()', function() {\n      it('starts a tour that is the current active', function() {\n        instance.start();\n\n        expect(instance).toBe(Shepherd.activeTour);\n      });\n\n      it('adds the current tour\\'s \"id\" property to the body as a data attribute', function() {\n        instance.id = 'test-id';\n        instance.start();\n\n        expect(document.body.hasAttribute('data-shepherd-active-tour')).toBe(true);\n        expect(document.body.getAttribute('data-shepherd-active-tour')).toBe('test-id');\n      });\n    });\n\n    describe('.getCurrentStep()', function() {\n      it('returns the currently shown step', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n    });\n\n    describe('.hide()', function() {\n      it('hides the current step', () => {\n        const firstStep = instance.steps[0];\n        const hideStepSpy = spy(firstStep, 'hide');\n\n        expect(firstStep.isOpen()).toBe(false);\n\n        instance.start();\n\n        expect(firstStep.isOpen()).toBe(true);\n\n        instance.hide();\n\n        expect(firstStep.isOpen()).toBe(false);\n        expect(hideStepSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('isActive', function() {\n      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n\n        Shepherd.activeTour = instance;\n        expect(instance.isActive()).toBe(true);\n\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n      });\n    });\n\n    describe('.next()/.back()', function() {\n      it('goes to the next/previous steps', function() {\n        instance.start();\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        instance.back();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n\n      it('next completes tour when on last step', function() {\n        let completeFired = false;\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.show('test3');\n        expect(instance.getCurrentStep().id).toBe('test3');\n        instance.next();\n        expect(completeFired, 'complete is called when next is clicked on last step').toBeTruthy();\n      });\n    });\n\n    describe('.cancel()', function() {\n      it('shows confirm dialog when confirmCancel is true', function() {\n        instance = new Shepherd.Tour({\n          defaultStepOptions,\n          confirmCancel: true,\n          confirmCancelMessage: 'Confirm cancel?'\n        });\n\n        instance.addStep('test', {\n          id: 'test',\n          title: 'This is a test step for our tour'\n        });\n\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        const windowConfirmStub = stub(window, 'confirm');\n        windowConfirmStub.returns(false);\n\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour still going, since confirm returned false').toBeFalsy();\n\n        windowConfirmStub.returns(true);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();\n      });\n\n      it('tears down tour on cancel', function() {\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(Shepherd.activeTour, 'activeTour is torn down').toBeFalsy();\n        expect(inactiveFired, 'inactive event fired').toBeTruthy();\n      });\n\n      it('triggers cancel event when cancel function is called', function() {\n        let cancelFired = false;\n        instance.on('cancel', () => {\n          cancelFired = true;\n        });\n\n        instance.start();\n        instance.cancel();\n        expect(cancelFired, 'cancel event fired').toBeTruthy();\n      });\n    });\n\n    describe('.complete()', function() {\n      it('triggers complete event when complete function is called', function() {\n        let completeFired = false;\n\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.complete();\n        expect(completeFired, 'complete event fired').toBeTruthy();\n      });\n\n      it('calls `done()`', () => {\n        const doneSpy = spy(instance, 'done');\n\n        expect(doneSpy.callCount).toBe(0);\n\n        instance.start();\n        instance.complete();\n\n        expect(doneSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('.done()', function() {\n      it('tears down the active tour', function() {\n        instance.start();\n\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n\n        instance.complete();\n\n        expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);\n      });\n\n      it('removes any of its `Step` tooltip elements from the DOM', function() {\n        const testStep = {\n          id: 'element-removal-test',\n          classes: 'element-removal-test',\n          title: 'This is a test step for our tour'\n        };\n\n        instance.addStep(testStep);\n        instance.start();\n        instance.show('element-removal-test');\n\n        expect(document.querySelector(`.element-removal-test`),\n          'a step is rendered in the DOM after the tour starts')\n          .toBeInTheDocument();\n\n        instance.complete();\n\n        expect(document.querySelector(`.element-removal-test`),\n          'steps are removed from the DOM after the tour completes')\n          .not.toBeInTheDocument();\n      });\n\n      it('fires the `inactive` event', function() {\n        let inactiveFired = false;\n\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        instance.start();\n\n        expect(inactiveFired, 'inactive event does not fire before `complete()`').toBe(false);\n\n        instance.complete();\n\n        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(true);\n      });\n    });\n\n    describe('.removeStep()', function() {\n      it('removes the step when passed the id', function() {\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        instance.removeStep('test2');\n        expect(instance.steps.length).toBe(3);\n      });\n\n      it('hides the step before removing', function() {\n        let hideFired = false;\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        const step = instance.getById('test');\n        step.on('hide', () => {\n          hideFired = true;\n        });\n        instance.removeStep('test');\n        expect(instance.steps.length).toBe(3);\n        expect(hideFired, 'hide is fired before step is destroyed').toBeTruthy();\n      });\n    });\n\n    describe('.show()', function() {\n      it('show short-circuits if next is not found', function() {\n        let showFired = false;\n        instance.start();\n        instance.on('show', () => {\n          showFired = true;\n        });\n        instance.show('not-a-real-key');\n        expect(showFired, 'showFired is false because show short circuits').toBeFalsy();\n      });\n\n      it('showOn determines which steps to skip', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');\n        instance.back();\n        shouldShowStep = true;\n        instance.next();\n        expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');\n      });\n\n      it(`sets the instance on \\`Shepherd.activeTour\\` if it's not already set`, function() {\n        const setupFuncSpy = spy(instance, '_setupActiveTour');\n        Shepherd.activeTour = null;\n\n        expect(setupFuncSpy.callCount).toBe(0);\n\n        instance.start();\n\n        expect(setupFuncSpy.callCount).toBe(1);\n        expect(Shepherd.activeTour).toBe(instance);\n      });\n    });\n  });\n});\n",
+    "content": "import _ from 'lodash';\nimport { stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';\nimport { spy } from 'sinon';\nimport { drop, rewire$drop, restore } from '../../src/js/utils/general';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Top-Level Class', function() {\n  let instance, shouldShowStep;\n\n  const defaultStepOptions = {\n    classes: DEFAULT_STEP_CLASS,\n    scrollTo: true\n  };\n\n  beforeEach(() => {\n    tippy.setDefaults({ duration: 0, delay: 0 });\n  });\n\n  afterEach(() => {\n    instance.complete();\n  });\n\n  describe('constructor', function() {\n    it('creates a new tour instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance instanceof Shepherd.Tour).toBe(true);\n    });\n\n    it('returns the default options on the instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance.options.defaultStepOptions).toEqual({\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      });\n    });\n\n    it('sets the correct bindings', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      const bindings = Object.keys(instance.bindings);\n      const tourEvents = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];\n      // Check that all bindings are included\n      const difference = _.difference(tourEvents, bindings);\n      expect(difference.length, 'all tour events bound').toBe(0);\n    });\n\n    it('sets defaults for tippy', function() {\n      const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');\n      const tippySpy = spy(tippy, 'setDefaults');\n\n      expect(tourSpy.callCount).toBe(0);\n      expect(tippySpy.callCount).toBe(0);\n\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(tourSpy.callCount).toBe(1);\n      expect(tippySpy.callCount).toBe(1);\n      expect(tippySpy.calledWith(tooltipDefaults)).toBe(true);\n    });\n\n    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {\n      const instance1 = new Shepherd.Tour();\n      const instance2 = new Shepherd.Tour({ tourName: 'select-avatar' });\n\n      expect(instance1.id.startsWith('tour--')).toBe(true);\n      expect(instance2.id.startsWith('select-avatar--')).toBe(true);\n\n      const uniqueId1 = instance1.id.split('--')[1];\n      const uniqueId2 = instance2.id.split('--')[1];\n\n      expect(uniqueId1).not.toBe(uniqueId2);\n    });\n  });\n\n  describe('methods', () => {\n    beforeEach(() => {\n      shouldShowStep = false;\n\n      instance = new Shepherd.Tour({\n        defaultStepOptions\n      });\n\n      instance.addStep('test', {\n        id: 'test',\n        title: 'This is a test step for our tour'\n      });\n\n      instance.addStep('skipped-step', {\n        classes: 'skipped',\n        id: 'skipped-step',\n        title: 'This step should be skipped',\n        showOn() {\n          return shouldShowStep;\n        }\n      });\n\n      instance.addStep('test2', {\n        id: 'test2',\n        title: 'Another Step'\n      });\n\n      instance.addStep('test3', {\n        id: 'test3',\n        title: 'Yet, another test step'\n      });\n    });\n\n    describe('.addStep()', function() {\n      it('adds tour steps', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);\n      });\n\n      it('adds steps with only one arg', function() {\n        const step = instance.addStep({\n          id: 'one-arg'\n        });\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step with just one arg').toBe('one-arg');\n      });\n\n      it('adds steps that are already Step instances', function() {\n        const step = instance.addStep(new Step(instance, {\n          id: 'already-a-step'\n        }));\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step instance').toBe('already-a-step');\n        expect(step.tour, 'tour is set to `this`').toBe(instance);\n      });\n    });\n\n    describe('.getById()', function() {\n      it('returns the step by ID with the right title', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test3').options.title).toBe('Yet, another test step');\n      });\n    });\n\n    describe('.start()', function() {\n      it('starts a tour that is the current active', function() {\n        instance.start();\n\n        expect(instance).toBe(Shepherd.activeTour);\n      });\n\n      it('adds the current tour\\'s \"id\" property to the body as a data attribute', function() {\n        instance.id = 'test-id';\n        instance.start();\n\n        expect(document.body.hasAttribute('data-shepherd-active-tour')).toBe(true);\n        expect(document.body.getAttribute('data-shepherd-active-tour')).toBe('test-id');\n      });\n    });\n\n    describe('.getCurrentStep()', function() {\n      it('returns the currently shown step', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n    });\n\n    describe('.hide()', function() {\n      it('hides the current step', () => {\n        const firstStep = instance.steps[0];\n        const hideStepSpy = spy(firstStep, 'hide');\n\n        expect(firstStep.isOpen()).toBe(false);\n\n        instance.start();\n\n        expect(firstStep.isOpen()).toBe(true);\n\n        instance.hide();\n\n        expect(firstStep.isOpen()).toBe(false);\n        expect(hideStepSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('isActive', function() {\n      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n\n        Shepherd.activeTour = instance;\n        expect(instance.isActive()).toBe(true);\n\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n      });\n    });\n\n    describe('.next()/.back()', function() {\n      it('goes to the next/previous steps', function() {\n        instance.start();\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        instance.back();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n\n      it('next completes tour when on last step', function() {\n        let completeFired = false;\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.show('test3');\n        expect(instance.getCurrentStep().id).toBe('test3');\n        instance.next();\n        expect(completeFired, 'complete is called when next is clicked on last step').toBeTruthy();\n      });\n    });\n\n    describe('.cancel()', function() {\n      it('shows confirm dialog when confirmCancel is true', function() {\n        instance = new Shepherd.Tour({\n          defaultStepOptions,\n          confirmCancel: true,\n          confirmCancelMessage: 'Confirm cancel?'\n        });\n\n        instance.addStep('test', {\n          id: 'test',\n          title: 'This is a test step for our tour'\n        });\n\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        const windowConfirmStub = stub(window, 'confirm');\n        windowConfirmStub.returns(false);\n\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour still going, since confirm returned false').toBeFalsy();\n\n        windowConfirmStub.returns(true);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();\n      });\n\n      it('tears down tour on cancel', function() {\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(Shepherd.activeTour, 'activeTour is torn down').toBeFalsy();\n        expect(inactiveFired, 'inactive event fired').toBeTruthy();\n      });\n\n      it('triggers cancel event when cancel function is called', function() {\n        let cancelFired = false;\n        instance.on('cancel', () => {\n          cancelFired = true;\n        });\n\n        instance.start();\n        instance.cancel();\n        expect(cancelFired, 'cancel event fired').toBeTruthy();\n      });\n    });\n\n    describe('.complete()', function() {\n      it('triggers complete event when complete function is called', function() {\n        let completeFired = false;\n\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.complete();\n        expect(completeFired, 'complete event fired').toBeTruthy();\n      });\n\n      it('calls `done()`', () => {\n        const doneSpy = spy(instance, 'done');\n\n        expect(doneSpy.callCount).toBe(0);\n\n        instance.start();\n        instance.complete();\n\n        expect(doneSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('.done()', function() {\n      it('tears down the active tour', function() {\n        instance.start();\n\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n\n        instance.complete();\n\n        expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);\n      });\n\n      it('removes any of its `Step` tooltip elements from the DOM', function() {\n        const testStep = {\n          id: 'element-removal-test',\n          classes: 'element-removal-test',\n          title: 'This is a test step for our tour'\n        };\n\n        instance.addStep(testStep);\n        instance.start();\n        instance.show('element-removal-test');\n\n        expect(document.querySelector(`.element-removal-test`),\n          'a step is rendered in the DOM after the tour starts')\n          .toBeInTheDocument();\n\n        instance.complete();\n\n        expect(document.querySelector(`.element-removal-test`),\n          'steps are removed from the DOM after the tour completes')\n          .not.toBeInTheDocument();\n      });\n\n      it('fires the `inactive` event', function() {\n        let inactiveFired = false;\n\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        instance.start();\n\n        expect(inactiveFired, 'inactive event does not fire before `complete()`').toBe(false);\n\n        instance.complete();\n\n        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(true);\n      });\n    });\n\n    describe('.removeStep()', function() {\n      it('removes the step when passed the id', function() {\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        instance.removeStep('test2');\n        expect(instance.steps.length).toBe(3);\n      });\n\n      it('hides the step before removing', function() {\n        let hideFired = false;\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        const step = instance.getById('test');\n        step.on('hide', () => {\n          hideFired = true;\n        });\n        instance.removeStep('test');\n        expect(instance.steps.length).toBe(3);\n        expect(hideFired, 'hide is fired before step is destroyed').toBeTruthy();\n      });\n    });\n\n    describe('.show()', function() {\n      let dropSpy;\n\n      beforeEach(() => {\n        rewire$drop(dropSpy = spy(drop));\n      });\n\n      afterEach(restore);\n\n      it('show short-circuits if next is not found', function() {\n        let showFired = false;\n        instance.start();\n        instance.on('show', () => {\n          showFired = true;\n        });\n        instance.show('not-a-real-key');\n        expect(showFired, 'showFired is false because show short circuits').toBeFalsy();\n      });\n\n      it('showOn determines which steps to skip', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');\n        instance.back();\n        shouldShowStep = true;\n        instance.next();\n        expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');\n\n        // This spy checks that, when we call `trigger` with `show`, that we pass `arguments` down.\n        const dropArguments = dropSpy.args[2][0];\n        const dropReturnValue = dropSpy.returnValues[2][0];\n        expect(dropArguments[0]).toBe('show');\n        expect(dropArguments[1].previous).toBe(null);\n        expect(dropArguments[1].step.id).toBe('test');\n        expect(dropReturnValue.previous).toBe(null);\n        expect(dropReturnValue.step.id).toBe('test');\n      });\n\n      it(`sets the instance on \\`Shepherd.activeTour\\` if it's not already set`, function() {\n        const setupFuncSpy = spy(instance, '_setupActiveTour');\n        Shepherd.activeTour = null;\n\n        expect(setupFuncSpy.callCount).toBe(0);\n\n        instance.start();\n\n        expect(setupFuncSpy.callCount).toBe(1);\n        expect(Shepherd.activeTour).toBe(instance);\n      });\n    });\n  });\n});\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/test/unit/tour.spec.js",
     "access": null,
@@ -3693,7 +3693,7 @@
     "longname": "test/unit/tour.spec.js~describe81",
     "access": null,
     "description": "Tour | Top-Level Class",
-    "lineNumber": 14
+    "lineNumber": 15
   },
   {
     "__docId__": 225,
@@ -3706,7 +3706,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82",
     "access": null,
     "description": "constructor",
-    "lineNumber": 30
+    "lineNumber": 31
   },
   {
     "__docId__": 226,
@@ -3719,7 +3719,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82.it83",
     "access": null,
     "description": "creates a new tour instance",
-    "lineNumber": 31
+    "lineNumber": 32
   },
   {
     "__docId__": 227,
@@ -3732,7 +3732,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82.it84",
     "access": null,
     "description": "returns the default options on the instance",
-    "lineNumber": 37
+    "lineNumber": 38
   },
   {
     "__docId__": 228,
@@ -3745,7 +3745,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82.it85",
     "access": null,
     "description": "sets the correct bindings",
-    "lineNumber": 46
+    "lineNumber": 47
   },
   {
     "__docId__": 229,
@@ -3758,7 +3758,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82.it86",
     "access": null,
     "description": "sets defaults for tippy",
-    "lineNumber": 56
+    "lineNumber": 57
   },
   {
     "__docId__": 230,
@@ -3771,7 +3771,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe82.it87",
     "access": null,
     "description": "generates a unique `id` property, optionally based upon the `tourName` option",
-    "lineNumber": 70
+    "lineNumber": 71
   },
   {
     "__docId__": 231,
@@ -3784,7 +3784,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88",
     "access": null,
     "description": "methods",
-    "lineNumber": 84
+    "lineNumber": 85
   },
   {
     "__docId__": 232,
@@ -3797,7 +3797,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe89",
     "access": null,
     "description": ".addStep()",
-    "lineNumber": 117
+    "lineNumber": 118
   },
   {
     "__docId__": 233,
@@ -3810,7 +3810,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe89.it90",
     "access": null,
     "description": "adds tour steps",
-    "lineNumber": 118
+    "lineNumber": 119
   },
   {
     "__docId__": 234,
@@ -3823,7 +3823,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe89.it91",
     "access": null,
     "description": "adds steps with only one arg",
-    "lineNumber": 123
+    "lineNumber": 124
   },
   {
     "__docId__": 235,
@@ -3836,7 +3836,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe89.it92",
     "access": null,
     "description": "adds steps that are already Step instances",
-    "lineNumber": 132
+    "lineNumber": 133
   },
   {
     "__docId__": 236,
@@ -3849,7 +3849,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe93",
     "access": null,
     "description": ".getById()",
-    "lineNumber": 143
+    "lineNumber": 144
   },
   {
     "__docId__": 237,
@@ -3862,7 +3862,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe93.it94",
     "access": null,
     "description": "returns the step by ID with the right title",
-    "lineNumber": 144
+    "lineNumber": 145
   },
   {
     "__docId__": 238,
@@ -3875,7 +3875,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe95",
     "access": null,
     "description": ".start()",
-    "lineNumber": 150
+    "lineNumber": 151
   },
   {
     "__docId__": 239,
@@ -3888,7 +3888,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe95.it96",
     "access": null,
     "description": "starts a tour that is the current active",
-    "lineNumber": 151
+    "lineNumber": 152
   },
   {
     "__docId__": 240,
@@ -3901,7 +3901,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe95.it97",
     "access": null,
     "description": "adds the current tour's \"id\" property to the body as a data attribute",
-    "lineNumber": 157
+    "lineNumber": 158
   },
   {
     "__docId__": 241,
@@ -3914,7 +3914,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe98",
     "access": null,
     "description": ".getCurrentStep()",
-    "lineNumber": 166
+    "lineNumber": 167
   },
   {
     "__docId__": 242,
@@ -3927,7 +3927,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe98.it99",
     "access": null,
     "description": "returns the currently shown step",
-    "lineNumber": 167
+    "lineNumber": 168
   },
   {
     "__docId__": 243,
@@ -3940,7 +3940,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe100",
     "access": null,
     "description": ".hide()",
-    "lineNumber": 173
+    "lineNumber": 174
   },
   {
     "__docId__": 244,
@@ -3953,7 +3953,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe100.it101",
     "access": null,
     "description": "hides the current step",
-    "lineNumber": 174
+    "lineNumber": 175
   },
   {
     "__docId__": 245,
@@ -3966,7 +3966,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe102",
     "access": null,
     "description": "isActive",
-    "lineNumber": 191
+    "lineNumber": 192
   },
   {
     "__docId__": 246,
@@ -3979,7 +3979,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe102.it103",
     "access": null,
     "description": "computes whether or not `Shepherd.activeTour` equals the instance",
-    "lineNumber": 192
+    "lineNumber": 193
   },
   {
     "__docId__": 247,
@@ -3992,7 +3992,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe104",
     "access": null,
     "description": ".next()/.back()",
-    "lineNumber": 204
+    "lineNumber": 205
   },
   {
     "__docId__": 248,
@@ -4005,7 +4005,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe104.it105",
     "access": null,
     "description": "goes to the next/previous steps",
-    "lineNumber": 205
+    "lineNumber": 206
   },
   {
     "__docId__": 249,
@@ -4018,7 +4018,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe104.it106",
     "access": null,
     "description": "next completes tour when on last step",
-    "lineNumber": 213
+    "lineNumber": 214
   },
   {
     "__docId__": 250,
@@ -4031,7 +4031,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe107",
     "access": null,
     "description": ".cancel()",
-    "lineNumber": 227
+    "lineNumber": 228
   },
   {
     "__docId__": 251,
@@ -4044,7 +4044,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe107.it108",
     "access": null,
     "description": "shows confirm dialog when confirmCancel is true",
-    "lineNumber": 228
+    "lineNumber": 229
   },
   {
     "__docId__": 252,
@@ -4057,7 +4057,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe107.it109",
     "access": null,
     "description": "tears down tour on cancel",
-    "lineNumber": 260
+    "lineNumber": 261
   },
   {
     "__docId__": 253,
@@ -4070,7 +4070,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe107.it110",
     "access": null,
     "description": "triggers cancel event when cancel function is called",
-    "lineNumber": 272
+    "lineNumber": 273
   },
   {
     "__docId__": 254,
@@ -4083,7 +4083,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe111",
     "access": null,
     "description": ".complete()",
-    "lineNumber": 284
+    "lineNumber": 285
   },
   {
     "__docId__": 255,
@@ -4096,7 +4096,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe111.it112",
     "access": null,
     "description": "triggers complete event when complete function is called",
-    "lineNumber": 285
+    "lineNumber": 286
   },
   {
     "__docId__": 256,
@@ -4109,7 +4109,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe111.it113",
     "access": null,
     "description": "calls `done()`",
-    "lineNumber": 297
+    "lineNumber": 298
   },
   {
     "__docId__": 257,
@@ -4122,7 +4122,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe114",
     "access": null,
     "description": ".done()",
-    "lineNumber": 309
+    "lineNumber": 310
   },
   {
     "__docId__": 258,
@@ -4135,7 +4135,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe114.it115",
     "access": null,
     "description": "tears down the active tour",
-    "lineNumber": 310
+    "lineNumber": 311
   },
   {
     "__docId__": 259,
@@ -4148,7 +4148,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe114.it116",
     "access": null,
     "description": "removes any of its `Step` tooltip elements from the DOM",
-    "lineNumber": 320
+    "lineNumber": 321
   },
   {
     "__docId__": 260,
@@ -4161,7 +4161,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe114.it117",
     "access": null,
     "description": "fires the `inactive` event",
-    "lineNumber": 342
+    "lineNumber": 343
   },
   {
     "__docId__": 261,
@@ -4174,7 +4174,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe118",
     "access": null,
     "description": ".removeStep()",
-    "lineNumber": 359
+    "lineNumber": 360
   },
   {
     "__docId__": 262,
@@ -4187,7 +4187,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe118.it119",
     "access": null,
     "description": "removes the step when passed the id",
-    "lineNumber": 360
+    "lineNumber": 361
   },
   {
     "__docId__": 263,
@@ -4200,7 +4200,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe118.it120",
     "access": null,
     "description": "hides the step before removing",
-    "lineNumber": 367
+    "lineNumber": 368
   },
   {
     "__docId__": 264,
@@ -4213,7 +4213,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe121",
     "access": null,
     "description": ".show()",
-    "lineNumber": 381
+    "lineNumber": 382
   },
   {
     "__docId__": 265,
@@ -4226,7 +4226,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe121.it122",
     "access": null,
     "description": "show short-circuits if next is not found",
-    "lineNumber": 382
+    "lineNumber": 391
   },
   {
     "__docId__": 266,
@@ -4239,7 +4239,7 @@
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe121.it123",
     "access": null,
     "description": "showOn determines which steps to skip",
-    "lineNumber": 392
+    "lineNumber": 401
   },
   {
     "__docId__": 267,
@@ -4251,7 +4251,7 @@
     "static": true,
     "longname": "test/unit/tour.spec.js~describe81.describe88.describe121.it124",
     "access": null,
-    "lineNumber": 404
+    "lineNumber": 422
   },
   {
     "__docId__": 268,

@@ -619,265 +619,265 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber14",
+    "test-file/test/unit/tour.spec.js.html#lineNumber15",
     "Tour | Top-Level Class",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber30",
+    "test-file/test/unit/tour.spec.js.html#lineNumber31",
     "Tour | Top-Level Class constructor",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber31",
+    "test-file/test/unit/tour.spec.js.html#lineNumber32",
     "Tour | Top-Level Class constructor creates a new tour instance",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber70",
+    "test-file/test/unit/tour.spec.js.html#lineNumber71",
     "Tour | Top-Level Class constructor generates a unique `id` property, optionally based upon the `tourName` option",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber37",
+    "test-file/test/unit/tour.spec.js.html#lineNumber38",
     "Tour | Top-Level Class constructor returns the default options on the instance",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber56",
+    "test-file/test/unit/tour.spec.js.html#lineNumber57",
     "Tour | Top-Level Class constructor sets defaults for tippy",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber46",
+    "test-file/test/unit/tour.spec.js.html#lineNumber47",
     "Tour | Top-Level Class constructor sets the correct bindings",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber84",
+    "test-file/test/unit/tour.spec.js.html#lineNumber85",
     "Tour | Top-Level Class methods",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber117",
+    "test-file/test/unit/tour.spec.js.html#lineNumber118",
     "Tour | Top-Level Class methods .addStep()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber132",
+    "test-file/test/unit/tour.spec.js.html#lineNumber133",
     "Tour | Top-Level Class methods .addStep() adds steps that are already Step instances",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber123",
+    "test-file/test/unit/tour.spec.js.html#lineNumber124",
     "Tour | Top-Level Class methods .addStep() adds steps with only one arg",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber118",
+    "test-file/test/unit/tour.spec.js.html#lineNumber119",
     "Tour | Top-Level Class methods .addStep() adds tour steps",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber227",
+    "test-file/test/unit/tour.spec.js.html#lineNumber228",
     "Tour | Top-Level Class methods .cancel()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber228",
+    "test-file/test/unit/tour.spec.js.html#lineNumber229",
     "Tour | Top-Level Class methods .cancel() shows confirm dialog when confirmCancel is true",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber260",
+    "test-file/test/unit/tour.spec.js.html#lineNumber261",
     "Tour | Top-Level Class methods .cancel() tears down tour on cancel",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber272",
+    "test-file/test/unit/tour.spec.js.html#lineNumber273",
     "Tour | Top-Level Class methods .cancel() triggers cancel event when cancel function is called",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber284",
+    "test-file/test/unit/tour.spec.js.html#lineNumber285",
     "Tour | Top-Level Class methods .complete()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber297",
+    "test-file/test/unit/tour.spec.js.html#lineNumber298",
     "Tour | Top-Level Class methods .complete() calls `done()`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber285",
+    "test-file/test/unit/tour.spec.js.html#lineNumber286",
     "Tour | Top-Level Class methods .complete() triggers complete event when complete function is called",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber309",
+    "test-file/test/unit/tour.spec.js.html#lineNumber310",
     "Tour | Top-Level Class methods .done()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber342",
+    "test-file/test/unit/tour.spec.js.html#lineNumber343",
     "Tour | Top-Level Class methods .done() fires the `inactive` event",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber320",
+    "test-file/test/unit/tour.spec.js.html#lineNumber321",
     "Tour | Top-Level Class methods .done() removes any of its `Step` tooltip elements from the DOM",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber310",
+    "test-file/test/unit/tour.spec.js.html#lineNumber311",
     "Tour | Top-Level Class methods .done() tears down the active tour",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber143",
+    "test-file/test/unit/tour.spec.js.html#lineNumber144",
     "Tour | Top-Level Class methods .getById()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber144",
+    "test-file/test/unit/tour.spec.js.html#lineNumber145",
     "Tour | Top-Level Class methods .getById() returns the step by ID with the right title",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber166",
+    "test-file/test/unit/tour.spec.js.html#lineNumber167",
     "Tour | Top-Level Class methods .getCurrentStep()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber167",
+    "test-file/test/unit/tour.spec.js.html#lineNumber168",
     "Tour | Top-Level Class methods .getCurrentStep() returns the currently shown step",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber173",
+    "test-file/test/unit/tour.spec.js.html#lineNumber174",
     "Tour | Top-Level Class methods .hide()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber174",
+    "test-file/test/unit/tour.spec.js.html#lineNumber175",
     "Tour | Top-Level Class methods .hide() hides the current step",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber204",
+    "test-file/test/unit/tour.spec.js.html#lineNumber205",
     "Tour | Top-Level Class methods .next()/.back()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber205",
+    "test-file/test/unit/tour.spec.js.html#lineNumber206",
     "Tour | Top-Level Class methods .next()/.back() goes to the next/previous steps",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber213",
+    "test-file/test/unit/tour.spec.js.html#lineNumber214",
     "Tour | Top-Level Class methods .next()/.back() next completes tour when on last step",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber359",
+    "test-file/test/unit/tour.spec.js.html#lineNumber360",
     "Tour | Top-Level Class methods .removeStep()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber367",
+    "test-file/test/unit/tour.spec.js.html#lineNumber368",
     "Tour | Top-Level Class methods .removeStep() hides the step before removing",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber360",
+    "test-file/test/unit/tour.spec.js.html#lineNumber361",
     "Tour | Top-Level Class methods .removeStep() removes the step when passed the id",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber381",
+    "test-file/test/unit/tour.spec.js.html#lineNumber382",
     "Tour | Top-Level Class methods .show()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber404",
+    "test-file/test/unit/tour.spec.js.html#lineNumber422",
     "Tour | Top-Level Class methods .show() ",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber382",
+    "test-file/test/unit/tour.spec.js.html#lineNumber391",
     "Tour | Top-Level Class methods .show() show short-circuits if next is not found",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber392",
+    "test-file/test/unit/tour.spec.js.html#lineNumber401",
     "Tour | Top-Level Class methods .show() showOn determines which steps to skip",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber150",
+    "test-file/test/unit/tour.spec.js.html#lineNumber151",
     "Tour | Top-Level Class methods .start()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber157",
+    "test-file/test/unit/tour.spec.js.html#lineNumber158",
     "Tour | Top-Level Class methods .start() adds the current tour's \"id\" property to the body as a data attribute",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber151",
+    "test-file/test/unit/tour.spec.js.html#lineNumber152",
     "Tour | Top-Level Class methods .start() starts a tour that is the current active",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber191",
+    "test-file/test/unit/tour.spec.js.html#lineNumber192",
     "Tour | Top-Level Class methods isActive",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber192",
+    "test-file/test/unit/tour.spec.js.html#lineNumber193",
     "Tour | Top-Level Class methods isActive computes whether or not `Shepherd.activeTour` equals the instance",
     "test"
   ],

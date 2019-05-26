@@ -5236,7 +5236,7 @@
         var _this2 = this;
 
         if (!isUndefined(this.bindings) && this.bindings[event]) {
-          var args = drop(arguments);
+          var args = drop(Array.prototype.slice.call(arguments));
           this.bindings[event].forEach(function (binding, index) {
             var ctx = binding.ctx,
                 handler = binding.handler,
