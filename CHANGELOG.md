@@ -1,5 +1,30 @@
 # Changelog
 
+## [v2.9.0](https://github.com/shipshapecode/shepherd/tree/v2.9.0) (2019-05-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.8.0...v2.9.0)
+
+**Implemented enhancements:**
+
+- Add back IE support [\#380](https://github.com/shipshapecode/shepherd/pull/380) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Show event of tour does not pass the hash of `step` and `previous` [\#371](https://github.com/shipshapecode/shepherd/issues/371)
+- Ensure arguments are passed down to trigger [\#381](https://github.com/shipshapecode/shepherd/pull/381) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Is it possible to change fill color of the modal ? [\#374](https://github.com/shipshapecode/shepherd/issues/374)
+- There will be blue edges after clicking [\#369](https://github.com/shipshapecode/shepherd/issues/369)
+- \[Suggestion\] Add transition effects when the mask moving [\#304](https://github.com/shipshapecode/shepherd/issues/304)
+
+**Merged pull requests:**
+
+- Update rollup-plugin-eslint to the latest version 🚀 [\#378](https://github.com/shipshapecode/shepherd/pull/378) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-terser to the latest version 🚀 [\#376](https://github.com/shipshapecode/shepherd/pull/376) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-node-resolve to the latest version 🚀 [\#373](https://github.com/shipshapecode/shepherd/pull/373) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.8.0](https://github.com/shipshapecode/shepherd/tree/v2.8.0) (2019-05-03)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.7.0...v2.8.0)
