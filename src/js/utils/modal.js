@@ -128,12 +128,17 @@ function createModalOverlay() {
  * @param {HTMLElement} targetElement The element the opening will expose
  * @param {SVGElement} openingElement The svg mask for the opening
  */
-function positionModalOpening(targetElement, openingElement) {
+function positionModalOpening(targetElement, openingElement, modalOverlayOpeningPadding) {
   if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
     const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
     // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-    _setAttributes(openingElement, { x: x || left, y: y || top, width, height });
+    _setAttributes(openingElement, {
+      x: (x || left) - modalOverlayOpeningPadding,
+      y: (y || top) - modalOverlayOpeningPadding,
+      width: (width + (modalOverlayOpeningPadding * 2)),
+      height: (height + (modalOverlayOpeningPadding * 2))
+    });
   }
 }
 
