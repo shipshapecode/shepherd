@@ -92,12 +92,13 @@ export class Modal {
   _styleForStep(step) {
     const modalOverlayOpening = this._modalOverlayOpening;
     const targetElement = getElementForStep(step);
+    const modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding || 0;
 
     if (targetElement) {
-      positionModalOpening(targetElement, modalOverlayOpening);
+      positionModalOpening(targetElement, modalOverlayOpening, modalOverlayOpeningPadding);
 
       this._onScreenChange = debounce(
-        positionModalOpening.bind(this, targetElement, modalOverlayOpening),
+        positionModalOpening.bind(this, targetElement, modalOverlayOpening, modalOverlayOpeningPadding),
         0
       );
 
