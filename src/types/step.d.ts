@@ -1,9 +1,6 @@
 import Tour from "./tour";
 import Evented from "./evented";
 
-//TODO superheri if anything is optional be sure to specify it
-//TODO superheri are arrays really readonly?
-
 declare namespace Step {
     /**
      * The options for the step
@@ -31,7 +28,7 @@ declare namespace Step {
          * A function that returns a promise.
          * When the promise resolves, the rest of the `show` code for the step will execute.
          */
-        beforeShowPromise: (() => Promise<any>);//TODO superheri What is the type that is returned from the Promise? Void?
+        beforeShowPromise: (() => Promise<any>);
 
         /**
          * An array of buttons to add to the step. These will be rendered in a
@@ -53,7 +50,7 @@ declare namespace Step {
         /**
          * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
          */
-        tippyOptions: object;//TODO superheri get typings from tippy (Those does not exists yet. Maybe we should do something to add them)
+        tippyOptions: object;
 
         /**
          * Should the element be scrolled to when this step is shown?
@@ -64,7 +61,7 @@ declare namespace Step {
          * A function that lets you override the default scrollTo behavior and
          * define a custom action to do the scrolling, and possibly other logic.
          */
-        scrollToHandler: (() => any);//TODO superheri What is the return type of this? Void?
+        scrollToHandler: ((element: HTMLElement) => void);
 
         /**
          * Should a cancel “✕” be shown in the header of the step?
@@ -107,14 +104,8 @@ declare namespace Step {
     }
 
     interface StepOptionsAttachTo {
-        /**
-         * TODO superheri add comment explaining?
-         */
         element: HTMLElement | string;
 
-        /**
-         * TODO superheri add comment explaining?
-         */
         on: string;
     }
 
@@ -127,7 +118,7 @@ declare namespace Step {
         /**
          * A function executed when the button is clicked on
          */
-        action: (() => any);//TODO superheri Return type
+        action: (() => void);
 
         /**
          * Extra classes to apply to the `<a>`
@@ -158,9 +149,6 @@ declare namespace Step {
         [key: string]: (() => void);
     }
 
-    /**
-     * TODO superheri use better naming and comments for sub objects?
-     */
     interface StepOptionsWhen {
         [key: string]: (() => void);
     }
@@ -173,15 +161,15 @@ declare namespace Step {
 declare class Step extends Evented {
     /**
      * Create a step
-     * @param {Tour} tour The tour for the step
-     * @param {Object} options The options for the step
-     * @return {Step} The newly created Step instance
+     * @param tour The tour for the step
+     * @param options The options for the step
+     * @return The newly created Step instance
      */
     constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
 
     /**
      * Returns the tour for the step
-     * @return {Tour} The tour instance
+     * @return The tour instance
      */
     getTour(): Tour;
 
@@ -210,7 +198,7 @@ declare class Step extends Evented {
 
     /**
      * Check if the step is open and visible
-     * @return {boolean} True if the step is open and visible
+     * @return True if the step is open and visible
      */
     isOpen(): boolean;
 
@@ -227,15 +215,15 @@ declare class Step extends Evented {
 
     /**
      * Sets the options for the step, maps `when` to events, sets up buttons
-     * @param {Object} options The options for the step default is `{}`
+     * @param options The options for the step default is `{}`
      */
-    setOptions(options?: object): void;//TODO superheri add typings for options
+    setOptions(options?: Step.StepOptions): void;
 
     /**
      * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
-     * @return {*|Promise}
+     * @return Promise
      */
-    show(): Promise<any> | void;//TODO superheri add types for Promise ? And change *|Promise for void|Promise ? * is confusing and might refer to any
+    show(): Promise<void> | void;
 }
 
 export = Step;
