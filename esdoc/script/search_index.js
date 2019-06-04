@@ -229,6 +229,12 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/utils/modal.spec.js.html#lineNumber47",
+    "Modal Utils positionModalOpening sets the correct attributes with padding",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/cypress/integration/modal.spec.js.html#lineNumber9",
     "Modal mode",
     "test"

@@ -5642,6 +5642,7 @@
      *   }
      * }
      * ```
+     * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
      * @return {Step} The newly created Step instance
      */
     function Step(tour, options) {
@@ -6127,10 +6128,13 @@
    * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
    * @param {HTMLElement} targetElement The element the opening will expose
    * @param {SVGElement} openingElement The svg mask for the opening
+   * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    */
 
 
   function positionModalOpening(targetElement, openingElement) {
+    var modalOverlayOpeningPadding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
     if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
       var _targetElement$getBou = targetElement.getBoundingClientRect(),
           x = _targetElement$getBou.x,
@@ -6142,10 +6146,10 @@
 
 
       _setAttributes(openingElement, {
-        x: x || left,
-        y: y || top,
-        width: width,
-        height: height
+        x: (x || left) - modalOverlayOpeningPadding,
+        y: (y || top) - modalOverlayOpeningPadding,
+        width: width + modalOverlayOpeningPadding * 2,
+        height: height + modalOverlayOpeningPadding * 2
       });
     }
   }
@@ -6493,10 +6497,11 @@
       value: function _styleForStep(step) {
         var modalOverlayOpening = this._modalOverlayOpening;
         var targetElement = getElementForStep(step);
+        var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
 
         if (targetElement) {
-          positionModalOpening(targetElement, modalOverlayOpening);
-          this._onScreenChange = debounce$2(positionModalOpening.bind(this, targetElement, modalOverlayOpening), 0);
+          positionModalOpening(targetElement, modalOverlayOpening, modalOverlayOpeningPadding);
+          this._onScreenChange = debounce$2(positionModalOpening.bind(this, targetElement, modalOverlayOpening, modalOverlayOpeningPadding), 0);
           addStepEventListeners.call(this);
         } else {
           closeModalOpening(this._modalOverlayOpening);

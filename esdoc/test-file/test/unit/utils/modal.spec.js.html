@@ -84,8 +84,29 @@ describe(&apos;Modal Utils&apos;, function() {
       expect(svgElement.getAttribute(&apos;width&apos;), &apos;width should be 500&apos;).toBe(&apos;500&apos;);
       expect(svgElement.getAttribute(&apos;height&apos;), &apos;height should be 250&apos;).toBe(&apos;250&apos;);
     });
+
+    it(&apos;sets the correct attributes with padding&apos;, () =&gt; {
+      const targetElement = document.createElement(&apos;div&apos;);
+      targetElement.getBoundingClientRect = () =&gt; {
+        return {
+          x: 20,
+          y: 20,
+          width: 500,
+          height: 250
+        };
+      };
+
+      const svgElement = document.createElementNS(svgNS, &apos;rect&apos;);
+      positionModalOpening(targetElement, svgElement, 10);
+
+      expect(svgElement.getAttribute(&apos;x&apos;), &apos;x should be 10&apos;).toBe(&apos;10&apos;);
+      expect(svgElement.getAttribute(&apos;y&apos;), &apos;y should be 10&apos;).toBe(&apos;10&apos;);
+      expect(svgElement.getAttribute(&apos;width&apos;), &apos;width should be 520&apos;).toBe(&apos;520&apos;);
+      expect(svgElement.getAttribute(&apos;height&apos;), &apos;height should be 270&apos;).toBe(&apos;270&apos;);
+    });
   });
-});</code></pre>
+});
+</code></pre>
 
 </div>
 
