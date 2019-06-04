@@ -43,5 +43,25 @@ describe('Modal Utils', function() {
       expect(svgElement.getAttribute('width'), 'width should be 500').toBe('500');
       expect(svgElement.getAttribute('height'), 'height should be 250').toBe('250');
     });
+
+    it('sets the correct attributes with padding', () => {
+      const targetElement = document.createElement('div');
+      targetElement.getBoundingClientRect = () => {
+        return {
+          x: 20,
+          y: 20,
+          width: 500,
+          height: 250
+        };
+      };
+
+      const svgElement = document.createElementNS(svgNS, 'rect');
+      positionModalOpening(targetElement, svgElement, 10);
+
+      expect(svgElement.getAttribute('x'), 'x should be 10').toBe('10');
+      expect(svgElement.getAttribute('y'), 'y should be 10').toBe('10');
+      expect(svgElement.getAttribute('width'), 'width should be 520').toBe('520');
+      expect(svgElement.getAttribute('height'), 'height should be 270').toBe('270');
+    });
   });
 });

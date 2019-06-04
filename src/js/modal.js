@@ -92,7 +92,7 @@ export class Modal {
   _styleForStep(step) {
     const modalOverlayOpening = this._modalOverlayOpening;
     const targetElement = getElementForStep(step);
-    const modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding || 0;
+    const modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
 
     if (targetElement) {
       positionModalOpening(targetElement, modalOverlayOpening, modalOverlayOpeningPadding);
