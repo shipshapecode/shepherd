@@ -127,8 +127,9 @@ function createModalOverlay() {
  * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
  * @param {HTMLElement} targetElement The element the opening will expose
  * @param {SVGElement} openingElement The svg mask for the opening
+ * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
  */
-function positionModalOpening(targetElement, openingElement, modalOverlayOpeningPadding) {
+function positionModalOpening(targetElement, openingElement, modalOverlayOpeningPadding = 0) {
   if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
     const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
