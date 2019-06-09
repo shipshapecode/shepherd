@@ -1,3 +1,182 @@
+# Changelog
+
+## [v2.9.0](https://github.com/shipshapecode/shepherd/tree/v2.9.0) (2019-05-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.8.0...v2.9.0)
+
+**Implemented enhancements:**
+
+- Add back IE support [\#380](https://github.com/shipshapecode/shepherd/pull/380) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Show event of tour does not pass the hash of `step` and `previous` [\#371](https://github.com/shipshapecode/shepherd/issues/371)
+- Ensure arguments are passed down to trigger [\#381](https://github.com/shipshapecode/shepherd/pull/381) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Is it possible to change fill color of the modal ? [\#374](https://github.com/shipshapecode/shepherd/issues/374)
+- There will be blue edges after clicking [\#369](https://github.com/shipshapecode/shepherd/issues/369)
+- \[Suggestion\] Add transition effects when the mask moving [\#304](https://github.com/shipshapecode/shepherd/issues/304)
+
+**Merged pull requests:**
+
+- Update rollup-plugin-eslint to the latest version 🚀 [\#378](https://github.com/shipshapecode/shepherd/pull/378) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-terser to the latest version 🚀 [\#376](https://github.com/shipshapecode/shepherd/pull/376) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-node-resolve to the latest version 🚀 [\#373](https://github.com/shipshapecode/shepherd/pull/373) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.8.0](https://github.com/shipshapecode/shepherd/tree/v2.8.0) (2019-05-03)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.7.0...v2.8.0)
+
+**Implemented enhancements:**
+
+- Convert several lodash functions to internal utils [\#368](https://github.com/shipshapecode/shepherd/pull/368) ([rwwagner90](https://github.com/rwwagner90))
+- Use internal debounce function [\#367](https://github.com/shipshapecode/shepherd/pull/367) ([rwwagner90](https://github.com/rwwagner90))
+- Greenkeeper/stylelint 10.0.1 [\#362](https://github.com/shipshapecode/shepherd/pull/362) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Shepherd popper-tippy CSS styles mixing up with non-shepherd tippy styles on the page [\#363](https://github.com/shipshapecode/shepherd/issues/363)
+
+**Closed issues:**
+
+- An in-range update of rollup is breaking the build 🚨 [\#350](https://github.com/shipshapecode/shepherd/issues/350)
+
+**Merged pull requests:**
+
+- Added 'shepherd-popper' css class [\#366](https://github.com/shipshapecode/shepherd/pull/366) ([rwwagner90](https://github.com/rwwagner90))
+- Add ESDoc, bump some deps [\#365](https://github.com/shipshapecode/shepherd/pull/365) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.7.0](https://github.com/shipshapecode/shepherd/tree/v2.7.0) (2019-04-22)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.6.0...v2.7.0)
+
+**Fixed bugs:**
+
+- After tour is canceled/completed and started again, overlay is not present anymore [\#347](https://github.com/shipshapecode/shepherd/issues/347)
+- Add createModalOverlay function [\#358](https://github.com/shipshapecode/shepherd/pull/358) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- \[BugFix\] Issue \#347 [\#357](https://github.com/shipshapecode/shepherd/pull/357) ([jayjfletcher](https://github.com/jayjfletcher))
+
+## [v2.6.0](https://github.com/shipshapecode/shepherd/tree/v2.6.0) (2019-04-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.5.0...v2.6.0)
+
+**Implemented enhancements:**
+
+- React wrapper [\#331](https://github.com/shipshapecode/shepherd/issues/331)
+
+**Fixed bugs:**
+
+- Minified File Size [\#354](https://github.com/shipshapecode/shepherd/issues/354)
+- Fix inflated build size, bump some deps [\#355](https://github.com/shipshapecode/shepherd/pull/355) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.5.0](https://github.com/shipshapecode/shepherd/tree/v2.5.0) (2019-03-20)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.4.0...v2.5.0)
+
+**Breaking changes:**
+
+- Drop IE support, bump some deps [\#344](https://github.com/shipshapecode/shepherd/pull/344) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Shepherd Doesn't Work Good On Mobile [\#339](https://github.com/shipshapecode/shepherd/issues/339)
+- Fix demo app arrows to be title color [\#314](https://github.com/shipshapecode/shepherd/issues/314)
+
+**Merged pull requests:**
+
+- Add flipping tippy by default, scrollTo for demo [\#345](https://github.com/shipshapecode/shepherd/pull/345) ([rwwagner90](https://github.com/rwwagner90))
+- Update del to the latest version 🚀 [\#340](https://github.com/shipshapecode/shepherd/pull/340) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.4.0](https://github.com/shipshapecode/shepherd/tree/v2.4.0) (2019-02-27)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.3...v2.4.0)
+
+**Implemented enhancements:**
+
+- Angular wrapper [\#332](https://github.com/shipshapecode/shepherd/issues/332)
+- Add tabindex="0" to shepherd-button [\#337](https://github.com/shipshapecode/shepherd/pull/337) ([knoobie](https://github.com/knoobie))
+
+**Fixed bugs:**
+
+- Links in modal mode [\#328](https://github.com/shipshapecode/shepherd/issues/328)
+- svg mask for the opening in browsers do not support getBoundingClientRect\(\).x|y [\#330](https://github.com/shipshapecode/shepherd/pull/330) ([yaxinr](https://github.com/yaxinr))
+
+**Merged pull requests:**
+
+- Tippy 4 [\#336](https://github.com/shipshapecode/shepherd/pull/336) ([rwwagner90](https://github.com/rwwagner90))
+- Fix inability to click things in shepherd-element [\#334](https://github.com/shipshapecode/shepherd/pull/334) ([rwwagner90](https://github.com/rwwagner90))
+- Update rollup-plugin-css-only to the latest version 🚀 [\#327](https://github.com/shipshapecode/shepherd/pull/327) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.3.3](https://github.com/shipshapecode/shepherd/tree/v2.3.3) (2019-01-23)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.2...v2.3.3)
+
+**Fixed bugs:**
+
+- Adds missing 'hide' to binded methods list in Tour [\#326](https://github.com/shipshapecode/shepherd/pull/326) ([seppsepp](https://github.com/seppsepp))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-babel-minify to the latest version 🚀 [\#325](https://github.com/shipshapecode/shepherd/pull/325) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.3.2](https://github.com/shipshapecode/shepherd/tree/v2.3.2) (2019-01-16)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.1...v2.3.2)
+
+**Fixed bugs:**
+
+- Object.assign not transpiled [\#323](https://github.com/shipshapecode/shepherd/issues/323)
+- Toggling developer tools breaks modal mask [\#320](https://github.com/shipshapecode/shepherd/issues/320)
+- Scrolling to an element causes modal overlay to appear in wrong place [\#319](https://github.com/shipshapecode/shepherd/issues/319)
+
+**Merged pull requests:**
+
+- Use @babel/plugin-transform-object-assign [\#324](https://github.com/shipshapecode/shepherd/pull/324) ([rwwagner90](https://github.com/rwwagner90))
+- Apply scroll listener to all scroll events [\#322](https://github.com/shipshapecode/shepherd/pull/322) ([rwwagner90](https://github.com/rwwagner90))
+- Use vh and vw to ensure modal is always full screen [\#321](https://github.com/shipshapecode/shepherd/pull/321) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.3.1](https://github.com/shipshapecode/shepherd/tree/v2.3.1) (2019-01-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.3.0...v2.3.1)
+
+**Fixed bugs:**
+
+- fix: move touchmove event listener cleanup out of if statement [\#317](https://github.com/shipshapecode/shepherd/pull/317) ([chuckcarpenter](https://github.com/chuckcarpenter))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-license to the latest version 🚀 [\#318](https://github.com/shipshapecode/shepherd/pull/318) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v2.3.0](https://github.com/shipshapecode/shepherd/tree/v2.3.0) (2019-01-14)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.2.0...v2.3.0)
+
+**Implemented enhancements:**
+
+- Inject tippy CSS to head [\#315](https://github.com/shipshapecode/shepherd/pull/315) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.2.0](https://github.com/shipshapecode/shepherd/tree/v2.2.0) (2019-01-14)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.1.1...v2.2.0)
+
+**Implemented enhancements:**
+
+- setAttributeNS -\> setAttribute, add modal utils tests [\#312](https://github.com/shipshapecode/shepherd/pull/312) ([rwwagner90](https://github.com/rwwagner90))
+- Use rollup instead of webpack [\#309](https://github.com/shipshapecode/shepherd/pull/309) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v2.1.1](https://github.com/shipshapecode/shepherd/tree/v2.1.1) (2019-01-11)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.1.0...v2.1.1)
+
+**Fixed bugs:**
+
+- Use correct cleanupStepEventListeners [\#311](https://github.com/shipshapecode/shepherd/pull/311) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.1.0](https://github.com/shipshapecode/shepherd/tree/v2.1.0) (2019-01-06)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.0.2...v2.1.0)
@@ -528,3 +707,6 @@
 - Remove bundled versions
 - Restructure directory layout
 - Update `gulp` builds
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

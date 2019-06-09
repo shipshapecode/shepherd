@@ -25,6 +25,7 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "esdoc": "esdoc",
+    "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v2.9.0",
     "clean": "rm -rf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
