@@ -12,7 +12,6 @@ import {
 } from './utils/cleanup';
 
 import {
-  addStepEventListeners,
   getElementForStep
 } from './utils/dom';
 
@@ -302,7 +301,6 @@ export class Tour extends Evented {
 
     this.currentStep = null;
     this._setupActiveTour();
-    addStepEventListeners.call(this);
     this.next();
   }
 
