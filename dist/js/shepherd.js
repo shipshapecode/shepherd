@@ -6853,7 +6853,6 @@
 
         this._setupActiveTour();
 
-        addStepEventListeners.call(this);
         this.next();
       }
       /**

@@ -1786,7 +1786,7 @@
     "__docId__": 102,
     "kind": "file",
     "name": "src/js/tour.js",
-    "content": "import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { Modal } from './modal.js';\nimport { Step } from './step.js';\nimport { bindMethods } from './utils/bind.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from './utils/tooltip-defaults';\n\nimport {\n  cleanupSteps,\n  cleanupStepEventListeners\n} from './utils/cleanup';\n\nimport {\n  addStepEventListeners,\n  getElementForStep\n} from './utils/dom';\n\nimport {\n  toggleShepherdModalClass\n} from './utils/modal';\n\n/**\n * Creates incremented ID for each newly created tour\n *\n * @private\n * @return {Number} The unique id for the tour\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\nconst Shepherd = new Evented();\n\n/**\n * Class representing the site tour\n * @extends {Evented}\n */\nexport class Tour extends Evented {\n  /**\n   * @param {Object} options The options for the tour\n   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`\n   * @param {Step[]} options.steps An array of Step instances to initialize the tour with\n   * @param {string} options.tourName An optional \"name\" for the tour. This will be appended to the the tour's\n   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute\n   * whenever the tour becomes active.\n   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened\n   * modal overlay. If true, the overlay will create an opening around the target element so that it\n   * can remain interactive\n   * @returns {Tour}\n   */\n  constructor(options = {}) {\n    super(options);\n    bindMethods.call(this, [\n      'back',\n      'cancel',\n      'complete',\n      'hide',\n      'next'\n    ]);\n    this.options = options;\n    this.steps = this.options.steps || [];\n\n    // Pass these events onto the global Shepherd object\n    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];\n    events.map((event) => {\n      ((e) => {\n        this.on(e, (opts) => {\n          opts = opts || {};\n          opts.tour = this;\n          Shepherd.trigger(e, opts);\n        });\n      })(event);\n    });\n\n    this.modal = new Modal(options);\n\n    this._setTooltipDefaults();\n    this._setTourID();\n\n    return this;\n  }\n\n  /**\n   * Adds a new step to the tour\n   * @param {Object|Number|Step|String} arg1\n   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step\n   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance\n   * @param {Object|Step} arg2 An object containing step options or a Step instance\n   * @return {Step} The newly added step\n   */\n  addStep(arg1, arg2) {\n    let name, step;\n\n    // If we just have one argument, we can assume it is an object of step options, with an id\n    if (isUndefined(arg2)) {\n      step = arg1;\n    } else {\n      name = arg1;\n      step = arg2;\n    }\n\n    if (!(step instanceof Step)) {\n      step = this.setupStep(step, name);\n    } else {\n      step.tour = this;\n    }\n\n    this.steps.push(step);\n    return step;\n  }\n\n  /**\n   * Go to the previous step in the tour\n   */\n  back() {\n    const index = this.steps.indexOf(this.currentStep);\n    this.show(index - 1, false);\n  }\n\n  /**\n   * Calls done() triggering the 'cancel' event\n   * If `confirmCancel` is true, will show a window.confirm before cancelling\n   */\n  cancel() {\n    if (this.options.confirmCancel) {\n      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';\n      const stopTour = window.confirm(cancelMessage);\n      if (stopTour) {\n        this.done('cancel');\n      }\n    } else {\n      this.done('cancel');\n    }\n  }\n\n  /**\n   * Calls done() triggering the `complete` event\n   */\n  complete() {\n    this.done('complete');\n  }\n\n  /**\n   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour\n   * @param {String} event The event name to trigger\n   */\n  done(event) {\n    if (Array.isArray(this.steps)) {\n      this.steps.forEach((step) => step.destroy());\n    }\n\n    cleanupStepEventListeners.call(this);\n    cleanupSteps(this.tourObject);\n    this.modal.cleanup();\n\n    this.trigger(event);\n\n    Shepherd.activeTour = null;\n    this._removeBodyAttrs();\n    this.trigger('inactive', { tour: this });\n  }\n\n  /**\n   * Gets the step from a given id\n   * @param {Number|String} id The id of the step to retrieve\n   * @return {Step} The step corresponding to the `id`\n   */\n  getById(id) {\n    return this.steps.find((step) => {\n      return step.id === id;\n    });\n  }\n\n  /**\n   * Gets the current step\n   * @returns {Step|null}\n   */\n  getCurrentStep() {\n    return this.currentStep;\n  }\n\n  /**\n   * Hide the current step\n   */\n  hide() {\n    const currentStep = this.getCurrentStep();\n\n    if (currentStep) {\n      return currentStep.hide();\n    }\n  }\n\n  /**\n   * Check if the tour is active\n   * @return {boolean}\n   */\n  isActive() {\n    return Shepherd.activeTour === this;\n  }\n\n  /**\n   * Go to the next step in the tour\n   * If we are at the end, call `complete`\n   */\n  next() {\n    const index = this.steps.indexOf(this.currentStep);\n\n    if (index === this.steps.length - 1) {\n      this.complete();\n    } else {\n      this.show(index + 1, true);\n    }\n  }\n\n  /**\n   * Removes the step from the tour\n   * @param {String} name The id for the step to remove\n   */\n  removeStep(name) {\n    const current = this.getCurrentStep();\n\n    // Find the step, destroy it and remove it from this.steps\n    this.steps.some((step, i) => {\n      if (step.id === name) {\n        if (step.isOpen()) {\n          step.hide();\n        }\n\n        step.destroy();\n        this.steps.splice(i, 1);\n\n        return true;\n      }\n    });\n\n    if (current && current.id === name) {\n      this.currentStep = undefined;\n\n      // If we have steps left, show the first one, otherwise just cancel the tour\n      this.steps.length ? this.show(0) : this.cancel();\n    }\n  }\n\n  /**\n   * Setup a new step object\n   * @param {Object} stepOptions The object describing the options for the step\n   * @param {String|Number} name The string or number to use as the `id` for the step\n   * @return {Step} The step instance\n   */\n  setupStep(stepOptions, name) {\n    if (isString(name) || isNumber(name)) {\n      stepOptions.id = name.toString();\n    }\n\n    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);\n\n    return new Step(this, stepOptions);\n  }\n\n  beforeShowStep(step) {\n    this.modal.setupForStep(step);\n    this._styleTargetElementForStep(step);\n  }\n\n  /**\n   * Show a specific step in the tour\n   * @param {Number|String} key The key to look up the step by\n   * @param {Boolean} forward True if we are going forward, false if backward\n   */\n  show(key = 0, forward = true) {\n    const step = isString(key) ? this.getById(key) : this.steps[key];\n\n    if (step) {\n      this._updateStateBeforeShow();\n\n      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();\n\n      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal\n      if (shouldSkipStep) {\n        this._skipStep(step, forward);\n      } else {\n        this.trigger('show', {\n          step,\n          previous: this.currentStep\n        });\n\n        this.currentStep = step;\n        step.show();\n      }\n    }\n  }\n\n  /**\n   * Start the tour\n   */\n  start() {\n    this.trigger('start');\n\n    this.currentStep = null;\n    this._setupActiveTour();\n    addStepEventListeners.call(this);\n    this.next();\n  }\n\n  /**\n   * Make this tour \"active\"\n   * @private\n   */\n  _setupActiveTour() {\n    this.modal.createModalOverlay();\n    this._addBodyAttrs();\n    this.trigger('active', { tour: this });\n\n    Shepherd.activeTour = this;\n  }\n\n  /**\n   * Modulates the styles of the passed step's target element, based on the step's options and\n   * the tour's `modal` option, to visually emphasize the element\n   *\n   * @param step The step object that attaches to the element\n   * @private\n   */\n  _styleTargetElementForStep(step) {\n    const targetElement = getElementForStep(step);\n\n    if (!targetElement) {\n      return;\n    }\n\n    toggleShepherdModalClass(targetElement);\n\n    if (step.options.highlightClass) {\n      targetElement.classList.add(step.options.highlightClass);\n    }\n\n    if (step.options.canClickTarget === false) {\n      targetElement.style.pointerEvents = 'none';\n    }\n  }\n\n  /**\n   * Called when `showOn` evaluates to false, to skip the step\n   * @param {Step} step The step to skip\n   * @param {Boolean} forward True if we are going forward, false if backward\n   * @private\n   */\n  _skipStep(step, forward) {\n    const index = this.steps.indexOf(step);\n    const nextIndex = forward ? index + 1 : index - 1;\n    this.show(nextIndex, forward);\n  }\n\n  /**\n   * Set the tippy defaults\n   * @private\n   */\n  _setTooltipDefaults() {\n    tippy.setDefaults(tooltipDefaults);\n  }\n\n  /**\n   * Before showing, hide the current step and if the tour is not\n   * already active, call `this._setupActiveTour`.\n   * @private\n   */\n  _updateStateBeforeShow() {\n    if (this.currentStep) {\n      this.currentStep.hide();\n    }\n\n    if (!this.isActive()) {\n      this._setupActiveTour();\n    }\n  }\n\n  /**\n   * Sets this.id to `${tourName}--${uuid}`\n   * @private\n   */\n  _setTourID() {\n    const tourName = this.options.tourName || 'tour';\n    const uuid = uniqueId();\n\n    this.id = `${tourName}--${uuid}`;\n  }\n\n  /**\n   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class to the body.\n   * @private\n   */\n  _addBodyAttrs() {\n    document.body.setAttribute('data-shepherd-active-tour', this.id);\n    document.body.classList.add('shepherd-active');\n  }\n\n  /**\n   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class from the body.\n   * @private\n   */\n  _removeBodyAttrs() {\n    document.body.removeAttribute('data-shepherd-active-tour');\n    document.body.classList.remove('shepherd-active');\n  }\n\n}\n\nexport { Shepherd };\n",
+    "content": "import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { Modal } from './modal.js';\nimport { Step } from './step.js';\nimport { bindMethods } from './utils/bind.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from './utils/tooltip-defaults';\n\nimport {\n  cleanupSteps,\n  cleanupStepEventListeners\n} from './utils/cleanup';\n\nimport {\n  getElementForStep\n} from './utils/dom';\n\nimport {\n  toggleShepherdModalClass\n} from './utils/modal';\n\n/**\n * Creates incremented ID for each newly created tour\n *\n * @private\n * @return {Number} The unique id for the tour\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\nconst Shepherd = new Evented();\n\n/**\n * Class representing the site tour\n * @extends {Evented}\n */\nexport class Tour extends Evented {\n  /**\n   * @param {Object} options The options for the tour\n   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`\n   * @param {Step[]} options.steps An array of Step instances to initialize the tour with\n   * @param {string} options.tourName An optional \"name\" for the tour. This will be appended to the the tour's\n   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute\n   * whenever the tour becomes active.\n   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened\n   * modal overlay. If true, the overlay will create an opening around the target element so that it\n   * can remain interactive\n   * @returns {Tour}\n   */\n  constructor(options = {}) {\n    super(options);\n    bindMethods.call(this, [\n      'back',\n      'cancel',\n      'complete',\n      'hide',\n      'next'\n    ]);\n    this.options = options;\n    this.steps = this.options.steps || [];\n\n    // Pass these events onto the global Shepherd object\n    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];\n    events.map((event) => {\n      ((e) => {\n        this.on(e, (opts) => {\n          opts = opts || {};\n          opts.tour = this;\n          Shepherd.trigger(e, opts);\n        });\n      })(event);\n    });\n\n    this.modal = new Modal(options);\n\n    this._setTooltipDefaults();\n    this._setTourID();\n\n    return this;\n  }\n\n  /**\n   * Adds a new step to the tour\n   * @param {Object|Number|Step|String} arg1\n   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step\n   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance\n   * @param {Object|Step} arg2 An object containing step options or a Step instance\n   * @return {Step} The newly added step\n   */\n  addStep(arg1, arg2) {\n    let name, step;\n\n    // If we just have one argument, we can assume it is an object of step options, with an id\n    if (isUndefined(arg2)) {\n      step = arg1;\n    } else {\n      name = arg1;\n      step = arg2;\n    }\n\n    if (!(step instanceof Step)) {\n      step = this.setupStep(step, name);\n    } else {\n      step.tour = this;\n    }\n\n    this.steps.push(step);\n    return step;\n  }\n\n  /**\n   * Go to the previous step in the tour\n   */\n  back() {\n    const index = this.steps.indexOf(this.currentStep);\n    this.show(index - 1, false);\n  }\n\n  /**\n   * Calls done() triggering the 'cancel' event\n   * If `confirmCancel` is true, will show a window.confirm before cancelling\n   */\n  cancel() {\n    if (this.options.confirmCancel) {\n      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';\n      const stopTour = window.confirm(cancelMessage);\n      if (stopTour) {\n        this.done('cancel');\n      }\n    } else {\n      this.done('cancel');\n    }\n  }\n\n  /**\n   * Calls done() triggering the `complete` event\n   */\n  complete() {\n    this.done('complete');\n  }\n\n  /**\n   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour\n   * @param {String} event The event name to trigger\n   */\n  done(event) {\n    if (Array.isArray(this.steps)) {\n      this.steps.forEach((step) => step.destroy());\n    }\n\n    cleanupStepEventListeners.call(this);\n    cleanupSteps(this.tourObject);\n    this.modal.cleanup();\n\n    this.trigger(event);\n\n    Shepherd.activeTour = null;\n    this._removeBodyAttrs();\n    this.trigger('inactive', { tour: this });\n  }\n\n  /**\n   * Gets the step from a given id\n   * @param {Number|String} id The id of the step to retrieve\n   * @return {Step} The step corresponding to the `id`\n   */\n  getById(id) {\n    return this.steps.find((step) => {\n      return step.id === id;\n    });\n  }\n\n  /**\n   * Gets the current step\n   * @returns {Step|null}\n   */\n  getCurrentStep() {\n    return this.currentStep;\n  }\n\n  /**\n   * Hide the current step\n   */\n  hide() {\n    const currentStep = this.getCurrentStep();\n\n    if (currentStep) {\n      return currentStep.hide();\n    }\n  }\n\n  /**\n   * Check if the tour is active\n   * @return {boolean}\n   */\n  isActive() {\n    return Shepherd.activeTour === this;\n  }\n\n  /**\n   * Go to the next step in the tour\n   * If we are at the end, call `complete`\n   */\n  next() {\n    const index = this.steps.indexOf(this.currentStep);\n\n    if (index === this.steps.length - 1) {\n      this.complete();\n    } else {\n      this.show(index + 1, true);\n    }\n  }\n\n  /**\n   * Removes the step from the tour\n   * @param {String} name The id for the step to remove\n   */\n  removeStep(name) {\n    const current = this.getCurrentStep();\n\n    // Find the step, destroy it and remove it from this.steps\n    this.steps.some((step, i) => {\n      if (step.id === name) {\n        if (step.isOpen()) {\n          step.hide();\n        }\n\n        step.destroy();\n        this.steps.splice(i, 1);\n\n        return true;\n      }\n    });\n\n    if (current && current.id === name) {\n      this.currentStep = undefined;\n\n      // If we have steps left, show the first one, otherwise just cancel the tour\n      this.steps.length ? this.show(0) : this.cancel();\n    }\n  }\n\n  /**\n   * Setup a new step object\n   * @param {Object} stepOptions The object describing the options for the step\n   * @param {String|Number} name The string or number to use as the `id` for the step\n   * @return {Step} The step instance\n   */\n  setupStep(stepOptions, name) {\n    if (isString(name) || isNumber(name)) {\n      stepOptions.id = name.toString();\n    }\n\n    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);\n\n    return new Step(this, stepOptions);\n  }\n\n  beforeShowStep(step) {\n    this.modal.setupForStep(step);\n    this._styleTargetElementForStep(step);\n  }\n\n  /**\n   * Show a specific step in the tour\n   * @param {Number|String} key The key to look up the step by\n   * @param {Boolean} forward True if we are going forward, false if backward\n   */\n  show(key = 0, forward = true) {\n    const step = isString(key) ? this.getById(key) : this.steps[key];\n\n    if (step) {\n      this._updateStateBeforeShow();\n\n      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();\n\n      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal\n      if (shouldSkipStep) {\n        this._skipStep(step, forward);\n      } else {\n        this.trigger('show', {\n          step,\n          previous: this.currentStep\n        });\n\n        this.currentStep = step;\n        step.show();\n      }\n    }\n  }\n\n  /**\n   * Start the tour\n   */\n  start() {\n    this.trigger('start');\n\n    this.currentStep = null;\n    this._setupActiveTour();\n    this.next();\n  }\n\n  /**\n   * Make this tour \"active\"\n   * @private\n   */\n  _setupActiveTour() {\n    this.modal.createModalOverlay();\n    this._addBodyAttrs();\n    this.trigger('active', { tour: this });\n\n    Shepherd.activeTour = this;\n  }\n\n  /**\n   * Modulates the styles of the passed step's target element, based on the step's options and\n   * the tour's `modal` option, to visually emphasize the element\n   *\n   * @param step The step object that attaches to the element\n   * @private\n   */\n  _styleTargetElementForStep(step) {\n    const targetElement = getElementForStep(step);\n\n    if (!targetElement) {\n      return;\n    }\n\n    toggleShepherdModalClass(targetElement);\n\n    if (step.options.highlightClass) {\n      targetElement.classList.add(step.options.highlightClass);\n    }\n\n    if (step.options.canClickTarget === false) {\n      targetElement.style.pointerEvents = 'none';\n    }\n  }\n\n  /**\n   * Called when `showOn` evaluates to false, to skip the step\n   * @param {Step} step The step to skip\n   * @param {Boolean} forward True if we are going forward, false if backward\n   * @private\n   */\n  _skipStep(step, forward) {\n    const index = this.steps.indexOf(step);\n    const nextIndex = forward ? index + 1 : index - 1;\n    this.show(nextIndex, forward);\n  }\n\n  /**\n   * Set the tippy defaults\n   * @private\n   */\n  _setTooltipDefaults() {\n    tippy.setDefaults(tooltipDefaults);\n  }\n\n  /**\n   * Before showing, hide the current step and if the tour is not\n   * already active, call `this._setupActiveTour`.\n   * @private\n   */\n  _updateStateBeforeShow() {\n    if (this.currentStep) {\n      this.currentStep.hide();\n    }\n\n    if (!this.isActive()) {\n      this._setupActiveTour();\n    }\n  }\n\n  /**\n   * Sets this.id to `${tourName}--${uuid}`\n   * @private\n   */\n  _setTourID() {\n    const tourName = this.options.tourName || 'tour';\n    const uuid = uniqueId();\n\n    this.id = `${tourName}--${uuid}`;\n  }\n\n  /**\n   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class to the body.\n   * @private\n   */\n  _addBodyAttrs() {\n    document.body.setAttribute('data-shepherd-active-tour', this.id);\n    document.body.classList.add('shepherd-active');\n  }\n\n  /**\n   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class from the body.\n   * @private\n   */\n  _removeBodyAttrs() {\n    document.body.removeAttribute('data-shepherd-active-tour');\n    document.body.classList.remove('shepherd-active');\n  }\n\n}\n\nexport { Shepherd };\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/src/js/tour.js",
     "access": "public",
@@ -1805,7 +1805,7 @@
     "importPath": "shepherd.js/src/js/tour.js",
     "importStyle": null,
     "description": "Creates incremented ID for each newly created tour",
-    "lineNumber": 29,
+    "lineNumber": 28,
     "return": {
       "nullable": null,
       "types": [
@@ -1833,7 +1833,7 @@
     "importPath": "shepherd.js/src/js/tour.js",
     "importStyle": "{Tour}",
     "description": "Class representing the site tour",
-    "lineNumber": 42,
+    "lineNumber": 41,
     "interface": false,
     "extends": [
       "Evented"
@@ -1850,7 +1850,7 @@
     "longname": "src/js/tour.js~Tour#constructor",
     "access": "public",
     "description": "",
-    "lineNumber": 55,
+    "lineNumber": 54,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1927,7 +1927,7 @@
     "longname": "src/js/tour.js~Tour#options",
     "access": "public",
     "description": null,
-    "lineNumber": 64,
+    "lineNumber": 63,
     "undocument": true,
     "type": {
       "types": [
@@ -1944,7 +1944,7 @@
     "longname": "src/js/tour.js~Tour#steps",
     "access": "public",
     "description": null,
-    "lineNumber": 65,
+    "lineNumber": 64,
     "undocument": true,
     "type": {
       "types": [
@@ -1961,7 +1961,7 @@
     "longname": "src/js/tour.js~Tour#modal",
     "access": "public",
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 78,
     "undocument": true,
     "type": {
       "types": [
@@ -1980,7 +1980,7 @@
     "longname": "src/js/tour.js~Tour#addStep",
     "access": "public",
     "description": "Adds a new step to the tour",
-    "lineNumber": 95,
+    "lineNumber": 94,
     "params": [
       {
         "nullable": null,
@@ -2027,7 +2027,7 @@
     "longname": "src/js/tour.js~Tour#back",
     "access": "public",
     "description": "Go to the previous step in the tour",
-    "lineNumber": 119,
+    "lineNumber": 118,
     "params": [],
     "return": null
   },
@@ -2042,7 +2042,7 @@
     "longname": "src/js/tour.js~Tour#cancel",
     "access": "public",
     "description": "Calls done() triggering the 'cancel' event\nIf `confirmCancel` is true, will show a window.confirm before cancelling",
-    "lineNumber": 128,
+    "lineNumber": 127,
     "params": [],
     "return": null
   },
@@ -2057,7 +2057,7 @@
     "longname": "src/js/tour.js~Tour#complete",
     "access": "public",
     "description": "Calls done() triggering the `complete` event",
-    "lineNumber": 143,
+    "lineNumber": 142,
     "params": [],
     "return": null
   },
@@ -2072,7 +2072,7 @@
     "longname": "src/js/tour.js~Tour#done",
     "access": "public",
     "description": "Called whenever the tour is cancelled or completed, basically anytime we exit the tour",
-    "lineNumber": 151,
+    "lineNumber": 150,
     "params": [
       {
         "nullable": null,
@@ -2098,7 +2098,7 @@
     "longname": "src/js/tour.js~Tour#getById",
     "access": "public",
     "description": "Gets the step from a given id",
-    "lineNumber": 172,
+    "lineNumber": 171,
     "params": [
       {
         "nullable": null,
@@ -2132,7 +2132,7 @@
     "longname": "src/js/tour.js~Tour#getCurrentStep",
     "access": "public",
     "description": "Gets the current step",
-    "lineNumber": 182,
+    "lineNumber": 181,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2161,7 +2161,7 @@
     "longname": "src/js/tour.js~Tour#hide",
     "access": "public",
     "description": "Hide the current step",
-    "lineNumber": 189,
+    "lineNumber": 188,
     "params": [],
     "return": {
       "types": [
@@ -2180,7 +2180,7 @@
     "longname": "src/js/tour.js~Tour#isActive",
     "access": "public",
     "description": "Check if the tour is active",
-    "lineNumber": 201,
+    "lineNumber": 200,
     "return": {
       "nullable": null,
       "types": [
@@ -2202,7 +2202,7 @@
     "longname": "src/js/tour.js~Tour#next",
     "access": "public",
     "description": "Go to the next step in the tour\nIf we are at the end, call `complete`",
-    "lineNumber": 209,
+    "lineNumber": 208,
     "params": [],
     "return": null
   },
@@ -2217,7 +2217,7 @@
     "longname": "src/js/tour.js~Tour#removeStep",
     "access": "public",
     "description": "Removes the step from the tour",
-    "lineNumber": 223,
+    "lineNumber": 222,
     "params": [
       {
         "nullable": null,
@@ -2241,7 +2241,7 @@
     "longname": "src/js/tour.js~Tour#currentStep",
     "access": "public",
     "description": null,
-    "lineNumber": 241,
+    "lineNumber": 240,
     "undocument": true,
     "type": {
       "types": [
@@ -2260,7 +2260,7 @@
     "longname": "src/js/tour.js~Tour#setupStep",
     "access": "public",
     "description": "Setup a new step object",
-    "lineNumber": 254,
+    "lineNumber": 253,
     "params": [
       {
         "nullable": null,
@@ -2304,7 +2304,7 @@
     "longname": "src/js/tour.js~Tour#beforeShowStep",
     "access": "public",
     "description": null,
-    "lineNumber": 264,
+    "lineNumber": 263,
     "undocument": true,
     "params": [
       {
@@ -2327,7 +2327,7 @@
     "longname": "src/js/tour.js~Tour#show",
     "access": "public",
     "description": "Show a specific step in the tour",
-    "lineNumber": 274,
+    "lineNumber": 273,
     "params": [
       {
         "nullable": null,
@@ -2364,7 +2364,7 @@
     "longname": "src/js/tour.js~Tour#start",
     "access": "public",
     "description": "Start the tour",
-    "lineNumber": 300,
+    "lineNumber": 299,
     "params": [],
     "return": null
   },
@@ -2379,7 +2379,7 @@
     "longname": "src/js/tour.js~Tour#_setupActiveTour",
     "access": "private",
     "description": "Make this tour \"active\"",
-    "lineNumber": 313,
+    "lineNumber": 311,
     "params": [],
     "return": null
   },
@@ -2394,7 +2394,7 @@
     "longname": "src/js/tour.js~Tour#_styleTargetElementForStep",
     "access": "private",
     "description": "Modulates the styles of the passed step's target element, based on the step's options and\nthe tour's `modal` option, to visually emphasize the element",
-    "lineNumber": 328,
+    "lineNumber": 326,
     "params": [
       {
         "nullable": null,
@@ -2420,7 +2420,7 @@
     "longname": "src/js/tour.js~Tour#_skipStep",
     "access": "private",
     "description": "Called when `showOn` evaluates to false, to skip the step",
-    "lineNumber": 352,
+    "lineNumber": 350,
     "params": [
       {
         "nullable": null,
@@ -2456,7 +2456,7 @@
     "longname": "src/js/tour.js~Tour#_setTooltipDefaults",
     "access": "private",
     "description": "Set the tippy defaults",
-    "lineNumber": 362,
+    "lineNumber": 360,
     "params": [],
     "return": null
   },
@@ -2471,7 +2471,7 @@
     "longname": "src/js/tour.js~Tour#_updateStateBeforeShow",
     "access": "private",
     "description": "Before showing, hide the current step and if the tour is not\nalready active, call `this._setupActiveTour`.",
-    "lineNumber": 371,
+    "lineNumber": 369,
     "params": [],
     "return": null
   },
@@ -2486,7 +2486,7 @@
     "longname": "src/js/tour.js~Tour#_setTourID",
     "access": "private",
     "description": "Sets this.id to `${tourName}--${uuid}`",
-    "lineNumber": 385,
+    "lineNumber": 383,
     "params": [],
     "return": null
   },
@@ -2499,7 +2499,7 @@
     "longname": "src/js/tour.js~Tour#id",
     "access": "public",
     "description": null,
-    "lineNumber": 389,
+    "lineNumber": 387,
     "undocument": true,
     "type": {
       "types": [
@@ -2518,7 +2518,7 @@
     "longname": "src/js/tour.js~Tour#_addBodyAttrs",
     "access": "private",
     "description": "Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\nclass to the body.",
-    "lineNumber": 397,
+    "lineNumber": 395,
     "params": [],
     "return": null
   },
@@ -2533,7 +2533,7 @@
     "longname": "src/js/tour.js~Tour#_removeBodyAttrs",
     "access": "private",
     "description": "Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\nclass from the body.",
-    "lineNumber": 407,
+    "lineNumber": 405,
     "params": [],
     "return": null
   },
@@ -2549,7 +2549,7 @@
     "importPath": "shepherd.js/src/js/tour.js",
     "importStyle": "{Shepherd}",
     "description": null,
-    "lineNumber": 36,
+    "lineNumber": 35,
     "undocument": true,
     "type": {
       "types": [
