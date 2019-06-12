@@ -8,10 +8,11 @@
     }, 400);
   }
 
-  function setupShepherd () {
+  function setupShepherd() {
     const shepherd = new Shepherd.Tour({
       defaultStepOptions: {
-        scrollTo: true,
+        classes: 'class-1 class-2',
+        scrollTo: { behavior: 'smooth', block: 'center' },
         showCancelLink: true
       },
       useModalOverlay: true
@@ -71,7 +72,8 @@
           action: shepherd.back,
           classes: 'shepherd-button-secondary',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           text: 'Next'
         }
@@ -86,7 +88,8 @@
           action: shepherd.back,
           classes: 'shepherd-button-secondary',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           text: 'Next'
         }
@@ -102,7 +105,8 @@
           action: shepherd.back,
           classes: 'shepherd-button-secondary',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           text: 'Next'
         }
@@ -117,7 +121,8 @@
           action: shepherd.back,
           classes: 'shepherd-button-secondary',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           text: 'Done'
         }
@@ -128,7 +133,7 @@
   }
 
   function ready() {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+    if (document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading') {
       init();
     } else {
       document.addEventListener('DOMContentLoaded', init);

@@ -42,9 +42,13 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import isElement from &apos;lodash.iselement&apos;;
 import { isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
 import { Evented } from &apos;./evented.js&apos;;
-import &apos;element-matches&apos;;
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
 import { createFromHTML, setupTooltip, parseAttachTo } from &apos;./utils/general.js&apos;;
+
+// Polyfills
+import &apos;element-matches&apos;;
+import smoothscroll from &apos;smoothscroll-polyfill&apos;;
+smoothscroll.polyfill();
 
 /**
  * Creates incremented ID for each newly created step
@@ -125,7 +129,8 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
-   * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
+   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
+   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: &apos;smooth&apos;, block: &apos;center&apos;}`
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {boolean} options.showCancelLink Should a cancel &#x201C;&#x2715;&#x201D; be shown in the header of the step?
@@ -379,14 +384,17 @@ export class Step extends Evented {
   /**
    * If a custom scrollToHandler is defined, call that, otherwise do the generic
    * scrollIntoView call.
+   *
+   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: &apos;smooth&apos;, block: &apos;center&apos; }`
    */
-  scrollTo() {
+  scrollTo(scrollToOptions) {
     const { element } = this.parseAttachTo();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (isElement(element)) {
-      element.scrollIntoView();
+      element.scrollIntoView(scrollToOptions);
     }
   }
 
@@ -441,7 +449,7 @@ export class Step extends Evented {
 
     if (this.options.scrollTo) {
       setTimeout(() =&gt; {
-        this.scrollTo();
+        this.scrollTo(this.options.scrollTo);
       });
     }
 

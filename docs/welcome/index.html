@@ -49,16 +49,28 @@
           <code class="language-javascript">
             const tour = new Shepherd.Tour({
               defaultStepOptions: {
-                classes: 'shadow-md bg-purple-dark',
-                scrollTo: true
+                classes: 'class-1 class-2',
+                scrollTo: { behavior: 'smooth', block: 'center' },
+                showCancelLink: true
               }
             });
 
-            tour.addStep('example', {
-              title: 'Example Shepherd',
-              text: 'Creating a Shepherd is easy too! Just create ...',
+            tour.addStep('creating', {
+              title: 'Creating a Shepherd Tour',
+              text: `Creating a Shepherd tour is easy. too!\
+              Just create a \`Tour\` instance, and add as many steps as you want.`,
               attachTo: '.hero-example bottom',
-              advanceOn: '.docs-link click'
+              buttons: [
+                {
+                  action: shepherd.back,
+                  classes: 'shepherd-button-secondary',
+                  text: 'Back'
+                },
+                {
+                  action: shepherd.next,
+                  text: 'Next'
+                }
+              ]
             });
 
             tour.start();

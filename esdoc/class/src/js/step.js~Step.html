@@ -39,13 +39,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Step} from &apos;<span><a href="file/src/js/step.js.html#lineNumber25">shepherd.js/src/js/step.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {Step} from &apos;<span><a href="file/src/js/step.js.html#lineNumber29">shepherd.js/src/js/step.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/js/step.js.html#lineNumber25">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/js/step.js.html#lineNumber29">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -598,7 +598,7 @@ Triggers <code>destroy</code> event</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-scrollTo">scrollTo</a></span></span><span class="code" data-ice="signature">()</span>
+          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-scrollTo">scrollTo</a></span></span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
         </p>
       </div>
       <div>
@@ -1051,7 +1051,7 @@ and &apos;shepherd-target&apos; classes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber112">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber117">source</a></span></span>
     </span>
   </h3>
 
@@ -1215,9 +1215,10 @@ highlighted (that is, when its step is active). You can then target that selecto
     </tr>
 <tr data-ice="property" data-depth="1">
       <td data-ice="name" class="code" data-depth="1">options.scrollTo</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Should the element be scrolled to when this step is shown?</p>
+      <td data-ice="description"><p>Should the element be scrolled to when this step is shown? If true, uses the default <code>scrollIntoView</code>,
+if an object, passes that object as the params to <code>scrollIntoView</code> i.e. <code>{behavior: &apos;smooth&apos;, block: &apos;center&apos;}</code></p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
@@ -1331,7 +1332,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber127">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber132">source</a></span></span>
     </span>
   </h3>
 
@@ -1374,7 +1375,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber128">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber133">source</a></span></span>
     </span>
   </h3>
 
@@ -1417,7 +1418,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber129">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber134">source</a></span></span>
     </span>
   </h3>
 
@@ -1460,7 +1461,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber278">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber283">source</a></span></span>
     </span>
   </h3>
 
@@ -1503,7 +1504,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber361">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber369">source</a></span></span>
     </span>
   </h3>
 
@@ -1546,7 +1547,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber357">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber365">source</a></span></span>
     </span>
   </h3>
 
@@ -1589,7 +1590,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber131">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber136">source</a></span></span>
     </span>
   </h3>
 
@@ -1632,7 +1633,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber130">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber135">source</a></span></span>
     </span>
   </h3>
 
@@ -1675,7 +1676,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber273">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber278">source</a></span></span>
     </span>
   </h3>
 
@@ -1718,7 +1719,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber114">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber119">source</a></span></span>
     </span>
   </h3>
 
@@ -1764,7 +1765,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber252">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber257">source</a></span></span>
     </span>
   </h3>
 
@@ -1809,7 +1810,7 @@ Triggers the <code>cancel</code> event</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber261">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber266">source</a></span></span>
     </span>
   </h3>
 
@@ -1854,7 +1855,7 @@ Triggers the <code>complete</code> event</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber270">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber275">source</a></span></span>
     </span>
   </h3>
 
@@ -1899,7 +1900,7 @@ Triggers <code>destroy</code> event</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber244">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber249">source</a></span></span>
     </span>
   </h3>
 
@@ -1956,7 +1957,7 @@ Triggers <code>destroy</code> event</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber291">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber296">source</a></span></span>
     </span>
   </h3>
 
@@ -2000,7 +2001,7 @@ Triggers <code>destroy</code> event</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber313">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber318">source</a></span></span>
     </span>
   </h3>
 
@@ -2053,11 +2054,11 @@ Triggers <code>destroy</code> event</p>
     
     
     
-    <span class="code" data-ice="name">scrollTo</span><span class="code" data-ice="signature">()</span>
+    <span class="code" data-ice="name">scrollTo</span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber342">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber350">source</a></span></span>
     </span>
   </h3>
 
@@ -2070,7 +2071,25 @@ scrollIntoView call.</p>
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">scrollToOptions</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>If true, uses the default <code>scrollIntoView</code>,
+if an object, passes that object as the params to <code>scrollIntoView</code> i.e. <code>{ behavior: &apos;smooth&apos;, block: &apos;center&apos; }</code></p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
   
@@ -2102,7 +2121,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber356">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber364">source</a></span></span>
     </span>
   </h3>
 
@@ -2163,7 +2182,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber324">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber329">source</a></span></span>
     </span>
   </h3>
 
@@ -2207,7 +2226,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber374">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber382">source</a></span></span>
     </span>
   </h3>
 
@@ -2265,7 +2284,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber142">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber147">source</a></span></span>
     </span>
   </h3>
 
@@ -2326,7 +2345,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber166">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber171">source</a></span></span>
     </span>
   </h3>
 
@@ -2394,7 +2413,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber182">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber187">source</a></span></span>
     </span>
   </h3>
 
@@ -2455,7 +2474,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber211">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber216">source</a></span></span>
     </span>
   </h3>
 
@@ -2512,7 +2531,7 @@ scrollIntoView call.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber389">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber397">source</a></span></span>
     </span>
   </h3>
 
@@ -2557,7 +2576,7 @@ sets up a tippy instance for the tooltip, then triggers <code>show</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber416">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber424">source</a></span></span>
     </span>
   </h3>
 
