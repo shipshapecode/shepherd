@@ -100,7 +100,7 @@
     "sinon": "^7.3.2",
     "start-server-and-test": "^1.9.1",
     "stylelint": "^10.1.0",
-    "stylelint-config-ship-shape": "^0.5.2"
+    "stylelint-config-ship-shape": "^0.6.0"
   },
   "engines": {
     "node": ">= 6.*"
