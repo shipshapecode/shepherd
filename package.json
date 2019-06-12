@@ -96,7 +96,7 @@
     "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-stylelint": "^0.0.4",
     "rollup-plugin-terser": "^5.0.0",
-    "rollup-plugin-visualizer": "^1.1.1",
+    "rollup-plugin-visualizer": "^2.0.0",
     "sinon": "^7.3.2",
     "start-server-and-test": "^1.9.1",
     "stylelint": "^10.1.0",
