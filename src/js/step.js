@@ -1,9 +1,13 @@
 import isElement from 'lodash.iselement';
 import { isFunction, isString, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
-import 'element-matches';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
+
+// Polyfills
+import 'element-matches';
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 /**
  * Creates incremented ID for each newly created step
@@ -84,7 +88,8 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
-   * @param {boolean} options.scrollTo Should the element be scrolled to when this step is shown?
+   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
+   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?
@@ -338,14 +343,17 @@ export class Step extends Evented {
   /**
    * If a custom scrollToHandler is defined, call that, otherwise do the generic
    * scrollIntoView call.
+   *
+   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
    */
-  scrollTo() {
+  scrollTo(scrollToOptions) {
     const { element } = this.parseAttachTo();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (isElement(element)) {
-      element.scrollIntoView();
+      element.scrollIntoView(scrollToOptions);
     }
   }
 
@@ -400,7 +408,7 @@ export class Step extends Evented {
 
     if (this.options.scrollTo) {
       setTimeout(() => {
-        this.scrollTo();
+        this.scrollTo(this.options.scrollTo);
       });
     }
 
