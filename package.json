@@ -44,6 +44,7 @@
   "homepage": "https://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
+  "types": "src/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "element-matches": "^0.1.2",
