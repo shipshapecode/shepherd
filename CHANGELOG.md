@@ -1,5 +1,29 @@
 # Changelog
 
+## [v2.10.0](https://github.com/shipshapecode/shepherd/tree/v2.10.0) (2019-06-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.9.1...v2.10.0)
+
+**Implemented enhancements:**
+
+- Add scrollIntoView options and polyfill [\#402](https://github.com/shipshapecode/shepherd/pull/402) ([rwwagner90](https://github.com/rwwagner90))
+- Add TypeScript definitions [\#360](https://github.com/shipshapecode/shepherd/pull/360) ([superheri](https://github.com/superheri))
+
+**Fixed bugs:**
+
+- "TypeError: Property 'handleEvent' is not callable." in Firefox [\#393](https://github.com/shipshapecode/shepherd/issues/393)
+- Remove addStepEventListeners call [\#396](https://github.com/shipshapecode/shepherd/pull/396) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- \[Proposal\] center elements for scrollTo [\#398](https://github.com/shipshapecode/shepherd/issues/398)
+- An in-range update of rollup is breaking the build 🚨 [\#392](https://github.com/shipshapecode/shepherd/issues/392)
+
+**Merged pull requests:**
+
+- build support for windows \(rm does not exist\) [\#403](https://github.com/shipshapecode/shepherd/pull/403) ([hheexx](https://github.com/hheexx))
+- Update stylelint-config-ship-shape to the latest version 🚀 [\#399](https://github.com/shipshapecode/shepherd/pull/399) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.9.1](https://github.com/shipshapecode/shepherd/tree/v2.9.1) (2019-06-09)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.9.0...v2.9.1)
