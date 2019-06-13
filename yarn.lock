@@ -8194,7 +8194,7 @@ rollup-plugin-visualizer@^1.1.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.14.4:
+rollup@^1.15.2:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.15.2.tgz#676feb0e73c8f99f75e0078b331a576c56354df6"
   integrity sha512-NsH0Mjqk/RtlhSIJopNUiCYi3r3zudHxg9Cj6Or96QnJw/suab0/PjL50/GRNE5omvXEG2F9K4a334ddvA1Txg==
