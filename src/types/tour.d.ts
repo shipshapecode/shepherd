@@ -6,26 +6,26 @@ declare namespace Tour {
         /**
          * Default options for Steps created through `addStep`
          */
-        defaultStepOptions: Step.StepOptions;
+        defaultStepOptions?: Step.StepOptions;
 
         /**
          * An array of Step instances to initialize the tour with
          */
-        steps: Step[];
+        steps?: Step[];
 
         /**
          * An optional "name" for the tour. This will be appended to the the tour's
          * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
          * whenever the tour becomes active.
          */
-        tourName: string;
+        tourName?: string;
 
         /**
          * Whether or not steps should be placed above a darkened
          * modal overlay. If true, the overlay will create an opening around the target element so that it
          * can remain interactive
          */
-        useModalOverlay: string;
+        useModalOverlay?: string | boolean;
     }
 }
 
@@ -38,7 +38,7 @@ declare class Tour extends Evented {
      * @param options The options for the tour
      * @returns The newly created Tour instance
      */
-    constructor(options: Tour.TourOptions = {});//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
+    constructor(options?: Tour.TourOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
 
     /**
      * Adds a new step to the tour

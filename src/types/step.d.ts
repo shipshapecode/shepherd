@@ -13,7 +13,7 @@ declare namespace Step {
          * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
          * element will appear in the middle of the screen.
          */
-        attachTo: StepOptionsAttachTo | string;
+        attachTo?: StepOptionsAttachTo | string;
 
         /**
          * An action on the page which should advance shepherd to the next step.
@@ -22,57 +22,57 @@ declare namespace Step {
          * It doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
          * You can also always manually advance the Tour by calling `myTour.next()`
          */
-        advanceOn: StepOptionsAdvanceOn | string;
+        advanceOn?: StepOptionsAdvanceOn | string;
 
         /**
          * A function that returns a promise.
          * When the promise resolves, the rest of the `show` code for the step will execute.
          */
-        beforeShowPromise: (() => Promise<any>);
+        beforeShowPromise?: (() => Promise<any>);
 
         /**
          * An array of buttons to add to the step. These will be rendered in a
          * footer below the main body text.
          */
-        buttons: ReadonlyArray<StepOptionsButton>;
+        buttons?: ReadonlyArray<StepOptionsButton>;
 
         /**
          * A string of extra classes to add to the step's content element.
          */
-        classes: string;
+        classes?: string;
 
         /**
          * An extra class to apply to the `attachTo` element when it is
          * highlighted (that is, when its step is active). You can then target that selector in your CSS.
          */
-        highlightClass: string;
+        highlightClass?: string;
 
         /**
          * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
          */
-        tippyOptions: object;
+        tippyOptions?: object;
 
         /**
          * Should the element be scrolled to when this step is shown?
          */
-        scrollTo: boolean;
+        scrollTo?: boolean;
 
         /**
          * A function that lets you override the default scrollTo behavior and
          * define a custom action to do the scrolling, and possibly other logic.
          */
-        scrollToHandler: ((element: HTMLElement) => void);
+        scrollToHandler?: ((element: HTMLElement) => void);
 
         /**
          * Should a cancel “✕” be shown in the header of the step?
          */
-        showCancelLink: boolean;
+        showCancelLink?: boolean;
 
         /**
          * A function that, when it returns `true`, will show the step.
          * If it returns `false`, the step will be skipped.
          */
-        showOn: (() => boolean);
+        showOn?: (() => boolean);
 
         /**
          * The text in the body of the step. It can be one of four types:
@@ -83,12 +83,12 @@ declare namespace Step {
          * - `Function` to be executed when the step is built. It must return one of the three options above.
          * ```
          */
-        text: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement)
+        text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement)
 
         /**
          * The step's title. It becomes an `h3` at the top of the step.
          */
-        title: string;
+        title?: string;
 
         /**
          * You can define `show`, `hide`, etc events inside `when`. For example:
@@ -100,30 +100,30 @@ declare namespace Step {
          * }
          * ```
          */
-        when: StepOptionsWhen;
+        when?: StepOptionsWhen;
     }
 
     interface StepOptionsAttachTo {
-        element: HTMLElement | string;
+        element?: HTMLElement | string;
 
-        on: string;
+        on?: string;
     }
 
     interface StepOptionsAdvanceOn {
-        selector: string;
-        event: string;
+        selector?: string;
+        event?: string;
     }
 
     interface StepOptionsButton {
         /**
          * A function executed when the button is clicked on
          */
-        action: (() => void);
+        action?: (() => void);
 
         /**
          * Extra classes to apply to the `<a>`
          */
-        classes: string;
+        classes?: string;
 
         /**
          * A hash of events to bind onto the button, for example
@@ -137,12 +137,12 @@ declare namespace Step {
          * }
          * ```
          */
-        events: StepOptoonsButtonEvent;
+        events?: StepOptoonsButtonEvent;
 
         /**
          * The HTML text of the button
          */
-        text: string;
+        text?: string;
     }
 
     interface StepOptoonsButtonEvent {
