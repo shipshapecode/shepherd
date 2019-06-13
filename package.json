@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "2.9.1",
+  "version": "2.10.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -26,7 +26,7 @@
     "build": "yarn clean && rollup -c",
     "esdoc": "esdoc",
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v2.9.0",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
@@ -44,6 +44,7 @@
   "homepage": "https://shipshapecode.github.io/shepherd/docs/welcome/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
+  "types": "src/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "element-matches": "^0.1.2",
@@ -83,7 +84,8 @@
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.14",
     "replace": "^1.1.0",
-    "rollup": "^1.14.4",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.15.2",
     "rollup-plugin-analyzer": "^3.0.1",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-browsersync": "^1.0.0",
