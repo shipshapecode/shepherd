@@ -7,6 +7,7 @@ import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js'
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
+
 smoothscroll.polyfill();
 
 /**
@@ -152,9 +153,9 @@ export class Step extends Evented {
       footer.classList.add('shepherd-footer');
 
       this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><a class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</a>`);
+        const button = createFromHTML(`<li><button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`);
         buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector('a'));
+        this.bindButtonEvents(cfg, button.querySelector('button'));
       });
 
       footer.appendChild(buttons);
@@ -208,6 +209,25 @@ export class Step extends Evented {
   }
 
   /**
+   * Setup keydown events to allow closing the modal with ESC
+   * @param {HTMLElement} element The element for the tooltip
+   * @private
+   */
+  _addKeyDownHandler(element) {
+    const KEY_ESC = 27;
+
+    element.addEventListener('keydown', (e) => {
+      switch(e.keyCode) {
+        case KEY_ESC:
+          this.cancel();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  /**
    * Creates Shepherd element for step based on options
    *
    * @private
@@ -216,7 +236,12 @@ export class Step extends Evented {
   _createTooltipContent() {
     const content = document.createElement('div');
     const classes = this.options.classes || '';
-    const element = createFromHTML(`<div class="${classes}" data-shepherd-step-id="${this.id}">`);
+    const element = createFromHTML(
+      `<div class="${classes}" 
+       data-shepherd-step-id="${this.id}" 
+       role="dialog"
+       tabindex="0">`
+    );
     const header = document.createElement('header');
 
     if (this.options.title) {
@@ -238,6 +263,7 @@ export class Step extends Evented {
 
     this._addButtons(content);
     this._addCancelLink(element, header);
+    this._addKeyDownHandler(element);
 
     return element;
   }
@@ -414,6 +440,7 @@ export class Step extends Evented {
 
     this.tooltip.show();
     this.trigger('show');
+    this.el.focus();
   }
 
   /**

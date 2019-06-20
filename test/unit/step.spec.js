@@ -1,4 +1,4 @@
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.js';
 import { Tour } from '../../src/js/tour.js';
@@ -562,6 +562,23 @@ describe('Tour | Step', () => {
       const buttons = buttonContainer.querySelectorAll('.shepherd-button');
 
       expect(buttons.length).toBe(2);
+    });
+  });
+
+  describe('_addKeyDownHandler', () => {
+    it('ESC cancels the tour', () => {
+      const element = document.createElement('div');
+      const step = new Step();
+
+      const cancelStub = stub(step, 'cancel');
+
+      step._addKeyDownHandler(element);
+
+      const event = new KeyboardEvent('keydown', { keyCode: 27 });
+      element.dispatchEvent(event);
+
+      expect(cancelStub.called).toBe(true);
+      cancelStub.restore();
     });
   });
 });
