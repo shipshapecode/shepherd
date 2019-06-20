@@ -48,6 +48,7 @@ import { createFromHTML, setupTooltip, parseAttachTo } from &apos;./utils/genera
 // Polyfills
 import &apos;element-matches&apos;;
 import smoothscroll from &apos;smoothscroll-polyfill&apos;;
+
 smoothscroll.polyfill();
 
 /**
@@ -193,9 +194,9 @@ export class Step extends Evented {
       footer.classList.add(&apos;shepherd-footer&apos;);
 
       this.options.buttons.map((cfg) =&gt; {
-        const button = createFromHTML(`&lt;li&gt;&lt;a class=&quot;shepherd-button ${cfg.classes || &apos;&apos;}&quot; tabindex=&quot;0&quot;&gt;${cfg.text}&lt;/a&gt;`);
+        const button = createFromHTML(`&lt;li&gt;&lt;button class=&quot;shepherd-button ${cfg.classes || &apos;&apos;}&quot; tabindex=&quot;0&quot;&gt;${cfg.text}&lt;/button&gt;`);
         buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector(&apos;a&apos;));
+        this.bindButtonEvents(cfg, button.querySelector(&apos;button&apos;));
       });
 
       footer.appendChild(buttons);
@@ -249,6 +250,25 @@ export class Step extends Evented {
   }
 
   /**
+   * Setup keydown events to allow closing the modal with ESC
+   * @param {HTMLElement} element The element for the tooltip
+   * @private
+   */
+  _addKeyDownHandler(element) {
+    const KEY_ESC = 27;
+
+    element.addEventListener(&apos;keydown&apos;, (e) =&gt; {
+      switch(e.keyCode) {
+        case KEY_ESC:
+          this.cancel();
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  /**
    * Creates Shepherd element for step based on options
    *
    * @private
@@ -257,7 +277,12 @@ export class Step extends Evented {
   _createTooltipContent() {
     const content = document.createElement(&apos;div&apos;);
     const classes = this.options.classes || &apos;&apos;;
-    const element = createFromHTML(`&lt;div class=&quot;${classes}&quot; data-shepherd-step-id=&quot;${this.id}&quot;&gt;`);
+    const element = createFromHTML(
+      `&lt;div class=&quot;${classes}&quot; 
+       data-shepherd-step-id=&quot;${this.id}&quot; 
+       role=&quot;dialog&quot;
+       tabindex=&quot;0&quot;&gt;`
+    );
     const header = document.createElement(&apos;header&apos;);
 
     if (this.options.title) {
@@ -279,6 +304,7 @@ export class Step extends Evented {
 
     this._addButtons(content);
     this._addCancelLink(element, header);
+    this._addKeyDownHandler(element);
 
     return element;
   }
@@ -455,6 +481,7 @@ export class Step extends Evented {
 
     this.tooltip.show();
     this.trigger(&apos;show&apos;);
+    this.el.focus();
   }
 
   /**

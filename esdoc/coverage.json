@@ -1,7 +1,7 @@
 {
-  "coverage": "63.29%",
-  "expectCount": 79,
-  "actualCount": 50,
+  "coverage": "63.75%",
+  "expectCount": 80,
+  "actualCount": 51,
   "files": {
     "src/js/evented.js": {
       "expectCount": 6,
@@ -28,19 +28,19 @@
       ]
     },
     "src/js/step.js": {
-      "expectCount": 29,
-      "actualCount": 19,
+      "expectCount": 30,
+      "actualCount": 20,
       "undocumentLines": [
-        119,
-        132,
+        120,
         133,
         134,
         135,
         136,
-        278,
-        283,
-        365,
-        369
+        137,
+        304,
+        309,
+        391,
+        395
       ]
     },
     "src/js/tour.js": {

@@ -39,7 +39,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">test/unit/step.spec.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { spy } from &apos;sinon&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { spy, stub } from &apos;sinon&apos;;
 import Shepherd from &apos;../../src/js/shepherd.js&apos;;
 import { Step } from &apos;../../src/js/step.js&apos;;
 import { Tour } from &apos;../../src/js/tour.js&apos;;
@@ -603,6 +603,23 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       const buttons = buttonContainer.querySelectorAll(&apos;.shepherd-button&apos;);
 
       expect(buttons.length).toBe(2);
+    });
+  });
+
+  describe(&apos;_addKeyDownHandler&apos;, () =&gt; {
+    it(&apos;ESC cancels the tour&apos;, () =&gt; {
+      const element = document.createElement(&apos;div&apos;);
+      const step = new Step();
+
+      const cancelStub = stub(step, &apos;cancel&apos;);
+
+      step._addKeyDownHandler(element);
+
+      const event = new KeyboardEvent(&apos;keydown&apos;, { keyCode: 27 });
+      element.dispatchEvent(event);
+
+      expect(cancelStub.called).toBe(true);
+      cancelStub.restore();
     });
   });
 });

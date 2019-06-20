@@ -6088,10 +6088,10 @@
           var buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
           footer.classList.add('shepherd-footer');
           this.options.buttons.map(function (cfg) {
-            var button = createFromHTML("<li><a class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</a>"));
+            var button = createFromHTML("<li><button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
             buttons.appendChild(button);
 
-            _this2.bindButtonEvents(cfg, button.querySelector('a'));
+            _this2.bindButtonEvents(cfg, button.querySelector('button'));
           });
           footer.appendChild(buttons);
           content.appendChild(footer);
@@ -6146,6 +6146,30 @@
         content.appendChild(text);
       }
       /**
+       * Setup keydown events to allow closing the modal with ESC
+       * @param {HTMLElement} element The element for the tooltip
+       * @private
+       */
+
+    }, {
+      key: "_addKeyDownHandler",
+      value: function _addKeyDownHandler(element) {
+        var _this3 = this;
+
+        var KEY_ESC = 27;
+        element.addEventListener('keydown', function (e) {
+          switch (e.keyCode) {
+            case KEY_ESC:
+              _this3.cancel();
+
+              break;
+
+            default:
+              break;
+          }
+        });
+      }
+      /**
        * Creates Shepherd element for step based on options
        *
        * @private
@@ -6157,7 +6181,7 @@
       value: function _createTooltipContent() {
         var content = document.createElement('div');
         var classes = this.options.classes || '';
-        var element = createFromHTML("<div class=\"".concat(classes, "\" data-shepherd-step-id=\"").concat(this.id, "\">"));
+        var element = createFromHTML("<div class=\"".concat(classes, "\" \n       data-shepherd-step-id=\"").concat(this.id, "\" \n       role=\"dialog\"\n       tabindex=\"0\">"));
         var header = document.createElement('header');
 
         if (this.options.title) {
@@ -6180,6 +6204,8 @@
         this._addButtons(content);
 
         this._addCancelLink(element, header);
+
+        this._addKeyDownHandler(element);
 
         return element;
       }
@@ -6317,7 +6343,7 @@
     }, {
       key: "setOptions",
       value: function setOptions() {
-        var _this3 = this;
+        var _this4 = this;
 
         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         this.options = options;
@@ -6331,7 +6357,7 @@
                 event = _ref2[0],
                 handler = _ref2[1];
 
-            _this3.on(event, handler, _this3);
+            _this4.on(event, handler, _this4);
           });
         }
       }
@@ -6343,14 +6369,14 @@
     }, {
       key: "show",
       value: function show() {
-        var _this4 = this;
+        var _this5 = this;
 
         if (isFunction(this.options.beforeShowPromise)) {
           var beforeShowPromise = this.options.beforeShowPromise();
 
           if (!isUndefined(beforeShowPromise)) {
             return beforeShowPromise.then(function () {
-              return _this4._show();
+              return _this5._show();
             });
           }
         }
@@ -6366,7 +6392,7 @@
     }, {
       key: "_show",
       value: function _show() {
-        var _this5 = this;
+        var _this6 = this;
 
         this.tour.beforeShowStep(this);
         this.trigger('before-show');
@@ -6380,12 +6406,13 @@
 
         if (this.options.scrollTo) {
           setTimeout(function () {
-            _this5.scrollTo(_this5.options.scrollTo);
+            _this6.scrollTo(_this6.options.scrollTo);
           });
         }
 
         this.tooltip.show();
         this.trigger('show');
+        this.el.focus();
       }
       /**
        * When a step is hidden, remove the highlightClass and 'shepherd-enabled'

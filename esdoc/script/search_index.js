@@ -409,6 +409,18 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/step.spec.js.html#lineNumber568",
+    "Tour | Step _addKeyDownHandler",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber569",
+    "Tour | Step _addKeyDownHandler ESC cancels the tour",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/unit/step.spec.js.html#lineNumber135",
     "Tour | Step bindAdvance()",
     "test"
@@ -930,6 +942,36 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber4",
+    "a11y",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber20",
+    "a11y focus",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber31",
+    "a11y focus shepherd-element should have focus on tour start",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber38",
+    "a11y keydown events",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber49",
+    "a11y keydown events ESC cancels the tour",
+    "test"
+  ],
+  [
     "src/.external-ecmascript.js~array",
     "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
     "src/.external-ecmascript.js~Array",
@@ -1356,6 +1398,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/js/step.js~step#_addkeydownhandler",
+    "class/src/js/step.js~Step.html#instance-method-_addKeyDownHandler",
+    "src/js/step.js~Step#_addKeyDownHandler",
+    "method"
+  ],
+  [
     "src/js/step.js~step#_createtooltipcontent",
     "class/src/js/step.js~Step.html#instance-method-_createTooltipContent",
     "src/js/step.js~Step#_createTooltipContent",
@@ -1678,6 +1726,12 @@ window.esdocSearchIndex = [
     "class/src/js/tour.js~Tour.html#instance-member-steps",
     "src/js/tour.js~Tour#steps",
     "member"
+  ],
+  [
+    "test/cypress/integration/a11y.spec.js",
+    "test-file/test/cypress/integration/a11y.spec.js.html",
+    "test/cypress/integration/a11y.spec.js",
+    "testFile"
   ],
   [
     "test/cypress/integration/element-targeting.spec.js",
