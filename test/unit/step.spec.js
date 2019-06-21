@@ -555,7 +555,7 @@ describe('Tour | Step', () => {
 
       expect(content.children.length).toBe(1);
 
-      const buttonContainer = content.querySelector('.shepherd-buttons');
+      const buttonContainer = content.querySelector('.shepherd-footer');
 
       expect(buttonContainer instanceof HTMLElement).toBe(true);
 
