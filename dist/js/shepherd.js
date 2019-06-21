@@ -6155,10 +6155,22 @@
         var _this3 = this;
 
         var KEY_ESC = 27;
+        var LEFT_ARROW = 37;
+        var RIGHT_ARROW = 39;
         element.addEventListener('keydown', function (e) {
           switch (e.keyCode) {
             case KEY_ESC:
               _this3.cancel();
+
+              break;
+
+            case LEFT_ARROW:
+              _this3.tour.back();
+
+              break;
+
+            case RIGHT_ARROW:
+              _this3.tour.next();
 
               break;
 

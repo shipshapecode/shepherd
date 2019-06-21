@@ -972,6 +972,12 @@ window.esdocSearchIndex = [
     "test"
   ],
   [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber57",
+    "a11y keydown events arrows trigger back/next",
+    "test"
+  ],
+  [
     "src/.external-ecmascript.js~array",
     "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
     "src/.external-ecmascript.js~Array",

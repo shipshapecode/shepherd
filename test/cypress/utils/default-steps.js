@@ -19,7 +19,7 @@ export default function(shepherd) {
           `
         ],
         attachTo: '.hero-welcome bottom',
-        classes: 'shepherd-step-element shepherd-transparent-text',
+        classes: 'shepherd-step-element shepherd-transparent-text first-step',
         buttons: [
           {
             action: shepherd.cancel,
@@ -50,7 +50,7 @@ export default function(shepherd) {
             text: 'Next'
           }
         ],
-        classes: 'shepherd-step-element'
+        classes: 'shepherd-step-element second-step'
       }
     },
     {
@@ -70,7 +70,7 @@ export default function(shepherd) {
             text: 'Next'
           }
         ],
-        classes: 'shepherd-step-element'
+        classes: 'shepherd-step-element third-step'
       }
     },
     {
@@ -90,7 +90,7 @@ export default function(shepherd) {
             text: 'Done'
           }
         ],
-        classes: 'shepherd-step-element'
+        classes: 'shepherd-step-element fourth-step'
       }
     }
   ];
