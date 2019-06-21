@@ -53,5 +53,15 @@ describe('a11y', () => {
       cy.get('.shepherd-element').trigger('keydown', { keyCode: 27 });
       cy.get('body').should('not.have.class', 'shepherd-active');
     });
+
+    it('arrows trigger back/next', () => {
+      tour.start();
+
+      cy.get('.first-step').should('be.visible');
+      cy.get('.first-step').trigger('keydown', { keyCode: 39 });
+      cy.get('.second-step').should('be.visible');
+      cy.get('.second-step').trigger('keydown', { keyCode: 37 });
+      cy.get('.first-step').should('be.visible');
+    });
   });
 });
