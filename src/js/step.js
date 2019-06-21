@@ -210,16 +210,43 @@ export class Step extends Evented {
 
   /**
    * Setup keydown events to allow closing the modal with ESC
+   *
+   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
+   *
    * @param {HTMLElement} element The element for the tooltip
    * @private
    */
   _addKeyDownHandler(element) {
+    const KEY_TAB = 9;
     const KEY_ESC = 27;
     const LEFT_ARROW = 37;
     const RIGHT_ARROW = 39;
 
+    // Get all elements that are focusable
+    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+    const [firstFocusableElement] = focusableElements;
+    const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
     element.addEventListener('keydown', (e) => {
       switch (e.keyCode) {
+        case KEY_TAB:
+          if (focusableElements.length === 1) {
+            e.preventDefault();
+            break;
+          }
+          // Backward tab
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocusableElement) {
+              e.preventDefault();
+              lastFocusableElement.focus();
+            }
+          } else {
+            if (document.activeElement === lastFocusableElement) {
+              e.preventDefault();
+              firstFocusableElement.focus();
+            }
+          }
+          break;
         case KEY_ESC:
           this.cancel();
           break;
@@ -271,7 +298,6 @@ export class Step extends Evented {
 
     this._addButtons(content);
     this._addCancelLink(element, header);
-    this._addKeyDownHandler(element);
 
     return element;
   }
@@ -448,6 +474,8 @@ export class Step extends Evented {
 
     this.tooltip.show();
     this.trigger('show');
+
+    this._addKeyDownHandler(this.el);
     this.el.focus();
   }
 

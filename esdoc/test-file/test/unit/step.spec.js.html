@@ -622,6 +622,22 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       cancelStub.restore();
     });
   });
+
+  describe(&apos;_addCancelLink&apos;, () =&gt; {
+    it(&apos;Cancel link&apos;, () =&gt; {
+      const header = document.createElement(&apos;header&apos;);
+      const element = document.createElement(&apos;div&apos;);
+      const step = new Step(null, { showCancelLink: true });
+
+      const cancelLinkStub = stub(step, &apos;bindCancelLink&apos;);
+
+      step._addCancelLink(element, header);
+
+      expect(cancelLinkStub.called).toBe(true);
+      expect(element).toHaveClass(&apos;shepherd-has-cancel-link&apos;);
+      cancelLinkStub.restore();
+    });
+  });
 });
 </code></pre>
 

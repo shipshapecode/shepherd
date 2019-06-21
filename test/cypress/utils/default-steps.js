@@ -6,7 +6,7 @@ export default function(shepherd) {
         text: [
           `
             Shepherd is a JavaScript library for guiding users through your app.
-            It uses <a href="https://atomiks.github.io/tippyjs//">Tippy.js</a>,
+            It uses <a href="https://atomiks.github.io/tippyjs//" data-test-tippy-link>Tippy.js</a>,
             another open source library, to render dialogs for each tour "step".
           `,
           `

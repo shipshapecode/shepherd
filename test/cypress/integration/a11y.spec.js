@@ -46,14 +46,6 @@ describe('a11y', () => {
       tour.complete();
     });
 
-    it('ESC cancels the tour', () => {
-      tour.start();
-
-      cy.get('body').should('have.class', 'shepherd-active');
-      cy.get('.shepherd-element').trigger('keydown', { keyCode: 27 });
-      cy.get('body').should('not.have.class', 'shepherd-active');
-    });
-
     it('arrows trigger back/next', () => {
       tour.start();
 
@@ -62,6 +54,23 @@ describe('a11y', () => {
       cy.get('.second-step').should('be.visible');
       cy.get('.second-step').trigger('keydown', { keyCode: 37 });
       cy.get('.first-step').should('be.visible');
+    });
+
+    it('ESC cancels the tour', () => {
+      tour.start();
+
+      cy.get('body').should('have.class', 'shepherd-active');
+      cy.get('.shepherd-element').trigger('keydown', { keyCode: 27 });
+      cy.get('body').should('not.have.class', 'shepherd-active');
+    });
+
+    it('Tab is focus trapped inside the modal', () => {
+      tour.start();
+
+      cy.document().then(() => {
+        cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
+        cy.get('[data-test-tippy-link]').should('have.focus');
+      });
     });
   });
 });

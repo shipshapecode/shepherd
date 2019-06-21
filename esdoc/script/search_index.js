@@ -379,6 +379,18 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/step.spec.js.html#lineNumber585",
+    "Tour | Step _addCancelLink",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber586",
+    "Tour | Step _addCancelLink Cancel link",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/unit/step.spec.js.html#lineNumber478",
     "Tour | Step _addContent()",
     "test"
@@ -967,13 +979,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber49",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber59",
     "a11y keydown events ESC cancels the tour",
     "test"
   ],
   [
     "",
-    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber57",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber67",
+    "a11y keydown events Tab is focus trapped inside the modal",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber49",
     "a11y keydown events arrows trigger back/next",
     "test"
   ],

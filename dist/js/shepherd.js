@@ -6145,6 +6145,9 @@
       }
       /**
        * Setup keydown events to allow closing the modal with ESC
+       *
+       * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
+       *
        * @param {HTMLElement} element The element for the tooltip
        * @private
        */
@@ -6154,11 +6157,40 @@
       value: function _addKeyDownHandler(element) {
         var _this3 = this;
 
+        var KEY_TAB = 9;
         var KEY_ESC = 27;
         var LEFT_ARROW = 37;
-        var RIGHT_ARROW = 39;
+        var RIGHT_ARROW = 39; // Get all elements that are focusable
+
+        var focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+
+        var _focusableElements = _slicedToArray(focusableElements, 1),
+            firstFocusableElement = _focusableElements[0];
+
+        var lastFocusableElement = focusableElements[focusableElements.length - 1];
         element.addEventListener('keydown', function (e) {
           switch (e.keyCode) {
+            case KEY_TAB:
+              if (focusableElements.length === 1) {
+                e.preventDefault();
+                break;
+              } // Backward tab
+
+
+              if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                  e.preventDefault();
+                  lastFocusableElement.focus();
+                }
+              } else {
+                if (document.activeElement === lastFocusableElement) {
+                  e.preventDefault();
+                  firstFocusableElement.focus();
+                }
+              }
+
+              break;
+
             case KEY_ESC:
               _this3.cancel();
 
@@ -6214,8 +6246,6 @@
         this._addButtons(content);
 
         this._addCancelLink(element, header);
-
-        this._addKeyDownHandler(element);
 
         return element;
       }
@@ -6422,6 +6452,9 @@
 
         this.tooltip.show();
         this.trigger('show');
+
+        this._addKeyDownHandler(this.el);
+
         this.el.focus();
       }
       /**
