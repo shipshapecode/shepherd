@@ -189,17 +189,17 @@ export class Step extends Evented {
   _addButtons(content) {
     if (Array.isArray(this.options.buttons) &amp;&amp; this.options.buttons.length) {
       const footer = document.createElement(&apos;footer&apos;);
-      const buttons = createFromHTML(&apos;&lt;ul class=&quot;shepherd-buttons&quot;&gt;&lt;/ul&gt;&apos;);
 
       footer.classList.add(&apos;shepherd-footer&apos;);
 
       this.options.buttons.map((cfg) =&gt; {
-        const button = createFromHTML(`&lt;li&gt;&lt;button class=&quot;shepherd-button ${cfg.classes || &apos;&apos;}&quot; tabindex=&quot;0&quot;&gt;${cfg.text}&lt;/button&gt;`);
-        buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector(&apos;button&apos;));
+        const button = createFromHTML(
+          `&lt;button class=&quot;shepherd-button ${cfg.classes || &apos;&apos;}&quot; tabindex=&quot;0&quot;&gt;${cfg.text}&lt;/button&gt;`
+        );
+        footer.appendChild(button);
+        this.bindButtonEvents(cfg, button);
       });
 
-      footer.appendChild(buttons);
       content.appendChild(footer);
     }
   }
@@ -258,7 +258,7 @@ export class Step extends Evented {
     const KEY_ESC = 27;
 
     element.addEventListener(&apos;keydown&apos;, (e) =&gt; {
-      switch(e.keyCode) {
+      switch (e.keyCode) {
         case KEY_ESC:
           this.cancel();
           break;

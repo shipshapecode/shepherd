@@ -100,37 +100,21 @@ pre {
   line-height: 1.4em;
 }
 
-.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button {
-  display: inline-block;
-  *display: inline;
-  vertical-align: middle;
-  *vertical-align: auto;
-  *zoom: 1;
+.shepherd-element .shepherd-content footer .shepherd-button {
   background: #55a892;
-  border: 0;
-  border-radius: 3px;
   color: rgba(255, 255, 255, 0.75);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.8em;
-  letter-spacing: 0.1em;
-  line-height: 1em;
-  padding: 0.75em 2em;
-  text-transform: uppercase;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
 }
 
-.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button:hover {
+.shepherd-element .shepherd-content footer .shepherd-button:hover {
   background: #448675;
 }
 
-.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
+.shepherd-element .shepherd-content footer .shepherd-button.shepherd-button-secondary {
   background: #e5e5e5;
   color: rgba(0, 0, 0, 0.75);
 }
 
-.shepherd-element .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary:hover {
+.shepherd-element .shepherd-content footer .shepherd-button.shepherd-button-secondary:hover {
   background: #cbcbcb;
   color: rgba(0, 0, 0, 0.75);
 }

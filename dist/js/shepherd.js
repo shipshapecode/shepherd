@@ -6085,15 +6085,13 @@
 
         if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
           var footer = document.createElement('footer');
-          var buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
           footer.classList.add('shepherd-footer');
           this.options.buttons.map(function (cfg) {
-            var button = createFromHTML("<li><button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
-            buttons.appendChild(button);
+            var button = createFromHTML("<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
+            footer.appendChild(button);
 
-            _this2.bindButtonEvents(cfg, button.querySelector('button'));
+            _this2.bindButtonEvents(cfg, button);
           });
-          footer.appendChild(buttons);
           content.appendChild(footer);
         }
       }
