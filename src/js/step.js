@@ -148,17 +148,17 @@ export class Step extends Evented {
   _addButtons(content) {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
-      const buttons = createFromHTML('<ul class="shepherd-buttons"></ul>');
 
       footer.classList.add('shepherd-footer');
 
       this.options.buttons.map((cfg) => {
-        const button = createFromHTML(`<li><button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`);
-        buttons.appendChild(button);
-        this.bindButtonEvents(cfg, button.querySelector('button'));
+        const button = createFromHTML(
+          `<button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
+        );
+        footer.appendChild(button);
+        this.bindButtonEvents(cfg, button);
       });
 
-      footer.appendChild(buttons);
       content.appendChild(footer);
     }
   }
@@ -217,7 +217,7 @@ export class Step extends Evented {
     const KEY_ESC = 27;
 
     element.addEventListener('keydown', (e) => {
-      switch(e.keyCode) {
+      switch (e.keyCode) {
         case KEY_ESC:
           this.cancel();
           break;

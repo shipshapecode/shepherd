@@ -98,25 +98,15 @@
     footer {
       border-bottom-left-radius: $shepherd-element-border-radius;
       border-bottom-right-radius: $shepherd-element-border-radius;
+      display: flex;
+      justify-content: flex-end;
       padding: 0 0.75em 0.75em;
 
-      .shepherd-buttons {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        text-align: right;
+      .shepherd-button {
+        @include shepherd-button;
 
-        li {
-          display: inline;
-          margin: 0 0.5em 0 0;
-
-          &:last-child {
-            margin-right: 0;
-          }
-
-          .shepherd-button {
-            @include shepherd-button;
-          }
+        &:last-child {
+          margin-right: 0;
         }
       }
     }
