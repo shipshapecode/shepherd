@@ -581,4 +581,20 @@ describe('Tour | Step', () => {
       cancelStub.restore();
     });
   });
+
+  describe('_addCancelLink', () => {
+    it('Cancel link', () => {
+      const header = document.createElement('header');
+      const element = document.createElement('div');
+      const step = new Step(null, { showCancelLink: true });
+
+      const cancelLinkStub = stub(step, 'bindCancelLink');
+
+      step._addCancelLink(element, header);
+
+      expect(cancelLinkStub.called).toBe(true);
+      expect(element).toHaveClass('shepherd-has-cancel-link');
+      cancelLinkStub.restore();
+    });
+  });
 });
