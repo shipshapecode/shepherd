@@ -215,11 +215,19 @@ export class Step extends Evented {
    */
   _addKeyDownHandler(element) {
     const KEY_ESC = 27;
+    const LEFT_ARROW = 37;
+    const RIGHT_ARROW = 39;
 
     element.addEventListener('keydown', (e) => {
       switch (e.keyCode) {
         case KEY_ESC:
           this.cancel();
+          break;
+        case LEFT_ARROW:
+          this.tour.back();
+          break;
+        case RIGHT_ARROW:
+          this.tour.next();
           break;
         default:
           break;
