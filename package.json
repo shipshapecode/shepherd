@@ -73,7 +73,7 @@
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.0.0",
     "eslint-plugin-jest": "^22.7.0",
     "eslint-plugin-ship-shape": "^0.6.0",
     "glob": "^7.1.3",
