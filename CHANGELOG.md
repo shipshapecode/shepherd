@@ -1,5 +1,28 @@
 # Changelog
 
+## [v3.0.0](https://github.com/shipshapecode/shepherd/tree/v3.0.0) (2019-06-23)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.10.0...v3.0.0)
+
+**Breaking changes:**
+
+- Remove ul, li button wrapper [\#409](https://github.com/shipshapecode/shepherd/pull/409) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Support to keyboard navigation [\#406](https://github.com/shipshapecode/shepherd/issues/406)
+- Feature request --- Add Typescript Typings [\#359](https://github.com/shipshapecode/shepherd/issues/359)
+- Add `disableScroll` option [\#413](https://github.com/shipshapecode/shepherd/pull/413) ([rwwagner90](https://github.com/rwwagner90))
+- Add aria-describedby and aria-labeledby [\#411](https://github.com/shipshapecode/shepherd/pull/411) ([rwwagner90](https://github.com/rwwagner90))
+- Arrow nav [\#410](https://github.com/shipshapecode/shepherd/pull/410) ([rwwagner90](https://github.com/rwwagner90))
+- Add focus trap, to disallow tabbing outside the modal [\#408](https://github.com/shipshapecode/shepherd/pull/408) ([rwwagner90](https://github.com/rwwagner90))
+- Support close with ESC, focus tooltip on `show` [\#407](https://github.com/shipshapecode/shepherd/pull/407) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Update eslint to the latest version 🚀 [\#412](https://github.com/shipshapecode/shepherd/pull/412) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Greenkeeper/rollup plugin visualizer 2.1.1 [\#404](https://github.com/shipshapecode/shepherd/pull/404) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v2.10.0](https://github.com/shipshapecode/shepherd/tree/v2.10.0) (2019-06-13)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.9.1...v2.10.0)
