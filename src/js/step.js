@@ -1,4 +1,5 @@
 import isElement from 'lodash.iselement';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
 import { isFunction, isString, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
@@ -184,9 +185,15 @@ export class Step extends Evented {
    *
    * @private
    * @param {HTMLElement} content The content to append the text to
+   * @param {string} descriptionId The id to set on the shepherd-text element
+   * for the parent element to use for aria-describedby
    */
-  _addContent(content) {
-    const text = createFromHTML('<div class="shepherd-text"></div>');
+  _addContent(content, descriptionId) {
+    const text = createFromHTML(
+      `<div class="shepherd-text"
+       id="${descriptionId}"
+       ></div>`
+    );
     let paragraphs = this.options.text;
 
     if (isFunction(paragraphs)) {
@@ -271,9 +278,11 @@ export class Step extends Evented {
   _createTooltipContent() {
     const content = document.createElement('div');
     const classes = this.options.classes || '';
+    const descriptionId = `${this.id}-description`;
+    const labelId = `${this.id}-label`;
     const element = createFromHTML(
-      `<div class="${classes}" 
-       data-shepherd-step-id="${this.id}" 
+      `<div class="${classes}"
+       data-shepherd-step-id="${this.id}"
        role="dialog"
        tabindex="0">`
     );
@@ -283,6 +292,8 @@ export class Step extends Evented {
       const title = document.createElement('h3');
       title.classList.add('shepherd-title');
       title.innerHTML = `${this.options.title}`;
+      title.id = labelId;
+      element.setAttribute('aria-labeledby', labelId);
       header.appendChild(title);
       element.classList.add('shepherd-has-title');
     }
@@ -293,7 +304,8 @@ export class Step extends Evented {
     content.appendChild(header);
 
     if (!isUndefined(this.options.text)) {
-      this._addContent(content);
+      this._addContent(content, descriptionId);
+      element.setAttribute('aria-describedby', descriptionId);
     }
 
     this._addButtons(content);
@@ -410,11 +422,19 @@ export class Step extends Evented {
   scrollTo(scrollToOptions) {
     const { element } = this.parseAttachTo();
 
+    enableBodyScroll();
+
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (isElement(element)) {
       element.scrollIntoView(scrollToOptions);
     }
+
+    setTimeout(() => {
+      if (this.tour.options.disableScroll) {
+        disableBodyScroll();
+      }
+    }, 50);
   }
 
   /**

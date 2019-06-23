@@ -597,4 +597,22 @@ describe('Tour | Step', () => {
       cancelLinkStub.restore();
     });
   });
+
+  describe('_createTooltipContent', () => {
+    it('ARIA attributes set', () => {
+      const step = new Step(null, {
+        id: 'test-step',
+        text: 'Lorem Ipsum',
+        title: 'Test'
+      });
+
+      const element = step._createTooltipContent();
+
+      expect(element.getAttribute('aria-labeledby')).toBe('test-step-label');
+      expect(element.querySelector('.shepherd-title').id).toBe('test-step-label');
+
+      expect(element.getAttribute('aria-describedby')).toBe('test-step-description');
+      expect(element.querySelector('.shepherd-text').id).toBe('test-step-description');
+    });
+  });
 });
