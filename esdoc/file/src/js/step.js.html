@@ -225,9 +225,15 @@ export class Step extends Evented {
    *
    * @private
    * @param {HTMLElement} content The content to append the text to
+   * @param {string} descriptionId The id to set on the shepherd-text element
+   * for the parent element to use for aria-describedby
    */
-  _addContent(content) {
-    const text = createFromHTML(&apos;&lt;div class=&quot;shepherd-text&quot;&gt;&lt;/div&gt;&apos;);
+  _addContent(content, descriptionId) {
+    const text = createFromHTML(
+      `&lt;div class=&quot;shepherd-text&quot;
+       id=&quot;${descriptionId}&quot;
+       &gt;&lt;/div&gt;`
+    );
     let paragraphs = this.options.text;
 
     if (isFunction(paragraphs)) {
@@ -312,9 +318,11 @@ export class Step extends Evented {
   _createTooltipContent() {
     const content = document.createElement(&apos;div&apos;);
     const classes = this.options.classes || &apos;&apos;;
+    const descriptionId = `${this.id}-description`;
+    const labelId = `${this.id}-label`;
     const element = createFromHTML(
-      `&lt;div class=&quot;${classes}&quot; 
-       data-shepherd-step-id=&quot;${this.id}&quot; 
+      `&lt;div class=&quot;${classes}&quot;
+       data-shepherd-step-id=&quot;${this.id}&quot;
        role=&quot;dialog&quot;
        tabindex=&quot;0&quot;&gt;`
     );
@@ -324,6 +332,8 @@ export class Step extends Evented {
       const title = document.createElement(&apos;h3&apos;);
       title.classList.add(&apos;shepherd-title&apos;);
       title.innerHTML = `${this.options.title}`;
+      title.id = labelId;
+      element.setAttribute(&apos;aria-labeledby&apos;, labelId);
       header.appendChild(title);
       element.classList.add(&apos;shepherd-has-title&apos;);
     }
@@ -334,7 +344,8 @@ export class Step extends Evented {
     content.appendChild(header);
 
     if (!isUndefined(this.options.text)) {
-      this._addContent(content);
+      this._addContent(content, descriptionId);
+      element.setAttribute(&apos;aria-describedby&apos;, descriptionId);
     }
 
     this._addButtons(content);

@@ -6117,12 +6117,14 @@
        *
        * @private
        * @param {HTMLElement} content The content to append the text to
+       * @param {string} descriptionId The id to set on the shepherd-text element
+       * for the parent element to use for aria-describedby
        */
 
     }, {
       key: "_addContent",
-      value: function _addContent(content) {
-        var text = createFromHTML('<div class="shepherd-text"></div>');
+      value: function _addContent(content, descriptionId) {
+        var text = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
         var paragraphs = this.options.text;
 
         if (isFunction(paragraphs)) {
@@ -6223,13 +6225,17 @@
       value: function _createTooltipContent() {
         var content = document.createElement('div');
         var classes = this.options.classes || '';
-        var element = createFromHTML("<div class=\"".concat(classes, "\" \n       data-shepherd-step-id=\"").concat(this.id, "\" \n       role=\"dialog\"\n       tabindex=\"0\">"));
+        var descriptionId = "".concat(this.id, "-description");
+        var labelId = "".concat(this.id, "-label");
+        var element = createFromHTML("<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"").concat(this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
         var header = document.createElement('header');
 
         if (this.options.title) {
           var title = document.createElement('h3');
           title.classList.add('shepherd-title');
           title.innerHTML = "".concat(this.options.title);
+          title.id = labelId;
+          element.setAttribute('aria-labeledby', labelId);
           header.appendChild(title);
           element.classList.add('shepherd-has-title');
         }
@@ -6240,7 +6246,9 @@
         content.appendChild(header);
 
         if (!isUndefined(this.options.text)) {
-          this._addContent(content);
+          this._addContent(content, descriptionId);
+
+          element.setAttribute('aria-describedby', descriptionId);
         }
 
         this._addButtons(content);

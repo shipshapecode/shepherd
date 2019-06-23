@@ -638,6 +638,24 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       cancelLinkStub.restore();
     });
   });
+
+  describe(&apos;_createTooltipContent&apos;, () =&gt; {
+    it(&apos;ARIA attributes set&apos;, () =&gt; {
+      const step = new Step(null, {
+        id: &apos;test-step&apos;,
+        text: &apos;Lorem Ipsum&apos;,
+        title: &apos;Test&apos;
+      });
+
+      const element = step._createTooltipContent();
+
+      expect(element.getAttribute(&apos;aria-labeledby&apos;)).toBe(&apos;test-step-label&apos;);
+      expect(element.querySelector(&apos;.shepherd-title&apos;).id).toBe(&apos;test-step-label&apos;);
+
+      expect(element.getAttribute(&apos;aria-describedby&apos;)).toBe(&apos;test-step-description&apos;);
+      expect(element.querySelector(&apos;.shepherd-text&apos;).id).toBe(&apos;test-step-description&apos;);
+    });
+  });
 });
 </code></pre>
 

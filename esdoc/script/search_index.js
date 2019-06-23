@@ -433,6 +433,18 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/step.spec.js.html#lineNumber601",
+    "Tour | Step _createTooltipContent",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber602",
+    "Tour | Step _createTooltipContent ARIA attributes set",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/unit/step.spec.js.html#lineNumber135",
     "Tour | Step bindAdvance()",
     "test"
