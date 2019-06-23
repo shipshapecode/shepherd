@@ -5384,6 +5384,226 @@
 
   var lodash_iselement = isElement;
 
+  // Older browsers don't support event options, feature detect it.
+
+  // Adopted and modified solution from Bohdan Didukh (2017)
+  // https://stackoverflow.com/questions/41594997/ios-10-safari-prevent-scrolling-behind-a-fixed-overlay-and-maintain-scroll-posi
+
+  let hasPassiveEvents = false;
+  if (typeof window !== 'undefined') {
+    const passiveTestOptions = {
+      get passive() {
+        hasPassiveEvents = true;
+        return undefined;
+      }
+    };
+    window.addEventListener('testPassive', null, passiveTestOptions);
+    window.removeEventListener('testPassive', null, passiveTestOptions);
+  }
+
+  const isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
+
+
+  let locks = [];
+  let documentListenerAdded = false;
+  let initialClientY = -1;
+  let previousBodyOverflowSetting;
+  let previousBodyPaddingRight;
+
+  // returns true if `el` should be allowed to receive touchmove events
+  const allowTouchMove = el => locks.some(lock => {
+    if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
+      return true;
+    }
+
+    return false;
+  });
+
+  const preventDefault = rawEvent => {
+    const e = rawEvent || window.event;
+
+    // For the case whereby consumers adds a touchmove event listener to document.
+    // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
+    // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
+    // the touchmove event on document will break.
+    if (allowTouchMove(e.target)) {
+      return true;
+    }
+
+    // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
+    if (e.touches.length > 1) return true;
+
+    if (e.preventDefault) e.preventDefault();
+
+    return false;
+  };
+
+  const setOverflowHidden = options => {
+    // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
+    // the responsiveness for some reason. Setting within a setTimeout fixes this.
+    setTimeout(() => {
+      // If previousBodyPaddingRight is already set, don't set it again.
+      if (previousBodyPaddingRight === undefined) {
+        const reserveScrollBarGap = !!options && options.reserveScrollBarGap === true;
+        const scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
+
+        if (reserveScrollBarGap && scrollBarGap > 0) {
+          previousBodyPaddingRight = document.body.style.paddingRight;
+          document.body.style.paddingRight = `${scrollBarGap}px`;
+        }
+      }
+
+      // If previousBodyOverflowSetting is already set, don't set it again.
+      if (previousBodyOverflowSetting === undefined) {
+        previousBodyOverflowSetting = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  };
+
+  const restoreOverflowSetting = () => {
+    // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
+    // the responsiveness for some reason. Setting within a setTimeout fixes this.
+    setTimeout(() => {
+      if (previousBodyPaddingRight !== undefined) {
+        document.body.style.paddingRight = previousBodyPaddingRight;
+
+        // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
+        // can be set again.
+        previousBodyPaddingRight = undefined;
+      }
+
+      if (previousBodyOverflowSetting !== undefined) {
+        document.body.style.overflow = previousBodyOverflowSetting;
+
+        // Restore previousBodyOverflowSetting to undefined
+        // so setOverflowHidden knows it can be set again.
+        previousBodyOverflowSetting = undefined;
+      }
+    });
+  };
+
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
+  const isTargetElementTotallyScrolled = targetElement => targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false;
+
+  const handleScroll = (event, targetElement) => {
+    const clientY = event.targetTouches[0].clientY - initialClientY;
+
+    if (allowTouchMove(event.target)) {
+      return false;
+    }
+
+    if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
+      // element is at the top of its scroll
+      return preventDefault(event);
+    }
+
+    if (isTargetElementTotallyScrolled(targetElement) && clientY < 0) {
+      // element is at the top of its scroll
+      return preventDefault(event);
+    }
+
+    event.stopPropagation();
+    return true;
+  };
+
+  const disableBodyScroll = (targetElement, options) => {
+    if (isIosDevice) {
+      // targetElement must be provided, and disableBodyScroll must not have been
+      // called on this targetElement before.
+      if (!targetElement) {
+        // eslint-disable-next-line no-console
+        console.error('disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.');
+        return;
+      }
+
+      if (targetElement && !locks.some(lock => lock.targetElement === targetElement)) {
+        const lock = {
+          targetElement,
+          options: options || {}
+        };
+
+        locks = [...locks, lock];
+
+        targetElement.ontouchstart = event => {
+          if (event.targetTouches.length === 1) {
+            // detect single touch
+            initialClientY = event.targetTouches[0].clientY;
+          }
+        };
+        targetElement.ontouchmove = event => {
+          if (event.targetTouches.length === 1) {
+            // detect single touch
+            handleScroll(event, targetElement);
+          }
+        };
+
+        if (!documentListenerAdded) {
+          document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined);
+          documentListenerAdded = true;
+        }
+      }
+    } else {
+      setOverflowHidden(options);
+      const lock = {
+        targetElement,
+        options: options || {}
+      };
+
+      locks = [...locks, lock];
+    }
+  };
+
+  const clearAllBodyScrollLocks = () => {
+    if (isIosDevice) {
+      // Clear all locks ontouchstart/ontouchmove handlers, and the references
+      locks.forEach(lock => {
+        lock.targetElement.ontouchstart = null;
+        lock.targetElement.ontouchmove = null;
+      });
+
+      if (documentListenerAdded) {
+        document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined);
+        documentListenerAdded = false;
+      }
+
+      locks = [];
+
+      // Reset initial clientY
+      initialClientY = -1;
+    } else {
+      restoreOverflowSetting();
+      locks = [];
+    }
+  };
+
+  const enableBodyScroll = targetElement => {
+    if (isIosDevice) {
+      if (!targetElement) {
+        // eslint-disable-next-line no-console
+        console.error('enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.');
+        return;
+      }
+
+      targetElement.ontouchstart = null;
+      targetElement.ontouchmove = null;
+
+      locks = locks.filter(lock => lock.targetElement !== targetElement);
+
+      if (documentListenerAdded && locks.length === 0) {
+        document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined);
+
+        documentListenerAdded = false;
+      }
+    } else if (locks.length === 1 && locks[0].targetElement === targetElement) {
+      restoreOverflowSetting();
+
+      locks = [];
+    } else {
+      locks = locks.filter(lock => lock.targetElement !== targetElement);
+    }
+  };
+
   /**
    * Sets up the handler to determine if we should advance the tour
    * @private
@@ -6374,14 +6594,24 @@
     }, {
       key: "scrollTo",
       value: function scrollTo(scrollToOptions) {
+        var _this4 = this;
+
         var _this$parseAttachTo = this.parseAttachTo(),
             element = _this$parseAttachTo.element;
+
+        enableBodyScroll();
 
         if (isFunction(this.options.scrollToHandler)) {
           this.options.scrollToHandler(element);
         } else if (lodash_iselement(element)) {
           element.scrollIntoView(scrollToOptions);
         }
+
+        setTimeout(function () {
+          if (_this4.tour.options.disableScroll) {
+            disableBodyScroll();
+          }
+        }, 50);
       }
       /**
        * Sets the options for the step, maps `when` to events, sets up buttons
@@ -6391,7 +6621,7 @@
     }, {
       key: "setOptions",
       value: function setOptions() {
-        var _this4 = this;
+        var _this5 = this;
 
         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         this.options = options;
@@ -6405,7 +6635,7 @@
                 event = _ref2[0],
                 handler = _ref2[1];
 
-            _this4.on(event, handler, _this4);
+            _this5.on(event, handler, _this5);
           });
         }
       }
@@ -6417,14 +6647,14 @@
     }, {
       key: "show",
       value: function show() {
-        var _this5 = this;
+        var _this6 = this;
 
         if (isFunction(this.options.beforeShowPromise)) {
           var beforeShowPromise = this.options.beforeShowPromise();
 
           if (!isUndefined(beforeShowPromise)) {
             return beforeShowPromise.then(function () {
-              return _this5._show();
+              return _this6._show();
             });
           }
         }
@@ -6440,7 +6670,7 @@
     }, {
       key: "_show",
       value: function _show() {
-        var _this6 = this;
+        var _this7 = this;
 
         this.tour.beforeShowStep(this);
         this.trigger('before-show');
@@ -6454,7 +6684,7 @@
 
         if (this.options.scrollTo) {
           setTimeout(function () {
-            _this6.scrollTo(_this6.options.scrollTo);
+            _this7.scrollTo(_this7.options.scrollTo);
           });
         }
 
@@ -7079,6 +7309,8 @@
     /**
      * @param {Object} options The options for the tour
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
+     * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
+     * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
      * @param {Step[]} options.steps An array of Step instances to initialize the tour with
      * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
      * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -7212,6 +7444,10 @@
         this.trigger('inactive', {
           tour: this
         });
+
+        if (this.options.disableScroll) {
+          clearAllBodyScrollLocks();
+        }
       }
       /**
        * Gets the step from a given id
@@ -7369,6 +7605,11 @@
       key: "start",
       value: function start() {
         this.trigger('start');
+
+        if (this.options.disableScroll) {
+          disableBodyScroll();
+        }
+
         this.currentStep = null;
 
         this._setupActiveTour();

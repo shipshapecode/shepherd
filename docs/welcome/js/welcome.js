@@ -15,6 +15,7 @@
         scrollTo: { behavior: 'smooth', block: 'center' },
         showCancelLink: true
       },
+      disableScroll: true,
       useModalOverlay: true
     });
 

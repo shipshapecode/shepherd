@@ -31,29 +31,29 @@
       "expectCount": 30,
       "actualCount": 20,
       "undocumentLines": [
-        120,
-        133,
+        121,
         134,
         135,
         136,
         137,
-        349,
-        354,
-        436,
-        440
+        138,
+        350,
+        355,
+        445,
+        449
       ]
     },
     "src/js/tour.js": {
       "expectCount": 32,
       "actualCount": 25,
       "undocumentLines": [
-        63,
-        64,
-        78,
-        240,
-        263,
-        387,
-        35
+        57,
+        58,
+        72,
+        238,
+        261,
+        389,
+        27
       ]
     }
   }

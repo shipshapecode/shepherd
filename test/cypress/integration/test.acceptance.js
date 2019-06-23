@@ -186,15 +186,15 @@ describe('Shepherd Acceptance Tests', () => {
       cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
     });
 
-    describe('scrollTo', () => {
+    describe('scrolling', () => {
       it('scrollTo:true scrolls', () => {
         const tour = setupTour(Shepherd, {
           scrollTo: true
         });
         tour.start();
-        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('gt', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('gt', 0);
       });
 
       it('scrollTo:false does not scroll', () => {
@@ -202,9 +202,9 @@ describe('Shepherd Acceptance Tests', () => {
           scrollTo: false
         });
         tour.start();
-        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.get('[data-test-hero-scroll]').should('have.prop', 'scrollTop').and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
       });
     });
   });

@@ -45,20 +45,12 @@ import { Modal } from &apos;./modal.js&apos;;
 import { Step } from &apos;./step.js&apos;;
 import { bindMethods } from &apos;./utils/bind.js&apos;;
 import tippy from &apos;tippy.js&apos;;
+import { disableBodyScroll, clearAllBodyScrollLocks } from &apos;body-scroll-lock/lib/bodyScrollLock.es6.js&apos;;
 import { defaults as tooltipDefaults } from &apos;./utils/tooltip-defaults&apos;;
 
-import {
-  cleanupSteps,
-  cleanupStepEventListeners
-} from &apos;./utils/cleanup&apos;;
-
-import {
-  getElementForStep
-} from &apos;./utils/dom&apos;;
-
-import {
-  toggleShepherdModalClass
-} from &apos;./utils/modal&apos;;
+import { cleanupSteps, cleanupStepEventListeners } from &apos;./utils/cleanup&apos;;
+import { getElementForStep } from &apos;./utils/dom&apos;;
+import { toggleShepherdModalClass } from &apos;./utils/modal&apos;;
 
 /**
  * Creates incremented ID for each newly created tour
@@ -83,6 +75,8 @@ export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
+   * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
+   * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional &quot;name&quot; for the tour. This will be appended to the the tour&apos;s
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -202,6 +196,10 @@ export class Tour extends Evented {
     Shepherd.activeTour = null;
     this._removeBodyAttrs();
     this.trigger(&apos;inactive&apos;, { tour: this });
+
+    if (this.options.disableScroll) {
+      clearAllBodyScrollLocks();
+    }
   }
 
   /**
@@ -339,6 +337,10 @@ export class Tour extends Evented {
    */
   start() {
     this.trigger(&apos;start&apos;);
+
+    if (this.options.disableScroll) {
+      disableBodyScroll();
+    }
 
     this.currentStep = null;
     this._setupActiveTour();

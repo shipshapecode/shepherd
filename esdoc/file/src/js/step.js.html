@@ -40,6 +40,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/js/step.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import isElement from &apos;lodash.iselement&apos;;
+import { disableBodyScroll, enableBodyScroll } from &apos;body-scroll-lock/lib/bodyScrollLock.es6.js&apos;;
 import { isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
 import { Evented } from &apos;./evented.js&apos;;
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
@@ -462,11 +463,19 @@ export class Step extends Evented {
   scrollTo(scrollToOptions) {
     const { element } = this.parseAttachTo();
 
+    enableBodyScroll();
+
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (isElement(element)) {
       element.scrollIntoView(scrollToOptions);
     }
+
+    setTimeout(() =&gt; {
+      if (this.tour.options.disableScroll) {
+        disableBodyScroll();
+      }
+    }, 50);
   }
 
   /**

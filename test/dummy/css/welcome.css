@@ -1,7 +1,5 @@
-html,
 body {
   height: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -38,15 +36,10 @@ body {
   }
 }
 
-.hero-scroll {
-  height: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  width: 100%;
-}
-
 .hero-outer {
   -webkit-box-sizing: border-box;
+  background-color: #62c462;
+  background-image: linear-gradient(-45deg, #62c462, #75beaa);
   box-sizing: border-box;
   display: table;
   height: 100%;
