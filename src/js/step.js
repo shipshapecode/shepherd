@@ -1,4 +1,5 @@
 import isElement from 'lodash.iselement';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
 import { isFunction, isString, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
@@ -421,11 +422,19 @@ export class Step extends Evented {
   scrollTo(scrollToOptions) {
     const { element } = this.parseAttachTo();
 
+    enableBodyScroll();
+
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (isElement(element)) {
       element.scrollIntoView(scrollToOptions);
     }
+
+    setTimeout(() => {
+      if (this.tour.options.disableScroll) {
+        disableBodyScroll();
+      }
+    }, 50);
   }
 
   /**

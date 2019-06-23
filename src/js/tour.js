@@ -4,20 +4,12 @@ import { Modal } from './modal.js';
 import { Step } from './step.js';
 import { bindMethods } from './utils/bind.js';
 import tippy from 'tippy.js';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 
-import {
-  cleanupSteps,
-  cleanupStepEventListeners
-} from './utils/cleanup';
-
-import {
-  getElementForStep
-} from './utils/dom';
-
-import {
-  toggleShepherdModalClass
-} from './utils/modal';
+import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
+import { getElementForStep } from './utils/dom';
+import { toggleShepherdModalClass } from './utils/modal';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -42,6 +34,8 @@ export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
+   * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
+   * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -161,6 +155,10 @@ export class Tour extends Evented {
     Shepherd.activeTour = null;
     this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
+
+    if (this.options.disableScroll) {
+      clearAllBodyScrollLocks();
+    }
   }
 
   /**
@@ -298,6 +296,10 @@ export class Tour extends Evented {
    */
   start() {
     this.trigger('start');
+
+    if (this.options.disableScroll) {
+      disableBodyScroll();
+    }
 
     this.currentStep = null;
     this._setupActiveTour();
