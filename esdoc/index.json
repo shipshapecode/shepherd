@@ -980,7 +980,7 @@
     "__docId__": 71,
     "kind": "file",
     "name": "src/js/step.js",
-    "content": "import isElement from 'lodash.iselement';\nimport { isFunction, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';\nimport { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';\n\n// Polyfills\nimport 'element-matches';\nimport smoothscroll from 'smoothscroll-polyfill';\n\nsmoothscroll.polyfill();\n\n/**\n * Creates incremented ID for each newly created step\n *\n * @private\n * @return {Number} The unique id for the step\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\n/**\n * A class representing steps to be added to a tour.\n * @extends {Evented}\n */\nexport class Step extends Evented {\n  /**\n   * Create a step\n   * @param {Tour} tour The tour for the step\n   * @param {Object} options The options for the step\n   * @param {Object|string} options.attachTo What element the step should be attached to on the page.\n   * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: '.some .selector-path left',\n   *   ...moreOptions,\n   * })'\n   * ```\n   * Or an object with those properties:\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: { element: '.some .selector-path', on: 'left' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the\n   * element will appear in the middle of the screen.\n   * @param {HTMLElement|string} options.attachTo.element\n   * @param {string} options.attachTo.on\n   * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.\n   * It can be of the form `\"selector event\"`:\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: '.some .selector-path click',\n   *   ...moreOptions\n   * })'\n   * ```\n   * ...or an object with those properties:\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: { selector: '.some .selector-path', event: 'click' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.\n   * You can also always manually advance the Tour by calling `myTour.next()`.\n   * @param {function} options.beforeShowPromise A function that returns a promise.\n   * When the promise resolves, the rest of the `show` code for the step will execute.\n   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a\n   * footer below the main body text.\n   * @param {function} options.buttons.button.action A function executed when the button is clicked on\n   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`\n   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example\n   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.\n   * You can use events to skip steps or navigate to specific steps, with something like:\n   * ```js\n   * events: {\n   *   click: function() {\n   *     return Shepherd.activeTour.show('some_step_name');\n   *   }\n   * }\n   * ```\n   * @param {string} options.buttons.button.text The HTML text of the button\n   * @param {string} options.classes A string of extra classes to add to the step's content element.\n   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is\n   * highlighted (that is, when its step is active). You can then target that selector in your CSS.\n   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}\n   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`\n   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and\n   * define a custom action to do the scrolling, and possibly other logic.\n   * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?\n   * @param {function} options.showOn A function that, when it returns `true`, will show the step.\n   * If it returns false, the step will be skipped.\n   * @param {string} options.text The text in the body of the step. It can be one of four types:\n   * ```\n   * - HTML string\n   * - Array of HTML strings\n   * - `HTMLElement` object\n   * - `Function` to be executed when the step is built. It must return one of the three options above.\n   * ```\n   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.\n   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:\n   * ```js\n   * when: {\n   *   show: function() {\n   *     window.scrollTo(0, 0);\n   *   }\n   * }\n   * ```\n   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening\n   * @return {Step} The newly created Step instance\n   */\n  constructor(tour, options) {\n    super(tour, options);\n    this.tour = tour;\n    bindMethods.call(this, [\n      '_show',\n      'cancel',\n      'complete',\n      'destroy',\n      'hide',\n      'isOpen',\n      'scrollTo',\n      'setupElements',\n      'show'\n    ]);\n    this.setOptions(options);\n    this.bindAdvance = bindAdvance.bind(this);\n    this.bindButtonEvents = bindButtonEvents.bind(this);\n    this.bindCancelLink = bindCancelLink.bind(this);\n    this.setupTooltip = setupTooltip.bind(this);\n    this.parseAttachTo = parseAttachTo.bind(this);\n\n    return this;\n  }\n\n  /**\n   * Adds buttons to the step as passed into options\n   *\n   * @private\n   * @param {HTMLElement} content The element for the step, to append the footer with buttons to\n   */\n  _addButtons(content) {\n    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {\n      const footer = document.createElement('footer');\n\n      footer.classList.add('shepherd-footer');\n\n      this.options.buttons.map((cfg) => {\n        const button = createFromHTML(\n          `<button class=\"shepherd-button ${cfg.classes || ''}\" tabindex=\"0\">${cfg.text}</button>`\n        );\n        footer.appendChild(button);\n        this.bindButtonEvents(cfg, button);\n      });\n\n      content.appendChild(footer);\n    }\n  }\n\n  /**\n   * Adds the \"x\" button to cancel the tour\n   * @param {HTMLElement} element The step element\n   * @param {HTMLElement} header The header element for the step\n   * @private\n   */\n  _addCancelLink(element, header) {\n    if (this.options.showCancelLink) {\n      const link = createFromHTML('<a href class=\"shepherd-cancel-link\"></a>');\n      header.appendChild(link);\n\n      element.classList.add('shepherd-has-cancel-link');\n      this.bindCancelLink(link);\n    }\n  }\n\n  /**\n   * Adds text passed in as options\n   *\n   * @private\n   * @param {HTMLElement} content The content to append the text to\n   * @param {string} descriptionId The id to set on the shepherd-text element\n   * for the parent element to use for aria-describedby\n   */\n  _addContent(content, descriptionId) {\n    const text = createFromHTML(\n      `<div class=\"shepherd-text\"\n       id=\"${descriptionId}\"\n       ></div>`\n    );\n    let paragraphs = this.options.text;\n\n    if (isFunction(paragraphs)) {\n      paragraphs = paragraphs.call(this, text);\n    }\n\n    if (paragraphs instanceof HTMLElement) {\n      text.appendChild(paragraphs);\n    } else {\n      if (isString(paragraphs)) {\n        paragraphs = [paragraphs];\n      }\n\n      paragraphs.map((paragraph) => {\n        text.innerHTML += `<p>${paragraph}</p>`;\n      });\n    }\n\n    content.appendChild(text);\n  }\n\n  /**\n   * Setup keydown events to allow closing the modal with ESC\n   *\n   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/\n   *\n   * @param {HTMLElement} element The element for the tooltip\n   * @private\n   */\n  _addKeyDownHandler(element) {\n    const KEY_TAB = 9;\n    const KEY_ESC = 27;\n    const LEFT_ARROW = 37;\n    const RIGHT_ARROW = 39;\n\n    // Get all elements that are focusable\n    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]');\n    const [firstFocusableElement] = focusableElements;\n    const lastFocusableElement = focusableElements[focusableElements.length - 1];\n\n    element.addEventListener('keydown', (e) => {\n      switch (e.keyCode) {\n        case KEY_TAB:\n          if (focusableElements.length === 1) {\n            e.preventDefault();\n            break;\n          }\n          // Backward tab\n          if (e.shiftKey) {\n            if (document.activeElement === firstFocusableElement) {\n              e.preventDefault();\n              lastFocusableElement.focus();\n            }\n          } else {\n            if (document.activeElement === lastFocusableElement) {\n              e.preventDefault();\n              firstFocusableElement.focus();\n            }\n          }\n          break;\n        case KEY_ESC:\n          this.cancel();\n          break;\n        case LEFT_ARROW:\n          this.tour.back();\n          break;\n        case RIGHT_ARROW:\n          this.tour.next();\n          break;\n        default:\n          break;\n      }\n    });\n  }\n\n  /**\n   * Creates Shepherd element for step based on options\n   *\n   * @private\n   * @return {HTMLElement} The DOM element for the step tooltip\n   */\n  _createTooltipContent() {\n    const content = document.createElement('div');\n    const classes = this.options.classes || '';\n    const descriptionId = `${this.id}-description`;\n    const labelId = `${this.id}-label`;\n    const element = createFromHTML(\n      `<div class=\"${classes}\"\n       data-shepherd-step-id=\"${this.id}\"\n       role=\"dialog\"\n       tabindex=\"0\">`\n    );\n    const header = document.createElement('header');\n\n    if (this.options.title) {\n      const title = document.createElement('h3');\n      title.classList.add('shepherd-title');\n      title.innerHTML = `${this.options.title}`;\n      title.id = labelId;\n      element.setAttribute('aria-labeledby', labelId);\n      header.appendChild(title);\n      element.classList.add('shepherd-has-title');\n    }\n\n    content.classList.add('shepherd-content');\n    header.classList.add('shepherd-header');\n    element.appendChild(content);\n    content.appendChild(header);\n\n    if (!isUndefined(this.options.text)) {\n      this._addContent(content, descriptionId);\n      element.setAttribute('aria-describedby', descriptionId);\n    }\n\n    this._addButtons(content);\n    this._addCancelLink(element, header);\n\n    return element;\n  }\n\n  /**\n   * Returns the tour for the step\n   * @return {Tour} The tour instance\n   */\n  getTour() {\n    return this.tour;\n  }\n\n  /**\n   * Cancel the tour\n   * Triggers the `cancel` event\n   */\n  cancel() {\n    this.tour.cancel();\n    this.trigger('cancel');\n  }\n\n  /**\n   * Complete the tour\n   * Triggers the `complete` event\n   */\n  complete() {\n    this.tour.complete();\n    this.trigger('complete');\n  }\n\n  /**\n   * Remove the step, delete the step's element, and destroy the tippy instance for the step\n   * Triggers `destroy` event\n   */\n  destroy() {\n    if (this.tooltip) {\n      this.tooltip.destroy();\n      this.tooltip = null;\n    }\n\n    if (isElement(this.el) && this.el.parentNode) {\n      this.el.parentNode.removeChild(this.el);\n      this.el = null;\n    }\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    this.trigger('destroy');\n  }\n\n  /**\n   * Hide the step and destroy the tippy instance\n   */\n  hide() {\n    this.tour.modal.hide();\n\n    this.trigger('before-hide');\n\n    document.body.removeAttribute('data-shepherd-step');\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    if (this.tooltip) {\n      this.tooltip.hide();\n    }\n\n    this.trigger('hide');\n  }\n\n  /**\n   * Check if the step is open and visible\n   * @return {boolean} True if the step is open and visible\n   */\n  isOpen() {\n    return Boolean(\n      this.tooltip &&\n      this.tooltip.state &&\n      this.tooltip.state.isVisible\n    );\n  }\n\n  /**\n   * Create the element and set up the tippy instance\n   */\n  setupElements() {\n    if (!isUndefined(this.el)) {\n      this.destroy();\n    }\n\n    this.el = this._createTooltipContent();\n\n    if (this.options.advanceOn) {\n      this.bindAdvance();\n    }\n\n    this.setupTooltip();\n  }\n\n  /**\n   * If a custom scrollToHandler is defined, call that, otherwise do the generic\n   * scrollIntoView call.\n   *\n   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`\n   */\n  scrollTo(scrollToOptions) {\n    const { element } = this.parseAttachTo();\n\n    if (isFunction(this.options.scrollToHandler)) {\n      this.options.scrollToHandler(element);\n    } else if (isElement(element)) {\n      element.scrollIntoView(scrollToOptions);\n    }\n  }\n\n  /**\n   * Sets the options for the step, maps `when` to events, sets up buttons\n   * @param {Object} options The options for the step\n   */\n  setOptions(options = {}) {\n    this.options = options;\n    const { when } = this.options;\n\n    this.destroy();\n    this.id = this.options.id || `step-${uniqueId()}`;\n\n    if (when) {\n      Object.entries(when).forEach(([event, handler]) => {\n        this.on(event, handler, this);\n      });\n    }\n  }\n\n  /**\n   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show\n   * @return {*|Promise}\n   */\n  show() {\n    if (isFunction(this.options.beforeShowPromise)) {\n      const beforeShowPromise = this.options.beforeShowPromise();\n      if (!isUndefined(beforeShowPromise)) {\n        return beforeShowPromise.then(() => this._show());\n      }\n    }\n    this._show();\n  }\n\n  /**\n   * Triggers `before-show`, generates the tooltip DOM content,\n   * sets up a tippy instance for the tooltip, then triggers `show`.\n   * @private\n   */\n  _show() {\n    this.tour.beforeShowStep(this);\n    this.trigger('before-show');\n\n    if (!this.el) {\n      this.setupElements();\n    }\n\n    this.target.classList.add('shepherd-enabled', 'shepherd-target');\n\n    document.body.setAttribute('data-shepherd-step', this.id);\n\n    if (this.options.scrollTo) {\n      setTimeout(() => {\n        this.scrollTo(this.options.scrollTo);\n      });\n    }\n\n    this.tooltip.show();\n    this.trigger('show');\n\n    this._addKeyDownHandler(this.el);\n    this.el.focus();\n  }\n\n  /**\n   * When a step is hidden, remove the highlightClass and 'shepherd-enabled'\n   * and 'shepherd-target' classes\n   * @private\n   */\n  _updateStepTargetOnHide() {\n    if (this.options.highlightClass) {\n      this.target.classList.remove(this.options.highlightClass);\n    }\n\n    this.target.classList.remove('shepherd-enabled', 'shepherd-target');\n  }\n}\n",
+    "content": "import isElement from 'lodash.iselement';\nimport { isFunction, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';\nimport { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';\n\n// Polyfills\nimport 'element-matches';\nimport smoothscroll from 'smoothscroll-polyfill';\n\nsmoothscroll.polyfill();\n\n/**\n * Creates incremented ID for each newly created step\n *\n * @private\n * @return {Number} The unique id for the step\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\n/**\n * A class representing steps to be added to a tour.\n * @extends {Evented}\n */\nexport class Step extends Evented {\n  /**\n   * Create a step\n   * @param {Tour} tour The tour for the step\n   * @param {Object} options The options for the step\n   * @param {Object|string} options.attachTo What element the step should be attached to on the page.\n   * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: '.some .selector-path left',\n   *   ...moreOptions,\n   * })'\n   * ```\n   * Or an object with those properties:\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: { element: '.some .selector-path', on: 'left' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the\n   * element will appear in the middle of the screen.\n   *\n   * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear\n   * in the middle of the screen, without an arrow pointing to the target.\n   * @param {HTMLElement|string} options.attachTo.element\n   * @param {string} options.attachTo.on\n   * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.\n   * It can be of the form `\"selector event\"`:\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: '.some .selector-path click',\n   *   ...moreOptions\n   * })'\n   * ```\n   * ...or an object with those properties:\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: { selector: '.some .selector-path', event: 'click' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.\n   * You can also always manually advance the Tour by calling `myTour.next()`.\n   * @param {function} options.beforeShowPromise A function that returns a promise.\n   * When the promise resolves, the rest of the `show` code for the step will execute.\n   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a\n   * footer below the main body text.\n   * @param {function} options.buttons.button.action A function executed when the button is clicked on\n   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`\n   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example\n   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.\n   * You can use events to skip steps or navigate to specific steps, with something like:\n   * ```js\n   * events: {\n   *   click: function() {\n   *     return Shepherd.activeTour.show('some_step_name');\n   *   }\n   * }\n   * ```\n   * @param {string} options.buttons.button.text The HTML text of the button\n   * @param {string} options.classes A string of extra classes to add to the step's content element.\n   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is\n   * highlighted (that is, when its step is active). You can then target that selector in your CSS.\n   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}\n   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`\n   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and\n   * define a custom action to do the scrolling, and possibly other logic.\n   * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?\n   * @param {function} options.showOn A function that, when it returns `true`, will show the step.\n   * If it returns false, the step will be skipped.\n   * @param {string} options.text The text in the body of the step. It can be one of four types:\n   * ```\n   * - HTML string\n   * - Array of HTML strings\n   * - `HTMLElement` object\n   * - `Function` to be executed when the step is built. It must return one of the three options above.\n   * ```\n   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.\n   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:\n   * ```js\n   * when: {\n   *   show: function() {\n   *     window.scrollTo(0, 0);\n   *   }\n   * }\n   * ```\n   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening\n   * @return {Step} The newly created Step instance\n   */\n  constructor(tour, options) {\n    super(tour, options);\n    this.tour = tour;\n    bindMethods.call(this, [\n      '_show',\n      'cancel',\n      'complete',\n      'destroy',\n      'hide',\n      'isOpen',\n      'scrollTo',\n      'setupElements',\n      'show'\n    ]);\n    this.setOptions(options);\n    this.bindAdvance = bindAdvance.bind(this);\n    this.bindButtonEvents = bindButtonEvents.bind(this);\n    this.bindCancelLink = bindCancelLink.bind(this);\n    this.setupTooltip = setupTooltip.bind(this);\n    this.parseAttachTo = parseAttachTo.bind(this);\n\n    return this;\n  }\n\n  /**\n   * Adds buttons to the step as passed into options\n   *\n   * @private\n   * @param {HTMLElement} content The element for the step, to append the footer with buttons to\n   */\n  _addButtons(content) {\n    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {\n      const footer = document.createElement('footer');\n\n      footer.classList.add('shepherd-footer');\n\n      this.options.buttons.map((cfg) => {\n        const button = createFromHTML(\n          `<button class=\"shepherd-button ${cfg.classes || ''}\" tabindex=\"0\">${cfg.text}</button>`\n        );\n        footer.appendChild(button);\n        this.bindButtonEvents(cfg, button);\n      });\n\n      content.appendChild(footer);\n    }\n  }\n\n  /**\n   * Adds the \"x\" button to cancel the tour\n   * @param {HTMLElement} element The step element\n   * @param {HTMLElement} header The header element for the step\n   * @private\n   */\n  _addCancelLink(element, header) {\n    if (this.options.showCancelLink) {\n      const link = createFromHTML('<a href class=\"shepherd-cancel-link\"></a>');\n      header.appendChild(link);\n\n      element.classList.add('shepherd-has-cancel-link');\n      this.bindCancelLink(link);\n    }\n  }\n\n  /**\n   * Adds text passed in as options\n   *\n   * @private\n   * @param {HTMLElement} content The content to append the text to\n   * @param {string} descriptionId The id to set on the shepherd-text element\n   * for the parent element to use for aria-describedby\n   */\n  _addContent(content, descriptionId) {\n    const text = createFromHTML(\n      `<div class=\"shepherd-text\"\n       id=\"${descriptionId}\"\n       ></div>`\n    );\n    let paragraphs = this.options.text;\n\n    if (isFunction(paragraphs)) {\n      paragraphs = paragraphs.call(this, text);\n    }\n\n    if (paragraphs instanceof HTMLElement) {\n      text.appendChild(paragraphs);\n    } else {\n      if (isString(paragraphs)) {\n        paragraphs = [paragraphs];\n      }\n\n      paragraphs.map((paragraph) => {\n        text.innerHTML += `<p>${paragraph}</p>`;\n      });\n    }\n\n    content.appendChild(text);\n  }\n\n  /**\n   * Setup keydown events to allow closing the modal with ESC\n   *\n   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/\n   *\n   * @param {HTMLElement} element The element for the tooltip\n   * @private\n   */\n  _addKeyDownHandler(element) {\n    const KEY_TAB = 9;\n    const KEY_ESC = 27;\n    const LEFT_ARROW = 37;\n    const RIGHT_ARROW = 39;\n\n    // Get all elements that are focusable\n    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]');\n    const [firstFocusableElement] = focusableElements;\n    const lastFocusableElement = focusableElements[focusableElements.length - 1];\n\n    element.addEventListener('keydown', (e) => {\n      switch (e.keyCode) {\n        case KEY_TAB:\n          if (focusableElements.length === 1) {\n            e.preventDefault();\n            break;\n          }\n          // Backward tab\n          if (e.shiftKey) {\n            if (document.activeElement === firstFocusableElement) {\n              e.preventDefault();\n              lastFocusableElement.focus();\n            }\n          } else {\n            if (document.activeElement === lastFocusableElement) {\n              e.preventDefault();\n              firstFocusableElement.focus();\n            }\n          }\n          break;\n        case KEY_ESC:\n          this.cancel();\n          break;\n        case LEFT_ARROW:\n          this.tour.back();\n          break;\n        case RIGHT_ARROW:\n          this.tour.next();\n          break;\n        default:\n          break;\n      }\n    });\n  }\n\n  /**\n   * Creates Shepherd element for step based on options\n   *\n   * @private\n   * @return {HTMLElement} The DOM element for the step tooltip\n   */\n  _createTooltipContent() {\n    const content = document.createElement('div');\n    const classes = this.options.classes || '';\n    const descriptionId = `${this.id}-description`;\n    const labelId = `${this.id}-label`;\n    const element = createFromHTML(\n      `<div class=\"${classes}\"\n       data-shepherd-step-id=\"${this.id}\"\n       role=\"dialog\"\n       tabindex=\"0\">`\n    );\n    const header = document.createElement('header');\n\n    if (this.options.title) {\n      const title = document.createElement('h3');\n      title.classList.add('shepherd-title');\n      title.innerHTML = `${this.options.title}`;\n      title.id = labelId;\n      element.setAttribute('aria-labeledby', labelId);\n      header.appendChild(title);\n      element.classList.add('shepherd-has-title');\n    }\n\n    content.classList.add('shepherd-content');\n    header.classList.add('shepherd-header');\n    element.appendChild(content);\n    content.appendChild(header);\n\n    if (!isUndefined(this.options.text)) {\n      this._addContent(content, descriptionId);\n      element.setAttribute('aria-describedby', descriptionId);\n    }\n\n    this._addButtons(content);\n    this._addCancelLink(element, header);\n\n    return element;\n  }\n\n  /**\n   * Returns the tour for the step\n   * @return {Tour} The tour instance\n   */\n  getTour() {\n    return this.tour;\n  }\n\n  /**\n   * Cancel the tour\n   * Triggers the `cancel` event\n   */\n  cancel() {\n    this.tour.cancel();\n    this.trigger('cancel');\n  }\n\n  /**\n   * Complete the tour\n   * Triggers the `complete` event\n   */\n  complete() {\n    this.tour.complete();\n    this.trigger('complete');\n  }\n\n  /**\n   * Remove the step, delete the step's element, and destroy the tippy instance for the step\n   * Triggers `destroy` event\n   */\n  destroy() {\n    if (this.tooltip) {\n      this.tooltip.destroy();\n      this.tooltip = null;\n    }\n\n    if (isElement(this.el) && this.el.parentNode) {\n      this.el.parentNode.removeChild(this.el);\n      this.el = null;\n    }\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    this.trigger('destroy');\n  }\n\n  /**\n   * Hide the step and destroy the tippy instance\n   */\n  hide() {\n    this.tour.modal.hide();\n\n    this.trigger('before-hide');\n\n    document.body.removeAttribute('data-shepherd-step');\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    if (this.tooltip) {\n      this.tooltip.hide();\n    }\n\n    this.trigger('hide');\n  }\n\n  /**\n   * Check if the step is open and visible\n   * @return {boolean} True if the step is open and visible\n   */\n  isOpen() {\n    return Boolean(\n      this.tooltip &&\n      this.tooltip.state &&\n      this.tooltip.state.isVisible\n    );\n  }\n\n  /**\n   * Create the element and set up the tippy instance\n   */\n  setupElements() {\n    if (!isUndefined(this.el)) {\n      this.destroy();\n    }\n\n    this.el = this._createTooltipContent();\n\n    if (this.options.advanceOn) {\n      this.bindAdvance();\n    }\n\n    this.setupTooltip();\n  }\n\n  /**\n   * If a custom scrollToHandler is defined, call that, otherwise do the generic\n   * scrollIntoView call.\n   *\n   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`\n   */\n  scrollTo(scrollToOptions) {\n    const { element } = this.parseAttachTo();\n\n    if (isFunction(this.options.scrollToHandler)) {\n      this.options.scrollToHandler(element);\n    } else if (isElement(element)) {\n      element.scrollIntoView(scrollToOptions);\n    }\n  }\n\n  /**\n   * Sets the options for the step, maps `when` to events, sets up buttons\n   * @param {Object} options The options for the step\n   */\n  setOptions(options = {}) {\n    this.options = options;\n    const { when } = this.options;\n\n    this.destroy();\n    this.id = this.options.id || `step-${uniqueId()}`;\n\n    if (when) {\n      Object.entries(when).forEach(([event, handler]) => {\n        this.on(event, handler, this);\n      });\n    }\n  }\n\n  /**\n   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show\n   * @return {*|Promise}\n   */\n  show() {\n    if (isFunction(this.options.beforeShowPromise)) {\n      const beforeShowPromise = this.options.beforeShowPromise();\n      if (!isUndefined(beforeShowPromise)) {\n        return beforeShowPromise.then(() => this._show());\n      }\n    }\n    this._show();\n  }\n\n  /**\n   * Triggers `before-show`, generates the tooltip DOM content,\n   * sets up a tippy instance for the tooltip, then triggers `show`.\n   * @private\n   */\n  _show() {\n    this.tour.beforeShowStep(this);\n    this.trigger('before-show');\n\n    if (!this.el) {\n      this.setupElements();\n    }\n\n    this.target.classList.add('shepherd-enabled', 'shepherd-target');\n\n    document.body.setAttribute('data-shepherd-step', this.id);\n\n    if (this.options.scrollTo) {\n      setTimeout(() => {\n        this.scrollTo(this.options.scrollTo);\n      });\n    }\n\n    this.tooltip.show();\n    this.trigger('show');\n\n    this._addKeyDownHandler(this.el);\n    this.el.focus();\n  }\n\n  /**\n   * When a step is hidden, remove the highlightClass and 'shepherd-enabled'\n   * and 'shepherd-target' classes\n   * @private\n   */\n  _updateStepTargetOnHide() {\n    if (this.options.highlightClass) {\n      this.target.classList.remove(this.options.highlightClass);\n    }\n\n    this.target.classList.remove('shepherd-enabled', 'shepherd-target');\n  }\n}\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/src/js/step.js",
     "access": "public",
@@ -1044,7 +1044,7 @@
     "longname": "src/js/step.js~Step#constructor",
     "access": "public",
     "description": "Create a step",
-    "lineNumber": 118,
+    "lineNumber": 121,
     "params": [
       {
         "nullable": null,
@@ -1075,7 +1075,7 @@
         "spread": false,
         "optional": false,
         "name": "options.attachTo",
-        "description": "What element the step should be attached to on the page.\nIt can either be a string of the form `[element] [on]` (where [element] is an element selector path):\n```js\nconst new Step(tour, {\n  attachTo: '.some .selector-path left',\n  ...moreOptions,\n})'\n```\nOr an object with those properties:\n```js\nconst new Step(tour, {\n  attachTo: { element: '.some .selector-path', on: 'left' },\n  ...moreOptions\n})'\n```\nIf you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the\nelement will appear in the middle of the screen."
+        "description": "What element the step should be attached to on the page.\nIt can either be a string of the form `[element] [on]` (where [element] is an element selector path):\n```js\nconst new Step(tour, {\n  attachTo: '.some .selector-path left',\n  ...moreOptions,\n})'\n```\nOr an object with those properties:\n```js\nconst new Step(tour, {\n  attachTo: { element: '.some .selector-path', on: 'left' },\n  ...moreOptions\n})'\n```\nIf you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the\nelement will appear in the middle of the screen.\n\nIf you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear\nin the middle of the screen, without an arrow pointing to the target."
       },
       {
         "nullable": null,
@@ -1299,7 +1299,7 @@
     "longname": "src/js/step.js~Step#tour",
     "access": "public",
     "description": null,
-    "lineNumber": 120,
+    "lineNumber": 123,
     "undocument": true,
     "type": {
       "types": [
@@ -1316,7 +1316,7 @@
     "longname": "src/js/step.js~Step#bindAdvance",
     "access": "public",
     "description": null,
-    "lineNumber": 133,
+    "lineNumber": 136,
     "undocument": true,
     "type": {
       "types": [
@@ -1333,7 +1333,7 @@
     "longname": "src/js/step.js~Step#bindButtonEvents",
     "access": "public",
     "description": null,
-    "lineNumber": 134,
+    "lineNumber": 137,
     "undocument": true,
     "type": {
       "types": [
@@ -1350,7 +1350,7 @@
     "longname": "src/js/step.js~Step#bindCancelLink",
     "access": "public",
     "description": null,
-    "lineNumber": 135,
+    "lineNumber": 138,
     "undocument": true,
     "type": {
       "types": [
@@ -1367,7 +1367,7 @@
     "longname": "src/js/step.js~Step#setupTooltip",
     "access": "public",
     "description": null,
-    "lineNumber": 136,
+    "lineNumber": 139,
     "undocument": true,
     "type": {
       "types": [
@@ -1384,7 +1384,7 @@
     "longname": "src/js/step.js~Step#parseAttachTo",
     "access": "public",
     "description": null,
-    "lineNumber": 137,
+    "lineNumber": 140,
     "undocument": true,
     "type": {
       "types": [
@@ -1403,7 +1403,7 @@
     "longname": "src/js/step.js~Step#_addButtons",
     "access": "private",
     "description": "Adds buttons to the step as passed into options",
-    "lineNumber": 148,
+    "lineNumber": 151,
     "params": [
       {
         "nullable": null,
@@ -1429,7 +1429,7 @@
     "longname": "src/js/step.js~Step#_addCancelLink",
     "access": "private",
     "description": "Adds the \"x\" button to cancel the tour",
-    "lineNumber": 172,
+    "lineNumber": 175,
     "params": [
       {
         "nullable": null,
@@ -1465,7 +1465,7 @@
     "longname": "src/js/step.js~Step#_addContent",
     "access": "private",
     "description": "Adds text passed in as options",
-    "lineNumber": 190,
+    "lineNumber": 193,
     "params": [
       {
         "nullable": null,
@@ -1501,7 +1501,7 @@
     "longname": "src/js/step.js~Step#_addKeyDownHandler",
     "access": "private",
     "description": "Setup keydown events to allow closing the modal with ESC\n\nBorrowed from this great post! https://bitsofco.de/accessible-modal-dialog/",
-    "lineNumber": 225,
+    "lineNumber": 228,
     "params": [
       {
         "nullable": null,
@@ -1527,7 +1527,7 @@
     "longname": "src/js/step.js~Step#_createTooltipContent",
     "access": "private",
     "description": "Creates Shepherd element for step based on options",
-    "lineNumber": 277,
+    "lineNumber": 280,
     "return": {
       "nullable": null,
       "types": [
@@ -1549,7 +1549,7 @@
     "longname": "src/js/step.js~Step#getTour",
     "access": "public",
     "description": "Returns the tour for the step",
-    "lineNumber": 320,
+    "lineNumber": 323,
     "return": {
       "nullable": null,
       "types": [
@@ -1571,7 +1571,7 @@
     "longname": "src/js/step.js~Step#cancel",
     "access": "public",
     "description": "Cancel the tour\nTriggers the `cancel` event",
-    "lineNumber": 328,
+    "lineNumber": 331,
     "params": [],
     "return": null
   },
@@ -1586,7 +1586,7 @@
     "longname": "src/js/step.js~Step#complete",
     "access": "public",
     "description": "Complete the tour\nTriggers the `complete` event",
-    "lineNumber": 337,
+    "lineNumber": 340,
     "params": [],
     "return": null
   },
@@ -1601,7 +1601,7 @@
     "longname": "src/js/step.js~Step#destroy",
     "access": "public",
     "description": "Remove the step, delete the step's element, and destroy the tippy instance for the step\nTriggers `destroy` event",
-    "lineNumber": 346,
+    "lineNumber": 349,
     "params": [],
     "return": null
   },
@@ -1614,7 +1614,7 @@
     "longname": "src/js/step.js~Step#tooltip",
     "access": "public",
     "description": null,
-    "lineNumber": 349,
+    "lineNumber": 352,
     "undocument": true,
     "type": {
       "types": [
@@ -1631,7 +1631,7 @@
     "longname": "src/js/step.js~Step#el",
     "access": "public",
     "description": null,
-    "lineNumber": 354,
+    "lineNumber": 357,
     "undocument": true,
     "type": {
       "types": [
@@ -1650,7 +1650,7 @@
     "longname": "src/js/step.js~Step#hide",
     "access": "public",
     "description": "Hide the step and destroy the tippy instance",
-    "lineNumber": 367,
+    "lineNumber": 370,
     "params": [],
     "return": null
   },
@@ -1665,7 +1665,7 @@
     "longname": "src/js/step.js~Step#isOpen",
     "access": "public",
     "description": "Check if the step is open and visible",
-    "lineNumber": 389,
+    "lineNumber": 392,
     "return": {
       "nullable": null,
       "types": [
@@ -1687,7 +1687,7 @@
     "longname": "src/js/step.js~Step#setupElements",
     "access": "public",
     "description": "Create the element and set up the tippy instance",
-    "lineNumber": 400,
+    "lineNumber": 403,
     "params": [],
     "return": null
   },
@@ -1702,7 +1702,7 @@
     "longname": "src/js/step.js~Step#scrollTo",
     "access": "public",
     "description": "If a custom scrollToHandler is defined, call that, otherwise do the generic\nscrollIntoView call.",
-    "lineNumber": 421,
+    "lineNumber": 424,
     "params": [
       {
         "nullable": null,
@@ -1729,7 +1729,7 @@
     "longname": "src/js/step.js~Step#setOptions",
     "access": "public",
     "description": "Sets the options for the step, maps `when` to events, sets up buttons",
-    "lineNumber": 435,
+    "lineNumber": 438,
     "params": [
       {
         "nullable": null,
@@ -1753,7 +1753,7 @@
     "longname": "src/js/step.js~Step#options",
     "access": "public",
     "description": null,
-    "lineNumber": 436,
+    "lineNumber": 439,
     "undocument": true,
     "type": {
       "types": [
@@ -1770,7 +1770,7 @@
     "longname": "src/js/step.js~Step#id",
     "access": "public",
     "description": null,
-    "lineNumber": 440,
+    "lineNumber": 443,
     "undocument": true,
     "type": {
       "types": [
@@ -1789,7 +1789,7 @@
     "longname": "src/js/step.js~Step#show",
     "access": "public",
     "description": "Wraps `_show` and ensures `beforeShowPromise` resolves before calling show",
-    "lineNumber": 453,
+    "lineNumber": 456,
     "return": {
       "nullable": null,
       "types": [
@@ -1812,7 +1812,7 @@
     "longname": "src/js/step.js~Step#_show",
     "access": "private",
     "description": "Triggers `before-show`, generates the tooltip DOM content,\nsets up a tippy instance for the tooltip, then triggers `show`.",
-    "lineNumber": 468,
+    "lineNumber": 471,
     "params": [],
     "return": null
   },
@@ -1827,7 +1827,7 @@
     "longname": "src/js/step.js~Step#_updateStepTargetOnHide",
     "access": "private",
     "description": "When a step is hidden, remove the highlightClass and 'shepherd-enabled'\nand 'shepherd-target' classes",
-    "lineNumber": 498,
+    "lineNumber": 501,
     "params": [],
     "return": null
   },

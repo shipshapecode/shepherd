@@ -5986,6 +5986,9 @@
      * ```
      * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
      * element will appear in the middle of the screen.
+     *
+     * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
+     * in the middle of the screen, without an arrow pointing to the target.
      * @param {HTMLElement|string} options.attachTo.element
      * @param {string} options.attachTo.on
      * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
