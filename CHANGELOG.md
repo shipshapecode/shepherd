@@ -1,5 +1,18 @@
 # Changelog
 
+## [v3.1.0](https://github.com/shipshapecode/shepherd/tree/v3.1.0) (2019-06-25)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.0.0...v3.1.0)
+
+**Fixed bugs:**
+
+- Fix jumpy disableScroll [\#416](https://github.com/shipshapecode/shepherd/pull/416) ([rwwagner90](https://github.com/rwwagner90))
+- Reuse existing modal overlay [\#414](https://github.com/shipshapecode/shepherd/pull/414) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-eslint to the latest version 🚀 [\#415](https://github.com/shipshapecode/shepherd/pull/415) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v3.0.0](https://github.com/shipshapecode/shepherd/tree/v3.0.0) (2019-06-23)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v2.10.0...v3.0.0)
