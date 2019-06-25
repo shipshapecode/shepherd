@@ -38,13 +38,17 @@ export class Modal {
    */
   createModalOverlay() {
     if (!this._modalOverlayElem) {
-      this._modalOverlayElem = createModalOverlay();
+      const existingModal = document.getElementById('shepherdModalOverlayContainer');
+      this._modalOverlayElem = existingModal || createModalOverlay();
       this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
 
       // don't show yet -- each step will control that
       this.hide();
 
-      document.body.appendChild(this._modalOverlayElem);
+      // Only add to the DOM if this is a new modal, not reusing another one
+      if (!existingModal) {
+        document.body.appendChild(this._modalOverlayElem);
+      }
     }
   }
 
