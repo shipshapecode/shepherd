@@ -40,9 +40,9 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">test/unit/modal.spec.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Modal } from &apos;../../src/js/modal&apos;;
-import {
-  classNames as modalClassNames
-} from &apos;../../src/js/utils/modal&apos;;
+import { Step } from &apos;../../src/js/step&apos;;
+import { classNames as modalClassNames } from &apos;../../src/js/utils/modal&apos;;
+import { stub } from &apos;sinon&apos;;
 
 describe(&apos;Modal&apos;, function() {
   describe(&apos;show/hide&apos;, function() {
@@ -62,7 +62,58 @@ describe(&apos;Modal&apos;, function() {
       expect(modal._modalOverlayElem).toHaveStyle(&apos;display: none&apos;);
     });
   });
-});</code></pre>
+
+  describe(&apos;createModalOverlay()&apos;, function() {
+    it(&apos;appends shepherdModalOverlayContainer to DOM when it does not exist&apos;, () =&gt; {
+      const modal = new Modal();
+      modal.createModalOverlay();
+
+      expect(document.querySelectorAll(&apos;#shepherdModalOverlayContainer&apos;).length).toBe(1);
+    });
+
+    it(&apos;reuses shepherdModalOverlayContainer rather than making a new one&apos;, () =&gt; {
+      const modal = new Modal();
+      const modal2 = new Modal();
+      modal.createModalOverlay();
+      modal2.createModalOverlay();
+
+      expect(document.querySelectorAll(&apos;#shepherdModalOverlayContainer&apos;).length).toBe(1);
+      expect(modal._modalOverlayElem).toBe(modal2._modalOverlayElem);
+    });
+  });
+
+  describe(&apos;setupForStep()&apos;, function() {
+    let hideStub, showStub;
+
+    afterEach(()=&gt;{
+      hideStub.restore();
+      showStub.restore();
+    });
+
+    it(&apos;useModalOverlay: false, hides modal&apos;, () =&gt; {
+      const modal = new Modal({ useModalOverlay: false });
+      const step = new Step();
+      hideStub = stub(modal, &apos;hide&apos;);
+      showStub = stub(modal, &apos;show&apos;);
+      modal.setupForStep(step);
+
+      expect(hideStub.called).toBe(true);
+      expect(showStub.called).toBe(false);
+    });
+
+    it(&apos;useModalOverlay: true, shows modal&apos;, () =&gt; {
+      const modal = new Modal({ useModalOverlay: true });
+      const step = new Step();
+      hideStub = stub(modal, &apos;hide&apos;);
+      showStub = stub(modal, &apos;show&apos;);
+      modal.setupForStep(step);
+
+      expect(hideStub.called).toBe(false);
+      expect(showStub.called).toBe(true);
+    });
+  });
+});
+</code></pre>
 
 </div>
 

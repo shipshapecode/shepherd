@@ -235,6 +235,24 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber25",
+    "Modal createModalOverlay()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber26",
+    "Modal createModalOverlay() appends shepherdModalOverlayContainer to DOM when it does not exist",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber33",
+    "Modal createModalOverlay() reuses shepherdModalOverlayContainer rather than making a new one",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/cypress/integration/modal.spec.js.html#lineNumber9",
     "Modal mode",
     "test"
@@ -285,6 +303,24 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/cypress/integration/modal.spec.js.html#lineNumber96",
     "Modal mode highlight applying highlight classes to the target element",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber44",
+    "Modal setupForStep()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber52",
+    "Modal setupForStep() useModalOverlay: false, hides modal",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/modal.spec.js.html#lineNumber63",
+    "Modal setupForStep() useModalOverlay: true, shows modal",
     "test"
   ],
   [

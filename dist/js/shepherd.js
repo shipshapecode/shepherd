@@ -1,4 +1,4 @@
-/*! shepherd.js 3.0.0 */
+/*! shepherd.js 3.1.0 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -6925,11 +6925,15 @@
       key: "createModalOverlay",
       value: function createModalOverlay$1() {
         if (!this._modalOverlayElem) {
-          this._modalOverlayElem = createModalOverlay();
+          var existingModal = document.getElementById('shepherdModalOverlayContainer');
+          this._modalOverlayElem = existingModal || createModalOverlay();
           this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem); // don't show yet -- each step will control that
 
-          this.hide();
-          document.body.appendChild(this._modalOverlayElem);
+          this.hide(); // Only add to the DOM if this is a new modal, not reusing another one
+
+          if (!existingModal) {
+            document.body.appendChild(this._modalOverlayElem);
+          }
         }
       }
       /**

@@ -1,7 +1,7 @@
 import { Modal } from '../../src/js/modal';
-import {
-  classNames as modalClassNames
-} from '../../src/js/utils/modal';
+import { Step } from '../../src/js/step';
+import { classNames as modalClassNames } from '../../src/js/utils/modal';
+import { stub } from 'sinon';
 
 describe('Modal', function() {
   describe('show/hide', function() {
@@ -19,6 +19,56 @@ describe('Modal', function() {
 
       expect(document.body).not.toHaveClass(modalClassNames.isVisible);
       expect(modal._modalOverlayElem).toHaveStyle('display: none');
+    });
+  });
+
+  describe('createModalOverlay()', function() {
+    it('appends shepherdModalOverlayContainer to DOM when it does not exist', () => {
+      const modal = new Modal();
+      modal.createModalOverlay();
+
+      expect(document.querySelectorAll('#shepherdModalOverlayContainer').length).toBe(1);
+    });
+
+    it('reuses shepherdModalOverlayContainer rather than making a new one', () => {
+      const modal = new Modal();
+      const modal2 = new Modal();
+      modal.createModalOverlay();
+      modal2.createModalOverlay();
+
+      expect(document.querySelectorAll('#shepherdModalOverlayContainer').length).toBe(1);
+      expect(modal._modalOverlayElem).toBe(modal2._modalOverlayElem);
+    });
+  });
+
+  describe('setupForStep()', function() {
+    let hideStub, showStub;
+
+    afterEach(()=>{
+      hideStub.restore();
+      showStub.restore();
+    });
+
+    it('useModalOverlay: false, hides modal', () => {
+      const modal = new Modal({ useModalOverlay: false });
+      const step = new Step();
+      hideStub = stub(modal, 'hide');
+      showStub = stub(modal, 'show');
+      modal.setupForStep(step);
+
+      expect(hideStub.called).toBe(true);
+      expect(showStub.called).toBe(false);
+    });
+
+    it('useModalOverlay: true, shows modal', () => {
+      const modal = new Modal({ useModalOverlay: true });
+      const step = new Step();
+      hideStub = stub(modal, 'hide');
+      showStub = stub(modal, 'show');
+      modal.setupForStep(step);
+
+      expect(hideStub.called).toBe(false);
+      expect(showStub.called).toBe(true);
     });
   });
 });
