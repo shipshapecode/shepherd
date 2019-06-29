@@ -35,7 +35,10 @@
           as they enter and exit the view.
         `
       ],
-      attachTo: '.hero-welcome bottom',
+      attachTo: {
+        element: '.hero-welcome',
+        on: 'bottom'
+      },
       classes: 'shepherd shepherd-welcome',
       buttons: [
         {
@@ -51,7 +54,10 @@
     shepherd.addStep('including', {
       title: 'Including',
       text: 'Including Shepherd is easy! Just include tippy.all.min.js, shepherd.js, and a Shepherd theme file.',
-      attachTo: '.hero-including bottom',
+      attachTo: {
+        element: '.hero-including',
+        on: 'bottom'
+      },
       buttons: [
         {
           action: shepherd.back,
@@ -67,7 +73,10 @@
       title: 'Creating a Shepherd Tour',
       text: `Creating a Shepherd tour is easy. too!\
       Just create a \`Tour\` instance, and add as many steps as you want.`,
-      attachTo: '.hero-example bottom',
+      attachTo: {
+        element: '.hero-example',
+        on: 'bottom'
+      },
       buttons: [
         {
           action: shepherd.back,
@@ -83,7 +92,10 @@
     shepherd.addStep('attaching', {
       title: 'Attaching to Elements',
       text: `Your tour steps can target and attach to elements in DOM (like this step).`,
-      attachTo: '.hero-example bottom',
+      attachTo: {
+        element: '.hero-example',
+        on: 'bottom'
+      },
       buttons: [
         {
           action: shepherd.back,
@@ -116,7 +128,10 @@
     shepherd.addStep('followup', {
       title: 'Learn more',
       text: 'Star Shepherd on Github so you remember it for your next project',
-      attachTo: '.hero-followup top',
+      attachTo: {
+        element: '.hero-followup',
+        on: 'top'
+      },
       buttons: [
         {
           action: shepherd.back,

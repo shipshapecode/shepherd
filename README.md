@@ -60,7 +60,10 @@ let tour = new Shepherd.Tour({
 tour.addStep('example', {
   title: 'Example Shepherd',
   text: 'Creating a Shepherd is easy too! Just create ...',
-  attachTo: '.hero-example bottom',
+  attachTo: {
+    element: '.hero-example',
+    on: 'bottom'
+  },
   advanceOn: {
     selector: '.docs-link',
     event: 'click'

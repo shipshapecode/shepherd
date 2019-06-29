@@ -16,13 +16,19 @@ describe('Cleanup Utils', function() {
     steps: [
       {
         options: {
-          attachTo: '.first-attach-to bottom',
+          attachTo: {
+            element: '.first-attach-to',
+            on: 'bottom'
+          },
           canClickTarget: false
         }
       },
       {
         options: {
-          attachTo: '.second-attach-to bottom',
+          attachTo: {
+            element: '.second-attach-to',
+            on: 'bottom'
+          },
           canClickTarget: false
         }
       }
