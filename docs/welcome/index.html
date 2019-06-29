@@ -60,7 +60,10 @@
               title: 'Creating a Shepherd Tour',
               text: `Creating a Shepherd tour is easy. too!\
               Just create a \`Tour\` instance, and add as many steps as you want.`,
-              attachTo: '.hero-example bottom',
+              attachTo: {
+                element: '.hero-example',
+                on: 'bottom'
+              },
               buttons: [
                 {
                   action: shepherd.back,

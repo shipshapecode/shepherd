@@ -20,7 +20,7 @@ describe('Tour | Step', () => {
     });
 
     const testStep = instance.addStep('test', {
-      attachTo: 'body',
+      attachTo: { element: 'body' },
       highlightClass: 'highlight',
       id: 'test-id',
       text: 'This is a step for testing',
@@ -49,7 +49,7 @@ describe('Tour | Step', () => {
     });
 
     const stepWithoutNameWithId = instance.addStep({
-      attachTo: 'body',
+      attachTo: { element: 'body' },
       highlightClass: 'highlight',
       id: 'no-name',
       text: 'This is a step without a name, but with an id',
@@ -62,7 +62,7 @@ describe('Tour | Step', () => {
     });
 
     const stepWithoutNameWithoutId = instance.addStep({
-      attachTo: 'body',
+      attachTo: { element:'body' },
       highlightClass: 'highlight',
       text: 'This is a step without a name, and without an id',
       buttons: [

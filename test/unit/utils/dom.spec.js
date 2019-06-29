@@ -45,19 +45,5 @@ describe('DOM Utils', function() {
 
       expect(getElementForStep(step), 'returns element from selector').toEqual(element);
     });
-
-    it('attachTo string', () => {
-      const element = document.createElement('div');
-      element.classList.add('foo');
-      document.body.appendChild(element);
-
-      const step = {
-        options: {
-          attachTo: '.foo bottom'
-        }
-      };
-
-      expect(getElementForStep(step), 'returns element from selector').toEqual(element);
-    });
   });
 });

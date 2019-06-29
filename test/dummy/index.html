@@ -59,8 +59,14 @@
             tour.addStep('example', {
               title: 'Example Shepherd',
               text: 'Creating a Shepherd is easy too! Just create ...',
-              attachTo: '.hero-example bottom',
-              advanceOn: { selector: '.docs-link', event: 'click' }
+              attachTo: {
+                element: '.hero-example',
+                on: 'bottom'
+              },
+              advanceOn: {
+                selector: '.docs-link',
+                event: 'click'
+              }
             });
 
             tour.start();
