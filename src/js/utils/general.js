@@ -1,6 +1,5 @@
 import isObjectLike from 'lodash.isobjectlike';
 import { isString, isUndefined } from './type-check';
-import zipObject from 'lodash.zipobject';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
@@ -100,7 +99,7 @@ export function drop(arr, n = 1) {
  */
 export function _parseAttachToOpts(opts) {
   if (isObjectLike(opts)) {
-    if (opts.hasOwnProperty('element') && opts.hasOwnProperty('on')) {
+    if (Object.prototype.hasOwnProperty.call(opts, 'element') && Object.prototype.hasOwnProperty.call(opts, 'on')) {
       return opts;
     }
     return null;
@@ -117,22 +116,6 @@ export function _parseAttachToOpts(opts) {
     element: matches[1],
     on: matches[2]
   };
-}
-
-/**
- * @param obj
- * @param {Array} props
- * @return {*}
- */
-export function parseShorthand(obj, props) {
-  if (obj === null || isUndefined(obj)) {
-    return obj;
-  } else if (isObjectLike(obj)) {
-    return obj;
-  }
-
-  const values = obj.split(' ');
-  return zipObject(props, values);
 }
 
 /**

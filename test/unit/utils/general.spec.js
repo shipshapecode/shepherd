@@ -1,6 +1,5 @@
 import {
-  _parseAttachToOpts,
-  parseShorthand
+  _parseAttachToOpts
 } from '../../../src/js/utils/general.js';
 
 describe('Utils', function() {
@@ -22,20 +21,6 @@ describe('Utils', function() {
 
       attachTo = '.foo notValid';
       expect(_parseAttachToOpts(attachTo), 'when `on` is not a valid direction, return null').toBe(null);
-    });
-  });
-
-  describe('parseShorthand', function() {
-    it('null or undefined', function() {
-      expect(parseShorthand(null), 'null returns null').toBe(null);
-      expect(parseShorthand(undefined), 'undefined returns undefined').toBe(undefined);
-    });
-
-    it('string of values', function() {
-      const values = '.foo click';
-      const { event, selector } = parseShorthand(values, ['selector', 'event']);
-      expect(event, 'maps event from string to event prop').toBe('click');
-      expect(selector, 'maps selector from string to selector prop').toBe('.foo');
     });
   });
 });
