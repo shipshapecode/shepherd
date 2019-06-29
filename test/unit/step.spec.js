@@ -143,9 +143,7 @@ describe('Tour | Step', () => {
       next() { hasAdvanced = true; }
     };
 
-    beforeAll(() => {
-      const tooltipElem = document.createElement('div');
-
+    beforeEach(() => {
       event = new Event(advanceOnEventName);
 
       link = document.createElement('a');
@@ -155,22 +153,8 @@ describe('Tour | Step', () => {
       document.body.appendChild(link);
     });
 
-    afterAll(() => {
+    afterEach(() => {
       link.remove();
-    });
-
-    it('triggers the `advanceOn` option via string', () => {
-      const step = new Step(tourProto, {
-        advanceOn: `.${advanceOnSelector} ${advanceOnEventName}`
-      });
-
-      step.isOpen = () => true;
-
-      step.bindAdvance();
-      link.dispatchEvent(event);
-
-      expect(link.classList.contains(advanceOnSelector)).toBe(true);
-      expect(hasAdvanced).toBe(true);
     });
 
     it('triggers the `advanceOn` option via object', () => {
@@ -362,7 +346,7 @@ describe('Tour | Step', () => {
       }
     });
 
-    beforeAll(() => {
+    beforeEach(() => {
       document.body.setAttribute('data-shepherd-step', 1);
     });
 
@@ -417,7 +401,7 @@ describe('Tour | Step', () => {
       const step = new Step({
         next: () => true
       }, {
-        advanceOn: '.click-test test'
+        advanceOn: { selector: '.click-test', event: 'test' }
       });
       const bindFunction = spy(step, 'bindAdvance');
       step.setupElements();

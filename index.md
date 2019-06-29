@@ -213,9 +213,9 @@ the step will execute. For example:
     }
   }
   ```
-- `advanceOn`: An action on the page which should advance shepherd to the next step.  It can be of the form `"selector event"`, or an object with those
-properties.  For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside
-the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling `myTour.next()`.
+- `advanceOn`: An action on the page which should advance shepherd to the next step.  It should be an object with a string `selector` and an `event` name.
+For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.  
+You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
