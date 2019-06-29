@@ -346,10 +346,6 @@ describe('Tour | Step', () => {
       }
     });
 
-    beforeEach(() => {
-      document.body.setAttribute('data-shepherd-step', 1);
-    });
-
     it('triggers the before-hide event', () => {
       step.on('before-hide', () => beforeHideTriggered = true);
       step.hide();
@@ -359,10 +355,6 @@ describe('Tour | Step', () => {
 
     it('calls tour.modal.hide', () => {
       expect(modalHideCalled, 'tour.modal.hide called').toBeTruthy();
-    });
-
-    it('removes the data-shepherd-step attribute', () => {
-      expect(document.body.hasAttribute('data-shepherd-step'), 'step attribute is removed').toBeFalsy();
     });
   });
 
