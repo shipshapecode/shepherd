@@ -184,9 +184,7 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       next() { hasAdvanced = true; }
     };
 
-    beforeAll(() =&gt; {
-      const tooltipElem = document.createElement(&apos;div&apos;);
-
+    beforeEach(() =&gt; {
       event = new Event(advanceOnEventName);
 
       link = document.createElement(&apos;a&apos;);
@@ -196,22 +194,8 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       document.body.appendChild(link);
     });
 
-    afterAll(() =&gt; {
+    afterEach(() =&gt; {
       link.remove();
-    });
-
-    it(&apos;triggers the `advanceOn` option via string&apos;, () =&gt; {
-      const step = new Step(tourProto, {
-        advanceOn: `.${advanceOnSelector} ${advanceOnEventName}`
-      });
-
-      step.isOpen = () =&gt; true;
-
-      step.bindAdvance();
-      link.dispatchEvent(event);
-
-      expect(link.classList.contains(advanceOnSelector)).toBe(true);
-      expect(hasAdvanced).toBe(true);
     });
 
     it(&apos;triggers the `advanceOn` option via object&apos;, () =&gt; {
@@ -403,10 +387,6 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       }
     });
 
-    beforeAll(() =&gt; {
-      document.body.setAttribute(&apos;data-shepherd-step&apos;, 1);
-    });
-
     it(&apos;triggers the before-hide event&apos;, () =&gt; {
       step.on(&apos;before-hide&apos;, () =&gt; beforeHideTriggered = true);
       step.hide();
@@ -416,10 +396,6 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
 
     it(&apos;calls tour.modal.hide&apos;, () =&gt; {
       expect(modalHideCalled, &apos;tour.modal.hide called&apos;).toBeTruthy();
-    });
-
-    it(&apos;removes the data-shepherd-step attribute&apos;, () =&gt; {
-      expect(document.body.hasAttribute(&apos;data-shepherd-step&apos;), &apos;step attribute is removed&apos;).toBeFalsy();
     });
   });
 
@@ -458,7 +434,7 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       const step = new Step({
         next: () =&gt; true
       }, {
-        advanceOn: &apos;.click-test test&apos;
+        advanceOn: { selector: &apos;.click-test&apos;, event: &apos;test&apos; }
       });
       const bindFunction = spy(step, &apos;bindAdvance&apos;);
       step.setupElements();

@@ -391,91 +391,91 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber524",
+    "test-file/test/unit/step.spec.js.html#lineNumber500",
     "Tour | Step _addButtons",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber545",
+    "test-file/test/unit/step.spec.js.html#lineNumber521",
     "Tour | Step _addButtons renders buttons for each item passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber525",
+    "test-file/test/unit/step.spec.js.html#lineNumber501",
     "Tour | Step _addButtons renders no buttons if an empty array is passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber536",
+    "test-file/test/unit/step.spec.js.html#lineNumber512",
     "Tour | Step _addButtons renders no buttons if nothing is passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber585",
+    "test-file/test/unit/step.spec.js.html#lineNumber561",
     "Tour | Step _addCancelLink",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber586",
+    "test-file/test/unit/step.spec.js.html#lineNumber562",
     "Tour | Step _addCancelLink Cancel link",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber478",
+    "test-file/test/unit/step.spec.js.html#lineNumber454",
     "Tour | Step _addContent()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber479",
+    "test-file/test/unit/step.spec.js.html#lineNumber455",
     "Tour | Step _addContent() adds plain text to the content",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber500",
+    "test-file/test/unit/step.spec.js.html#lineNumber476",
     "Tour | Step _addContent() applies HTML element directly to content",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber512",
+    "test-file/test/unit/step.spec.js.html#lineNumber488",
     "Tour | Step _addContent() applies the text from a function",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber489",
+    "test-file/test/unit/step.spec.js.html#lineNumber465",
     "Tour | Step _addContent() maps mutiple strings to paragraphs",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber568",
+    "test-file/test/unit/step.spec.js.html#lineNumber544",
     "Tour | Step _addKeyDownHandler",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber569",
+    "test-file/test/unit/step.spec.js.html#lineNumber545",
     "Tour | Step _addKeyDownHandler ESC cancels the tour",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber601",
+    "test-file/test/unit/step.spec.js.html#lineNumber577",
     "Tour | Step _createTooltipContent",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber602",
+    "test-file/test/unit/step.spec.js.html#lineNumber578",
     "Tour | Step _createTooltipContent ARIA attributes set",
     "test"
   ],
@@ -487,211 +487,199 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber222",
+    "test-file/test/unit/step.spec.js.html#lineNumber206",
     "Tour | Step bindAdvance() calls `removeEventListener` when destroyed",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber190",
+    "test-file/test/unit/step.spec.js.html#lineNumber174",
     "Tour | Step bindAdvance() captures events attached to no element",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber203",
+    "test-file/test/unit/step.spec.js.html#lineNumber187",
     "Tour | Step bindAdvance() should support bubbling events for nodes that do not exist yet",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber176",
+    "test-file/test/unit/step.spec.js.html#lineNumber160",
     "Tour | Step bindAdvance() triggers the `advanceOn` option via object",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber162",
-    "Tour | Step bindAdvance() triggers the `advanceOn` option via string",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber240",
+    "test-file/test/unit/step.spec.js.html#lineNumber224",
     "Tour | Step bindButtonEvents()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber243",
+    "test-file/test/unit/step.spec.js.html#lineNumber227",
     "Tour | Step bindButtonEvents() adds button events",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber262",
+    "test-file/test/unit/step.spec.js.html#lineNumber246",
     "Tour | Step bindButtonEvents() removes events once destroyed",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber270",
+    "test-file/test/unit/step.spec.js.html#lineNumber254",
     "Tour | Step bindCancelLink()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber271",
+    "test-file/test/unit/step.spec.js.html#lineNumber255",
     "Tour | Step bindCancelLink() adds an event handler for the cancel button",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber289",
+    "test-file/test/unit/step.spec.js.html#lineNumber273",
     "Tour | Step bindMethods()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber290",
+    "test-file/test/unit/step.spec.js.html#lineNumber274",
     "Tour | Step bindMethods() binds the expected methods",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber309",
+    "test-file/test/unit/step.spec.js.html#lineNumber293",
     "Tour | Step cancel()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber310",
+    "test-file/test/unit/step.spec.js.html#lineNumber294",
     "Tour | Step cancel() triggers the cancel event and tour method",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber326",
+    "test-file/test/unit/step.spec.js.html#lineNumber310",
     "Tour | Step complete()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber327",
+    "test-file/test/unit/step.spec.js.html#lineNumber311",
     "Tour | Step complete() triggers the complete event and tour method",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber343",
+    "test-file/test/unit/step.spec.js.html#lineNumber327",
     "Tour | Step destroy()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber344",
+    "test-file/test/unit/step.spec.js.html#lineNumber328",
     "Tour | Step destroy() triggers the destroy event",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber469",
+    "test-file/test/unit/step.spec.js.html#lineNumber445",
     "Tour | Step getTour()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber470",
+    "test-file/test/unit/step.spec.js.html#lineNumber446",
     "Tour | Step getTour() returns the tour value",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber354",
+    "test-file/test/unit/step.spec.js.html#lineNumber338",
     "Tour | Step hide()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber376",
+    "test-file/test/unit/step.spec.js.html#lineNumber356",
     "Tour | Step hide() calls tour.modal.hide",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber380",
-    "Tour | Step hide() removes the data-shepherd-step attribute",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber369",
+    "test-file/test/unit/step.spec.js.html#lineNumber349",
     "Tour | Step hide() triggers the before-hide event",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber385",
+    "test-file/test/unit/step.spec.js.html#lineNumber361",
     "Tour | Step parseAttachTo()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber386",
+    "test-file/test/unit/step.spec.js.html#lineNumber362",
     "Tour | Step parseAttachTo() fails if element does not exist",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber429",
+    "test-file/test/unit/step.spec.js.html#lineNumber405",
     "Tour | Step scrollTo()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber444",
+    "test-file/test/unit/step.spec.js.html#lineNumber420",
     "Tour | Step scrollTo() calls the custom handler",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber430",
+    "test-file/test/unit/step.spec.js.html#lineNumber406",
     "Tour | Step scrollTo() calls the scroll native method",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber455",
+    "test-file/test/unit/step.spec.js.html#lineNumber431",
     "Tour | Step setOptions()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber456",
+    "test-file/test/unit/step.spec.js.html#lineNumber432",
     "Tour | Step setOptions() calls event handlers passed in as properties to the `when` option",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber396",
+    "test-file/test/unit/step.spec.js.html#lineNumber372",
     "Tour | Step setupElements()",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber416",
+    "test-file/test/unit/step.spec.js.html#lineNumber392",
     "Tour | Step setupElements() calls bindAdvance() if advanceOn passed",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber397",
+    "test-file/test/unit/step.spec.js.html#lineNumber373",
     "Tour | Step setupElements() calls destroy on the step if the content element is already set",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber406",
+    "test-file/test/unit/step.spec.js.html#lineNumber382",
     "Tour | Step setupElements() calls destroy on the tooltip if it already exists",
     "test"
   ],
@@ -961,44 +949,26 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber6",
+    "test-file/test/unit/utils/general.spec.js.html#lineNumber5",
     "Utils",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber7",
+    "test-file/test/unit/utils/general.spec.js.html#lineNumber6",
     "Utils _parseAttachToOpts",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber18",
+    "test-file/test/unit/utils/general.spec.js.html#lineNumber17",
     "Utils _parseAttachToOpts attachTo as a string",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber8",
+    "test-file/test/unit/utils/general.spec.js.html#lineNumber7",
     "Utils _parseAttachToOpts attachTo as an object",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber28",
-    "Utils parseShorthand",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber29",
-    "Utils parseShorthand null or undefined",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber34",
-    "Utils parseShorthand string of values",
     "test"
   ],
   [

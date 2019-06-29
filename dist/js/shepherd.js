@@ -249,119 +249,6 @@
     return value === undefined;
   }
 
-  /**
-   * lodash 4.1.3 (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-   * Released under MIT license <https://lodash.com/license>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   */
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype;
-
-  /** Used to check objects for own properties. */
-  var hasOwnProperty = objectProto.hasOwnProperty;
-
-  /**
-   * Assigns `value` to `key` of `object` if the existing value is not equivalent
-   * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
-   * for equality comparisons.
-   *
-   * @private
-   * @param {Object} object The object to modify.
-   * @param {string} key The key of the property to assign.
-   * @param {*} value The value to assign.
-   */
-  function assignValue(object, key, value) {
-    var objValue = object[key];
-    if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
-        (value === undefined && !(key in object))) {
-      object[key] = value;
-    }
-  }
-
-  /**
-   * This base implementation of `_.zipObject` which assigns values using `assignFunc`.
-   *
-   * @private
-   * @param {Array} props The property identifiers.
-   * @param {Array} values The property values.
-   * @param {Function} assignFunc The function to assign values.
-   * @returns {Object} Returns the new object.
-   */
-  function baseZipObject(props, values, assignFunc) {
-    var index = -1,
-        length = props.length,
-        valsLength = values.length,
-        result = {};
-
-    while (++index < length) {
-      var value = index < valsLength ? values[index] : undefined;
-      assignFunc(result, props[index], value);
-    }
-    return result;
-  }
-
-  /**
-   * This method is like `_.fromPairs` except that it accepts two arrays,
-   * one of property identifiers and one of corresponding values.
-   *
-   * @static
-   * @memberOf _
-   * @since 0.4.0
-   * @category Array
-   * @param {Array} [props=[]] The property identifiers.
-   * @param {Array} [values=[]] The property values.
-   * @returns {Object} Returns the new object.
-   * @example
-   *
-   * _.zipObject(['a', 'b'], [1, 2]);
-   * // => { 'a': 1, 'b': 2 }
-   */
-  function zipObject(props, values) {
-    return baseZipObject(props || [], values || [], assignValue);
-  }
-
-  /**
-   * Performs a
-   * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
-   * comparison between two values to determine if they are equivalent.
-   *
-   * @static
-   * @memberOf _
-   * @since 4.0.0
-   * @category Lang
-   * @param {*} value The value to compare.
-   * @param {*} other The other value to compare.
-   * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-   * @example
-   *
-   * var object = { 'user': 'fred' };
-   * var other = { 'user': 'fred' };
-   *
-   * _.eq(object, object);
-   * // => true
-   *
-   * _.eq(object, other);
-   * // => false
-   *
-   * _.eq('a', 'a');
-   * // => true
-   *
-   * _.eq('a', Object('a'));
-   * // => false
-   *
-   * _.eq(NaN, NaN);
-   * // => true
-   */
-  function eq(value, other) {
-    return value === other || (value !== value && other !== other);
-  }
-
-  var lodash_zipobject = zipObject;
-
   /**!
    * @fileOverview Kickass library to create and place poppers near their reference elements.
    * @version 1.15.0
@@ -3256,7 +3143,7 @@
    * Safe .hasOwnProperty check, for prototype-less objects
    */
 
-  function hasOwnProperty$1(obj, key) {
+  function hasOwnProperty(obj, key) {
     return {}.hasOwnProperty.call(obj, key);
   }
   /**
@@ -3342,7 +3229,7 @@
    */
 
   function isSingular(value) {
-    return !!(value && hasOwnProperty$1(value, 'isVirtual')) || isRealElement(value);
+    return !!(value && hasOwnProperty(value, 'isVirtual')) || isRealElement(value);
   }
   /**
    * Firefox extensions don't allow setting .innerHTML directly, this will trick it
@@ -3426,7 +3313,7 @@
 
   function validateOptions(options, defaultProps) {
     Object.keys(options).forEach(function (option) {
-      if (!hasOwnProperty$1(defaultProps, option)) {
+      if (!hasOwnProperty(defaultProps, option)) {
         throw new Error("[tippy]: `".concat(option, "` is not a valid option"));
       }
     });
@@ -4537,7 +4424,7 @@
       var nextProps = evaluateProps(reference, _extends$2({}, instance.props, options, {
         ignoreAttributes: true
       }));
-      nextProps.ignoreAttributes = hasOwnProperty$1(options, 'ignoreAttributes') ? options.ignoreAttributes || false : prevProps.ignoreAttributes;
+      nextProps.ignoreAttributes = hasOwnProperty(options, 'ignoreAttributes') ? options.ignoreAttributes || false : prevProps.ignoreAttributes;
       instance.props = nextProps;
       addTriggersToReference();
       cleanupInteractiveMouseListeners();
@@ -4547,7 +4434,7 @@
 
       if (instance.popperInstance) {
         if (POPPER_INSTANCE_DEPENDENCIES.some(function (prop) {
-          return hasOwnProperty$1(options, prop) && options[prop] !== prevProps[prop];
+          return hasOwnProperty(options, prop) && options[prop] !== prevProps[prop];
         })) {
           instance.popperInstance.destroy();
           createPopperInstance();
@@ -4993,7 +4880,7 @@
 
   function _parseAttachToOpts(opts) {
     if (lodash_isobjectlike(opts)) {
-      if (opts.hasOwnProperty('element') && opts.hasOwnProperty('on')) {
+      if (Object.prototype.hasOwnProperty.call(opts, 'element') && Object.prototype.hasOwnProperty.call(opts, 'on')) {
         return opts;
       }
 
@@ -5011,22 +4898,6 @@
       element: matches[1],
       on: matches[2]
     };
-  }
-  /**
-   * @param obj
-   * @param {Array} props
-   * @return {*}
-   */
-
-  function parseShorthand(obj, props) {
-    if (obj === null || isUndefined(obj)) {
-      return obj;
-    } else if (lodash_isobjectlike(obj)) {
-      return obj;
-    }
-
-    var values = obj.split(' ');
-    return lodash_zipobject(props, values);
   }
   /**
    * Determines options for the tooltip and initializes
@@ -5270,13 +5141,13 @@
 
   /** Used for built-in method references. */
   var funcProto = Function.prototype,
-      objectProto$1 = Object.prototype;
+      objectProto = Object.prototype;
 
   /** Used to resolve the decompiled source of functions. */
   var funcToString = funcProto.toString;
 
   /** Used to check objects for own properties. */
-  var hasOwnProperty$2 = objectProto$1.hasOwnProperty;
+  var hasOwnProperty$1 = objectProto.hasOwnProperty;
 
   /** Used to infer the `Object` constructor. */
   var objectCtorString = funcToString.call(Object);
@@ -5286,7 +5157,7 @@
    * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
    * of values.
    */
-  var objectToString = objectProto$1.toString;
+  var objectToString = objectProto.toString;
 
   /** Built-in value references. */
   var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -5377,7 +5248,7 @@
     if (proto === null) {
       return true;
     }
-    var Ctor = hasOwnProperty$2.call(proto, 'constructor') && proto.constructor;
+    var Ctor = hasOwnProperty$1.call(proto, 'constructor') && proto.constructor;
     return (typeof Ctor == 'function' &&
       Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
   }
@@ -5386,6 +5257,8 @@
 
   /**
    * Sets up the handler to determine if we should advance the tour
+   * @param selector
+   * @return {Function}
    * @private
    */
 
@@ -5410,24 +5283,37 @@
 
   function bindAdvance() {
     // An empty selector matches the step element
-    var _parseShorthand = parseShorthand(this.options.advanceOn, ['selector', 'event']),
-        event = _parseShorthand.event,
-        selector = _parseShorthand.selector;
+    var _ref = this.options.advanceOn || {},
+        event = _ref.event,
+        selector = _ref.selector;
 
-    var handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
+    if (event) {
+      var handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
 
 
-    var el = document.querySelector(selector);
+      var el;
 
-    if (!isUndefined(selector) && el) {
-      el.addEventListener(event, handler);
+      try {
+        el = document.querySelector(selector);
+      } catch (e) {// TODO
+      }
+
+      if (!isUndefined(selector) && !el) {
+        return console.error("No element was found for the selector supplied to advanceOn: ".concat(selector));
+      } else if (el) {
+        el.addEventListener(event, handler);
+        this.on('destroy', function () {
+          return el.removeEventListener(event, handler);
+        });
+      } else {
+        document.body.addEventListener(event, handler, true);
+        this.on('destroy', function () {
+          return document.body.removeEventListener(event, handler, true);
+        });
+      }
     } else {
-      document.body.addEventListener(event, handler, true);
+      return console.error('advanceOn was defined, but no event name was passed.');
     }
-
-    this.on('destroy', function () {
-      return document.body.removeEventListener(event, handler, true);
-    });
   }
   /**
    * Bind events to the buttons for next, back, etc
@@ -5446,10 +5332,10 @@
     }
 
     if (cfg.events) {
-      Object.entries(cfg.events).forEach(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            event = _ref2[0],
-            handler = _ref2[1];
+      Object.entries(cfg.events).forEach(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            event = _ref3[0],
+            handler = _ref3[1];
 
         if (isString(handler)) {
           var page = handler;
@@ -5991,15 +5877,8 @@
      * in the middle of the screen, without an arrow pointing to the target.
      * @param {HTMLElement|string} options.attachTo.element
      * @param {string} options.attachTo.on
-     * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
-     * It can be of the form `"selector event"`:
-     * ```js
-     * const new Step(tour, {
-     *   advanceOn: '.some .selector-path click',
-     *   ...moreOptions
-     * })'
-     * ```
-     * ...or an object with those properties:
+     * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
+     * It should be an object with a string `selector` and an `event` name
      * ```js
      * const new Step(tour, {
      *   advanceOn: { selector: '.some .selector-path', event: 'click' },

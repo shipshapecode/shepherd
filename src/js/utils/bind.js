@@ -1,8 +1,9 @@
-import { parseShorthand } from './general.js';
 import { isString, isUndefined } from './type-check';
 
 /**
  * Sets up the handler to determine if we should advance the tour
+ * @param selector
+ * @return {Function}
  * @private
  */
 function _setupAdvanceOnHandler(selector) {
@@ -23,19 +24,33 @@ function _setupAdvanceOnHandler(selector) {
  */
 export function bindAdvance() {
   // An empty selector matches the step element
-  const { event, selector } = parseShorthand(this.options.advanceOn, ['selector', 'event']);
-  const handler = _setupAdvanceOnHandler.call(this, selector);
+  const { event, selector } = this.options.advanceOn || {};
+  if (event) {
+    const handler = _setupAdvanceOnHandler.call(this, selector);
 
-  // TODO: this should also bind/unbind on show/hide
-  const el = document.querySelector(selector);
-  if (!isUndefined(selector) && el) {
-    el.addEventListener(event, handler);
+    // TODO: this should also bind/unbind on show/hide
+    let el;
+    try {
+      el = document.querySelector(selector);
+    } catch(e) {
+      // TODO
+    }
+    if (!isUndefined(selector) && !el) {
+      return console.error(`No element was found for the selector supplied to advanceOn: ${selector}`);
+    } else if (el) {
+      el.addEventListener(event, handler);
+      this.on('destroy', () => {
+        return el.removeEventListener(event, handler);
+      });
+    } else {
+      document.body.addEventListener(event, handler, true);
+      this.on('destroy', () => {
+        return document.body.removeEventListener(event, handler, true);
+      });
+    }
   } else {
-    document.body.addEventListener(event, handler, true);
+    return console.error('advanceOn was defined, but no event name was passed.');
   }
-  this.on('destroy', () => {
-    return document.body.removeEventListener(event, handler, true);
-  });
 }
 
 /**

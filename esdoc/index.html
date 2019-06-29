@@ -184,9 +184,8 @@ click: function() {
 </li>
 </ul>
 </li>
-<li><code>advanceOn</code>: An action on the page which should advance shepherd to the next step.  It can be of the form <code>&quot;selector event&quot;</code>, or an object with those
-properties.  For example: <code>&quot;.some-element click&quot;</code>, or <code>{selector: &apos;.some-element&apos;, event: &apos;click&apos;}</code>.  It doesn&apos;t have to be an event inside
-the tour, it can be any event fired on any element on the page.  You can also always manually advance the Tour by calling <code>myTour.next()</code>.</li>
+<li><code>advanceOn</code>: An action on the page which should advance shepherd to the next step.  It should be an object with a string <code>selector</code> and an <code>event</code> name.
+For example: <code>{selector: &apos;.some-element&apos;, event: &apos;click&apos;}</code>.  It doesn&apos;t have to be an event inside the tour, it can be any event fired on any element on the page.<br>You can also always manually advance the Tour by calling <code>myTour.next()</code>.</li>
 <li><code>highlightClass</code>: An extra class to apply to the <code>attachTo</code> element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.</li>
 <li><code>showCancelLink</code>: Should a cancel &quot;&#x2715;&quot; be shown in the header of the step?</li>
 <li><code>showOn</code>: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.</li>

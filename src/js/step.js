@@ -54,15 +54,8 @@ export class Step extends Evented {
    * in the middle of the screen, without an arrow pointing to the target.
    * @param {HTMLElement|string} options.attachTo.element
    * @param {string} options.attachTo.on
-   * @param {Object|string} options.advanceOn An action on the page which should advance shepherd to the next step.
-   * It can be of the form `"selector event"`:
-   * ```js
-   * const new Step(tour, {
-   *   advanceOn: '.some .selector-path click',
-   *   ...moreOptions
-   * })'
-   * ```
-   * ...or an object with those properties:
+   * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
+   * It should be an object with a string `selector` and an `event` name
    * ```js
    * const new Step(tour, {
    *   advanceOn: { selector: '.some .selector-path', event: 'click' },
