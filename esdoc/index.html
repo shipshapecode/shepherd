@@ -69,7 +69,10 @@ to all this tour&apos;s steps by default.</p>
 <p>Next, add your steps:</p>
 <pre><code class="lang-javascript"><code class="source-code prettyprint">tour.addStep(&apos;example-step&apos;, {
   text: &apos;This step is attached to the bottom of the &lt;code&gt;.example-css-selector&lt;/code&gt; element.&apos;,
-  attachTo: &apos;.example-css-selector bottom&apos;,
+  attachTo: { 
+    element: &apos;.example-css-selector&apos;, 
+    on: &apos;bottom&apos;
+  },
   classes: &apos;example-step-extra-class&apos;,
   buttons: [
     {

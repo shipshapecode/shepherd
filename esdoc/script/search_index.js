@@ -61,25 +61,25 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber41",
+    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber47",
     "Cleanup Utils cleanupStepEventListeners",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber42",
+    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber48",
     "Cleanup Utils cleanupStepEventListeners removes listeners",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber32",
+    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber38",
     "Cleanup Utils cleanupSteps",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber33",
+    "test-file/test/unit/utils/cleanup.spec.js.html#lineNumber39",
     "Cleanup Utils cleanupSteps cleans up steps and sets pointer-events to auto",
     "test"
   ],
@@ -117,12 +117,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/unit/utils/dom.spec.js.html#lineNumber32",
     "DOM Utils getElementForStep attachTo object - element is selector",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/dom.spec.js.html#lineNumber49",
-    "DOM Utils getElementForStep attachTo string",
     "test"
   ],
   [
@@ -301,7 +295,7 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/cypress/integration/modal.spec.js.html#lineNumber96",
+    "test-file/test/cypress/integration/modal.spec.js.html#lineNumber99",
     "Modal mode highlight applying highlight classes to the target element",
     "test"
   ],
@@ -957,12 +951,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/unit/utils/general.spec.js.html#lineNumber6",
     "Utils _parseAttachToOpts",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber17",
-    "Utils _parseAttachToOpts attachTo as a string",
     "test"
   ],
   [

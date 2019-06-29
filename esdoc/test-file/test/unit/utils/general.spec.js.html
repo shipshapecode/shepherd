@@ -54,15 +54,6 @@ describe(&apos;Utils&apos;, function() {
         .toEqual(attachTo);
       expect(_parseAttachToOpts({}), &apos;when attachTo does not include `element` and `on`, return null&apos;).toBeNull();
     });
-
-    it(&apos;attachTo as a string&apos;, function() {
-      let attachTo = &apos;.foo bottom&apos;;
-      expect(_parseAttachToOpts(attachTo), &apos;when attachTo is a string, return as object with `element` and `on`&apos;)
-        .toEqual({ element: &apos;.foo&apos;, on: &apos;bottom&apos; });
-
-      attachTo = &apos;.foo notValid&apos;;
-      expect(_parseAttachToOpts(attachTo), &apos;when `on` is not a valid direction, return null&apos;).toBe(null);
-    });
   });
 });
 </code></pre>

@@ -88,7 +88,10 @@
         title: step.title,
         text: step.text,
         showCancelLink: step.showCancelLink,
-        attachTo: `${step.attachToSelector} ${step.attachToDirection}`,
+        attachTo: {
+          element: step.attachToSelector,
+          on: step.attachToDirection
+        },
         classes: `shepherd-element shepherd-theme-${options.theme}`,
         scrollTo: options.scrollTo
       };

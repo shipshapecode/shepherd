@@ -86,22 +86,9 @@ describe(&apos;DOM Utils&apos;, function() {
 
       expect(getElementForStep(step), &apos;returns element from selector&apos;).toEqual(element);
     });
-
-    it(&apos;attachTo string&apos;, () =&gt; {
-      const element = document.createElement(&apos;div&apos;);
-      element.classList.add(&apos;foo&apos;);
-      document.body.appendChild(element);
-
-      const step = {
-        options: {
-          attachTo: &apos;.foo bottom&apos;
-        }
-      };
-
-      expect(getElementForStep(step), &apos;returns element from selector&apos;).toEqual(element);
-    });
   });
-});</code></pre>
+});
+</code></pre>
 
 </div>
 

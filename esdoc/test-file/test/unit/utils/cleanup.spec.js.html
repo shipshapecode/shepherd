@@ -57,13 +57,19 @@ describe(&apos;Cleanup Utils&apos;, function() {
     steps: [
       {
         options: {
-          attachTo: &apos;.first-attach-to bottom&apos;,
+          attachTo: {
+            element: &apos;.first-attach-to&apos;,
+            on: &apos;bottom&apos;
+          },
           canClickTarget: false
         }
       },
       {
         options: {
-          attachTo: &apos;.second-attach-to bottom&apos;,
+          attachTo: {
+            element: &apos;.second-attach-to&apos;,
+            on: &apos;bottom&apos;
+          },
           canClickTarget: false
         }
       }
@@ -90,7 +96,8 @@ describe(&apos;Cleanup Utils&apos;, function() {
       expect(mock._onScreenChange).toBe(null);
     });
   });
-});</code></pre>
+});
+</code></pre>
 
 </div>
 

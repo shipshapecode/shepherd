@@ -120,7 +120,10 @@ describe(&apos;Modal mode&apos;, () =&gt; {
         {
           id: &apos;test-highlight&apos;,
           options: {
-            attachTo: &apos;.hero-welcome bottom&apos;,
+            attachTo: {
+              element:&apos;.hero-welcome&apos;,
+              on:&apos;bottom&apos;
+            },
             highlightClass: &apos;highlight&apos;,
             text: &apos;Testing highlight&apos;
           }

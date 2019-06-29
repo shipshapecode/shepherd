@@ -180,44 +180,6 @@
   }
 
   /**
-   * lodash 4.0.0 (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="npm" -o ./`
-   * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   * Available under MIT license <https://lodash.com/license>
-   */
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  var lodash_isobjectlike = isObjectLike;
-
-  /**
    * Checks if `value` is classified as a `Function` object.
    * @param {*} value The param to check if it is a function
    */
@@ -4872,34 +4834,6 @@
     return [];
   }
   /**
-   * Parse the position object or string to return the attachment and element to attach to
-   * @param {Object|String} position Either a string or object denoting the selector and position for attachment
-   * @return {Object} The object with `element` and `on` for the step
-   * @private
-   */
-
-  function _parseAttachToOpts(opts) {
-    if (lodash_isobjectlike(opts)) {
-      if (Object.prototype.hasOwnProperty.call(opts, 'element') && Object.prototype.hasOwnProperty.call(opts, 'on')) {
-        return opts;
-      }
-
-      return null;
-    }
-
-    var positionRe = /^(.+) ((auto|top|left|right|bottom)(-start|-end)?)$/;
-    var matches = positionRe.exec(opts);
-
-    if (!matches) {
-      return null;
-    }
-
-    return {
-      element: matches[1],
-      on: matches[2]
-    };
-  }
-  /**
    * Determines options for the tooltip and initializes
    * `this.tooltip` as a Tippy.js instance.
    */
@@ -4919,14 +4853,14 @@
     this.el.classList.add('shepherd-element');
   }
   /**
-   * Passes `options.attachTo` to `_parseAttachToOpts` to get the correct `attachTo` format
+   * Checks if options.attachTo.element is a string, and if so, tries to find the element
    * @returns {({} & {element, on}) | ({})}
    * `element` is a qualified HTML Element
    * `on` is a string position value
    */
 
   function parseAttachTo() {
-    var options = _parseAttachToOpts(this.options.attachTo) || {};
+    var options = this.options.attachTo || {};
 
     var returnOpts = _extends({}, options);
 
@@ -5180,7 +5114,7 @@
    * // => false
    */
   function isElement(value) {
-    return !!value && value.nodeType === 1 && isObjectLike$1(value) && !isPlainObject(value);
+    return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
   }
 
   /**
@@ -5207,7 +5141,7 @@
    * _.isObjectLike(null);
    * // => false
    */
-  function isObjectLike$1(value) {
+  function isObjectLike(value) {
     return !!value && typeof value == 'object';
   }
 
@@ -5240,7 +5174,7 @@
    * // => true
    */
   function isPlainObject(value) {
-    if (!isObjectLike$1(value) ||
+    if (!isObjectLike(value) ||
         objectToString.call(value) != objectTag || isHostObject(value)) {
       return false;
     }
@@ -5856,23 +5790,17 @@
      * @param {Tour} tour The tour for the step
      * @param {Object} options The options for the step
      * @param {Object|string} options.attachTo What element the step should be attached to on the page.
-     * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):
-     * ```js
-     * const new Step(tour, {
-     *   attachTo: '.some .selector-path left',
-     *   ...moreOptions,
-     * })'
-     * ```
-     * Or an object with those properties:
+     * It should be an object with the properties `element` and `on`, where `element` is an element selector string
+     * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
+     *
      * ```js
      * const new Step(tour, {
      *   attachTo: { element: '.some .selector-path', on: 'left' },
      *   ...moreOptions
      * })'
      * ```
-     * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
-     * element will appear in the middle of the screen.
      *
+     * If you don’t specify an attachTo the element will appear in the middle of the screen.
      * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
      * in the middle of the screen, without an arrow pointing to the target.
      * @param {HTMLElement|string} options.attachTo.element

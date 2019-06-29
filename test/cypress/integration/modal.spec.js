@@ -79,7 +79,10 @@ describe('Modal mode', () => {
         {
           id: 'test-highlight',
           options: {
-            attachTo: '.hero-welcome bottom',
+            attachTo: {
+              element:'.hero-welcome',
+              on:'bottom'
+            },
             highlightClass: 'highlight',
             text: 'Testing highlight'
           }

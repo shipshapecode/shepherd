@@ -18,7 +18,10 @@ export default function(shepherd) {
             as they enter and exit the view.
           `
         ],
-        attachTo: '.hero-welcome bottom',
+        attachTo: {
+          element: '.hero-welcome',
+          on: 'bottom'
+        },
         classes: 'shepherd-step-element shepherd-transparent-text first-step',
         buttons: [
           {
@@ -38,7 +41,10 @@ export default function(shepherd) {
       options: {
         title: 'Including',
         text: 'Including Shepherd is easy! Just include tippy.all.min.js, shepherd.js, and a Shepherd theme file.',
-        attachTo: '.hero-including bottom',
+        attachTo: {
+          element: '.hero-including',
+          on: 'bottom'
+        },
         buttons: [
           {
             action: shepherd.back,
@@ -58,7 +64,10 @@ export default function(shepherd) {
       options: {
         title: 'Example Shepherd',
         text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.',
-        attachTo: '.hero-example bottom',
+        attachTo: {
+          element: '.hero-example',
+          on: 'bottom'
+        },
         buttons: [
           {
             action: shepherd.back,
@@ -78,7 +87,10 @@ export default function(shepherd) {
       options: {
         title: 'Learn more',
         text: 'Star Shepherd on Github so you remember it for your next project',
-        attachTo: '.hero-followup left',
+        attachTo: {
+          element:'.hero-followup',
+          on: 'left'
+        },
         buttons: [
           {
             action: shepherd.back,

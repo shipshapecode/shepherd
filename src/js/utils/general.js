@@ -141,13 +141,13 @@ export function setupTooltip() {
 }
 
 /**
- * Passes `options.attachTo` to `_parseAttachToOpts` to get the correct `attachTo` format
+ * Checks if options.attachTo.element is a string, and if so, tries to find the element
  * @returns {({} & {element, on}) | ({})}
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
 export function parseAttachTo() {
-  const options = _parseAttachToOpts(this.options.attachTo) || {};
+  const options = this.options.attachTo || {};
   const returnOpts = Object.assign({}, options);
 
   if (isString(options.element)) {

@@ -33,23 +33,17 @@ export class Step extends Evented {
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
    * @param {Object|string} options.attachTo What element the step should be attached to on the page.
-   * It can either be a string of the form `[element] [on]` (where [element] is an element selector path):
-   * ```js
-   * const new Step(tour, {
-   *   attachTo: '.some .selector-path left',
-   *   ...moreOptions,
-   * })'
-   * ```
-   * Or an object with those properties:
+   * It should be an object with the properties `element` and `on`, where `element` is an element selector string
+   * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
+   *
    * ```js
    * const new Step(tour, {
    *   attachTo: { element: '.some .selector-path', on: 'left' },
    *   ...moreOptions
    * })'
    * ```
-   * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
-   * element will appear in the middle of the screen.
    *
+   * If you don’t specify an attachTo the element will appear in the middle of the screen.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
    * @param {HTMLElement|string} options.attachTo.element
