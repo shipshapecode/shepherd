@@ -1,5 +1,4 @@
-import isElement from 'lodash.iselement';
-import { isFunction, isString, isUndefined } from './utils/type-check';
+import { isElement, isFunction, isString, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
@@ -32,7 +31,7 @@ export class Step extends Evented {
    * Create a step
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
-   * @param {Object|string} options.attachTo What element the step should be attached to on the page.
+   * @param {Object} options.attachTo What element the step should be attached to on the page.
    * It should be an object with the properties `element` and `on`, where `element` is an element selector string
    * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
    *

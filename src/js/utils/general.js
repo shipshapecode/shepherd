@@ -1,4 +1,3 @@
-import isObjectLike from 'lodash.isobjectlike';
 import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
@@ -89,33 +88,6 @@ export function drop(arr, n = 1) {
   }
 
   return [];
-}
-
-/**
- * Parse the position object or string to return the attachment and element to attach to
- * @param {Object|String} position Either a string or object denoting the selector and position for attachment
- * @return {Object} The object with `element` and `on` for the step
- * @private
- */
-export function _parseAttachToOpts(opts) {
-  if (isObjectLike(opts)) {
-    if (Object.prototype.hasOwnProperty.call(opts, 'element') && Object.prototype.hasOwnProperty.call(opts, 'on')) {
-      return opts;
-    }
-    return null;
-  }
-
-  const positionRe = /^(.+) ((auto|top|left|right|bottom)(-start|-end)?)$/;
-  const matches = positionRe.exec(opts);
-
-  if (!matches) {
-    return null;
-  }
-
-  return {
-    element: matches[1],
-    on: matches[2]
-  };
 }
 
 /**

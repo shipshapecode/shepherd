@@ -39,8 +39,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/js/step.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import isElement from &apos;lodash.iselement&apos;;
-import { isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { isElement, isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
 import { Evented } from &apos;./evented.js&apos;;
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
 import { createFromHTML, setupTooltip, parseAttachTo } from &apos;./utils/general.js&apos;;
@@ -73,7 +72,7 @@ export class Step extends Evented {
    * Create a step
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
-   * @param {Object|string} options.attachTo What element the step should be attached to on the page.
+   * @param {Object} options.attachTo What element the step should be attached to on the page.
    * It should be an object with the properties `element` and `on`, where `element` is an element selector string
    * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
    *

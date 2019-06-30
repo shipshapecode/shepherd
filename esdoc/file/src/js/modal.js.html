@@ -48,7 +48,6 @@
 } from &apos;./utils/modal&apos;;
 import { addStepEventListeners, getElementForStep } from &apos;./utils/dom&apos;;
 import { debounce } from &apos;./utils/general&apos;;
-import defer from &apos;lodash.defer&apos;;
 
 export class Modal {
   constructor(options) {
@@ -62,16 +61,14 @@ export class Modal {
    * Removes svg mask from modal overlay and removes classes for modal being visible
    */
   cleanup() {
-    defer(() =&gt; {
-      const element = this._modalOverlayElem;
+    const element = this._modalOverlayElem;
 
-      if (element &amp;&amp; element instanceof SVGElement) {
-        element.parentNode.removeChild(element);
-      }
+    if (element &amp;&amp; element instanceof SVGElement) {
+      element.parentNode.removeChild(element);
+    }
 
-      this._modalOverlayElem = null;
-      document.body.classList.remove(modalClassNames.isVisible);
-    });
+    this._modalOverlayElem = null;
+    document.body.classList.remove(modalClassNames.isVisible);
   }
 
   /**

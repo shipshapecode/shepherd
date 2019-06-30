@@ -1,4 +1,12 @@
 /**
+ * Checks if `value` is classified as an `HTMLElement`.
+ * @param {*} value The param to check if it is an HTMLElement
+ */
+export function isElement(value) {
+  return value instanceof HTMLElement;
+}
+
+/**
  * Checks if `value` is classified as a `Function` object.
  * @param {*} value The param to check if it is a function
  */

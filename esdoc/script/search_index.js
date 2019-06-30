@@ -943,24 +943,6 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber5",
-    "Utils",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber6",
-    "Utils _parseAttachToOpts",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/utils/general.spec.js.html#lineNumber7",
-    "Utils _parseAttachToOpts attachTo as an object",
-    "test"
-  ],
-  [
-    "",
     "test-file/test/cypress/integration/a11y.spec.js.html#lineNumber4",
     "a11y",
     "test"
@@ -1809,12 +1791,6 @@ window.esdocSearchIndex = [
     "test/unit/utils/dom.spec.js",
     "test-file/test/unit/utils/dom.spec.js.html",
     "test/unit/utils/dom.spec.js",
-    "testFile"
-  ],
-  [
-    "test/unit/utils/general.spec.js",
-    "test-file/test/unit/utils/general.spec.js.html",
-    "test/unit/utils/general.spec.js",
     "testFile"
   ],
   [

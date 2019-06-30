@@ -148,7 +148,6 @@ export class Tour extends Evented {
 
     cleanupStepEventListeners.call(this);
     cleanupSteps(this.tourObject);
-    this.modal.cleanup();
 
     this.trigger(event);
 
@@ -159,6 +158,8 @@ export class Tour extends Evented {
     if (this.options.disableScroll) {
       clearAllBodyScrollLocks();
     }
+
+    this.modal.cleanup();
   }
 
   /**
