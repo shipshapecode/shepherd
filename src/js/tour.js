@@ -361,7 +361,7 @@ export class Tour extends Evented {
    * @private
    */
   _setTooltipDefaults() {
-    tippy.setDefaults(tooltipDefaults);
+    tippy.setDefaultProps(tooltipDefaults);
   }
 
   /**

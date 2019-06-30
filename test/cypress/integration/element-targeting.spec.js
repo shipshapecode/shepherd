@@ -6,7 +6,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaults({ duration: 0, delay: 0 });
+    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {

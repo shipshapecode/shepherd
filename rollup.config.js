@@ -9,6 +9,7 @@ import fs from 'fs';
 import license from 'rollup-plugin-license';
 import postcss from 'postcss';
 import filesize from 'rollup-plugin-filesize';
+import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
@@ -52,6 +53,9 @@ const plugins = [
     quiet: false
   }),
   eslint(),
+  replace({
+    'process.env.NODE_ENV': JSON.stringify('production')
+  }),
   babel({
     exclude: 'node_modules/**'
   }),
@@ -141,6 +145,9 @@ if (!process.env.DEVELOPMENT) {
         }),
         sass(sassOptions),
         css({ output: false }),
+        replace({
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }),
         terser(),
         license({
           banner
