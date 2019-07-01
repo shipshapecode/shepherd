@@ -56,7 +56,7 @@ describe('Tour | Top-Level Class', function() {
 
     it('sets defaults for tippy', function() {
       const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');
-      const tippySpy = spy(tippy, 'setDefaults');
+      const tippySpy = spy(tippy, 'setDefaultProps');
 
       expect(tourSpy.callCount).toBe(0);
       expect(tippySpy.callCount).toBe(0);
