@@ -9,7 +9,7 @@ import fs from 'fs';
 import license from 'rollup-plugin-license';
 import postcss from 'postcss';
 import filesize from 'rollup-plugin-filesize';
-import globals from 'rollup-plugin-node-globals';
+import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
 import stylelint from 'rollup-plugin-stylelint';
@@ -18,6 +18,8 @@ import visualizer from 'rollup-plugin-visualizer';
 
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
+
+const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const sassOptions = {
   output(styles, styleNodes) {
@@ -53,42 +55,48 @@ const plugins = [
     quiet: false
   }),
   eslint(),
-  globals(),
   babel({
     exclude: 'node_modules/**'
+  }),
+  replace({
+    'process.env.NODE_ENV': JSON.stringify(env)
   }),
   css({ output: false })
 ];
 
 if (!process.env.DEVELOPMENT) {
-  plugins.push(sass({
-    output: false
-  }));
+  plugins.push(
+    sass({
+      output: false
+    })
+  );
 }
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
   plugins.push(sass(sassOptions));
 
-  plugins.push(browsersync({
-    host: 'localhost',
-    watch: true,
-    port: 3000,
-    notify: false,
-    open: true,
-    server: {
-      baseDir: 'docs/welcome',
-      routes: {
-        '/shepherd/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
-        '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
-        '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
-        '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
-        '/shepherd/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
-        '/shepherd/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
-        '/shepherd/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
+  plugins.push(
+    browsersync({
+      host: 'localhost',
+      watch: true,
+      port: 3000,
+      notify: false,
+      open: true,
+      server: {
+        baseDir: 'docs/welcome',
+        routes: {
+          '/shepherd/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
+          '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
+          '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
+          '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
+          '/shepherd/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
+          '/shepherd/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
+          '/shepherd/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
+        }
       }
-    }
-  }));
+    })
+  );
 }
 
 plugins.push(license({ banner }));
@@ -138,12 +146,14 @@ if (!process.env.DEVELOPMENT) {
       plugins: [
         resolve(),
         commonjs(),
-        globals(),
         babel({
           exclude: 'node_modules/**'
         }),
         sass(sassOptions),
         css({ output: false }),
+        replace({
+          'process.env.NODE_ENV': JSON.stringify(env)
+        }),
         terser(),
         license({
           banner
