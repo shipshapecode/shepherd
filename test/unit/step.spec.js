@@ -85,7 +85,7 @@ describe('Tour | Step', () => {
     });
 
     beforeEach(() => {
-      tippy.setDefaults({ duration: 0, delay: 0 });
+      tippy.setDefaultProps({ duration: 0, delay: 0 });
     });
 
     afterEach(() => {

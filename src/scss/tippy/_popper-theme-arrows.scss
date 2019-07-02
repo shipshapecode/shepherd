@@ -1,55 +1,59 @@
-@mixin popper-theme-arrows($arrow-size: 16px, $arrow-pointer-events: null, $text-bg: $shepherd-text-background, $header-bg: $shepherd-header-background) {
-  .tippy-arrow {
-    border: $arrow-size solid transparent;
-    content: '';
-    display: block;
-    height: 0;
-    pointer-events: $arrow-pointer-events;
-    position: absolute;
-    width: 0;
-  }
-
-  // Centers and middles
+@mixin popper-theme-arrows($arrow-size: 2.1, $arrow-pointer-events: null, $text-bg: $shepherd-text-background, $header-bg: $shepherd-header-background) {
+  $margin: calc((#{$arrow-size} / 2.1) * 16px);
 
   &[x-placement^='top'] {
-    margin-bottom: $arrow-size;
+    margin-bottom: $margin;
 
     .tippy-arrow {
-      border-bottom: 0;
       border-top-color: $text-bg;
-      left: calc(50% - #{$arrow-size});
+    }
+
+    .shepherd-has-title-theme {
+      .tippy-arrow {
+        border-top-color: $header-bg;
+      }
     }
   }
 
   &[x-placement^='bottom'] {
-    margin-top: $arrow-size;
+    margin-top: $margin;
 
     .tippy-arrow {
-      border-bottom-color: $header-bg;
-      border-top: 0;
-      left: calc(50% - #{$arrow-size});
+      border-bottom-color: $text-bg;
+    }
+
+    .shepherd-has-title-theme {
+      .tippy-arrow {
+        border-bottom-color: $header-bg;
+      }
     }
   }
 
   &[x-placement^='left'] {
-    margin-right: $arrow-size;
+    margin-right: $margin;
 
     .tippy-arrow {
       border-left-color: $text-bg;
-      border-right: 0;
-      margin-top: -$arrow-size;
-      top: calc(50% - #{$arrow-size});
+    }
+
+    .shepherd-has-title-theme {
+      .tippy-arrow {
+        border-left-color: $header-bg;
+      }
     }
   }
 
   &[x-placement^='right'] {
-    margin-left: $arrow-size;
+    margin-left: $margin;
 
     .tippy-arrow {
-      border-left: 0;
       border-right-color: $text-bg;
-      top: calc(50% - #{$arrow-size});
+    }
+
+    .shepherd-has-title-theme {
+      .tippy-arrow {
+        border-right-color: $header-bg;
+      }
     }
   }
 }
-
