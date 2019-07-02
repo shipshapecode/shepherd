@@ -47,22 +47,26 @@ body {
   width: 100%;
 }
 
-.hero-outer .hero-inner {
-  margin: 0 auto 1em;
-  text-align: center;
-  width: 540px;
+.hero-inner {
+  max-width: 700px;
+  width: 90%;
 }
 
 @media (max-width: 600px) {
-  .hero-outer .hero-inner {
+  .hero-inner {
     width: 340px;
   }
 }
 
 @media (max-width: 360px) {
-  .hero-outer .hero-inner {
+  .hero-inner {
     width: 200px;
   }
+}
+
+.hero-outer .hero-inner {
+  margin: 0 auto 1em;
+  text-align: center;
 }
 
 .hero-outer .hero-inner h1,
