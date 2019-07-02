@@ -62,7 +62,7 @@ describe(&apos;Tour | Top-Level Class&apos;, function() {
   };
 
   beforeEach(() =&gt; {
-    tippy.setDefaults({ duration: 0, delay: 0 });
+    tippy.setDefaultProps({ duration: 0, delay: 0 });
   });
 
   afterEach(() =&gt; {
@@ -97,7 +97,7 @@ describe(&apos;Tour | Top-Level Class&apos;, function() {
 
     it(&apos;sets defaults for tippy&apos;, function() {
       const tourSpy = spy(Shepherd.Tour.prototype, &apos;_setTooltipDefaults&apos;);
-      const tippySpy = spy(tippy, &apos;setDefaults&apos;);
+      const tippySpy = spy(tippy, &apos;setDefaultProps&apos;);
 
       expect(tourSpy.callCount).toBe(0);
       expect(tippySpy.callCount).toBe(0);

@@ -47,7 +47,7 @@ describe(&apos;Attaching tooltips to target elements in the DOM on each step&apo
 
   beforeEach(() =&gt; {
     Shepherd = null;
-    tippy.setDefaults({ duration: 0, delay: 0 });
+    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit(&apos;/test/dummy/&apos;, {
       onLoad(contentWindow) {

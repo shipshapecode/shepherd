@@ -112,58 +112,12 @@ pre {
   color: rgba(0, 0, 0, 0.75);
 }
 
-.tippy-popper.shepherd-popper .tippy-arrow {
-  border: 16px solid transparent;
-  content: '';
-  display: block;
-  height: 0;
-  position: absolute;
-  width: 0;
-}
-
-.tippy-popper.shepherd-popper[x-placement^='top'] {
-  margin-bottom: 16px;
-}
-
-.tippy-popper.shepherd-popper[x-placement^='top'] .tippy-arrow {
-  border-bottom: 0;
-  border-top-color: #ffffff;
-  left: calc(50% - 16px);
-}
-
-.tippy-popper.shepherd-popper[x-placement^='bottom'] {
-  margin-top: 16px;
-}
-
-.tippy-popper.shepherd-popper[x-placement^='bottom'] .tippy-arrow {
-  border-bottom-color: #ffffff;
-  border-top: 0;
-  left: calc(50% - 16px);
-}
-
-.tippy-popper.shepherd-popper[x-placement^='bottom'] .shepherd-has-title-theme .tippy-arrow {
-  border-bottom-color: #e6e6e6;
-}
-
 .tippy-popper.shepherd-popper[x-placement^='left'] {
   margin-right: 16px;
 }
 
-.tippy-popper.shepherd-popper[x-placement^='left'] .tippy-arrow {
-  border-left-color: #ffffff;
-  border-right: 0;
-  margin-top: -16px;
-  top: calc(50% - 16px);
-}
-
 .tippy-popper.shepherd-popper[x-placement^='right'] {
   margin-left: 16px;
-}
-
-.tippy-popper.shepherd-popper[x-placement^='right'] .tippy-arrow {
-  border-left: 0;
-  border-right-color: #ffffff;
-  top: calc(50% - 16px);
 }
 
 .tippy-popper.shepherd-popper .shepherd-element:not(.shepherd-has-title) .shepherd-content header,
