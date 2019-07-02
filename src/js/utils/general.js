@@ -2,11 +2,19 @@ import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
-// popperOption modifier, to add shepherd-popper class to both default and centeredStyle poppers
+// popperOption modifier, to add `shepherd` class to both default and centeredStyle poppers
 const addShepherdClass = {
   enabled: true,
   fn: (data) => {
-    data.instance.popper.classList.add('shepherd-popper');
+    data.instance.popper.classList.add('shepherd');
+    return data;
+  }
+};
+
+const addHasTitleClass = {
+  enabled: true,
+  fn: (data) => {
+    data.instance.popper.classList.add('has-title');
     return data;
   }
 };
@@ -172,8 +180,7 @@ function _makeAttachedTippyOptions(attachToOptions) {
   Object.assign(resultingTippyOptions, this.options.tippyOptions);
 
   if (this.options.title) {
-    const existingTheme = resultingTippyOptions.theme;
-    resultingTippyOptions.theme = existingTheme ? `${existingTheme} shepherd-has-title` : 'shepherd-has-title';
+    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
   }
 
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
@@ -202,6 +209,10 @@ function _makeCenteredTippy() {
 
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
+
+  if (this.options.title) {
+    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
+  }
 
   const finalPopperOptions = Object.assign(
     {},

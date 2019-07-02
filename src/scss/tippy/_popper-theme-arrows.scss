@@ -8,7 +8,7 @@
       border-top-color: $text-bg;
     }
 
-    .shepherd-has-title-theme {
+    &.has-title {
       .tippy-arrow {
         border-top-color: $header-bg;
       }
@@ -22,7 +22,7 @@
       border-bottom-color: $text-bg;
     }
 
-    .shepherd-has-title-theme {
+    &.has-title {
       .tippy-arrow {
         border-bottom-color: $header-bg;
       }
@@ -36,7 +36,7 @@
       border-left-color: $text-bg;
     }
 
-    .shepherd-has-title-theme {
+    &.has-title {
       .tippy-arrow {
         border-left-color: $header-bg;
       }
@@ -50,7 +50,7 @@
       border-right-color: $text-bg;
     }
 
-    .shepherd-has-title-theme {
+    &.has-title {
       .tippy-arrow {
         border-right-color: $header-bg;
       }
