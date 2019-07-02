@@ -2,14 +2,9 @@ import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
-// popperOption modifier, to add shepherd-popper class to both default and centeredStyle poppers
-const addShepherdClass = {
-  enabled: true,
-  fn: (data) => {
-    data.instance.popper.classList.add('shepherd-popper');
-    return data;
-  }
-};
+// popperOption modifier, to add `shepherd` class to both default and centeredStyle poppers
+const addShepherdClass = _createClassModifier('shepherd');
+const addHasTitleClass = _createClassModifier('shepherd-has-title');
 
 const centeredStylePopperModifier = {
   computeStyle: {
@@ -139,6 +134,22 @@ export function parseAttachTo() {
 }
 
 /**
+ * Create a popper modifier for adding the passed className to the popper
+ * @param {string} className The class to add to the popper
+ * @return {{fn(*): *, enabled: boolean}|*}
+ * @private
+ */
+function _createClassModifier(className) {
+  return {
+    enabled: true,
+    fn(data) {
+      data.instance.popper.classList.add(className);
+      return data;
+    }
+  };
+}
+
+/**
  * Generates a `Tippy` instance from a set of base `attachTo` options
  *
  * @return {tippy} The final tippy instance
@@ -172,8 +183,7 @@ function _makeAttachedTippyOptions(attachToOptions) {
   Object.assign(resultingTippyOptions, this.options.tippyOptions);
 
   if (this.options.title) {
-    const existingTheme = resultingTippyOptions.theme;
-    resultingTippyOptions.theme = existingTheme ? `${existingTheme} shepherd-has-title` : 'shepherd-has-title';
+    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
   }
 
   if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
@@ -202,6 +212,10 @@ function _makeCenteredTippy() {
 
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
+
+  if (this.options.title) {
+    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
+  }
 
   const finalPopperOptions = Object.assign(
     {},

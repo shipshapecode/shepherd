@@ -4341,13 +4341,10 @@
 
   var missingTippy = 'Using the attachment feature of Shepherd requires the Tippy.js library';
 
-  var addShepherdClass = {
-    enabled: true,
-    fn: function fn(data) {
-      data.instance.popper.classList.add('shepherd-popper');
-      return data;
-    }
-  };
+  var addShepherdClass = _createClassModifier('shepherd');
+
+  var addHasTitleClass = _createClassModifier('shepherd-has-title');
+
   var centeredStylePopperModifier = {
     computeStyle: {
       enabled: true,
@@ -4477,11 +4474,28 @@
     return returnOpts;
   }
   /**
+   * Create a popper modifier for adding the passed className to the popper
+   * @param {string} className The class to add to the popper
+   * @return {{fn(*): *, enabled: boolean}|*}
+   * @private
+   */
+
+  function _createClassModifier(className) {
+    return {
+      enabled: true,
+      fn: function fn(data) {
+        data.instance.popper.classList.add(className);
+        return data;
+      }
+    };
+  }
+  /**
    * Generates a `Tippy` instance from a set of base `attachTo` options
    *
    * @return {tippy} The final tippy instance
    * @private
    */
+
 
   function _makeTippyInstance(attachToOptions) {
     if (!attachToOptions.element) {
@@ -4512,8 +4526,9 @@
     _extends(resultingTippyOptions, this.options.tippyOptions);
 
     if (this.options.title) {
-      var existingTheme = resultingTippyOptions.theme;
-      resultingTippyOptions.theme = existingTheme ? "".concat(existingTheme, " shepherd-has-title") : 'shepherd-has-title';
+      _extends(defaultPopperOptions.modifiers, {
+        addHasTitleClass: addHasTitleClass
+      });
     }
 
     if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
@@ -4541,6 +4556,12 @@
 
     tippyOptions.arrow = false;
     tippyOptions.popperOptions = tippyOptions.popperOptions || {};
+
+    if (this.options.title) {
+      _extends(defaultPopperOptions.modifiers, {
+        addHasTitleClass: addHasTitleClass
+      });
+    }
 
     var finalPopperOptions = _extends({}, defaultPopperOptions, tippyOptions.popperOptions, {
       modifiers: _extends(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
@@ -5483,7 +5504,6 @@
           title.id = labelId;
           element.setAttribute('aria-labeledby', labelId);
           header.appendChild(title);
-          element.classList.add('shepherd-has-title');
         }
 
         content.classList.add('shepherd-content');
