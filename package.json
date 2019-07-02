@@ -66,7 +66,7 @@
     "cssnano": "^4.1.10",
     "cypress": "^3.3.2",
     "cypress-plugin-tab": "^1.0.1",
-    "del": "^4.1.1",
+    "del": "^5.0.0",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
