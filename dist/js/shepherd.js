@@ -1,4 +1,4 @@
-/*! shepherd.js 4.0.0-beta.0 */
+/*! shepherd.js 4.0.0-beta.1 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -5623,6 +5623,8 @@
 
         this.el = this._createTooltipContent();
 
+        this._addKeyDownHandler(this.el);
+
         if (this.options.advanceOn) {
           this.bindAdvance();
         }
@@ -5726,9 +5728,6 @@
 
         this.tooltip.show();
         this.trigger('show');
-
-        this._addKeyDownHandler(this.el);
-
         this.el.focus();
       }
       /**

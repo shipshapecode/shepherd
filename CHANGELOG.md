@@ -1,5 +1,30 @@
 # Changelog
 
+## [v4.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.1) (2019-07-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.0...v4.0.0-beta.1)
+
+**Fixed bugs:**
+
+- Arrow navigation skips steps if you do back then next [\#423](https://github.com/shipshapecode/shepherd/issues/423)
+- Only add keydown listeners once [\#424](https://github.com/shipshapecode/shepherd/pull/424) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.0) (2019-07-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.1.0...v4.0.0-beta.0)
+
+**Breaking changes:**
+
+- .shepherd-popper -\> .shepherd, move .shepherd-has-title [\#422](https://github.com/shipshapecode/shepherd/pull/422) ([rwwagner90](https://github.com/rwwagner90))
+- Tippy v5 [\#420](https://github.com/shipshapecode/shepherd/pull/420) ([rwwagner90](https://github.com/rwwagner90))
+- Remove remaining lodash, IE 11+ [\#419](https://github.com/shipshapecode/shepherd/pull/419) ([rwwagner90](https://github.com/rwwagner90))
+- Remove the string option for `advanceOn` in favor of object [\#418](https://github.com/shipshapecode/shepherd/pull/418) ([rwwagner90](https://github.com/rwwagner90))
+- Remove string option for `attachTo` in favor of object [\#417](https://github.com/shipshapecode/shepherd/pull/417) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+-  useModalOverlay does not play well with multiple instances on the page [\#370](https://github.com/shipshapecode/shepherd/issues/370)
+
 ## [v3.1.0](https://github.com/shipshapecode/shepherd/tree/v3.1.0) (2019-06-25)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.0.0...v3.1.0)
