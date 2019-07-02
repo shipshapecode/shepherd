@@ -392,6 +392,8 @@ export class Step extends Evented {
 
     this.el = this._createTooltipContent();
 
+    this._addKeyDownHandler(this.el);
+
     if (this.options.advanceOn) {
       this.bindAdvance();
     }
@@ -473,8 +475,6 @@ export class Step extends Evented {
 
     this.tooltip.show();
     this.trigger('show');
-
-    this._addKeyDownHandler(this.el);
     this.el.focus();
   }
 
