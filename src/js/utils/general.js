@@ -14,7 +14,7 @@ const addShepherdClass = {
 const addHasTitleClass = {
   enabled: true,
   fn: (data) => {
-    data.instance.popper.classList.add('has-title');
+    data.instance.popper.classList.add('shepherd-has-title');
     return data;
   }
 };

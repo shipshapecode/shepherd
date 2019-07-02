@@ -112,20 +112,6 @@ pre {
   color: rgba(0, 0, 0, 0.75);
 }
 
-.tippy-popper.shepherd[x-placement^='left'] {
-  margin-right: 16px;
-}
-
-.tippy-popper.shepherd[x-placement^='right'] {
-  margin-left: 16px;
-}
-
-.tippy-popper.shepherd .shepherd-element:not(.shepherd-has-title) .shepherd-content header,
-.tippy-popper.shepherd .shepherd-element:not(.shepherd-has-title) .shepherd-content .shepherd-header {
-  background: transparent;
-  padding-bottom: 0;
-}
-
 .tippy-popper.shepherd .shepherd-element .shepherd-content .shepherd-text {
   color: #336457;
 }
