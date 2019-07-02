@@ -3,21 +3,8 @@ import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
 // popperOption modifier, to add `shepherd` class to both default and centeredStyle poppers
-const addShepherdClass = {
-  enabled: true,
-  fn: (data) => {
-    data.instance.popper.classList.add('shepherd');
-    return data;
-  }
-};
-
-const addHasTitleClass = {
-  enabled: true,
-  fn: (data) => {
-    data.instance.popper.classList.add('shepherd-has-title');
-    return data;
-  }
-};
+const addShepherdClass = _createClassModifier('shepherd');
+const addHasTitleClass = _createClassModifier('shepherd-has-title');
 
 const centeredStylePopperModifier = {
   computeStyle: {
@@ -144,6 +131,22 @@ export function parseAttachTo() {
   }
 
   return returnOpts;
+}
+
+/**
+ * Create a popper modifier for adding the passed className to the popper
+ * @param {string} className The class to add to the popper
+ * @return {{fn(*): *, enabled: boolean}|*}
+ * @private
+ */
+function _createClassModifier(className) {
+  return {
+    enabled: true,
+    fn(data) {
+      data.instance.popper.classList.add(className);
+      return data;
+    }
+  };
 }
 
 /**
