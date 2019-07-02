@@ -13,11 +13,6 @@
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
   }
 
-  &.shepherd-has-title .shepherd-content header {
-    background: $shepherd-header-background;
-    padding: 1em;
-  }
-
   .shepherd-content {
     background: $shepherd-text-background;
     font-size: inherit;
@@ -110,5 +105,12 @@
         }
       }
     }
+  }
+}
+
+.shepherd-has-title {
+  .shepherd-content header {
+    background: $shepherd-header-background;
+    padding: 1em;
   }
 }

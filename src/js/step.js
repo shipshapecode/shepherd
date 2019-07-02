@@ -283,7 +283,6 @@ export class Step extends Evented {
       title.id = labelId;
       element.setAttribute('aria-labeledby', labelId);
       header.appendChild(title);
-      element.classList.add('shepherd-has-title');
     }
 
     content.classList.add('shepherd-content');

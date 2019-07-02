@@ -47,22 +47,26 @@ body {
   width: 100%;
 }
 
-.hero-outer .hero-inner {
-  margin: 0 auto 1em;
-  text-align: center;
-  width: 540px;
+.hero-inner {
+  max-width: 700px;
+  width: 90%;
 }
 
 @media (max-width: 600px) {
-  .hero-outer .hero-inner {
+  .hero-inner {
     width: 340px;
   }
 }
 
 @media (max-width: 360px) {
-  .hero-outer .hero-inner {
+  .hero-inner {
     width: 200px;
   }
+}
+
+.hero-outer .hero-inner {
+  margin: 0 auto 1em;
+  text-align: center;
 }
 
 .hero-outer .hero-inner h1,
@@ -112,20 +116,6 @@ pre {
   color: rgba(0, 0, 0, 0.75);
 }
 
-.tippy-popper.shepherd-popper[x-placement^='left'] {
-  margin-right: 16px;
-}
-
-.tippy-popper.shepherd-popper[x-placement^='right'] {
-  margin-left: 16px;
-}
-
-.tippy-popper.shepherd-popper .shepherd-element:not(.shepherd-has-title) .shepherd-content header,
-.tippy-popper.shepherd-popper .shepherd-element:not(.shepherd-has-title) .shepherd-content .shepherd-header {
-  background: transparent;
-  padding-bottom: 0;
-}
-
-.tippy-popper.shepherd-popper .shepherd-element .shepherd-content .shepherd-text {
+.tippy-popper.shepherd .shepherd-element .shepherd-content .shepherd-text {
   color: #336457;
 }
