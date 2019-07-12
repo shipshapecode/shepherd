@@ -18,6 +18,9 @@ addons:
 
 cache:
   yarn: true
+  directories:
+    # we also need to cache folder with Cypress binary
+    - ~/.cache
 
 before_install:
   - yarn global add greenkeeper-lockfile@1
