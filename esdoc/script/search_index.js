@@ -409,13 +409,13 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber561",
+    "test-file/test/unit/step.spec.js.html#lineNumber589",
     "Tour | Step _addCancelLink",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber562",
+    "test-file/test/unit/step.spec.js.html#lineNumber590",
     "Tour | Step _addCancelLink Cancel link",
     "test"
   ],
@@ -463,13 +463,19 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber577",
+    "test-file/test/unit/step.spec.js.html#lineNumber560",
+    "Tour | Step _addKeyDownHandler arrow keys move between steps",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber605",
     "Tour | Step _createTooltipContent",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber578",
+    "test-file/test/unit/step.spec.js.html#lineNumber606",
     "Tour | Step _createTooltipContent ARIA attributes set",
     "test"
   ],

@@ -597,6 +597,34 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       expect(cancelStub.called).toBe(true);
       cancelStub.restore();
     });
+
+    it(&apos;arrow keys move between steps&apos;, () =&gt; {
+      const element = document.createElement(&apos;div&apos;);
+      const tour = new Tour();
+      const step = new Step(tour, {});
+
+      const tourBackStub = stub(tour, &apos;back&apos;);
+      const tourNextStub = stub(tour, &apos;next&apos;);
+
+      expect(tourBackStub.called).toBe(false);
+      expect(tourNextStub.called).toBe(false);
+
+      step._addKeyDownHandler(element);
+
+      const rightArrowEvent = new KeyboardEvent(&apos;keydown&apos;, { keyCode: 39 });
+      element.dispatchEvent(rightArrowEvent);
+
+      expect(tourNextStub.called).toBe(true);
+
+
+      const leftArrowEvent = new KeyboardEvent(&apos;keydown&apos;, { keyCode: 37 });
+      element.dispatchEvent(leftArrowEvent);
+
+      expect(tourBackStub.called).toBe(true);
+
+      tourBackStub.restore();
+      tourNextStub.restore();
+    });
   });
 
   describe(&apos;_addCancelLink&apos;, () =&gt; {
