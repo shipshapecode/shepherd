@@ -7,6 +7,7 @@
 /coverage/
 /cypress/
 /dist/
+/docs/shepherd.js/
 /esdoc/
 /node_modules/
 /test/unit/dist

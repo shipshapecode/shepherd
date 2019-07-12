@@ -24,6 +24,7 @@
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",
+    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v2.9.0",
     "clean": "rimraf dist",
@@ -49,6 +50,7 @@
   "dependencies": {
     "body-scroll-lock": "^2.6.3",
     "element-matches": "^0.1.2",
+    "jsdoc": "^3.6.2",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
   },
@@ -62,6 +64,7 @@
     "babel-jest": "^24.7.1",
     "babel-plugin-rewire-exports": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "better-docs": "^1.1.6",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^4.1.10",
@@ -79,6 +82,8 @@
     "jest": "^24.8.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
+    "jsdoc-mermaid": "^1.0.0",
+    "jsdoc-template": "https://github.com/braintree/jsdoc-template",
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.14",
     "replace": "^1.1.0",

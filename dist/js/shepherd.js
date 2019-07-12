@@ -4462,7 +4462,7 @@
   }
   /**
    * Checks if options.attachTo.element is a string, and if so, tries to find the element
-   * @returns {({} & {element, on}) | ({})}
+   * @returns {{element, on}}
    * `element` is a qualified HTML Element
    * `on` is a string position value
    */
@@ -5235,8 +5235,8 @@
   /**
    * Creates incremented ID for each newly created step
    *
+   * @return {Function} A function that returns the unique id for the step
    * @private
-   * @return {Number} The unique id for the step
    */
 
   var uniqueId = function () {
@@ -5352,207 +5352,12 @@
       return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
     }
     /**
-     * Adds buttons to the step as passed into options
-     *
-     * @private
-     * @param {HTMLElement} content The element for the step, to append the footer with buttons to
+     * Cancel the tour
+     * Triggers the `cancel` event
      */
 
 
     _createClass(Step, [{
-      key: "_addButtons",
-      value: function _addButtons(content) {
-        var _this2 = this;
-
-        if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-          var footer = document.createElement('footer');
-          footer.classList.add('shepherd-footer');
-          this.options.buttons.map(function (cfg) {
-            var button = createFromHTML("<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
-            footer.appendChild(button);
-
-            _this2.bindButtonEvents(cfg, button);
-          });
-          content.appendChild(footer);
-        }
-      }
-      /**
-       * Adds the "x" button to cancel the tour
-       * @param {HTMLElement} element The step element
-       * @param {HTMLElement} header The header element for the step
-       * @private
-       */
-
-    }, {
-      key: "_addCancelLink",
-      value: function _addCancelLink(element, header) {
-        if (this.options.showCancelLink) {
-          var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
-          header.appendChild(link);
-          element.classList.add('shepherd-has-cancel-link');
-          this.bindCancelLink(link);
-        }
-      }
-      /**
-       * Adds text passed in as options
-       *
-       * @private
-       * @param {HTMLElement} content The content to append the text to
-       * @param {string} descriptionId The id to set on the shepherd-text element
-       * for the parent element to use for aria-describedby
-       */
-
-    }, {
-      key: "_addContent",
-      value: function _addContent(content, descriptionId) {
-        var text = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
-        var paragraphs = this.options.text;
-
-        if (isFunction(paragraphs)) {
-          paragraphs = paragraphs.call(this, text);
-        }
-
-        if (paragraphs instanceof HTMLElement) {
-          text.appendChild(paragraphs);
-        } else {
-          if (isString(paragraphs)) {
-            paragraphs = [paragraphs];
-          }
-
-          paragraphs.map(function (paragraph) {
-            text.innerHTML += "<p>".concat(paragraph, "</p>");
-          });
-        }
-
-        content.appendChild(text);
-      }
-      /**
-       * Setup keydown events to allow closing the modal with ESC
-       *
-       * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
-       *
-       * @param {HTMLElement} element The element for the tooltip
-       * @private
-       */
-
-    }, {
-      key: "_addKeyDownHandler",
-      value: function _addKeyDownHandler(element) {
-        var _this3 = this;
-
-        var KEY_TAB = 9;
-        var KEY_ESC = 27;
-        var LEFT_ARROW = 37;
-        var RIGHT_ARROW = 39; // Get all elements that are focusable
-
-        var focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
-
-        var _focusableElements = _slicedToArray(focusableElements, 1),
-            firstFocusableElement = _focusableElements[0];
-
-        var lastFocusableElement = focusableElements[focusableElements.length - 1];
-        element.addEventListener('keydown', function (e) {
-          switch (e.keyCode) {
-            case KEY_TAB:
-              if (focusableElements.length === 1) {
-                e.preventDefault();
-                break;
-              } // Backward tab
-
-
-              if (e.shiftKey) {
-                if (document.activeElement === firstFocusableElement) {
-                  e.preventDefault();
-                  lastFocusableElement.focus();
-                }
-              } else {
-                if (document.activeElement === lastFocusableElement) {
-                  e.preventDefault();
-                  firstFocusableElement.focus();
-                }
-              }
-
-              break;
-
-            case KEY_ESC:
-              _this3.cancel();
-
-              break;
-
-            case LEFT_ARROW:
-              _this3.tour.back();
-
-              break;
-
-            case RIGHT_ARROW:
-              _this3.tour.next();
-
-              break;
-
-            default:
-              break;
-          }
-        });
-      }
-      /**
-       * Creates Shepherd element for step based on options
-       *
-       * @private
-       * @return {HTMLElement} The DOM element for the step tooltip
-       */
-
-    }, {
-      key: "_createTooltipContent",
-      value: function _createTooltipContent() {
-        var content = document.createElement('div');
-        var classes = this.options.classes || '';
-        var descriptionId = "".concat(this.id, "-description");
-        var labelId = "".concat(this.id, "-label");
-        var element = createFromHTML("<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"").concat(this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
-        var header = document.createElement('header');
-
-        if (this.options.title) {
-          var title = document.createElement('h3');
-          title.classList.add('shepherd-title');
-          title.innerHTML = "".concat(this.options.title);
-          title.id = labelId;
-          element.setAttribute('aria-labeledby', labelId);
-          header.appendChild(title);
-        }
-
-        content.classList.add('shepherd-content');
-        header.classList.add('shepherd-header');
-        element.appendChild(content);
-        content.appendChild(header);
-
-        if (!isUndefined(this.options.text)) {
-          this._addContent(content, descriptionId);
-
-          element.setAttribute('aria-describedby', descriptionId);
-        }
-
-        this._addButtons(content);
-
-        this._addCancelLink(element, header);
-
-        return element;
-      }
-      /**
-       * Returns the tour for the step
-       * @return {Tour} The tour instance
-       */
-
-    }, {
-      key: "getTour",
-      value: function getTour() {
-        return this.tour;
-      }
-      /**
-       * Cancel the tour
-       * Triggers the `cancel` event
-       */
-
-    }, {
       key: "cancel",
       value: function cancel() {
         this.tour.cancel();
@@ -5592,6 +5397,16 @@
         }
 
         this.trigger('destroy');
+      }
+      /**
+       * Returns the tour for the step
+       * @return {Tour} The tour instance
+       */
+
+    }, {
+      key: "getTour",
+      value: function getTour() {
+        return this.tour;
       }
       /**
        * Hide the step and destroy the tippy instance
@@ -5673,7 +5488,7 @@
     }, {
       key: "setOptions",
       value: function setOptions() {
-        var _this4 = this;
+        var _this2 = this;
 
         var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         this.options = options;
@@ -5687,7 +5502,7 @@
                 event = _ref2[0],
                 handler = _ref2[1];
 
-            _this4.on(event, handler, _this4);
+            _this2.on(event, handler, _this2);
           });
         }
       }
@@ -5699,19 +5514,204 @@
     }, {
       key: "show",
       value: function show() {
-        var _this5 = this;
+        var _this3 = this;
 
         if (isFunction(this.options.beforeShowPromise)) {
           var beforeShowPromise = this.options.beforeShowPromise();
 
           if (!isUndefined(beforeShowPromise)) {
             return beforeShowPromise.then(function () {
-              return _this5._show();
+              return _this3._show();
             });
           }
         }
 
         this._show();
+      }
+      /**
+       * Adds buttons to the step as passed into options
+       *
+       * @param {HTMLElement} content The element for the step, to append the footer with buttons to
+       * @private
+       */
+
+    }, {
+      key: "_addButtons",
+      value: function _addButtons(content) {
+        var _this4 = this;
+
+        if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
+          var footer = document.createElement('footer');
+          footer.classList.add('shepherd-footer');
+          this.options.buttons.map(function (cfg) {
+            var button = createFromHTML("<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
+            footer.appendChild(button);
+
+            _this4.bindButtonEvents(cfg, button);
+          });
+          content.appendChild(footer);
+        }
+      }
+      /**
+       * Adds the "x" button to cancel the tour
+       * @param {HTMLElement} element The step element
+       * @param {HTMLElement} header The header element for the step
+       * @private
+       */
+
+    }, {
+      key: "_addCancelLink",
+      value: function _addCancelLink(element, header) {
+        if (this.options.showCancelLink) {
+          var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+          header.appendChild(link);
+          element.classList.add('shepherd-has-cancel-link');
+          this.bindCancelLink(link);
+        }
+      }
+      /**
+       * Adds text passed in as options
+       *
+       * @param {HTMLElement} content The content to append the text to
+       * @param {string} descriptionId The id to set on the shepherd-text element
+       * for the parent element to use for aria-describedby
+       * @private
+       */
+
+    }, {
+      key: "_addContent",
+      value: function _addContent(content, descriptionId) {
+        var text = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
+        var paragraphs = this.options.text;
+
+        if (isFunction(paragraphs)) {
+          paragraphs = paragraphs.call(this, text);
+        }
+
+        if (paragraphs instanceof HTMLElement) {
+          text.appendChild(paragraphs);
+        } else {
+          if (isString(paragraphs)) {
+            paragraphs = [paragraphs];
+          }
+
+          paragraphs.map(function (paragraph) {
+            text.innerHTML += "<p>".concat(paragraph, "</p>");
+          });
+        }
+
+        content.appendChild(text);
+      }
+      /**
+       * Setup keydown events to allow closing the modal with ESC
+       *
+       * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
+       *
+       * @param {HTMLElement} element The element for the tooltip
+       * @private
+       */
+
+    }, {
+      key: "_addKeyDownHandler",
+      value: function _addKeyDownHandler(element) {
+        var _this5 = this;
+
+        var KEY_TAB = 9;
+        var KEY_ESC = 27;
+        var LEFT_ARROW = 37;
+        var RIGHT_ARROW = 39; // Get all elements that are focusable
+
+        var focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+
+        var _focusableElements = _slicedToArray(focusableElements, 1),
+            firstFocusableElement = _focusableElements[0];
+
+        var lastFocusableElement = focusableElements[focusableElements.length - 1];
+        element.addEventListener('keydown', function (e) {
+          switch (e.keyCode) {
+            case KEY_TAB:
+              if (focusableElements.length === 1) {
+                e.preventDefault();
+                break;
+              } // Backward tab
+
+
+              if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                  e.preventDefault();
+                  lastFocusableElement.focus();
+                }
+              } else {
+                if (document.activeElement === lastFocusableElement) {
+                  e.preventDefault();
+                  firstFocusableElement.focus();
+                }
+              }
+
+              break;
+
+            case KEY_ESC:
+              _this5.cancel();
+
+              break;
+
+            case LEFT_ARROW:
+              _this5.tour.back();
+
+              break;
+
+            case RIGHT_ARROW:
+              _this5.tour.next();
+
+              break;
+
+            default:
+              break;
+          }
+        });
+      }
+      /**
+       * Creates Shepherd element for step based on options
+       *
+       * @return {HTMLElement} The DOM element for the step tooltip
+       * @private
+       */
+
+    }, {
+      key: "_createTooltipContent",
+      value: function _createTooltipContent() {
+        var content = document.createElement('div');
+        var classes = this.options.classes || '';
+        var descriptionId = "".concat(this.id, "-description");
+        var labelId = "".concat(this.id, "-label");
+        var element = createFromHTML("<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"").concat(this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
+        var header = document.createElement('header');
+
+        if (this.options.title) {
+          var title = document.createElement('h3');
+          title.classList.add('shepherd-title');
+          title.innerHTML = "".concat(this.options.title);
+          title.id = labelId;
+          element.setAttribute('aria-labeledby', labelId);
+          header.appendChild(title);
+        }
+
+        content.classList.add('shepherd-content');
+        header.classList.add('shepherd-header');
+        element.appendChild(content);
+        content.appendChild(header);
+
+        if (!isUndefined(this.options.text)) {
+          this._addContent(content, descriptionId);
+
+          element.setAttribute('aria-describedby', descriptionId);
+        }
+
+        this._addButtons(content);
+
+        this._addCancelLink(element, header);
+
+        return element;
       }
       /**
        * Triggers `before-show`, generates the tooltip DOM content,
@@ -6421,8 +6421,8 @@
   /**
    * Creates incremented ID for each newly created tour
    *
+   * @return {Function} A function that returns the unique id for the tour
    * @private
-   * @return {Number} The unique id for the tour
    */
 
   var uniqueId$1 = function () {

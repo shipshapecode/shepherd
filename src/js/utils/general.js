@@ -109,7 +109,7 @@ export function setupTooltip() {
 
 /**
  * Checks if options.attachTo.element is a string, and if so, tries to find the element
- * @returns {({} & {element, on}) | ({})}
+ * @returns {{element, on}}
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
