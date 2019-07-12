@@ -89,10 +89,12 @@ jobs:
     - stage: gh-pages release
       script:
         - yarn build
+        - yarn docs
         - yarn esdoc
       before_deploy:
         - git add -f --all dist/
         - git add -f --all docs/
+        - git add -f --all esdoc/
       deploy:
         provider: pages
         skip-cleanup: true
