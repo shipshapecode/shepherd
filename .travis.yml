@@ -92,7 +92,7 @@ jobs:
         - yarn esdoc
       before_deploy:
         - git add -f --all dist/
-        - git add -f --all esdoc/
+        - git add -f --all docs/
       deploy:
         provider: pages
         skip-cleanup: true

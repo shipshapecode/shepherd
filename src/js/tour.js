@@ -14,8 +14,8 @@ import { toggleShepherdModalClass } from './utils/modal';
 /**
  * Creates incremented ID for each newly created tour
  *
+ * @return {Function} A function that returns the unique id for the tour
  * @private
- * @return {Number} The unique id for the tour
  */
 const uniqueId = (function() {
   let id = 0;
