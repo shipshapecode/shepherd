@@ -34,6 +34,6 @@ module.exports = {
     // Do not include functions marked `@private`
     private: false,
     recurse: true,
-    template: './node_modules/jsdoc-template'
+    template: './jsdoc-template'
   }
 };
