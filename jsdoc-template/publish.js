@@ -205,9 +205,11 @@ function getPathFromDoclet(doclet) {
 }
 
 function generate(type, title, docs, filename, resolveLinks) {
+  var packageInfo = (find({kind: 'package'}) || [])[0];
   resolveLinks = resolveLinks !== false;
 
   var docData = {
+    package: packageInfo,
     type: type,
     title: title,
     docs: docs
@@ -408,6 +410,12 @@ exports.publish = function (taffyData, opts, tutorials) {
 
   helper.registerLink('global', globalUrl);
 
+  // set up templating
+  view.layout = conf.default.layoutFile ?
+    path.getResourcePath(path.dirname(conf.default.layoutFile),
+      path.basename(conf.default.layoutFile)) :
+    'layout.tmpl';
+
   // set up tutorials for helper
   helper.setTutorials(tutorials);
 
@@ -589,12 +597,6 @@ exports.publish = function (taffyData, opts, tutorials) {
       [{kind: 'mainpage', readme: opts.readme, longname: opts.mainpagetitle ? opts.mainpagetitle : 'Main Page'}]
     ).concat(files),
     indexUrl);
-
-  // set up templating
-  view.layout = conf.default.layoutFile ?
-    path.getResourcePath(path.dirname(conf.default.layoutFile),
-      path.basename(conf.default.layoutFile)) :
-    'layout.tmpl';
 
   // set up the lists that we'll use to generate pages
   var classes = taffy(members.classes);
