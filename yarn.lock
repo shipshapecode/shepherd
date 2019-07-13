@@ -5573,10 +5573,12 @@ jsdoc-mermaid@^1.0.0:
   dependencies:
     doctrine "^2.0.0"
 
-jsdoc-template-ship-shape@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.1.tgz#d8591d5a2371fc589f094f68bc209d4a2aeb70e2"
-  integrity sha512-01cG2VbBUdhqerDwk2gLBrQEMxQROkZ1NNicz/r7YeAi5wve79gGkRaVsVMPi06y64YnrnytrvJ8HG5+A7YADw==
+jsdoc-template-ship-shape@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.2.tgz#118083fb81e9a0f0c19b108c5300f01fa1c85840"
+  integrity sha512-ZHwVyWUbT7KCQTH4oCIkplTpeJxcn8U6kJvCgQKU0UAXPrpiQmVJ5l1Z+9XsElQjRRWHnX6P4nFWu120ocnIag==
+  dependencies:
+    taffydb "^2.7.3"
 
 jsdoc@^3.6.2:
   version "3.6.2"
@@ -9354,7 +9356,7 @@ taffydb@2.7.2:
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.2.tgz#7bf8106a5c1a48251b3e3bc0a0e1732489fd0dc8"
   integrity sha1-e/gQalwaSCUbPjvAoOFzJIn9Dcg=
 
-taffydb@2.7.3:
+taffydb@2.7.3, taffydb@^2.7.3:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.3.tgz#2ad37169629498fca5bc84243096d3cde0ec3a34"
   integrity sha1-KtNxaWKUmPylvIQkMJbTzeDsOjQ=
