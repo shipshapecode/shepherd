@@ -5573,9 +5573,10 @@ jsdoc-mermaid@^1.0.0:
   dependencies:
     doctrine "^2.0.0"
 
-"jsdoc-template@https://github.com/braintree/jsdoc-template":
-  version "3.3.0"
-  resolved "https://github.com/braintree/jsdoc-template#f919b0c422b19f1b639fb7a8e2a999f79dae4a27"
+jsdoc-template-ship-shape@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.1.tgz#d8591d5a2371fc589f094f68bc209d4a2aeb70e2"
+  integrity sha512-01cG2VbBUdhqerDwk2gLBrQEMxQROkZ1NNicz/r7YeAi5wve79gGkRaVsVMPi06y64YnrnytrvJ8HG5+A7YADw==
 
 jsdoc@^3.6.2:
   version "3.6.2"
