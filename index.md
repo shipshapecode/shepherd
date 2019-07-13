@@ -12,22 +12,6 @@ Guide your users through a tour of your app.
 | --------- | --------- | --------- | --------- |
 | IE11, Edge| last 2 versions| last 2 versions| last 2 versions
 
-### Install
-
-__npm__
-```bash
-npm install shepherd.js --save
-```
-
-__yarn__
-```bash
-yarn add shepherd.js
-```
-
-### Install with Eager
-
-**Note: Eager is now Cloudflare Apps and likely does not currently work.**
-
 ### Importing Shepherd into your app 
 
 #### Ember Apps
@@ -45,11 +29,6 @@ i.e.
 ```js
 import Shepherd from 'shepherd.js';
 ```
-
-#### GitHub Releases
-
-Whenever we release a new version, the contents of the `dist` are uploaded
-to the release in GitHub. You can find those assets [here](https://github.com/shipshapecode/shepherd/releases).
 
 ### Usage
 
