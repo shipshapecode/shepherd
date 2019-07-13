@@ -12,6 +12,8 @@ checks:
 exclude_patterns:
   - "dist/"
   - "docs/"
+  - "esdoc/"
+  - "jsdoc-template/"
   - "src/eager/"
   - "**/node_modules/"
   - "**/test/"
