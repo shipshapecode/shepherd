@@ -7,7 +7,6 @@
 /coverage/
 /cypress/
 /dist/
-/docs/shepherd.js/
 /node_modules/
 /test/unit/dist
 /.DS_Store
