@@ -93,11 +93,9 @@ jobs:
       script:
         - yarn build
         - yarn docs
-        - yarn esdoc
       before_deploy:
         - git add -f --all dist/
         - git add -f --all docs/shepherd.js/
-        - git add -f --all esdoc/
       deploy:
         provider: pages
         skip-cleanup: true

@@ -83,12 +83,12 @@ tour.start();
 Documentation
 ----------------------------------------------------------
 
-[API documentation](https://shipshapecode.github.io/shepherd/esdoc/)
+[API documentation](https://shepherdjs.dev/docs/shepherd.js/4.0.0-beta.1/)
 
 Demo
 ----------------------------------------------------------
 
-[Demo](https://shipshapecode.github.io/shepherd/docs/welcome/)
+[Demo](https://shepherdjs.dev/docs/welcome/)
 
 Contributing
 ----------------------------------------------------------
