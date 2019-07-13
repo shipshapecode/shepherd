@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>
-      Tutorial: Predefined Themes - Documentation
+      Tutorial: Theming and Styling - Documentation
   </title>
 
   <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
@@ -75,47 +75,138 @@
   <div id="main">
     
       <h1 class="page-title">
-        Tutorial: Predefined Themes
+        Tutorial: Theming and Styling
       </h1>
     
 
     <section>
   <header>
     
+      <ul>
+        
+            <li>
+              <a href="tutorial-predefined-themes.html">Predefined Themes</a>
+            </li>
+        
+      </ul>
+    
 
     <h2>
-      Predefined Themes
+      Theming and Styling
     </h2>
   </header>
 
   <article>
-    <h1>Shepherd Themes</h1>
-<p>Shepherd ships with a set of themes for you to choose from.</p>
-<p>👀 Take a look!</p>
-<h4>shepherd-theme-default</h4>
+    <p>We deliver some <a href="/docs/themes.md">predefined themes</a> (e.g., <code>shepherd-theme-default</code> or <code>shepherd-theme-square</code>). You are welcome to use one of them by embedding its stylesheet into your app.</p>
 <pre class="prettyprint source lang-html"><code>&lt;head>
   &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-default.css&quot;>
 &lt;/head>
 </code></pre>
-<p><img src="/docs-src/assets/img/themes/default.png" alt="default"></p>
-<h4>shepherd-theme-dark</h4>
-<pre class="prettyprint source lang-html"><code>&lt;head>
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-dark.css&quot;>
-&lt;/head>
+<p>If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance — or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
+<pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    classes: 'shepherd-theme-custom'
+  }
+});
 </code></pre>
-<p><img src="/docs-src/assets/img/themes/dark.png" alt="dark"></p>
-<h4>shepherd-theme-square</h4>
-<pre class="prettyprint source lang-html"><code>&lt;head>
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-square.css&quot;>
-&lt;/head>
+<h3>Leveraging Sass Variables</h3>
+<p>We use <a href="https://sass-lang.com/">SASS</a> as pre-processor for CSS. This allows us to extend the CSS language with various syntax techniques — including variables and color functions that can be used to control theming.</p>
+<p>These values and variables can be found in <a href="/src/scss/_variables.scss"><strong>_variables.scss</strong></a>, and the ones that can be adjusted for theming are listed below.</p>
+<p><strong>🎨 Color Settings</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$shepherd-theme-primary</td>
+<td>Primary or brand color. The primary button gets this color.</td>
+<td>#3288e6</td>
+</tr>
+<tr>
+<td>$shepherd-theme-secondary</td>
+<td>Secondary color. If it is not set explicitly, it is calculated using the primary color.</td>
+<td>desaturate(lighten($shepherd-theme-primary, 40), 70)</td>
+</tr>
+<tr>
+<td>$shepherd-text-background</td>
+<td>Background color of the text area.</td>
+<td>#ffffff</td>
+</tr>
+<tr>
+<td>$shepherd-header-background</td>
+<td>Background color of the header element. If it is not set explicitly, it is calculated using the text background color.</td>
+<td>darken($shepherd-text-background, 10)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>⚙️ Options</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$shepherd-element-width</td>
+<td>Width of the step element</td>
+<td>400px</td>
+</tr>
+<tr>
+<td>$shepherd-element-border-radius</td>
+<td>Set radius of rounded corners. 0 means (sharp) pointed corners.</td>
+<td>5px</td>
+</tr>
+<tr>
+<td>$shepherd-element-max-height</td>
+<td>Maximum height of the element</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>$shepherd-element-max-width</td>
+<td>Maximum width of the element</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>$shepherd-element-z-index</td>
+<td>Move the element forward or backward</td>
+<td>9999</td>
+</tr>
+<tr>
+<td>$shepherd-text-line-height</td>
+<td>Determine the line height of the body text</td>
+<td>1.3em</td>
+</tr>
+<tr>
+<td>$shepherd-button-border-radius</td>
+<td>Decide whether the buttons should have rounded or pointed corners. 0 means (sharp) pointed corners.</td>
+<td>3px</td>
+</tr>
+<tr>
+<td>$use-drop-shadow</td>
+<td>The element casts a shadow</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>The example below is intended to illustrate the individual customizations. Please make sure that the values are set before the import of the <em>base-theme</em>.</p>
+<pre class="prettyprint source lang-scss"><code>$shepherd-theme-primary: #9b59b6 !default;
+$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
+$shepherd-header-background: #eeeeee !default;
+$shepherd-element-border-radius: 0 !default;
+$shepherd-button-border-radius: 0 !default;
+$use-drop-shadow: true !default;
+
+@import 'base';
 </code></pre>
-<p><img src="/docs-src/assets/img/themes/square.png" alt="square"></p>
-<h4>shepherd-theme-square-dark</h4>
-<pre class="prettyprint source lang-html"><code>&lt;head>
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-square-dark.css&quot;>
-&lt;/head>
-</code></pre>
-<p><img src="/docs-src/assets/img/themes/square-dark.png" alt="square-dark"></p>
+<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements. The header is colored in a light gray tone.</p>
   </article>
 </section>
 

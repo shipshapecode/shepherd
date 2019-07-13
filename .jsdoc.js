@@ -35,6 +35,6 @@ module.exports = {
     private: false,
     recurse: true,
     template: './node_modules/jsdoc-template-ship-shape',
-    tutorials: './docs/tutorials'
+    tutorials: './docs-src/tutorials'
   }
 };

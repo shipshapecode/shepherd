@@ -13,7 +13,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![default](/docs/assets/img/themes/default.png)
+![default](/docs-src/assets/img/themes/default.png)
 
 
 #### shepherd-theme-dark
@@ -24,7 +24,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![dark](/docs/assets/img/themes/dark.png)
+![dark](/docs-src/assets/img/themes/dark.png)
 
 
 #### shepherd-theme-square
@@ -35,7 +35,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![square](/docs/assets/img/themes/square.png)
+![square](/docs-src/assets/img/themes/square.png)
 
 
 #### shepherd-theme-square-dark
@@ -46,4 +46,4 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![square-dark](/docs/assets/img/themes/square-dark.png)
+![square-dark](/docs-src/assets/img/themes/square-dark.png)
