@@ -26,7 +26,7 @@ describe('Shepherd Acceptance Tests', () => {
             {
               id: 'welcome',
               options: {
-                text: ['Shepherd is a JavaScript library'],
+                text: 'Shepherd is a JavaScript library',
                 attachTo: {
                   element: '.hero-welcome',
                   on: 'bottom'
