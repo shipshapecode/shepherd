@@ -1,24 +1,4 @@
-## Shepherd
-
-Guide your users through a tour of your app.
-
-### Dependencies
-
-[Tippy.js](https://atomiks.github.io/tippyjs/)
-
-## Browsers support
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| --------- | --------- | --------- | --------- |
-| IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-### Importing Shepherd into your app 
-
-#### Ember Apps
-
-There is an official Ember Addon, [ember-shepherd](https://github.com/shipshapecode/ember-shepherd), for using Shepherd with Ember apps.
-
-#### Rollup/Webpack Based Builds
+### Rollup/Webpack Based Builds
 
 The latest versions of Rollup and Webpack support ES6 imports. We have an ES module
 exported to `dist/js/shepherd.esm.js`. This is also specified as `"module"` in
@@ -29,8 +9,6 @@ i.e.
 ```js
 import Shepherd from 'shepherd.js';
 ```
-
-### Usage
 
 First create a new `Tour` instance for your tour:
 
@@ -76,7 +54,6 @@ If you need to remove a step from your tour, call `removeStep` on your `Tour` in
 ```javascript
 tour.removeStep('example-step');
 ```
-
 
 ### API
 
@@ -311,40 +288,3 @@ myTour.addStep('Step 1', {
 ```
 
 Furthermore, while each of [Shepherd's themes]((/docs/themes.md)) provides some basic arrow styling, you can style it as you wish by targeting [the markup that's genereated by Tippy](https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure).
-
-
-## Projects Using Shepherd
-
-Here we showcase some of the awesome libraries built using Shepherd.
-
-### JS Framework Wrappers
-
-### [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
-
-Ember addon for the site tour library Shepherd
-
-### [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
-
-An Angular wrapper for the site tour library Shepherd
-
-### [react-shepherd](https://github.com/shipshapecode/react-shepherd)
-
-A React wrapper for the site tour library Shepherd
-
-### [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
-
-A Vue wrapper for the site tour library Shepherd
-
-### Websites and Apps
-
-### [SimplePlanner](https://simpleplanner.io)
-
-[SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
-You do need to sign up via OAuth or email to see the scheduling tour. 
-Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplus.com/series/building-your-startup-with-php--cms-742) which describes how Simple Planner was built.
-
-[Brokermate](https://www.brokermate.com/) uses Shepherd to guide users through initial setup steps.
-
-### Your Project Here
-
-If you have a cool open-source library built on Shepherd, PR this doc.
