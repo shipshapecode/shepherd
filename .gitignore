@@ -6,6 +6,7 @@
 /.nyc_output/
 /coverage/
 /cypress/
+/docs/
 /dist/
 /node_modules/
 /test/unit/dist

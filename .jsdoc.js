@@ -23,10 +23,10 @@ module.exports = {
     // Do not disable sorting
     disableSort: false,
     // Do not collapse, show all methods
-    collapse: false
-    // 'resources': {
-    //   'google': 'https://www.google.com/'
-    // }
+    collapse: false,
+    resources: {
+      Demo: 'https://shepherdjs.dev/demo/'
+    }
   },
   opts: {
     destination: './docs/',
