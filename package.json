@@ -50,7 +50,6 @@
   "dependencies": {
     "body-scroll-lock": "^2.6.3",
     "element-matches": "^0.1.2",
-    "jsdoc": "^3.6.2",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
   },
@@ -79,8 +78,9 @@
     "jest": "^24.8.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
+    "jsdoc": "^3.6.2",
     "jsdoc-mermaid": "^1.0.0",
-    "jsdoc-template-ship-shape": "^0.0.2",
+    "jsdoc-template-ship-shape": "^0.0.3",
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.14",
     "replace": "^1.1.0",

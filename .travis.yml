@@ -95,7 +95,7 @@ jobs:
         - yarn docs
       before_deploy:
         - git add -f --all dist/
-        - git add -f --all docs/shepherd.js/
+        - git add -f --all docs/
       deploy:
         provider: pages
         skip-cleanup: true
