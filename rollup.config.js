@@ -86,13 +86,13 @@ if (process.env.DEVELOPMENT) {
       server: {
         baseDir: 'docs/welcome',
         routes: {
-          '/shepherd/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
-          '/shepherd/dist/js/shepherd.js': 'dist/js/shepherd.js',
-          '/shepherd/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
-          '/shepherd/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
-          '/shepherd/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
-          '/shepherd/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
-          '/shepherd/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
+          '/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
+          '/dist/js/shepherd.js': 'dist/js/shepherd.js',
+          '/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
+          '/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
+          '/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
+          '/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
+          '/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
         }
       }
     })
