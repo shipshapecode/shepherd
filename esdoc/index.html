@@ -176,9 +176,19 @@ created.</p>
 </ul>
 </li>
 <li><code>title</code>: The step&apos;s title. It becomes an <code>h3</code> at the top of the step.</li>
-<li><code>attachTo</code>: What element the step should be attached to on the page.  It can either be a string of the form <code>&quot;element on&quot;</code>, or an object with those properties.  For example: <code>&quot;.some #element left&quot;</code>, or <code>{element: &apos;.some #element&apos;,
-on: &apos;left&apos;}</code>.  If you use the object syntax, <code>element</code> can also be a DOM element.  If you don&apos;t specify an <code>attachTo</code>
-the element will appear in the middle of the screen.</li>
+<li><code>attachTo</code>: What element the step should be attached to on the page.
+It should be an object with the properties <code>element</code> and <code>on</code>, where <code>element</code> is an element selector string
+or a DOM element and <code>on</code> is the optional direction to place the Tippy tooltip.</li>
+</ul>
+<pre><code class="lang-js"><code class="source-code prettyprint">const new Step(tour, {
+  attachTo: { element: &apos;.some .selector-path&apos;, on: &apos;left&apos; },
+  ...moreOptions
+});</code>
+</code></pre>
+<p>If you don&#x2019;t specify an attachTo the element will appear in the middle of the screen.
+If you omit the <code>on</code> portion of <code>attachTo</code>, the element will still be highlighted, but the tooltip will appear
+in the middle of the screen, without an arrow pointing to the target.</p>
+<ul>
 <li><code>beforeShowPromise</code>: A function that returns a promise. When the promise resolves, the rest of the <code>show</code> code for
 the step will execute. For example:<pre><code class="lang-javascript"><code class="source-code prettyprint">beforeShowPromise: function() {
   return new Promise(function(resolve) {
