@@ -34,6 +34,7 @@ module.exports = {
     // Do not include functions marked `@private`
     private: false,
     recurse: true,
-    template: './node_modules/jsdoc-template-ship-shape'
+    template: './node_modules/jsdoc-template-ship-shape',
+    tutorials: './docs/tutorials'
   }
 };
