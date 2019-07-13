@@ -3,21 +3,21 @@ export default function(shepherd) {
     {
       id: 'welcome',
       options: {
-        text: [
-          `
-            Shepherd is a JavaScript library for guiding users through your app.
-            It uses <a href="https://atomiks.github.io/tippyjs//" data-test-tippy-link>Tippy.js</a>,
-            another open source library, to render dialogs for each tour "step".
-          `,
-          `
-            Among many things, Tippy makes sure your steps never end up off screen or cropped by an overflow.
-            (Try resizing your browser to see what we mean.)
-          `,
-          `
-            It also offers a robust API for styling animations of steps
-            as they enter and exit the view.
-          `
-        ],
+        text: `
+         <p>
+           Shepherd is a JavaScript library for guiding users through your app.
+           It uses <a href="https://atomiks.github.io/tippyjs//" data-test-tippy-link>Tippy.js</a>,
+           another open source library, to render dialogs for each tour "step".
+         </p>
+        
+         <p>
+           Among many things, Tippy makes sure your steps never end up off screen or cropped by an overflow.
+           (Try resizing your browser to see what we mean.)
+         </p>
+         <p>
+           It also offers a robust API for styling animations of steps
+           as they enter and exit the view.
+         </p>`,
         attachTo: {
           element: '.hero-welcome',
           on: 'bottom'

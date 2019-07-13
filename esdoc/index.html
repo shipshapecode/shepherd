@@ -168,11 +168,10 @@ You can also pass an existing <code>Step</code> instance rather than <code>optio
 <p>Steps are instances of the Step object.  They are generally created by the <code>Tour::addStep</code> method, which returns the <code>Step</code> instance it
 created.</p>
 <h4 id="steps">Steps</h4><h5 id="step-options">Step Options</h5><ul>
-<li><code>text</code>: The text in the body of the step.  It can be one of four types:<ul>
+<li><code>text</code>: The text in the body of the step. It can be one of three types:<ul>
 <li>HTML string</li>
-<li>Array of HTML strings</li>
 <li><code>HTMLElement</code> object</li>
-<li>Function to be executed when the step is built. It must return one the three options above.</li>
+<li><code>Function</code> to be executed when the step is built. It must return one the two options above.</li>
 </ul>
 </li>
 <li><code>title</code>: The step&apos;s title. It becomes an <code>h3</code> at the top of the step.</li>

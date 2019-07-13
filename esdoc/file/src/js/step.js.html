@@ -39,7 +39,7 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/js/step.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { isElement, isFunction, isString, isUndefined } from &apos;./utils/type-check&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { isElement, isFunction, isUndefined } from &apos;./utils/type-check&apos;;
 import { Evented } from &apos;./evented.js&apos;;
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from &apos;./utils/bind.js&apos;;
 import { createFromHTML, setupTooltip, parseAttachTo } from &apos;./utils/general.js&apos;;
@@ -126,12 +126,11 @@ export class Step extends Evented {
    * @param {boolean} options.showCancelLink Should a cancel &#x201C;&#x2715;&#x201D; be shown in the header of the step?
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
-   * @param {string} options.text The text in the body of the step. It can be one of four types:
+   * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
-   * - Array of HTML strings
    * - `HTMLElement` object
-   * - `Function` to be executed when the step is built. It must return one of the three options above.
+   * - `Function` to be executed when the step is built. It must return one the two options above.
    * ```
    * @param {string} options.title The step&apos;s title. It becomes an `h3` at the top of the step.
    * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
@@ -367,30 +366,22 @@ export class Step extends Evented {
    * @private
    */
   _addContent(content, descriptionId) {
-    const text = createFromHTML(
+    const textContainer = createFromHTML(
       `&lt;div class=&quot;shepherd-text&quot;
        id=&quot;${descriptionId}&quot;
        &gt;&lt;/div&gt;`
     );
-    let paragraphs = this.options.text;
 
-    if (isFunction(paragraphs)) {
-      paragraphs = paragraphs.call(this, text);
+    let { text } = this.options;
+
+    if (isFunction(text)) {
+      text = text.call(this, textContainer);
     }
 
-    if (paragraphs instanceof HTMLElement) {
-      text.appendChild(paragraphs);
-    } else {
-      if (isString(paragraphs)) {
-        paragraphs = [paragraphs];
-      }
+    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
+    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
 
-      paragraphs.map((paragraph) =&gt; {
-        text.innerHTML += `&lt;p&gt;${paragraph}&lt;/p&gt;`;
-      });
-    }
-
-    content.appendChild(text);
+    content.appendChild(textContainer);
   }
 
   /**

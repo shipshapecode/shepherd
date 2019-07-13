@@ -385,37 +385,37 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber500",
+    "test-file/test/unit/step.spec.js.html#lineNumber489",
     "Tour | Step _addButtons",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber521",
+    "test-file/test/unit/step.spec.js.html#lineNumber510",
     "Tour | Step _addButtons renders buttons for each item passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber501",
+    "test-file/test/unit/step.spec.js.html#lineNumber490",
     "Tour | Step _addButtons renders no buttons if an empty array is passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber512",
+    "test-file/test/unit/step.spec.js.html#lineNumber501",
     "Tour | Step _addButtons renders no buttons if nothing is passed to `options.buttons`",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber589",
+    "test-file/test/unit/step.spec.js.html#lineNumber578",
     "Tour | Step _addCancelLink",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber590",
+    "test-file/test/unit/step.spec.js.html#lineNumber579",
     "Tour | Step _addCancelLink Cancel link",
     "test"
   ],
@@ -433,49 +433,43 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber476",
+    "test-file/test/unit/step.spec.js.html#lineNumber465",
     "Tour | Step _addContent() applies HTML element directly to content",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber488",
+    "test-file/test/unit/step.spec.js.html#lineNumber477",
     "Tour | Step _addContent() applies the text from a function",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber465",
-    "Tour | Step _addContent() maps mutiple strings to paragraphs",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber544",
+    "test-file/test/unit/step.spec.js.html#lineNumber533",
     "Tour | Step _addKeyDownHandler",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber545",
+    "test-file/test/unit/step.spec.js.html#lineNumber534",
     "Tour | Step _addKeyDownHandler ESC cancels the tour",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber560",
+    "test-file/test/unit/step.spec.js.html#lineNumber549",
     "Tour | Step _addKeyDownHandler arrow keys move between steps",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber605",
+    "test-file/test/unit/step.spec.js.html#lineNumber594",
     "Tour | Step _createTooltipContent",
     "test"
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber606",
+    "test-file/test/unit/step.spec.js.html#lineNumber595",
     "Tour | Step _createTooltipContent ARIA attributes set",
     "test"
   ],

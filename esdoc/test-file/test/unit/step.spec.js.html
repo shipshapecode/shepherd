@@ -500,18 +500,7 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
 
       step._addContent(content);
 
-      expect(content.querySelector(&apos;.shepherd-text p&apos;).innerHTML).toBe(&apos;I am some test text.&apos;);
-    });
-
-    it(&apos;maps mutiple strings to paragraphs&apos;, () =&gt; {
-      const content = document.createElement(&apos;div&apos;);
-      const step = new Step();
-      step.options.text = [&apos;I am some test text.&apos;, &apos;I am even more test text.&apos;];
-
-      step._addContent(content);
-      expect(content.querySelectorAll(&apos;.shepherd-text p&apos;).length).toBe(2);
-      expect(step.options.text.join(&apos; &apos;))
-        .toBe(Array.from(content.querySelectorAll(&apos;.shepherd-text p&apos;)).map((text) =&gt; text.innerHTML).join(&apos; &apos;));
+      expect(content.querySelector(&apos;.shepherd-text&apos;).innerHTML).toBe(&apos;I am some test text.&apos;);
     });
 
     it(&apos;applies HTML element directly to content&apos;, () =&gt; {
@@ -523,7 +512,7 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
 
       step._addContent(content);
 
-      expect(content.querySelector(&apos;.shepherd-text p&apos;).innerHTML).toBe(&apos;I am some test text.&apos;);
+      expect(content.querySelector(&apos;.shepherd-text&apos;).innerHTML).toBe(&apos;&lt;p&gt;I am some test text.&lt;/p&gt;&apos;);
     });
 
     it(&apos;applies the text from a function&apos;, () =&gt; {
@@ -534,7 +523,7 @@ describe(&apos;Tour | Step&apos;, () =&gt; {
       step._addContent(content);
 
       expect(typeof step.options.text === &apos;function&apos;).toBeTruthy();
-      expect(content.querySelector(&apos;.shepherd-text p&apos;).innerHTML).toBe(&apos;I am some test text.&apos;);
+      expect(content.querySelector(&apos;.shepherd-text&apos;).innerHTML).toBe(&apos;I am some test text.&apos;);
     });
   });
 

@@ -459,18 +459,7 @@ describe('Tour | Step', () => {
 
       step._addContent(content);
 
-      expect(content.querySelector('.shepherd-text p').innerHTML).toBe('I am some test text.');
-    });
-
-    it('maps mutiple strings to paragraphs', () => {
-      const content = document.createElement('div');
-      const step = new Step();
-      step.options.text = ['I am some test text.', 'I am even more test text.'];
-
-      step._addContent(content);
-      expect(content.querySelectorAll('.shepherd-text p').length).toBe(2);
-      expect(step.options.text.join(' '))
-        .toBe(Array.from(content.querySelectorAll('.shepherd-text p')).map((text) => text.innerHTML).join(' '));
+      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
     });
 
     it('applies HTML element directly to content', () => {
@@ -482,7 +471,7 @@ describe('Tour | Step', () => {
 
       step._addContent(content);
 
-      expect(content.querySelector('.shepherd-text p').innerHTML).toBe('I am some test text.');
+      expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');
     });
 
     it('applies the text from a function', () => {
@@ -493,7 +482,7 @@ describe('Tour | Step', () => {
       step._addContent(content);
 
       expect(typeof step.options.text === 'function').toBeTruthy();
-      expect(content.querySelector('.shepherd-text p').innerHTML).toBe('I am some test text.');
+      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
     });
   });
 

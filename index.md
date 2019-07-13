@@ -187,11 +187,10 @@ created.
 
 ##### Step Options
 
-- `text`: The text in the body of the step.  It can be one of four types:
+- `text`: The text in the body of the step. It can be one of three types:
   - HTML string
-  - Array of HTML strings
   - `HTMLElement` object
-  - Function to be executed when the step is built. It must return one the three options above.
+  - `Function` to be executed when the step is built. It must return one the two options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
 - `attachTo`: What element the step should be attached to on the page.
 It should be an object with the properties `element` and `on`, where `element` is an element selector string

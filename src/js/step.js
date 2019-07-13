@@ -1,4 +1,4 @@
-import { isElement, isFunction, isString, isUndefined } from './utils/type-check';
+import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { Evented } from './evented.js';
 import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
@@ -85,12 +85,11 @@ export class Step extends Evented {
    * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
-   * @param {string} options.text The text in the body of the step. It can be one of four types:
+   * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
-   * - Array of HTML strings
    * - `HTMLElement` object
-   * - `Function` to be executed when the step is built. It must return one of the three options above.
+   * - `Function` to be executed when the step is built. It must return one the two options above.
    * ```
    * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
    * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
@@ -326,30 +325,22 @@ export class Step extends Evented {
    * @private
    */
   _addContent(content, descriptionId) {
-    const text = createFromHTML(
+    const textContainer = createFromHTML(
       `<div class="shepherd-text"
        id="${descriptionId}"
        ></div>`
     );
-    let paragraphs = this.options.text;
 
-    if (isFunction(paragraphs)) {
-      paragraphs = paragraphs.call(this, text);
+    let { text } = this.options;
+
+    if (isFunction(text)) {
+      text = text.call(this, textContainer);
     }
 
-    if (paragraphs instanceof HTMLElement) {
-      text.appendChild(paragraphs);
-    } else {
-      if (isString(paragraphs)) {
-        paragraphs = [paragraphs];
-      }
+    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
+    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
 
-      paragraphs.map((paragraph) => {
-        text.innerHTML += `<p>${paragraph}</p>`;
-      });
-    }
-
-    content.appendChild(text);
+    content.appendChild(textContainer);
   }
 
   /**

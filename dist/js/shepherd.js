@@ -5314,12 +5314,11 @@
      * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?
      * @param {function} options.showOn A function that, when it returns `true`, will show the step.
      * If it returns false, the step will be skipped.
-     * @param {string} options.text The text in the body of the step. It can be one of four types:
+     * @param {string} options.text The text in the body of the step. It can be one of three types:
      * ```
      * - HTML string
-     * - Array of HTML strings
      * - `HTMLElement` object
-     * - `Function` to be executed when the step is built. It must return one of the three options above.
+     * - `Function` to be executed when the step is built. It must return one the two options above.
      * ```
      * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
      * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
@@ -5581,26 +5580,16 @@
     }, {
       key: "_addContent",
       value: function _addContent(content, descriptionId) {
-        var text = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
-        var paragraphs = this.options.text;
+        var textContainer = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
+        var text = this.options.text;
 
-        if (isFunction(paragraphs)) {
-          paragraphs = paragraphs.call(this, text);
-        }
+        if (isFunction(text)) {
+          text = text.call(this, textContainer);
+        } // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
 
-        if (paragraphs instanceof HTMLElement) {
-          text.appendChild(paragraphs);
-        } else {
-          if (isString(paragraphs)) {
-            paragraphs = [paragraphs];
-          }
 
-          paragraphs.map(function (paragraph) {
-            text.innerHTML += "<p>".concat(paragraph, "</p>");
-          });
-        }
-
-        content.appendChild(text);
+        isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
+        content.appendChild(textContainer);
       }
       /**
        * Setup keydown events to allow closing the modal with ESC
