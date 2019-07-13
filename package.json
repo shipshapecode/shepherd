@@ -42,7 +42,7 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "homepage": "https://shepherdjs.dev/docs/welcome/",
+  "homepage": "https://shepherdjs.dev/demo/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "types": "src/shepherd.d.ts",
