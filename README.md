@@ -16,69 +16,13 @@ Shepherd
 
 [![Guide your users through a tour of your app](/docs/assets/img/intro-step.png)](https://shepherdjs.dev/docs/welcome/)
 
-## Browsers support
+Browsers support
+----------------------------------------------------------
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
 | IE11, Edge| last 2 versions| last 2 versions| last 2 versions
 
-Installation
-----------------------------------------------------------
-
-### JS Framework Wrappers
-
-We strive to make it easy to use Shepherd in all the major frameworks, and have written wrappers to facilitate this.
-
-* [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
-* [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
-* [react-shepherd](https://github.com/shipshapecode/react-shepherd)
-* [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
-
-
-### Install Directly
-
-__Dependencies__
-
-* __[Tippy.js](https://atomiks.github.io/tippyjs/)__
-
-Installing via `npm` will bring in the above dependencies as well.
-
-__npm__
-```bash
-npm install shepherd.js --save
-```
-
-__yarn__
-```bash
-yarn add shepherd.js
-```
-
-Usage
-----------------------------------------------------------
-
-```javascript
-let tour = new Shepherd.Tour({
-  defaultStepOptions: {
-    classes: 'shadow-md bg-purple-dark',
-    scrollTo: true
-  }
-});
-
-tour.addStep('example', {
-  title: 'Example Shepherd',
-  text: 'Creating a Shepherd is easy too! Just create ...',
-  attachTo: {
-    element: '.hero-example',
-    on: 'bottom'
-  },
-  advanceOn: {
-    selector: '.docs-link',
-    event: 'click'
-  }
-});
-
-tour.start();
-```
 
 Documentation
 ----------------------------------------------------------
@@ -98,3 +42,42 @@ We encourage contributions of all kinds. If you would like to contribute in some
 License
 ----------------------------------------------------------
 [MIT License](LICENSE)
+
+Projects Using Shepherd
+----------------------------------------------------------
+
+Here we showcase some of the awesome libraries built using Shepherd.
+
+### JS Framework Wrappers
+
+### [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
+
+Ember addon for the site tour library Shepherd
+
+### [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
+
+An Angular wrapper for the site tour library Shepherd
+
+### [react-shepherd](https://github.com/shipshapecode/react-shepherd)
+
+A React wrapper for the site tour library Shepherd
+
+### [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
+
+A Vue wrapper for the site tour library Shepherd
+
+### Websites and Apps
+
+### [SimplePlanner](https://simpleplanner.io)
+
+[SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
+You do need to sign up via OAuth or email to see the scheduling tour. 
+Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplus.com/series/building-your-startup-with-php--cms-742) which describes how Simple Planner was built.
+
+### [Brokermate](https://www.brokermate.com/) 
+
+[Brokermate](https://www.brokermate.com/) uses Shepherd to guide users through initial setup steps.
+
+### Your Project Here
+
+If you have a cool open-source library built on Shepherd, PR this doc.

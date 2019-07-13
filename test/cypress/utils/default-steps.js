@@ -63,7 +63,7 @@ export default function(shepherd) {
       id: 'example',
       options: {
         title: 'Example Shepherd',
-        text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shipshapecode.github.io/shepherd/">documentation</a> to learn more.',
+        text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shepherdjs.dev/docs/shepherd.js/4.0.0-beta.1/">documentation</a> to learn more.',
         attachTo: {
           element: '.hero-example',
           on: 'bottom'

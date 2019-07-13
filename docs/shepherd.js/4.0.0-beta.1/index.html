@@ -69,7 +69,7 @@
 
     
 
-    <h3>Tutorials</h3><ul><li id="Installation-nav"><a href="tutorial-Installation.html">Installation</a></li><li id="Theming and Styling-nav"><a href="tutorial-Theming and Styling.html">Theming and Styling</a></li></ul><h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
+    <h3>Tutorials</h3><ul><li id="01-install-nav"><a href="tutorial-01-install.html">Install</a></li><li id="02-usage-nav"><a href="tutorial-02-usage.html">Usage</a></li><li id="03-styling-nav"><a href="tutorial-03-styling.html">Theming and Styling</a></li></ul><h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
   </nav>
 
   <div id="main">
@@ -118,50 +118,6 @@
 </tr>
 </tbody>
 </table>
-<h2>Installation</h2>
-<h3>JS Framework Wrappers</h3>
-<p>We strive to make it easy to use Shepherd in all the major frameworks, and have written wrappers to facilitate this.</p>
-<ul>
-<li><a href="https://github.com/shipshapecode/angular-shepherd">angular-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/ember-shepherd">ember-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/react-shepherd">react-shepherd</a></li>
-<li><a href="https://github.com/shipshapecode/vue-shepherd">vue-shepherd</a></li>
-</ul>
-<h3>Install Directly</h3>
-<p><strong>Dependencies</strong></p>
-<ul>
-<li><strong><a href="https://atomiks.github.io/tippyjs/">Tippy.js</a></strong></li>
-</ul>
-<p>Installing via <code>npm</code> will bring in the above dependencies as well.</p>
-<p><strong>npm</strong></p>
-<pre class="prettyprint source lang-bash"><code>npm install shepherd.js --save
-</code></pre>
-<p><strong>yarn</strong></p>
-<pre class="prettyprint source lang-bash"><code>yarn add shepherd.js
-</code></pre>
-<h2>Usage</h2>
-<pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
-  defaultStepOptions: {
-    classes: 'shadow-md bg-purple-dark',
-    scrollTo: true
-  }
-});
-
-tour.addStep('example', {
-  title: 'Example Shepherd',
-  text: 'Creating a Shepherd is easy too! Just create ...',
-  attachTo: {
-    element: '.hero-example',
-    on: 'bottom'
-  },
-  advanceOn: {
-    selector: '.docs-link',
-    event: 'click'
-  }
-});
-
-tour.start();
-</code></pre>
 <h2>Documentation</h2>
 <p><a href="https://shepherdjs.dev/docs/shepherd.js/4.0.0-beta.1/">API documentation</a></p>
 <h2>Demo</h2>
@@ -170,6 +126,26 @@ tour.start();
 <p>We encourage contributions of all kinds. If you would like to contribute in some way, please review our <a href="CONTRIBUTING.md">guidelines for contributing</a>.</p>
 <h2>License</h2>
 <p><a href="LICENSE">MIT License</a></p>
+<h2>Projects Using Shepherd</h2>
+<p>Here we showcase some of the awesome libraries built using Shepherd.</p>
+<h3>JS Framework Wrappers</h3>
+<h3><a href="https://github.com/shipshapecode/ember-shepherd">ember-shepherd</a></h3>
+<p>Ember addon for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shipshapecode/angular-shepherd">angular-shepherd</a></h3>
+<p>An Angular wrapper for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shipshapecode/react-shepherd">react-shepherd</a></h3>
+<p>A React wrapper for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shipshapecode/vue-shepherd">vue-shepherd</a></h3>
+<p>A Vue wrapper for the site tour library Shepherd</p>
+<h3>Websites and Apps</h3>
+<h3><a href="https://simpleplanner.io">SimplePlanner</a></h3>
+<p><a href="https://simpleplanner.io">SimplePlanner</a> uses Shepherd to help new users get familiar with its collaborative scheduling approach.
+You do need to sign up via OAuth or email to see the scheduling tour.
+Check out the <a href="https://code.tutsplus.com/series/building-your-startup-with-php--cms-742">Envato Tuts+ Startup Series on its codebase</a> which describes how Simple Planner was built.</p>
+<h3><a href="https://www.brokermate.com/">Brokermate</a></h3>
+<p><a href="https://www.brokermate.com/">Brokermate</a> uses Shepherd to guide users through initial setup steps.</p>
+<h3>Your Project Here</h3>
+<p>If you have a cool open-source library built on Shepherd, PR this doc.</p>
     </article>
   </section>
 
