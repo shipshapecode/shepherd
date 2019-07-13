@@ -2876,13 +2876,6 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-doctrine@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-2.1.0.tgz#5cd01fc101621b42c4cd7f5d1a66243716d3f39d"
-  integrity sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==
-  dependencies:
-    esutils "^2.0.2"
-
 doctrine@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-3.0.0.tgz#addebead72a6574db783639dc87a121773973961"
@@ -5274,17 +5267,10 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdoc-mermaid@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/jsdoc-mermaid/-/jsdoc-mermaid-1.0.0.tgz#793f319d9f8658c6a15d1ce77f77de4c50fd5905"
-  integrity sha1-eT8xnZ+GWMahXRznf3feTFD9WQU=
-  dependencies:
-    doctrine "^2.0.0"
-
-jsdoc-template-ship-shape@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.3.tgz#b42e749e6daefb04d6567a70e42a0cdf44b0f3c8"
-  integrity sha512-lP/ZUoAOA7KFY5rvvWgCY5qI49wMqFmaivHmNBF7trvHJ/5kJIOQqyWwRudY7DDn82RAPM2VqyRPe/7eybxUDw==
+jsdoc-template-ship-shape@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.4.tgz#c3696594a36eada22b23cff7bff7ca7738809070"
+  integrity sha512-ifXmnll/n9S932Fbi7oXsmVujfMV+qAiDmgwunxIasFSwaYARpHtCNNKu1jJCsMXqIbAaqipjJLE+ljHsoRHKw==
   dependencies:
     taffydb "^2.7.3"
 
