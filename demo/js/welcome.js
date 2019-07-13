@@ -112,7 +112,7 @@
       title: 'Centered Shepherd Element',
       text: `But attachment is totally optional!\n \
       Without a target, a tour step will create an element that's centered within the view. \
-      Check out the <a href="https://shepherdjs.dev/docs/shepherd.js/4.0.0-beta.1/">documentation</a> to learn more.`,
+      Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.`,
       buttons: [
         {
           action: shepherd.back,
