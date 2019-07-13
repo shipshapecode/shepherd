@@ -107,17 +107,17 @@ export class Step extends Evented {
     super(tour, options);
     this.tour = tour;
     bindMethods.call(this, [
+      '_scrollTo',
+      '_setupElements',
       '_show',
       'cancel',
       'complete',
       'destroy',
       'hide',
       'isOpen',
-      'scrollTo',
-      'setupElements',
       'show'
     ]);
-    this.setOptions(options);
+    this._setOptions(options);
     this.bindAdvance = bindAdvance.bind(this);
     this.bindButtonEvents = bindButtonEvents.bind(this);
     this.bindCancelLink = bindCancelLink.bind(this);
@@ -206,60 +206,6 @@ export class Step extends Evented {
       this.tooltip.state &&
       this.tooltip.state.isVisible
     );
-  }
-
-  /**
-   * Create the element and set up the tippy instance
-   */
-  setupElements() {
-    if (!isUndefined(this.el)) {
-      this.destroy();
-    }
-
-    this.el = this._createTooltipContent();
-
-    this._addKeyDownHandler(this.el);
-
-    if (this.options.advanceOn) {
-      this.bindAdvance();
-    }
-
-    this.setupTooltip();
-  }
-
-  /**
-   * If a custom scrollToHandler is defined, call that, otherwise do the generic
-   * scrollIntoView call.
-   *
-   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
-   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
-   */
-  scrollTo(scrollToOptions) {
-    const { element } = this.parseAttachTo();
-
-    if (isFunction(this.options.scrollToHandler)) {
-      this.options.scrollToHandler(element);
-    } else if (isElement(element)) {
-      element.scrollIntoView(scrollToOptions);
-    }
-  }
-
-  /**
-   * Sets the options for the step, maps `when` to events, sets up buttons
-   * @param {Object} options The options for the step
-   */
-  setOptions(options = {}) {
-    this.options = options;
-    const { when } = this.options;
-
-    this.destroy();
-    this.id = this.options.id || `step-${uniqueId()}`;
-
-    if (when) {
-      Object.entries(when).forEach(([event, handler]) => {
-        this.on(event, handler, this);
-      });
-    }
   }
 
   /**
@@ -442,6 +388,63 @@ export class Step extends Evented {
   }
 
   /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   *
+   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
+   * @private
+   */
+  _scrollTo(scrollToOptions) {
+    const { element } = this.parseAttachTo();
+
+    if (isFunction(this.options.scrollToHandler)) {
+      this.options.scrollToHandler(element);
+    } else if (isElement(element)) {
+      element.scrollIntoView(scrollToOptions);
+    }
+  }
+
+  /**
+   * Sets the options for the step, maps `when` to events, sets up buttons
+   * @param {Object} options The options for the step
+   * @private
+   */
+  _setOptions(options = {}) {
+    this.options = options;
+    const { when } = this.options;
+
+    this.destroy();
+    this.id = this.options.id || `step-${uniqueId()}`;
+
+    if (when) {
+      Object.entries(when).forEach(([event, handler]) => {
+        this.on(event, handler, this);
+      });
+    }
+  }
+
+  /**
+   * Create the element and set up the tippy instance
+   * @private
+   */
+  _setupElements() {
+    if (!isUndefined(this.el)) {
+      this.destroy();
+    }
+
+    this.el = this._createTooltipContent();
+
+    this._addKeyDownHandler(this.el);
+
+    if (this.options.advanceOn) {
+      this.bindAdvance();
+    }
+
+    this.setupTooltip();
+  }
+
+  /**
    * Triggers `before-show`, generates the tooltip DOM content,
    * sets up a tippy instance for the tooltip, then triggers `show`.
    * @private
@@ -451,7 +454,7 @@ export class Step extends Evented {
     this.trigger('before-show');
 
     if (!this.el) {
-      this.setupElements();
+      this._setupElements();
     }
 
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
@@ -460,7 +463,7 @@ export class Step extends Evented {
 
     if (this.options.scrollTo) {
       setTimeout(() => {
-        this.scrollTo(this.options.scrollTo);
+        this._scrollTo(this.options.scrollTo);
       });
     }
 
