@@ -5339,9 +5339,9 @@
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Step).call(this, tour, options));
       _this.tour = tour;
-      bindMethods.call(_assertThisInitialized(_this), ['_show', 'cancel', 'complete', 'destroy', 'hide', 'isOpen', 'scrollTo', 'setupElements', 'show']);
+      bindMethods.call(_assertThisInitialized(_this), ['_scrollTo', '_setupElements', '_show', 'cancel', 'complete', 'destroy', 'hide', 'isOpen', 'show']);
 
-      _this.setOptions(options);
+      _this._setOptions(options);
 
       _this.bindAdvance = bindAdvance.bind(_assertThisInitialized(_this));
       _this.bindButtonEvents = bindButtonEvents.bind(_assertThisInitialized(_this));
@@ -5439,73 +5439,6 @@
         return Boolean(this.tooltip && this.tooltip.state && this.tooltip.state.isVisible);
       }
       /**
-       * Create the element and set up the tippy instance
-       */
-
-    }, {
-      key: "setupElements",
-      value: function setupElements() {
-        if (!isUndefined(this.el)) {
-          this.destroy();
-        }
-
-        this.el = this._createTooltipContent();
-
-        this._addKeyDownHandler(this.el);
-
-        if (this.options.advanceOn) {
-          this.bindAdvance();
-        }
-
-        this.setupTooltip();
-      }
-      /**
-       * If a custom scrollToHandler is defined, call that, otherwise do the generic
-       * scrollIntoView call.
-       *
-       * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
-       * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
-       */
-
-    }, {
-      key: "scrollTo",
-      value: function scrollTo(scrollToOptions) {
-        var _this$parseAttachTo = this.parseAttachTo(),
-            element = _this$parseAttachTo.element;
-
-        if (isFunction(this.options.scrollToHandler)) {
-          this.options.scrollToHandler(element);
-        } else if (isElement(element)) {
-          element.scrollIntoView(scrollToOptions);
-        }
-      }
-      /**
-       * Sets the options for the step, maps `when` to events, sets up buttons
-       * @param {Object} options The options for the step
-       */
-
-    }, {
-      key: "setOptions",
-      value: function setOptions() {
-        var _this2 = this;
-
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        this.options = options;
-        var when = this.options.when;
-        this.destroy();
-        this.id = this.options.id || "step-".concat(uniqueId());
-
-        if (when) {
-          Object.entries(when).forEach(function (_ref) {
-            var _ref2 = _slicedToArray(_ref, 2),
-                event = _ref2[0],
-                handler = _ref2[1];
-
-            _this2.on(event, handler, _this2);
-          });
-        }
-      }
-      /**
        * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
        * @return {*|Promise}
        */
@@ -5513,14 +5446,14 @@
     }, {
       key: "show",
       value: function show() {
-        var _this3 = this;
+        var _this2 = this;
 
         if (isFunction(this.options.beforeShowPromise)) {
           var beforeShowPromise = this.options.beforeShowPromise();
 
           if (!isUndefined(beforeShowPromise)) {
             return beforeShowPromise.then(function () {
-              return _this3._show();
+              return _this2._show();
             });
           }
         }
@@ -5537,7 +5470,7 @@
     }, {
       key: "_addButtons",
       value: function _addButtons(content) {
-        var _this4 = this;
+        var _this3 = this;
 
         if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
           var footer = document.createElement('footer');
@@ -5546,7 +5479,7 @@
             var button = createFromHTML("<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
             footer.appendChild(button);
 
-            _this4.bindButtonEvents(cfg, button);
+            _this3.bindButtonEvents(cfg, button);
           });
           content.appendChild(footer);
         }
@@ -5603,7 +5536,7 @@
     }, {
       key: "_addKeyDownHandler",
       value: function _addKeyDownHandler(element) {
-        var _this5 = this;
+        var _this4 = this;
 
         var KEY_TAB = 9;
         var KEY_ESC = 27;
@@ -5640,17 +5573,17 @@
               break;
 
             case KEY_ESC:
-              _this5.cancel();
+              _this4.cancel();
 
               break;
 
             case LEFT_ARROW:
-              _this5.tour.back();
+              _this4.tour.back();
 
               break;
 
             case RIGHT_ARROW:
-              _this5.tour.next();
+              _this4.tour.next();
 
               break;
 
@@ -5703,6 +5636,76 @@
         return element;
       }
       /**
+       * If a custom scrollToHandler is defined, call that, otherwise do the generic
+       * scrollIntoView call.
+       *
+       * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+       * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
+       * @private
+       */
+
+    }, {
+      key: "_scrollTo",
+      value: function _scrollTo(scrollToOptions) {
+        var _this$parseAttachTo = this.parseAttachTo(),
+            element = _this$parseAttachTo.element;
+
+        if (isFunction(this.options.scrollToHandler)) {
+          this.options.scrollToHandler(element);
+        } else if (isElement(element)) {
+          element.scrollIntoView(scrollToOptions);
+        }
+      }
+      /**
+       * Sets the options for the step, maps `when` to events, sets up buttons
+       * @param {Object} options The options for the step
+       * @private
+       */
+
+    }, {
+      key: "_setOptions",
+      value: function _setOptions() {
+        var _this5 = this;
+
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        this.options = options;
+        var when = this.options.when;
+        this.destroy();
+        this.id = this.options.id || "step-".concat(uniqueId());
+
+        if (when) {
+          Object.entries(when).forEach(function (_ref) {
+            var _ref2 = _slicedToArray(_ref, 2),
+                event = _ref2[0],
+                handler = _ref2[1];
+
+            _this5.on(event, handler, _this5);
+          });
+        }
+      }
+      /**
+       * Create the element and set up the tippy instance
+       * @private
+       */
+
+    }, {
+      key: "_setupElements",
+      value: function _setupElements() {
+        if (!isUndefined(this.el)) {
+          this.destroy();
+        }
+
+        this.el = this._createTooltipContent();
+
+        this._addKeyDownHandler(this.el);
+
+        if (this.options.advanceOn) {
+          this.bindAdvance();
+        }
+
+        this.setupTooltip();
+      }
+      /**
        * Triggers `before-show`, generates the tooltip DOM content,
        * sets up a tippy instance for the tooltip, then triggers `show`.
        * @private
@@ -5717,7 +5720,7 @@
         this.trigger('before-show');
 
         if (!this.el) {
-          this.setupElements();
+          this._setupElements();
         }
 
         this.target.classList.add('shepherd-enabled', 'shepherd-target');
@@ -5725,7 +5728,7 @@
 
         if (this.options.scrollTo) {
           setTimeout(function () {
-            _this6.scrollTo(_this6.options.scrollTo);
+            _this6._scrollTo(_this6.options.scrollTo);
           });
         }
 
@@ -6499,7 +6502,7 @@
         }
 
         if (!(step instanceof Step)) {
-          step = this.setupStep(step, name);
+          step = this._setupStep(step, name);
         } else {
           step.tour = this;
         }
@@ -6518,7 +6521,7 @@
         this.show(index - 1, false);
       }
       /**
-       * Calls done() triggering the 'cancel' event
+       * Calls _done() triggering the 'cancel' event
        * If `confirmCancel` is true, will show a window.confirm before cancelling
        */
 
@@ -6530,51 +6533,20 @@
           var stopTour = window.confirm(cancelMessage);
 
           if (stopTour) {
-            this.done('cancel');
+            this._done('cancel');
           }
         } else {
-          this.done('cancel');
+          this._done('cancel');
         }
       }
       /**
-       * Calls done() triggering the `complete` event
+       * Calls _done() triggering the `complete` event
        */
 
     }, {
       key: "complete",
       value: function complete() {
-        this.done('complete');
-      }
-      /**
-       * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-       * @param {String} event The event name to trigger
-       */
-
-    }, {
-      key: "done",
-      value: function done(event) {
-        if (Array.isArray(this.steps)) {
-          this.steps.forEach(function (step) {
-            return step.destroy();
-          });
-        }
-
-        cleanupStepEventListeners.call(this);
-        cleanupSteps(this.tourObject);
-        this.trigger(event);
-        Shepherd.activeTour = null;
-
-        this._removeBodyAttrs();
-
-        this.trigger('inactive', {
-          tour: this
-        });
-
-        if (this.options.disableScroll) {
-          clearAllBodyScrollLocks();
-        }
-
-        this.modal.cleanup();
+        this._done('complete');
       }
       /**
        * Gets the step from a given id
@@ -6670,23 +6642,6 @@
           this.steps.length ? this.show(0) : this.cancel();
         }
       }
-      /**
-       * Setup a new step object
-       * @param {Object} stepOptions The object describing the options for the step
-       * @param {String|Number} name The string or number to use as the `id` for the step
-       * @return {Step} The step instance
-       */
-
-    }, {
-      key: "setupStep",
-      value: function setupStep(stepOptions, name) {
-        if (isString(name) || isNumber(name)) {
-          stepOptions.id = name.toString();
-        }
-
-        stepOptions = _extends({}, this.options.defaultStepOptions, stepOptions);
-        return new Step(this, stepOptions);
-      }
     }, {
       key: "beforeShowStep",
       value: function beforeShowStep(step) {
@@ -6744,6 +6699,38 @@
         this.next();
       }
       /**
+       * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+       * @param {String} event The event name to trigger
+       * @private
+       */
+
+    }, {
+      key: "_done",
+      value: function _done(event) {
+        if (Array.isArray(this.steps)) {
+          this.steps.forEach(function (step) {
+            return step.destroy();
+          });
+        }
+
+        cleanupStepEventListeners.call(this);
+        cleanupSteps(this.tourObject);
+        this.trigger(event);
+        Shepherd.activeTour = null;
+
+        this._removeBodyAttrs();
+
+        this.trigger('inactive', {
+          tour: this
+        });
+
+        if (this.options.disableScroll) {
+          clearAllBodyScrollLocks();
+        }
+
+        this.modal.cleanup();
+      }
+      /**
        * Make this tour "active"
        * @private
        */
@@ -6759,6 +6746,24 @@
           tour: this
         });
         Shepherd.activeTour = this;
+      }
+      /**
+       * Setup a new step object
+       * @param {Object} stepOptions The object describing the options for the step
+       * @param {String|Number} name The string or number to use as the `id` for the step
+       * @return {Step} The step instance
+       * @private
+       */
+
+    }, {
+      key: "_setupStep",
+      value: function _setupStep(stepOptions, name) {
+        if (isString(name) || isNumber(name)) {
+          stepOptions.id = name.toString();
+        }
+
+        stepOptions = _extends({}, this.options.defaultStepOptions, stepOptions);
+        return new Step(this, stepOptions);
       }
       /**
        * Modulates the styles of the passed step's target element, based on the step's options and

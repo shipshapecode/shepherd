@@ -67,7 +67,7 @@
 
     
 
-    <h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-scrollTo-nav"><a href="Step.html#scrollTo">scrollTo</a></li><li data-type="method" id="Step-setOptions-nav"><a href="Step.html#setOptions">setOptions</a></li><li data-type="method" id="Step-setupElements-nav"><a href="Step.html#setupElements">setupElements</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-done-nav"><a href="Tour.html#done">done</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-setupStep-nav"><a href="Tour.html#setupStep">setupStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
+    <h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
   </nav>
 
   <div id="main">
@@ -773,7 +773,7 @@ When arg2 is undefined, arg1 is either an object containing step options or a St
 
 
   <div class="description">
-    <p>Calls done() triggering the 'cancel' event
+    <p>Calls _done() triggering the 'cancel' event
 If <code>confirmCancel</code> is true, will show a window.confirm before cancelling</p>
   </div>
 
@@ -865,7 +865,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
 
 
   <div class="description">
-    <p>Calls done() triggering the <code>complete</code> event</p>
+    <p>Calls _done() triggering the <code>complete</code> event</p>
   </div>
 
 
@@ -909,152 +909,6 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
       <ul class="dummy">
         <li>
           <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line136">line 136</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#done">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="done">
-      <span class="type-signature"></span>done<span class="signature">(event)</span><span class="type-signature"></span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Called whenever the tour is cancelled or completed, basically anytime we exit the tour</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>event</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      String
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The event name to trigger</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line144">line 144</a>
         </li>
       </ul>
     </dd>
@@ -1206,7 +1060,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line170">line 170</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line145">line 145</a>
         </li>
       </ul>
     </dd>
@@ -1297,7 +1151,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line180">line 180</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line155">line 155</a>
         </li>
       </ul>
     </dd>
@@ -1388,7 +1242,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line187">line 187</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line162">line 162</a>
         </li>
       </ul>
     </dd>
@@ -1479,7 +1333,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line199">line 199</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line174">line 174</a>
         </li>
       </ul>
     </dd>
@@ -1571,7 +1425,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line207">line 207</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line182">line 182</a>
         </li>
       </ul>
     </dd>
@@ -1717,188 +1571,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line221">line 221</a>
-        </li>
-      </ul>
-    </dd>
-  
-
-  
-
-  
-
-  
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-        
-
-
-  
-
-  <span class='name-container'>
-    <a class="link-icon" href="#setupStep">
-      <svg height="20" width="20" style="fill: black;">
-        <use xlink:href="#linkIcon"></use>
-      </svg>
-    </a>
-    <h4 class="name" id="setupStep">
-      <span class="type-signature"></span>setupStep<span class="signature">(stepOptions, name)</span><span class="type-signature"> &rarr; {<a href="Step.html">Step</a>}</span>
-    </h4>
-  </span>
-
-  
-
-
-
-  <div class="description">
-    <p>Setup a new step object</p>
-  </div>
-
-
-
-
-
-
-
-  <h5>Parameters:</h5>
-  
-
-<table class="params">
-  <thead>
-    <tr>
-      
-        <th>Name</th>
-      
-
-      <th>Type</th>
-
-      
-
-      
-
-      <th class="last">Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-      <tr>
-        
-          <td class="name"><code>stepOptions</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      Object
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The object describing the options for the step</p>
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>name</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      String
-    </span>
-
-    |
-
-    <span class="param-type">
-      Number
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>The string or number to use as the <code>id</code> for the step</p>
-          
-        </td>
-      </tr>
-
-    
-  </tbody>
-</table>
-
-
-
-
-
-<dl class="details">
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source">
-      <ul class="dummy">
-        <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line252">line 252</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line196">line 196</a>
         </li>
       </ul>
     </dd>
@@ -2093,7 +1766,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line272">line 272</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line231">line 231</a>
         </li>
       </ul>
     </dd>
@@ -2184,7 +1857,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line298">line 298</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line257">line 257</a>
         </li>
       </ul>
     </dd>

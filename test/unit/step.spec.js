@@ -274,14 +274,14 @@ describe('Tour | Step', () => {
     it('binds the expected methods', () => {
       const step = new Step();
       const methods = [
+        '_scrollTo',
+        '_setupElements',
         '_show',
         'cancel',
         'complete',
         'destroy',
         'hide',
         'isOpen',
-        'scrollTo',
-        'setupElements',
         'show'
       ];
       methods.forEach((method) => {
@@ -369,14 +369,14 @@ describe('Tour | Step', () => {
     });
   });
 
-  describe('setupElements()', () => {
+  describe('_setupElements()', () => {
     it('calls destroy on the step if the content element is already set', () => {
       const step = new Step();
       let destroyCalled = false;
       step.el = document.createElement('a');
       step.destroy = () => destroyCalled = true;
-      step.setupElements();
-      expect(destroyCalled, 'setupElements method called destroy with element set').toBeTruthy();
+      step._setupElements();
+      expect(destroyCalled, '_setupElements method called destroy with element set').toBeTruthy();
     });
 
     it('calls destroy on the tooltip if it already exists', () => {
@@ -385,8 +385,8 @@ describe('Tour | Step', () => {
       step.tooltip = {
         destroy() { destroyCalled = true; }
       };
-      step.setupElements();
-      expect(destroyCalled, 'setupElements method called destroy on the existing tooltip').toBe(true);
+      step._setupElements();
+      expect(destroyCalled, '_setupElements method called destroy on the existing tooltip').toBe(true);
     });
 
     it('calls bindAdvance() if advanceOn passed', () => {
@@ -396,13 +396,13 @@ describe('Tour | Step', () => {
         advanceOn: { selector: '.click-test', event: 'test' }
       });
       const bindFunction = spy(step, 'bindAdvance');
-      step.setupElements();
+      step._setupElements();
 
       expect(bindFunction.called).toBeTruthy();
     });
   });
 
-  describe('scrollTo()', () => {
+  describe('_scrollTo()', () => {
     it('calls the scroll native method', () => {
       const div = document.createElement('div');
       let handlerCalled = false;
@@ -413,7 +413,7 @@ describe('Tour | Step', () => {
       });
       div.scrollIntoView = () => handlerCalled = true;
 
-      step.scrollTo();
+      step._scrollTo();
       expect(handlerCalled).toBeTruthy();
     });
 
@@ -423,7 +423,7 @@ describe('Tour | Step', () => {
         scrollToHandler: () => handlerAdded = true
       });
 
-      step.scrollTo();
+      step._scrollTo();
       expect(handlerAdded).toBeTruthy();
     });
   });

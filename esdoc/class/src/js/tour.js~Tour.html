@@ -372,7 +372,7 @@
       <div>
         
         
-        <div data-ice="description"><p>Calls done() triggering the &apos;cancel&apos; event
+        <div data-ice="description"><p>Calls _done() triggering the &apos;cancel&apos; event
 If <code>confirmCancel</code> is true, will show a window.confirm before cancelling</p>
 </div>
       </div>
@@ -402,36 +402,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
       <div>
         
         
-        <div data-ice="description"><p>Calls done() triggering the <code>complete</code> event</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/js/tour.js~Tour.html#instance-method-done">done</a></span></span><span class="code" data-ice="signature">(event: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Called whenever the tour is cancelled or completed, basically anytime we exit the tour</p>
+        <div data-ice="description"><p>Calls _done() triggering the <code>complete</code> event</p>
 </div>
       </div>
     </td>
@@ -629,35 +600,6 @@ If we are at the end, call <code>complete</code></p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/js/tour.js~Tour.html#instance-method-setupStep">setupStep</a></span></span><span class="code" data-ice="signature">(stepOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/js/step.js~Step.html">Step</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Setup a new step object</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/src/js/tour.js~Tour.html#instance-method-show">show</a></span></span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forward: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
         </p>
       </div>
@@ -730,6 +672,35 @@ If we are at the end, call <code>complete</code></p>
         
         <div data-ice="description"><p>Adds the data-shepherd-active-tour attribute and the &apos;shepherd-active&apos;
 class to the body.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/js/tour.js~Tour.html#instance-method-_done">_done</a></span></span><span class="code" data-ice="signature">(event: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Called whenever the tour is cancelled or completed, basically anytime we exit the tour</p>
 </div>
       </div>
     </td>
@@ -847,6 +818,35 @@ class from the body.</p>
         
         
         <div data-ice="description"><p>Make this tour &quot;active&quot;</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/js/tour.js~Tour.html#instance-method-_setupStep">_setupStep</a></span></span><span class="code" data-ice="signature">(stepOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/js/step.js~Step.html">Step</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Setup a new step object</p>
 </div>
       </div>
     </td>
@@ -1227,7 +1227,7 @@ can remain interactive</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber239">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber214">source</a></span></span>
     </span>
   </h3>
 
@@ -1270,7 +1270,7 @@ can remain interactive</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber390">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber392">source</a></span></span>
     </span>
   </h3>
 
@@ -1571,7 +1571,7 @@ When arg2 is undefined, arg1 is either an object containing step options or a St
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber262">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber221">source</a></span></span>
     </span>
   </h3>
 
@@ -1637,7 +1637,7 @@ When arg2 is undefined, arg1 is either an object containing step options or a St
   
   
   
-  <div data-ice="description"><p>Calls done() triggering the &apos;cancel&apos; event
+  <div data-ice="description"><p>Calls _done() triggering the &apos;cancel&apos; event
 If <code>confirmCancel</code> is true, will show a window.confirm before cancelling</p>
 </div>
 
@@ -1682,73 +1682,12 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
   
   
   
-  <div data-ice="description"><p>Calls done() triggering the <code>complete</code> event</p>
+  <div data-ice="description"><p>Calls _done() triggering the <code>complete</code> event</p>
 </div>
 
   
 
   <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-done">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">done</span><span class="code" data-ice="signature">(event: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber144">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Called whenever the tour is cancelled or completed, basically anytime we exit the tour</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">event</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The event name to trigger</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
 </div>
 
   
@@ -1780,7 +1719,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber170">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber145">source</a></span></span>
     </span>
   </h3>
 
@@ -1854,7 +1793,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber180">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber155">source</a></span></span>
     </span>
   </h3>
 
@@ -1910,7 +1849,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber187">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber162">source</a></span></span>
     </span>
   </h3>
 
@@ -1966,7 +1905,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber199">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber174">source</a></span></span>
     </span>
   </h3>
 
@@ -2022,7 +1961,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber207">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber182">source</a></span></span>
     </span>
   </h3>
 
@@ -2067,7 +2006,7 @@ If we are at the end, call <code>complete</code></p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber221">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber196">source</a></span></span>
     </span>
   </h3>
 
@@ -2117,18 +2056,415 @@ If we are at the end, call <code>complete</code></p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-setupStep">
+  <h3 data-ice="anchor" id="instance-method-show">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">setupStep</span><span class="code" data-ice="signature">(stepOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/js/step.js~Step.html">Step</a></span></span>
+    <span class="code" data-ice="name">show</span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forward: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber252">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber231">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Show a specific step in the tour</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">key</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The key to look up the step by</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">forward</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>True if we are going forward, false if backward</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-start">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">start</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber257">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Start the tour</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<h2 data-ice="title">Private Methods</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_addBodyAttrs">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_addBodyAttrs</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber400">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Adds the data-shepherd-active-tour attribute and the &apos;shepherd-active&apos;
+class to the body.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_done">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_done</span><span class="code" data-ice="signature">(event: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber274">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Called whenever the tour is cancelled or completed, basically anytime we exit the tour</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">event</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The event name to trigger</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_removeBodyAttrs">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_removeBodyAttrs</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber410">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Removes the data-shepherd-active-tour attribute and the &apos;shepherd-active&apos;
+class from the body.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setTooltipDefaults">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setTooltipDefaults</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber365">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Set the tippy defaults</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setTourID">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setTourID</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber388">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Sets this.id to <code>${tourName}--${uuid}</code></p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setupActiveTour">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setupActiveTour</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber299">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Make this tour &quot;active&quot;</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setupStep">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setupStep</span><span class="code" data-ice="signature">(stepOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="class/src/js/step.js~Step.html">Step</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber314">source</a></span></span>
     </span>
   </h3>
 
@@ -2198,342 +2534,6 @@ If we are at the end, call <code>complete</code></p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-show">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">show</span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forward: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber272">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Show a specific step in the tour</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">key</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The key to look up the step by</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">forward</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>True if we are going forward, false if backward</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-start">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">start</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber298">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Start the tour</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<h2 data-ice="title">Private Methods</h2>
-
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-_addBodyAttrs">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">_addBodyAttrs</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber398">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Adds the data-shepherd-active-tour attribute and the &apos;shepherd-active&apos;
-class to the body.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-_removeBodyAttrs">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">_removeBodyAttrs</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber408">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Removes the data-shepherd-active-tour attribute and the &apos;shepherd-active&apos;
-class from the body.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-_setTooltipDefaults">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">_setTooltipDefaults</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber363">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Set the tippy defaults</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-_setTourID">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">_setTourID</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber386">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Sets this.id to <code>${tourName}--${uuid}</code></p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-_setupActiveTour">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">_setupActiveTour</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber314">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Make this tour &quot;active&quot;</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-_skipStep">
     <span class="access" data-ice="access">private</span>
     
@@ -2545,7 +2545,7 @@ class from the body.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber353">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber355">source</a></span></span>
     </span>
   </h3>
 
@@ -2613,7 +2613,7 @@ class from the body.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber329">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber331">source</a></span></span>
     </span>
   </h3>
 
@@ -2675,7 +2675,7 @@ the tour&apos;s <code>modal</code> option, to visually emphasize the element</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber372">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/tour.js.html#lineNumber374">source</a></span></span>
     </span>
   </h3>
 

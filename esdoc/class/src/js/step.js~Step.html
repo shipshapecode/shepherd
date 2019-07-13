@@ -598,94 +598,6 @@ Triggers <code>destroy</code> event</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-scrollTo">scrollTo</a></span></span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>If a custom scrollToHandler is defined, call that, otherwise do the generic
-scrollIntoView call.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-setOptions">setOptions</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Sets the options for the step, maps <code>when</code> to events, sets up buttons</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-setupElements">setupElements</a></span></span><span class="code" data-ice="signature">()</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Create the element and set up the tippy instance</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-show">show</a></span></span><span class="code" data-ice="signature">(): <span>*</span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
         </p>
       </div>
@@ -844,6 +756,94 @@ scrollIntoView call.</p>
         
         
         <div data-ice="description"><p>Creates Shepherd element for step based on options</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-_scrollTo">_scrollTo</a></span></span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>If a custom scrollToHandler is defined, call that, otherwise do the generic
+scrollIntoView call.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-_setOptions">_setOptions</a></span></span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Sets the options for the step, maps <code>when</code> to events, sets up buttons</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/js/step.js~Step.html#instance-method-_setupElements">_setupElements</a></span></span><span class="code" data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Create the element and set up the tippy instance</p>
 </div>
       </div>
     </td>
@@ -1522,7 +1522,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber256">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber418">source</a></span></span>
     </span>
   </h3>
 
@@ -1565,7 +1565,7 @@ If it returns false, the step will be skipped.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber252">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber414">source</a></span></span>
     </span>
   </h3>
 
@@ -2065,174 +2065,6 @@ Triggers <code>destroy</code> event</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-scrollTo">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">scrollTo</span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber237">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>If a custom scrollToHandler is defined, call that, otherwise do the generic
-scrollIntoView call.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">scrollToOptions</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>If true, uses the default <code>scrollIntoView</code>,
-if an object, passes that object as the params to <code>scrollIntoView</code> i.e. <code>{ behavior: &apos;smooth&apos;, block: &apos;center&apos; }</code></p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-setOptions">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">setOptions</span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber251">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Sets the options for the step, maps <code>when</code> to events, sets up buttons</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">options</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The options for the step</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-setupElements">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">setupElements</span><span class="code" data-ice="signature">()</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber214">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Create the element and set up the tippy instance</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-show">
     <span class="access" data-ice="access">public</span>
     
@@ -2244,7 +2076,7 @@ if an object, passes that object as the params to <code>scrollIntoView</code> i.
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber269">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber215">source</a></span></span>
     </span>
   </h3>
 
@@ -2302,7 +2134,7 @@ if an object, passes that object as the params to <code>scrollIntoView</code> i.
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber285">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber231">source</a></span></span>
     </span>
   </h3>
 
@@ -2363,7 +2195,7 @@ if an object, passes that object as the params to <code>scrollIntoView</code> i.
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber309">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber255">source</a></span></span>
     </span>
   </h3>
 
@@ -2431,7 +2263,7 @@ if an object, passes that object as the params to <code>scrollIntoView</code> i.
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber327">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber273">source</a></span></span>
     </span>
   </h3>
 
@@ -2500,7 +2332,7 @@ for the parent element to use for aria-describedby</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber354">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber300">source</a></span></span>
     </span>
   </h3>
 
@@ -2562,7 +2394,7 @@ for the parent element to use for aria-describedby</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber406">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber352">source</a></span></span>
     </span>
   </h3>
 
@@ -2608,6 +2440,174 @@ for the parent element to use for aria-describedby</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_scrollTo">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_scrollTo</span><span class="code" data-ice="signature">(scrollToOptions: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber398">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>If a custom scrollToHandler is defined, call that, otherwise do the generic
+scrollIntoView call.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">scrollToOptions</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>If true, uses the default <code>scrollIntoView</code>,
+if an object, passes that object as the params to <code>scrollIntoView</code> i.e. <code>{ behavior: &apos;smooth&apos;, block: &apos;center&apos; }</code></p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setOptions">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setOptions</span><span class="code" data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber413">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Sets the options for the step, maps <code>when</code> to events, sets up buttons</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">options</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The options for the step</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_setupElements">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_setupElements</span><span class="code" data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber431">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Create the element and set up the tippy instance</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-_show">
     <span class="access" data-ice="access">private</span>
     
@@ -2619,7 +2619,7 @@ for the parent element to use for aria-describedby</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber449">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber452">source</a></span></span>
     </span>
   </h3>
 
@@ -2664,7 +2664,7 @@ sets up a tippy instance for the tooltip, then triggers <code>show</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber477">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/js/step.js.html#lineNumber480">source</a></span></span>
     </span>
   </h3>
 

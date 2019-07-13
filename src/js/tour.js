@@ -97,7 +97,7 @@ export class Tour extends Evented {
     }
 
     if (!(step instanceof Step)) {
-      step = this.setupStep(step, name);
+      step = this._setupStep(step, name);
     } else {
       step.tour = this;
     }
@@ -115,7 +115,7 @@ export class Tour extends Evented {
   }
 
   /**
-   * Calls done() triggering the 'cancel' event
+   * Calls _done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
    */
   cancel() {
@@ -123,43 +123,18 @@ export class Tour extends Evented {
       const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
       const stopTour = window.confirm(cancelMessage);
       if (stopTour) {
-        this.done('cancel');
+        this._done('cancel');
       }
     } else {
-      this.done('cancel');
+      this._done('cancel');
     }
   }
 
   /**
-   * Calls done() triggering the `complete` event
+   * Calls _done() triggering the `complete` event
    */
   complete() {
-    this.done('complete');
-  }
-
-  /**
-   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param {String} event The event name to trigger
-   */
-  done(event) {
-    if (Array.isArray(this.steps)) {
-      this.steps.forEach((step) => step.destroy());
-    }
-
-    cleanupStepEventListeners.call(this);
-    cleanupSteps(this.tourObject);
-
-    this.trigger(event);
-
-    Shepherd.activeTour = null;
-    this._removeBodyAttrs();
-    this.trigger('inactive', { tour: this });
-
-    if (this.options.disableScroll) {
-      clearAllBodyScrollLocks();
-    }
-
-    this.modal.cleanup();
+    this._done('complete');
   }
 
   /**
@@ -243,22 +218,6 @@ export class Tour extends Evented {
     }
   }
 
-  /**
-   * Setup a new step object
-   * @param {Object} stepOptions The object describing the options for the step
-   * @param {String|Number} name The string or number to use as the `id` for the step
-   * @return {Step} The step instance
-   */
-  setupStep(stepOptions, name) {
-    if (isString(name) || isNumber(name)) {
-      stepOptions.id = name.toString();
-    }
-
-    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
-
-    return new Step(this, stepOptions);
-  }
-
   beforeShowStep(step) {
     this.modal.setupForStep(step);
     this._styleTargetElementForStep(step);
@@ -308,6 +267,32 @@ export class Tour extends Evented {
   }
 
   /**
+   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
+   * @param {String} event The event name to trigger
+   * @private
+   */
+  _done(event) {
+    if (Array.isArray(this.steps)) {
+      this.steps.forEach((step) => step.destroy());
+    }
+
+    cleanupStepEventListeners.call(this);
+    cleanupSteps(this.tourObject);
+
+    this.trigger(event);
+
+    Shepherd.activeTour = null;
+    this._removeBodyAttrs();
+    this.trigger('inactive', { tour: this });
+
+    if (this.options.disableScroll) {
+      clearAllBodyScrollLocks();
+    }
+
+    this.modal.cleanup();
+  }
+
+  /**
    * Make this tour "active"
    * @private
    */
@@ -317,6 +302,23 @@ export class Tour extends Evented {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
+  }
+
+  /**
+   * Setup a new step object
+   * @param {Object} stepOptions The object describing the options for the step
+   * @param {String|Number} name The string or number to use as the `id` for the step
+   * @return {Step} The step instance
+   * @private
+   */
+  _setupStep(stepOptions, name) {
+    if (isString(name) || isNumber(name)) {
+      stepOptions.id = name.toString();
+    }
+
+    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
+
+    return new Step(this, stepOptions);
   }
 
   /**

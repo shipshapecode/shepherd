@@ -475,6 +475,48 @@ window.esdocSearchIndex = [
   ],
   [
     "",
+    "test-file/test/unit/step.spec.js.html#lineNumber405",
+    "Tour | Step _scrollTo()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber420",
+    "Tour | Step _scrollTo() calls the custom handler",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber406",
+    "Tour | Step _scrollTo() calls the scroll native method",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber372",
+    "Tour | Step _setupElements()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber392",
+    "Tour | Step _setupElements() calls bindAdvance() if advanceOn passed",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber373",
+    "Tour | Step _setupElements() calls destroy on the step if the content element is already set",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/step.spec.js.html#lineNumber382",
+    "Tour | Step _setupElements() calls destroy on the tooltip if it already exists",
+    "test"
+  ],
+  [
+    "",
     "test-file/test/unit/step.spec.js.html#lineNumber135",
     "Tour | Step bindAdvance()",
     "test"
@@ -625,24 +667,6 @@ window.esdocSearchIndex = [
   ],
   [
     "",
-    "test-file/test/unit/step.spec.js.html#lineNumber405",
-    "Tour | Step scrollTo()",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber420",
-    "Tour | Step scrollTo() calls the custom handler",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber406",
-    "Tour | Step scrollTo() calls the scroll native method",
-    "test"
-  ],
-  [
-    "",
     "test-file/test/unit/step.spec.js.html#lineNumber431",
     "Tour | Step setOptions()",
     "test"
@@ -651,30 +675,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/unit/step.spec.js.html#lineNumber432",
     "Tour | Step setOptions() calls event handlers passed in as properties to the `when` option",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber372",
-    "Tour | Step setupElements()",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber392",
-    "Tour | Step setupElements() calls bindAdvance() if advanceOn passed",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber373",
-    "Tour | Step setupElements() calls destroy on the step if the content element is already set",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/step.spec.js.html#lineNumber382",
-    "Tour | Step setupElements() calls destroy on the tooltip if it already exists",
     "test"
   ],
   [
@@ -723,6 +723,30 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/unit/tour.spec.js.html#lineNumber85",
     "Tour | Top-Level Class methods",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/tour.spec.js.html#lineNumber310",
+    "Tour | Top-Level Class methods ._done()",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/tour.spec.js.html#lineNumber343",
+    "Tour | Top-Level Class methods ._done() fires the `inactive` event",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/tour.spec.js.html#lineNumber321",
+    "Tour | Top-Level Class methods ._done() removes any of its `Step` tooltip elements from the DOM",
+    "test"
+  ],
+  [
+    "",
+    "test-file/test/unit/tour.spec.js.html#lineNumber311",
+    "Tour | Top-Level Class methods ._done() tears down the active tour",
     "test"
   ],
   [
@@ -789,30 +813,6 @@ window.esdocSearchIndex = [
     "",
     "test-file/test/unit/tour.spec.js.html#lineNumber286",
     "Tour | Top-Level Class methods .complete() triggers complete event when complete function is called",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber310",
-    "Tour | Top-Level Class methods .done()",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber343",
-    "Tour | Top-Level Class methods .done() fires the `inactive` event",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber321",
-    "Tour | Top-Level Class methods .done() removes any of its `Step` tooltip elements from the DOM",
-    "test"
-  ],
-  [
-    "",
-    "test-file/test/unit/tour.spec.js.html#lineNumber311",
-    "Tour | Top-Level Class methods .done() tears down the active tour",
     "test"
   ],
   [
@@ -1422,6 +1422,24 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/js/step.js~step#_scrollto",
+    "class/src/js/step.js~Step.html#instance-method-_scrollTo",
+    "src/js/step.js~Step#_scrollTo",
+    "method"
+  ],
+  [
+    "src/js/step.js~step#_setoptions",
+    "class/src/js/step.js~Step.html#instance-method-_setOptions",
+    "src/js/step.js~Step#_setOptions",
+    "method"
+  ],
+  [
+    "src/js/step.js~step#_setupelements",
+    "class/src/js/step.js~Step.html#instance-method-_setupElements",
+    "src/js/step.js~Step#_setupElements",
+    "method"
+  ],
+  [
     "src/js/step.js~step#_show",
     "class/src/js/step.js~Step.html#instance-method-_show",
     "src/js/step.js~Step#_show",
@@ -1518,24 +1536,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/js/step.js~step#scrollto",
-    "class/src/js/step.js~Step.html#instance-method-scrollTo",
-    "src/js/step.js~Step#scrollTo",
-    "method"
-  ],
-  [
-    "src/js/step.js~step#setoptions",
-    "class/src/js/step.js~Step.html#instance-method-setOptions",
-    "src/js/step.js~Step#setOptions",
-    "method"
-  ],
-  [
-    "src/js/step.js~step#setupelements",
-    "class/src/js/step.js~Step.html#instance-method-setupElements",
-    "src/js/step.js~Step#setupElements",
-    "method"
-  ],
-  [
     "src/js/step.js~step#setuptooltip",
     "class/src/js/step.js~Step.html#instance-member-setupTooltip",
     "src/js/step.js~Step#setupTooltip",
@@ -1572,6 +1572,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/js/tour.js~tour#_done",
+    "class/src/js/tour.js~Tour.html#instance-method-_done",
+    "src/js/tour.js~Tour#_done",
+    "method"
+  ],
+  [
     "src/js/tour.js~tour#_removebodyattrs",
     "class/src/js/tour.js~Tour.html#instance-method-_removeBodyAttrs",
     "src/js/tour.js~Tour#_removeBodyAttrs",
@@ -1593,6 +1599,12 @@ window.esdocSearchIndex = [
     "src/js/tour.js~tour#_setupactivetour",
     "class/src/js/tour.js~Tour.html#instance-method-_setupActiveTour",
     "src/js/tour.js~Tour#_setupActiveTour",
+    "method"
+  ],
+  [
+    "src/js/tour.js~tour#_setupstep",
+    "class/src/js/tour.js~Tour.html#instance-method-_setupStep",
+    "src/js/tour.js~Tour#_setupStep",
     "method"
   ],
   [
@@ -1656,12 +1668,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/js/tour.js~tour#done",
-    "class/src/js/tour.js~Tour.html#instance-method-done",
-    "src/js/tour.js~Tour#done",
-    "method"
-  ],
-  [
     "src/js/tour.js~tour#getbyid",
     "class/src/js/tour.js~Tour.html#instance-method-getById",
     "src/js/tour.js~Tour#getById",
@@ -1713,12 +1719,6 @@ window.esdocSearchIndex = [
     "src/js/tour.js~tour#removestep",
     "class/src/js/tour.js~Tour.html#instance-method-removeStep",
     "src/js/tour.js~Tour#removeStep",
-    "method"
-  ],
-  [
-    "src/js/tour.js~tour#setupstep",
-    "class/src/js/tour.js~Tour.html#instance-method-setupStep",
-    "src/js/tour.js~Tour#setupStep",
     "method"
   ],
   [

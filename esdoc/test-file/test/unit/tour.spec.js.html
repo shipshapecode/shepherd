@@ -337,7 +337,7 @@ describe(&apos;Tour | Top-Level Class&apos;, function() {
       });
 
       it(&apos;calls `done()`&apos;, () =&gt; {
-        const doneSpy = spy(instance, &apos;done&apos;);
+        const doneSpy = spy(instance, &apos;_done&apos;);
 
         expect(doneSpy.callCount).toBe(0);
 
@@ -348,7 +348,7 @@ describe(&apos;Tour | Top-Level Class&apos;, function() {
       });
     });
 
-    describe(&apos;.done()&apos;, function() {
+    describe(&apos;._done()&apos;, function() {
       it(&apos;tears down the active tour&apos;, function() {
         instance.start();
 

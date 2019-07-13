@@ -980,7 +980,7 @@
     "__docId__": 71,
     "kind": "file",
     "name": "src/js/step.js",
-    "content": "import { isElement, isFunction, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';\nimport { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';\n\n// Polyfills\nimport 'element-matches';\nimport smoothscroll from 'smoothscroll-polyfill';\n\nsmoothscroll.polyfill();\n\n/**\n * Creates incremented ID for each newly created step\n *\n * @return {Function} A function that returns the unique id for the step\n * @private\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\n/**\n * A class representing steps to be added to a tour.\n * @extends {Evented}\n */\nexport class Step extends Evented {\n  /**\n   * Create a step\n   * @param {Tour} tour The tour for the step\n   * @param {Object} options The options for the step\n   * @param {Object} options.attachTo What element the step should be attached to on the page.\n   * It should be an object with the properties `element` and `on`, where `element` is an element selector string\n   * or a DOM element and `on` is the optional direction to place the Tippy tooltip.\n   *\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: { element: '.some .selector-path', on: 'left' },\n   *   ...moreOptions\n   * })'\n   * ```\n   *\n   * If you don’t specify an attachTo the element will appear in the middle of the screen.\n   * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear\n   * in the middle of the screen, without an arrow pointing to the target.\n   * @param {HTMLElement|string} options.attachTo.element\n   * @param {string} options.attachTo.on\n   * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.\n   * It should be an object with a string `selector` and an `event` name\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: { selector: '.some .selector-path', event: 'click' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.\n   * You can also always manually advance the Tour by calling `myTour.next()`.\n   * @param {function} options.beforeShowPromise A function that returns a promise.\n   * When the promise resolves, the rest of the `show` code for the step will execute.\n   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a\n   * footer below the main body text.\n   * @param {function} options.buttons.button.action A function executed when the button is clicked on\n   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`\n   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example\n   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.\n   * You can use events to skip steps or navigate to specific steps, with something like:\n   * ```js\n   * events: {\n   *   click: function() {\n   *     return Shepherd.activeTour.show('some_step_name');\n   *   }\n   * }\n   * ```\n   * @param {string} options.buttons.button.text The HTML text of the button\n   * @param {string} options.classes A string of extra classes to add to the step's content element.\n   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is\n   * highlighted (that is, when its step is active). You can then target that selector in your CSS.\n   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}\n   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`\n   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and\n   * define a custom action to do the scrolling, and possibly other logic.\n   * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?\n   * @param {function} options.showOn A function that, when it returns `true`, will show the step.\n   * If it returns false, the step will be skipped.\n   * @param {string} options.text The text in the body of the step. It can be one of three types:\n   * ```\n   * - HTML string\n   * - `HTMLElement` object\n   * - `Function` to be executed when the step is built. It must return one the two options above.\n   * ```\n   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.\n   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:\n   * ```js\n   * when: {\n   *   show: function() {\n   *     window.scrollTo(0, 0);\n   *   }\n   * }\n   * ```\n   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening\n   * @return {Step} The newly created Step instance\n   */\n  constructor(tour, options) {\n    super(tour, options);\n    this.tour = tour;\n    bindMethods.call(this, [\n      '_show',\n      'cancel',\n      'complete',\n      'destroy',\n      'hide',\n      'isOpen',\n      'scrollTo',\n      'setupElements',\n      'show'\n    ]);\n    this.setOptions(options);\n    this.bindAdvance = bindAdvance.bind(this);\n    this.bindButtonEvents = bindButtonEvents.bind(this);\n    this.bindCancelLink = bindCancelLink.bind(this);\n    this.setupTooltip = setupTooltip.bind(this);\n    this.parseAttachTo = parseAttachTo.bind(this);\n\n    return this;\n  }\n\n  /**\n   * Cancel the tour\n   * Triggers the `cancel` event\n   */\n  cancel() {\n    this.tour.cancel();\n    this.trigger('cancel');\n  }\n\n  /**\n   * Complete the tour\n   * Triggers the `complete` event\n   */\n  complete() {\n    this.tour.complete();\n    this.trigger('complete');\n  }\n\n  /**\n   * Remove the step, delete the step's element, and destroy the tippy instance for the step\n   * Triggers `destroy` event\n   */\n  destroy() {\n    if (this.tooltip) {\n      this.tooltip.destroy();\n      this.tooltip = null;\n    }\n\n    if (isElement(this.el) && this.el.parentNode) {\n      this.el.parentNode.removeChild(this.el);\n      this.el = null;\n    }\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    this.trigger('destroy');\n  }\n\n  /**\n   * Returns the tour for the step\n   * @return {Tour} The tour instance\n   */\n  getTour() {\n    return this.tour;\n  }\n\n  /**\n   * Hide the step and destroy the tippy instance\n   */\n  hide() {\n    this.tour.modal.hide();\n\n    this.trigger('before-hide');\n\n    document.body.removeAttribute('data-shepherd-step');\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    if (this.tooltip) {\n      this.tooltip.hide();\n    }\n\n    this.trigger('hide');\n  }\n\n  /**\n   * Check if the step is open and visible\n   * @return {boolean} True if the step is open and visible\n   */\n  isOpen() {\n    return Boolean(\n      this.tooltip &&\n      this.tooltip.state &&\n      this.tooltip.state.isVisible\n    );\n  }\n\n  /**\n   * Create the element and set up the tippy instance\n   */\n  setupElements() {\n    if (!isUndefined(this.el)) {\n      this.destroy();\n    }\n\n    this.el = this._createTooltipContent();\n\n    this._addKeyDownHandler(this.el);\n\n    if (this.options.advanceOn) {\n      this.bindAdvance();\n    }\n\n    this.setupTooltip();\n  }\n\n  /**\n   * If a custom scrollToHandler is defined, call that, otherwise do the generic\n   * scrollIntoView call.\n   *\n   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`\n   */\n  scrollTo(scrollToOptions) {\n    const { element } = this.parseAttachTo();\n\n    if (isFunction(this.options.scrollToHandler)) {\n      this.options.scrollToHandler(element);\n    } else if (isElement(element)) {\n      element.scrollIntoView(scrollToOptions);\n    }\n  }\n\n  /**\n   * Sets the options for the step, maps `when` to events, sets up buttons\n   * @param {Object} options The options for the step\n   */\n  setOptions(options = {}) {\n    this.options = options;\n    const { when } = this.options;\n\n    this.destroy();\n    this.id = this.options.id || `step-${uniqueId()}`;\n\n    if (when) {\n      Object.entries(when).forEach(([event, handler]) => {\n        this.on(event, handler, this);\n      });\n    }\n  }\n\n  /**\n   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show\n   * @return {*|Promise}\n   */\n  show() {\n    if (isFunction(this.options.beforeShowPromise)) {\n      const beforeShowPromise = this.options.beforeShowPromise();\n      if (!isUndefined(beforeShowPromise)) {\n        return beforeShowPromise.then(() => this._show());\n      }\n    }\n    this._show();\n  }\n\n  /**\n   * Adds buttons to the step as passed into options\n   *\n   * @param {HTMLElement} content The element for the step, to append the footer with buttons to\n   * @private\n   */\n  _addButtons(content) {\n    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {\n      const footer = document.createElement('footer');\n\n      footer.classList.add('shepherd-footer');\n\n      this.options.buttons.map((cfg) => {\n        const button = createFromHTML(\n          `<button class=\"shepherd-button ${cfg.classes || ''}\" tabindex=\"0\">${cfg.text}</button>`\n        );\n        footer.appendChild(button);\n        this.bindButtonEvents(cfg, button);\n      });\n\n      content.appendChild(footer);\n    }\n  }\n\n  /**\n   * Adds the \"x\" button to cancel the tour\n   * @param {HTMLElement} element The step element\n   * @param {HTMLElement} header The header element for the step\n   * @private\n   */\n  _addCancelLink(element, header) {\n    if (this.options.showCancelLink) {\n      const link = createFromHTML('<a href class=\"shepherd-cancel-link\"></a>');\n      header.appendChild(link);\n\n      element.classList.add('shepherd-has-cancel-link');\n      this.bindCancelLink(link);\n    }\n  }\n\n  /**\n   * Adds text passed in as options\n   *\n   * @param {HTMLElement} content The content to append the text to\n   * @param {string} descriptionId The id to set on the shepherd-text element\n   * for the parent element to use for aria-describedby\n   * @private\n   */\n  _addContent(content, descriptionId) {\n    const textContainer = createFromHTML(\n      `<div class=\"shepherd-text\"\n       id=\"${descriptionId}\"\n       ></div>`\n    );\n\n    let { text } = this.options;\n\n    if (isFunction(text)) {\n      text = text.call(this, textContainer);\n    }\n\n    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`\n    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;\n\n    content.appendChild(textContainer);\n  }\n\n  /**\n   * Setup keydown events to allow closing the modal with ESC\n   *\n   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/\n   *\n   * @param {HTMLElement} element The element for the tooltip\n   * @private\n   */\n  _addKeyDownHandler(element) {\n    const KEY_TAB = 9;\n    const KEY_ESC = 27;\n    const LEFT_ARROW = 37;\n    const RIGHT_ARROW = 39;\n\n    // Get all elements that are focusable\n    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]');\n    const [firstFocusableElement] = focusableElements;\n    const lastFocusableElement = focusableElements[focusableElements.length - 1];\n\n    element.addEventListener('keydown', (e) => {\n      switch (e.keyCode) {\n        case KEY_TAB:\n          if (focusableElements.length === 1) {\n            e.preventDefault();\n            break;\n          }\n          // Backward tab\n          if (e.shiftKey) {\n            if (document.activeElement === firstFocusableElement) {\n              e.preventDefault();\n              lastFocusableElement.focus();\n            }\n          } else {\n            if (document.activeElement === lastFocusableElement) {\n              e.preventDefault();\n              firstFocusableElement.focus();\n            }\n          }\n          break;\n        case KEY_ESC:\n          this.cancel();\n          break;\n        case LEFT_ARROW:\n          this.tour.back();\n          break;\n        case RIGHT_ARROW:\n          this.tour.next();\n          break;\n        default:\n          break;\n      }\n    });\n  }\n\n  /**\n   * Creates Shepherd element for step based on options\n   *\n   * @return {HTMLElement} The DOM element for the step tooltip\n   * @private\n   */\n  _createTooltipContent() {\n    const content = document.createElement('div');\n    const classes = this.options.classes || '';\n    const descriptionId = `${this.id}-description`;\n    const labelId = `${this.id}-label`;\n    const element = createFromHTML(\n      `<div class=\"${classes}\"\n       data-shepherd-step-id=\"${this.id}\"\n       role=\"dialog\"\n       tabindex=\"0\">`\n    );\n    const header = document.createElement('header');\n\n    if (this.options.title) {\n      const title = document.createElement('h3');\n      title.classList.add('shepherd-title');\n      title.innerHTML = `${this.options.title}`;\n      title.id = labelId;\n      element.setAttribute('aria-labeledby', labelId);\n      header.appendChild(title);\n    }\n\n    content.classList.add('shepherd-content');\n    header.classList.add('shepherd-header');\n    element.appendChild(content);\n    content.appendChild(header);\n\n    if (!isUndefined(this.options.text)) {\n      this._addContent(content, descriptionId);\n      element.setAttribute('aria-describedby', descriptionId);\n    }\n\n    this._addButtons(content);\n    this._addCancelLink(element, header);\n\n    return element;\n  }\n\n  /**\n   * Triggers `before-show`, generates the tooltip DOM content,\n   * sets up a tippy instance for the tooltip, then triggers `show`.\n   * @private\n   */\n  _show() {\n    this.tour.beforeShowStep(this);\n    this.trigger('before-show');\n\n    if (!this.el) {\n      this.setupElements();\n    }\n\n    this.target.classList.add('shepherd-enabled', 'shepherd-target');\n\n    document.body.setAttribute('data-shepherd-step', this.id);\n\n    if (this.options.scrollTo) {\n      setTimeout(() => {\n        this.scrollTo(this.options.scrollTo);\n      });\n    }\n\n    this.tooltip.show();\n    this.trigger('show');\n    this.el.focus();\n  }\n\n  /**\n   * When a step is hidden, remove the highlightClass and 'shepherd-enabled'\n   * and 'shepherd-target' classes\n   * @private\n   */\n  _updateStepTargetOnHide() {\n    if (this.options.highlightClass) {\n      this.target.classList.remove(this.options.highlightClass);\n    }\n\n    this.target.classList.remove('shepherd-enabled', 'shepherd-target');\n  }\n}\n",
+    "content": "import { isElement, isFunction, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';\nimport { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';\n\n// Polyfills\nimport 'element-matches';\nimport smoothscroll from 'smoothscroll-polyfill';\n\nsmoothscroll.polyfill();\n\n/**\n * Creates incremented ID for each newly created step\n *\n * @return {Function} A function that returns the unique id for the step\n * @private\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\n/**\n * A class representing steps to be added to a tour.\n * @extends {Evented}\n */\nexport class Step extends Evented {\n  /**\n   * Create a step\n   * @param {Tour} tour The tour for the step\n   * @param {Object} options The options for the step\n   * @param {Object} options.attachTo What element the step should be attached to on the page.\n   * It should be an object with the properties `element` and `on`, where `element` is an element selector string\n   * or a DOM element and `on` is the optional direction to place the Tippy tooltip.\n   *\n   * ```js\n   * const new Step(tour, {\n   *   attachTo: { element: '.some .selector-path', on: 'left' },\n   *   ...moreOptions\n   * })'\n   * ```\n   *\n   * If you don’t specify an attachTo the element will appear in the middle of the screen.\n   * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear\n   * in the middle of the screen, without an arrow pointing to the target.\n   * @param {HTMLElement|string} options.attachTo.element\n   * @param {string} options.attachTo.on\n   * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.\n   * It should be an object with a string `selector` and an `event` name\n   * ```js\n   * const new Step(tour, {\n   *   advanceOn: { selector: '.some .selector-path', event: 'click' },\n   *   ...moreOptions\n   * })'\n   * ```\n   * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.\n   * You can also always manually advance the Tour by calling `myTour.next()`.\n   * @param {function} options.beforeShowPromise A function that returns a promise.\n   * When the promise resolves, the rest of the `show` code for the step will execute.\n   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a\n   * footer below the main body text.\n   * @param {function} options.buttons.button.action A function executed when the button is clicked on\n   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`\n   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example\n   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.\n   * You can use events to skip steps or navigate to specific steps, with something like:\n   * ```js\n   * events: {\n   *   click: function() {\n   *     return Shepherd.activeTour.show('some_step_name');\n   *   }\n   * }\n   * ```\n   * @param {string} options.buttons.button.text The HTML text of the button\n   * @param {string} options.classes A string of extra classes to add to the step's content element.\n   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is\n   * highlighted (that is, when its step is active). You can then target that selector in your CSS.\n   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}\n   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`\n   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and\n   * define a custom action to do the scrolling, and possibly other logic.\n   * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?\n   * @param {function} options.showOn A function that, when it returns `true`, will show the step.\n   * If it returns false, the step will be skipped.\n   * @param {string} options.text The text in the body of the step. It can be one of three types:\n   * ```\n   * - HTML string\n   * - `HTMLElement` object\n   * - `Function` to be executed when the step is built. It must return one the two options above.\n   * ```\n   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.\n   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:\n   * ```js\n   * when: {\n   *   show: function() {\n   *     window.scrollTo(0, 0);\n   *   }\n   * }\n   * ```\n   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening\n   * @return {Step} The newly created Step instance\n   */\n  constructor(tour, options) {\n    super(tour, options);\n    this.tour = tour;\n    bindMethods.call(this, [\n      '_scrollTo',\n      '_setupElements',\n      '_show',\n      'cancel',\n      'complete',\n      'destroy',\n      'hide',\n      'isOpen',\n      'show'\n    ]);\n    this._setOptions(options);\n    this.bindAdvance = bindAdvance.bind(this);\n    this.bindButtonEvents = bindButtonEvents.bind(this);\n    this.bindCancelLink = bindCancelLink.bind(this);\n    this.setupTooltip = setupTooltip.bind(this);\n    this.parseAttachTo = parseAttachTo.bind(this);\n\n    return this;\n  }\n\n  /**\n   * Cancel the tour\n   * Triggers the `cancel` event\n   */\n  cancel() {\n    this.tour.cancel();\n    this.trigger('cancel');\n  }\n\n  /**\n   * Complete the tour\n   * Triggers the `complete` event\n   */\n  complete() {\n    this.tour.complete();\n    this.trigger('complete');\n  }\n\n  /**\n   * Remove the step, delete the step's element, and destroy the tippy instance for the step\n   * Triggers `destroy` event\n   */\n  destroy() {\n    if (this.tooltip) {\n      this.tooltip.destroy();\n      this.tooltip = null;\n    }\n\n    if (isElement(this.el) && this.el.parentNode) {\n      this.el.parentNode.removeChild(this.el);\n      this.el = null;\n    }\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    this.trigger('destroy');\n  }\n\n  /**\n   * Returns the tour for the step\n   * @return {Tour} The tour instance\n   */\n  getTour() {\n    return this.tour;\n  }\n\n  /**\n   * Hide the step and destroy the tippy instance\n   */\n  hide() {\n    this.tour.modal.hide();\n\n    this.trigger('before-hide');\n\n    document.body.removeAttribute('data-shepherd-step');\n\n    if (this.target) {\n      this._updateStepTargetOnHide();\n    }\n\n    if (this.tooltip) {\n      this.tooltip.hide();\n    }\n\n    this.trigger('hide');\n  }\n\n  /**\n   * Check if the step is open and visible\n   * @return {boolean} True if the step is open and visible\n   */\n  isOpen() {\n    return Boolean(\n      this.tooltip &&\n      this.tooltip.state &&\n      this.tooltip.state.isVisible\n    );\n  }\n\n  /**\n   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show\n   * @return {*|Promise}\n   */\n  show() {\n    if (isFunction(this.options.beforeShowPromise)) {\n      const beforeShowPromise = this.options.beforeShowPromise();\n      if (!isUndefined(beforeShowPromise)) {\n        return beforeShowPromise.then(() => this._show());\n      }\n    }\n    this._show();\n  }\n\n  /**\n   * Adds buttons to the step as passed into options\n   *\n   * @param {HTMLElement} content The element for the step, to append the footer with buttons to\n   * @private\n   */\n  _addButtons(content) {\n    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {\n      const footer = document.createElement('footer');\n\n      footer.classList.add('shepherd-footer');\n\n      this.options.buttons.map((cfg) => {\n        const button = createFromHTML(\n          `<button class=\"shepherd-button ${cfg.classes || ''}\" tabindex=\"0\">${cfg.text}</button>`\n        );\n        footer.appendChild(button);\n        this.bindButtonEvents(cfg, button);\n      });\n\n      content.appendChild(footer);\n    }\n  }\n\n  /**\n   * Adds the \"x\" button to cancel the tour\n   * @param {HTMLElement} element The step element\n   * @param {HTMLElement} header The header element for the step\n   * @private\n   */\n  _addCancelLink(element, header) {\n    if (this.options.showCancelLink) {\n      const link = createFromHTML('<a href class=\"shepherd-cancel-link\"></a>');\n      header.appendChild(link);\n\n      element.classList.add('shepherd-has-cancel-link');\n      this.bindCancelLink(link);\n    }\n  }\n\n  /**\n   * Adds text passed in as options\n   *\n   * @param {HTMLElement} content The content to append the text to\n   * @param {string} descriptionId The id to set on the shepherd-text element\n   * for the parent element to use for aria-describedby\n   * @private\n   */\n  _addContent(content, descriptionId) {\n    const textContainer = createFromHTML(\n      `<div class=\"shepherd-text\"\n       id=\"${descriptionId}\"\n       ></div>`\n    );\n\n    let { text } = this.options;\n\n    if (isFunction(text)) {\n      text = text.call(this, textContainer);\n    }\n\n    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`\n    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;\n\n    content.appendChild(textContainer);\n  }\n\n  /**\n   * Setup keydown events to allow closing the modal with ESC\n   *\n   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/\n   *\n   * @param {HTMLElement} element The element for the tooltip\n   * @private\n   */\n  _addKeyDownHandler(element) {\n    const KEY_TAB = 9;\n    const KEY_ESC = 27;\n    const LEFT_ARROW = 37;\n    const RIGHT_ARROW = 39;\n\n    // Get all elements that are focusable\n    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]');\n    const [firstFocusableElement] = focusableElements;\n    const lastFocusableElement = focusableElements[focusableElements.length - 1];\n\n    element.addEventListener('keydown', (e) => {\n      switch (e.keyCode) {\n        case KEY_TAB:\n          if (focusableElements.length === 1) {\n            e.preventDefault();\n            break;\n          }\n          // Backward tab\n          if (e.shiftKey) {\n            if (document.activeElement === firstFocusableElement) {\n              e.preventDefault();\n              lastFocusableElement.focus();\n            }\n          } else {\n            if (document.activeElement === lastFocusableElement) {\n              e.preventDefault();\n              firstFocusableElement.focus();\n            }\n          }\n          break;\n        case KEY_ESC:\n          this.cancel();\n          break;\n        case LEFT_ARROW:\n          this.tour.back();\n          break;\n        case RIGHT_ARROW:\n          this.tour.next();\n          break;\n        default:\n          break;\n      }\n    });\n  }\n\n  /**\n   * Creates Shepherd element for step based on options\n   *\n   * @return {HTMLElement} The DOM element for the step tooltip\n   * @private\n   */\n  _createTooltipContent() {\n    const content = document.createElement('div');\n    const classes = this.options.classes || '';\n    const descriptionId = `${this.id}-description`;\n    const labelId = `${this.id}-label`;\n    const element = createFromHTML(\n      `<div class=\"${classes}\"\n       data-shepherd-step-id=\"${this.id}\"\n       role=\"dialog\"\n       tabindex=\"0\">`\n    );\n    const header = document.createElement('header');\n\n    if (this.options.title) {\n      const title = document.createElement('h3');\n      title.classList.add('shepherd-title');\n      title.innerHTML = `${this.options.title}`;\n      title.id = labelId;\n      element.setAttribute('aria-labeledby', labelId);\n      header.appendChild(title);\n    }\n\n    content.classList.add('shepherd-content');\n    header.classList.add('shepherd-header');\n    element.appendChild(content);\n    content.appendChild(header);\n\n    if (!isUndefined(this.options.text)) {\n      this._addContent(content, descriptionId);\n      element.setAttribute('aria-describedby', descriptionId);\n    }\n\n    this._addButtons(content);\n    this._addCancelLink(element, header);\n\n    return element;\n  }\n\n  /**\n   * If a custom scrollToHandler is defined, call that, otherwise do the generic\n   * scrollIntoView call.\n   *\n   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,\n   * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`\n   * @private\n   */\n  _scrollTo(scrollToOptions) {\n    const { element } = this.parseAttachTo();\n\n    if (isFunction(this.options.scrollToHandler)) {\n      this.options.scrollToHandler(element);\n    } else if (isElement(element)) {\n      element.scrollIntoView(scrollToOptions);\n    }\n  }\n\n  /**\n   * Sets the options for the step, maps `when` to events, sets up buttons\n   * @param {Object} options The options for the step\n   * @private\n   */\n  _setOptions(options = {}) {\n    this.options = options;\n    const { when } = this.options;\n\n    this.destroy();\n    this.id = this.options.id || `step-${uniqueId()}`;\n\n    if (when) {\n      Object.entries(when).forEach(([event, handler]) => {\n        this.on(event, handler, this);\n      });\n    }\n  }\n\n  /**\n   * Create the element and set up the tippy instance\n   * @private\n   */\n  _setupElements() {\n    if (!isUndefined(this.el)) {\n      this.destroy();\n    }\n\n    this.el = this._createTooltipContent();\n\n    this._addKeyDownHandler(this.el);\n\n    if (this.options.advanceOn) {\n      this.bindAdvance();\n    }\n\n    this.setupTooltip();\n  }\n\n  /**\n   * Triggers `before-show`, generates the tooltip DOM content,\n   * sets up a tippy instance for the tooltip, then triggers `show`.\n   * @private\n   */\n  _show() {\n    this.tour.beforeShowStep(this);\n    this.trigger('before-show');\n\n    if (!this.el) {\n      this._setupElements();\n    }\n\n    this.target.classList.add('shepherd-enabled', 'shepherd-target');\n\n    document.body.setAttribute('data-shepherd-step', this.id);\n\n    if (this.options.scrollTo) {\n      setTimeout(() => {\n        this._scrollTo(this.options.scrollTo);\n      });\n    }\n\n    this.tooltip.show();\n    this.trigger('show');\n    this.el.focus();\n  }\n\n  /**\n   * When a step is hidden, remove the highlightClass and 'shepherd-enabled'\n   * and 'shepherd-target' classes\n   * @private\n   */\n  _updateStepTargetOnHide() {\n    if (this.options.highlightClass) {\n      this.target.classList.remove(this.options.highlightClass);\n    }\n\n    this.target.classList.remove('shepherd-enabled', 'shepherd-target');\n  }\n}\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/src/js/step.js",
     "access": "public",
@@ -1531,108 +1531,6 @@
   {
     "__docId__": 89,
     "kind": "method",
-    "name": "setupElements",
-    "memberof": "src/js/step.js~Step",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/step.js~Step#setupElements",
-    "access": "public",
-    "description": "Create the element and set up the tippy instance",
-    "lineNumber": 214,
-    "params": [],
-    "return": null
-  },
-  {
-    "__docId__": 91,
-    "kind": "method",
-    "name": "scrollTo",
-    "memberof": "src/js/step.js~Step",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/step.js~Step#scrollTo",
-    "access": "public",
-    "description": "If a custom scrollToHandler is defined, call that, otherwise do the generic\nscrollIntoView call.",
-    "lineNumber": 237,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "boolean",
-          "Object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "scrollToOptions",
-        "description": "If true, uses the default `scrollIntoView`,\nif an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`"
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 92,
-    "kind": "method",
-    "name": "setOptions",
-    "memberof": "src/js/step.js~Step",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/step.js~Step#setOptions",
-    "access": "public",
-    "description": "Sets the options for the step, maps `when` to events, sets up buttons",
-    "lineNumber": 251,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "Object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options",
-        "description": "The options for the step"
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 93,
-    "kind": "member",
-    "name": "options",
-    "memberof": "src/js/step.js~Step",
-    "static": false,
-    "longname": "src/js/step.js~Step#options",
-    "access": "public",
-    "description": null,
-    "lineNumber": 252,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 94,
-    "kind": "member",
-    "name": "id",
-    "memberof": "src/js/step.js~Step",
-    "static": false,
-    "longname": "src/js/step.js~Step#id",
-    "access": "public",
-    "description": null,
-    "lineNumber": 256,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 95,
-    "kind": "method",
     "name": "show",
     "memberof": "src/js/step.js~Step",
     "generator": false,
@@ -1641,7 +1539,7 @@
     "longname": "src/js/step.js~Step#show",
     "access": "public",
     "description": "Wraps `_show` and ensures `beforeShowPromise` resolves before calling show",
-    "lineNumber": 269,
+    "lineNumber": 215,
     "return": {
       "nullable": null,
       "types": [
@@ -1654,7 +1552,7 @@
     "params": []
   },
   {
-    "__docId__": 96,
+    "__docId__": 90,
     "kind": "method",
     "name": "_addButtons",
     "memberof": "src/js/step.js~Step",
@@ -1664,7 +1562,7 @@
     "longname": "src/js/step.js~Step#_addButtons",
     "access": "private",
     "description": "Adds buttons to the step as passed into options",
-    "lineNumber": 285,
+    "lineNumber": 231,
     "params": [
       {
         "nullable": null,
@@ -1680,7 +1578,7 @@
     "return": null
   },
   {
-    "__docId__": 97,
+    "__docId__": 91,
     "kind": "method",
     "name": "_addCancelLink",
     "memberof": "src/js/step.js~Step",
@@ -1690,7 +1588,7 @@
     "longname": "src/js/step.js~Step#_addCancelLink",
     "access": "private",
     "description": "Adds the \"x\" button to cancel the tour",
-    "lineNumber": 309,
+    "lineNumber": 255,
     "params": [
       {
         "nullable": null,
@@ -1716,7 +1614,7 @@
     "return": null
   },
   {
-    "__docId__": 98,
+    "__docId__": 92,
     "kind": "method",
     "name": "_addContent",
     "memberof": "src/js/step.js~Step",
@@ -1726,7 +1624,7 @@
     "longname": "src/js/step.js~Step#_addContent",
     "access": "private",
     "description": "Adds text passed in as options",
-    "lineNumber": 327,
+    "lineNumber": 273,
     "params": [
       {
         "nullable": null,
@@ -1752,7 +1650,7 @@
     "return": null
   },
   {
-    "__docId__": 99,
+    "__docId__": 93,
     "kind": "method",
     "name": "_addKeyDownHandler",
     "memberof": "src/js/step.js~Step",
@@ -1762,7 +1660,7 @@
     "longname": "src/js/step.js~Step#_addKeyDownHandler",
     "access": "private",
     "description": "Setup keydown events to allow closing the modal with ESC\n\nBorrowed from this great post! https://bitsofco.de/accessible-modal-dialog/",
-    "lineNumber": 354,
+    "lineNumber": 300,
     "params": [
       {
         "nullable": null,
@@ -1778,7 +1676,7 @@
     "return": null
   },
   {
-    "__docId__": 100,
+    "__docId__": 94,
     "kind": "method",
     "name": "_createTooltipContent",
     "memberof": "src/js/step.js~Step",
@@ -1788,7 +1686,7 @@
     "longname": "src/js/step.js~Step#_createTooltipContent",
     "access": "private",
     "description": "Creates Shepherd element for step based on options",
-    "lineNumber": 406,
+    "lineNumber": 352,
     "return": {
       "nullable": null,
       "types": [
@@ -1798,6 +1696,108 @@
       "description": "The DOM element for the step tooltip"
     },
     "params": []
+  },
+  {
+    "__docId__": 95,
+    "kind": "method",
+    "name": "_scrollTo",
+    "memberof": "src/js/step.js~Step",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/step.js~Step#_scrollTo",
+    "access": "private",
+    "description": "If a custom scrollToHandler is defined, call that, otherwise do the generic\nscrollIntoView call.",
+    "lineNumber": 398,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "boolean",
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "scrollToOptions",
+        "description": "If true, uses the default `scrollIntoView`,\nif an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`"
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 96,
+    "kind": "method",
+    "name": "_setOptions",
+    "memberof": "src/js/step.js~Step",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/step.js~Step#_setOptions",
+    "access": "private",
+    "description": "Sets the options for the step, maps `when` to events, sets up buttons",
+    "lineNumber": 413,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "options",
+        "description": "The options for the step"
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 97,
+    "kind": "member",
+    "name": "options",
+    "memberof": "src/js/step.js~Step",
+    "static": false,
+    "longname": "src/js/step.js~Step#options",
+    "access": "public",
+    "description": null,
+    "lineNumber": 414,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 98,
+    "kind": "member",
+    "name": "id",
+    "memberof": "src/js/step.js~Step",
+    "static": false,
+    "longname": "src/js/step.js~Step#id",
+    "access": "public",
+    "description": null,
+    "lineNumber": 418,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 99,
+    "kind": "method",
+    "name": "_setupElements",
+    "memberof": "src/js/step.js~Step",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/step.js~Step#_setupElements",
+    "access": "private",
+    "description": "Create the element and set up the tippy instance",
+    "lineNumber": 431,
+    "params": [],
+    "return": null
   },
   {
     "__docId__": 101,
@@ -1810,7 +1810,7 @@
     "longname": "src/js/step.js~Step#_show",
     "access": "private",
     "description": "Triggers `before-show`, generates the tooltip DOM content,\nsets up a tippy instance for the tooltip, then triggers `show`.",
-    "lineNumber": 449,
+    "lineNumber": 452,
     "params": [],
     "return": null
   },
@@ -1825,7 +1825,7 @@
     "longname": "src/js/step.js~Step#_updateStepTargetOnHide",
     "access": "private",
     "description": "When a step is hidden, remove the highlightClass and 'shepherd-enabled'\nand 'shepherd-target' classes",
-    "lineNumber": 477,
+    "lineNumber": 480,
     "params": [],
     "return": null
   },
@@ -1833,7 +1833,7 @@
     "__docId__": 103,
     "kind": "file",
     "name": "src/js/tour.js",
-    "content": "import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { Modal } from './modal.js';\nimport { Step } from './step.js';\nimport { bindMethods } from './utils/bind.js';\nimport tippy from 'tippy.js';\nimport { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';\nimport { defaults as tooltipDefaults } from './utils/tooltip-defaults';\n\nimport { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';\nimport { getElementForStep } from './utils/dom';\nimport { toggleShepherdModalClass } from './utils/modal';\n\n/**\n * Creates incremented ID for each newly created tour\n *\n * @return {Function} A function that returns the unique id for the tour\n * @private\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\nconst Shepherd = new Evented();\n\n/**\n * Class representing the site tour\n * @extends {Evented}\n */\nexport class Tour extends Evented {\n  /**\n   * @param {Object} options The options for the tour\n   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`\n   * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,\n   * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.\n   * @param {Step[]} options.steps An array of Step instances to initialize the tour with\n   * @param {string} options.tourName An optional \"name\" for the tour. This will be appended to the the tour's\n   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute\n   * whenever the tour becomes active.\n   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened\n   * modal overlay. If true, the overlay will create an opening around the target element so that it\n   * can remain interactive\n   * @returns {Tour}\n   */\n  constructor(options = {}) {\n    super(options);\n    bindMethods.call(this, [\n      'back',\n      'cancel',\n      'complete',\n      'hide',\n      'next'\n    ]);\n    this.options = options;\n    this.steps = this.options.steps || [];\n\n    // Pass these events onto the global Shepherd object\n    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];\n    events.map((event) => {\n      ((e) => {\n        this.on(e, (opts) => {\n          opts = opts || {};\n          opts.tour = this;\n          Shepherd.trigger(e, opts);\n        });\n      })(event);\n    });\n\n    this.modal = new Modal(options);\n\n    this._setTooltipDefaults();\n    this._setTourID();\n\n    return this;\n  }\n\n  /**\n   * Adds a new step to the tour\n   * @param {Object|Number|Step|String} arg1\n   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step\n   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance\n   * @param {Object|Step} arg2 An object containing step options or a Step instance\n   * @return {Step} The newly added step\n   */\n  addStep(arg1, arg2) {\n    let name, step;\n\n    // If we just have one argument, we can assume it is an object of step options, with an id\n    if (isUndefined(arg2)) {\n      step = arg1;\n    } else {\n      name = arg1;\n      step = arg2;\n    }\n\n    if (!(step instanceof Step)) {\n      step = this.setupStep(step, name);\n    } else {\n      step.tour = this;\n    }\n\n    this.steps.push(step);\n    return step;\n  }\n\n  /**\n   * Go to the previous step in the tour\n   */\n  back() {\n    const index = this.steps.indexOf(this.currentStep);\n    this.show(index - 1, false);\n  }\n\n  /**\n   * Calls done() triggering the 'cancel' event\n   * If `confirmCancel` is true, will show a window.confirm before cancelling\n   */\n  cancel() {\n    if (this.options.confirmCancel) {\n      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';\n      const stopTour = window.confirm(cancelMessage);\n      if (stopTour) {\n        this.done('cancel');\n      }\n    } else {\n      this.done('cancel');\n    }\n  }\n\n  /**\n   * Calls done() triggering the `complete` event\n   */\n  complete() {\n    this.done('complete');\n  }\n\n  /**\n   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour\n   * @param {String} event The event name to trigger\n   */\n  done(event) {\n    if (Array.isArray(this.steps)) {\n      this.steps.forEach((step) => step.destroy());\n    }\n\n    cleanupStepEventListeners.call(this);\n    cleanupSteps(this.tourObject);\n\n    this.trigger(event);\n\n    Shepherd.activeTour = null;\n    this._removeBodyAttrs();\n    this.trigger('inactive', { tour: this });\n\n    if (this.options.disableScroll) {\n      clearAllBodyScrollLocks();\n    }\n\n    this.modal.cleanup();\n  }\n\n  /**\n   * Gets the step from a given id\n   * @param {Number|String} id The id of the step to retrieve\n   * @return {Step} The step corresponding to the `id`\n   */\n  getById(id) {\n    return this.steps.find((step) => {\n      return step.id === id;\n    });\n  }\n\n  /**\n   * Gets the current step\n   * @returns {Step|null}\n   */\n  getCurrentStep() {\n    return this.currentStep;\n  }\n\n  /**\n   * Hide the current step\n   */\n  hide() {\n    const currentStep = this.getCurrentStep();\n\n    if (currentStep) {\n      return currentStep.hide();\n    }\n  }\n\n  /**\n   * Check if the tour is active\n   * @return {boolean}\n   */\n  isActive() {\n    return Shepherd.activeTour === this;\n  }\n\n  /**\n   * Go to the next step in the tour\n   * If we are at the end, call `complete`\n   */\n  next() {\n    const index = this.steps.indexOf(this.currentStep);\n\n    if (index === this.steps.length - 1) {\n      this.complete();\n    } else {\n      this.show(index + 1, true);\n    }\n  }\n\n  /**\n   * Removes the step from the tour\n   * @param {String} name The id for the step to remove\n   */\n  removeStep(name) {\n    const current = this.getCurrentStep();\n\n    // Find the step, destroy it and remove it from this.steps\n    this.steps.some((step, i) => {\n      if (step.id === name) {\n        if (step.isOpen()) {\n          step.hide();\n        }\n\n        step.destroy();\n        this.steps.splice(i, 1);\n\n        return true;\n      }\n    });\n\n    if (current && current.id === name) {\n      this.currentStep = undefined;\n\n      // If we have steps left, show the first one, otherwise just cancel the tour\n      this.steps.length ? this.show(0) : this.cancel();\n    }\n  }\n\n  /**\n   * Setup a new step object\n   * @param {Object} stepOptions The object describing the options for the step\n   * @param {String|Number} name The string or number to use as the `id` for the step\n   * @return {Step} The step instance\n   */\n  setupStep(stepOptions, name) {\n    if (isString(name) || isNumber(name)) {\n      stepOptions.id = name.toString();\n    }\n\n    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);\n\n    return new Step(this, stepOptions);\n  }\n\n  beforeShowStep(step) {\n    this.modal.setupForStep(step);\n    this._styleTargetElementForStep(step);\n  }\n\n  /**\n   * Show a specific step in the tour\n   * @param {Number|String} key The key to look up the step by\n   * @param {Boolean} forward True if we are going forward, false if backward\n   */\n  show(key = 0, forward = true) {\n    const step = isString(key) ? this.getById(key) : this.steps[key];\n\n    if (step) {\n      this._updateStateBeforeShow();\n\n      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();\n\n      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal\n      if (shouldSkipStep) {\n        this._skipStep(step, forward);\n      } else {\n        this.trigger('show', {\n          step,\n          previous: this.currentStep\n        });\n\n        this.currentStep = step;\n        step.show();\n      }\n    }\n  }\n\n  /**\n   * Start the tour\n   */\n  start() {\n    this.trigger('start');\n\n    if (this.options.disableScroll) {\n      disableBodyScroll();\n    }\n\n    this.currentStep = null;\n    this._setupActiveTour();\n    this.next();\n  }\n\n  /**\n   * Make this tour \"active\"\n   * @private\n   */\n  _setupActiveTour() {\n    this.modal.createModalOverlay();\n    this._addBodyAttrs();\n    this.trigger('active', { tour: this });\n\n    Shepherd.activeTour = this;\n  }\n\n  /**\n   * Modulates the styles of the passed step's target element, based on the step's options and\n   * the tour's `modal` option, to visually emphasize the element\n   *\n   * @param step The step object that attaches to the element\n   * @private\n   */\n  _styleTargetElementForStep(step) {\n    const targetElement = getElementForStep(step);\n\n    if (!targetElement) {\n      return;\n    }\n\n    toggleShepherdModalClass(targetElement);\n\n    if (step.options.highlightClass) {\n      targetElement.classList.add(step.options.highlightClass);\n    }\n\n    if (step.options.canClickTarget === false) {\n      targetElement.style.pointerEvents = 'none';\n    }\n  }\n\n  /**\n   * Called when `showOn` evaluates to false, to skip the step\n   * @param {Step} step The step to skip\n   * @param {Boolean} forward True if we are going forward, false if backward\n   * @private\n   */\n  _skipStep(step, forward) {\n    const index = this.steps.indexOf(step);\n    const nextIndex = forward ? index + 1 : index - 1;\n    this.show(nextIndex, forward);\n  }\n\n  /**\n   * Set the tippy defaults\n   * @private\n   */\n  _setTooltipDefaults() {\n    tippy.setDefaultProps(tooltipDefaults);\n  }\n\n  /**\n   * Before showing, hide the current step and if the tour is not\n   * already active, call `this._setupActiveTour`.\n   * @private\n   */\n  _updateStateBeforeShow() {\n    if (this.currentStep) {\n      this.currentStep.hide();\n    }\n\n    if (!this.isActive()) {\n      this._setupActiveTour();\n    }\n  }\n\n  /**\n   * Sets this.id to `${tourName}--${uuid}`\n   * @private\n   */\n  _setTourID() {\n    const tourName = this.options.tourName || 'tour';\n    const uuid = uniqueId();\n\n    this.id = `${tourName}--${uuid}`;\n  }\n\n  /**\n   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class to the body.\n   * @private\n   */\n  _addBodyAttrs() {\n    document.body.setAttribute('data-shepherd-active-tour', this.id);\n    document.body.classList.add('shepherd-active');\n  }\n\n  /**\n   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class from the body.\n   * @private\n   */\n  _removeBodyAttrs() {\n    document.body.removeAttribute('data-shepherd-active-tour');\n    document.body.classList.remove('shepherd-active');\n  }\n\n}\n\nexport { Shepherd };\n",
+    "content": "import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';\nimport { Evented } from './evented.js';\nimport { Modal } from './modal.js';\nimport { Step } from './step.js';\nimport { bindMethods } from './utils/bind.js';\nimport tippy from 'tippy.js';\nimport { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';\nimport { defaults as tooltipDefaults } from './utils/tooltip-defaults';\n\nimport { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';\nimport { getElementForStep } from './utils/dom';\nimport { toggleShepherdModalClass } from './utils/modal';\n\n/**\n * Creates incremented ID for each newly created tour\n *\n * @return {Function} A function that returns the unique id for the tour\n * @private\n */\nconst uniqueId = (function() {\n  let id = 0;\n  return function() {\n    return ++id;\n  };\n})();\n\nconst Shepherd = new Evented();\n\n/**\n * Class representing the site tour\n * @extends {Evented}\n */\nexport class Tour extends Evented {\n  /**\n   * @param {Object} options The options for the tour\n   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`\n   * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,\n   * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.\n   * @param {Step[]} options.steps An array of Step instances to initialize the tour with\n   * @param {string} options.tourName An optional \"name\" for the tour. This will be appended to the the tour's\n   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute\n   * whenever the tour becomes active.\n   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened\n   * modal overlay. If true, the overlay will create an opening around the target element so that it\n   * can remain interactive\n   * @returns {Tour}\n   */\n  constructor(options = {}) {\n    super(options);\n    bindMethods.call(this, [\n      'back',\n      'cancel',\n      'complete',\n      'hide',\n      'next'\n    ]);\n    this.options = options;\n    this.steps = this.options.steps || [];\n\n    // Pass these events onto the global Shepherd object\n    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];\n    events.map((event) => {\n      ((e) => {\n        this.on(e, (opts) => {\n          opts = opts || {};\n          opts.tour = this;\n          Shepherd.trigger(e, opts);\n        });\n      })(event);\n    });\n\n    this.modal = new Modal(options);\n\n    this._setTooltipDefaults();\n    this._setTourID();\n\n    return this;\n  }\n\n  /**\n   * Adds a new step to the tour\n   * @param {Object|Number|Step|String} arg1\n   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step\n   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance\n   * @param {Object|Step} arg2 An object containing step options or a Step instance\n   * @return {Step} The newly added step\n   */\n  addStep(arg1, arg2) {\n    let name, step;\n\n    // If we just have one argument, we can assume it is an object of step options, with an id\n    if (isUndefined(arg2)) {\n      step = arg1;\n    } else {\n      name = arg1;\n      step = arg2;\n    }\n\n    if (!(step instanceof Step)) {\n      step = this._setupStep(step, name);\n    } else {\n      step.tour = this;\n    }\n\n    this.steps.push(step);\n    return step;\n  }\n\n  /**\n   * Go to the previous step in the tour\n   */\n  back() {\n    const index = this.steps.indexOf(this.currentStep);\n    this.show(index - 1, false);\n  }\n\n  /**\n   * Calls _done() triggering the 'cancel' event\n   * If `confirmCancel` is true, will show a window.confirm before cancelling\n   */\n  cancel() {\n    if (this.options.confirmCancel) {\n      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';\n      const stopTour = window.confirm(cancelMessage);\n      if (stopTour) {\n        this._done('cancel');\n      }\n    } else {\n      this._done('cancel');\n    }\n  }\n\n  /**\n   * Calls _done() triggering the `complete` event\n   */\n  complete() {\n    this._done('complete');\n  }\n\n  /**\n   * Gets the step from a given id\n   * @param {Number|String} id The id of the step to retrieve\n   * @return {Step} The step corresponding to the `id`\n   */\n  getById(id) {\n    return this.steps.find((step) => {\n      return step.id === id;\n    });\n  }\n\n  /**\n   * Gets the current step\n   * @returns {Step|null}\n   */\n  getCurrentStep() {\n    return this.currentStep;\n  }\n\n  /**\n   * Hide the current step\n   */\n  hide() {\n    const currentStep = this.getCurrentStep();\n\n    if (currentStep) {\n      return currentStep.hide();\n    }\n  }\n\n  /**\n   * Check if the tour is active\n   * @return {boolean}\n   */\n  isActive() {\n    return Shepherd.activeTour === this;\n  }\n\n  /**\n   * Go to the next step in the tour\n   * If we are at the end, call `complete`\n   */\n  next() {\n    const index = this.steps.indexOf(this.currentStep);\n\n    if (index === this.steps.length - 1) {\n      this.complete();\n    } else {\n      this.show(index + 1, true);\n    }\n  }\n\n  /**\n   * Removes the step from the tour\n   * @param {String} name The id for the step to remove\n   */\n  removeStep(name) {\n    const current = this.getCurrentStep();\n\n    // Find the step, destroy it and remove it from this.steps\n    this.steps.some((step, i) => {\n      if (step.id === name) {\n        if (step.isOpen()) {\n          step.hide();\n        }\n\n        step.destroy();\n        this.steps.splice(i, 1);\n\n        return true;\n      }\n    });\n\n    if (current && current.id === name) {\n      this.currentStep = undefined;\n\n      // If we have steps left, show the first one, otherwise just cancel the tour\n      this.steps.length ? this.show(0) : this.cancel();\n    }\n  }\n\n  beforeShowStep(step) {\n    this.modal.setupForStep(step);\n    this._styleTargetElementForStep(step);\n  }\n\n  /**\n   * Show a specific step in the tour\n   * @param {Number|String} key The key to look up the step by\n   * @param {Boolean} forward True if we are going forward, false if backward\n   */\n  show(key = 0, forward = true) {\n    const step = isString(key) ? this.getById(key) : this.steps[key];\n\n    if (step) {\n      this._updateStateBeforeShow();\n\n      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();\n\n      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal\n      if (shouldSkipStep) {\n        this._skipStep(step, forward);\n      } else {\n        this.trigger('show', {\n          step,\n          previous: this.currentStep\n        });\n\n        this.currentStep = step;\n        step.show();\n      }\n    }\n  }\n\n  /**\n   * Start the tour\n   */\n  start() {\n    this.trigger('start');\n\n    if (this.options.disableScroll) {\n      disableBodyScroll();\n    }\n\n    this.currentStep = null;\n    this._setupActiveTour();\n    this.next();\n  }\n\n  /**\n   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour\n   * @param {String} event The event name to trigger\n   * @private\n   */\n  _done(event) {\n    if (Array.isArray(this.steps)) {\n      this.steps.forEach((step) => step.destroy());\n    }\n\n    cleanupStepEventListeners.call(this);\n    cleanupSteps(this.tourObject);\n\n    this.trigger(event);\n\n    Shepherd.activeTour = null;\n    this._removeBodyAttrs();\n    this.trigger('inactive', { tour: this });\n\n    if (this.options.disableScroll) {\n      clearAllBodyScrollLocks();\n    }\n\n    this.modal.cleanup();\n  }\n\n  /**\n   * Make this tour \"active\"\n   * @private\n   */\n  _setupActiveTour() {\n    this.modal.createModalOverlay();\n    this._addBodyAttrs();\n    this.trigger('active', { tour: this });\n\n    Shepherd.activeTour = this;\n  }\n\n  /**\n   * Setup a new step object\n   * @param {Object} stepOptions The object describing the options for the step\n   * @param {String|Number} name The string or number to use as the `id` for the step\n   * @return {Step} The step instance\n   * @private\n   */\n  _setupStep(stepOptions, name) {\n    if (isString(name) || isNumber(name)) {\n      stepOptions.id = name.toString();\n    }\n\n    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);\n\n    return new Step(this, stepOptions);\n  }\n\n  /**\n   * Modulates the styles of the passed step's target element, based on the step's options and\n   * the tour's `modal` option, to visually emphasize the element\n   *\n   * @param step The step object that attaches to the element\n   * @private\n   */\n  _styleTargetElementForStep(step) {\n    const targetElement = getElementForStep(step);\n\n    if (!targetElement) {\n      return;\n    }\n\n    toggleShepherdModalClass(targetElement);\n\n    if (step.options.highlightClass) {\n      targetElement.classList.add(step.options.highlightClass);\n    }\n\n    if (step.options.canClickTarget === false) {\n      targetElement.style.pointerEvents = 'none';\n    }\n  }\n\n  /**\n   * Called when `showOn` evaluates to false, to skip the step\n   * @param {Step} step The step to skip\n   * @param {Boolean} forward True if we are going forward, false if backward\n   * @private\n   */\n  _skipStep(step, forward) {\n    const index = this.steps.indexOf(step);\n    const nextIndex = forward ? index + 1 : index - 1;\n    this.show(nextIndex, forward);\n  }\n\n  /**\n   * Set the tippy defaults\n   * @private\n   */\n  _setTooltipDefaults() {\n    tippy.setDefaultProps(tooltipDefaults);\n  }\n\n  /**\n   * Before showing, hide the current step and if the tour is not\n   * already active, call `this._setupActiveTour`.\n   * @private\n   */\n  _updateStateBeforeShow() {\n    if (this.currentStep) {\n      this.currentStep.hide();\n    }\n\n    if (!this.isActive()) {\n      this._setupActiveTour();\n    }\n  }\n\n  /**\n   * Sets this.id to `${tourName}--${uuid}`\n   * @private\n   */\n  _setTourID() {\n    const tourName = this.options.tourName || 'tour';\n    const uuid = uniqueId();\n\n    this.id = `${tourName}--${uuid}`;\n  }\n\n  /**\n   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class to the body.\n   * @private\n   */\n  _addBodyAttrs() {\n    document.body.setAttribute('data-shepherd-active-tour', this.id);\n    document.body.classList.add('shepherd-active');\n  }\n\n  /**\n   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\n   * class from the body.\n   * @private\n   */\n  _removeBodyAttrs() {\n    document.body.removeAttribute('data-shepherd-active-tour');\n    document.body.classList.remove('shepherd-active');\n  }\n\n}\n\nexport { Shepherd };\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/src/js/tour.js",
     "access": "public",
@@ -2098,7 +2098,7 @@
     "static": false,
     "longname": "src/js/tour.js~Tour#cancel",
     "access": "public",
-    "description": "Calls done() triggering the 'cancel' event\nIf `confirmCancel` is true, will show a window.confirm before cancelling",
+    "description": "Calls _done() triggering the 'cancel' event\nIf `confirmCancel` is true, will show a window.confirm before cancelling",
     "lineNumber": 121,
     "params": [],
     "return": null
@@ -2113,39 +2113,13 @@
     "static": false,
     "longname": "src/js/tour.js~Tour#complete",
     "access": "public",
-    "description": "Calls done() triggering the `complete` event",
+    "description": "Calls _done() triggering the `complete` event",
     "lineNumber": 136,
     "params": [],
     "return": null
   },
   {
     "__docId__": 114,
-    "kind": "method",
-    "name": "done",
-    "memberof": "src/js/tour.js~Tour",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/tour.js~Tour#done",
-    "access": "public",
-    "description": "Called whenever the tour is cancelled or completed, basically anytime we exit the tour",
-    "lineNumber": 144,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "String"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "event",
-        "description": "The event name to trigger"
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 115,
     "kind": "method",
     "name": "getById",
     "memberof": "src/js/tour.js~Tour",
@@ -2155,7 +2129,7 @@
     "longname": "src/js/tour.js~Tour#getById",
     "access": "public",
     "description": "Gets the step from a given id",
-    "lineNumber": 170,
+    "lineNumber": 145,
     "params": [
       {
         "nullable": null,
@@ -2179,7 +2153,7 @@
     }
   },
   {
-    "__docId__": 116,
+    "__docId__": 115,
     "kind": "method",
     "name": "getCurrentStep",
     "memberof": "src/js/tour.js~Tour",
@@ -2189,7 +2163,7 @@
     "longname": "src/js/tour.js~Tour#getCurrentStep",
     "access": "public",
     "description": "Gets the current step",
-    "lineNumber": 180,
+    "lineNumber": 155,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2208,7 +2182,7 @@
     "params": []
   },
   {
-    "__docId__": 117,
+    "__docId__": 116,
     "kind": "method",
     "name": "hide",
     "memberof": "src/js/tour.js~Tour",
@@ -2218,7 +2192,7 @@
     "longname": "src/js/tour.js~Tour#hide",
     "access": "public",
     "description": "Hide the current step",
-    "lineNumber": 187,
+    "lineNumber": 162,
     "params": [],
     "return": {
       "types": [
@@ -2227,7 +2201,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 117,
     "kind": "method",
     "name": "isActive",
     "memberof": "src/js/tour.js~Tour",
@@ -2237,7 +2211,7 @@
     "longname": "src/js/tour.js~Tour#isActive",
     "access": "public",
     "description": "Check if the tour is active",
-    "lineNumber": 199,
+    "lineNumber": 174,
     "return": {
       "nullable": null,
       "types": [
@@ -2249,7 +2223,7 @@
     "params": []
   },
   {
-    "__docId__": 119,
+    "__docId__": 118,
     "kind": "method",
     "name": "next",
     "memberof": "src/js/tour.js~Tour",
@@ -2259,12 +2233,12 @@
     "longname": "src/js/tour.js~Tour#next",
     "access": "public",
     "description": "Go to the next step in the tour\nIf we are at the end, call `complete`",
-    "lineNumber": 207,
+    "lineNumber": 182,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 120,
+    "__docId__": 119,
     "kind": "method",
     "name": "removeStep",
     "memberof": "src/js/tour.js~Tour",
@@ -2274,7 +2248,7 @@
     "longname": "src/js/tour.js~Tour#removeStep",
     "access": "public",
     "description": "Removes the step from the tour",
-    "lineNumber": 221,
+    "lineNumber": 196,
     "params": [
       {
         "nullable": null,
@@ -2290,7 +2264,7 @@
     "return": null
   },
   {
-    "__docId__": 121,
+    "__docId__": 120,
     "kind": "member",
     "name": "currentStep",
     "memberof": "src/js/tour.js~Tour",
@@ -2298,7 +2272,7 @@
     "longname": "src/js/tour.js~Tour#currentStep",
     "access": "public",
     "description": null,
-    "lineNumber": 239,
+    "lineNumber": 214,
     "undocument": true,
     "type": {
       "types": [
@@ -2307,17 +2281,133 @@
     }
   },
   {
-    "__docId__": 122,
+    "__docId__": 121,
     "kind": "method",
-    "name": "setupStep",
+    "name": "beforeShowStep",
     "memberof": "src/js/tour.js~Tour",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/js/tour.js~Tour#setupStep",
+    "longname": "src/js/tour.js~Tour#beforeShowStep",
     "access": "public",
+    "description": null,
+    "lineNumber": 221,
+    "undocument": true,
+    "params": [
+      {
+        "name": "step",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 122,
+    "kind": "method",
+    "name": "show",
+    "memberof": "src/js/tour.js~Tour",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/tour.js~Tour#show",
+    "access": "public",
+    "description": "Show a specific step in the tour",
+    "lineNumber": 231,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Number",
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "key",
+        "description": "The key to look up the step by"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "forward",
+        "description": "True if we are going forward, false if backward"
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 124,
+    "kind": "method",
+    "name": "start",
+    "memberof": "src/js/tour.js~Tour",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/tour.js~Tour#start",
+    "access": "public",
+    "description": "Start the tour",
+    "lineNumber": 257,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 126,
+    "kind": "method",
+    "name": "_done",
+    "memberof": "src/js/tour.js~Tour",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/tour.js~Tour#_done",
+    "access": "private",
+    "description": "Called whenever the tour is cancelled or completed, basically anytime we exit the tour",
+    "lineNumber": 274,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "event",
+        "description": "The event name to trigger"
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 127,
+    "kind": "method",
+    "name": "_setupActiveTour",
+    "memberof": "src/js/tour.js~Tour",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/tour.js~Tour#_setupActiveTour",
+    "access": "private",
+    "description": "Make this tour \"active\"",
+    "lineNumber": 299,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 128,
+    "kind": "method",
+    "name": "_setupStep",
+    "memberof": "src/js/tour.js~Tour",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/js/tour.js~Tour#_setupStep",
+    "access": "private",
     "description": "Setup a new step object",
-    "lineNumber": 252,
+    "lineNumber": 314,
     "params": [
       {
         "nullable": null,
@@ -2351,96 +2441,6 @@
     }
   },
   {
-    "__docId__": 123,
-    "kind": "method",
-    "name": "beforeShowStep",
-    "memberof": "src/js/tour.js~Tour",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/tour.js~Tour#beforeShowStep",
-    "access": "public",
-    "description": null,
-    "lineNumber": 262,
-    "undocument": true,
-    "params": [
-      {
-        "name": "step",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 124,
-    "kind": "method",
-    "name": "show",
-    "memberof": "src/js/tour.js~Tour",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/tour.js~Tour#show",
-    "access": "public",
-    "description": "Show a specific step in the tour",
-    "lineNumber": 272,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "Number",
-          "String"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "key",
-        "description": "The key to look up the step by"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "Boolean"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "forward",
-        "description": "True if we are going forward, false if backward"
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 126,
-    "kind": "method",
-    "name": "start",
-    "memberof": "src/js/tour.js~Tour",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/tour.js~Tour#start",
-    "access": "public",
-    "description": "Start the tour",
-    "lineNumber": 298,
-    "params": [],
-    "return": null
-  },
-  {
-    "__docId__": 128,
-    "kind": "method",
-    "name": "_setupActiveTour",
-    "memberof": "src/js/tour.js~Tour",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "src/js/tour.js~Tour#_setupActiveTour",
-    "access": "private",
-    "description": "Make this tour \"active\"",
-    "lineNumber": 314,
-    "params": [],
-    "return": null
-  },
-  {
     "__docId__": 129,
     "kind": "method",
     "name": "_styleTargetElementForStep",
@@ -2451,7 +2451,7 @@
     "longname": "src/js/tour.js~Tour#_styleTargetElementForStep",
     "access": "private",
     "description": "Modulates the styles of the passed step's target element, based on the step's options and\nthe tour's `modal` option, to visually emphasize the element",
-    "lineNumber": 329,
+    "lineNumber": 331,
     "params": [
       {
         "nullable": null,
@@ -2477,7 +2477,7 @@
     "longname": "src/js/tour.js~Tour#_skipStep",
     "access": "private",
     "description": "Called when `showOn` evaluates to false, to skip the step",
-    "lineNumber": 353,
+    "lineNumber": 355,
     "params": [
       {
         "nullable": null,
@@ -2513,7 +2513,7 @@
     "longname": "src/js/tour.js~Tour#_setTooltipDefaults",
     "access": "private",
     "description": "Set the tippy defaults",
-    "lineNumber": 363,
+    "lineNumber": 365,
     "params": [],
     "return": null
   },
@@ -2528,7 +2528,7 @@
     "longname": "src/js/tour.js~Tour#_updateStateBeforeShow",
     "access": "private",
     "description": "Before showing, hide the current step and if the tour is not\nalready active, call `this._setupActiveTour`.",
-    "lineNumber": 372,
+    "lineNumber": 374,
     "params": [],
     "return": null
   },
@@ -2543,7 +2543,7 @@
     "longname": "src/js/tour.js~Tour#_setTourID",
     "access": "private",
     "description": "Sets this.id to `${tourName}--${uuid}`",
-    "lineNumber": 386,
+    "lineNumber": 388,
     "params": [],
     "return": null
   },
@@ -2556,7 +2556,7 @@
     "longname": "src/js/tour.js~Tour#id",
     "access": "public",
     "description": null,
-    "lineNumber": 390,
+    "lineNumber": 392,
     "undocument": true,
     "type": {
       "types": [
@@ -2575,7 +2575,7 @@
     "longname": "src/js/tour.js~Tour#_addBodyAttrs",
     "access": "private",
     "description": "Adds the data-shepherd-active-tour attribute and the 'shepherd-active'\nclass to the body.",
-    "lineNumber": 398,
+    "lineNumber": 400,
     "params": [],
     "return": null
   },
@@ -2590,7 +2590,7 @@
     "longname": "src/js/tour.js~Tour#_removeBodyAttrs",
     "access": "private",
     "description": "Removes the data-shepherd-active-tour attribute and the 'shepherd-active'\nclass from the body.",
-    "lineNumber": 408,
+    "lineNumber": 410,
     "params": [],
     "return": null
   },
@@ -3222,7 +3222,7 @@
     "__docId__": 184,
     "kind": "testFile",
     "name": "test/unit/step.spec.js",
-    "content": "import { spy, stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport { Tour } from '../../src/js/tour.js';\nimport tippy from 'tippy.js';\nimport defaultButtons from '../cypress/utils/default-buttons';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Step', () => {\n  describe('Shepherd.Step()', () => {\n    const instance = new Shepherd.Tour({\n      defaultStepOptions: {\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      }\n    });\n\n    const testStep = instance.addStep('test', {\n      attachTo: { element: 'body' },\n      highlightClass: 'highlight',\n      id: 'test-id',\n      text: 'This is a step for testing',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const showTestStep = instance.addStep('test2', {\n      buttons: [],\n      id: 'test2-id',\n      text: 'Another Step'\n    });\n\n    // Add more steps for total _setupButtons coverage\n    instance.addStep('test3', {\n      buttons: {\n        text: 'Next',\n        action: instance.next\n      },\n      id: 'test3-id',\n      text: 'Another Step part deux'\n    });\n\n    const stepWithoutNameWithId = instance.addStep({\n      attachTo: { element: 'body' },\n      highlightClass: 'highlight',\n      id: 'no-name',\n      text: 'This is a step without a name, but with an id',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const stepWithoutNameWithoutId = instance.addStep({\n      attachTo: { element:'body' },\n      highlightClass: 'highlight',\n      text: 'This is a step without a name, and without an id',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const beforeShowPromise = new Promise((resolve) => {\n      return setTimeout(1000, resolve('beforeShowPromise worked!'));\n    });\n\n    const beforeShowPromiseTestStep = instance.addStep('test3', {\n      text: 'Before Show Promise Step',\n      beforeShowPromise() {\n        return beforeShowPromise;\n      }\n    });\n\n    beforeEach(() => {\n      tippy.setDefaultProps({ duration: 0, delay: 0 });\n    });\n\n    afterEach(() => {\n      instance.complete();\n    });\n\n    it('has all the correct properties', () => {\n      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'id', 'text', 'buttons'];\n      expect(values).toEqual(Object.keys(testStep.options));\n\n      expect(testStep.id, 'passed name set as id').toBe('test');\n      expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');\n      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed').toBe('step-1');\n    });\n\n    describe('.hide()', () => {\n      it('detaches from the step target', () => {\n        instance.start();\n\n        const targetElem = document.body;\n\n        expect(targetElem.classList.contains('shepherd-enabled')).toBe(true);\n\n        testStep.hide();\n\n        expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);\n      });\n    });\n\n    describe('.show()', () => {\n      it('beforeShowPromise called before `show`', () => {\n        beforeShowPromiseTestStep.show();\n\n        return beforeShowPromise.then((result) => {\n          expect(result, 'beforeShowPromise is called').toBe('beforeShowPromise worked!');\n        });\n      });\n\n      it('shows step evoking method, regardless of order', () => {\n        showTestStep.show();\n\n        expect(document.querySelector('[data-shepherd-step-id=test2]')).toBeInTheDocument();\n      });\n    });\n  });\n\n  describe('bindAdvance()', () => {\n    let event;\n    let link;\n    let hasAdvanced = false;\n\n    const advanceOnSelector = 'test-selector';\n    const advanceOnEventName = 'test-event';\n    const tourProto = {\n      next() { hasAdvanced = true; }\n    };\n\n    beforeEach(() => {\n      event = new Event(advanceOnEventName);\n\n      link = document.createElement('a');\n      link.classList.add(advanceOnSelector);\n      link.textContent = 'Click Me 👋';\n\n      document.body.appendChild(link);\n    });\n\n    afterEach(() => {\n      link.remove();\n    });\n\n    it('triggers the `advanceOn` option via object', () => {\n      const step = new Step(tourProto, {\n        advanceOn: { selector: `.${advanceOnSelector}`, event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      link.dispatchEvent(event);\n\n      expect(link.classList.contains(advanceOnSelector)).toBe(true);\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBe(true);\n    });\n\n    it('captures events attached to no element', () => {\n      const step = new Step(tourProto, {\n        advanceOn: { event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      document.body.dispatchEvent(event);\n\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();\n    });\n\n    it('should support bubbling events for nodes that do not exist yet', () => {\n      const event = new Event('blur');\n\n      const step = new Step(tourProto, {\n        text: 'Lorem ipsum dolor: <a href=\"https://example.com\">sit amet</a>',\n        advanceOn: {\n          selector: 'a[href=\"https://example.com\"]',\n          event: 'blur'\n        }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      document.body.dispatchEvent(event);\n\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();\n    });\n\n    it('calls `removeEventListener` when destroyed', function(done) {\n      const bodySpy = spy(document.body, 'removeEventListener');\n      const step = new Step(tourProto, {\n        advanceOn: { event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      step.trigger('destroy');\n\n      expect(bodySpy.called).toBe(true);\n      bodySpy.restore();\n\n      done();\n    });\n  });\n\n  describe('bindButtonEvents()', () => {\n    const link = document.createElement('a');\n    const step = new Step(new Tour(), {});\n    it('adds button events', () => {\n      const event = new Event('test');\n      const hover = new Event('mouseover');\n      let eventTriggered = false;\n\n      step.bindButtonEvents({\n        events: {\n          'mouseover': '1',\n          test: () => eventTriggered = true\n        },\n        text: 'Next',\n        action: () => {}\n      }, link);\n\n      link.dispatchEvent(event);\n      link.dispatchEvent(hover);\n      expect(eventTriggered, 'custom button event was bound/triggered').toBeTruthy();\n    });\n\n    it('removes events once destroyed', () => {\n      step.destroy();\n\n      expect(link.hasAttribute('data-button-event'), 'attribute to confirm event is removed').toBeFalsy();\n    });\n\n  });\n\n  describe('bindCancelLink()', () => {\n    it('adds an event handler for the cancel button', () => {\n      const event = new MouseEvent('click', {\n        view: window,\n        bubbles: true,\n        cancelable: true\n      });\n      const link = document.createElement('a');\n      const step = new Step();\n      let cancelCalled = false;\n\n      step.cancel = () => cancelCalled = true;\n      step.bindCancelLink(link);\n\n      link.dispatchEvent(event);\n      expect(cancelCalled, 'cancel method was called from bound click event').toBeTruthy();\n    });\n  });\n\n  describe('bindMethods()', () => {\n    it('binds the expected methods', () => {\n      const step = new Step();\n      const methods = [\n        '_show',\n        'cancel',\n        'complete',\n        'destroy',\n        'hide',\n        'isOpen',\n        'scrollTo',\n        'setupElements',\n        'show'\n      ];\n      methods.forEach((method) => {\n        expect(step[method], `${method} has been bound`).toBeTruthy();\n      });\n    });\n  });\n\n  describe('cancel()', () => {\n    it('triggers the cancel event and tour method', () => {\n      let cancelCalled = false;\n      let eventTriggered = false;\n      const step = new Step({\n        cancel() {\n          cancelCalled = true;\n        }\n      });\n      step.on('cancel', () => eventTriggered = true);\n      step.cancel();\n\n      expect(cancelCalled, 'cancel method from tour called').toBeTruthy();\n      expect(eventTriggered, 'cancel event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('complete()', () => {\n    it('triggers the complete event and tour method', () => {\n      let completeCalled = false;\n      let eventTriggered = false;\n      const step = new Step({\n        complete() {\n          completeCalled = true;\n        }\n      });\n      step.on('complete', () => eventTriggered = true);\n      step.complete();\n\n      expect(completeCalled, 'complete method from tour called').toBeTruthy();\n      expect(eventTriggered, 'complete event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('destroy()', () => {\n    it('triggers the destroy event', () => {\n      const step = new Step();\n      let eventTriggered = false;\n      step.on('destroy', () => eventTriggered = true);\n      step.destroy();\n\n      expect(eventTriggered, 'destroy event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('hide()', () => {\n    let beforeHideTriggered = false;\n    let modalHideCalled = false;\n    const step = new Step({\n      modal: {\n        hide() {\n          modalHideCalled = true;\n        }\n      }\n    });\n\n    it('triggers the before-hide event', () => {\n      step.on('before-hide', () => beforeHideTriggered = true);\n      step.hide();\n\n      expect(beforeHideTriggered, 'before-hide event was triggered').toBeTruthy();\n    });\n\n    it('calls tour.modal.hide', () => {\n      expect(modalHideCalled, 'tour.modal.hide called').toBeTruthy();\n    });\n  });\n\n  describe('parseAttachTo()', function() {\n    it('fails if element does not exist', function() {\n      const step = new Step({}, {\n        attachTo: { element: '.scroll-test', on: 'center' }\n      });\n\n      const { element } = step.parseAttachTo();\n      expect(element).toBeFalsy();\n    });\n  });\n\n  describe('setupElements()', () => {\n    it('calls destroy on the step if the content element is already set', () => {\n      const step = new Step();\n      let destroyCalled = false;\n      step.el = document.createElement('a');\n      step.destroy = () => destroyCalled = true;\n      step.setupElements();\n      expect(destroyCalled, 'setupElements method called destroy with element set').toBeTruthy();\n    });\n\n    it('calls destroy on the tooltip if it already exists', () => {\n      const step = new Step();\n      let destroyCalled = false;\n      step.tooltip = {\n        destroy() { destroyCalled = true; }\n      };\n      step.setupElements();\n      expect(destroyCalled, 'setupElements method called destroy on the existing tooltip').toBe(true);\n    });\n\n    it('calls bindAdvance() if advanceOn passed', () => {\n      const step = new Step({\n        next: () => true\n      }, {\n        advanceOn: { selector: '.click-test', event: 'test' }\n      });\n      const bindFunction = spy(step, 'bindAdvance');\n      step.setupElements();\n\n      expect(bindFunction.called).toBeTruthy();\n    });\n  });\n\n  describe('scrollTo()', () => {\n    it('calls the scroll native method', () => {\n      const div = document.createElement('div');\n      let handlerCalled = false;\n      div.classList.add('scroll-test');\n      document.body.appendChild(div);\n      const step = new Step('test', {\n        attachTo: { element: '.scroll-test', on: 'center' }\n      });\n      div.scrollIntoView = () => handlerCalled = true;\n\n      step.scrollTo();\n      expect(handlerCalled).toBeTruthy();\n    });\n\n    it('calls the custom handler', () => {\n      let handlerAdded = false;\n      const step = new Step('test', {\n        scrollToHandler: () => handlerAdded = true\n      });\n\n      step.scrollTo();\n      expect(handlerAdded).toBeTruthy();\n    });\n  });\n\n  describe('setOptions()', () => {\n    it('calls event handlers passed in as properties to the `when` option', () => {\n      let whenCalled = false;\n      const step = new Step('test', {\n        when: {\n          destroy: () => whenCalled = true\n        }\n      });\n\n      step.destroy();\n      expect(whenCalled).toBeTruthy();\n    });\n  });\n\n  describe('getTour()', () => {\n    it('returns the tour value', () => {\n      const step = new Step(new Shepherd.Tour());\n\n      expect(step.getTour() instanceof Shepherd.Tour).toBeTruthy();\n    });\n\n  });\n\n  describe('_addContent()', () => {\n    it('adds plain text to the content', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n      step.options.text = 'I am some test text.';\n\n      step._addContent(content);\n\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');\n    });\n\n    it('applies HTML element directly to content', () => {\n      const content = document.createElement('div');\n      const text = document.createElement('p');\n      const step = new Step();\n      text.innerHTML = 'I am some test text.';\n      step.options.text = text;\n\n      step._addContent(content);\n\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');\n    });\n\n    it('applies the text from a function', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n      step.options.text = () => 'I am some test text.';\n\n      step._addContent(content);\n\n      expect(typeof step.options.text === 'function').toBeTruthy();\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');\n    });\n  });\n\n  describe('_addButtons', () => {\n    it('renders no buttons if an empty array is passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step.options.buttons = [];\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(0);\n    });\n\n    it('renders no buttons if nothing is passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(0);\n    });\n\n    it('renders buttons for each item passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step.options.buttons = [\n        defaultButtons.cancel,\n        defaultButtons.next\n      ];\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(1);\n\n      const buttonContainer = content.querySelector('.shepherd-footer');\n\n      expect(buttonContainer instanceof HTMLElement).toBe(true);\n\n      const buttons = buttonContainer.querySelectorAll('.shepherd-button');\n\n      expect(buttons.length).toBe(2);\n    });\n  });\n\n  describe('_addKeyDownHandler', () => {\n    it('ESC cancels the tour', () => {\n      const element = document.createElement('div');\n      const step = new Step();\n\n      const cancelStub = stub(step, 'cancel');\n\n      step._addKeyDownHandler(element);\n\n      const event = new KeyboardEvent('keydown', { keyCode: 27 });\n      element.dispatchEvent(event);\n\n      expect(cancelStub.called).toBe(true);\n      cancelStub.restore();\n    });\n\n    it('arrow keys move between steps', () => {\n      const element = document.createElement('div');\n      const tour = new Tour();\n      const step = new Step(tour, {});\n\n      const tourBackStub = stub(tour, 'back');\n      const tourNextStub = stub(tour, 'next');\n\n      expect(tourBackStub.called).toBe(false);\n      expect(tourNextStub.called).toBe(false);\n\n      step._addKeyDownHandler(element);\n\n      const rightArrowEvent = new KeyboardEvent('keydown', { keyCode: 39 });\n      element.dispatchEvent(rightArrowEvent);\n\n      expect(tourNextStub.called).toBe(true);\n\n\n      const leftArrowEvent = new KeyboardEvent('keydown', { keyCode: 37 });\n      element.dispatchEvent(leftArrowEvent);\n\n      expect(tourBackStub.called).toBe(true);\n\n      tourBackStub.restore();\n      tourNextStub.restore();\n    });\n  });\n\n  describe('_addCancelLink', () => {\n    it('Cancel link', () => {\n      const header = document.createElement('header');\n      const element = document.createElement('div');\n      const step = new Step(null, { showCancelLink: true });\n\n      const cancelLinkStub = stub(step, 'bindCancelLink');\n\n      step._addCancelLink(element, header);\n\n      expect(cancelLinkStub.called).toBe(true);\n      expect(element).toHaveClass('shepherd-has-cancel-link');\n      cancelLinkStub.restore();\n    });\n  });\n\n  describe('_createTooltipContent', () => {\n    it('ARIA attributes set', () => {\n      const step = new Step(null, {\n        id: 'test-step',\n        text: 'Lorem Ipsum',\n        title: 'Test'\n      });\n\n      const element = step._createTooltipContent();\n\n      expect(element.getAttribute('aria-labeledby')).toBe('test-step-label');\n      expect(element.querySelector('.shepherd-title').id).toBe('test-step-label');\n\n      expect(element.getAttribute('aria-describedby')).toBe('test-step-description');\n      expect(element.querySelector('.shepherd-text').id).toBe('test-step-description');\n    });\n  });\n});\n",
+    "content": "import { spy, stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport { Tour } from '../../src/js/tour.js';\nimport tippy from 'tippy.js';\nimport defaultButtons from '../cypress/utils/default-buttons';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Step', () => {\n  describe('Shepherd.Step()', () => {\n    const instance = new Shepherd.Tour({\n      defaultStepOptions: {\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      }\n    });\n\n    const testStep = instance.addStep('test', {\n      attachTo: { element: 'body' },\n      highlightClass: 'highlight',\n      id: 'test-id',\n      text: 'This is a step for testing',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const showTestStep = instance.addStep('test2', {\n      buttons: [],\n      id: 'test2-id',\n      text: 'Another Step'\n    });\n\n    // Add more steps for total _setupButtons coverage\n    instance.addStep('test3', {\n      buttons: {\n        text: 'Next',\n        action: instance.next\n      },\n      id: 'test3-id',\n      text: 'Another Step part deux'\n    });\n\n    const stepWithoutNameWithId = instance.addStep({\n      attachTo: { element: 'body' },\n      highlightClass: 'highlight',\n      id: 'no-name',\n      text: 'This is a step without a name, but with an id',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const stepWithoutNameWithoutId = instance.addStep({\n      attachTo: { element:'body' },\n      highlightClass: 'highlight',\n      text: 'This is a step without a name, and without an id',\n      buttons: [\n        {\n          text: 'Next',\n          action: instance.next\n        }\n      ]\n    });\n\n    const beforeShowPromise = new Promise((resolve) => {\n      return setTimeout(1000, resolve('beforeShowPromise worked!'));\n    });\n\n    const beforeShowPromiseTestStep = instance.addStep('test3', {\n      text: 'Before Show Promise Step',\n      beforeShowPromise() {\n        return beforeShowPromise;\n      }\n    });\n\n    beforeEach(() => {\n      tippy.setDefaultProps({ duration: 0, delay: 0 });\n    });\n\n    afterEach(() => {\n      instance.complete();\n    });\n\n    it('has all the correct properties', () => {\n      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'id', 'text', 'buttons'];\n      expect(values).toEqual(Object.keys(testStep.options));\n\n      expect(testStep.id, 'passed name set as id').toBe('test');\n      expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');\n      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed').toBe('step-1');\n    });\n\n    describe('.hide()', () => {\n      it('detaches from the step target', () => {\n        instance.start();\n\n        const targetElem = document.body;\n\n        expect(targetElem.classList.contains('shepherd-enabled')).toBe(true);\n\n        testStep.hide();\n\n        expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);\n      });\n    });\n\n    describe('.show()', () => {\n      it('beforeShowPromise called before `show`', () => {\n        beforeShowPromiseTestStep.show();\n\n        return beforeShowPromise.then((result) => {\n          expect(result, 'beforeShowPromise is called').toBe('beforeShowPromise worked!');\n        });\n      });\n\n      it('shows step evoking method, regardless of order', () => {\n        showTestStep.show();\n\n        expect(document.querySelector('[data-shepherd-step-id=test2]')).toBeInTheDocument();\n      });\n    });\n  });\n\n  describe('bindAdvance()', () => {\n    let event;\n    let link;\n    let hasAdvanced = false;\n\n    const advanceOnSelector = 'test-selector';\n    const advanceOnEventName = 'test-event';\n    const tourProto = {\n      next() { hasAdvanced = true; }\n    };\n\n    beforeEach(() => {\n      event = new Event(advanceOnEventName);\n\n      link = document.createElement('a');\n      link.classList.add(advanceOnSelector);\n      link.textContent = 'Click Me 👋';\n\n      document.body.appendChild(link);\n    });\n\n    afterEach(() => {\n      link.remove();\n    });\n\n    it('triggers the `advanceOn` option via object', () => {\n      const step = new Step(tourProto, {\n        advanceOn: { selector: `.${advanceOnSelector}`, event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      link.dispatchEvent(event);\n\n      expect(link.classList.contains(advanceOnSelector)).toBe(true);\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBe(true);\n    });\n\n    it('captures events attached to no element', () => {\n      const step = new Step(tourProto, {\n        advanceOn: { event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      document.body.dispatchEvent(event);\n\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();\n    });\n\n    it('should support bubbling events for nodes that do not exist yet', () => {\n      const event = new Event('blur');\n\n      const step = new Step(tourProto, {\n        text: 'Lorem ipsum dolor: <a href=\"https://example.com\">sit amet</a>',\n        advanceOn: {\n          selector: 'a[href=\"https://example.com\"]',\n          event: 'blur'\n        }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      document.body.dispatchEvent(event);\n\n      expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();\n    });\n\n    it('calls `removeEventListener` when destroyed', function(done) {\n      const bodySpy = spy(document.body, 'removeEventListener');\n      const step = new Step(tourProto, {\n        advanceOn: { event: advanceOnEventName }\n      });\n\n      step.isOpen = () => true;\n\n      step.bindAdvance();\n      step.trigger('destroy');\n\n      expect(bodySpy.called).toBe(true);\n      bodySpy.restore();\n\n      done();\n    });\n  });\n\n  describe('bindButtonEvents()', () => {\n    const link = document.createElement('a');\n    const step = new Step(new Tour(), {});\n    it('adds button events', () => {\n      const event = new Event('test');\n      const hover = new Event('mouseover');\n      let eventTriggered = false;\n\n      step.bindButtonEvents({\n        events: {\n          'mouseover': '1',\n          test: () => eventTriggered = true\n        },\n        text: 'Next',\n        action: () => {}\n      }, link);\n\n      link.dispatchEvent(event);\n      link.dispatchEvent(hover);\n      expect(eventTriggered, 'custom button event was bound/triggered').toBeTruthy();\n    });\n\n    it('removes events once destroyed', () => {\n      step.destroy();\n\n      expect(link.hasAttribute('data-button-event'), 'attribute to confirm event is removed').toBeFalsy();\n    });\n\n  });\n\n  describe('bindCancelLink()', () => {\n    it('adds an event handler for the cancel button', () => {\n      const event = new MouseEvent('click', {\n        view: window,\n        bubbles: true,\n        cancelable: true\n      });\n      const link = document.createElement('a');\n      const step = new Step();\n      let cancelCalled = false;\n\n      step.cancel = () => cancelCalled = true;\n      step.bindCancelLink(link);\n\n      link.dispatchEvent(event);\n      expect(cancelCalled, 'cancel method was called from bound click event').toBeTruthy();\n    });\n  });\n\n  describe('bindMethods()', () => {\n    it('binds the expected methods', () => {\n      const step = new Step();\n      const methods = [\n        '_scrollTo',\n        '_setupElements',\n        '_show',\n        'cancel',\n        'complete',\n        'destroy',\n        'hide',\n        'isOpen',\n        'show'\n      ];\n      methods.forEach((method) => {\n        expect(step[method], `${method} has been bound`).toBeTruthy();\n      });\n    });\n  });\n\n  describe('cancel()', () => {\n    it('triggers the cancel event and tour method', () => {\n      let cancelCalled = false;\n      let eventTriggered = false;\n      const step = new Step({\n        cancel() {\n          cancelCalled = true;\n        }\n      });\n      step.on('cancel', () => eventTriggered = true);\n      step.cancel();\n\n      expect(cancelCalled, 'cancel method from tour called').toBeTruthy();\n      expect(eventTriggered, 'cancel event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('complete()', () => {\n    it('triggers the complete event and tour method', () => {\n      let completeCalled = false;\n      let eventTriggered = false;\n      const step = new Step({\n        complete() {\n          completeCalled = true;\n        }\n      });\n      step.on('complete', () => eventTriggered = true);\n      step.complete();\n\n      expect(completeCalled, 'complete method from tour called').toBeTruthy();\n      expect(eventTriggered, 'complete event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('destroy()', () => {\n    it('triggers the destroy event', () => {\n      const step = new Step();\n      let eventTriggered = false;\n      step.on('destroy', () => eventTriggered = true);\n      step.destroy();\n\n      expect(eventTriggered, 'destroy event was triggered').toBeTruthy();\n    });\n  });\n\n  describe('hide()', () => {\n    let beforeHideTriggered = false;\n    let modalHideCalled = false;\n    const step = new Step({\n      modal: {\n        hide() {\n          modalHideCalled = true;\n        }\n      }\n    });\n\n    it('triggers the before-hide event', () => {\n      step.on('before-hide', () => beforeHideTriggered = true);\n      step.hide();\n\n      expect(beforeHideTriggered, 'before-hide event was triggered').toBeTruthy();\n    });\n\n    it('calls tour.modal.hide', () => {\n      expect(modalHideCalled, 'tour.modal.hide called').toBeTruthy();\n    });\n  });\n\n  describe('parseAttachTo()', function() {\n    it('fails if element does not exist', function() {\n      const step = new Step({}, {\n        attachTo: { element: '.scroll-test', on: 'center' }\n      });\n\n      const { element } = step.parseAttachTo();\n      expect(element).toBeFalsy();\n    });\n  });\n\n  describe('_setupElements()', () => {\n    it('calls destroy on the step if the content element is already set', () => {\n      const step = new Step();\n      let destroyCalled = false;\n      step.el = document.createElement('a');\n      step.destroy = () => destroyCalled = true;\n      step._setupElements();\n      expect(destroyCalled, '_setupElements method called destroy with element set').toBeTruthy();\n    });\n\n    it('calls destroy on the tooltip if it already exists', () => {\n      const step = new Step();\n      let destroyCalled = false;\n      step.tooltip = {\n        destroy() { destroyCalled = true; }\n      };\n      step._setupElements();\n      expect(destroyCalled, '_setupElements method called destroy on the existing tooltip').toBe(true);\n    });\n\n    it('calls bindAdvance() if advanceOn passed', () => {\n      const step = new Step({\n        next: () => true\n      }, {\n        advanceOn: { selector: '.click-test', event: 'test' }\n      });\n      const bindFunction = spy(step, 'bindAdvance');\n      step._setupElements();\n\n      expect(bindFunction.called).toBeTruthy();\n    });\n  });\n\n  describe('_scrollTo()', () => {\n    it('calls the scroll native method', () => {\n      const div = document.createElement('div');\n      let handlerCalled = false;\n      div.classList.add('scroll-test');\n      document.body.appendChild(div);\n      const step = new Step('test', {\n        attachTo: { element: '.scroll-test', on: 'center' }\n      });\n      div.scrollIntoView = () => handlerCalled = true;\n\n      step._scrollTo();\n      expect(handlerCalled).toBeTruthy();\n    });\n\n    it('calls the custom handler', () => {\n      let handlerAdded = false;\n      const step = new Step('test', {\n        scrollToHandler: () => handlerAdded = true\n      });\n\n      step._scrollTo();\n      expect(handlerAdded).toBeTruthy();\n    });\n  });\n\n  describe('setOptions()', () => {\n    it('calls event handlers passed in as properties to the `when` option', () => {\n      let whenCalled = false;\n      const step = new Step('test', {\n        when: {\n          destroy: () => whenCalled = true\n        }\n      });\n\n      step.destroy();\n      expect(whenCalled).toBeTruthy();\n    });\n  });\n\n  describe('getTour()', () => {\n    it('returns the tour value', () => {\n      const step = new Step(new Shepherd.Tour());\n\n      expect(step.getTour() instanceof Shepherd.Tour).toBeTruthy();\n    });\n\n  });\n\n  describe('_addContent()', () => {\n    it('adds plain text to the content', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n      step.options.text = 'I am some test text.';\n\n      step._addContent(content);\n\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');\n    });\n\n    it('applies HTML element directly to content', () => {\n      const content = document.createElement('div');\n      const text = document.createElement('p');\n      const step = new Step();\n      text.innerHTML = 'I am some test text.';\n      step.options.text = text;\n\n      step._addContent(content);\n\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');\n    });\n\n    it('applies the text from a function', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n      step.options.text = () => 'I am some test text.';\n\n      step._addContent(content);\n\n      expect(typeof step.options.text === 'function').toBeTruthy();\n      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');\n    });\n  });\n\n  describe('_addButtons', () => {\n    it('renders no buttons if an empty array is passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step.options.buttons = [];\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(0);\n    });\n\n    it('renders no buttons if nothing is passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(0);\n    });\n\n    it('renders buttons for each item passed to `options.buttons`', () => {\n      const content = document.createElement('div');\n      const step = new Step();\n\n      step.options.buttons = [\n        defaultButtons.cancel,\n        defaultButtons.next\n      ];\n\n      step._addButtons(content);\n\n      expect(content.children.length).toBe(1);\n\n      const buttonContainer = content.querySelector('.shepherd-footer');\n\n      expect(buttonContainer instanceof HTMLElement).toBe(true);\n\n      const buttons = buttonContainer.querySelectorAll('.shepherd-button');\n\n      expect(buttons.length).toBe(2);\n    });\n  });\n\n  describe('_addKeyDownHandler', () => {\n    it('ESC cancels the tour', () => {\n      const element = document.createElement('div');\n      const step = new Step();\n\n      const cancelStub = stub(step, 'cancel');\n\n      step._addKeyDownHandler(element);\n\n      const event = new KeyboardEvent('keydown', { keyCode: 27 });\n      element.dispatchEvent(event);\n\n      expect(cancelStub.called).toBe(true);\n      cancelStub.restore();\n    });\n\n    it('arrow keys move between steps', () => {\n      const element = document.createElement('div');\n      const tour = new Tour();\n      const step = new Step(tour, {});\n\n      const tourBackStub = stub(tour, 'back');\n      const tourNextStub = stub(tour, 'next');\n\n      expect(tourBackStub.called).toBe(false);\n      expect(tourNextStub.called).toBe(false);\n\n      step._addKeyDownHandler(element);\n\n      const rightArrowEvent = new KeyboardEvent('keydown', { keyCode: 39 });\n      element.dispatchEvent(rightArrowEvent);\n\n      expect(tourNextStub.called).toBe(true);\n\n\n      const leftArrowEvent = new KeyboardEvent('keydown', { keyCode: 37 });\n      element.dispatchEvent(leftArrowEvent);\n\n      expect(tourBackStub.called).toBe(true);\n\n      tourBackStub.restore();\n      tourNextStub.restore();\n    });\n  });\n\n  describe('_addCancelLink', () => {\n    it('Cancel link', () => {\n      const header = document.createElement('header');\n      const element = document.createElement('div');\n      const step = new Step(null, { showCancelLink: true });\n\n      const cancelLinkStub = stub(step, 'bindCancelLink');\n\n      step._addCancelLink(element, header);\n\n      expect(cancelLinkStub.called).toBe(true);\n      expect(element).toHaveClass('shepherd-has-cancel-link');\n      cancelLinkStub.restore();\n    });\n  });\n\n  describe('_createTooltipContent', () => {\n    it('ARIA attributes set', () => {\n      const step = new Step(null, {\n        id: 'test-step',\n        text: 'Lorem Ipsum',\n        title: 'Test'\n      });\n\n      const element = step._createTooltipContent();\n\n      expect(element.getAttribute('aria-labeledby')).toBe('test-step-label');\n      expect(element.querySelector('.shepherd-title').id).toBe('test-step-label');\n\n      expect(element.getAttribute('aria-describedby')).toBe('test-step-description');\n      expect(element.querySelector('.shepherd-text').id).toBe('test-step-description');\n    });\n  });\n});\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/test/unit/step.spec.js",
     "access": null,
@@ -3642,7 +3642,7 @@
     "static": true,
     "longname": "test/unit/step.spec.js~describe41.describe72",
     "access": null,
-    "description": "setupElements()",
+    "description": "_setupElements()",
     "lineNumber": 372
   },
   {
@@ -3694,7 +3694,7 @@
     "static": true,
     "longname": "test/unit/step.spec.js~describe41.describe76",
     "access": null,
-    "description": "scrollTo()",
+    "description": "_scrollTo()",
     "lineNumber": 405
   },
   {
@@ -3974,7 +3974,7 @@
     "__docId__": 242,
     "kind": "testFile",
     "name": "test/unit/tour.spec.js",
-    "content": "import _ from 'lodash';\nimport { stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';\nimport { spy } from 'sinon';\nimport { drop, rewire$drop, restore } from '../../src/js/utils/general';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Top-Level Class', function() {\n  let instance, shouldShowStep;\n\n  const defaultStepOptions = {\n    classes: DEFAULT_STEP_CLASS,\n    scrollTo: true\n  };\n\n  beforeEach(() => {\n    tippy.setDefaultProps({ duration: 0, delay: 0 });\n  });\n\n  afterEach(() => {\n    instance.complete();\n  });\n\n  describe('constructor', function() {\n    it('creates a new tour instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance instanceof Shepherd.Tour).toBe(true);\n    });\n\n    it('returns the default options on the instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance.options.defaultStepOptions).toEqual({\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      });\n    });\n\n    it('sets the correct bindings', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      const bindings = Object.keys(instance.bindings);\n      const tourEvents = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];\n      // Check that all bindings are included\n      const difference = _.difference(tourEvents, bindings);\n      expect(difference.length, 'all tour events bound').toBe(0);\n    });\n\n    it('sets defaults for tippy', function() {\n      const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');\n      const tippySpy = spy(tippy, 'setDefaultProps');\n\n      expect(tourSpy.callCount).toBe(0);\n      expect(tippySpy.callCount).toBe(0);\n\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(tourSpy.callCount).toBe(1);\n      expect(tippySpy.callCount).toBe(1);\n      expect(tippySpy.calledWith(tooltipDefaults)).toBe(true);\n    });\n\n    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {\n      const instance1 = new Shepherd.Tour();\n      const instance2 = new Shepherd.Tour({ tourName: 'select-avatar' });\n\n      expect(instance1.id.startsWith('tour--')).toBe(true);\n      expect(instance2.id.startsWith('select-avatar--')).toBe(true);\n\n      const uniqueId1 = instance1.id.split('--')[1];\n      const uniqueId2 = instance2.id.split('--')[1];\n\n      expect(uniqueId1).not.toBe(uniqueId2);\n    });\n  });\n\n  describe('methods', () => {\n    beforeEach(() => {\n      shouldShowStep = false;\n\n      instance = new Shepherd.Tour({\n        defaultStepOptions\n      });\n\n      instance.addStep('test', {\n        id: 'test',\n        title: 'This is a test step for our tour'\n      });\n\n      instance.addStep('skipped-step', {\n        classes: 'skipped',\n        id: 'skipped-step',\n        title: 'This step should be skipped',\n        showOn() {\n          return shouldShowStep;\n        }\n      });\n\n      instance.addStep('test2', {\n        id: 'test2',\n        title: 'Another Step'\n      });\n\n      instance.addStep('test3', {\n        id: 'test3',\n        title: 'Yet, another test step'\n      });\n    });\n\n    describe('.addStep()', function() {\n      it('adds tour steps', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);\n      });\n\n      it('adds steps with only one arg', function() {\n        const step = instance.addStep({\n          id: 'one-arg'\n        });\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step with just one arg').toBe('one-arg');\n      });\n\n      it('adds steps that are already Step instances', function() {\n        const step = instance.addStep(new Step(instance, {\n          id: 'already-a-step'\n        }));\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step instance').toBe('already-a-step');\n        expect(step.tour, 'tour is set to `this`').toBe(instance);\n      });\n    });\n\n    describe('.getById()', function() {\n      it('returns the step by ID with the right title', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test3').options.title).toBe('Yet, another test step');\n      });\n    });\n\n    describe('.start()', function() {\n      it('starts a tour that is the current active', function() {\n        instance.start();\n\n        expect(instance).toBe(Shepherd.activeTour);\n      });\n\n      it('adds the current tour\\'s \"id\" property to the body as a data attribute', function() {\n        instance.id = 'test-id';\n        instance.start();\n\n        expect(document.body.hasAttribute('data-shepherd-active-tour')).toBe(true);\n        expect(document.body.getAttribute('data-shepherd-active-tour')).toBe('test-id');\n      });\n    });\n\n    describe('.getCurrentStep()', function() {\n      it('returns the currently shown step', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n    });\n\n    describe('.hide()', function() {\n      it('hides the current step', () => {\n        const firstStep = instance.steps[0];\n        const hideStepSpy = spy(firstStep, 'hide');\n\n        expect(firstStep.isOpen()).toBe(false);\n\n        instance.start();\n\n        expect(firstStep.isOpen()).toBe(true);\n\n        instance.hide();\n\n        expect(firstStep.isOpen()).toBe(false);\n        expect(hideStepSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('isActive', function() {\n      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n\n        Shepherd.activeTour = instance;\n        expect(instance.isActive()).toBe(true);\n\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n      });\n    });\n\n    describe('.next()/.back()', function() {\n      it('goes to the next/previous steps', function() {\n        instance.start();\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        instance.back();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n\n      it('next completes tour when on last step', function() {\n        let completeFired = false;\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.show('test3');\n        expect(instance.getCurrentStep().id).toBe('test3');\n        instance.next();\n        expect(completeFired, 'complete is called when next is clicked on last step').toBeTruthy();\n      });\n    });\n\n    describe('.cancel()', function() {\n      it('shows confirm dialog when confirmCancel is true', function() {\n        instance = new Shepherd.Tour({\n          defaultStepOptions,\n          confirmCancel: true,\n          confirmCancelMessage: 'Confirm cancel?'\n        });\n\n        instance.addStep('test', {\n          id: 'test',\n          title: 'This is a test step for our tour'\n        });\n\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        const windowConfirmStub = stub(window, 'confirm');\n        windowConfirmStub.returns(false);\n\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour still going, since confirm returned false').toBeFalsy();\n\n        windowConfirmStub.returns(true);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();\n      });\n\n      it('tears down tour on cancel', function() {\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(Shepherd.activeTour, 'activeTour is torn down').toBeFalsy();\n        expect(inactiveFired, 'inactive event fired').toBeTruthy();\n      });\n\n      it('triggers cancel event when cancel function is called', function() {\n        let cancelFired = false;\n        instance.on('cancel', () => {\n          cancelFired = true;\n        });\n\n        instance.start();\n        instance.cancel();\n        expect(cancelFired, 'cancel event fired').toBeTruthy();\n      });\n    });\n\n    describe('.complete()', function() {\n      it('triggers complete event when complete function is called', function() {\n        let completeFired = false;\n\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.complete();\n        expect(completeFired, 'complete event fired').toBeTruthy();\n      });\n\n      it('calls `done()`', () => {\n        const doneSpy = spy(instance, 'done');\n\n        expect(doneSpy.callCount).toBe(0);\n\n        instance.start();\n        instance.complete();\n\n        expect(doneSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('.done()', function() {\n      it('tears down the active tour', function() {\n        instance.start();\n\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n\n        instance.complete();\n\n        expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);\n      });\n\n      it('removes any of its `Step` tooltip elements from the DOM', function() {\n        const testStep = {\n          id: 'element-removal-test',\n          classes: 'element-removal-test',\n          title: 'This is a test step for our tour'\n        };\n\n        instance.addStep(testStep);\n        instance.start();\n        instance.show('element-removal-test');\n\n        expect(document.querySelector(`.element-removal-test`),\n          'a step is rendered in the DOM after the tour starts')\n          .toBeInTheDocument();\n\n        instance.complete();\n\n        expect(document.querySelector(`.element-removal-test`),\n          'steps are removed from the DOM after the tour completes')\n          .not.toBeInTheDocument();\n      });\n\n      it('fires the `inactive` event', function() {\n        let inactiveFired = false;\n\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        instance.start();\n\n        expect(inactiveFired, 'inactive event does not fire before `complete()`').toBe(false);\n\n        instance.complete();\n\n        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(true);\n      });\n    });\n\n    describe('.removeStep()', function() {\n      it('removes the step when passed the id', function() {\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        instance.removeStep('test2');\n        expect(instance.steps.length).toBe(3);\n      });\n\n      it('hides the step before removing', function() {\n        let hideFired = false;\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        const step = instance.getById('test');\n        step.on('hide', () => {\n          hideFired = true;\n        });\n        instance.removeStep('test');\n        expect(instance.steps.length).toBe(3);\n        expect(hideFired, 'hide is fired before step is destroyed').toBeTruthy();\n      });\n    });\n\n    describe('.show()', function() {\n      let dropSpy;\n\n      beforeEach(() => {\n        rewire$drop(dropSpy = spy(drop));\n      });\n\n      afterEach(restore);\n\n      it('show short-circuits if next is not found', function() {\n        let showFired = false;\n        instance.start();\n        instance.on('show', () => {\n          showFired = true;\n        });\n        instance.show('not-a-real-key');\n        expect(showFired, 'showFired is false because show short circuits').toBeFalsy();\n      });\n\n      it('showOn determines which steps to skip', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');\n        instance.back();\n        shouldShowStep = true;\n        instance.next();\n        expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');\n\n        // This spy checks that, when we call `trigger` with `show`, that we pass `arguments` down.\n        const dropArguments = dropSpy.args[2][0];\n        const dropReturnValue = dropSpy.returnValues[2][0];\n        expect(dropArguments[0]).toBe('show');\n        expect(dropArguments[1].previous).toBe(null);\n        expect(dropArguments[1].step.id).toBe('test');\n        expect(dropReturnValue.previous).toBe(null);\n        expect(dropReturnValue.step.id).toBe('test');\n      });\n\n      it(`sets the instance on \\`Shepherd.activeTour\\` if it's not already set`, function() {\n        const setupFuncSpy = spy(instance, '_setupActiveTour');\n        Shepherd.activeTour = null;\n\n        expect(setupFuncSpy.callCount).toBe(0);\n\n        instance.start();\n\n        expect(setupFuncSpy.callCount).toBe(1);\n        expect(Shepherd.activeTour).toBe(instance);\n      });\n    });\n  });\n});\n",
+    "content": "import _ from 'lodash';\nimport { stub } from 'sinon';\nimport Shepherd from '../../src/js/shepherd.js';\nimport { Step } from '../../src/js/step.js';\nimport tippy from 'tippy.js';\nimport { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';\nimport { spy } from 'sinon';\nimport { drop, rewire$drop, restore } from '../../src/js/utils/general';\n\n// since importing non UMD, needs assignment\nwindow.Shepherd = Shepherd;\n\nconst DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';\n\ndescribe('Tour | Top-Level Class', function() {\n  let instance, shouldShowStep;\n\n  const defaultStepOptions = {\n    classes: DEFAULT_STEP_CLASS,\n    scrollTo: true\n  };\n\n  beforeEach(() => {\n    tippy.setDefaultProps({ duration: 0, delay: 0 });\n  });\n\n  afterEach(() => {\n    instance.complete();\n  });\n\n  describe('constructor', function() {\n    it('creates a new tour instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance instanceof Shepherd.Tour).toBe(true);\n    });\n\n    it('returns the default options on the instance', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(instance.options.defaultStepOptions).toEqual({\n        classes: DEFAULT_STEP_CLASS,\n        scrollTo: true\n      });\n    });\n\n    it('sets the correct bindings', function() {\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      const bindings = Object.keys(instance.bindings);\n      const tourEvents = ['complete', 'cancel', 'start', 'show', 'active', 'inactive'];\n      // Check that all bindings are included\n      const difference = _.difference(tourEvents, bindings);\n      expect(difference.length, 'all tour events bound').toBe(0);\n    });\n\n    it('sets defaults for tippy', function() {\n      const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');\n      const tippySpy = spy(tippy, 'setDefaultProps');\n\n      expect(tourSpy.callCount).toBe(0);\n      expect(tippySpy.callCount).toBe(0);\n\n      instance = new Shepherd.Tour({ defaultStepOptions });\n\n      expect(tourSpy.callCount).toBe(1);\n      expect(tippySpy.callCount).toBe(1);\n      expect(tippySpy.calledWith(tooltipDefaults)).toBe(true);\n    });\n\n    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {\n      const instance1 = new Shepherd.Tour();\n      const instance2 = new Shepherd.Tour({ tourName: 'select-avatar' });\n\n      expect(instance1.id.startsWith('tour--')).toBe(true);\n      expect(instance2.id.startsWith('select-avatar--')).toBe(true);\n\n      const uniqueId1 = instance1.id.split('--')[1];\n      const uniqueId2 = instance2.id.split('--')[1];\n\n      expect(uniqueId1).not.toBe(uniqueId2);\n    });\n  });\n\n  describe('methods', () => {\n    beforeEach(() => {\n      shouldShowStep = false;\n\n      instance = new Shepherd.Tour({\n        defaultStepOptions\n      });\n\n      instance.addStep('test', {\n        id: 'test',\n        title: 'This is a test step for our tour'\n      });\n\n      instance.addStep('skipped-step', {\n        classes: 'skipped',\n        id: 'skipped-step',\n        title: 'This step should be skipped',\n        showOn() {\n          return shouldShowStep;\n        }\n      });\n\n      instance.addStep('test2', {\n        id: 'test2',\n        title: 'Another Step'\n      });\n\n      instance.addStep('test3', {\n        id: 'test3',\n        title: 'Yet, another test step'\n      });\n    });\n\n    describe('.addStep()', function() {\n      it('adds tour steps', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);\n      });\n\n      it('adds steps with only one arg', function() {\n        const step = instance.addStep({\n          id: 'one-arg'\n        });\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step with just one arg').toBe('one-arg');\n      });\n\n      it('adds steps that are already Step instances', function() {\n        const step = instance.addStep(new Step(instance, {\n          id: 'already-a-step'\n        }));\n\n        expect(instance.steps.length).toBe(5);\n        expect(step.id, 'id applied to step instance').toBe('already-a-step');\n        expect(step.tour, 'tour is set to `this`').toBe(instance);\n      });\n    });\n\n    describe('.getById()', function() {\n      it('returns the step by ID with the right title', function() {\n        expect(instance.steps.length).toBe(4);\n        expect(instance.getById('test3').options.title).toBe('Yet, another test step');\n      });\n    });\n\n    describe('.start()', function() {\n      it('starts a tour that is the current active', function() {\n        instance.start();\n\n        expect(instance).toBe(Shepherd.activeTour);\n      });\n\n      it('adds the current tour\\'s \"id\" property to the body as a data attribute', function() {\n        instance.id = 'test-id';\n        instance.start();\n\n        expect(document.body.hasAttribute('data-shepherd-active-tour')).toBe(true);\n        expect(document.body.getAttribute('data-shepherd-active-tour')).toBe('test-id');\n      });\n    });\n\n    describe('.getCurrentStep()', function() {\n      it('returns the currently shown step', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n    });\n\n    describe('.hide()', function() {\n      it('hides the current step', () => {\n        const firstStep = instance.steps[0];\n        const hideStepSpy = spy(firstStep, 'hide');\n\n        expect(firstStep.isOpen()).toBe(false);\n\n        instance.start();\n\n        expect(firstStep.isOpen()).toBe(true);\n\n        instance.hide();\n\n        expect(firstStep.isOpen()).toBe(false);\n        expect(hideStepSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('isActive', function() {\n      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n\n        Shepherd.activeTour = instance;\n        expect(instance.isActive()).toBe(true);\n\n        Shepherd.activeTour = '';\n        expect(instance.isActive()).toBe(false);\n      });\n    });\n\n    describe('.next()/.back()', function() {\n      it('goes to the next/previous steps', function() {\n        instance.start();\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        instance.back();\n        expect(instance.getCurrentStep().id).toBe('test');\n      });\n\n      it('next completes tour when on last step', function() {\n        let completeFired = false;\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.show('test3');\n        expect(instance.getCurrentStep().id).toBe('test3');\n        instance.next();\n        expect(completeFired, 'complete is called when next is clicked on last step').toBeTruthy();\n      });\n    });\n\n    describe('.cancel()', function() {\n      it('shows confirm dialog when confirmCancel is true', function() {\n        instance = new Shepherd.Tour({\n          defaultStepOptions,\n          confirmCancel: true,\n          confirmCancelMessage: 'Confirm cancel?'\n        });\n\n        instance.addStep('test', {\n          id: 'test',\n          title: 'This is a test step for our tour'\n        });\n\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        const windowConfirmStub = stub(window, 'confirm');\n        windowConfirmStub.returns(false);\n\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour still going, since confirm returned false').toBeFalsy();\n\n        windowConfirmStub.returns(true);\n        instance.cancel();\n        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();\n        expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();\n      });\n\n      it('tears down tour on cancel', function() {\n        let inactiveFired = false;\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n        instance.start();\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n        instance.cancel();\n        expect(Shepherd.activeTour, 'activeTour is torn down').toBeFalsy();\n        expect(inactiveFired, 'inactive event fired').toBeTruthy();\n      });\n\n      it('triggers cancel event when cancel function is called', function() {\n        let cancelFired = false;\n        instance.on('cancel', () => {\n          cancelFired = true;\n        });\n\n        instance.start();\n        instance.cancel();\n        expect(cancelFired, 'cancel event fired').toBeTruthy();\n      });\n    });\n\n    describe('.complete()', function() {\n      it('triggers complete event when complete function is called', function() {\n        let completeFired = false;\n\n        instance.on('complete', () => {\n          completeFired = true;\n        });\n\n        instance.start();\n        instance.complete();\n        expect(completeFired, 'complete event fired').toBeTruthy();\n      });\n\n      it('calls `done()`', () => {\n        const doneSpy = spy(instance, '_done');\n\n        expect(doneSpy.callCount).toBe(0);\n\n        instance.start();\n        instance.complete();\n\n        expect(doneSpy.callCount).toBe(1);\n      });\n    });\n\n    describe('._done()', function() {\n      it('tears down the active tour', function() {\n        instance.start();\n\n        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);\n\n        instance.complete();\n\n        expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);\n      });\n\n      it('removes any of its `Step` tooltip elements from the DOM', function() {\n        const testStep = {\n          id: 'element-removal-test',\n          classes: 'element-removal-test',\n          title: 'This is a test step for our tour'\n        };\n\n        instance.addStep(testStep);\n        instance.start();\n        instance.show('element-removal-test');\n\n        expect(document.querySelector(`.element-removal-test`),\n          'a step is rendered in the DOM after the tour starts')\n          .toBeInTheDocument();\n\n        instance.complete();\n\n        expect(document.querySelector(`.element-removal-test`),\n          'steps are removed from the DOM after the tour completes')\n          .not.toBeInTheDocument();\n      });\n\n      it('fires the `inactive` event', function() {\n        let inactiveFired = false;\n\n        instance.on('inactive', () => {\n          inactiveFired = true;\n        });\n\n        instance.start();\n\n        expect(inactiveFired, 'inactive event does not fire before `complete()`').toBe(false);\n\n        instance.complete();\n\n        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(true);\n      });\n    });\n\n    describe('.removeStep()', function() {\n      it('removes the step when passed the id', function() {\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        instance.removeStep('test2');\n        expect(instance.steps.length).toBe(3);\n      });\n\n      it('hides the step before removing', function() {\n        let hideFired = false;\n        instance.start();\n        expect(instance.steps.length).toBe(4);\n        const step = instance.getById('test');\n        step.on('hide', () => {\n          hideFired = true;\n        });\n        instance.removeStep('test');\n        expect(instance.steps.length).toBe(3);\n        expect(hideFired, 'hide is fired before step is destroyed').toBeTruthy();\n      });\n    });\n\n    describe('.show()', function() {\n      let dropSpy;\n\n      beforeEach(() => {\n        rewire$drop(dropSpy = spy(drop));\n      });\n\n      afterEach(restore);\n\n      it('show short-circuits if next is not found', function() {\n        let showFired = false;\n        instance.start();\n        instance.on('show', () => {\n          showFired = true;\n        });\n        instance.show('not-a-real-key');\n        expect(showFired, 'showFired is false because show short circuits').toBeFalsy();\n      });\n\n      it('showOn determines which steps to skip', function() {\n        instance.start();\n        expect(instance.getCurrentStep().id).toBe('test');\n        instance.next();\n        expect(instance.getCurrentStep().id).toBe('test2');\n        expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');\n        instance.back();\n        shouldShowStep = true;\n        instance.next();\n        expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');\n\n        // This spy checks that, when we call `trigger` with `show`, that we pass `arguments` down.\n        const dropArguments = dropSpy.args[2][0];\n        const dropReturnValue = dropSpy.returnValues[2][0];\n        expect(dropArguments[0]).toBe('show');\n        expect(dropArguments[1].previous).toBe(null);\n        expect(dropArguments[1].step.id).toBe('test');\n        expect(dropReturnValue.previous).toBe(null);\n        expect(dropReturnValue.step.id).toBe('test');\n      });\n\n      it(`sets the instance on \\`Shepherd.activeTour\\` if it's not already set`, function() {\n        const setupFuncSpy = spy(instance, '_setupActiveTour');\n        Shepherd.activeTour = null;\n\n        expect(setupFuncSpy.callCount).toBe(0);\n\n        instance.start();\n\n        expect(setupFuncSpy.callCount).toBe(1);\n        expect(Shepherd.activeTour).toBe(instance);\n      });\n    });\n  });\n});\n",
     "static": true,
     "longname": "/home/travis/build/shipshapecode/shepherd/test/unit/tour.spec.js",
     "access": null,
@@ -4420,7 +4420,7 @@
     "static": true,
     "longname": "test/unit/tour.spec.js~describe98.describe105.describe131",
     "access": null,
-    "description": ".done()",
+    "description": "._done()",
     "lineNumber": 310
   },
   {
