@@ -193,9 +193,20 @@ created.
   - `HTMLElement` object
   - Function to be executed when the step is built. It must return one the three options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
-- `attachTo`: What element the step should be attached to on the page.  It can either be a string of the form `"element on"`, or an object with those properties.  For example: `".some #element left"`, or `{element: '.some #element',
-on: 'left'}`.  If you use the object syntax, `element` can also be a DOM element.  If you don't specify an `attachTo`
-the element will appear in the middle of the screen.
+- `attachTo`: What element the step should be attached to on the page.
+It should be an object with the properties `element` and `on`, where `element` is an element selector string
+or a DOM element and `on` is the optional direction to place the Tippy tooltip.
+              
+```js
+const new Step(tour, {
+  attachTo: { element: '.some .selector-path', on: 'left' },
+  ...moreOptions
+});
+```
+              
+If you don’t specify an attachTo the element will appear in the middle of the screen.
+If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
+in the middle of the screen, without an arrow pointing to the target.
 - `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
 the step will execute. For example:
   ```javascript
