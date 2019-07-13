@@ -84,15 +84,15 @@ if (process.env.DEVELOPMENT) {
       notify: false,
       open: true,
       server: {
-        baseDir: 'docs/welcome',
+        baseDir: 'demo',
         routes: {
           '/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
-          '/docs/welcome/js/prism.js': 'docs/welcome/js/prism.js',
-          '/docs/welcome/js/welcome.js': 'docs/welcome/js/welcome.js',
-          '/docs/welcome/css/prism.css': 'docs/welcome/css/prism.css',
-          '/docs/welcome/css/welcome.css': 'docs/welcome/css/welcome.css',
-          '/docs/welcome/sheep.svg': 'docs/welcome/sheep.svg'
+          '/demo/js/prism.js': 'demo/js/prism.js',
+          '/demo/js/welcome.js': 'demo/js/welcome.js',
+          '/demo/css/prism.css': 'demo/css/prism.css',
+          '/demo/css/welcome.css': 'demo/css/welcome.css',
+          '/demo/sheep.svg': 'demo/sheep.svg'
         }
       }
     })

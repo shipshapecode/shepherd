@@ -31,7 +31,7 @@ to contribute, we ask that you take the following steps:
 1. Most of the _editable_ code lives in the `src` directory while built code
    will end up in the `dist` directory upon running `yarn build`.
 
-2. The demo app is served out of the `docs/welcome` directory. Running `yarn start` will open it in your browser and initiate a live-reloading session as you make changes.
+2. The demo app is served out of the `demo` directory. Running `yarn start` will open it in your browser and initiate a live-reloading session as you make changes.
 
 
 ## Opening Pull Requests
