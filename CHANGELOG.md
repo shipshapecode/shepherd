@@ -1,5 +1,21 @@
 # Changelog
 
+## [v4.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.2) (2019-07-13)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.1...v4.0.0-beta.2)
+
+**Breaking changes:**
+
+- Remove array support for `step.options.text` [\#429](https://github.com/shipshapecode/shepherd/pull/429) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Cleanup public/private API [\#430](https://github.com/shipshapecode/shepherd/pull/430) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Update del to the latest version 🚀 [\#425](https://github.com/shipshapecode/shepherd/pull/425) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v4.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.1) (2019-07-02)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.0...v4.0.0-beta.1)
