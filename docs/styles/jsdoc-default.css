@@ -870,6 +870,14 @@ td table.params, td table.props {
     left: 0px;
 }
 
+.github-logo svg {
+   fill: #706d77;
+}
+
+.github-logo:hover svg {
+    fill: rgba(28, 160, 224, 1);
+}
+
 input.search-input {
     background: transparent;
     box-shadow: 0;
