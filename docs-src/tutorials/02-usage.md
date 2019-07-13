@@ -287,4 +287,4 @@ myTour.addStep('Step 1', {
 });
 ```
 
-Furthermore, while each of [Shepherd's themes]((/docs/themes.md)) provides some basic arrow styling, you can style it as you wish by targeting [the markup that's genereated by Tippy](https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure).
+Furthermore, while each of [Shepherd's themes](/docs/tutorial-predefined-themes.html) provides some basic arrow styling, you can style it as you wish by targeting [the markup that's genereated by Tippy](https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure).

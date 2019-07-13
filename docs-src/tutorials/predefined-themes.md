@@ -4,6 +4,14 @@ Shepherd ships with a set of themes for you to choose from.
 
 👀 Take a look!
 
+<style>
+  .theme-image {
+    height: auto;
+    max-width: 600px;
+    width: 100%;
+  }
+</style>
+
 
 #### shepherd-theme-default
 
@@ -13,7 +21,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![default](/docs-src/assets/img/themes/default.png)
+<img src="/docs-src/assets/img/themes/default.png" alt="Default Theme" class="theme-image"/>
 
 
 #### shepherd-theme-dark
@@ -24,7 +32,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![dark](/docs-src/assets/img/themes/dark.png)
+<img src="/docs-src/assets/img/themes/dark.png" alt="Dark Theme" class="theme-image"/>
 
 
 #### shepherd-theme-square
@@ -35,7 +43,7 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![square](/docs-src/assets/img/themes/square.png)
+<img src="/docs-src/assets/img/themes/square.png" alt="Square Theme" class="theme-image"/>
 
 
 #### shepherd-theme-square-dark
@@ -46,4 +54,4 @@ Shepherd ships with a set of themes for you to choose from.
 </head>
 ```
 
-![square-dark](/docs-src/assets/img/themes/square-dark.png)
+<img src="/docs-src/assets/img/themes/square-dark.png" alt="Square Dark Theme" class="theme-image"/>
