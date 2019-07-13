@@ -10,6 +10,7 @@ checks:
     config:
       threshold: 30
 exclude_patterns:
+  - "demo/"
   - "dist/"
   - "docs/"
   - "jsdoc-template/"
@@ -18,4 +19,4 @@ exclude_patterns:
   - "**/test/"
   - "**/tests/"
   - "**/vendor/"
-  - "karma.conf.js"
+  - "babel.config.js"
