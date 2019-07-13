@@ -5281,10 +5281,10 @@ jsdoc-mermaid@^1.0.0:
   dependencies:
     doctrine "^2.0.0"
 
-jsdoc-template-ship-shape@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.2.tgz#118083fb81e9a0f0c19b108c5300f01fa1c85840"
-  integrity sha512-ZHwVyWUbT7KCQTH4oCIkplTpeJxcn8U6kJvCgQKU0UAXPrpiQmVJ5l1Z+9XsElQjRRWHnX6P4nFWu120ocnIag==
+jsdoc-template-ship-shape@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.3.tgz#b42e749e6daefb04d6567a70e42a0cdf44b0f3c8"
+  integrity sha512-lP/ZUoAOA7KFY5rvvWgCY5qI49wMqFmaivHmNBF7trvHJ/5kJIOQqyWwRudY7DDn82RAPM2VqyRPe/7eybxUDw==
   dependencies:
     taffydb "^2.7.3"
 
