@@ -45,7 +45,7 @@
   "homepage": "https://shepherdjs.dev/demo/",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
-  "types": "src/shepherd.d.ts",
+  "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "body-scroll-lock": "^2.6.3",
