@@ -56,7 +56,7 @@ const plugins = [
   }),
   eslint(),
   babel({
-    exclude: 'node_modules/**'
+    exclude: /node_modules\/(?!(body-scroll-lock|tippy.js)\/).*/
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
@@ -147,7 +147,7 @@ if (!process.env.DEVELOPMENT) {
         resolve(),
         commonjs(),
         babel({
-          exclude: 'node_modules/**'
+          exclude: /node_modules\/(?!(body-scroll-lock|tippy.js)\/).*/
         }),
         sass(sassOptions),
         css({ output: false }),
