@@ -1,4 +1,5 @@
 import { Evented } from '../../src/js/evented.js';
+import { spy } from 'sinon';
 
 describe('Evented', () => {
   let testEvent, testOnTriggered;
@@ -19,6 +20,16 @@ describe('Evented', () => {
     it('triggers a created event', () => {
       testEvent.trigger('testOn');
       expect(testOnTriggered, 'true is returned from event trigger').toBeTruthy();
+    });
+
+    it('passes arguments to handler functions', () => {
+      const handlerSpy = spy();
+      testEvent.on('myEvent', handlerSpy);
+      testEvent.trigger('myEvent', {
+        step: { id: 'test', text: 'A step' },
+        previous: null
+      });
+      expect(handlerSpy.args).toEqual([[{ 'previous': null, 'step': { 'id': 'test', 'text': 'A step' } }]]);
     });
   });
 
