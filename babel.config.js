@@ -4,24 +4,14 @@ module.exports = function(api) {
   return {
     presets: [
       [
-        '@babel/preset-env',
-        {
-          corejs: 3,
-          modules: false,
-          useBuiltIns: 'entry'
-        }
+        '@babel/preset-env'
       ]
     ],
     env: {
       test: {
         presets: [
           [
-            '@babel/preset-env',
-            {
-              corejs: 3,
-              modules: false,
-              useBuiltIns: 'entry'
-            }
+            '@babel/preset-env'
           ]
         ],
         plugins: [
