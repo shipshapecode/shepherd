@@ -49,6 +49,7 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "body-scroll-lock": "^2.6.3",
+    "core-js": "^3.1.4",
     "element-matches": "^0.1.2",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
