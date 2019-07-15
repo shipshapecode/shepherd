@@ -4,27 +4,14 @@ module.exports = function(api) {
   return {
     presets: [
       [
-        '@babel/preset-env',
-        {
-          corejs: 3,
-          modules: false,
-          useBuiltIns: 'entry'
-        }
+        '@babel/preset-env'
       ]
-    ],
-    plugins: [
-      '@babel/plugin-transform-object-assign'
     ],
     env: {
       test: {
         presets: [
           [
-            '@babel/preset-env',
-            {
-              corejs: 3,
-              modules: false,
-              useBuiltIns: 'entry'
-            }
+            '@babel/preset-env'
           ]
         ],
         plugins: [
