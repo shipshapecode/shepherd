@@ -5,10 +5,11 @@ import commonjs from 'rollup-plugin-commonjs';
 import css from 'rollup-plugin-css-only';
 import cssnano from 'cssnano';
 import { eslint } from 'rollup-plugin-eslint';
+import filesize from 'rollup-plugin-filesize';
 import fs from 'fs';
 import license from 'rollup-plugin-license';
+import polyfill from 'rollup-plugin-polyfill';
 import postcss from 'postcss';
-import filesize from 'rollup-plugin-filesize';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import sass from 'rollup-plugin-sass';
@@ -55,6 +56,10 @@ const plugins = [
     quiet: false
   }),
   eslint(),
+  polyfill('./src/js/shepherd.js', [
+    'core-js/stable/features/object/assign',
+    'core-js/stable/features/object/entries']
+  ),
   babel({
     exclude: /node_modules\/(?!(body-scroll-lock|tippy.js)\/).*/
   }),
@@ -146,6 +151,10 @@ if (!process.env.DEVELOPMENT) {
       plugins: [
         resolve(),
         commonjs(),
+        polyfill('./src/js/shepherd.js', [
+          'core-js/stable/features/object/assign',
+          'core-js/stable/features/object/entries']
+        ),
         babel({
           exclude: /node_modules\/(?!(body-scroll-lock|tippy.js)\/).*/
         }),
