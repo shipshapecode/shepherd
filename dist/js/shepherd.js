@@ -1,8 +1,8 @@
-/*! shepherd.js 4.0.0-beta.2 */
+/*! shepherd.js 4.0.0-beta.3 */
 
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('core-js/stable/features/object/assign'), require('core-js/stable/features/object/entries')) :
+  typeof define === 'function' && define.amd ? define(['core-js/stable/features/object/assign', 'core-js/stable/features/object/entries'], factory) :
   (global = global || self, global.Shepherd = factory());
 }(this, function () { 'use strict';
 
@@ -55,24 +55,6 @@
     }
 
     return obj;
-  }
-
-  function _extends() {
-    _extends = Object.assign || function (target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
-      }
-
-      return target;
-    };
-
-    return _extends.apply(this, arguments);
   }
 
   function ownKeys(object, enumerableOnly) {
@@ -159,8 +141,24 @@
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
   }
 
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    }
+  }
+
   function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
@@ -187,6 +185,10 @@
     }
 
     return _arr;
+  }
+
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
 
   function _nonIterableRest() {
@@ -440,8 +442,8 @@
   * (c) 2017-2019 atomiks
   * MIT License
   */
-  function _extends$1() {
-    _extends$1 = Object.assign || function (target) {
+  function _extends() {
+    _extends = Object.assign || function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
 
@@ -455,7 +457,7 @@
       return target;
     };
 
-    return _extends$1.apply(this, arguments);
+    return _extends.apply(this, arguments);
   }
 
   var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
@@ -463,7 +465,6 @@
   var isIE = /MSIE |Trident\//.test(ua);
   var isUCBrowser = /UCBrowser\//.test(ua);
   var isIOS = isBrowser && /iPhone|iPad|iPod/.test(navigator.platform);
-
   var defaultProps = {
     allowHTML: true,
     animateFill: false,
@@ -513,7 +514,6 @@
     zIndex: 9999
   };
   var POPPER_INSTANCE_DEPENDENCIES = ['arrow', 'boundary', 'distance', 'flip', 'flipBehavior', 'flipOnUpdate', 'offset', 'placement', 'popperOptions'];
-
   var PASSIVE = {
     passive: true
   };
@@ -532,7 +532,6 @@
   var BACKDROP_SELECTOR = "." + BACKDROP_CLASS;
   var ARROW_SELECTOR = "." + ARROW_CLASS;
   var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS;
-
   var currentInput = {
     isTouch: false
   };
@@ -565,6 +564,7 @@
    * well, but very rarely that quickly.
    */
 
+
   function onDocumentMouseMove() {
     var now = performance.now();
 
@@ -586,6 +586,7 @@
    * TODO: find a better technique to solve this problem
    */
 
+
   function onWindowBlur() {
     var _document = document,
         activeElement = _document.activeElement;
@@ -599,8 +600,9 @@
    * Adds the needed global event listeners
    */
 
+
   function bindGlobalEventListeners() {
-    document.addEventListener('touchstart', onDocumentTouchStart, _extends$1({}, PASSIVE, {
+    document.addEventListener('touchstart', onDocumentTouchStart, _extends({}, PASSIVE, {
       capture: true
     }));
     window.addEventListener('blur', onWindowBlur);
@@ -633,10 +635,10 @@
     }, {});
     return props;
   }
-
   /**
    * Determines if the value is a reference element
    */
+
 
   function isReferenceElement(value) {
     return !!(value && value._tippy && !value.classList.contains(POPPER_CLASS));
@@ -645,12 +647,14 @@
    * Safe .hasOwnProperty check, for prototype-less objects
    */
 
+
   function hasOwnProperty(obj, key) {
     return {}.hasOwnProperty.call(obj, key);
   }
   /**
    * Returns an array of elements based on the value
    */
+
 
   function getArrayOfElements(value) {
     if (isRealElement(value)) {
@@ -675,6 +679,7 @@
    * Returns a value at a given index depending on if it's an array or number
    */
 
+
   function getValue(value, index, defaultValue) {
     if (Array.isArray(value)) {
       var v = value[index];
@@ -688,12 +693,14 @@
    * in `popperOptions`
    */
 
+
   function getModifier(obj, key) {
     return obj && obj.modifiers && obj.modifiers[key];
   }
   /**
    * Determines if the value is a real element
    */
+
 
   function isRealElement(value) {
     return value instanceof Element;
@@ -703,6 +710,7 @@
    * it
    */
 
+
   function innerHTML() {
     return 'innerHTML';
   }
@@ -710,12 +718,14 @@
    * Evaluates a function if one, or returns the value
    */
 
+
   function invokeWithArgsOrReturn(value, args) {
     return typeof value === 'function' ? value.apply(null, args) : value;
   }
   /**
    * Sets a popperInstance `flip` modifier's enabled state
    */
+
 
   function setFlipModifierEnabled(modifiers, value) {
     modifiers.filter(function (m) {
@@ -726,12 +736,14 @@
    * Returns a new `div` element
    */
 
+
   function div() {
     return document.createElement('div');
   }
   /**
    * Applies a transition duration to a list of elements
    */
+
 
   function setTransitionDuration(els, value) {
     els.forEach(function (el) {
@@ -743,6 +755,7 @@
   /**
    * Sets the visibility state to elements so they can begin to transition
    */
+
 
   function setVisibilityState(els, state) {
     els.forEach(function (el) {
@@ -756,8 +769,9 @@
    * conflicting props where necessary
    */
 
+
   function evaluateProps(reference, props) {
-    var out = _extends$1({}, props, {
+    var out = _extends({}, props, {
       content: invokeWithArgsOrReturn(props.content, [reference])
     }, props.ignoreAttributes ? {} : getDataAttributeProps(reference));
 
@@ -777,6 +791,7 @@
    * `onMouseMove` uses this which takes the event object for now.
    */
 
+
   function debounce(fn, ms) {
     // Avoid wrapping in `setTimeout` if ms is 0 anyway
     if (ms === 0) {
@@ -795,6 +810,7 @@
    * Preserves the original function invocation when another function replaces it
    */
 
+
   function preserveInvocation(originalFn, currentFn, args) {
     if (originalFn && originalFn !== currentFn) {
       originalFn.apply(null, args);
@@ -804,12 +820,14 @@
    * Ponyfill for Array.from - converts iterable values to an array
    */
 
+
   function arrayFrom(value) {
     return [].slice.call(value);
   }
   /**
    * Works like Element.prototype.closest, but uses a callback instead
    */
+
 
   function closestCallback(element, callback) {
     while (element) {
@@ -826,13 +844,14 @@
    * Determines if an array or string includes a value
    */
 
+
   function includes(a, b) {
     return a.indexOf(b) > -1;
   }
-
   /**
    * Sets the innerHTML of an element
    */
+
 
   function setInnerHTML(element, html) {
     element[innerHTML()] = isRealElement(html) ? html[innerHTML()] : html;
@@ -840,6 +859,7 @@
   /**
    * Sets the content of a tooltip
    */
+
 
   function setContent(contentEl, props) {
     if (isRealElement(props.content)) {
@@ -854,6 +874,7 @@
    * Returns the child elements of a popper element
    */
 
+
   function getChildren(popper) {
     return {
       tooltip: popper.querySelector(TOOLTIP_SELECTOR),
@@ -866,6 +887,7 @@
    * Adds `data-inertia` attribute
    */
 
+
   function addInertia(tooltip) {
     tooltip.setAttribute('data-inertia', '');
   }
@@ -873,12 +895,14 @@
    * Removes `data-inertia` attribute
    */
 
+
   function removeInertia(tooltip) {
     tooltip.removeAttribute('data-inertia');
   }
   /**
    * Creates an arrow element and returns it
    */
+
 
   function createArrowElement(arrow) {
     var arrowElement = div();
@@ -901,6 +925,7 @@
    * Creates a backdrop element and returns it
    */
 
+
   function createBackdropElement(isVisible) {
     var backdrop = div();
     backdrop.className = BACKDROP_CLASS;
@@ -911,6 +936,7 @@
    * Adds interactive-related attributes
    */
 
+
   function addInteractive(tooltip) {
     tooltip.setAttribute('data-interactive', '');
   }
@@ -918,12 +944,14 @@
    * Removes interactive-related attributes
    */
 
+
   function removeInteractive(tooltip) {
     tooltip.removeAttribute('data-interactive');
   }
   /**
    * Add/remove transitionend listener from tooltip
    */
+
 
   function updateTransitionEndListener(tooltip, action, listener) {
     var eventName = isUCBrowser && document.body.style.webkitTransition !== undefined ? 'webkitTransitionEnd' : 'transitionend';
@@ -933,6 +961,7 @@
    * Returns the popper's placement, ignoring shifting (top-start, etc)
    */
 
+
   function getBasePlacement(placement) {
     return placement.split('-')[0];
   }
@@ -940,12 +969,14 @@
    * Triggers reflow
    */
 
+
   function reflow(popper) {
     void popper.offsetHeight;
   }
   /**
    * Adds/removes theme from tooltip's classList
    */
+
 
   function updateTheme(tooltip, action, theme) {
     theme.split(' ').forEach(function (name) {
@@ -957,6 +988,7 @@
   /**
    * Constructs the popper element and returns it
    */
+
 
   function createPopperElement(id, props) {
     var popper = div();
@@ -1001,6 +1033,7 @@
   /**
    * Updates the popper element based on the new props
    */
+
 
   function updatePopperElement(popper, prevProps, nextProps, isVisible) {
     var _getChildren = getChildren(popper),
@@ -1071,6 +1104,7 @@
    * Determines if the mouse cursor is outside of the popper's interactive border
    * region
    */
+
 
   function isCursorOutsideInteractiveBorder(popperPlacement, popperRect, event, props) {
     if (!popperPlacement) {
@@ -1485,7 +1519,7 @@
     return obj;
   };
 
-  var _extends$2 = Object.assign || function (target) {
+  var _extends$1 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -1507,7 +1541,7 @@
    * @returns {Object} ClientRect like output
    */
   function getClientRect(offsets) {
-    return _extends$2({}, offsets, {
+    return _extends$1({}, offsets, {
       right: offsets.left + offsets.width,
       bottom: offsets.top + offsets.height
     });
@@ -1795,7 +1829,7 @@
     };
 
     var sortedAreas = Object.keys(rects).map(function (key) {
-      return _extends$2({
+      return _extends$1({
         key: key
       }, rects[key], {
         area: getArea(rects[key])
@@ -2437,9 +2471,9 @@
     };
 
     // Update `data` attributes, styles and arrowStyles
-    data.attributes = _extends$2({}, attributes, data.attributes);
-    data.styles = _extends$2({}, styles, data.styles);
-    data.arrowStyles = _extends$2({}, data.offsets.arrow, data.arrowStyles);
+    data.attributes = _extends$1({}, attributes, data.attributes);
+    data.styles = _extends$1({}, styles, data.styles);
+    data.arrowStyles = _extends$1({}, data.offsets.arrow, data.arrowStyles);
 
     return data;
   }
@@ -2719,7 +2753,7 @@
 
         // this object contains `position`, we want to preserve it along with
         // any additional property we may add in the future
-        data.offsets.popper = _extends$2({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
+        data.offsets.popper = _extends$1({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
 
         data = runModifiers(data.instance.modifiers, data, 'flip');
       }
@@ -2993,7 +3027,7 @@
 
     order.forEach(function (placement) {
       var side = ['left', 'top'].indexOf(placement) !== -1 ? 'primary' : 'secondary';
-      popper = _extends$2({}, popper, check[side](placement));
+      popper = _extends$1({}, popper, check[side](placement));
     });
 
     data.offsets.popper = popper;
@@ -3028,7 +3062,7 @@
         end: defineProperty({}, side, reference[side] + reference[measurement] - popper[measurement])
       };
 
-      data.offsets.popper = _extends$2({}, popper, shiftOffsets[shiftvariation]);
+      data.offsets.popper = _extends$1({}, popper, shiftOffsets[shiftvariation]);
     }
 
     return data;
@@ -3560,7 +3594,7 @@
       this.update = debounce$1(this.update.bind(this));
 
       // with {} we create a new object with the options inside it
-      this.options = _extends$2({}, Popper.Defaults, options);
+      this.options = _extends$1({}, Popper.Defaults, options);
 
       // init state
       this.state = {
@@ -3575,13 +3609,13 @@
 
       // Deep merge modifiers options
       this.options.modifiers = {};
-      Object.keys(_extends$2({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
-        _this.options.modifiers[name] = _extends$2({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
+      Object.keys(_extends$1({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
+        _this.options.modifiers[name] = _extends$1({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
       });
 
       // Refactoring modifiers' list (Object => Array)
       this.modifiers = Object.keys(this.options.modifiers).map(function (name) {
-        return _extends$2({
+        return _extends$1({
           name: name
         }, _this.options.modifiers[name]);
       })
@@ -3695,9 +3729,7 @@
   * (c) 2017-2019 atomiks
   * MIT License
   */
-
   var version = "5.0.0-alpha.2";
-
   var idCounter = 1; // Workaround for IE11's lack of new MouseEvent constructor
 
   var mouseMoveListeners = [];
@@ -4114,7 +4146,7 @@
         var padding = preventOverflowModifier && preventOverflowModifier.padding !== undefined ? preventOverflowModifier.padding : PREVENT_OVERFLOW_PADDING;
         var isPaddingNumber = typeof padding === 'number';
 
-        var computedPadding = _extends$1({
+        var computedPadding = _extends({
           top: isPaddingNumber ? padding : padding.top,
           bottom: isPaddingNumber ? padding : padding.bottom,
           left: isPaddingNumber ? padding : padding.left,
@@ -4127,27 +4159,27 @@
         })[0].padding = computedPadding;
       }
 
-      var config = _extends$1({
+      var config = _extends({
         eventsEnabled: false,
         placement: normalizedPlacement
       }, popperOptions, {
-        modifiers: _extends$1({}, popperOptions ? popperOptions.modifiers : {}, {
-          preventOverflow: _extends$1({
+        modifiers: _extends({}, popperOptions ? popperOptions.modifiers : {}, {
+          preventOverflow: _extends({
             boundariesElement: instance.props.boundary,
             padding: PREVENT_OVERFLOW_PADDING
           }, preventOverflowModifier),
-          arrow: _extends$1({
+          arrow: _extends({
             element: arrow,
             enabled: !!arrow
           }, getModifier(popperOptions, 'arrow')),
-          flip: _extends$1({
+          flip: _extends({
             enabled: instance.props.flip,
             // The tooltip is offset by 10px from the popper in CSS,
             // we need to account for its distance
             padding: instance.props.distance + PREVENT_OVERFLOW_PADDING,
             behavior: instance.props.flipBehavior
           }, getModifier(popperOptions, 'flip')),
-          offset: _extends$1({
+          offset: _extends({
             offset: instance.props.offset
           }, getModifier(popperOptions, 'offset'))
         }),
@@ -4277,7 +4309,7 @@
 
       removeTriggersFromEventListenersTarget();
       var prevProps = instance.props;
-      var nextProps = evaluateProps(reference, _extends$1({}, instance.props, partialProps, {
+      var nextProps = evaluateProps(reference, _extends({}, instance.props, partialProps, {
         ignoreAttributes: true
       }));
       nextProps.ignoreAttributes = hasOwnProperty(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
@@ -4439,15 +4471,16 @@
       instance.state.isDestroyed = true;
     }
   }
-
   /**
    * Exported module
    */
+
+
   function tippy(targets, optionalProps) {
 
     bindGlobalEventListeners();
 
-    var props = _extends$1({}, defaultProps, optionalProps);
+    var props = _extends({}, defaultProps, optionalProps);
 
     var elements = getArrayOfElements(targets);
 
@@ -4530,9 +4563,7 @@
   * (c) 2017-2019 atomiks
   * MIT License
   */
-
   var css = ".tippy-tooltip[data-animation=fade][data-state=hidden]{opacity:0}.tippy-iOS{cursor:pointer!important;-webkit-tap-highlight-color:transparent}.tippy-popper{pointer-events:none;max-width:calc(100% - 8px);transition-timing-function:cubic-bezier(.165,.84,.44,1)}.tippy-tooltip{position:relative;color:#fff;border-radius:.25rem;font-size:.875rem;line-height:1.4;background-color:#333;overflow:hidden;transition-property:visibility,opacity,transform;outline:0}.tippy-tooltip[data-placement^=top] .tippy-arrow{border-width:8px 8px 0;border-top-color:#333;margin:0 3px;transform-origin:50% 0;bottom:-7px}.tippy-tooltip[data-placement^=bottom] .tippy-arrow{border-width:0 8px 8px;border-bottom-color:#333;margin:0 3px;transform-origin:50% 7px;top:-7px}.tippy-tooltip[data-placement^=left] .tippy-arrow{border-width:8px 0 8px 8px;border-left-color:#333;margin:3px 0;transform-origin:0 50%;right:-7px}.tippy-tooltip[data-placement^=right] .tippy-arrow{border-width:8px 8px 8px 0;border-right-color:#333;margin:3px 0;transform-origin:7px 50%;left:-7px}.tippy-tooltip[data-arrow]{overflow:visible}.tippy-tooltip[data-animatefill]{background-color:transparent!important}.tippy-tooltip[data-interactive]{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow{border-color:transparent;border-style:solid;position:absolute}.tippy-arrow[data-state=hidden]{opacity:0}.tippy-content{padding:.3125rem .5625rem}";
-
   /**
    * Injects a string of CSS styles to a style node in <head>
    */
@@ -4565,7 +4596,7 @@
     computeStyle: {
       enabled: true,
       fn: function fn(data) {
-        data.styles = _extends({}, data.styles, {
+        data.styles = Object.assign({}, data.styles, {
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)'
@@ -4655,8 +4686,7 @@
 
   function parseAttachTo() {
     var options = this.options.attachTo || {};
-
-    var returnOpts = _extends({}, options);
+    var returnOpts = Object.assign({}, options);
 
     if (isString(options.element)) {
       // Can't override the element in user opts reference because we can't
@@ -4722,17 +4752,16 @@
       flipOnUpdate: true,
       placement: attachToOptions.on || 'right'
     };
-
-    _extends(resultingTippyOptions, this.options.tippyOptions);
+    Object.assign(resultingTippyOptions, this.options.tippyOptions);
 
     if (this.options.title) {
-      _extends(defaultPopperOptions.modifiers, {
+      Object.assign(defaultPopperOptions.modifiers, {
         addHasTitleClass: addHasTitleClass
       });
     }
 
     if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-      _extends(defaultPopperOptions, this.options.tippyOptions.popperOptions);
+      Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
     }
 
     resultingTippyOptions.popperOptions = defaultPopperOptions;
@@ -4758,15 +4787,14 @@
     tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
     if (this.options.title) {
-      _extends(defaultPopperOptions.modifiers, {
+      Object.assign(defaultPopperOptions.modifiers, {
         addHasTitleClass: addHasTitleClass
       });
     }
 
-    var finalPopperOptions = _extends({}, defaultPopperOptions, tippyOptions.popperOptions, {
-      modifiers: _extends(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
+    var finalPopperOptions = Object.assign({}, defaultPopperOptions, tippyOptions.popperOptions, {
+      modifiers: Object.assign(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
     });
-
     tippyOptions.popperOptions = finalPopperOptions;
     return tippy(document.body, tippyOptions);
   }
@@ -6151,75 +6179,71 @@
   }();
 
   // Older browsers don't support event options, feature detect it.
-
   // Adopted and modified solution from Bohdan Didukh (2017)
   // https://stackoverflow.com/questions/41594997/ios-10-safari-prevent-scrolling-behind-a-fixed-overlay-and-maintain-scroll-posi
+  var hasPassiveEvents = false;
 
-  let hasPassiveEvents = false;
   if (typeof window !== 'undefined') {
-    const passiveTestOptions = {
+    var passiveTestOptions = {
       get passive() {
         hasPassiveEvents = true;
         return undefined;
       }
+
     };
     window.addEventListener('testPassive', null, passiveTestOptions);
     window.removeEventListener('testPassive', null, passiveTestOptions);
   }
 
-  const isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
+  var isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
+  var locks = [];
+  var documentListenerAdded = false;
+  var initialClientY = -1;
+  var previousBodyOverflowSetting;
+  var previousBodyPaddingRight; // returns true if `el` should be allowed to receive touchmove events
 
+  var allowTouchMove = function allowTouchMove(el) {
+    return locks.some(function (lock) {
+      if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
+        return true;
+      }
 
-  let locks = [];
-  let documentListenerAdded = false;
-  let initialClientY = -1;
-  let previousBodyOverflowSetting;
-  let previousBodyPaddingRight;
+      return false;
+    });
+  };
 
-  // returns true if `el` should be allowed to receive touchmove events
-  const allowTouchMove = el => locks.some(lock => {
-    if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
-      return true;
-    }
-
-    return false;
-  });
-
-  const preventDefault = rawEvent => {
-    const e = rawEvent || window.event;
-
-    // For the case whereby consumers adds a touchmove event listener to document.
+  var preventDefault = function preventDefault(rawEvent) {
+    var e = rawEvent || window.event; // For the case whereby consumers adds a touchmove event listener to document.
     // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
     // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
     // the touchmove event on document will break.
+
     if (allowTouchMove(e.target)) {
       return true;
-    }
+    } // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
 
-    // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
+
     if (e.touches.length > 1) return true;
-
     if (e.preventDefault) e.preventDefault();
-
     return false;
   };
 
-  const setOverflowHidden = options => {
+  var setOverflowHidden = function setOverflowHidden(options) {
     // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
     // the responsiveness for some reason. Setting within a setTimeout fixes this.
-    setTimeout(() => {
+    setTimeout(function () {
       // If previousBodyPaddingRight is already set, don't set it again.
       if (previousBodyPaddingRight === undefined) {
-        const reserveScrollBarGap = !!options && options.reserveScrollBarGap === true;
-        const scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
+        var reserveScrollBarGap = !!options && options.reserveScrollBarGap === true;
+        var scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
 
         if (reserveScrollBarGap && scrollBarGap > 0) {
           previousBodyPaddingRight = document.body.style.paddingRight;
-          document.body.style.paddingRight = `${scrollBarGap}px`;
+          document.body.style.paddingRight = "".concat(scrollBarGap, "px");
         }
-      }
+      } // If previousBodyOverflowSetting is already set, don't set it again.
 
-      // If previousBodyOverflowSetting is already set, don't set it again.
+
       if (previousBodyOverflowSetting === undefined) {
         previousBodyOverflowSetting = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
@@ -6227,33 +6251,33 @@
     });
   };
 
-  const restoreOverflowSetting = () => {
+  var restoreOverflowSetting = function restoreOverflowSetting() {
     // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
     // the responsiveness for some reason. Setting within a setTimeout fixes this.
-    setTimeout(() => {
+    setTimeout(function () {
       if (previousBodyPaddingRight !== undefined) {
-        document.body.style.paddingRight = previousBodyPaddingRight;
-
-        // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
+        document.body.style.paddingRight = previousBodyPaddingRight; // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
         // can be set again.
+
         previousBodyPaddingRight = undefined;
       }
 
       if (previousBodyOverflowSetting !== undefined) {
-        document.body.style.overflow = previousBodyOverflowSetting;
-
-        // Restore previousBodyOverflowSetting to undefined
+        document.body.style.overflow = previousBodyOverflowSetting; // Restore previousBodyOverflowSetting to undefined
         // so setOverflowHidden knows it can be set again.
+
         previousBodyOverflowSetting = undefined;
       }
     });
+  }; // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
+
+
+  var isTargetElementTotallyScrolled = function isTargetElementTotallyScrolled(targetElement) {
+    return targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false;
   };
 
-  // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-  const isTargetElementTotallyScrolled = targetElement => targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false;
-
-  const handleScroll = (event, targetElement) => {
-    const clientY = event.targetTouches[0].clientY - initialClientY;
+  var handleScroll = function handleScroll(event, targetElement) {
+    var clientY = event.targetTouches[0].clientY - initialClientY;
 
     if (allowTouchMove(event.target)) {
       return false;
@@ -6273,7 +6297,7 @@
     return true;
   };
 
-  const disableBodyScroll = (targetElement, options) => {
+  var disableBodyScroll = function disableBodyScroll(targetElement, options) {
     if (isIosDevice) {
       // targetElement must be provided, and disableBodyScroll must not have been
       // called on this targetElement before.
@@ -6283,21 +6307,23 @@
         return;
       }
 
-      if (targetElement && !locks.some(lock => lock.targetElement === targetElement)) {
-        const lock = {
-          targetElement,
+      if (targetElement && !locks.some(function (lock) {
+        return lock.targetElement === targetElement;
+      })) {
+        var lock = {
+          targetElement: targetElement,
           options: options || {}
         };
+        locks = [].concat(_toConsumableArray(locks), [lock]);
 
-        locks = [...locks, lock];
-
-        targetElement.ontouchstart = event => {
+        targetElement.ontouchstart = function (event) {
           if (event.targetTouches.length === 1) {
             // detect single touch
             initialClientY = event.targetTouches[0].clientY;
           }
         };
-        targetElement.ontouchmove = event => {
+
+        targetElement.ontouchmove = function (event) {
           if (event.targetTouches.length === 1) {
             // detect single touch
             handleScroll(event, targetElement);
@@ -6305,37 +6331,38 @@
         };
 
         if (!documentListenerAdded) {
-          document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined);
+          document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? {
+            passive: false
+          } : undefined);
           documentListenerAdded = true;
         }
       }
     } else {
       setOverflowHidden(options);
-      const lock = {
-        targetElement,
+      var _lock = {
+        targetElement: targetElement,
         options: options || {}
       };
-
-      locks = [...locks, lock];
+      locks = [].concat(_toConsumableArray(locks), [_lock]);
     }
   };
-
-  const clearAllBodyScrollLocks = () => {
+  var clearAllBodyScrollLocks = function clearAllBodyScrollLocks() {
     if (isIosDevice) {
       // Clear all locks ontouchstart/ontouchmove handlers, and the references
-      locks.forEach(lock => {
+      locks.forEach(function (lock) {
         lock.targetElement.ontouchstart = null;
         lock.targetElement.ontouchmove = null;
       });
 
       if (documentListenerAdded) {
-        document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? { passive: false } : undefined);
+        document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? {
+          passive: false
+        } : undefined);
         documentListenerAdded = false;
       }
 
-      locks = [];
+      locks = []; // Reset initial clientY
 
-      // Reset initial clientY
       initialClientY = -1;
     } else {
       restoreOverflowSetting();
@@ -6746,7 +6773,7 @@
           stepOptions.id = name.toString();
         }
 
-        stepOptions = _extends({}, this.options.defaultStepOptions, stepOptions);
+        stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
         return new Step(this, stepOptions);
       }
       /**
@@ -6858,7 +6885,7 @@
     return Tour;
   }(Evented);
 
-  _extends(Shepherd, {
+  Object.assign(Shepherd, {
     Tour: Tour,
     Step: Step,
     Evented: Evented

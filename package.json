@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -55,14 +55,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
-    "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/preset-env": "^7.5.4",
     "@testing-library/jest-dom": "^4.0.0",
     "autoprefixer": "^9.6.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "better-docs": "^1.1.6",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^4.1.10",
@@ -94,6 +92,7 @@
     "rollup-plugin-license": "^0.9.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-polyfill": "^2.0.1",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-stylelint": "^0.0.4",
