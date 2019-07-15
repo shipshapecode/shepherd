@@ -233,6 +233,208 @@
     return value === undefined;
   }
 
+  var Evented =
+  /*#__PURE__*/
+  function () {
+    function Evented() {
+      _classCallCheck(this, Evented);
+    }
+
+    _createClass(Evented, [{
+      key: "on",
+      value: function on(event, handler, ctx) {
+        var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+        if (isUndefined(this.bindings)) {
+          this.bindings = {};
+        }
+
+        if (isUndefined(this.bindings[event])) {
+          this.bindings[event] = [];
+        }
+
+        this.bindings[event].push({
+          handler: handler,
+          ctx: ctx,
+          once: once
+        });
+      }
+    }, {
+      key: "once",
+      value: function once(event, handler, ctx) {
+        this.on(event, handler, ctx, true);
+      }
+    }, {
+      key: "off",
+      value: function off(event, handler) {
+        var _this = this;
+
+        if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
+          return false;
+        }
+
+        if (isUndefined(handler)) {
+          delete this.bindings[event];
+        } else {
+          this.bindings[event].forEach(function (binding, index) {
+            if (binding.handler === handler) {
+              _this.bindings[event].splice(index, 1);
+            }
+          });
+        }
+      }
+    }, {
+      key: "trigger",
+      value: function trigger(event) {
+        var _this2 = this;
+
+        if (!isUndefined(this.bindings) && this.bindings[event]) {
+          var args = Array.prototype.slice.call(arguments, 1);
+          this.bindings[event].forEach(function (binding, index) {
+            var ctx = binding.ctx,
+                handler = binding.handler,
+                once = binding.once;
+            var context = ctx || _this2;
+            handler.apply(context, args);
+
+            if (once) {
+              _this2.bindings[event].splice(index, 1);
+            }
+          });
+        }
+      }
+    }]);
+
+    return Evented;
+  }();
+
+  /**
+   * Sets up the handler to determine if we should advance the tour
+   * @param selector
+   * @return {Function}
+   * @private
+   */
+
+  function _setupAdvanceOnHandler(selector) {
+    var _this = this;
+
+    return function (event) {
+      if (_this.isOpen()) {
+        var targetIsEl = _this.el && event.target === _this.el;
+        var targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
+
+        if (targetIsSelector || targetIsEl) {
+          _this.tour.next();
+        }
+      }
+    };
+  }
+  /**
+   * Bind the event handler for advanceOn
+   */
+
+
+  function bindAdvance() {
+    // An empty selector matches the step element
+    var _ref = this.options.advanceOn || {},
+        event = _ref.event,
+        selector = _ref.selector;
+
+    if (event) {
+      var handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
+
+
+      var el;
+
+      try {
+        el = document.querySelector(selector);
+      } catch (e) {// TODO
+      }
+
+      if (!isUndefined(selector) && !el) {
+        return console.error("No element was found for the selector supplied to advanceOn: ".concat(selector));
+      } else if (el) {
+        el.addEventListener(event, handler);
+        this.on('destroy', function () {
+          return el.removeEventListener(event, handler);
+        });
+      } else {
+        document.body.addEventListener(event, handler, true);
+        this.on('destroy', function () {
+          return document.body.removeEventListener(event, handler, true);
+        });
+      }
+    } else {
+      return console.error('advanceOn was defined, but no event name was passed.');
+    }
+  }
+  /**
+   * Bind events to the buttons for next, back, etc
+   * @param {Object} cfg An object containing the config options for the button
+   * @param {HTMLElement} el The element for the button
+   */
+
+  function bindButtonEvents(cfg, el) {
+    var _this2 = this;
+
+    cfg.events = cfg.events || {};
+
+    if (!isUndefined(cfg.action)) {
+      // Including both a click event and an action is not supported
+      cfg.events.click = cfg.action;
+    }
+
+    if (cfg.events) {
+      Object.entries(cfg.events).forEach(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            event = _ref3[0],
+            handler = _ref3[1];
+
+        if (isString(handler)) {
+          var page = handler;
+
+          handler = function handler() {
+            return _this2.tour.show(page);
+          };
+        }
+
+        el.dataset.buttonEvent = true;
+        el.addEventListener(event, handler); // Cleanup event listeners on destroy
+
+        _this2.on('destroy', function () {
+          el.removeAttribute('data-button-event');
+          el.removeEventListener(event, handler);
+        });
+      });
+    }
+  }
+  /**
+   * Add a click listener to the cancel link that cancels the tour
+   * @param {HTMLElement} link The cancel link element
+   */
+
+  function bindCancelLink(link) {
+    var _this3 = this;
+
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      _this3.cancel();
+    });
+  }
+  /**
+   * Take an array of strings and look up methods by name, then bind them to `this`
+   * @param {String[]} methods The names of methods to bind
+   */
+
+  function bindMethods(methods) {
+    var _this4 = this;
+
+    methods.map(function (method) {
+      _this4[method] = _this4[method].bind(_this4);
+    });
+  }
+
   /**!
   * tippy.js v5.0.0-alpha.2
   * (c) 2017-2019 atomiks
@@ -4426,22 +4628,6 @@
     };
   }
   /**
-   * Creates a slice of `arr` with n elements dropped from the beginning.
-   * @param {Array} arr
-   * @param {Number} n
-   * @return {*}
-   */
-
-  function drop(arr) {
-    var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-
-    if (Array.isArray(arr)) {
-      return arr.slice(n);
-    }
-
-    return [];
-  }
-  /**
    * Determines options for the tooltip and initializes
    * `this.tooltip` as a Tippy.js instance.
    */
@@ -4583,208 +4769,6 @@
 
     tippyOptions.popperOptions = finalPopperOptions;
     return tippy(document.body, tippyOptions);
-  }
-
-  var Evented =
-  /*#__PURE__*/
-  function () {
-    function Evented() {
-      _classCallCheck(this, Evented);
-    }
-
-    _createClass(Evented, [{
-      key: "on",
-      value: function on(event, handler, ctx) {
-        var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-        if (isUndefined(this.bindings)) {
-          this.bindings = {};
-        }
-
-        if (isUndefined(this.bindings[event])) {
-          this.bindings[event] = [];
-        }
-
-        this.bindings[event].push({
-          handler: handler,
-          ctx: ctx,
-          once: once
-        });
-      }
-    }, {
-      key: "once",
-      value: function once(event, handler, ctx) {
-        this.on(event, handler, ctx, true);
-      }
-    }, {
-      key: "off",
-      value: function off(event, handler) {
-        var _this = this;
-
-        if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
-          return false;
-        }
-
-        if (isUndefined(handler)) {
-          delete this.bindings[event];
-        } else {
-          this.bindings[event].forEach(function (binding, index) {
-            if (binding.handler === handler) {
-              _this.bindings[event].splice(index, 1);
-            }
-          });
-        }
-      }
-    }, {
-      key: "trigger",
-      value: function trigger(event) {
-        var _this2 = this;
-
-        if (!isUndefined(this.bindings) && this.bindings[event]) {
-          var args = drop(Array.prototype.slice.call(arguments));
-          this.bindings[event].forEach(function (binding, index) {
-            var ctx = binding.ctx,
-                handler = binding.handler,
-                once = binding.once;
-            var context = ctx || _this2;
-            handler.apply(context, args);
-
-            if (once) {
-              _this2.bindings[event].splice(index, 1);
-            }
-          });
-        }
-      }
-    }]);
-
-    return Evented;
-  }();
-
-  /**
-   * Sets up the handler to determine if we should advance the tour
-   * @param selector
-   * @return {Function}
-   * @private
-   */
-
-  function _setupAdvanceOnHandler(selector) {
-    var _this = this;
-
-    return function (event) {
-      if (_this.isOpen()) {
-        var targetIsEl = _this.el && event.target === _this.el;
-        var targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
-
-        if (targetIsSelector || targetIsEl) {
-          _this.tour.next();
-        }
-      }
-    };
-  }
-  /**
-   * Bind the event handler for advanceOn
-   */
-
-
-  function bindAdvance() {
-    // An empty selector matches the step element
-    var _ref = this.options.advanceOn || {},
-        event = _ref.event,
-        selector = _ref.selector;
-
-    if (event) {
-      var handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
-
-
-      var el;
-
-      try {
-        el = document.querySelector(selector);
-      } catch (e) {// TODO
-      }
-
-      if (!isUndefined(selector) && !el) {
-        return console.error("No element was found for the selector supplied to advanceOn: ".concat(selector));
-      } else if (el) {
-        el.addEventListener(event, handler);
-        this.on('destroy', function () {
-          return el.removeEventListener(event, handler);
-        });
-      } else {
-        document.body.addEventListener(event, handler, true);
-        this.on('destroy', function () {
-          return document.body.removeEventListener(event, handler, true);
-        });
-      }
-    } else {
-      return console.error('advanceOn was defined, but no event name was passed.');
-    }
-  }
-  /**
-   * Bind events to the buttons for next, back, etc
-   * @param {Object} cfg An object containing the config options for the button
-   * @param {HTMLElement} el The element for the button
-   */
-
-  function bindButtonEvents(cfg, el) {
-    var _this2 = this;
-
-    cfg.events = cfg.events || {};
-
-    if (!isUndefined(cfg.action)) {
-      // Including both a click event and an action is not supported
-      cfg.events.click = cfg.action;
-    }
-
-    if (cfg.events) {
-      Object.entries(cfg.events).forEach(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-            event = _ref3[0],
-            handler = _ref3[1];
-
-        if (isString(handler)) {
-          var page = handler;
-
-          handler = function handler() {
-            return _this2.tour.show(page);
-          };
-        }
-
-        el.dataset.buttonEvent = true;
-        el.addEventListener(event, handler); // Cleanup event listeners on destroy
-
-        _this2.on('destroy', function () {
-          el.removeAttribute('data-button-event');
-          el.removeEventListener(event, handler);
-        });
-      });
-    }
-  }
-  /**
-   * Add a click listener to the cancel link that cancels the tour
-   * @param {HTMLElement} link The cancel link element
-   */
-
-  function bindCancelLink(link) {
-    var _this3 = this;
-
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-
-      _this3.cancel();
-    });
-  }
-  /**
-   * Take an array of strings and look up methods by name, then bind them to `this`
-   * @param {String[]} methods The names of methods to bind
-   */
-
-  function bindMethods(methods) {
-    var _this4 = this;
-
-    methods.map(function (method) {
-      _this4[method] = _this4[method].bind(_this4);
-    });
   }
 
   if (!Element.prototype.matches) {
