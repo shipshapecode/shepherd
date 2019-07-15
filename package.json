@@ -61,7 +61,6 @@
     "autoprefixer": "^9.6.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.7.1",
-    "babel-plugin-rewire-exports": "^1.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "better-docs": "^1.1.6",
     "chai": "^4.2.0",

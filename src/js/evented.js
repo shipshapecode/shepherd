@@ -1,4 +1,3 @@
-import { drop } from './utils/general';
 import { isUndefined } from './utils/type-check';
 
 export class Evented {
@@ -36,7 +35,7 @@ export class Evented {
 
   trigger(event) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
-      const args = drop(Array.prototype.slice.call(arguments));
+      const args = Array.prototype.slice.call(arguments, 1);
 
       this.bindings[event].forEach((binding, index) => {
         const { ctx, handler, once } = binding;

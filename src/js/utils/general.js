@@ -72,20 +72,6 @@ export function debounce(func, wait, immediate) {
 }
 
 /**
- * Creates a slice of `arr` with n elements dropped from the beginning.
- * @param {Array} arr
- * @param {Number} n
- * @return {*}
- */
-export function drop(arr, n = 1) {
-  if (Array.isArray(arr)) {
-    return arr.slice(n);
-  }
-
-  return [];
-}
-
-/**
  * Determines options for the tooltip and initializes
  * `this.tooltip` as a Tippy.js instance.
  */
