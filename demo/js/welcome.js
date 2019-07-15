@@ -3,7 +3,7 @@
   function init() {
     const shepherd = setupShepherd();
 
-    setTimeout(() => {
+    setTimeout(function() {
       shepherd.start();
     }, 400);
   }
