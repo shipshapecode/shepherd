@@ -55,7 +55,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
-    "@babel/plugin-transform-object-assign": "^7.2.0",
     "@babel/preset-env": "^7.5.4",
     "@testing-library/jest-dom": "^4.0.0",
     "autoprefixer": "^9.6.1",

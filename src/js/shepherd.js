@@ -1,3 +1,6 @@
+import 'core-js/stable/features/object/assign';
+import 'core-js/stable/features/object/entries';
+
 import '../scss/shepherd-theme-dark.scss';
 import '../scss/shepherd-theme-default.scss';
 import '../scss/shepherd-theme-square.scss';
