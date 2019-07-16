@@ -73,34 +73,36 @@ export function debounce(func, wait, immediate) {
 
 /**
  * Determines options for the tooltip and initializes
- * `this.tooltip` as a Tippy.js instance.
+ * `step.tooltip` as a Tippy.js instance.
+ * @param {Step} step The step instance
  */
-export function setupTooltip() {
+export function setupTooltip(step) {
   if (isUndefined(tippy)) {
     throw new Error(missingTippy);
   }
 
-  if (this.tooltip) {
-    this.tooltip.destroy();
+  if (step.tooltip) {
+    step.tooltip.destroy();
   }
 
-  const attachToOpts = this.parseAttachTo();
+  const attachToOpts = parseAttachTo(step);
 
-  this.tooltip = _makeTippyInstance.call(this, attachToOpts);
+  step.tooltip = _makeTippyInstance(attachToOpts, step);
 
-  this.target = attachToOpts.element || document.body;
+  step.target = attachToOpts.element || document.body;
 
-  this.el.classList.add('shepherd-element');
+  step.el.classList.add('shepherd-element');
 }
 
 /**
  * Checks if options.attachTo.element is a string, and if so, tries to find the element
+ * @param {Step} step The step instance
  * @returns {{element, on}}
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
-export function parseAttachTo() {
-  const options = this.options.attachTo || {};
+export function parseAttachTo(step) {
+  const options = step.options.attachTo || {};
   const returnOpts = Object.assign({}, options);
 
   if (isString(options.element)) {
@@ -137,16 +139,17 @@ function _createClassModifier(className) {
 
 /**
  * Generates a `Tippy` instance from a set of base `attachTo` options
- *
- * @return {tippy} The final tippy instance
+ * @param attachToOptions
+ * @param {Step} step The step instance
+ * @return {tippy|Instance | Instance[]} The final tippy instance
  * @private
  */
-function _makeTippyInstance(attachToOptions) {
+function _makeTippyInstance(attachToOptions, step) {
   if (!attachToOptions.element) {
-    return _makeCenteredTippy.call(this);
+    return _makeCenteredTippy(step);
   }
 
-  const tippyOptions = _makeAttachedTippyOptions.call(this, attachToOptions);
+  const tippyOptions = _makeAttachedTippyOptions(attachToOptions, step);
 
   return tippy(attachToOptions.element, tippyOptions);
 }
@@ -156,24 +159,25 @@ function _makeTippyInstance(attachToOptions) {
  * target an element in the DOM.
  *
  * @param {Object} attachToOptions The local `attachTo` options
+ * @param {Step} step The step instance
  * @return {Object} The final tippy options  object
  * @private
  */
-function _makeAttachedTippyOptions(attachToOptions) {
+function _makeAttachedTippyOptions(attachToOptions, step) {
   const resultingTippyOptions = {
-    content: this.el,
+    content: step.el,
     flipOnUpdate: true,
     placement: attachToOptions.on || 'right'
   };
 
-  Object.assign(resultingTippyOptions, this.options.tippyOptions);
+  Object.assign(resultingTippyOptions, step.options.tippyOptions);
 
-  if (this.options.title) {
+  if (step.options.title) {
     Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
   }
 
-  if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-    Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
+  if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
+    Object.assign(defaultPopperOptions, step.options.tippyOptions.popperOptions);
   }
 
   resultingTippyOptions.popperOptions = defaultPopperOptions;
@@ -186,20 +190,21 @@ function _makeAttachedTippyOptions(attachToOptions) {
  * target element in the DOM -- and thus is positioned in the center
  * of the view
  *
+ * @param {Step} step The step instance
  * @return {tippy} The final tippy instance
  * @private
  */
-function _makeCenteredTippy() {
+function _makeCenteredTippy(step) {
   const tippyOptions = {
-    content: this.el,
+    content: step.el,
     placement: 'top',
-    ...this.options.tippyOptions
+    ...step.options.tippyOptions
   };
 
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
-  if (this.options.title) {
+  if (step.options.title) {
     Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
   }
 

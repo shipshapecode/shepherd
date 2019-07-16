@@ -1273,40 +1273,112 @@
 	  }
 	});
 
+	var autoBind = createCommonjsModule(function (module) {
+
+	// Gets all non-builtin properties up the prototype chain
+	const getAllProperties = object => {
+		const props = new Set();
+
+		do {
+			for (const key of Reflect.ownKeys(object)) {
+				props.add([object, key]);
+			}
+		} while ((object = Reflect.getPrototypeOf(object)) && object !== Object.prototype);
+
+		return props;
+	};
+
+	module.exports = (self, options) => {
+		options = Object.assign({}, options);
+
+		const filter = key => {
+			const match = pattern => typeof pattern === 'string' ? key === pattern : pattern.test(key);
+
+			if (options.include) {
+				return options.include.some(match);
+			}
+
+			if (options.exclude) {
+				return !options.exclude.some(match);
+			}
+
+			return true;
+		};
+
+		for (const [object, key] of getAllProperties(self.constructor.prototype)) {
+			if (key === 'constructor' || !filter(key)) {
+				continue;
+			}
+
+			const descriptor = Reflect.getOwnPropertyDescriptor(object, key);
+			if (descriptor && typeof descriptor.value === 'function') {
+				self[key] = self[key].bind(self);
+			}
+		}
+
+		return self;
+	};
+
+	const excludedReactMethods = [
+		'componentWillMount',
+		'UNSAFE_componentWillMount',
+		'render',
+		'getSnapshotBeforeUpdate',
+		'componentDidMount',
+		'componentWillReceiveProps',
+		'UNSAFE_componentWillReceiveProps',
+		'shouldComponentUpdate',
+		'componentWillUpdate',
+		'UNSAFE_componentWillUpdate',
+		'componentDidUpdate',
+		'componentWillUnmount',
+		'componentDidCatch',
+		'setState',
+		'forceUpdate'
+	];
+
+	module.exports.react = (self, options) => {
+		options = Object.assign({}, options);
+		options.exclude = (options.exclude || []).concat(excludedReactMethods);
+		return module.exports(self, options);
+	};
+	});
+	var autoBind_1 = autoBind.react;
+
 	/**
 	 * Sets up the handler to determine if we should advance the tour
-	 * @param selector
+	 * @param {string} selector
+	 * @param {Step} step The step instance
 	 * @return {Function}
 	 * @private
 	 */
 
-	function _setupAdvanceOnHandler(selector) {
-	  var _this = this;
-
+	function _setupAdvanceOnHandler(selector, step) {
 	  return function (event) {
-	    if (_this.isOpen()) {
-	      var targetIsEl = _this.el && event.target === _this.el;
+	    if (step.isOpen()) {
+	      var targetIsEl = step.el && event.target === step.el;
 	      var targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
 
 	      if (targetIsSelector || targetIsEl) {
-	        _this.tour.next();
+	        step.tour.next();
 	      }
 	    }
 	  };
 	}
 	/**
 	 * Bind the event handler for advanceOn
+	 * @param {Step} step The step instance
 	 */
 
 
-	function bindAdvance() {
+	function bindAdvance(step) {
 	  // An empty selector matches the step element
-	  var _ref = this.options.advanceOn || {},
+	  var _ref = step.options.advanceOn || {},
 	      event = _ref.event,
 	      selector = _ref.selector;
 
 	  if (event) {
-	    var handler = _setupAdvanceOnHandler.call(this, selector); // TODO: this should also bind/unbind on show/hide
+	    var handler = _setupAdvanceOnHandler(selector, step); // TODO: this should also bind/unbind on show/hide
 
 
 	    var el;
@@ -1320,12 +1392,12 @@
 	      return console.error("No element was found for the selector supplied to advanceOn: ".concat(selector));
 	    } else if (el) {
 	      el.addEventListener(event, handler);
-	      this.on('destroy', function () {
+	      step.on('destroy', function () {
 	        return el.removeEventListener(event, handler);
 	      });
 	    } else {
 	      document.body.addEventListener(event, handler, true);
-	      this.on('destroy', function () {
+	      step.on('destroy', function () {
 	        return document.body.removeEventListener(event, handler, true);
 	      });
 	    }
@@ -1337,11 +1409,10 @@
 	 * Bind events to the buttons for next, back, etc
 	 * @param {Object} cfg An object containing the config options for the button
 	 * @param {HTMLElement} el The element for the button
+	 * @param {Step} step The step instance
 	 */
 
-	function bindButtonEvents(cfg, el) {
-	  var _this2 = this;
-
+	function bindButtonEvents(cfg, el, step) {
 	  cfg.events = cfg.events || {};
 
 	  if (!isUndefined(cfg.action)) {
@@ -1359,14 +1430,14 @@
 	        var page = handler;
 
 	        handler = function handler() {
-	          return _this2.tour.show(page);
+	          return step.tour.show(page);
 	        };
 	      }
 
 	      el.dataset.buttonEvent = true;
 	      el.addEventListener(event, handler); // Cleanup event listeners on destroy
 
-	      _this2.on('destroy', function () {
+	      step.on('destroy', function () {
 	        el.removeAttribute('data-button-event');
 	        el.removeEventListener(event, handler);
 	      });
@@ -1376,27 +1447,13 @@
 	/**
 	 * Add a click listener to the cancel link that cancels the tour
 	 * @param {HTMLElement} link The cancel link element
+	 * @param {Step} step The step instance
 	 */
 
-	function bindCancelLink(link) {
-	  var _this3 = this;
-
+	function bindCancelLink(link, step) {
 	  link.addEventListener('click', function (e) {
 	    e.preventDefault();
-
-	    _this3.cancel();
-	  });
-	}
-	/**
-	 * Take an array of strings and look up methods by name, then bind them to `this`
-	 * @param {String[]} methods The names of methods to bind
-	 */
-
-	function bindMethods(methods) {
-	  var _this4 = this;
-
-	  methods.map(function (method) {
-	    _this4[method] = _this4[method].bind(_this4);
+	    step.cancel();
 	  });
 	}
 
@@ -6239,32 +6296,34 @@
 	}
 	/**
 	 * Determines options for the tooltip and initializes
-	 * `this.tooltip` as a Tippy.js instance.
+	 * `step.tooltip` as a Tippy.js instance.
+	 * @param {Step} step The step instance
 	 */
 
-	function setupTooltip() {
+	function setupTooltip(step) {
 	  if (isUndefined(tippy)) {
 	    throw new Error(missingTippy);
 	  }
 
-	  if (this.tooltip) {
-	    this.tooltip.destroy();
+	  if (step.tooltip) {
+	    step.tooltip.destroy();
 	  }
 
-	  var attachToOpts = this.parseAttachTo();
-	  this.tooltip = _makeTippyInstance.call(this, attachToOpts);
-	  this.target = attachToOpts.element || document.body;
-	  this.el.classList.add('shepherd-element');
+	  var attachToOpts = parseAttachTo(step);
+	  step.tooltip = _makeTippyInstance(attachToOpts, step);
+	  step.target = attachToOpts.element || document.body;
+	  step.el.classList.add('shepherd-element');
 	}
 	/**
 	 * Checks if options.attachTo.element is a string, and if so, tries to find the element
+	 * @param {Step} step The step instance
 	 * @returns {{element, on}}
 	 * `element` is a qualified HTML Element
 	 * `on` is a string position value
 	 */
 
-	function parseAttachTo() {
-	  var options = this.options.attachTo || {};
+	function parseAttachTo(step) {
+	  var options = step.options.attachTo || {};
 	  var returnOpts = Object.assign({}, options);
 
 	  if (isString(options.element)) {
@@ -6300,18 +6359,19 @@
 	}
 	/**
 	 * Generates a `Tippy` instance from a set of base `attachTo` options
-	 *
-	 * @return {tippy} The final tippy instance
+	 * @param attachToOptions
+	 * @param {Step} step The step instance
+	 * @return {tippy|Instance | Instance[]} The final tippy instance
 	 * @private
 	 */
 
 
-	function _makeTippyInstance(attachToOptions) {
+	function _makeTippyInstance(attachToOptions, step) {
 	  if (!attachToOptions.element) {
-	    return _makeCenteredTippy.call(this);
+	    return _makeCenteredTippy(step);
 	  }
 
-	  var tippyOptions = _makeAttachedTippyOptions.call(this, attachToOptions);
+	  var tippyOptions = _makeAttachedTippyOptions(attachToOptions, step);
 
 	  return tippy(attachToOptions.element, tippyOptions);
 	}
@@ -6320,27 +6380,28 @@
 	 * target an element in the DOM.
 	 *
 	 * @param {Object} attachToOptions The local `attachTo` options
+	 * @param {Step} step The step instance
 	 * @return {Object} The final tippy options  object
 	 * @private
 	 */
 
 
-	function _makeAttachedTippyOptions(attachToOptions) {
+	function _makeAttachedTippyOptions(attachToOptions, step) {
 	  var resultingTippyOptions = {
-	    content: this.el,
+	    content: step.el,
 	    flipOnUpdate: true,
 	    placement: attachToOptions.on || 'right'
 	  };
-	  Object.assign(resultingTippyOptions, this.options.tippyOptions);
+	  Object.assign(resultingTippyOptions, step.options.tippyOptions);
 
-	  if (this.options.title) {
+	  if (step.options.title) {
 	    Object.assign(defaultPopperOptions.modifiers, {
 	      addHasTitleClass: addHasTitleClass
 	    });
 	  }
 
-	  if (this.options.tippyOptions && this.options.tippyOptions.popperOptions) {
-	    Object.assign(defaultPopperOptions, this.options.tippyOptions.popperOptions);
+	  if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
+	    Object.assign(defaultPopperOptions, step.options.tippyOptions.popperOptions);
 	  }
 
 	  resultingTippyOptions.popperOptions = defaultPopperOptions;
@@ -6351,21 +6412,22 @@
 	 * target element in the DOM -- and thus is positioned in the center
 	 * of the view
 	 *
+	 * @param {Step} step The step instance
 	 * @return {tippy} The final tippy instance
 	 * @private
 	 */
 
 
-	function _makeCenteredTippy() {
+	function _makeCenteredTippy(step) {
 	  var tippyOptions = _objectSpread2({
-	    content: this.el,
+	    content: step.el,
 	    placement: 'top'
-	  }, this.options.tippyOptions);
+	  }, step.options.tippyOptions);
 
 	  tippyOptions.arrow = false;
 	  tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
-	  if (this.options.title) {
+	  if (step.options.title) {
 	    Object.assign(defaultPopperOptions.modifiers, {
 	      addHasTitleClass: addHasTitleClass
 	    });
@@ -6926,15 +6988,10 @@
 
 	    _this = _possibleConstructorReturn(this, _getPrototypeOf(Step).call(this, tour, options));
 	    _this.tour = tour;
-	    bindMethods.call(_assertThisInitialized(_this), ['_scrollTo', '_setupElements', '_show', 'cancel', 'complete', 'destroy', 'hide', 'isOpen', 'show']);
+	    autoBind(_assertThisInitialized(_this));
 
 	    _this._setOptions(options);
 
-	    _this.bindAdvance = bindAdvance.bind(_assertThisInitialized(_this));
-	    _this.bindButtonEvents = bindButtonEvents.bind(_assertThisInitialized(_this));
-	    _this.bindCancelLink = bindCancelLink.bind(_assertThisInitialized(_this));
-	    _this.setupTooltip = setupTooltip.bind(_assertThisInitialized(_this));
-	    _this.parseAttachTo = parseAttachTo.bind(_assertThisInitialized(_this));
 	    return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
 	  }
 	  /**
@@ -7065,8 +7122,7 @@
 	        this.options.buttons.map(function (cfg) {
 	          var button = createFromHTML("<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">").concat(cfg.text, "</button>"));
 	          footer.appendChild(button);
-
-	          _this3.bindButtonEvents(cfg, button);
+	          bindButtonEvents(cfg, button, _this3);
 	        });
 	        content.appendChild(footer);
 	      }
@@ -7085,7 +7141,7 @@
 	        var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
 	        header.appendChild(link);
 	        element.classList.add('shepherd-has-cancel-link');
-	        this.bindCancelLink(link);
+	        bindCancelLink(link, this);
 	      }
 	    }
 	    /**
@@ -7234,8 +7290,8 @@
 	  }, {
 	    key: "_scrollTo",
 	    value: function _scrollTo(scrollToOptions) {
-	      var _this$parseAttachTo = this.parseAttachTo(),
-	          element = _this$parseAttachTo.element;
+	      var _parseAttachTo = parseAttachTo(this),
+	          element = _parseAttachTo.element;
 
 	      if (isFunction(this.options.scrollToHandler)) {
 	        this.options.scrollToHandler(element);
@@ -7287,10 +7343,10 @@
 	      this._addKeyDownHandler(this.el);
 
 	      if (this.options.advanceOn) {
-	        this.bindAdvance();
+	        bindAdvance(this);
 	      }
 
-	      this.setupTooltip();
+	      setupTooltip(this);
 	    }
 	    /**
 	     * Triggers `before-show`, generates the tooltip DOM content,
@@ -7433,6 +7489,198 @@
 
 	// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
 	addToUnscopables(FIND);
+
+	// Older browsers don't support event options, feature detect it.
+	// Adopted and modified solution from Bohdan Didukh (2017)
+	// https://stackoverflow.com/questions/41594997/ios-10-safari-prevent-scrolling-behind-a-fixed-overlay-and-maintain-scroll-posi
+	var hasPassiveEvents = false;
+
+	if (typeof window !== 'undefined') {
+	  var passiveTestOptions = {
+	    get passive() {
+	      hasPassiveEvents = true;
+	      return undefined;
+	    }
+
+	  };
+	  window.addEventListener('testPassive', null, passiveTestOptions);
+	  window.removeEventListener('testPassive', null, passiveTestOptions);
+	}
+
+	var isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
+	var locks = [];
+	var documentListenerAdded = false;
+	var initialClientY = -1;
+	var previousBodyOverflowSetting;
+	var previousBodyPaddingRight; // returns true if `el` should be allowed to receive touchmove events
+
+	var allowTouchMove = function allowTouchMove(el) {
+	  return locks.some(function (lock) {
+	    if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
+	      return true;
+	    }
+
+	    return false;
+	  });
+	};
+
+	var preventDefault = function preventDefault(rawEvent) {
+	  var e = rawEvent || window.event; // For the case whereby consumers adds a touchmove event listener to document.
+	  // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
+	  // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
+	  // the touchmove event on document will break.
+
+	  if (allowTouchMove(e.target)) {
+	    return true;
+	  } // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
+
+
+	  if (e.touches.length > 1) return true;
+	  if (e.preventDefault) e.preventDefault();
+	  return false;
+	};
+
+	var setOverflowHidden = function setOverflowHidden(options) {
+	  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
+	  // the responsiveness for some reason. Setting within a setTimeout fixes this.
+	  setTimeout(function () {
+	    // If previousBodyPaddingRight is already set, don't set it again.
+	    if (previousBodyPaddingRight === undefined) {
+	      var reserveScrollBarGap = !!options && options.reserveScrollBarGap === true;
+	      var scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
+
+	      if (reserveScrollBarGap && scrollBarGap > 0) {
+	        previousBodyPaddingRight = document.body.style.paddingRight;
+	        document.body.style.paddingRight = "".concat(scrollBarGap, "px");
+	      }
+	    } // If previousBodyOverflowSetting is already set, don't set it again.
+
+
+	    if (previousBodyOverflowSetting === undefined) {
+	      previousBodyOverflowSetting = document.body.style.overflow;
+	      document.body.style.overflow = 'hidden';
+	    }
+	  });
+	};
+
+	var restoreOverflowSetting = function restoreOverflowSetting() {
+	  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
+	  // the responsiveness for some reason. Setting within a setTimeout fixes this.
+	  setTimeout(function () {
+	    if (previousBodyPaddingRight !== undefined) {
+	      document.body.style.paddingRight = previousBodyPaddingRight; // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
+	      // can be set again.
+
+	      previousBodyPaddingRight = undefined;
+	    }
+
+	    if (previousBodyOverflowSetting !== undefined) {
+	      document.body.style.overflow = previousBodyOverflowSetting; // Restore previousBodyOverflowSetting to undefined
+	      // so setOverflowHidden knows it can be set again.
+
+	      previousBodyOverflowSetting = undefined;
+	    }
+	  });
+	}; // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
+
+
+	var isTargetElementTotallyScrolled = function isTargetElementTotallyScrolled(targetElement) {
+	  return targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false;
+	};
+
+	var handleScroll = function handleScroll(event, targetElement) {
+	  var clientY = event.targetTouches[0].clientY - initialClientY;
+
+	  if (allowTouchMove(event.target)) {
+	    return false;
+	  }
+
+	  if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
+	    // element is at the top of its scroll
+	    return preventDefault(event);
+	  }
+
+	  if (isTargetElementTotallyScrolled(targetElement) && clientY < 0) {
+	    // element is at the top of its scroll
+	    return preventDefault(event);
+	  }
+
+	  event.stopPropagation();
+	  return true;
+	};
+
+	var disableBodyScroll = function disableBodyScroll(targetElement, options) {
+	  if (isIosDevice) {
+	    // targetElement must be provided, and disableBodyScroll must not have been
+	    // called on this targetElement before.
+	    if (!targetElement) {
+	      // eslint-disable-next-line no-console
+	      console.error('disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.');
+	      return;
+	    }
+
+	    if (targetElement && !locks.some(function (lock) {
+	      return lock.targetElement === targetElement;
+	    })) {
+	      var lock = {
+	        targetElement: targetElement,
+	        options: options || {}
+	      };
+	      locks = [].concat(_toConsumableArray(locks), [lock]);
+
+	      targetElement.ontouchstart = function (event) {
+	        if (event.targetTouches.length === 1) {
+	          // detect single touch
+	          initialClientY = event.targetTouches[0].clientY;
+	        }
+	      };
+
+	      targetElement.ontouchmove = function (event) {
+	        if (event.targetTouches.length === 1) {
+	          // detect single touch
+	          handleScroll(event, targetElement);
+	        }
+	      };
+
+	      if (!documentListenerAdded) {
+	        document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? {
+	          passive: false
+	        } : undefined);
+	        documentListenerAdded = true;
+	      }
+	    }
+	  } else {
+	    setOverflowHidden(options);
+	    var _lock = {
+	      targetElement: targetElement,
+	      options: options || {}
+	    };
+	    locks = [].concat(_toConsumableArray(locks), [_lock]);
+	  }
+	};
+	var clearAllBodyScrollLocks = function clearAllBodyScrollLocks() {
+	  if (isIosDevice) {
+	    // Clear all locks ontouchstart/ontouchmove handlers, and the references
+	    locks.forEach(function (lock) {
+	      lock.targetElement.ontouchstart = null;
+	      lock.targetElement.ontouchmove = null;
+	    });
+
+	    if (documentListenerAdded) {
+	      document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? {
+	        passive: false
+	      } : undefined);
+	      documentListenerAdded = false;
+	    }
+
+	    locks = []; // Reset initial clientY
+
+	    initialClientY = -1;
+	  } else {
+	    restoreOverflowSetting();
+	    locks = [];
+	  }
+	};
 
 	var svgNS = 'http://www.w3.org/2000/svg';
 	var elementIds = {
@@ -7844,198 +8092,6 @@
 	  return Modal;
 	}();
 
-	// Older browsers don't support event options, feature detect it.
-	// Adopted and modified solution from Bohdan Didukh (2017)
-	// https://stackoverflow.com/questions/41594997/ios-10-safari-prevent-scrolling-behind-a-fixed-overlay-and-maintain-scroll-posi
-	var hasPassiveEvents = false;
-
-	if (typeof window !== 'undefined') {
-	  var passiveTestOptions = {
-	    get passive() {
-	      hasPassiveEvents = true;
-	      return undefined;
-	    }
-
-	  };
-	  window.addEventListener('testPassive', null, passiveTestOptions);
-	  window.removeEventListener('testPassive', null, passiveTestOptions);
-	}
-
-	var isIosDevice = typeof window !== 'undefined' && window.navigator && window.navigator.platform && /iP(ad|hone|od)/.test(window.navigator.platform);
-	var locks = [];
-	var documentListenerAdded = false;
-	var initialClientY = -1;
-	var previousBodyOverflowSetting;
-	var previousBodyPaddingRight; // returns true if `el` should be allowed to receive touchmove events
-
-	var allowTouchMove = function allowTouchMove(el) {
-	  return locks.some(function (lock) {
-	    if (lock.options.allowTouchMove && lock.options.allowTouchMove(el)) {
-	      return true;
-	    }
-
-	    return false;
-	  });
-	};
-
-	var preventDefault = function preventDefault(rawEvent) {
-	  var e = rawEvent || window.event; // For the case whereby consumers adds a touchmove event listener to document.
-	  // Recall that we do document.addEventListener('touchmove', preventDefault, { passive: false })
-	  // in disableBodyScroll - so if we provide this opportunity to allowTouchMove, then
-	  // the touchmove event on document will break.
-
-	  if (allowTouchMove(e.target)) {
-	    return true;
-	  } // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
-
-
-	  if (e.touches.length > 1) return true;
-	  if (e.preventDefault) e.preventDefault();
-	  return false;
-	};
-
-	var setOverflowHidden = function setOverflowHidden(options) {
-	  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
-	  // the responsiveness for some reason. Setting within a setTimeout fixes this.
-	  setTimeout(function () {
-	    // If previousBodyPaddingRight is already set, don't set it again.
-	    if (previousBodyPaddingRight === undefined) {
-	      var reserveScrollBarGap = !!options && options.reserveScrollBarGap === true;
-	      var scrollBarGap = window.innerWidth - document.documentElement.clientWidth;
-
-	      if (reserveScrollBarGap && scrollBarGap > 0) {
-	        previousBodyPaddingRight = document.body.style.paddingRight;
-	        document.body.style.paddingRight = "".concat(scrollBarGap, "px");
-	      }
-	    } // If previousBodyOverflowSetting is already set, don't set it again.
-
-
-	    if (previousBodyOverflowSetting === undefined) {
-	      previousBodyOverflowSetting = document.body.style.overflow;
-	      document.body.style.overflow = 'hidden';
-	    }
-	  });
-	};
-
-	var restoreOverflowSetting = function restoreOverflowSetting() {
-	  // Setting overflow on body/documentElement synchronously in Desktop Safari slows down
-	  // the responsiveness for some reason. Setting within a setTimeout fixes this.
-	  setTimeout(function () {
-	    if (previousBodyPaddingRight !== undefined) {
-	      document.body.style.paddingRight = previousBodyPaddingRight; // Restore previousBodyPaddingRight to undefined so setOverflowHidden knows it
-	      // can be set again.
-
-	      previousBodyPaddingRight = undefined;
-	    }
-
-	    if (previousBodyOverflowSetting !== undefined) {
-	      document.body.style.overflow = previousBodyOverflowSetting; // Restore previousBodyOverflowSetting to undefined
-	      // so setOverflowHidden knows it can be set again.
-
-	      previousBodyOverflowSetting = undefined;
-	    }
-	  });
-	}; // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-
-
-	var isTargetElementTotallyScrolled = function isTargetElementTotallyScrolled(targetElement) {
-	  return targetElement ? targetElement.scrollHeight - targetElement.scrollTop <= targetElement.clientHeight : false;
-	};
-
-	var handleScroll = function handleScroll(event, targetElement) {
-	  var clientY = event.targetTouches[0].clientY - initialClientY;
-
-	  if (allowTouchMove(event.target)) {
-	    return false;
-	  }
-
-	  if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
-	    // element is at the top of its scroll
-	    return preventDefault(event);
-	  }
-
-	  if (isTargetElementTotallyScrolled(targetElement) && clientY < 0) {
-	    // element is at the top of its scroll
-	    return preventDefault(event);
-	  }
-
-	  event.stopPropagation();
-	  return true;
-	};
-
-	var disableBodyScroll = function disableBodyScroll(targetElement, options) {
-	  if (isIosDevice) {
-	    // targetElement must be provided, and disableBodyScroll must not have been
-	    // called on this targetElement before.
-	    if (!targetElement) {
-	      // eslint-disable-next-line no-console
-	      console.error('disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.');
-	      return;
-	    }
-
-	    if (targetElement && !locks.some(function (lock) {
-	      return lock.targetElement === targetElement;
-	    })) {
-	      var lock = {
-	        targetElement: targetElement,
-	        options: options || {}
-	      };
-	      locks = [].concat(_toConsumableArray(locks), [lock]);
-
-	      targetElement.ontouchstart = function (event) {
-	        if (event.targetTouches.length === 1) {
-	          // detect single touch
-	          initialClientY = event.targetTouches[0].clientY;
-	        }
-	      };
-
-	      targetElement.ontouchmove = function (event) {
-	        if (event.targetTouches.length === 1) {
-	          // detect single touch
-	          handleScroll(event, targetElement);
-	        }
-	      };
-
-	      if (!documentListenerAdded) {
-	        document.addEventListener('touchmove', preventDefault, hasPassiveEvents ? {
-	          passive: false
-	        } : undefined);
-	        documentListenerAdded = true;
-	      }
-	    }
-	  } else {
-	    setOverflowHidden(options);
-	    var _lock = {
-	      targetElement: targetElement,
-	      options: options || {}
-	    };
-	    locks = [].concat(_toConsumableArray(locks), [_lock]);
-	  }
-	};
-	var clearAllBodyScrollLocks = function clearAllBodyScrollLocks() {
-	  if (isIosDevice) {
-	    // Clear all locks ontouchstart/ontouchmove handlers, and the references
-	    locks.forEach(function (lock) {
-	      lock.targetElement.ontouchstart = null;
-	      lock.targetElement.ontouchmove = null;
-	    });
-
-	    if (documentListenerAdded) {
-	      document.removeEventListener('touchmove', preventDefault, hasPassiveEvents ? {
-	        passive: false
-	      } : undefined);
-	      documentListenerAdded = false;
-	    }
-
-	    locks = []; // Reset initial clientY
-
-	    initialClientY = -1;
-	  } else {
-	    restoreOverflowSetting();
-	    locks = [];
-	  }
-	};
-
 	var defaults = {
 	  trigger: 'manual',
 	  arrow: true,
@@ -8134,7 +8190,7 @@
 	    _classCallCheck(this, Tour);
 
 	    _this = _possibleConstructorReturn(this, _getPrototypeOf(Tour).call(this, options));
-	    bindMethods.call(_assertThisInitialized(_this), ['back', 'cancel', 'complete', 'hide', 'next']);
+	    autoBind(_assertThisInitialized(_this));
 	    _this.options = options;
 	    _this.steps = _this.options.steps || []; // Pass these events onto the global Shepherd object
 

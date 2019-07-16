@@ -103,15 +103,15 @@
 
 <section>
   <article>
-    <pre class="prettyprint source linenums"><code>import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
+    <pre class="prettyprint source linenums"><code>import autoBind from 'auto-bind';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
+import tippy from 'tippy.js';
+
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';
-import { bindMethods } from './utils/bind.js';
-import tippy from 'tippy.js';
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
+import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
-
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
 import { getElementForStep } from './utils/dom';
 import { toggleShepherdModalClass } from './utils/modal';
@@ -152,13 +152,9 @@ export class Tour extends Evented {
    */
   constructor(options = {}) {
     super(options);
-    bindMethods.call(this, [
-      'back',
-      'cancel',
-      'complete',
-      'hide',
-      'next'
-    ]);
+
+    autoBind(this);
+
     this.options = options;
     this.steps = this.options.steps || [];
 
