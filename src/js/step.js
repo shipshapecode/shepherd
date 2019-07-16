@@ -8,6 +8,8 @@ import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js'
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
+import { getElementForStep } from './utils/dom';
+import { toggleShepherdModalClass } from './utils/modal';
 
 smoothscroll.polyfill();
 
@@ -439,7 +441,9 @@ export class Step extends Evented {
    * @private
    */
   _show() {
-    this.tour.beforeShowStep(this);
+    this.tour.modal.setupForStep(this);
+    this._styleTargetElementForStep(this);
+
     this.trigger('before-show');
 
     if (!this.el) {
@@ -459,6 +463,31 @@ export class Step extends Evented {
     this.tooltip.show();
     this.trigger('show');
     this.el.focus();
+  }
+
+  /**
+   * Modulates the styles of the passed step's target element, based on the step's options and
+   * the tour's `modal` option, to visually emphasize the element
+   *
+   * @param step The step object that attaches to the element
+   * @private
+   */
+  _styleTargetElementForStep(step) {
+    const targetElement = getElementForStep(step);
+
+    if (!targetElement) {
+      return;
+    }
+
+    toggleShepherdModalClass(targetElement);
+
+    if (step.options.highlightClass) {
+      targetElement.classList.add(step.options.highlightClass);
+    }
+
+    if (step.options.canClickTarget === false) {
+      targetElement.style.pointerEvents = 'none';
+    }
   }
 
   /**
