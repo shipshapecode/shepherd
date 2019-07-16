@@ -1,4 +1,4 @@
-/*! shepherd.js 4.0.0-beta.4 */
+/*! shepherd.js 4.0.0-beta.5 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -7838,7 +7838,7 @@
 	var documentListenerAdded = false;
 	var initialClientY = -1;
 	var previousBodyOverflowSetting;
-	var previousBodyPaddingRight; // returns true if `el` should be allowed to receive touchmove events
+	var previousBodyPaddingRight; // returns true if `el` should be allowed to receive touchmove events.
 
 	var allowTouchMove = function allowTouchMove(el) {
 	  return locks.some(function (lock) {
@@ -7858,7 +7858,7 @@
 
 	  if (allowTouchMove(e.target)) {
 	    return true;
-	  } // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom)
+	  } // Do not prevent if the event has more than one touch (usually meaning this is a multi touch gesture like pinch to zoom).
 
 
 	  if (e.touches.length > 1) return true;
@@ -7922,12 +7922,12 @@
 	  }
 
 	  if (targetElement && targetElement.scrollTop === 0 && clientY > 0) {
-	    // element is at the top of its scroll
+	    // element is at the top of its scroll.
 	    return preventDefault(event);
 	  }
 
 	  if (isTargetElementTotallyScrolled(targetElement) && clientY < 0) {
-	    // element is at the top of its scroll
+	    // element is at the top of its scroll.
 	    return preventDefault(event);
 	  }
 
@@ -7956,14 +7956,14 @@
 
 	      targetElement.ontouchstart = function (event) {
 	        if (event.targetTouches.length === 1) {
-	          // detect single touch
+	          // detect single touch.
 	          initialClientY = event.targetTouches[0].clientY;
 	        }
 	      };
 
 	      targetElement.ontouchmove = function (event) {
 	        if (event.targetTouches.length === 1) {
-	          // detect single touch
+	          // detect single touch.
 	          handleScroll(event, targetElement);
 	        }
 	      };
@@ -7986,7 +7986,7 @@
 	};
 	var clearAllBodyScrollLocks = function clearAllBodyScrollLocks() {
 	  if (isIosDevice) {
-	    // Clear all locks ontouchstart/ontouchmove handlers, and the references
+	    // Clear all locks ontouchstart/ontouchmove handlers, and the references.
 	    locks.forEach(function (lock) {
 	      lock.targetElement.ontouchstart = null;
 	      lock.targetElement.ontouchmove = null;
@@ -7999,7 +7999,7 @@
 	      documentListenerAdded = false;
 	    }
 
-	    locks = []; // Reset initial clientY
+	    locks = []; // Reset initial clientY.
 
 	    initialClientY = -1;
 	  } else {
