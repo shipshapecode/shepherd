@@ -2,18 +2,19 @@ import { isString, isUndefined } from './type-check';
 
 /**
  * Sets up the handler to determine if we should advance the tour
- * @param selector
+ * @param {string} selector
+ * @param {Step} step The step instance
  * @return {Function}
  * @private
  */
-function _setupAdvanceOnHandler(selector) {
+function _setupAdvanceOnHandler(selector, step) {
   return (event) => {
-    if (this.isOpen()) {
-      const targetIsEl = this.el && event.target === this.el;
+    if (step.isOpen()) {
+      const targetIsEl = step.el && event.target === step.el;
       const targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
 
       if (targetIsSelector || targetIsEl) {
-        this.tour.next();
+        step.tour.next();
       }
     }
   };
@@ -21,12 +22,13 @@ function _setupAdvanceOnHandler(selector) {
 
 /**
  * Bind the event handler for advanceOn
+ * @param {Step} step The step instance
  */
-export function bindAdvance() {
+export function bindAdvance(step) {
   // An empty selector matches the step element
-  const { event, selector } = this.options.advanceOn || {};
+  const { event, selector } = step.options.advanceOn || {};
   if (event) {
-    const handler = _setupAdvanceOnHandler.call(this, selector);
+    const handler = _setupAdvanceOnHandler(selector, step);
 
     // TODO: this should also bind/unbind on show/hide
     let el;
@@ -39,12 +41,12 @@ export function bindAdvance() {
       return console.error(`No element was found for the selector supplied to advanceOn: ${selector}`);
     } else if (el) {
       el.addEventListener(event, handler);
-      this.on('destroy', () => {
+      step.on('destroy', () => {
         return el.removeEventListener(event, handler);
       });
     } else {
       document.body.addEventListener(event, handler, true);
-      this.on('destroy', () => {
+      step.on('destroy', () => {
         return document.body.removeEventListener(event, handler, true);
       });
     }
@@ -57,8 +59,9 @@ export function bindAdvance() {
  * Bind events to the buttons for next, back, etc
  * @param {Object} cfg An object containing the config options for the button
  * @param {HTMLElement} el The element for the button
+ * @param {Step} step The step instance
  */
-export function bindButtonEvents(cfg, el) {
+export function bindButtonEvents(cfg, el, step) {
   cfg.events = cfg.events || {};
   if (!isUndefined(cfg.action)) {
     // Including both a click event and an action is not supported
@@ -69,13 +72,13 @@ export function bindButtonEvents(cfg, el) {
     Object.entries(cfg.events).forEach(([event, handler]) => {
       if (isString(handler)) {
         const page = handler;
-        handler = () => this.tour.show(page);
+        handler = () => step.tour.show(page);
       }
       el.dataset.buttonEvent = true;
       el.addEventListener(event, handler);
 
       // Cleanup event listeners on destroy
-      this.on('destroy', () => {
+      step.on('destroy', () => {
         el.removeAttribute('data-button-event');
         el.removeEventListener(event, handler);
       });
@@ -86,11 +89,12 @@ export function bindButtonEvents(cfg, el) {
 /**
  * Add a click listener to the cancel link that cancels the tour
  * @param {HTMLElement} link The cancel link element
+ * @param {Step} step The step instance
  */
-export function bindCancelLink(link) {
+export function bindCancelLink(link, step) {
   link.addEventListener('click', (e) => {
     e.preventDefault();
-    this.cancel();
+    step.cancel();
   });
 }
 

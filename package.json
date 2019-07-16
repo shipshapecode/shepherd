@@ -48,6 +48,7 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
+    "auto-bind": "^2.1.0",
     "body-scroll-lock": "^2.6.3",
     "core-js": "^3.1.4",
     "element-matches": "^0.1.2",
