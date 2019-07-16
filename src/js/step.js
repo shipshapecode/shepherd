@@ -1,6 +1,8 @@
-import { isElement, isFunction, isUndefined } from './utils/type-check';
+import autoBind from 'auto-bind';
+
 import { Evented } from './evented.js';
-import { bindAdvance, bindButtonEvents, bindCancelLink, bindMethods } from './utils/bind.js';
+import { isElement, isFunction, isUndefined } from './utils/type-check';
+import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
 
 // Polyfills
@@ -106,23 +108,10 @@ export class Step extends Evented {
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
-    bindMethods.call(this, [
-      '_scrollTo',
-      '_setupElements',
-      '_show',
-      'cancel',
-      'complete',
-      'destroy',
-      'hide',
-      'isOpen',
-      'show'
-    ]);
+
+    autoBind(this);
+
     this._setOptions(options);
-    this.bindAdvance = bindAdvance.bind(this);
-    this.bindButtonEvents = bindButtonEvents.bind(this);
-    this.bindCancelLink = bindCancelLink.bind(this);
-    this.setupTooltip = setupTooltip.bind(this);
-    this.parseAttachTo = parseAttachTo.bind(this);
 
     return this;
   }
@@ -239,7 +228,7 @@ export class Step extends Evented {
           `<button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
         footer.appendChild(button);
-        this.bindButtonEvents(cfg, button);
+        bindButtonEvents(cfg, button, this);
       });
 
       content.appendChild(footer);
@@ -258,7 +247,7 @@ export class Step extends Evented {
       header.appendChild(link);
 
       element.classList.add('shepherd-has-cancel-link');
-      this.bindCancelLink(link);
+      bindCancelLink(link, this);
     }
   }
 
@@ -396,7 +385,7 @@ export class Step extends Evented {
    * @private
    */
   _scrollTo(scrollToOptions) {
-    const { element } = this.parseAttachTo();
+    const { element } = parseAttachTo(this);
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -438,10 +427,10 @@ export class Step extends Evented {
     this._addKeyDownHandler(this.el);
 
     if (this.options.advanceOn) {
-      this.bindAdvance();
+      bindAdvance(this);
     }
 
-    this.setupTooltip();
+    setupTooltip(this);
   }
 
   /**
