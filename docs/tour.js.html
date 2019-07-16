@@ -113,8 +113,6 @@ import { Step } from './step.js';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
-import { getElementForStep } from './utils/dom';
-import { toggleShepherdModalClass } from './utils/modal';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -319,11 +317,6 @@ export class Tour extends Evented {
     }
   }
 
-  beforeShowStep(step) {
-    this.modal.setupForStep(step);
-    this._styleTargetElementForStep(step);
-  }
-
   /**
    * Show a specific step in the tour
    * @param {Number|String} key The key to look up the step by
@@ -420,31 +413,6 @@ export class Tour extends Evented {
     stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
 
     return new Step(this, stepOptions);
-  }
-
-  /**
-   * Modulates the styles of the passed step's target element, based on the step's options and
-   * the tour's `modal` option, to visually emphasize the element
-   *
-   * @param step The step object that attaches to the element
-   * @private
-   */
-  _styleTargetElementForStep(step) {
-    const targetElement = getElementForStep(step);
-
-    if (!targetElement) {
-      return;
-    }
-
-    toggleShepherdModalClass(targetElement);
-
-    if (step.options.highlightClass) {
-      targetElement.classList.add(step.options.highlightClass);
-    }
-
-    if (step.options.canClickTarget === false) {
-      targetElement.style.pointerEvents = 'none';
-    }
   }
 
   /**

@@ -1,3 +1,5 @@
+import autoBind from 'auto-bind';
+
 import {
   getModalMaskOpening,
   createModalOverlay,
@@ -12,6 +14,8 @@ export class Modal {
   constructor(options) {
     this.createModalOverlay();
     this.options = options;
+
+    autoBind(this);
 
     return this;
   }
@@ -62,7 +66,7 @@ export class Modal {
 
   /**
    * If modal is enabled, setup the svg mask opening and modal overlay for the step
-   * @param step
+   * @param {Step} step The step instance
    */
   setupForStep(step) {
     if (this.options.useModalOverlay) {

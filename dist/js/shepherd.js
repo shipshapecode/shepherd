@@ -6880,6 +6880,302 @@
 	});
 	var smoothscroll_1 = smoothscroll.polyfill;
 
+	var svgNS = 'http://www.w3.org/2000/svg';
+	var elementIds = {
+	  modalOverlay: 'shepherdModalOverlayContainer',
+	  modalOverlayMask: 'shepherdModalMask',
+	  modalOverlayMaskRect: 'shepherdModalMaskRect',
+	  modalOverlayMaskOpening: 'shepherdModalMaskOpening'
+	};
+	var classNames = {
+	  isVisible: 'shepherd-modal-is-visible',
+	  modalTarget: 'shepherd-modal-target'
+	};
+	/**
+	 * <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
+	 */
+
+	function _createModalContainer() {
+	  var element = document.createElementNS(svgNS, 'svg');
+	  element.setAttributeNS(null, 'id', elementIds.modalOverlay);
+	  return element;
+	}
+	/**
+	 * <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%">
+	 */
+
+
+	function _createMaskContainer() {
+	  var element = document.createElementNS(svgNS, 'mask');
+
+	  _setAttributes(element, {
+	    height: '100%',
+	    id: elementIds.modalOverlayMask,
+	    width: '100%',
+	    x: '0',
+	    y: '0'
+	  });
+
+	  return element;
+	}
+	/**
+	 *  <rect id="modalOverlayMaskRect" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
+	 */
+
+
+	function _createMaskRect() {
+	  var element = document.createElementNS(svgNS, 'rect');
+
+	  _setAttributes(element, {
+	    fill: '#FFFFFF',
+	    height: '100%',
+	    id: elementIds.modalOverlayMaskRect,
+	    width: '100%',
+	    x: '0',
+	    y: '0'
+	  });
+
+	  return element;
+	}
+	/**
+	 * <rect id="shepherdModalMaskOpening" fill="#000000"/>
+	 */
+
+
+	function _createMaskOpening() {
+	  var element = document.createElementNS(svgNS, 'rect');
+
+	  _setAttributes(element, {
+	    fill: '#000000',
+	    id: elementIds.modalOverlayMaskOpening
+	  });
+
+	  return element;
+	}
+	/**
+	 * <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
+	 */
+
+
+	function _createMaskConsumer() {
+	  var element = document.createElementNS(svgNS, 'rect');
+
+	  _setAttributes(element, {
+	    height: '100%',
+	    width: '100%',
+	    x: '0',
+	    y: '0'
+	  });
+
+	  element.setAttribute('mask', "url(#".concat(elementIds.modalOverlayMask, ")"));
+	  return element;
+	}
+	/**
+	 * Generates an SVG with the following structure:
+	 * ```html
+	 *  <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	 <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
+	 <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
+	 <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
+	 <rect id="shepherdModalMaskOpening"/>
+	 </mask>
+	 </defs>
+	 <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
+	 </svg>
+	 * ```
+	 */
+
+
+	function createModalOverlay() {
+	  var containerElement = _createModalContainer();
+
+	  var defsElement = document.createElementNS(svgNS, 'defs');
+
+	  var maskContainer = _createMaskContainer();
+
+	  var maskRect = _createMaskRect();
+
+	  var maskOpening = _createMaskOpening();
+
+	  var maskConsumer = _createMaskConsumer();
+
+	  maskContainer.appendChild(maskRect);
+	  maskContainer.appendChild(maskOpening);
+	  defsElement.appendChild(maskContainer);
+	  containerElement.appendChild(defsElement);
+	  containerElement.appendChild(maskConsumer);
+	  return containerElement;
+	}
+	/**
+	 * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
+	 * @param {HTMLElement} targetElement The element the opening will expose
+	 * @param {SVGElement} openingElement The svg mask for the opening
+	 * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+	 */
+
+
+	function positionModalOpening(targetElement, openingElement) {
+	  var modalOverlayOpeningPadding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+	  if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
+	    var _targetElement$getBou = targetElement.getBoundingClientRect(),
+	        x = _targetElement$getBou.x,
+	        y = _targetElement$getBou.y,
+	        width = _targetElement$getBou.width,
+	        height = _targetElement$getBou.height,
+	        left = _targetElement$getBou.left,
+	        top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+
+
+	    _setAttributes(openingElement, {
+	      x: (x || left) - modalOverlayOpeningPadding,
+	      y: (y || top) - modalOverlayOpeningPadding,
+	      width: width + modalOverlayOpeningPadding * 2,
+	      height: height + modalOverlayOpeningPadding * 2
+	    });
+	  }
+	}
+
+	function closeModalOpening(openingElement) {
+	  if (openingElement && openingElement instanceof SVGElement) {
+	    _setAttributes(openingElement, {
+	      height: '0',
+	      x: '0',
+	      y: '0',
+	      width: '0'
+	    });
+	  }
+	}
+
+	function getModalMaskOpening(modalElement) {
+	  return modalElement.querySelector("#".concat(elementIds.modalOverlayMaskOpening));
+	}
+
+	function preventModalBodyTouch(event) {
+	  event.preventDefault();
+	}
+
+	function preventModalOverlayTouch(event) {
+	  event.stopPropagation();
+	}
+	/**
+	 * Remove any leftover modal target classes and add the modal target class to the currentElement
+	 * @param {HTMLElement} currentElement The element for the current step
+	 */
+
+
+	function toggleShepherdModalClass(currentElement) {
+	  var shepherdModal = document.querySelector("".concat(classNames.modalTarget));
+
+	  if (shepherdModal) {
+	    shepherdModal.classList.remove(classNames.modalTarget);
+	  }
+
+	  currentElement.classList.add(classNames.modalTarget);
+	}
+	/**
+	 * Set multiple attributes on an element, via a hash
+	 * @param {HTMLElement|SVGElement} el The element to set the attributes on
+	 * @param {Object} attrs A hash of key value pairs for attributes to set
+	 * @private
+	 */
+
+
+	function _setAttributes(el, attrs) {
+	  Object.keys(attrs).forEach(function (key) {
+	    el.setAttribute(key, attrs[key]);
+	  });
+	}
+
+	/**
+	 * Get the element from an option object
+	 *
+	 * @method getElementFromObject
+	 * @param Object attachTo
+	 * @returns {Element}
+	 * @private
+	 */
+
+
+	function getElementFromObject(attachTo) {
+	  var op = attachTo.element;
+
+	  if (op instanceof HTMLElement) {
+	    return op;
+	  }
+
+	  return document.querySelector(op);
+	}
+	/**
+	 * Return the element for a step
+	 *
+	 * @method getElementForStep
+	 * @param step step the step to get an element for
+	 * @returns {Element} the element for this step
+	 * @private
+	 */
+
+
+	function getElementForStep(step) {
+	  var attachTo = step.options.attachTo;
+
+	  if (!attachTo) {
+	    return null;
+	  }
+
+	  var type = _typeof(attachTo);
+
+	  var element;
+
+	  if (type === 'string') {
+	    element = getElementFromString(attachTo);
+	  } else if (type === 'object') {
+	    element = getElementFromObject(attachTo);
+	  } else {
+	    /* istanbul ignore next: cannot test undefined attachTo, but it does work! */
+	    element = null;
+	  }
+
+	  return element;
+	}
+	/**
+	 * Get the element from an option string
+	 *
+	 * @method getElementFromString
+	 * @param element the string in the step configuration
+	 * @returns {Element} the element from the string
+	 * @private
+	 */
+
+
+	function getElementFromString(element) {
+	  var _element$split = element.split(' '),
+	      _element$split2 = _slicedToArray(_element$split, 1),
+	      selector = _element$split2[0];
+
+	  return document.querySelector(selector);
+	}
+
+	function addStepEventListeners() {
+	  if (typeof this._onScreenChange === 'function') {
+	    window.removeEventListener('resize', this._onScreenChange, false);
+	    window.removeEventListener('scroll', this._onScreenChange, true);
+	  }
+
+	  window.addEventListener('resize', this._onScreenChange, false);
+	  window.addEventListener('scroll', this._onScreenChange, true);
+	  var overlay = document.querySelector("#".concat(elementIds.modalOverlay)); // Prevents window from moving on touch.
+
+	  window.addEventListener('touchmove', preventModalBodyTouch, {
+	    passive: false
+	  }); // Allows content to move on touch.
+
+	  if (overlay) {
+	    overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
+	  }
+	}
+
 	smoothscroll.polyfill();
 	/**
 	 * Creates incremented ID for each newly created step
@@ -7359,7 +7655,10 @@
 	    value: function _show() {
 	      var _this6 = this;
 
-	      this.tour.beforeShowStep(this);
+	      this.tour.modal.setupForStep(this);
+
+	      this._styleTargetElementForStep(this);
+
 	      this.trigger('before-show');
 
 	      if (!this.el) {
@@ -7378,6 +7677,33 @@
 	      this.tooltip.show();
 	      this.trigger('show');
 	      this.el.focus();
+	    }
+	    /**
+	     * Modulates the styles of the passed step's target element, based on the step's options and
+	     * the tour's `modal` option, to visually emphasize the element
+	     *
+	     * @param step The step object that attaches to the element
+	     * @private
+	     */
+
+	  }, {
+	    key: "_styleTargetElementForStep",
+	    value: function _styleTargetElementForStep(step) {
+	      var targetElement = getElementForStep(step);
+
+	      if (!targetElement) {
+	        return;
+	      }
+
+	      toggleShepherdModalClass(targetElement);
+
+	      if (step.options.highlightClass) {
+	        targetElement.classList.add(step.options.highlightClass);
+	      }
+
+	      if (step.options.canClickTarget === false) {
+	        targetElement.style.pointerEvents = 'none';
+	      }
 	    }
 	    /**
 	     * When a step is hidden, remove the highlightClass and 'shepherd-enabled'
@@ -7682,302 +8008,6 @@
 	  }
 	};
 
-	var svgNS = 'http://www.w3.org/2000/svg';
-	var elementIds = {
-	  modalOverlay: 'shepherdModalOverlayContainer',
-	  modalOverlayMask: 'shepherdModalMask',
-	  modalOverlayMaskRect: 'shepherdModalMaskRect',
-	  modalOverlayMaskOpening: 'shepherdModalMaskOpening'
-	};
-	var classNames = {
-	  isVisible: 'shepherd-modal-is-visible',
-	  modalTarget: 'shepherd-modal-target'
-	};
-	/**
-	 * <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
-	 */
-
-	function _createModalContainer() {
-	  var element = document.createElementNS(svgNS, 'svg');
-	  element.setAttributeNS(null, 'id', elementIds.modalOverlay);
-	  return element;
-	}
-	/**
-	 * <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%">
-	 */
-
-
-	function _createMaskContainer() {
-	  var element = document.createElementNS(svgNS, 'mask');
-
-	  _setAttributes(element, {
-	    height: '100%',
-	    id: elementIds.modalOverlayMask,
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  return element;
-	}
-	/**
-	 *  <rect id="modalOverlayMaskRect" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
-	 */
-
-
-	function _createMaskRect() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    fill: '#FFFFFF',
-	    height: '100%',
-	    id: elementIds.modalOverlayMaskRect,
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  return element;
-	}
-	/**
-	 * <rect id="shepherdModalMaskOpening" fill="#000000"/>
-	 */
-
-
-	function _createMaskOpening() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    fill: '#000000',
-	    id: elementIds.modalOverlayMaskOpening
-	  });
-
-	  return element;
-	}
-	/**
-	 * <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
-	 */
-
-
-	function _createMaskConsumer() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    height: '100%',
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  element.setAttribute('mask', "url(#".concat(elementIds.modalOverlayMask, ")"));
-	  return element;
-	}
-	/**
-	 * Generates an SVG with the following structure:
-	 * ```html
-	 *  <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
-	 <defs>
-	 <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
-	 <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
-	 <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
-	 <rect id="shepherdModalMaskOpening"/>
-	 </mask>
-	 </defs>
-	 <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
-	 </svg>
-	 * ```
-	 */
-
-
-	function createModalOverlay() {
-	  var containerElement = _createModalContainer();
-
-	  var defsElement = document.createElementNS(svgNS, 'defs');
-
-	  var maskContainer = _createMaskContainer();
-
-	  var maskRect = _createMaskRect();
-
-	  var maskOpening = _createMaskOpening();
-
-	  var maskConsumer = _createMaskConsumer();
-
-	  maskContainer.appendChild(maskRect);
-	  maskContainer.appendChild(maskOpening);
-	  defsElement.appendChild(maskContainer);
-	  containerElement.appendChild(defsElement);
-	  containerElement.appendChild(maskConsumer);
-	  return containerElement;
-	}
-	/**
-	 * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
-	 * @param {HTMLElement} targetElement The element the opening will expose
-	 * @param {SVGElement} openingElement The svg mask for the opening
-	 * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-	 */
-
-
-	function positionModalOpening(targetElement, openingElement) {
-	  var modalOverlayOpeningPadding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-	  if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
-	    var _targetElement$getBou = targetElement.getBoundingClientRect(),
-	        x = _targetElement$getBou.x,
-	        y = _targetElement$getBou.y,
-	        width = _targetElement$getBou.width,
-	        height = _targetElement$getBou.height,
-	        left = _targetElement$getBou.left,
-	        top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-
-
-	    _setAttributes(openingElement, {
-	      x: (x || left) - modalOverlayOpeningPadding,
-	      y: (y || top) - modalOverlayOpeningPadding,
-	      width: width + modalOverlayOpeningPadding * 2,
-	      height: height + modalOverlayOpeningPadding * 2
-	    });
-	  }
-	}
-
-	function closeModalOpening(openingElement) {
-	  if (openingElement && openingElement instanceof SVGElement) {
-	    _setAttributes(openingElement, {
-	      height: '0',
-	      x: '0',
-	      y: '0',
-	      width: '0'
-	    });
-	  }
-	}
-
-	function getModalMaskOpening(modalElement) {
-	  return modalElement.querySelector("#".concat(elementIds.modalOverlayMaskOpening));
-	}
-
-	function preventModalBodyTouch(event) {
-	  event.preventDefault();
-	}
-
-	function preventModalOverlayTouch(event) {
-	  event.stopPropagation();
-	}
-	/**
-	 * Remove any leftover modal target classes and add the modal target class to the currentElement
-	 * @param {HTMLElement} currentElement The element for the current step
-	 */
-
-
-	function toggleShepherdModalClass(currentElement) {
-	  var shepherdModal = document.querySelector("".concat(classNames.modalTarget));
-
-	  if (shepherdModal) {
-	    shepherdModal.classList.remove(classNames.modalTarget);
-	  }
-
-	  currentElement.classList.add(classNames.modalTarget);
-	}
-	/**
-	 * Set multiple attributes on an element, via a hash
-	 * @param {HTMLElement|SVGElement} el The element to set the attributes on
-	 * @param {Object} attrs A hash of key value pairs for attributes to set
-	 * @private
-	 */
-
-
-	function _setAttributes(el, attrs) {
-	  Object.keys(attrs).forEach(function (key) {
-	    el.setAttribute(key, attrs[key]);
-	  });
-	}
-
-	/**
-	 * Get the element from an option object
-	 *
-	 * @method getElementFromObject
-	 * @param Object attachTo
-	 * @returns {Element}
-	 * @private
-	 */
-
-
-	function getElementFromObject(attachTo) {
-	  var op = attachTo.element;
-
-	  if (op instanceof HTMLElement) {
-	    return op;
-	  }
-
-	  return document.querySelector(op);
-	}
-	/**
-	 * Return the element for a step
-	 *
-	 * @method getElementForStep
-	 * @param step step the step to get an element for
-	 * @returns {Element} the element for this step
-	 * @private
-	 */
-
-
-	function getElementForStep(step) {
-	  var attachTo = step.options.attachTo;
-
-	  if (!attachTo) {
-	    return null;
-	  }
-
-	  var type = _typeof(attachTo);
-
-	  var element;
-
-	  if (type === 'string') {
-	    element = getElementFromString(attachTo);
-	  } else if (type === 'object') {
-	    element = getElementFromObject(attachTo);
-	  } else {
-	    /* istanbul ignore next: cannot test undefined attachTo, but it does work! */
-	    element = null;
-	  }
-
-	  return element;
-	}
-	/**
-	 * Get the element from an option string
-	 *
-	 * @method getElementFromString
-	 * @param element the string in the step configuration
-	 * @returns {Element} the element from the string
-	 * @private
-	 */
-
-
-	function getElementFromString(element) {
-	  var _element$split = element.split(' '),
-	      _element$split2 = _slicedToArray(_element$split, 1),
-	      selector = _element$split2[0];
-
-	  return document.querySelector(selector);
-	}
-
-	function addStepEventListeners() {
-	  if (typeof this._onScreenChange === 'function') {
-	    window.removeEventListener('resize', this._onScreenChange, false);
-	    window.removeEventListener('scroll', this._onScreenChange, true);
-	  }
-
-	  window.addEventListener('resize', this._onScreenChange, false);
-	  window.addEventListener('scroll', this._onScreenChange, true);
-	  var overlay = document.querySelector("#".concat(elementIds.modalOverlay)); // Prevents window from moving on touch.
-
-	  window.addEventListener('touchmove', preventModalBodyTouch, {
-	    passive: false
-	  }); // Allows content to move on touch.
-
-	  if (overlay) {
-	    overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
-	  }
-	}
-
 	var Modal =
 	/*#__PURE__*/
 	function () {
@@ -7986,6 +8016,7 @@
 
 	    this.createModalOverlay();
 	    this.options = options;
+	    autoBind(this);
 	    return this;
 	  }
 	  /**
@@ -8039,7 +8070,7 @@
 	    }
 	    /**
 	     * If modal is enabled, setup the svg mask opening and modal overlay for the step
-	     * @param step
+	     * @param {Step} step The step instance
 	     */
 
 	  }, {
@@ -8375,13 +8406,6 @@
 	        this.steps.length ? this.show(0) : this.cancel();
 	      }
 	    }
-	  }, {
-	    key: "beforeShowStep",
-	    value: function beforeShowStep(step) {
-	      this.modal.setupForStep(step);
-
-	      this._styleTargetElementForStep(step);
-	    }
 	    /**
 	     * Show a specific step in the tour
 	     * @param {Number|String} key The key to look up the step by
@@ -8497,33 +8521,6 @@
 
 	      stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
 	      return new Step(this, stepOptions);
-	    }
-	    /**
-	     * Modulates the styles of the passed step's target element, based on the step's options and
-	     * the tour's `modal` option, to visually emphasize the element
-	     *
-	     * @param step The step object that attaches to the element
-	     * @private
-	     */
-
-	  }, {
-	    key: "_styleTargetElementForStep",
-	    value: function _styleTargetElementForStep(step) {
-	      var targetElement = getElementForStep(step);
-
-	      if (!targetElement) {
-	        return;
-	      }
-
-	      toggleShepherdModalClass(targetElement);
-
-	      if (step.options.highlightClass) {
-	        targetElement.classList.add(step.options.highlightClass);
-	      }
-
-	      if (step.options.canClickTarget === false) {
-	        targetElement.style.pointerEvents = 'none';
-	      }
 	    }
 	    /**
 	     * Called when `showOn` evaluates to false, to skip the step
