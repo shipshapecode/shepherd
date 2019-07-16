@@ -1,5 +1,35 @@
 # Changelog
 
+## [v4.0.0-beta.5](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.5) (2019-07-16)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.4...v4.0.0-beta.5)
+
+**Breaking changes:**
+
+- Use autoBind, pass context rather than manually binding [\#440](https://github.com/shipshapecode/shepherd/pull/440) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.4](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.4) (2019-07-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.3...v4.0.0-beta.4)
+
+**Fixed bugs:**
+
+- Polyfill all `usage` with core-js [\#439](https://github.com/shipshapecode/shepherd/pull/439) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.3](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.3) (2019-07-15)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.2...v4.0.0-beta.3)
+
+**Implemented enhancements:**
+
+- Remove drop util [\#436](https://github.com/shipshapecode/shepherd/pull/436) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Incorrect path to typings files in package.json [\#435](https://github.com/shipshapecode/shepherd/issues/435)
+- Start fixing IE11 support [\#438](https://github.com/shipshapecode/shepherd/pull/438) ([rwwagner90](https://github.com/rwwagner90))
+- fix for incorrect types path in package.json [\#434](https://github.com/shipshapecode/shepherd/pull/434) ([cmcnicholas](https://github.com/cmcnicholas))
+
 ## [v4.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.2) (2019-07-13)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.1...v4.0.0-beta.2)
