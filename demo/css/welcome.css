@@ -5,13 +5,13 @@ body {
 body {
   background-color: rgba(236, 243, 246, 50);
   color: #5F6976;
-  font-family: "proxima-nova", "Helvetica Neue", sans-serif;
+  font-family: "Pier Sans";
   margin: 0;
 }
 
 .button {
-  border: 2px solid #ffffff;
-  color: #ffffff;
+  border: 2px solid #5F6976;
+  color: #5F6976;
   cursor: pointer;
   display: inline-block;
   font-size: 0.8em;
@@ -22,6 +22,11 @@ body {
   text-decoration: none;
   text-transform: uppercase;
   width: 140px;
+}
+
+.button:hover {
+  background-color: #5F6976;
+  color: #ffffff;
 }
 
 @media (max-width: 568px) {
