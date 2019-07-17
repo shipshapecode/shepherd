@@ -20,7 +20,7 @@
     background: darken($shepherd-theme-primary, 10);
   }
 
-  &.shepherd-button-secondary {
+  &.#{$namespace-prefix}-button-secondary {
     background: $shepherd-theme-secondary;
     color: map_get($shepherd-theme-text-colors, secondary);
 

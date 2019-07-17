@@ -1,10 +1,11 @@
 import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
+import { SHEPHERD_CLASSES } from '../constants';
 import { missingTippy } from './error-messages';
 
 // popperOption modifier, to add `shepherd` class to both default and centeredStyle poppers
-const addShepherdClass = _createClassModifier('shepherd');
-const addHasTitleClass = _createClassModifier('shepherd-has-title');
+const addShepherdClass = _createClassModifier(SHEPHERD_CLASSES.SHEPHERD);
+const addHasTitleClass = _createClassModifier(SHEPHERD_CLASSES.SHEPHERD_HAS_TITLE);
 
 const centeredStylePopperModifier = {
   computeStyle: {
@@ -91,7 +92,7 @@ export function setupTooltip(step) {
 
   step.target = attachToOpts.element || document.body;
 
-  step.el.classList.add('shepherd-element');
+  step.el.classList.add(SHEPHERD_CLASSES.SHEPHERD_ELEMENT);
 }
 
 /**

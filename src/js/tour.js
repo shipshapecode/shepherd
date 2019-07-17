@@ -5,6 +5,7 @@ import tippy from 'tippy.js';
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';
+import { SHEPHERD_ATTRIBUTES, SHEPHERD_CLASSES } from './constants.js';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
@@ -362,8 +363,8 @@ export class Tour extends Evented {
    * @private
    */
   _addBodyAttrs() {
-    document.body.setAttribute('data-shepherd-active-tour', this.id);
-    document.body.classList.add('shepherd-active');
+    document.body.setAttribute(SHEPHERD_ATTRIBUTES.DATA_SHEPHERD_ACTIVE_TOUR, this.id);
+    document.body.classList.add(SHEPHERD_CLASSES.SHEPHERD_ACTIVE);
   }
 
   /**
@@ -372,8 +373,8 @@ export class Tour extends Evented {
    * @private
    */
   _removeBodyAttrs() {
-    document.body.removeAttribute('data-shepherd-active-tour');
-    document.body.classList.remove('shepherd-active');
+    document.body.removeAttribute(SHEPHERD_ATTRIBUTES.DATA_SHEPHERD_ACTIVE_TOUR);
+    document.body.classList.remove(SHEPHERD_CLASSES.SHEPHERD_ACTIVE);
   }
 
 }

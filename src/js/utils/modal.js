@@ -1,3 +1,5 @@
+import { SHEPHERD_CLASSES } from '../constants';
+
 const svgNS = 'http://www.w3.org/2000/svg';
 
 const elementIds = {
@@ -8,8 +10,8 @@ const elementIds = {
 };
 
 const classNames = {
-  isVisible: 'shepherd-modal-is-visible',
-  modalTarget: 'shepherd-modal-target'
+  isVisible: SHEPHERD_CLASSES.SHEPHERD_MODAL_iS_VISIBLE,
+  modalTarget: SHEPHERD_CLASSES.SHEPHERD_MODAL_TARGET
 };
 
 /**

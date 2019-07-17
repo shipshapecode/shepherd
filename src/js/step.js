@@ -1,6 +1,7 @@
 import autoBind from 'auto-bind';
 
 import { Evented } from './evented.js';
+import { SHEPHERD_ATTRIBUTES, SHEPHERD_CLASSES } from './constants.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
@@ -174,7 +175,7 @@ export class Step extends Evented {
 
     this.trigger('before-hide');
 
-    document.body.removeAttribute('data-shepherd-step');
+    document.body.removeAttribute(SHEPHERD_ATTRIBUTES.DATA_SHEPHERD_STEP);
 
     if (this.target) {
       this._updateStepTargetOnHide();
@@ -223,11 +224,11 @@ export class Step extends Evented {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
 
-      footer.classList.add('shepherd-footer');
+      footer.classList.add(SHEPHERD_CLASSES.SHEPHERD_FOOTER);
 
       this.options.buttons.map((cfg) => {
         const button = createFromHTML(
-          `<button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
+          `<button class="${SHEPHERD_CLASSES.SHEPHERD_BUTTON} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
         footer.appendChild(button);
         bindButtonEvents(cfg, button, this);
@@ -245,10 +246,10 @@ export class Step extends Evented {
    */
   _addCancelLink(element, header) {
     if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      const link = createFromHTML(`<a href class="${SHEPHERD_CLASSES.SHEPHERD_CANCEL_LINK}"></a>`);
       header.appendChild(link);
 
-      element.classList.add('shepherd-has-cancel-link');
+      element.classList.add(SHEPHERD_CLASSES.SHEPHERD_HAS_CANCEL_LINK);
       bindCancelLink(link, this);
     }
   }
@@ -263,7 +264,7 @@ export class Step extends Evented {
    */
   _addContent(content, descriptionId) {
     const textContainer = createFromHTML(
-      `<div class="shepherd-text"
+      `<div class="${SHEPHERD_CLASSES.SHEPHERD_TEXT}"
        id="${descriptionId}"
        ></div>`
     );
@@ -347,7 +348,7 @@ export class Step extends Evented {
     const labelId = `${this.id}-label`;
     const element = createFromHTML(
       `<div class="${classes}"
-       data-shepherd-step-id="${this.id}"
+       ${SHEPHERD_ATTRIBUTES.DATA_SHEPHERD_STEP_ID}="${this.id}"
        role="dialog"
        tabindex="0">`
     );
@@ -355,15 +356,15 @@ export class Step extends Evented {
 
     if (this.options.title) {
       const title = document.createElement('h3');
-      title.classList.add('shepherd-title');
+      title.classList.add(SHEPHERD_CLASSES.SHEPHERD_TITLE);
       title.innerHTML = `${this.options.title}`;
       title.id = labelId;
       element.setAttribute('aria-labeledby', labelId);
       header.appendChild(title);
     }
 
-    content.classList.add('shepherd-content');
-    header.classList.add('shepherd-header');
+    content.classList.add(SHEPHERD_CLASSES.SHEPHERD_CONTENT);
+    header.classList.add(SHEPHERD_CLASSES.SHEPHERD_HEADER);
     element.appendChild(content);
     content.appendChild(header);
 
@@ -450,9 +451,9 @@ export class Step extends Evented {
       this._setupElements();
     }
 
-    this.target.classList.add('shepherd-enabled', 'shepherd-target');
+    this.target.classList.add(SHEPHERD_CLASSES.SHEPHERD_ENABLED, SHEPHERD_CLASSES.SHEPHERD_TARGET);
 
-    document.body.setAttribute('data-shepherd-step', this.id);
+    document.body.setAttribute(SHEPHERD_ATTRIBUTES.DATA_SHEPHERD_STEP, this.id);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -500,6 +501,6 @@ export class Step extends Evented {
       this.target.classList.remove(this.options.highlightClass);
     }
 
-    this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+    this.target.classList.remove(SHEPHERD_CLASSES.SHEPHERD_ENABLED, SHEPHERD_CLASSES.SHEPHERD_TARGET);
   }
 }

@@ -1,5 +1,8 @@
 @import 'functions';
 
+$namespace-prefix: 'shepherd' !default;
+$tippy-namespace-prefix: 'tippy' !default;
+
 // Theme colors
 $shepherd-theme-primary: #3288e6 !default;
 $shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 40), 70) !default;

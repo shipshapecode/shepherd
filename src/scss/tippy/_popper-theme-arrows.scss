@@ -4,12 +4,12 @@
   &[x-placement^='top'] {
     margin-bottom: $margin;
 
-    .tippy-arrow {
+    .#{$tippy-namespace-prefix}-arrow {
       border-top-color: $text-bg;
     }
 
-    &.shepherd-has-title {
-      .tippy-arrow {
+    &.#{$namespace-prefix}-has-title {
+      .#{$tippy-namespace-prefix}-arrow {
         border-top-color: $header-bg;
       }
     }
@@ -18,12 +18,12 @@
   &[x-placement^='bottom'] {
     margin-top: $margin;
 
-    .tippy-arrow {
+    .#{$tippy-namespace-prefix}-arrow {
       border-bottom-color: $text-bg;
     }
 
-    &.shepherd-has-title {
-      .tippy-arrow {
+    &.#{$namespace-prefix}-has-title {
+      .#{$tippy-namespace-prefix}-arrow {
         border-bottom-color: $header-bg;
       }
     }
@@ -32,12 +32,12 @@
   &[x-placement^='left'] {
     margin-right: $margin;
 
-    .tippy-arrow {
+    .#{$tippy-namespace-prefix}-arrow {
       border-left-color: $text-bg;
     }
 
-    &.shepherd-has-title {
-      .tippy-arrow {
+    &.#{$namespace-prefix}-has-title {
+      .#{$tippy-namespace-prefix}-arrow {
         border-left-color: $header-bg;
       }
     }
@@ -46,12 +46,12 @@
   &[x-placement^='right'] {
     margin-left: $margin;
 
-    .tippy-arrow {
+    .#{$tippy-namespace-prefix}-arrow {
       border-right-color: $text-bg;
     }
 
-    &.shepherd-has-title {
-      .tippy-arrow {
+    &.#{$namespace-prefix}-has-title {
+      .#{$tippy-namespace-prefix}-arrow {
         border-right-color: $header-bg;
       }
     }

@@ -20,6 +20,7 @@ const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
+const NAMESPACE_PREFIX = process.env.NAMESPACE || '';
 
 const sassOptions = {
   output(styles, styleNodes) {
@@ -57,6 +58,9 @@ const plugins = [
   eslint(),
   babel({
     exclude: /node_modules\/(?!(auto-bind|body-scroll-lock|tippy.js)\/).*/
+  }),
+  replace({
+    __SH_NAMESPACE_PREFIX__: NAMESPACE_PREFIX,
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)

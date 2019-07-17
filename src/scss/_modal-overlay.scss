@@ -17,7 +17,7 @@
   }
 }
 
-.shepherd-modal.shepherd-enabled {
+.#{$namespace-prefix}-modal.#{$namespace-prefix}-enabled {
   position: relative;
   z-index: 9998;
 }
@@ -26,16 +26,16 @@
  * Block clicks except for those that would occur
  * on Shepherd elements or on the target element.
 */
-.shepherd-active {
-  &.shepherd-modal-is-visible {
-    :not(.shepherd-target) {
+.#{$namespace-prefix}-active {
+  &.#{$namespace-prefix}-modal-is-visible {
+    :not(.#{$namespace-prefix}-target) {
       pointer-events: none;
     }
 
-    .shepherd-button,
-    .shepherd-cancel-link,
-    .shepherd-element,
-    .shepherd-target {
+    .#{$namespace-prefix}-button,
+    .#{$namespace-prefix}-cancel-link,
+    .#{$namespace-prefix}-element,
+    .#{$namespace-prefix}-target {
       pointer-events: auto;
 
       * {
