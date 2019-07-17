@@ -77,7 +77,7 @@
       Just create a \`Tour\` instance, and add as many steps as you want.`,
       attachTo: {
         element: '.hero-example',
-        on: 'bottom'
+        on: 'right'
       },
       buttons: [
         {
@@ -96,7 +96,7 @@
       text: `Your tour steps can target and attach to elements in DOM (like this step).`,
       attachTo: {
         element: '.hero-example',
-        on: 'bottom'
+        on: 'left'
       },
       buttons: [
         {
