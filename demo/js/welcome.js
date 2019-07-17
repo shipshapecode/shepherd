@@ -13,9 +13,11 @@
       defaultStepOptions: {
         classes: 'class-1 class-2',
         scrollTo: { behavior: 'smooth', block: 'center' },
-        showCancelLink: true
+        showCancelLink: true,
+        tippyOptions: {
+          maxWidth: 500
+        }
       },
-      disableScroll: true,
       useModalOverlay: true
     });
 
@@ -142,7 +144,8 @@
           action: shepherd.next,
           text: 'Done'
         }
-      ]
+      ],
+      modalOverlayOpeningPadding: '10'
     });
 
     return shepherd;
