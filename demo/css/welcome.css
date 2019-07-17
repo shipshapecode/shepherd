@@ -3,8 +3,8 @@ body {
 }
 
 body {
-  background-color: #62c462;
-  background-image: linear-gradient(-45deg, #62c462, #75beaa);
+  background-color: rgba(236, 243, 246, 50);
+  color: #5F6976;
   font-family: "proxima-nova", "Helvetica Neue", sans-serif;
   margin: 0;
 }
@@ -24,11 +24,6 @@ body {
   width: 140px;
 }
 
-.button.dark {
-  background: #ffffff;
-  color: #75beaa;
-}
-
 @media (max-width: 568px) {
   .button {
     display: block;
@@ -38,8 +33,6 @@ body {
 
 .hero-outer {
   -webkit-box-sizing: border-box;
-  background-color: #62c462;
-  background-image: linear-gradient(-45deg, #62c462, #75beaa);
   box-sizing: border-box;
   display: table;
   height: 100%;
@@ -71,21 +64,28 @@ body {
 
 .hero-outer .hero-inner h1,
 .hero-outer .hero-inner h2,
+.hero-outer .hero-inner h3 {
+  color: #00213B;
+}
+
+.hero-outer .hero-inner h1,
+.hero-outer .hero-inner h2,
 .hero-outer .hero-inner h3,
 .hero-outer .hero-inner p {
-  color: #ffffff;
   font-weight: normal;
   line-height: 1;
   margin: 0 0 20px;
 }
 
+.hero-outer .hero-inner h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
 .hero-outer .hero-inner h3 {
   font-size: 1.3em;
   padding-top: 13px;
-}
-
-.hero-outer .hero-inner h1 {
-  padding-top: 10px;
 }
 
 .hero-outer .hero-followup {
@@ -98,12 +98,13 @@ pre {
 }
 
 .shepherd-element .shepherd-content footer .shepherd-button {
-  background: #55a892;
+  background: #00213B;
   color: rgba(255, 255, 255, 0.75);
 }
 
 .shepherd-element .shepherd-content footer .shepherd-button:hover {
-  background: #448675;
+  background: #ffffff;
+  color: #00213B;
 }
 
 .shepherd-element .shepherd-content footer .shepherd-button.shepherd-button-secondary {
@@ -117,5 +118,6 @@ pre {
 }
 
 .tippy-popper.shepherd .shepherd-element .shepherd-content .shepherd-text {
-  color: #336457;
+  color: #5F6976;
+  font-size: 1rem;
 }
