@@ -5,7 +5,7 @@ body {
 body {
   background-color: rgba(236, 243, 246, 50);
   color: #5F6976;
-  font-family: "Pier Sans";
+  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
   margin: 0;
 }
 
