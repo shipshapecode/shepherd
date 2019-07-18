@@ -42,6 +42,7 @@ jobs:
         - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
+      script: skip
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
       before_deploy: |
         function npm_dist_tag() {
@@ -67,6 +68,7 @@ jobs:
             npm dist-tag rm shepherd.js next || true
           fi
     - stage: github releases
+      script: skip
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
       before_deploy: |
         function gh_prerelease() {
