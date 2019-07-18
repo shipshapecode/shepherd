@@ -56,7 +56,7 @@ const plugins = [
   }),
   eslint(),
   babel({
-    exclude: /node_modules\/(?!(auto-bind)\/).*/,
+    exclude: 'node_modules/**',
     runtimeHelpers: true
   }),
   replace({
@@ -148,7 +148,7 @@ if (!process.env.DEVELOPMENT) {
         resolve(),
         commonjs(),
         babel({
-          exclude: /node_modules\/(?!(auto-bind)\/).*/,
+          exclude: 'node_modules/**',
           runtimeHelpers: true
         }),
         sass(sassOptions),

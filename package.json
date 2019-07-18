@@ -49,7 +49,6 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "@babel/runtime-corejs3": "^7.5.5",
-    "auto-bind": "^2.1.0",
     "body-scroll-lock": "^2.6.4",
     "element-matches": "^0.1.2",
     "smoothscroll-polyfill": "^0.4.4",
