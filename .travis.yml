@@ -42,7 +42,8 @@ jobs:
         - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
     - stage: npm release
-      script: skip
+      script:
+        - yarn build
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
       before_deploy: |
         function npm_dist_tag() {
@@ -68,7 +69,8 @@ jobs:
             npm dist-tag rm shepherd.js next || true
           fi
     - stage: github releases
-      script: skip
+      script:
+        - yarn build
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
       before_deploy: |
         function gh_prerelease() {
@@ -91,6 +93,7 @@ jobs:
           tags: true
     - stage: gh-pages release
       script:
+        - yarn build
         - yarn docs
       before_deploy:
         - git add -f --all dist/
@@ -103,5 +106,11 @@ jobs:
         keep-history: true
         on:
           branch: master
-      after_deploy:
-        - yarn clean
+
+stages:
+  - test
+  - name: npm release
+    if: ((tag =~ ^v) AND (branch = master))
+  - name: github releases
+    if: ((tag =~ ^v) AND (branch = master))
+  - gh-pages release
