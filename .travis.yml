@@ -19,8 +19,6 @@ addons:
 cache:
   yarn: true
   directories:
-    # cache dist so we do not need to `yarn build` for every stage
-    - ~/dist
     # we also need to cache folder with Cypress binary
     - ~/.cache
 
