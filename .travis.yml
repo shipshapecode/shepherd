@@ -108,7 +108,7 @@ jobs:
 stages:
   - test
   - name: npm-release
-    if: ((tag =~ ^v) AND (branch = master))
+    if: (tag =~ ^v)
   - name: github-releases
-    if: ((tag =~ ^v) AND (branch = master))
+    if: (tag =~ ^v)
   - gh-pages release
