@@ -1,11 +1,11 @@
-import autoBind from 'auto-bind';
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
+import bodyScrollLock from 'body-scroll-lock';
 import tippy from 'tippy.js';
 
 import { Evented } from './evented.js';
 import { Modal } from './modal.js';
 import { Step } from './step.js';
 import { SHEPHERD_ATTRIBUTES, SHEPHERD_CLASSES } from './constants.js';
+import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
@@ -248,7 +248,7 @@ export class Tour extends Evented {
     this.trigger('start');
 
     if (this.options.disableScroll) {
-      disableBodyScroll();
+      bodyScrollLock.disableBodyScroll();
     }
 
     this.currentStep = null;
@@ -276,7 +276,7 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.options.disableScroll) {
-      clearAllBodyScrollLocks();
+      bodyScrollLock.clearAllBodyScrollLocks();
     }
 
     this.modal.cleanup();

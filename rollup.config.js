@@ -57,7 +57,8 @@ const plugins = [
   }),
   eslint(),
   babel({
-    exclude: /node_modules\/(?!(auto-bind|body-scroll-lock|tippy.js)\/).*/
+    exclude: 'node_modules/**',
+    runtimeHelpers: true
   }),
   replace({
     __SH_NAMESPACE_PREFIX__: NAMESPACE_PREFIX,
@@ -151,7 +152,8 @@ if (!process.env.DEVELOPMENT) {
         resolve(),
         commonjs(),
         babel({
-          exclude: /node_modules\/(?!(auto-bind|body-scroll-lock|tippy.js)\/).*/
+          exclude: 'node_modules/**',
+          runtimeHelpers: true
         }),
         sass(sassOptions),
         css({ output: false }),

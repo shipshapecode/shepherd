@@ -1,14 +1,14 @@
 language: node_js
 node_js:
-- '10'
+  - '10'
 
 sudo: false
 dist: trusty
 
 env:
   global:
-  - secure: K5sRZBHXcHoYfpYEul1tcK2hOp9QMV/T8xmfj1q20AKzw/+ovbsp+Pdb+PbKFr5vP4eN0ISAeHU3nseMGD9tW6BI/Jf1wW4r7qvGch9eH5v1fpAn7Xxm4AqxusxNck7j4uuo720J5nqioZPUjY5ynlgF0iuGJKjx3YVP7t8W4HQ=
-  - secure: NbSFG5O6U/6gBMG42vNoRY7Vt0TrDCGunM6MAsTENoRSAN5JFJ1Ne5HfSmOV4hyT63rSTUbNT1zBmqHCfUpZFp+ynVTS3Fs6jv6qgZSZm6l3k5SW1ZGFbDUjxCWuX2lg6n6dV2LyLTnnONa/U/OAb4FkceW9MeKVNjPNv/uYdEA=
+    - secure: K5sRZBHXcHoYfpYEul1tcK2hOp9QMV/T8xmfj1q20AKzw/+ovbsp+Pdb+PbKFr5vP4eN0ISAeHU3nseMGD9tW6BI/Jf1wW4r7qvGch9eH5v1fpAn7Xxm4AqxusxNck7j4uuo720J5nqioZPUjY5ynlgF0iuGJKjx3YVP7t8W4HQ=
+    - secure: NbSFG5O6U/6gBMG42vNoRY7Vt0TrDCGunM6MAsTENoRSAN5JFJ1Ne5HfSmOV4hyT63rSTUbNT1zBmqHCfUpZFp+ynVTS3Fs6jv6qgZSZm6l3k5SW1ZGFbDUjxCWuX2lg6n6dV2LyLTnnONa/U/OAb4FkceW9MeKVNjPNv/uYdEA=
 
 addons:
   chrome: stable
@@ -39,7 +39,7 @@ jobs:
         - greenkeeper-lockfile-upload
         - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
-    - stage: npm release
+    - stage: npm-release
       script:
         - yarn build
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
@@ -66,7 +66,7 @@ jobs:
           if [ "$(npm_dist_tag)" == "latest" ]; then
             npm dist-tag rm shepherd.js next || true
           fi
-    - stage: github releases
+    - stage: github-releases
       script:
         - yarn build
       # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
@@ -89,7 +89,7 @@ jobs:
         prerelease: $(gh_prerelease)
         on:
           tags: true
-    - stage: gh-pages release
+    - stage: gh-pages-release
       script:
         - yarn build
         - yarn docs
@@ -104,3 +104,11 @@ jobs:
         keep-history: true
         on:
           branch: master
+
+stages:
+  - test
+  - name: npm-release
+    if: (tag =~ ^v)
+  - name: github-releases
+    if: (tag =~ ^v)
+  - gh-pages release

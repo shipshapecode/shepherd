@@ -1,16 +1,15 @@
-import autoBind from 'auto-bind';
-
 import { Evented } from './evented.js';
 import { SHEPHERD_ATTRIBUTES, SHEPHERD_CLASSES } from './constants.js';
+import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
+import { getElementForStep } from './utils/dom';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
+import { toggleShepherdModalClass } from './utils/modal';
 
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
-import { getElementForStep } from './utils/dom';
-import { toggleShepherdModalClass } from './utils/modal';
 
 smoothscroll.polyfill();
 
