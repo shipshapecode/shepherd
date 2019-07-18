@@ -19,14 +19,14 @@
     outline: none;
     padding: 0;
 
-    header {
+    .shepherd-header {
       @include pie-clearfix;
 
       align-items: center;
       border-top-left-radius: $shepherd-element-border-radius;
       border-top-right-radius: $shepherd-element-border-radius;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       line-height: 2em;
       padding: 0.75em 0.75em 0;
 
@@ -49,7 +49,6 @@
       .shepherd-cancel-link {
         color: lighten(map_get($shepherd-theme-text-colors, header), 70);
         font-size: 2em;
-        margin-left: auto;
         text-decoration: none;
         transition: color 0.5s ease;
 
@@ -109,7 +108,7 @@
 }
 
 .shepherd-has-title {
-  .shepherd-content header {
+  .shepherd-content .shepherd-header {
     background: $shepherd-header-background;
     padding: 1em;
   }
