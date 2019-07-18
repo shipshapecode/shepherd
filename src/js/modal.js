@@ -1,5 +1,3 @@
-import autoBind from 'auto-bind';
-
 import {
   getModalMaskOpening,
   createModalOverlay,
@@ -7,6 +5,7 @@ import {
   closeModalOpening,
   classNames as modalClassNames
 } from './utils/modal';
+import autoBind from './utils/auto-bind';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
 import { debounce } from './utils/general';
 

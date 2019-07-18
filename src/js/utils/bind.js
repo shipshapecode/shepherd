@@ -97,13 +97,3 @@ export function bindCancelLink(link, step) {
     step.cancel();
   });
 }
-
-/**
- * Take an array of strings and look up methods by name, then bind them to `this`
- * @param {String[]} methods The names of methods to bind
- */
-export function bindMethods(methods) {
-  methods.map((method) => {
-    this[method] = this[method].bind(this);
-  });
-}
