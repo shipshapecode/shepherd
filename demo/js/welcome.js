@@ -41,7 +41,7 @@
     });
     shepherd.addStep('including', {
       title: 'Including',
-      text: 'Including Shepherd is easy! Just include tippy.all.min.js, shepherd.js, and a Shepherd theme file.',
+      text: 'Including Shepherd is easy! Just include shepherd.js, and a Shepherd theme file.',
       attachTo: {
         element: '.hero-including',
         on: 'bottom'
@@ -57,7 +57,7 @@
     });
     shepherd.addStep('creating', {
       title: 'Creating a Shepherd Tour',
-      text: 'Creating a Shepherd tour is easy. too!' + 'Just create a \`Tour\` instance, and add as many steps as you want.',
+      text: 'Creating a Shepherd tour is easy. too! ' + 'Just create a \`Tour\` instance, and add as many steps as you want.',
       attachTo: {
         element: '.hero-example',
         on: 'right'
