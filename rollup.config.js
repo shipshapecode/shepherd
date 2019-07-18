@@ -56,7 +56,8 @@ const plugins = [
   }),
   eslint(),
   babel({
-    exclude: /node_modules\/(?!(auto-bind|body-scroll-lock|tippy.js)\/).*/
+    exclude: /node_modules\/(?!(auto-bind)\/).*/,
+    runtimeHelpers: true
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
@@ -147,7 +148,8 @@ if (!process.env.DEVELOPMENT) {
         resolve(),
         commonjs(),
         babel({
-          exclude: /node_modules\/(?!(auto-bind|body-scroll-lock|tippy.js)\/).*/
+          exclude: /node_modules\/(?!(auto-bind)\/).*/,
+          runtimeHelpers: true
         }),
         sass(sassOptions),
         css({ output: false }),

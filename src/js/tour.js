@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind';
-import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock/lib/bodyScrollLock.es6.js';
+import bodyScrollLock from 'body-scroll-lock';
 import tippy from 'tippy.js';
 
 import { Evented } from './evented.js';
@@ -8,6 +8,8 @@ import { Step } from './step.js';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
+
+const { disableBodyScroll, clearAllBodyScrollLocks } = bodyScrollLock;
 
 /**
  * Creates incremented ID for each newly created tour

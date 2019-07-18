@@ -4,11 +4,14 @@ module.exports = function(api) {
   return {
     presets: [
       [
-        '@babel/preset-env',
+        '@babel/preset-env'
+      ]
+    ],
+    plugins: [
+      [
+        '@babel/plugin-transform-runtime',
         {
-          corejs: 3,
-          modules: false,
-          useBuiltIns: 'usage'
+          corejs: 3
         }
       ]
     ],
