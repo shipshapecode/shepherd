@@ -9,8 +9,6 @@ import { isFunction, isNumber, isString, isUndefined } from './utils/type-check'
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
 
-const { disableBodyScroll, clearAllBodyScrollLocks } = bodyScrollLock;
-
 /**
  * Creates incremented ID for each newly created tour
  *
@@ -249,7 +247,7 @@ export class Tour extends Evented {
     this.trigger('start');
 
     if (this.options.disableScroll) {
-      disableBodyScroll();
+      bodyScrollLock.disableBodyScroll();
     }
 
     this.currentStep = null;
@@ -277,7 +275,7 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.options.disableScroll) {
-      clearAllBodyScrollLocks();
+      bodyScrollLock.clearAllBodyScrollLocks();
     }
 
     this.modal.cleanup();
