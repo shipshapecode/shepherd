@@ -434,6 +434,7 @@ export class Step extends Evented {
     }
 
     setupTooltip(this);
+    this.el.classList.add(this.styles.shepherdElement);
   }
 
   /**

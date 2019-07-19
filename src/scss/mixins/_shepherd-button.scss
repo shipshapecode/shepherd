@@ -1,7 +1,6 @@
 @mixin shepherd-button {
   @include inline-block;
 
-  border-radius: $shepherd-button-border-radius;
   color: map_get($shepherd-theme-text-colors, primary);
 
   &:hover {

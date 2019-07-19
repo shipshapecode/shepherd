@@ -1,11 +1,17 @@
 import variables from './variables';
 import { shepherdButtonCSS } from './components/shepherd-button';
 import { shepherdCancelLinkCSS } from './components/shepherd-cancel-link';
+import { shepherdElementCSS } from './components/shepherd-element';
 import { shepherdFooterCSS } from './components/shepherd-footer';
 import { shepherdHeaderCSS } from './components/shepherd-header';
 import { setupNano } from './nano';
+import themes from './themes';
 
 export function generateStyles(options) {
+  if (options.theme) {
+    Object.assign(variables, themes[options.theme]);
+  }
+
   if (options.styleVariables) {
     Object.assign(variables, options.styleVariables);
   }
@@ -22,6 +28,11 @@ export function generateStyles(options) {
       baseClassName: 'shepherd-cancel-link',
       name: 'shepherdCancelLink',
       styleGenerator: shepherdCancelLinkCSS
+    },
+    {
+      baseClassName: 'shepherd-element',
+      name: 'shepherdElement',
+      styleGenerator: shepherdElementCSS
     },
     {
       baseClassName: 'shepherd-footer',

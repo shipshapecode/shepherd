@@ -1,6 +1,7 @@
 export function shepherdButtonCSS(variables) {
   return {
     background: variables.shepherdThemePrimary,
+    borderRadius: variables.shepherdButtonBorderRadius,
     border: 0,
     cursor: 'pointer',
     display: 'inline',
