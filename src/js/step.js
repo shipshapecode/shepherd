@@ -5,10 +5,12 @@ import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
+import { setupNano } from './styles/nano';
 
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
+import { shepherdElementBorderRadius, shepherdHeaderBackground } from './styles/variables';
 
 smoothscroll.polyfill();
 
@@ -109,6 +111,8 @@ export class Step extends Evented {
   constructor(tour, options) {
     super(tour, options);
     this.tour = tour;
+
+    this.nano = setupNano(options.classPrefix);
 
     autoBind(this);
 
@@ -362,7 +366,22 @@ export class Step extends Evented {
     }
 
     content.classList.add('shepherd-content');
-    header.classList.add('shepherd-header');
+
+    const css = {
+      alignItems: 'center',
+      borderTopLeftRadius: shepherdElementBorderRadius,
+      borderTopRightRadius: shepherdElementBorderRadius,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      lineHeight: '2em',
+      padding: '0.75em 0.75em 0',
+      '.shepherd-has-title .shepherd-content &': {
+        background: shepherdHeaderBackground,
+        padding: '1em'
+      }
+    };
+    const className = this.nano.rule(css, 'shepherd-header').trim();
+    header.classList.add(className);
     element.appendChild(content);
     content.appendChild(header);
 

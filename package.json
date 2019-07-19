@@ -51,6 +51,7 @@
     "@babel/runtime-corejs3": "^7.5.5",
     "body-scroll-lock": "^2.6.4",
     "element-matches": "^0.1.2",
+    "nano-css": "^5.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
   },

@@ -11,6 +11,7 @@
   function setupShepherd() {
     var shepherd = new Shepherd.Tour({
       defaultStepOptions: {
+        classPrefix: 'demo-',
         classes: 'class-1 class-2',
         scrollTo: {
           behavior: 'smooth',
