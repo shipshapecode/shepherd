@@ -37,9 +37,6 @@
 
     .shepherd-cancel-link {
       color: lighten(map_get($shepherd-theme-text-colors, header), 70);
-      font-size: 2em;
-      text-decoration: none;
-      transition: color 0.5s ease;
 
       &:before {
         content: '\00d7';
@@ -50,9 +47,10 @@
       }
     }
 
-    .shepherd-header {
-      @include pie-clearfix;
-    }
+    //TODO: do we need this clearfix?
+    //.shepherd-header {
+    //  @include pie-clearfix;
+    //}
 
     .shepherd-text {
       color: map_get($shepherd-theme-text-colors, text);
@@ -82,18 +80,8 @@
     }
 
     footer {
-      border-bottom-left-radius: $shepherd-element-border-radius;
-      border-bottom-right-radius: $shepherd-element-border-radius;
-      display: flex;
-      justify-content: flex-end;
-      padding: 0 0.75em 0.75em;
-
       .shepherd-button {
         @include shepherd-button;
-
-        &:last-child {
-          margin-right: 0;
-        }
       }
     }
   }

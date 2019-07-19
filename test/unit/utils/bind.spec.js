@@ -131,7 +131,7 @@ describe('Bind Utils', function() {
         cancelable: true
       });
       const link = document.createElement('a');
-      const step = new Step();
+      const step =new Step(new Tour(), {});
       let cancelCalled = false;
 
       step.cancel = () => cancelCalled = true;

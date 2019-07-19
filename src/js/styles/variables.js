@@ -1,9 +1,6 @@
-const shepherdElementBorderRadius = '5px';
-const shepherdHeaderBackground = '#e6e6e6';
-const shepherdTextBackground = '#ffffff';
-
-export {
-  shepherdElementBorderRadius,
-  shepherdHeaderBackground,
-  shepherdTextBackground
+export default {
+  shepherdElementBorderRadius: '5px',
+  shepherdHeaderBackground: '#e6e6e6',
+  shepherdTextBackground: '#ffffff',
+  shepherdThemePrimary: '#3288e6'
 };

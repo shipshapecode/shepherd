@@ -5,12 +5,10 @@ import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
 import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
-import { setupNano } from './styles/nano';
 
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
-import { shepherdElementBorderRadius, shepherdHeaderBackground } from './styles/variables';
 
 smoothscroll.polyfill();
 
@@ -108,11 +106,10 @@ export class Step extends Evented {
    * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    * @return {Step} The newly created Step instance
    */
-  constructor(tour, options) {
+  constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
-
-    this.nano = setupNano(options.classPrefix);
+    this.styles = tour.styles;
 
     autoBind(this);
 
@@ -226,11 +223,11 @@ export class Step extends Evented {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
 
-      footer.classList.add('shepherd-footer');
+      footer.classList.add(this.styles.shepherdFooter);
 
       this.options.buttons.map((cfg) => {
         const button = createFromHTML(
-          `<button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
+          `<button class="${this.styles.shepherdButton} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
         footer.appendChild(button);
         bindButtonEvents(cfg, button, this);
@@ -248,7 +245,7 @@ export class Step extends Evented {
    */
   _addCancelLink(element, header) {
     if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      const link = createFromHTML(`<a href class="${this.styles.shepherdCancelLink}"></a>`);
       header.appendChild(link);
 
       element.classList.add('shepherd-has-cancel-link');
@@ -367,21 +364,7 @@ export class Step extends Evented {
 
     content.classList.add('shepherd-content');
 
-    const css = {
-      alignItems: 'center',
-      borderTopLeftRadius: shepherdElementBorderRadius,
-      borderTopRightRadius: shepherdElementBorderRadius,
-      display: 'flex',
-      justifyContent: 'flex-end',
-      lineHeight: '2em',
-      padding: '0.75em 0.75em 0',
-      '.shepherd-has-title .shepherd-content &': {
-        background: shepherdHeaderBackground,
-        padding: '1em'
-      }
-    };
-    const className = this.nano.rule(css, 'shepherd-header').trim();
-    header.classList.add(className);
+    header.classList.add(this.styles.shepherdHeader);
     element.appendChild(content);
     content.appendChild(header);
 
