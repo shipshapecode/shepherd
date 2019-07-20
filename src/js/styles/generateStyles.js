@@ -1,13 +1,7 @@
 import variables from './variables';
-import { shepherdActiveCSS } from './components/shepherd-active';
-import { shepherdButtonCSS } from './components/shepherd-button';
-import { shepherdCancelLinkCSS } from './components/shepherd-cancel-link';
-import { shepherdElementCSS } from './components/shepherd-element';
-import { shepherdFooterCSS } from './components/shepherd-footer';
-import { shepherdHeaderCSS } from './components/shepherd-header';
-import { shepherdTextCSS } from './components/shepherd-text';
 import { setupNano } from './nano';
 import themes from './themes';
+import shader from 'shader';
 
 export function generateStyles(options) {
   if (options.theme) {
@@ -19,48 +13,115 @@ export function generateStyles(options) {
   }
 
   const nano = setupNano(options.classPrefix);
-  const styles = {};
-  const components = [
-    {
-      baseClassName: 'shepherd-active',
-      name: 'shepherdActive',
-      styleGenerator: shepherdActiveCSS
-    },
-    {
-      baseClassName: 'shepherd-button',
-      name: 'shepherdButton',
-      styleGenerator: shepherdButtonCSS
-    },
-    {
-      baseClassName: 'shepherd-cancel-link',
-      name: 'shepherdCancelLink',
-      styleGenerator: shepherdCancelLinkCSS
-    },
-    {
-      baseClassName: 'shepherd-element',
-      name: 'shepherdElement',
-      styleGenerator: shepherdElementCSS
-    },
-    {
-      baseClassName: 'shepherd-footer',
-      name: 'shepherdFooter',
-      styleGenerator: shepherdFooterCSS
-    },
-    {
-      baseClassName: 'shepherd-header',
-      name: 'shepherdHeader',
-      styleGenerator: shepherdHeaderCSS
-    },
-    {
-      baseClassName: 'shepherd-text',
-      name: 'shepherdText',
-      styleGenerator: shepherdTextCSS
-    }
-  ];
 
-  components.forEach(({ baseClassName, name, styleGenerator }) => {
-    styles[name] = nano.rule(styleGenerator(variables), baseClassName).trim();
-  });
+  const styles = nano.sheet({
+    active: {
+      '&.shepherd-modal-is-visible': {
+        ':not(.shepherd-target)': {
+          pointerEvents: 'none'
+        },
+
+        '.shepherd-button, .shepherd-cancel-link, .shepherd-element, .shepherd-target': {
+          pointerEvents: 'auto',
+
+          '*': {
+            pointerEvents: 'auto'
+          }
+        }
+      }
+    },
+
+    button: {
+      background: variables.shepherdThemePrimary,
+      borderRadius: variables.shepherdButtonBorderRadius,
+      border: 0,
+      color: variables.shepherdThemeTextColors.primary,
+      cursor: 'pointer',
+      display: 'inline-block',
+      fontFamily: 'inherit',
+      fontSize: '0.8em',
+      letterSpacing: '0.1em',
+      lineHeight: '1em',
+      marginRight: '0.5em',
+      padding: '0.75em 2em',
+      textTransform: 'uppercase',
+      transition: 'all 0.5s ease',
+      verticalAlign: 'middle',
+      '&:hover': {
+        background: shader(variables.shepherdThemePrimary, -0.1)
+      },
+      '&.shepherd-button-secondary': {
+        background: variables.shepherdThemeSecondary,
+        color: variables.shepherdThemeTextColors.secondary,
+        '&:hover': {
+          background: shader(variables.shepherdThemeSecondary, -0.1),
+          color: shader(variables.shepherdThemeTextColors.secondary, -0.1)
+        }
+      }
+    },
+
+    'cancel-link': {
+      fontSize: '2em',
+      textDecoration: 'none',
+      transition: 'color 0.5s ease',
+      '&::before': {
+        content: '"\u00d7"'
+      }
+    },
+
+    element: {
+      'outline': 'none',
+      // We need box-sizing: border-box on shepherd-element and everything under it
+      '&, *': {
+        '&, &:after, &:before': {
+          boxSizing: 'border-box'
+        }
+      }
+    },
+
+    footer: {
+      borderBottomLeftRadius: variables.shepherdElementBorderRadius,
+      borderBottomRightRadius: variables.shepherdElementBorderRadius,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      padding: '0 0.75em 0.75em',
+      '.shepherd-button': {
+        '&:last-child': {
+          marginRight: 0
+        }
+      }
+    },
+
+    header: {
+      alignItems: 'center',
+      borderTopLeftRadius: variables.shepherdElementBorderRadius,
+      borderTopRightRadius: variables.shepherdElementBorderRadius,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      lineHeight: '2em',
+      padding: '0.75em 0.75em 0',
+      '.shepherd-has-title .shepherd-content &': {
+        background: variables.shepherdHeaderBackground,
+        padding: '1em'
+      }
+    },
+
+    text: {
+      lineHeight: variables.shepherdTextLineHeight,
+      padding: '0.75em',
+      p: {
+        marginTop: 0,
+
+        '&:last-child': {
+          marginBottom: 0
+        }
+      }
+    }
+  }, 'shepherd');
+
+  if (variables.useDropShadow) {
+    styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
+  }
 
   return styles;
 }

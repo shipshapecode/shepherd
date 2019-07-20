@@ -365,7 +365,7 @@ export class Tour extends Evented {
    */
   _addBodyAttrs() {
     document.body.setAttribute('data-shepherd-active-tour', this.id);
-    document.body.classList.add(this.styles.shepherdActive);
+    document.body.classList.add(this.styles.active.trim());
   }
 
   /**

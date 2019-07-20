@@ -223,11 +223,11 @@ export class Step extends Evented {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
 
-      footer.classList.add(this.styles.shepherdFooter);
+      footer.classList.add(this.styles.footer.trim());
 
       this.options.buttons.map((cfg) => {
         const button = createFromHTML(
-          `<button class="${this.styles.shepherdButton} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
+          `<button class="${this.styles.button.trim()} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
         footer.appendChild(button);
         bindButtonEvents(cfg, button, this);
@@ -245,7 +245,7 @@ export class Step extends Evented {
    */
   _addCancelLink(element, header) {
     if (this.options.showCancelLink) {
-      const link = createFromHTML(`<a href class="${this.styles.shepherdCancelLink}"></a>`);
+      const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
       header.appendChild(link);
 
       element.classList.add('shepherd-has-cancel-link');
@@ -364,7 +364,7 @@ export class Step extends Evented {
 
     content.classList.add('shepherd-content');
 
-    header.classList.add(this.styles.shepherdHeader);
+    header.classList.add(this.styles.header.trim());
     element.appendChild(content);
     content.appendChild(header);
 
@@ -434,7 +434,7 @@ export class Step extends Evented {
     }
 
     setupTooltip(this);
-    this.el.classList.add(this.styles.shepherdElement);
+    this.el.classList.add(this.styles.element.trim());
   }
 
   /**
