@@ -16,7 +16,7 @@ Shepherd ships with a set of themes for you to choose from.
 #### Light (Default)
 
 ```js
-const tour = new Shepherd({
+const tour = new Shepherd.Tour({
   ...
   theme: 'light'
 });
@@ -28,7 +28,7 @@ const tour = new Shepherd({
 #### Dark
 
 ```js
-const tour = new Shepherd({
+const tour = new Shepherd.Tour({
   ...
   theme: 'dark'
 });
@@ -40,7 +40,7 @@ const tour = new Shepherd({
 #### Square Light
 
 ```js
-const tour = new Shepherd({
+const tour = new Shepherd.Tour({
   ...
   theme: 'squareLight'
 });
@@ -52,7 +52,7 @@ const tour = new Shepherd({
 #### Square Dark
 
 ```js
-const tour = new Shepherd({
+const tour = new Shepherd.Tour({
   ...
   theme: 'squareDark'
 });
