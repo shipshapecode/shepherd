@@ -14,23 +14,4 @@
 
 .tippy-popper.shepherd {
   @include popper-theme-arrows($arrow-size: $arrow-size, $arrow-pointer-events: $arrow-pointer-events);
-
-  z-index: $shepherd-element-z-index;
-
-  .tippy-tooltip {
-    background-color: $shepherd-text-background;
-
-    .tippy-arrow {
-      transform: scale($arrow-size);
-      z-index: $shepherd-element-z-index + 1;
-    }
-
-    .tippy-content {
-      max-height: $shepherd-element-max-height;
-      max-width: $shepherd-element-max-width;
-      padding: 0;
-      text-align: center;
-      width: $shepherd-element-width;
-    }
-  }
 }

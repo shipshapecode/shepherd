@@ -146,5 +146,29 @@ export function generateStyles(options) {
     styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
   }
 
-  return nano.sheet(styles, 'shepherd');
+  const classes = nano.sheet(styles, 'shepherd');
+  // We have to add the root shepherd class separately
+  classes.shepherd = nano.rule({
+    '&.tippy-popper': {
+      zIndex: variables.shepherdElementZIndex,
+
+      '.tippy-tooltip': {
+        backgroundColor: variables.shepherdTextBackground,
+
+        '.tippy-arrow': {
+          transform: `scale(${variables.arrowSize})`,
+          zIndex: variables.shepherdElementZIndex + 1
+        },
+
+        '.tippy-content': {
+          maxHeight: variables.shepherdElementMaxHeight,
+          maxWidth: variables.shepherdElementMaxWidth,
+          padding: 0,
+          textAlign: 'center',
+          width: variables.shepherdElementWidth
+        }
+      }
+    }
+  }, 'shepherd');
+  return classes;
 }

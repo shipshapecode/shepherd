@@ -1,8 +1,13 @@
 import shader from 'shader';
 
 const styles = {
+  arrowSize: 2.1,
   shepherdButtonBorderRadius: '3px',
   shepherdElementBorderRadius: '5px',
+  shepherdElementMaxHeight: '100%',
+  shepherdElementMaxWidth: '100%',
+  shepherdElementWidth: '400px',
+  shepherdElementZIndex: 9999,
   shepherdTextBackground: '#ffffff',
   shepherdTextLineHeight: '1.3em',
   shepherdThemePrimary: '#3288e6'

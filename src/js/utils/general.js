@@ -2,33 +2,38 @@ import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
-// popperOption modifier, to add `shepherd` class to both default and centeredStyle poppers
-const addShepherdClass = _createClassModifier('shepherd');
 const addHasTitleClass = _createClassModifier('shepherd-has-title');
 
-const centeredStylePopperModifier = {
-  computeStyle: {
-    enabled: true,
-    fn(data) {
-      data.styles = Object.assign({}, data.styles, {
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
-      });
+function _getCenteredStylePopperModifier(styles) {
+  return {
+    computeStyle: {
+      enabled: true,
+      fn(data) {
+        data.styles = Object.assign({}, data.styles, {
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)'
+        });
 
-      return data;
+        return data;
+      }
+    },
+    addShepherdClass: _createClassModifier(styles.shepherd.trim())
+  };
+}
+
+/**
+ * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+ * @private
+ */
+function _getDefaultPopperOptions(styles) {
+  return {
+    positionFixed: true,
+    modifiers: {
+      addShepherdClass: _createClassModifier(styles.shepherd.trim())
     }
-  },
-  addShepherdClass
-};
-
-// Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
-const defaultPopperOptions = {
-  positionFixed: true,
-  modifiers: {
-    addShepherdClass
-  }
-};
+  };
+}
 
 /**
  * TODO rewrite the way items are being added to use more performant documentFragment code
@@ -162,6 +167,7 @@ function _makeTippyInstance(attachToOptions, step) {
  * @private
  */
 function _makeAttachedTippyOptions(attachToOptions, step) {
+  const defaultPopperOptions = _getDefaultPopperOptions(step.styles);
   const resultingTippyOptions = {
     content: step.el,
     flipOnUpdate: true,
@@ -193,6 +199,8 @@ function _makeAttachedTippyOptions(attachToOptions, step) {
  * @private
  */
 function _makeCenteredTippy(step) {
+  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step.styles);
+  const defaultPopperOptions = _getDefaultPopperOptions(step.styles);
   const tippyOptions = {
     content: step.el,
     placement: 'top',
