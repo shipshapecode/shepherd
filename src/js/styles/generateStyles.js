@@ -147,9 +147,71 @@ export function generateStyles(options) {
   }
 
   const classes = nano.sheet(styles, 'shepherd');
+
+  const arrowMargin = `calc((${variables.arrowSize} / 2.1) * 16px)`;
+
+  const popperThemeArrows = {
+    '&[x-placement^="top"]': {
+      marginBottom: arrowMargin,
+
+      '.tippy-arrow': {
+        borderTopColor: variables.shepherdTextBackground
+      },
+
+      '&.shepherd-has-title': {
+        '.tippy-arrow': {
+          borderTopColor: variables.shepherdHeaderBackground
+        }
+      }
+    },
+
+    '&[x-placement^="bottom"]': {
+      marginTop: arrowMargin,
+
+      '.tippy-arrow': {
+        borderBottomColor: variables.shepherdTextBackground
+      },
+
+      '&.shepherd-has-title': {
+        '.tippy-arrow': {
+          borderBottomColor: variables.shepherdHeaderBackground
+        }
+      }
+    },
+
+    '&[x-placement^="left"]': {
+      marginRight: arrowMargin,
+
+      '.tippy-arrow': {
+        borderLeftColor: variables.shepherdTextBackground
+      },
+
+      '&.shepherd-has-title': {
+        '.tippy-arrow': {
+          borderLeftColor: variables.shepherdHeaderBackground
+        }
+      }
+    },
+
+    '&[x-placement^="right"]': {
+      marginLeft: arrowMargin,
+
+      '.tippy-arrow': {
+        borderRightColor: variables.shepherdTextBackground
+      },
+
+      '&.shepherd-has-title': {
+        '.tippy-arrow': {
+          borderRightColor: variables.shepherdHeaderBackground
+        }
+      }
+    }
+  };
+
   // We have to add the root shepherd class separately
   classes.shepherd = nano.rule({
     '&.tippy-popper': {
+      ...popperThemeArrows,
       zIndex: variables.shepherdElementZIndex,
 
       '.tippy-tooltip': {
