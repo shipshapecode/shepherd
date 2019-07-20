@@ -259,11 +259,12 @@ export class Step extends Evented {
    * @param {HTMLElement} content The content to append the text to
    * @param {string} descriptionId The id to set on the shepherd-text element
    * for the parent element to use for aria-describedby
+   * @params {Step} step The step to get the styles from for the shepherd-text class
    * @private
    */
-  _addContent(content, descriptionId) {
+  _addContent(content, descriptionId, step) {
     const textContainer = createFromHTML(
-      `<div class="shepherd-text"
+      `<div class="${step.styles.text.trim()}"
        id="${descriptionId}"
        ></div>`
     );
@@ -369,7 +370,7 @@ export class Step extends Evented {
     content.appendChild(header);
 
     if (!isUndefined(this.options.text)) {
-      this._addContent(content, descriptionId);
+      this._addContent(content, descriptionId, this);
       element.setAttribute('aria-describedby', descriptionId);
     }
 

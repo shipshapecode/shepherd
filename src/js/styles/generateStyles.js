@@ -61,6 +61,7 @@ export function generateStyles(options) {
     },
 
     'cancel-link': {
+      color: shader(variables.shepherdThemeTextColors.header, 0.7),
       fontSize: '2em',
       fontWeight: 'normal',
       margin: 0,
@@ -69,7 +70,10 @@ export function generateStyles(options) {
       textDecoration: 'none',
       transition: 'color 0.5s ease',
       verticalAlign: 'middle',
-      '&::before': {
+      '&:hover': {
+        color: variables.shepherdThemeTextColors.header
+      },
+      '&:before': {
         content: '"\u00d7"'
       }
     },
@@ -119,6 +123,7 @@ export function generateStyles(options) {
     },
 
     title: {
+      color: variables.shepherdThemeTextColors.header,
       display: 'flex',
       flex: '1 0 auto',
       fontSize: '1.1em',
@@ -130,6 +135,7 @@ export function generateStyles(options) {
     },
 
     text: {
+      color: variables.shepherdThemeTextColors.text,
       lineHeight: variables.shepherdTextLineHeight,
       padding: '0.75em',
       p: {
@@ -137,6 +143,16 @@ export function generateStyles(options) {
 
         '&:last-child': {
           marginBottom: 0
+        }
+      },
+      'a, a:visited, a:active': {
+        borderBottom: '1px dotted',
+        borderBottomColor: variables.shepherdThemeTextColors.text,
+        color: variables.shepherdThemeTextColors.text,
+        textDecoration: 'none',
+
+        '&:hover': {
+          borderBottomStyle: 'solid'
         }
       }
     }
@@ -156,12 +172,6 @@ export function generateStyles(options) {
 
       '.tippy-arrow': {
         borderTopColor: variables.shepherdTextBackground
-      },
-
-      '&.shepherd-has-title': {
-        '.tippy-arrow': {
-          borderTopColor: variables.shepherdHeaderBackground
-        }
       }
     },
 
@@ -184,12 +194,6 @@ export function generateStyles(options) {
 
       '.tippy-arrow': {
         borderLeftColor: variables.shepherdTextBackground
-      },
-
-      '&.shepherd-has-title': {
-        '.tippy-arrow': {
-          borderLeftColor: variables.shepherdHeaderBackground
-        }
       }
     },
 
@@ -198,12 +202,6 @@ export function generateStyles(options) {
 
       '.tippy-arrow': {
         borderRightColor: variables.shepherdTextBackground
-      },
-
-      '&.shepherd-has-title': {
-        '.tippy-arrow': {
-          borderRightColor: variables.shepherdHeaderBackground
-        }
       }
     }
   };
