@@ -5,6 +5,7 @@ import { shepherdCancelLinkCSS } from './components/shepherd-cancel-link';
 import { shepherdElementCSS } from './components/shepherd-element';
 import { shepherdFooterCSS } from './components/shepherd-footer';
 import { shepherdHeaderCSS } from './components/shepherd-header';
+import { shepherdTextCSS } from './components/shepherd-text';
 import { setupNano } from './nano';
 import themes from './themes';
 
@@ -49,6 +50,11 @@ export function generateStyles(options) {
       baseClassName: 'shepherd-header',
       name: 'shepherdHeader',
       styleGenerator: shepherdHeaderCSS
+    },
+    {
+      baseClassName: 'shepherd-text',
+      name: 'shepherdText',
+      styleGenerator: shepherdTextCSS
     }
   ];
 

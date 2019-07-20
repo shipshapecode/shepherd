@@ -5,6 +5,7 @@ export function shepherdButtonCSS(variables) {
     background: variables.shepherdThemePrimary,
     borderRadius: variables.shepherdButtonBorderRadius,
     border: 0,
+    color: variables.shepherdThemeTextColors.primary,
     cursor: 'pointer',
     display: 'inline-block',
     fontFamily: 'inherit',
@@ -21,8 +22,10 @@ export function shepherdButtonCSS(variables) {
     },
     '&.shepherd-button-secondary': {
       background: variables.shepherdThemeSecondary,
+      color: variables.shepherdThemeTextColors.secondary,
       '&:hover': {
-        background: shader(variables.shepherdThemeSecondary, -0.1)
+        background: shader(variables.shepherdThemeSecondary, -0.1),
+        color: shader(variables.shepherdThemeTextColors.secondary, -0.1)
       }
     }
   };

@@ -1,5 +1,4 @@
 @import 'variables';
-@import 'mixins';
 @import 'modal-overlay';
 @import 'tippy';
 
@@ -36,8 +35,6 @@
 
     .shepherd-text {
       color: map_get($shepherd-theme-text-colors, text);
-      line-height: $shepherd-text-line-height;
-      padding: 0.75em;
 
       a,
       a:visited,
@@ -50,20 +47,6 @@
         &:hover {
           border-bottom-style: solid;
         }
-      }
-
-      p {
-        margin-top: 0;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-
-    footer {
-      .shepherd-button {
-        @include shepherd-button;
       }
     }
   }
