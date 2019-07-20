@@ -21,7 +21,7 @@
           maxWidth: 500
         }
       },
-      classPrefix: '',
+      classPrefix: 'demo-',
       styleVariables: {
         shepherdThemePrimary: '#00213b',
         shepherdThemeSecondary: '#e5e5e5'

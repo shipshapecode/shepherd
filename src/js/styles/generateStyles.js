@@ -14,14 +14,16 @@ export function generateStyles(options) {
 
   const nano = setupNano(options.classPrefix);
 
+  const classPrefix = options.classPrefix || '';
+
   const styles = {
     active: {
       '&.shepherd-modal-is-visible': {
-        ':not(.shepherd-target)': {
+        [`:not(.${classPrefix}shepherd-target)`]: {
           pointerEvents: 'none'
         },
 
-        '.shepherd-button, .shepherd-cancel-link, .shepherd-element, .shepherd-target': {
+        [`.${classPrefix}shepherd-button, .${classPrefix}shepherd-cancel-link, .${classPrefix}shepherd-element, .${classPrefix}shepherd-target`]: {
           pointerEvents: 'auto',
 
           '*': {
@@ -101,7 +103,7 @@ export function generateStyles(options) {
       display: 'flex',
       justifyContent: 'flex-end',
       padding: '0 0.75em 0.75em',
-      '.shepherd-button': {
+      [`.${classPrefix}shepherd-button`]: {
         '&:last-child': {
           marginRight: 0
         }
@@ -116,7 +118,7 @@ export function generateStyles(options) {
       justifyContent: 'flex-end',
       lineHeight: '2em',
       padding: '0.75em 0.75em 0',
-      '.shepherd-has-title .shepherd-content &': {
+      [`.shepherd-has-title .${classPrefix}shepherd-content &`]: {
         background: variables.shepherdHeaderBackground,
         padding: '1em'
       }

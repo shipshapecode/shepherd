@@ -282,7 +282,7 @@ describe('Tour | Step', () => {
       const step = new Step(tour, {});
       step.options.text = 'I am some test text.';
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
     });
@@ -294,7 +294,7 @@ describe('Tour | Step', () => {
       text.innerHTML = 'I am some test text.';
       step.options.text = text;
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');
     });
@@ -304,7 +304,7 @@ describe('Tour | Step', () => {
       const step = new Step(tour, {});
       step.options.text = () => 'I am some test text.';
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(typeof step.options.text === 'function').toBeTruthy();
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
