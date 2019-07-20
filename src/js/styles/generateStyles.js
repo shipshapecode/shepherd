@@ -1,19 +1,10 @@
-import variables from './variables';
+import getVariables from './variables';
 import { setupNano } from './nano';
-import themes from './themes';
 import shader from 'shader';
 
 export function generateStyles(options) {
-  if (options.theme) {
-    Object.assign(variables, themes[options.theme]);
-  }
-
-  if (options.styleVariables) {
-    Object.assign(variables, options.styleVariables);
-  }
-
+  const variables = getVariables(options);
   const nano = setupNano(options.classPrefix);
-
   const classPrefix = options.classPrefix || '';
 
   const styles = {
@@ -37,7 +28,7 @@ export function generateStyles(options) {
       background: variables.shepherdThemePrimary,
       borderRadius: variables.shepherdButtonBorderRadius,
       border: 0,
-      color: variables.shepherdThemeTextColors.primary,
+      color: variables.shepherdThemeTextPrimary,
       cursor: 'pointer',
       display: 'inline-block',
       fontFamily: 'inherit',
@@ -54,16 +45,16 @@ export function generateStyles(options) {
       },
       '&.shepherd-button-secondary': {
         background: variables.shepherdThemeSecondary,
-        color: variables.shepherdThemeTextColors.secondary,
+        color: variables.shepherdThemeTextSecondary,
         '&:hover': {
           background: shader(variables.shepherdThemeSecondary, -0.1),
-          color: shader(variables.shepherdThemeTextColors.secondary, -0.1)
+          color: shader(variables.shepherdThemeTextSecondary, -0.1)
         }
       }
     },
 
     'cancel-link': {
-      color: shader(variables.shepherdThemeTextColors.header, 0.7),
+      color: shader(variables.shepherdThemeTextHeader, 0.7),
       fontSize: '2em',
       fontWeight: 'normal',
       margin: 0,
@@ -73,7 +64,7 @@ export function generateStyles(options) {
       transition: 'color 0.5s ease',
       verticalAlign: 'middle',
       '&:hover': {
-        color: variables.shepherdThemeTextColors.header
+        color: variables.shepherdThemeTextHeader
       },
       '&:before': {
         content: '"\u00d7"'
@@ -125,7 +116,7 @@ export function generateStyles(options) {
     },
 
     title: {
-      color: variables.shepherdThemeTextColors.header,
+      color: variables.shepherdThemeTextHeader,
       display: 'flex',
       flex: '1 0 auto',
       fontSize: '1.1em',
@@ -137,7 +128,7 @@ export function generateStyles(options) {
     },
 
     text: {
-      color: variables.shepherdThemeTextColors.text,
+      color: variables.shepherdThemeTextColor,
       fontSize: variables.shepherdTextFontSize,
       lineHeight: variables.shepherdTextLineHeight,
       padding: '0.75em',
@@ -150,8 +141,8 @@ export function generateStyles(options) {
       },
       'a, a:visited, a:active': {
         borderBottom: '1px dotted',
-        borderBottomColor: variables.shepherdThemeTextColors.text,
-        color: variables.shepherdThemeTextColors.text,
+        borderBottomColor: variables.shepherdThemeTextColor,
+        color: variables.shepherdThemeTextColor,
         textDecoration: 'none',
 
         '&:hover': {
