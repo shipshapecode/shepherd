@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-(function () {
+(function() {
   function init() {
     var shepherd = setupShepherd();
-    setTimeout(function () {
+    setTimeout(function() {
       shepherd.start();
     }, 400);
   }
@@ -22,10 +22,14 @@
         }
       },
       classPrefix: '',
+      styleVariables: {
+        shepherdThemePrimary: '#00213b',
+        shepherdThemeSecondary: '#e5e5e5'
+      },
       useModalOverlay: true
     });
     shepherd.addStep('welcome', {
-      text: "\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href=\"https://atomiks.github.io/tippyjs//\" data-test-tippy-link>Tippy.js</a>,\n           another open source library, to render dialogs for each tour \"step\".\n         </p>\n        \n         <p>\n           Among many things, Tippy makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n         <p>\n           It also offers a robust API for styling animations of steps\n           as they enter and exit the view.\n         </p>",
+      text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://atomiks.github.io/tippyjs//" data-test-tippy-link>Tippy.js</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Tippy makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n         <p>\n           It also offers a robust API for styling animations of steps\n           as they enter and exit the view.\n         </p>',
       attachTo: {
         element: '.hero-welcome',
         on: 'bottom'
@@ -90,7 +94,7 @@
     });
     shepherd.addStep('centered-example', {
       title: 'Centered Shepherd Element',
-      text: "But attachment is totally optional!\n       Without a target, a tour step will create an element that's centered within the view.       Check out the <a href=\"https://shepherdjs.dev/docs/\">documentation</a> to learn more.",
+      text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
       buttons: [{
         action: shepherd.back,
         classes: 'shepherd-button-secondary',

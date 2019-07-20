@@ -136,6 +136,7 @@ export function generateStyles(options) {
 
     text: {
       color: variables.shepherdThemeTextColors.text,
+      fontSize: variables.shepherdTextFontSize,
       lineHeight: variables.shepherdTextLineHeight,
       padding: '0.75em',
       p: {

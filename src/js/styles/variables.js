@@ -11,6 +11,7 @@ const styles = {
   shepherdElementZIndex: 9999,
   shepherdTextBackground: '#ffffff',
   shepherdTextLineHeight: '1.3em',
+  shepherdTextFontSize: '1rem',
   shepherdThemePrimary: '#3288e6'
 };
 

@@ -102,27 +102,7 @@ pre {
   line-height: 1.4em;
 }
 
-.shepherd-element .shepherd-content footer .shepherd-button {
-  background: #00213B;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.shepherd-element .shepherd-content footer .shepherd-button:hover {
-  background: #ffffff;
+.shepherd-element .shepherd-button:hover {
+  background: #ececec;
   color: #00213B;
-}
-
-.shepherd-element .shepherd-content footer .shepherd-button.shepherd-button-secondary {
-  background: #e5e5e5;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-.shepherd-element .shepherd-content footer .shepherd-button.shepherd-button-secondary:hover {
-  background: #cbcbcb;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-.tippy-popper.shepherd .shepherd-element .shepherd-content .shepherd-text {
-  color: #5F6976;
-  font-size: 1rem;
 }
