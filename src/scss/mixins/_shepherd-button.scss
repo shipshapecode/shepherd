@@ -1,18 +1,10 @@
 @mixin shepherd-button {
-  @include inline-block;
-
   color: map_get($shepherd-theme-text-colors, primary);
 
-  &:hover {
-    background: darken($shepherd-theme-primary, 10);
-  }
-
   &.shepherd-button-secondary {
-    background: $shepherd-theme-secondary;
     color: map_get($shepherd-theme-text-colors, secondary);
 
     &:hover {
-      background: darken($shepherd-theme-secondary, 10);
       color: darken(map_get($shepherd-theme-text-colors, secondary), 10);
     }
   }

@@ -1,14 +1,9 @@
 @import 'variables';
 @import 'mixins';
 @import 'modal-overlay';
-@import 'helpers';
 @import 'tippy';
 
-@include box-sizing();
-
 .shepherd-element {
-  outline: none;
-
   .shepherd-content {
     background: $shepherd-text-background;
     font-size: inherit;
@@ -34,19 +29,10 @@
     .shepherd-cancel-link {
       color: lighten(map_get($shepherd-theme-text-colors, header), 70);
 
-      &:before {
-        content: '\00d7';
-      }
-
       &:hover {
         color: map_get($shepherd-theme-text-colors, header);
       }
     }
-
-    //TODO: do we need this clearfix?
-    //.shepherd-header {
-    //  @include pie-clearfix;
-    //}
 
     .shepherd-text {
       color: map_get($shepherd-theme-text-colors, text);
