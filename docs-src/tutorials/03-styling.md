@@ -31,13 +31,15 @@ These values and variables can be found in [**variables.js**](/src/js/styles/var
 | Variable                   | Purpose                                                     | Default
 |----------------------------|-------------------------------------------------------------|--------
 | shepherdThemePrimary       | Primary or brand color: The primary button gets this color. | #3288e6
-| shepherdThemeSecondary     | Secondary color                                             | desaturate(lighten($shepherd-theme-primary, 40), 70)
+| shepherdThemeSecondary     | Secondary color                                             | desaturate(0.7, lighten(0.4, shepherdThemePrimary))
 | shepherdTextBackground     | Background color of the text area                           | #ffffff
-| shepherdHeaderBackground   | Background color of the header                              | shader(shepherdTextBackground, -0.1)
-| shepherdThemeTextPrimary   | The text color for the primary button                       | getContrastingColor(shepherdThemePrimary)
-| shepherdThemeTextSecondary | The text color for the secondary button                     | getContrastingColor(shepherdThemeSecondary)
-| shepherdThemeTextHeader    | The text color for the header                               | getContrastingColor(shepherdHeaderBackground)
-| shepherdThemeTextColor     | The text color for the step content                         | getContrastingColor(shepherdTextBackground)
+| shepherdHeaderBackground   | Background color of the header                              | darken(0.1, shepherdTextBackground)
+| shepherdThemeTextPrimary   | The text color for the primary button                       | transparentize(0.25, readableColor(shepherdThemePrimary))
+| shepherdThemeTextSecondary | The text color for the secondary button                     | transparentize(0.25, readableColor(shepherdThemeSecondary))
+| shepherdThemeTextHeader    | The text color for the header                               | transparentize(0.25, readableColor(shepherdHeaderBackground))
+| shepherdThemeTextColor     | The text color for the step content                         | transparentize(0.25, readableColor(shepherdTextBackground))
+
+We use [polished](https://github.com/styled-components/polished) to calculate lighter, darker, and the most readable colors.
 
 * `shepherdThemeSecondary` is derived from the primary color, if not explicitly set.
 * `shepherdHeaderBackground` is calculated using the text background color, if not explicitly set.
