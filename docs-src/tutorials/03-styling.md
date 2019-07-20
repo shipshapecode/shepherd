@@ -28,27 +28,35 @@ These values and variables can be found in [**variables.js**](/src/js/styles/var
 
 **🎨 Color Settings**
 
-| Variable                 | Purpose                                                     | Default
-|--------------------------|-------------------------------------------------------------|--------
-| shepherdThemePrimary     | Primary or brand color. The primary button gets this color. | #3288e6
-| shepherdThemeSecondary   | Secondary color. If it is not set explicitly, it is calculated using the primary color. | desaturate(lighten($shepherd-theme-primary, 40), 70)
-| shepherdTextBackground   | Background color of the text area.                          | #ffffff
-| shepherdHeaderBackground | Background color of the header element. If it is not set explicitly, it is calculated using the text background color. | darken($shepherd-text-background, 10)
+| Variable                   | Purpose                                                     | Default
+|----------------------------|-------------------------------------------------------------|--------
+| shepherdThemePrimary       | Primary or brand color: The primary button gets this color. | #3288e6
+| shepherdThemeSecondary     | Secondary color                                             | desaturate(lighten($shepherd-theme-primary, 40), 70)
+| shepherdTextBackground     | Background color of the text area                           | #ffffff
+| shepherdHeaderBackground   | Background color of the header                              | shader(shepherdTextBackground, -0.1)
+| shepherdThemeTextPrimary   | The text color for the primary button                       | getContrastingColor(shepherdThemePrimary)
+| shepherdThemeTextSecondary | The text color for the secondary button                     | getContrastingColor(shepherdThemeSecondary)
+| shepherdThemeTextHeader    | The text color for the header                               | getContrastingColor(shepherdHeaderBackground)
+| shepherdThemeTextColor     | The text color for the step content                         | getContrastingColor(shepherdTextBackground)
+
+* `shepherdThemeSecondary` is derived from the primary color, if not explicitly set.
+* `shepherdHeaderBackground` is calculated using the text background color, if not explicitly set.
+* The text colors are calculated to contrast the background colors by default, unless explicitly set.
 
 **⚙️ Options**
 
-| Variable                    | Purpose | Default
-|-----------------------------|---------|--------
-| shepherdElementWidth        | Width of the step element | 400px
-| shepherdElementBorderRadius | Set radius of rounded corners. 0 means (sharp) pointed corners. | 5px
-| shepherdElementMaxHeight    | Maximum height of the element | 100%
-| shepherdElementMaxWidth     | Maximum width of the element | 100%
-| shepherdElementZIndex       | Move the element forward or backward | 9999
-| shepherdTextLineHeight      | Determine the line height of the body text | 1.3em
-| shepherdButtonBorderRadius  | Decide whether the buttons should have rounded or pointed corners. 0 means (sharp) pointed corners. | 3px
-| useDropShadow               | The element casts a shadow | true
+| Variable                    | Purpose                                                            | Default
+|-----------------------------|--------------------------------------------------------------------|--------
+| shepherdElementWidth        | Width of the step element                                          | 400px
+| shepherdElementBorderRadius | Sets the border-radius of the shepherd-element.                    | 5px
+| shepherdElementMaxHeight    | Maximum height of the element                                      | 100%
+| shepherdElementMaxWidth     | Maximum width of the element                                       | 100%
+| shepherdElementZIndex       | Move the element forward or backward                               | 9999
+| shepherdTextLineHeight      | Sets the line height of the body text                              | 1.3em
+| shepherdButtonBorderRadius  | Decide whether the buttons should have rounded or pointed corners. | 3px
+| useDropShadow               | The element casts a shadow                                         | true
 
-The example below is intended to illustrate the individual customizations. Please make sure that the values are set before the import of the _base-theme_.
+The example below is intended to illustrate the individual customizations.
 
 ```js
 const tour = new Shepherd.Tour({
@@ -57,13 +65,13 @@ const tour = new Shepherd.Tour({
     shepherdElementBorderRadius: 0,
     shepherdHeaderBackground: '#eeeeee',
     shepherdThemePrimary: '#9b59b6',
-    shepherdThemeSecondary: 'desaturate(lighten($shepherd-theme-primary, 30), 70)',
     useDropShadow: true
   }
 });
 ```
 
-As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements. The header is colored in a light gray tone.
+As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements, and 
+the header is colored in a light gray tone.
 
 ### Adding a prefix to the `shepherd-*` classes
 

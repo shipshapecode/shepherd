@@ -52,7 +52,7 @@
     "body-scroll-lock": "^2.6.4",
     "element-matches": "^0.1.2",
     "nano-css": "^5.2.0",
-    "shader": "^1.0.0",
+    "polished": "^3.4.1",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
   },

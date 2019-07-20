@@ -214,16 +214,16 @@ function _makeCenteredTippy(step) {
     Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
   }
 
+  Object.assign(
+    defaultPopperOptions.modifiers,
+    centeredStylePopperModifier,
+    tippyOptions.popperOptions.modifiers
+  );
+
   const finalPopperOptions = Object.assign(
     {},
     defaultPopperOptions,
-    tippyOptions.popperOptions,
-    {
-      modifiers: Object.assign(
-        centeredStylePopperModifier,
-        tippyOptions.popperOptions.modifiers
-      )
-    }
+    tippyOptions.popperOptions
   );
 
   tippyOptions.popperOptions = finalPopperOptions;

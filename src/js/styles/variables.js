@@ -1,5 +1,4 @@
-import shader from 'shader';
-import { getContrastingColor } from './utils';
+import { darken, desaturate, lighten, readableColor, transparentize } from 'polished';
 import themes from './themes';
 
 const styles = {
@@ -26,11 +25,11 @@ export default function getVariables(options) {
   }
 
   if (!styles.shepherdHeaderBackground) {
-    styles.shepherdHeaderBackground = shader(styles.shepherdTextBackground, -0.1);
+    styles.shepherdHeaderBackground = darken(0.1, styles.shepherdTextBackground);
   }
 
   if (!styles.shepherdThemeSecondary) {
-    styles.shepherdThemeSecondary = shader(styles.shepherdThemePrimary, 0.4);
+    styles.shepherdThemeSecondary = desaturate(0.7, lighten(0.4, styles.shepherdThemePrimary));
   }
 
   _setTextColors();
@@ -44,18 +43,18 @@ export default function getVariables(options) {
  */
 function _setTextColors() {
   if (!styles.shepherdThemeTextPrimary) {
-    styles.shepherdThemeTextPrimary = getContrastingColor(styles.shepherdThemePrimary);
+    styles.shepherdThemeTextPrimary = transparentize(0.25, readableColor(styles.shepherdThemePrimary));
   }
 
   if (!styles.shepherdThemeTextSecondary) {
-    styles.shepherdThemeTextSecondary = getContrastingColor(styles.shepherdThemeSecondary);
+    styles.shepherdThemeTextSecondary = transparentize(0.25, readableColor(styles.shepherdThemeSecondary));
   }
 
   if (!styles.shepherdThemeTextHeader) {
-    styles.shepherdThemeTextHeader = getContrastingColor(styles.shepherdHeaderBackground);
+    styles.shepherdThemeTextHeader = transparentize(0.25, readableColor(styles.shepherdHeaderBackground));
   }
 
   if (!styles.shepherdThemeTextColor) {
-    styles.shepherdThemeTextColor = getContrastingColor(styles.shepherdTextBackground);
+    styles.shepherdThemeTextColor = transparentize(0.25, readableColor(styles.shepherdTextBackground));
   }
 }

@@ -1,6 +1,6 @@
+import { darken, lighten } from 'polished';
 import getVariables from './variables';
 import { setupNano } from './nano';
-import shader from 'shader';
 
 export function generateStyles(options) {
   const variables = getVariables(options);
@@ -41,20 +41,20 @@ export function generateStyles(options) {
       transition: 'all 0.5s ease',
       verticalAlign: 'middle',
       '&:hover': {
-        background: shader(variables.shepherdThemePrimary, -0.1)
+        background: darken(0.1, variables.shepherdThemePrimary)
       },
       '&.shepherd-button-secondary': {
         background: variables.shepherdThemeSecondary,
         color: variables.shepherdThemeTextSecondary,
         '&:hover': {
-          background: shader(variables.shepherdThemeSecondary, -0.1),
-          color: shader(variables.shepherdThemeTextSecondary, -0.1)
+          background: darken(0.1, variables.shepherdThemeSecondary),
+          color: darken(0.1, variables.shepherdThemeTextSecondary)
         }
       }
     },
 
     'cancel-link': {
-      color: shader(variables.shepherdThemeTextHeader, 0.7),
+      color: lighten(0.7, variables.shepherdThemeTextHeader),
       fontSize: '2em',
       fontWeight: 'normal',
       margin: 0,
