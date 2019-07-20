@@ -1,4 +1,4 @@
-export function shepherdCancelLinkCSS(variables) {
+export function shepherdCancelLinkCSS() {
   return {
     fontSize: '2em',
     textDecoration: 'none',

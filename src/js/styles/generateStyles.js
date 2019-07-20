@@ -1,4 +1,5 @@
 import variables from './variables';
+import { shepherdActiveCSS } from './components/shepherd-active';
 import { shepherdButtonCSS } from './components/shepherd-button';
 import { shepherdCancelLinkCSS } from './components/shepherd-cancel-link';
 import { shepherdElementCSS } from './components/shepherd-element';
@@ -19,6 +20,11 @@ export function generateStyles(options) {
   const nano = setupNano(options.classPrefix);
   const styles = {};
   const components = [
+    {
+      baseClassName: 'shepherd-active',
+      name: 'shepherdActive',
+      styleGenerator: shepherdActiveCSS
+    },
     {
       baseClassName: 'shepherd-button',
       name: 'shepherdButton',
