@@ -4,25 +4,8 @@
 
 .shepherd-element {
   .shepherd-content {
-    background: $shepherd-text-background;
-    font-size: inherit;
-    outline: none;
-    padding: 0;
-
-    .shepherd-title,
-    .shepherd-cancel-link {
-      font-weight: normal;
-      margin: 0;
-      padding: 0;
-      position: relative;
-      vertical-align: middle;
-    }
-
     .shepherd-title {
       color: map_get($shepherd-theme-text-colors, header);
-      display: flex;
-      flex: 1 0 auto;
-      font-size: 1.1em;
     }
 
     .shepherd-cancel-link {

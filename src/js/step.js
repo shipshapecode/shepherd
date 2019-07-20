@@ -355,14 +355,14 @@ export class Step extends Evented {
 
     if (this.options.title) {
       const title = document.createElement('h3');
-      title.classList.add('shepherd-title');
+      title.classList.add(this.styles.title.trim());
       title.innerHTML = `${this.options.title}`;
       title.id = labelId;
       element.setAttribute('aria-labeledby', labelId);
       header.appendChild(title);
     }
 
-    content.classList.add('shepherd-content');
+    content.classList.add(this.styles.content.trim());
 
     header.classList.add(this.styles.header.trim());
     element.appendChild(content);

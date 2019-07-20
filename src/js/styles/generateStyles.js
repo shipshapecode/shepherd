@@ -14,7 +14,7 @@ export function generateStyles(options) {
 
   const nano = setupNano(options.classPrefix);
 
-  const styles = nano.sheet({
+  const styles = {
     active: {
       '&.shepherd-modal-is-visible': {
         ':not(.shepherd-target)': {
@@ -62,11 +62,23 @@ export function generateStyles(options) {
 
     'cancel-link': {
       fontSize: '2em',
+      fontWeight: 'normal',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
       textDecoration: 'none',
       transition: 'color 0.5s ease',
+      verticalAlign: 'middle',
       '&::before': {
         content: '"\u00d7"'
       }
+    },
+
+    content: {
+      background: variables.shepherdTextBackground,
+      fontSize: 'inherit',
+      outline: 'none',
+      padding: 0
     },
 
     element: {
@@ -106,6 +118,17 @@ export function generateStyles(options) {
       }
     },
 
+    title: {
+      display: 'flex',
+      flex: '1 0 auto',
+      fontSize: '1.1em',
+      fontWeight: 'normal',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+      verticalAlign: 'middle'
+    },
+
     text: {
       lineHeight: variables.shepherdTextLineHeight,
       padding: '0.75em',
@@ -117,11 +140,11 @@ export function generateStyles(options) {
         }
       }
     }
-  }, 'shepherd');
+  };
 
   if (variables.useDropShadow) {
     styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
   }
 
-  return styles;
+  return nano.sheet(styles, 'shepherd');
 }
