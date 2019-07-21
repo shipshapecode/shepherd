@@ -7,6 +7,7 @@ export function generateStyles(options) {
   const variables = getVariables(options);
   const nano = setupNano(options.classPrefix);
   const classPrefix = normalizePrefix(options.classPrefix);
+  const tippyPrefix = normalizePrefix(options.tippyClassPrefix);
 
   const styles = {
     active: {
@@ -165,7 +166,7 @@ export function generateStyles(options) {
     '&[x-placement^="top"]': {
       marginBottom: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderTopColor: variables.shepherdTextBackground
       }
     },
@@ -173,12 +174,12 @@ export function generateStyles(options) {
     '&[x-placement^="bottom"]': {
       marginTop: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderBottomColor: variables.shepherdTextBackground
       },
 
       [`&.${classPrefix}shepherd-has-title`]: {
-        '.tippy-arrow': {
+        [`.${tippyPrefix}tippy-arrow`]: {
           borderBottomColor: variables.shepherdHeaderBackground
         }
       }
@@ -187,7 +188,7 @@ export function generateStyles(options) {
     '&[x-placement^="left"]': {
       marginRight: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderLeftColor: variables.shepherdTextBackground
       }
     },
@@ -195,7 +196,7 @@ export function generateStyles(options) {
     '&[x-placement^="right"]': {
       marginLeft: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderRightColor: variables.shepherdTextBackground
       }
     }
@@ -203,19 +204,19 @@ export function generateStyles(options) {
 
   // We have to add the root shepherd class separately
   classes.shepherd = nano.rule({
-    '&.tippy-popper': {
+    [`&.${tippyPrefix}tippy-popper`]: {
       ...popperThemeArrows,
       zIndex: variables.shepherdElementZIndex,
 
-      '.tippy-tooltip': {
+      [`.${tippyPrefix}tippy-tooltip`]: {
         backgroundColor: variables.shepherdTextBackground,
 
-        '.tippy-arrow': {
+        [`.${tippyPrefix}tippy-arrow`]: {
           transform: `scale(${variables.arrowSize})`,
           zIndex: variables.shepherdElementZIndex + 1
         },
 
-        '.tippy-content': {
+        [`.${tippyPrefix}tippy-content`]: {
           maxHeight: variables.shepherdElementMaxHeight,
           maxWidth: variables.shepherdElementMaxWidth,
           padding: 0,
