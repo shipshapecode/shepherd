@@ -1,4 +1,4 @@
-/*! shepherd.js 4.0.0-beta.10 */
+/*! shepherd.js 4.0.0-beta.11 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -8894,155 +8894,164 @@
 
 	var bodyScrollLock = unwrapExports(bodyScrollLock_min);
 
+	var $JSON = path.JSON || (path.JSON = { stringify: JSON.stringify });
+
+	var stringify = function stringify(it) { // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+	var stringify$1 = stringify;
+
+	var stringify$2 = stringify$1;
+
 	var KEBAB_REGEX = /[A-Z]/g;
 
-	var hash = function (str) {
-	    var hash = 5381, i = str.length;
+	var _hash = function hash(str) {
+	  var hash = 5381,
+	      i = str.length;
 
-	    while (i) hash = (hash * 33) ^ str.charCodeAt(--i);
+	  while (i) {
+	    hash = hash * 33 ^ str.charCodeAt(--i);
+	  }
 
-	    return '_' + (hash >>> 0).toString(36);
+	  return '_' + (hash >>> 0).toString(36);
 	};
 
-	var create$3 = function (config) {
-	    config = config || {};
-	    var assign = config.assign || Object.assign;
-	    var client = typeof window === 'object';
+	var create$3 = function create(config) {
+	  config = config || {};
+	  var assign = config.assign || assign$2;
+	  var client = (typeof window === "undefined" ? "undefined" : _typeof_1(window)) === 'object'; // Check if we are really in browser environment.
 
-	    var renderer = assign({
-	        raw: '',
-	        pfx: '_',
-	        client: client,
-	        assign: assign,
-	        stringify: JSON.stringify,
-	        kebab: function (prop) {
-	            return prop.replace(KEBAB_REGEX, '-$&').toLowerCase();
-	        },
-	        decl: function (key, value) {
-	            key = renderer.kebab(key);
-	            return key + ':' + value + ';';
-	        },
-	        hash: function (obj) {
-	            return hash(renderer.stringify(obj));
-	        },
-	        selector: function (parent, selector) {
-	            return parent + (selector[0] === ':' ? ''  : ' ') + selector;
-	        },
-	        putRaw: function (rawCssRule) {
-	            renderer.raw += rawCssRule;
-	        },
-	    }, config);
+	  var renderer = assign({
+	    raw: '',
+	    pfx: '_',
+	    client: client,
+	    assign: assign,
+	    stringify: stringify$2,
+	    kebab: function kebab(prop) {
+	      return prop.replace(KEBAB_REGEX, '-$&').toLowerCase();
+	    },
+	    decl: function decl(key, value) {
+	      key = renderer.kebab(key);
+	      return key + ':' + value + ';';
+	    },
+	    hash: function hash(obj) {
+	      return _hash(renderer.stringify(obj));
+	    },
+	    selector: function selector(parent, _selector) {
+	      return parent + (_selector[0] === ':' ? '' : ' ') + _selector;
+	    },
+	    putRaw: function putRaw(rawCssRule) {
+	      renderer.raw += rawCssRule;
+	    }
+	  }, config);
 
-	    if (renderer.client) {
-	        if (!renderer.sh)
-	            document.head.appendChild(renderer.sh = document.createElement('style'));
+	  if (renderer.client) {
+	    if (!renderer.sh) document.head.appendChild(renderer.sh = document.createElement('style'));
 
-	        renderer.putRaw = function (rawCssRule) {
-	            // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
-	            // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
-	            // that's why we use .appendChild in DEV.
-	            {
-	                var sheet = renderer.sh.sheet;
+	    renderer.putRaw = function (rawCssRule) {
+	      // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
+	      // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
+	      // that's why we use .appendChild in DEV.
+	      {
+	        var sheet = renderer.sh.sheet; // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
 
-	                // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
-	                try {
-	                    sheet.insertRule(rawCssRule, sheet.cssRules.length);
-	                // eslint-disable-next-line no-empty
-	                } catch (error) {}
-	            }
-	        };
+	        try {
+	          sheet.insertRule(rawCssRule, sheet.cssRules.length); // eslint-disable-next-line no-empty
+	        } catch (error) {}
+	      }
+	    };
+	  }
+
+	  renderer.put = function (selector, decls, atrule) {
+	    var str = '';
+	    var prop, value;
+	    var postponed = [];
+
+	    for (prop in decls) {
+	      value = decls[prop];
+
+	      if (value instanceof Object && !(value instanceof Array)) {
+	        postponed.push(prop);
+	      } else {
+	        {
+	          str += renderer.decl(prop, value, selector, atrule);
+	        }
+	      }
 	    }
 
-	    renderer.put = function (selector, decls, atrule) {
-	        var str = '';
-	        var prop, value;
-	        var postponed = [];
+	    if (str) {
+	      {
+	        str = selector + '{' + str + '}';
+	      }
 
-	        for (prop in decls) {
-	            value = decls[prop];
+	      renderer.putRaw(atrule ? atrule + '{' + str + '}' : str);
+	    }
 
-	            if ((value instanceof Object) && !(value instanceof Array)) {
-	                postponed.push(prop);
-	            } else {
-	                {
-	                    str += renderer.decl(prop, value, selector, atrule);
-	                }
-	            }
-	        }
+	    for (var i = 0; i < postponed.length; i++) {
+	      prop = postponed[i];
 
-	        if (str) {
-	            {
-	                str = selector + '{' + str + '}';
-	            }
-	            renderer.putRaw(atrule ? atrule + '{' + str + '}' : str);
-	        }
+	      if (prop[0] === "@" && prop !== "@font-face") {
+	        renderer.putAt(selector, decls[prop], prop);
+	      } else {
+	        renderer.put(renderer.selector(selector, prop), decls[prop], atrule);
+	      }
+	    }
+	  };
 
-	        for (var i = 0; i < postponed.length; i++) {
-	            prop = postponed[i];
-
-	            if (prop[0] === "@" && prop !== "@font-face") {
-	                renderer.putAt(selector, decls[prop], prop);
-	            } else {
-	                renderer.put(renderer.selector(selector, prop), decls[prop], atrule);
-	            }
-	        }
-	    };
-
-	    renderer.putAt = renderer.put;
-
-	    return renderer;
+	  renderer.putAt = renderer.put;
+	  return renderer;
 	};
 
-	var addon = function (renderer) {
-	    var cache = {};
+	var addon = function addon(renderer) {
+	  var cache = {};
 
-	    renderer.cache = function (css) {
-	        if (!css) return '';
+	  renderer.cache = function (css) {
+	    if (!css) return '';
+	    var key = renderer.hash(css);
 
-	        var key = renderer.hash(css);
+	    if (!cache[key]) {
+	      cache[key] = renderer.rule(css, key);
+	    }
 
-	        if (!cache[key]) {
-	            cache[key] = renderer.rule(css, key);
-	        }
-
-	        return cache[key];
-	    };
+	    return cache[key];
+	  };
 	};
 
-	var addon$1 = function (renderer) {
-	    renderer.selector = function (parentSelectors, selector) {
-	        var parents = parentSelectors.split(',');
-	        var result = [];
-	        var selectors = selector.split(',');
-	        var len1 = parents.length;
-	        var len2 = selectors.length;
-	        var i, j, sel, pos, parent, replacedSelector;
+	var addon$1 = function addon(renderer) {
+	  renderer.selector = function (parentSelectors, selector) {
+	    var parents = parentSelectors.split(',');
+	    var result = [];
+	    var selectors = selector.split(',');
+	    var len1 = parents.length;
+	    var len2 = selectors.length;
+	    var i, j, sel, pos, parent, replacedSelector;
 
-	        for (i = 0; i < len2; i++) {
-	            sel = selectors[i];
-	            pos = sel.indexOf('&');
+	    for (i = 0; i < len2; i++) {
+	      sel = selectors[i];
+	      pos = indexOf$3(sel).call(sel, '&');
 
-	            if (pos > -1) {
-	                for (j = 0; j < len1; j++) {
-	                    parent = parents[j];
-	                    replacedSelector = sel.replace(/&/g, parent);
-	                    result.push(replacedSelector);
-	                }
-	            } else {
-	                for (j = 0; j < len1; j++) {
-	                    parent = parents[j];
-
-	                    if (parent) {
-	                        result.push(parent + ' ' + sel);
-	                    } else {
-	                        result.push(sel);
-	                    }
-	                }
-	            }
+	      if (pos > -1) {
+	        for (j = 0; j < len1; j++) {
+	          parent = parents[j];
+	          replacedSelector = sel.replace(/&/g, parent);
+	          result.push(replacedSelector);
 	        }
+	      } else {
+	        for (j = 0; j < len1; j++) {
+	          parent = parents[j];
 
-	        return result.join(',');
-	    };
+	          if (parent) {
+	            result.push(parent + ' ' + sel);
+	          } else {
+	            result.push(sel);
+	          }
+	        }
+	      }
+	    }
+
+	    return result.join(',');
+	  };
 	};
 
 	var capitalizeString_1 = createCommonjsModule(function (module, exports) {
@@ -9733,128 +9742,133 @@
 
 	var CAMEL_REGEX = /-[a-z\u00E0-\u00F6\u00F8-\u00FE]/g;
 
-	var matchCallback = function (match) {
-	    return match.slice(1).toUpperCase();
+	var matchCallback = function matchCallback(match) {
+	  return slice$2(match).call(match, 1).toUpperCase();
 	};
 
-	var addon$2 = function (renderer) {
-	    var decl = renderer.decl;
-	    var origPut = renderer.put;
+	var addon$2 = function addon(renderer) {
+	  var decl = renderer.decl;
+	  var origPut = renderer.put;
 
-	    renderer.camel = function (prop) {
-	        return prop.replace(CAMEL_REGEX, matchCallback);
-	    };
+	  renderer.camel = function (prop) {
+	    return prop.replace(CAMEL_REGEX, matchCallback);
+	  };
 
-	    renderer.prefix = function (prop, value) {
-	        var obj = {};
-	        obj[renderer.camel(prop)] = value;
-	        obj = _static(obj);
+	  renderer.prefix = function (prop, value) {
+	    var obj = {};
+	    obj[renderer.camel(prop)] = value;
+	    obj = _static(obj);
+	    var result = {};
 
-	        var result = {};
+	    for (var propPrefixed in obj) {
+	      value = obj[propPrefixed];
 
-	        for (var propPrefixed in obj) {
-	            value = obj[propPrefixed];
-	            if (propPrefixed.slice(0, 2) === 'ms') {
-	                propPrefixed = 'M' + propPrefixed.slice(1);
-	            }
-	            propPrefixed = renderer.kebab(propPrefixed);
+	      if (slice$2(propPrefixed).call(propPrefixed, 0, 2) === 'ms') {
+	        propPrefixed = 'M' + slice$2(propPrefixed).call(propPrefixed, 1);
+	      }
 
-	            if (value instanceof Array) {
-	                result[propPrefixed] = value.join(';' + propPrefixed + ':');
-	            } else {
-	                result[propPrefixed] = value;
-	            }
-	        }
+	      propPrefixed = renderer.kebab(propPrefixed);
 
-	        return result;
-	    };
-
-	    renderer.decl = function (prop, value) {
-	        var result = renderer.prefix(prop, value);
-
-	        var returned = '';
-	        Object.keys(result).forEach(function (key) {
-	            var str = decl(key, value);
-	            returned += str;
-	        });
-
-	        return returned;
-	    };
-
-	    function newPut(selector, decls, atrule) {
-	        var indexed = selector.indexOf('::placeholder');
-	        if (indexed > -1) {
-	            var split = selector.split(',');
-	            if (split.length > 1) {
-	                split.forEach(function(sp) {
-	                    newPut(sp.trim(), decls, atrule);
-	                });
-	                return;
-	            }
-	            var bareSelect = selector.substring(0, indexed);
-	            [
-	                '::-webkit-input-placeholder',
-	                '::-moz-placeholder',
-	                ':-ms-input-placeholder',
-	                ':-moz-placeholder'
-	            ].forEach(function(ph) {
-	                origPut(bareSelect + ph, decls, atrule);
-	            });
-	        }
-	        origPut(selector, decls, atrule);
+	      if (value instanceof Array) {
+	        result[propPrefixed] = value.join(';' + propPrefixed + ':');
+	      } else {
+	        result[propPrefixed] = value;
+	      }
 	    }
 
-	    renderer.put = newPut;
+	    return result;
+	  };
+
+	  renderer.decl = function (prop, value) {
+	    var _context;
+
+	    var result = renderer.prefix(prop, value);
+	    var returned = '';
+
+	    forEach$2(_context = keys$3(result)).call(_context, function (key) {
+	      var str = decl(key, value);
+	      returned += str;
+	    });
+
+	    return returned;
+	  };
+
+	  function newPut(selector, decls, atrule) {
+	    var indexed = indexOf$3(selector).call(selector, '::placeholder');
+
+	    if (indexed > -1) {
+	      var _context2;
+
+	      var split = selector.split(',');
+
+	      if (split.length > 1) {
+	        forEach$2(split).call(split, function (sp) {
+	          newPut(trim$2(sp).call(sp), decls, atrule);
+	        });
+
+	        return;
+	      }
+
+	      var bareSelect = selector.substring(0, indexed);
+
+	      forEach$2(_context2 = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-ms-input-placeholder', ':-moz-placeholder']).call(_context2, function (ph) {
+	        origPut(bareSelect + ph, decls, atrule);
+	      });
+	    }
+
+	    origPut(selector, decls, atrule);
+	  }
+
+	  renderer.put = newPut;
 	};
 
-	var addon$3 = function (renderer) {
+	var addon$3 = function addon(renderer) {
 
-	    renderer.rule = function (css, block) {
+	  renderer.rule = function (css, block) {
 
-	        block = block || renderer.hash(css);
-	        block = renderer.pfx + block;
-	        renderer.put('.' + block, css);
-
-	        return ' ' + block;
-	    };
+	    block = block || renderer.hash(css);
+	    block = renderer.pfx + block;
+	    renderer.put('.' + block, css);
+	    return ' ' + block;
+	  };
 	};
 
-	var addon$4 = function (renderer) {
+	var addon$4 = function addon(renderer) {
 
-	    renderer.sheet = function (map, block) {
-	        var result = {};
+	  renderer.sheet = function (map, block) {
+	    var result = {};
 
-	        if (!block) {
-	            block = renderer.hash(map);
-	        }
+	    if (!block) {
+	      block = renderer.hash(map);
+	    }
 
-	        var onElementModifier = function (elementModifier) {
-	            var styles = map[elementModifier];
+	    var onElementModifier = function onElementModifier(elementModifier) {
+	      var styles = map[elementModifier];
 
-	            {
-	                Object.defineProperty(result, elementModifier, {
-	                    configurable: true,
-	                    enumerable: true,
-	                    get: function () {
-	                        var classNames = renderer.rule(styles, block + '-' + elementModifier);
+	      {
+	        defineProperty$7(result, elementModifier, {
+	          configurable: true,
+	          enumerable: true,
+	          get: function get() {
+	            var classNames = renderer.rule(styles, block + '-' + elementModifier);
 
-	                        Object.defineProperty(result, elementModifier, {
-	                            value: classNames,
-	                            enumerable: true
-	                        });
+	            defineProperty$7(result, elementModifier, {
+	              value: classNames,
+	              enumerable: true
+	            });
 
-	                        return classNames;
-	                    },
-	                });
-	            }
-	        };
-
-	        for (var elementModifier in map) {
-	            onElementModifier(elementModifier);
-	        }
-
-	        return result;
+	            return classNames;
+	          }
+	        });
+	      }
 	    };
+
+	    for (var elementModifier in map) {
+	      onElementModifier(elementModifier);
+	    }
+
+	    return result;
+	  };
 	};
 
 	function setupNano(classPrefix) {
