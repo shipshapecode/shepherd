@@ -50,6 +50,7 @@ export class Tour extends Evented {
     autoBind(this);
 
     this.options = options;
+    this.classPrefix = this.options && this.options.classPrefix ? `${this.options.classPrefix}-` : '';
     this.styles = generateStyles(options);
     this.steps = this.options.steps || [];
 
@@ -364,7 +365,7 @@ export class Tour extends Evented {
    * @private
    */
   _addBodyAttrs() {
-    document.body.setAttribute('data-shepherd-active-tour', this.id);
+    document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
     document.body.classList.add(this.styles.active.trim());
   }
 
@@ -374,7 +375,7 @@ export class Tour extends Evented {
    * @private
    */
   _removeBodyAttrs() {
-    document.body.removeAttribute('data-shepherd-active-tour');
+    document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
     document.body.classList.remove('shepherd-active');
   }
 

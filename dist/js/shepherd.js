@@ -8339,6 +8339,7 @@
 
 	    _this = possibleConstructorReturn(this, getPrototypeOf$3(Step).call(this, tour, options));
 	    _this.tour = tour;
+	    _this.classPrefix = _this.tour.options && _this.tour.options.classPrefix ? "".concat(_this.tour.options.classPrefix, "-") : '';
 	    _this.styles = tour.styles;
 	    autoBind(assertThisInitialized(_this));
 
@@ -8412,7 +8413,7 @@
 	    value: function hide() {
 	      this.tour.modal.hide();
 	      this.trigger('before-hide');
-	      document.body.removeAttribute('data-shepherd-step');
+	      document.body.removeAttribute("data-".concat(this.classPrefix, "shepherd-step"));
 
 	      if (this.target) {
 	        this._updateStepTargetOnHide();
@@ -8608,28 +8609,28 @@
 	  }, {
 	    key: "_createTooltipContent",
 	    value: function _createTooltipContent() {
-	      var _context9, _context11, _context12;
+	      var _context9, _context10, _context12, _context13;
 
 	      var content = document.createElement('div');
 	      var classes = this.options.classes || '';
 	      var descriptionId = "".concat(this.id, "-description");
 	      var labelId = "".concat(this.id, "-label");
-	      var element = createFromHTML(concat$2(_context9 = "<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"")).call(_context9, this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
+	      var element = createFromHTML(concat$2(_context9 = concat$2(_context10 = "<div class=\"".concat(classes, "\"\n       data-")).call(_context10, this.classPrefix, "shepherd-step-id=\"")).call(_context9, this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
 	      var header = document.createElement('header');
 
 	      if (this.options.title) {
-	        var _context10;
+	        var _context11;
 
 	        var title = document.createElement('h3');
-	        title.classList.add(trim$2(_context10 = this.styles.title).call(_context10));
+	        title.classList.add(trim$2(_context11 = this.styles.title).call(_context11));
 	        title.innerHTML = "".concat(this.options.title);
 	        title.id = labelId;
 	        element.setAttribute('aria-labeledby', labelId);
 	        header.appendChild(title);
 	      }
 
-	      content.classList.add(trim$2(_context11 = this.styles.content).call(_context11));
-	      header.classList.add(trim$2(_context12 = this.styles.header).call(_context12));
+	      content.classList.add(trim$2(_context12 = this.styles.content).call(_context12));
+	      header.classList.add(trim$2(_context13 = this.styles.header).call(_context13));
 	      element.appendChild(content);
 	      content.appendChild(header);
 
@@ -8684,9 +8685,9 @@
 	      this.id = this.options.id || "step-".concat(uniqueId());
 
 	      if (when) {
-	        var _context13;
+	        var _context14;
 
-	        forEach$2(_context13 = entries$2(when)).call(_context13, function (_ref) {
+	        forEach$2(_context14 = entries$2(when)).call(_context14, function (_ref) {
 	          var _ref2 = slicedToArray(_ref, 2),
 	              event = _ref2[0],
 	              handler = _ref2[1];
@@ -8703,7 +8704,7 @@
 	  }, {
 	    key: "_setupElements",
 	    value: function _setupElements() {
-	      var _context14;
+	      var _context15;
 
 	      if (!isUndefined(this.el)) {
 	        this.destroy();
@@ -8718,7 +8719,7 @@
 	      }
 
 	      setupTooltip(this);
-	      this.el.classList.add(trim$2(_context14 = this.styles.element).call(_context14));
+	      this.el.classList.add(trim$2(_context15 = this.styles.element).call(_context15));
 	    }
 	    /**
 	     * Triggers `before-show`, generates the tooltip DOM content,
@@ -8742,7 +8743,7 @@
 	      }
 
 	      this.target.classList.add('shepherd-enabled', 'shepherd-target');
-	      document.body.setAttribute('data-shepherd-step', this.id);
+	      document.body.setAttribute("data-".concat(this.classPrefix, "shepherd-step"), this.id);
 
 	      if (this.options.scrollTo) {
 	        setTimeout$2(function () {
@@ -11466,6 +11467,7 @@
 	    _this = possibleConstructorReturn(this, getPrototypeOf$3(Tour).call(this, options));
 	    autoBind(assertThisInitialized(_this));
 	    _this.options = options;
+	    _this.classPrefix = _this.options && _this.options.classPrefix ? "".concat(_this.options.classPrefix, "-") : '';
 	    _this.styles = generateStyles(options);
 	    _this.steps = _this.options.steps || []; // Pass these events onto the global Shepherd object
 
@@ -11849,7 +11851,7 @@
 	    value: function _addBodyAttrs() {
 	      var _context9;
 
-	      document.body.setAttribute('data-shepherd-active-tour', this.id);
+	      document.body.setAttribute("data-".concat(this.classPrefix, "shepherd-active-tour"), this.id);
 	      document.body.classList.add(trim$2(_context9 = this.styles.active).call(_context9));
 	    }
 	    /**
@@ -11861,7 +11863,7 @@
 	  }, {
 	    key: "_removeBodyAttrs",
 	    value: function _removeBodyAttrs() {
-	      document.body.removeAttribute('data-shepherd-active-tour');
+	      document.body.removeAttribute("data-".concat(this.classPrefix, "shepherd-active-tour"));
 	      document.body.classList.remove('shepherd-active');
 	    }
 	  }]);
