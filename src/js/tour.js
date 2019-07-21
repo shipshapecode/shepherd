@@ -377,7 +377,7 @@ export class Tour extends Evented {
    */
   _removeBodyAttrs() {
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-    document.body.classList.remove('shepherd-active');
+    document.body.classList.remove(this.styles.active.trim());
   }
 
 }
