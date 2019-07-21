@@ -109,6 +109,7 @@ export class Step extends Evented {
   constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
+    this.classPrefix = this.tour.options && this.tour.options.classPrefix ? `${this.tour.options.classPrefix}-` : '';
     this.styles = tour.styles;
 
     autoBind(this);
@@ -174,7 +175,7 @@ export class Step extends Evented {
 
     this.trigger('before-hide');
 
-    document.body.removeAttribute('data-shepherd-step');
+    document.body.removeAttribute(`data-${this.classPrefix}shepherd-step`);
 
     if (this.target) {
       this._updateStepTargetOnHide();
@@ -348,7 +349,7 @@ export class Step extends Evented {
     const labelId = `${this.id}-label`;
     const element = createFromHTML(
       `<div class="${classes}"
-       data-shepherd-step-id="${this.id}"
+       data-${this.classPrefix}shepherd-step-id="${this.id}"
        role="dialog"
        tabindex="0">`
     );
@@ -455,7 +456,7 @@ export class Step extends Evented {
 
     this.target.classList.add('shepherd-enabled', 'shepherd-target');
 
-    document.body.setAttribute('data-shepherd-step', this.id);
+    document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
