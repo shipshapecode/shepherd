@@ -44,7 +44,7 @@ export function generateStyles(options) {
       '&:hover': {
         background: darken(0.1, variables.shepherdThemePrimary)
       },
-      '&.shepherd-button-secondary': {
+      [`&.${classPrefix}shepherd-button-secondary`]: {
         background: variables.shepherdThemeSecondary,
         color: variables.shepherdThemeTextSecondary,
         '&:hover': {
@@ -110,7 +110,7 @@ export function generateStyles(options) {
       justifyContent: 'flex-end',
       lineHeight: '2em',
       padding: '0.75em 0.75em 0',
-      [`.shepherd-has-title .${classPrefix}shepherd-content &`]: {
+      [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
         background: variables.shepherdHeaderBackground,
         padding: '1em'
       }
@@ -177,7 +177,7 @@ export function generateStyles(options) {
         borderBottomColor: variables.shepherdTextBackground
       },
 
-      '&.shepherd-has-title': {
+      [`&.${classPrefix}shepherd-has-title`]: {
         '.tippy-arrow': {
           borderBottomColor: variables.shepherdHeaderBackground
         }

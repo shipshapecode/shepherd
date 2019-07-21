@@ -9,6 +9,8 @@
   }
 
   function setupShepherd() {
+    var prefix = 'demo-';
+    var buttonSecondaryClass = prefix + 'shepherd-button-secondary';
     var shepherd = new Shepherd.Tour({
       defaultStepOptions: {
         classes: 'class-1 class-2',
@@ -21,7 +23,7 @@
           maxWidth: 500
         }
       },
-      classPrefix: 'demo-',
+      classPrefix: prefix,
       styleVariables: {
         shepherdThemePrimary: '#00213b',
         shepherdThemeSecondary: '#e5e5e5'
@@ -37,7 +39,7 @@
       classes: 'shepherd shepherd-welcome',
       buttons: [{
         action: shepherd.cancel,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Exit'
       }, {
         action: shepherd.next,
@@ -53,7 +55,7 @@
       },
       buttons: [{
         action: shepherd.back,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Back'
       }, {
         action: shepherd.next,
@@ -69,7 +71,7 @@
       },
       buttons: [{
         action: shepherd.back,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Back'
       }, {
         action: shepherd.next,
@@ -85,7 +87,7 @@
       },
       buttons: [{
         action: shepherd.back,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Back'
       }, {
         action: shepherd.next,
@@ -97,7 +99,7 @@
       text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
       buttons: [{
         action: shepherd.back,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Back'
       }, {
         action: shepherd.next,
@@ -113,7 +115,7 @@
       },
       buttons: [{
         action: shepherd.back,
-        classes: 'shepherd-button-secondary',
+        classes: buttonSecondaryClass,
         text: 'Back'
       }, {
         action: shepherd.next,

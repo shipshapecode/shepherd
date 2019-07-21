@@ -249,7 +249,7 @@ export class Step extends Evented {
       const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
       header.appendChild(link);
 
-      element.classList.add('shepherd-has-cancel-link');
+      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
       bindCancelLink(link, this);
     }
   }
@@ -454,9 +454,9 @@ export class Step extends Evented {
       this._setupElements();
     }
 
-    this.target.classList.add('shepherd-enabled', 'shepherd-target');
-
-    document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
+    const prefix = this.classPrefix;
+    this.target.classList.add(`${prefix}shepherd-enabled`, `${prefix}shepherd-target`);
+    document.body.setAttribute(`data-${prefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -503,7 +503,7 @@ export class Step extends Evented {
     if (this.options.highlightClass) {
       this.target.classList.remove(this.options.highlightClass);
     }
-
-    this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+    const prefix = this.classPrefix;
+    this.target.classList.remove(`${prefix}shepherd-enabled`, `${prefix}shepherd-target`);
   }
 }
