@@ -230,3 +230,13 @@ function _makeCenteredTippy(step) {
 
   return tippy(document.body, tippyOptions);
 }
+
+export function normalizePrefix(prefix) {
+  if (typeof prefix !== 'string' || prefix === '') {
+    return '';
+  }
+  if (prefix.charAt(prefix.length - 1) !== '-') {
+    return `${prefix}-`;
+  }
+  return prefix;
+}

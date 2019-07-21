@@ -1,11 +1,12 @@
 import { darken, lighten } from 'polished';
 import getVariables from './variables';
 import { setupNano } from './nano';
+import { normalizePrefix } from '../utils/general';
 
 export function generateStyles(options) {
   const variables = getVariables(options);
   const nano = setupNano(options.classPrefix);
-  const classPrefix = options.classPrefix || '';
+  const classPrefix = normalizePrefix(options.classPrefix);
 
   const styles = {
     active: {

@@ -3,7 +3,7 @@ import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
-import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
+import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
 
 // Polyfills
@@ -109,7 +109,7 @@ export class Step extends Evented {
   constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
-    this.classPrefix = this.tour.options && this.tour.options.classPrefix ? `${this.tour.options.classPrefix}-` : '';
+    this.classPrefix = this.tour.options ? normalizePrefix(this.tour.options.classPrefix) : '';
     this.styles = tour.styles;
 
     autoBind(this);
