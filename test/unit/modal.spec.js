@@ -1,5 +1,6 @@
 import { Modal } from '../../src/js/modal';
 import { Step } from '../../src/js/step';
+import { Tour } from '../../src/js/tour';
 import { classNames as modalClassNames } from '../../src/js/utils/modal';
 import { stub } from 'sinon';
 
@@ -42,16 +43,20 @@ describe('Modal', function() {
   });
 
   describe('setupForStep()', function() {
-    let hideStub, showStub;
+    let hideStub, showStub, tour;
 
-    afterEach(()=>{
+    beforeEach(() => {
+      tour = new Tour();
+    });
+
+    afterEach(() => {
       hideStub.restore();
       showStub.restore();
     });
 
     it('useModalOverlay: false, hides modal', () => {
       const modal = new Modal({ useModalOverlay: false });
-      const step = new Step();
+      const step = new Step(tour, {});
       hideStub = stub(modal, 'hide');
       showStub = stub(modal, 'show');
       modal.setupForStep(step);
@@ -62,7 +67,7 @@ describe('Modal', function() {
 
     it('useModalOverlay: true, shows modal', () => {
       const modal = new Modal({ useModalOverlay: true });
-      const step = new Step();
+      const step = new Step(tour, {});
       hideStub = stub(modal, 'hide');
       showStub = stub(modal, 'show');
       modal.setupForStep(step);

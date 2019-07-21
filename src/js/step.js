@@ -106,9 +106,10 @@ export class Step extends Evented {
    * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    * @return {Step} The newly created Step instance
    */
-  constructor(tour, options) {
+  constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
+    this.styles = tour.styles;
 
     autoBind(this);
 
@@ -222,11 +223,11 @@ export class Step extends Evented {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
       const footer = document.createElement('footer');
 
-      footer.classList.add('shepherd-footer');
+      footer.classList.add(this.styles.footer.trim());
 
       this.options.buttons.map((cfg) => {
         const button = createFromHTML(
-          `<button class="shepherd-button ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
+          `<button class="${this.styles.button.trim()} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
         footer.appendChild(button);
         bindButtonEvents(cfg, button, this);
@@ -244,7 +245,7 @@ export class Step extends Evented {
    */
   _addCancelLink(element, header) {
     if (this.options.showCancelLink) {
-      const link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+      const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
       header.appendChild(link);
 
       element.classList.add('shepherd-has-cancel-link');
@@ -258,11 +259,12 @@ export class Step extends Evented {
    * @param {HTMLElement} content The content to append the text to
    * @param {string} descriptionId The id to set on the shepherd-text element
    * for the parent element to use for aria-describedby
+   * @params {Step} step The step to get the styles from for the shepherd-text class
    * @private
    */
-  _addContent(content, descriptionId) {
+  _addContent(content, descriptionId, step) {
     const textContainer = createFromHTML(
-      `<div class="shepherd-text"
+      `<div class="${step.styles.text.trim()}"
        id="${descriptionId}"
        ></div>`
     );
@@ -354,20 +356,21 @@ export class Step extends Evented {
 
     if (this.options.title) {
       const title = document.createElement('h3');
-      title.classList.add('shepherd-title');
+      title.classList.add(this.styles.title.trim());
       title.innerHTML = `${this.options.title}`;
       title.id = labelId;
       element.setAttribute('aria-labeledby', labelId);
       header.appendChild(title);
     }
 
-    content.classList.add('shepherd-content');
-    header.classList.add('shepherd-header');
+    content.classList.add(this.styles.content.trim());
+
+    header.classList.add(this.styles.header.trim());
     element.appendChild(content);
     content.appendChild(header);
 
     if (!isUndefined(this.options.text)) {
-      this._addContent(content, descriptionId);
+      this._addContent(content, descriptionId, this);
       element.setAttribute('aria-describedby', descriptionId);
     }
 
@@ -432,6 +435,7 @@ export class Step extends Evented {
     }
 
     setupTooltip(this);
+    this.el.classList.add(this.styles.element.trim());
   }
 
   /**

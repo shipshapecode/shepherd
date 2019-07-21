@@ -51,6 +51,8 @@
     "@babel/runtime-corejs3": "^7.5.5",
     "body-scroll-lock": "^2.6.4",
     "element-matches": "^0.1.2",
+    "nano-css": "^5.2.0",
+    "polished": "^3.4.1",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-alpha.2"
   },
@@ -59,13 +61,11 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@testing-library/jest-dom": "^4.0.0",
-    "autoprefixer": "^9.6.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
-    "cssnano": "^4.1.10",
     "cypress": "^3.4.0",
     "cypress-plugin-tab": "^1.0.1",
     "del": "^5.0.0",
@@ -80,7 +80,6 @@
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.0.4",
     "mutationobserver-shim": "^0.3.3",
-    "postcss": "^7.0.14",
     "replace": "^1.1.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.17.0",
@@ -95,14 +94,10 @@
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-sass": "^1.2.2",
-    "rollup-plugin-stylelint": "^0.0.4",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.5.0",
     "sinon": "^7.3.2",
-    "start-server-and-test": "^1.9.1",
-    "stylelint": "^10.1.0",
-    "stylelint-config-ship-shape": "^0.6.0"
+    "start-server-and-test": "^1.9.1"
   },
   "engines": {
     "node": ">= 6.*"

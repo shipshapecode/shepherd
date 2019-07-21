@@ -8,6 +8,7 @@ import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
+import { generateStyles } from './styles/generateStyles';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -49,6 +50,7 @@ export class Tour extends Evented {
     autoBind(this);
 
     this.options = options;
+    this.styles = generateStyles(options);
     this.steps = this.options.steps || [];
 
     // Pass these events onto the global Shepherd object
@@ -363,7 +365,7 @@ export class Tour extends Evented {
    */
   _addBodyAttrs() {
     document.body.setAttribute('data-shepherd-active-tour', this.id);
-    document.body.classList.add('shepherd-active');
+    document.body.classList.add(this.styles.active.trim());
   }
 
   /**

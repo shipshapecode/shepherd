@@ -11,6 +11,12 @@ window.Shepherd = Shepherd;
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 
 describe('Tour | Step', () => {
+  let tour;
+
+  beforeEach(() => {
+    tour = new Tour();
+  });
+
   describe('Shepherd.Step()', () => {
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
@@ -62,7 +68,7 @@ describe('Tour | Step', () => {
     });
 
     const stepWithoutNameWithoutId = instance.addStep({
-      attachTo: { element:'body' },
+      attachTo: { element: 'body' },
       highlightClass: 'highlight',
       text: 'This is a step without a name, and without an id',
       buttons: [
@@ -140,7 +146,7 @@ describe('Tour | Step', () => {
         cancel() {
           cancelCalled = true;
         }
-      });
+      }, {});
       step.on('cancel', () => eventTriggered = true);
       step.cancel();
 
@@ -157,7 +163,7 @@ describe('Tour | Step', () => {
         complete() {
           completeCalled = true;
         }
-      });
+      }, {});
       step.on('complete', () => eventTriggered = true);
       step.complete();
 
@@ -168,7 +174,7 @@ describe('Tour | Step', () => {
 
   describe('destroy()', () => {
     it('triggers the destroy event', () => {
-      const step = new Step();
+      const step = new Step(tour, {});
       let eventTriggered = false;
       step.on('destroy', () => eventTriggered = true);
       step.destroy();
@@ -186,7 +192,7 @@ describe('Tour | Step', () => {
           modalHideCalled = true;
         }
       }
-    });
+    }, {});
 
     it('triggers the before-hide event', () => {
       step.on('before-hide', () => beforeHideTriggered = true);
@@ -202,7 +208,7 @@ describe('Tour | Step', () => {
 
   describe('_setupElements()', () => {
     it('calls destroy on the step if the content element is already set', () => {
-      const step = new Step();
+      const step = new Step(tour, {});
       let destroyCalled = false;
       step.el = document.createElement('a');
       step.destroy = () => destroyCalled = true;
@@ -211,7 +217,7 @@ describe('Tour | Step', () => {
     });
 
     it('calls destroy on the tooltip if it already exists', () => {
-      const step = new Step();
+      const step = new Step(tour, {});
       let destroyCalled = false;
       step.tooltip = {
         destroy() { destroyCalled = true; }
@@ -263,7 +269,7 @@ describe('Tour | Step', () => {
 
   describe('getTour()', () => {
     it('returns the tour value', () => {
-      const step = new Step(new Shepherd.Tour());
+      const step = new Step(new Shepherd.Tour(), {});
 
       expect(step.getTour() instanceof Shepherd.Tour).toBeTruthy();
     });
@@ -273,10 +279,10 @@ describe('Tour | Step', () => {
   describe('_addContent()', () => {
     it('adds plain text to the content', () => {
       const content = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
       step.options.text = 'I am some test text.';
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
     });
@@ -284,21 +290,21 @@ describe('Tour | Step', () => {
     it('applies HTML element directly to content', () => {
       const content = document.createElement('div');
       const text = document.createElement('p');
-      const step = new Step();
+      const step = new Step(tour, {});
       text.innerHTML = 'I am some test text.';
       step.options.text = text;
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');
     });
 
     it('applies the text from a function', () => {
       const content = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
       step.options.text = () => 'I am some test text.';
 
-      step._addContent(content);
+      step._addContent(content, '123', step);
 
       expect(typeof step.options.text === 'function').toBeTruthy();
       expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
@@ -308,7 +314,7 @@ describe('Tour | Step', () => {
   describe('_addButtons', () => {
     it('renders no buttons if an empty array is passed to `options.buttons`', () => {
       const content = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
 
       step.options.buttons = [];
 
@@ -319,7 +325,7 @@ describe('Tour | Step', () => {
 
     it('renders no buttons if nothing is passed to `options.buttons`', () => {
       const content = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
 
       step._addButtons(content);
 
@@ -328,7 +334,7 @@ describe('Tour | Step', () => {
 
     it('renders buttons for each item passed to `options.buttons`', () => {
       const content = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
 
       step.options.buttons = [
         defaultButtons.cancel,
@@ -352,7 +358,7 @@ describe('Tour | Step', () => {
   describe('_addKeyDownHandler', () => {
     it('ESC cancels the tour', () => {
       const element = document.createElement('div');
-      const step = new Step();
+      const step = new Step(tour, {});
 
       const cancelStub = stub(step, 'cancel');
 
@@ -398,7 +404,7 @@ describe('Tour | Step', () => {
     it('Cancel link', () => {
       const header = document.createElement('header');
       const element = document.createElement('div');
-      const step = new Step(null, { showCancelLink: true });
+      const step = new Step(tour, { showCancelLink: true });
 
       step._addCancelLink(element, header);
 
@@ -408,7 +414,7 @@ describe('Tour | Step', () => {
 
   describe('_createTooltipContent', () => {
     it('ARIA attributes set', () => {
-      const step = new Step(null, {
+      const step = new Step(tour, {
         id: 'test-step',
         text: 'Lorem Ipsum',
         title: 'Test'
