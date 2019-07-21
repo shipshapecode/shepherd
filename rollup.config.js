@@ -19,7 +19,7 @@ const plugins = [
   commonjs(),
   eslint(),
   babel({
-    exclude: 'node_modules/**',
+    exclude: /node_modules\/(?!(nano-css)\/).*/,
     runtimeHelpers: true
   }),
   replace({
@@ -100,7 +100,7 @@ if (!process.env.DEVELOPMENT) {
         resolve(),
         commonjs(),
         babel({
-          exclude: 'node_modules/**',
+          exclude: /node_modules\/(?!(nano-css)\/).*/,
           runtimeHelpers: true
         }),
         replace({
