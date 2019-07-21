@@ -14,7 +14,6 @@ exclude_patterns:
   - "dist/"
   - "docs/"
   - "jsdoc-template/"
-  - "src/eager/"
   - "**/node_modules/"
   - "**/test/"
   - "**/tests/"
