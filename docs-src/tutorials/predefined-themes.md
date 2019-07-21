@@ -13,45 +13,49 @@ Shepherd ships with a set of themes for you to choose from.
 </style>
 
 
-#### shepherd-theme-default
+#### Light (Default)
 
-```html
-<head>
-  <link rel="stylesheet" href="shepherd-theme-default.css">
-</head>
+```js
+const tour = new Shepherd.Tour({
+  ...
+  theme: 'light'
+});
 ```
 
-<img src="/docs-src/assets/img/themes/default.png" alt="Default Theme" class="theme-image"/>
+<img src="/docs-src/assets/img/themes/default.png" alt="Light Theme" class="theme-image"/>
 
 
-#### shepherd-theme-dark
+#### Dark
 
-```html
-<head>
-  <link rel="stylesheet" href="shepherd-theme-dark.css">
-</head>
+```js
+const tour = new Shepherd.Tour({
+  ...
+  theme: 'dark'
+});
 ```
 
 <img src="/docs-src/assets/img/themes/dark.png" alt="Dark Theme" class="theme-image"/>
 
 
-#### shepherd-theme-square
+#### Square Light
 
-```html
-<head>
-  <link rel="stylesheet" href="shepherd-theme-square.css">
-</head>
+```js
+const tour = new Shepherd.Tour({
+  ...
+  theme: 'squareLight'
+});
 ```
 
-<img src="/docs-src/assets/img/themes/square.png" alt="Square Theme" class="theme-image"/>
+<img src="/docs-src/assets/img/themes/square.png" alt="Square Light Theme" class="theme-image"/>
 
 
-#### shepherd-theme-square-dark
+#### Square Dark
 
-```html
-<head>
-  <link rel="stylesheet" href="shepherd-theme-square-dark.css">
-</head>
+```js
+const tour = new Shepherd.Tour({
+  ...
+  theme: 'squareDark'
+});
 ```
 
 <img src="/docs-src/assets/img/themes/square-dark.png" alt="Square Dark Theme" class="theme-image"/>

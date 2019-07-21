@@ -1693,6 +1693,71 @@
 
 	var map$2 = map$1;
 
+	// a string of all valid unicode whitespaces
+	// eslint-disable-next-line max-len
+	var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var whitespace = '[' + whitespaces + ']';
+	var ltrim = RegExp('^' + whitespace + whitespace + '*');
+	var rtrim = RegExp(whitespace + whitespace + '*$');
+
+	// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+	var createMethod$4 = function (TYPE) {
+	  return function ($this) {
+	    var string = String(requireObjectCoercible($this));
+	    if (TYPE & 1) string = string.replace(ltrim, '');
+	    if (TYPE & 2) string = string.replace(rtrim, '');
+	    return string;
+	  };
+	};
+
+	var stringTrim = {
+	  // `String.prototype.{ trimLeft, trimStart }` methods
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+	  start: createMethod$4(1),
+	  // `String.prototype.{ trimRight, trimEnd }` methods
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+	  end: createMethod$4(2),
+	  // `String.prototype.trim` method
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+	  trim: createMethod$4(3)
+	};
+
+	var non = '\u200B\u0085\u180E';
+
+	// check that a method works with the correct list
+	// of whitespaces and has a correct name
+	var forcedStringTrimMethod = function (METHOD_NAME) {
+	  return fails(function () {
+	    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+	  });
+	};
+
+	var $trim = stringTrim.trim;
+
+
+	// `String.prototype.trim` method
+	// https://tc39.github.io/ecma262/#sec-string.prototype.trim
+	_export({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+	  trim: function trim() {
+	    return $trim(this);
+	  }
+	});
+
+	var trim = entryVirtual('String').trim;
+
+	var StringPrototype = String.prototype;
+
+	var trim_1 = function (it) {
+	  var own = it.trim;
+	  return typeof it === 'string' || it === StringPrototype
+	    || (it instanceof String && own === StringPrototype.trim) ? trim : own;
+	};
+
+	var trim$1 = trim_1;
+
+	var trim$2 = trim$1;
+
 	var isArray$4 = isArray$1;
 
 	var isArray$5 = isArray$4;
@@ -7486,38 +7551,50 @@
 
 	function ownKeys$4(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context; forEach$2(_context = ownKeys$4(source, true)).call(_context, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context2; forEach$2(_context2 = ownKeys$4(source)).call(_context2, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
-
-	var addShepherdClass = _createClassModifier('shepherd');
+	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context3; forEach$2(_context3 = ownKeys$4(source, true)).call(_context3, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context4; forEach$2(_context4 = ownKeys$4(source)).call(_context4, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
 
 	var addHasTitleClass = _createClassModifier('shepherd-has-title');
 
-	var centeredStylePopperModifier = {
-	  computeStyle: {
-	    enabled: true,
-	    fn: function fn(data) {
-	      data.styles = assign$2({}, data.styles, {
-	        left: '50%',
-	        top: '50%',
-	        transform: 'translate(-50%, -50%)'
-	      });
-	      return data;
-	    }
-	  },
-	  addShepherdClass: addShepherdClass
-	}; // Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+	function _getCenteredStylePopperModifier(styles) {
+	  var _context;
 
-	var defaultPopperOptions = {
-	  positionFixed: true,
-	  modifiers: {
-	    addShepherdClass: addShepherdClass
-	  }
-	};
+	  return {
+	    computeStyle: {
+	      enabled: true,
+	      fn: function fn(data) {
+	        data.styles = assign$2({}, data.styles, {
+	          left: '50%',
+	          top: '50%',
+	          transform: 'translate(-50%, -50%)'
+	        });
+	        return data;
+	      }
+	    },
+	    addShepherdClass: _createClassModifier(trim$2(_context = styles.shepherd).call(_context))
+	  };
+	}
+	/**
+	 * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+	 * @private
+	 */
+
+
+	function _getDefaultPopperOptions(styles) {
+	  var _context2;
+
+	  return {
+	    positionFixed: true,
+	    modifiers: {
+	      addShepherdClass: _createClassModifier(trim$2(_context2 = styles.shepherd).call(_context2))
+	    }
+	  };
+	}
 	/**
 	 * TODO rewrite the way items are being added to use more performant documentFragment code
 	 * @param html
 	 * @return {HTMLElement} The element created from the passed HTML string
 	 */
+
 
 	function createFromHTML(html) {
 	  var el = document.createElement('div');
@@ -7576,7 +7653,6 @@
 	  var attachToOpts = parseAttachTo(step);
 	  step.tooltip = _makeTippyInstance(attachToOpts, step);
 	  step.target = attachToOpts.element || document.body;
-	  step.el.classList.add('shepherd-element');
 	}
 	/**
 	 * Checks if options.attachTo.element is a string, and if so, tries to find the element
@@ -7652,6 +7728,8 @@
 
 
 	function _makeAttachedTippyOptions(attachToOptions, step) {
+	  var defaultPopperOptions = _getDefaultPopperOptions(step.styles);
+
 	  var resultingTippyOptions = {
 	    content: step.el,
 	    flipOnUpdate: true,
@@ -7685,6 +7763,10 @@
 
 
 	function _makeCenteredTippy(step) {
+	  var centeredStylePopperModifier = _getCenteredStylePopperModifier(step.styles);
+
+	  var defaultPopperOptions = _getDefaultPopperOptions(step.styles);
+
 	  var tippyOptions = _objectSpread({
 	    content: step.el,
 	    placement: 'top'
@@ -7699,9 +7781,9 @@
 	    });
 	  }
 
-	  var finalPopperOptions = assign$2({}, defaultPopperOptions, tippyOptions.popperOptions, {
-	    modifiers: assign$2(centeredStylePopperModifier, tippyOptions.popperOptions.modifiers)
-	  });
+	  assign$2(defaultPopperOptions.modifiers, centeredStylePopperModifier, tippyOptions.popperOptions.modifiers);
+
+	  var finalPopperOptions = assign$2({}, defaultPopperOptions, tippyOptions.popperOptions);
 
 	  tippyOptions.popperOptions = finalPopperOptions;
 	  return tippy(document.body, tippyOptions);
@@ -8248,13 +8330,16 @@
 	   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
 	   * @return {Step} The newly created Step instance
 	   */
-	  function Step(tour, options) {
+	  function Step(tour) {
 	    var _this;
+
+	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	    classCallCheck(this, Step);
 
 	    _this = possibleConstructorReturn(this, getPrototypeOf$3(Step).call(this, tour, options));
 	    _this.tour = tour;
+	    _this.styles = tour.styles;
 	    autoBind(assertThisInitialized(_this));
 
 	    _this._setOptions(options);
@@ -8384,15 +8469,15 @@
 	      var _this3 = this;
 
 	      if (isArray$5(this.options.buttons) && this.options.buttons.length) {
-	        var _context;
+	        var _context, _context2;
 
 	        var footer = document.createElement('footer');
-	        footer.classList.add('shepherd-footer');
+	        footer.classList.add(trim$2(_context = this.styles.footer).call(_context));
 
-	        map$2(_context = this.options.buttons).call(_context, function (cfg) {
-	          var _context2;
+	        map$2(_context2 = this.options.buttons).call(_context2, function (cfg) {
+	          var _context3, _context4, _context5;
 
-	          var button = createFromHTML(concat$2(_context2 = "<button class=\"shepherd-button ".concat(cfg.classes || '', "\" tabindex=\"0\">")).call(_context2, cfg.text, "</button>"));
+	          var button = createFromHTML(concat$2(_context3 = concat$2(_context4 = "<button class=\"".concat(trim$2(_context5 = _this3.styles.button).call(_context5), " ")).call(_context4, cfg.classes || '', "\" tabindex=\"0\">")).call(_context3, cfg.text, "</button>"));
 	          footer.appendChild(button);
 	          bindButtonEvents(cfg, button, _this3);
 	        });
@@ -8411,7 +8496,9 @@
 	    key: "_addCancelLink",
 	    value: function _addCancelLink(element, header) {
 	      if (this.options.showCancelLink) {
-	        var link = createFromHTML('<a href class="shepherd-cancel-link"></a>');
+	        var _context6;
+
+	        var link = createFromHTML("<a href class=\"".concat(trim$2(_context6 = this.styles['cancel-link']).call(_context6), "\"></a>"));
 	        header.appendChild(link);
 	        element.classList.add('shepherd-has-cancel-link');
 	        bindCancelLink(link, this);
@@ -8423,13 +8510,16 @@
 	     * @param {HTMLElement} content The content to append the text to
 	     * @param {string} descriptionId The id to set on the shepherd-text element
 	     * for the parent element to use for aria-describedby
+	     * @params {Step} step The step to get the styles from for the shepherd-text class
 	     * @private
 	     */
 
 	  }, {
 	    key: "_addContent",
-	    value: function _addContent(content, descriptionId) {
-	      var textContainer = createFromHTML("<div class=\"shepherd-text\"\n       id=\"".concat(descriptionId, "\"\n       ></div>"));
+	    value: function _addContent(content, descriptionId, step) {
+	      var _context7, _context8;
+
+	      var textContainer = createFromHTML(concat$2(_context7 = "<div class=\"".concat(trim$2(_context8 = step.styles.text).call(_context8), "\"\n       id=\"")).call(_context7, descriptionId, "\"\n       ></div>"));
 	      var text = this.options.text;
 
 	      if (isFunction(text)) {
@@ -8518,31 +8608,33 @@
 	  }, {
 	    key: "_createTooltipContent",
 	    value: function _createTooltipContent() {
-	      var _context3;
+	      var _context9, _context11, _context12;
 
 	      var content = document.createElement('div');
 	      var classes = this.options.classes || '';
 	      var descriptionId = "".concat(this.id, "-description");
 	      var labelId = "".concat(this.id, "-label");
-	      var element = createFromHTML(concat$2(_context3 = "<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"")).call(_context3, this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
+	      var element = createFromHTML(concat$2(_context9 = "<div class=\"".concat(classes, "\"\n       data-shepherd-step-id=\"")).call(_context9, this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
 	      var header = document.createElement('header');
 
 	      if (this.options.title) {
+	        var _context10;
+
 	        var title = document.createElement('h3');
-	        title.classList.add('shepherd-title');
+	        title.classList.add(trim$2(_context10 = this.styles.title).call(_context10));
 	        title.innerHTML = "".concat(this.options.title);
 	        title.id = labelId;
 	        element.setAttribute('aria-labeledby', labelId);
 	        header.appendChild(title);
 	      }
 
-	      content.classList.add('shepherd-content');
-	      header.classList.add('shepherd-header');
+	      content.classList.add(trim$2(_context11 = this.styles.content).call(_context11));
+	      header.classList.add(trim$2(_context12 = this.styles.header).call(_context12));
 	      element.appendChild(content);
 	      content.appendChild(header);
 
 	      if (!isUndefined(this.options.text)) {
-	        this._addContent(content, descriptionId);
+	        this._addContent(content, descriptionId, this);
 
 	        element.setAttribute('aria-describedby', descriptionId);
 	      }
@@ -8592,9 +8684,9 @@
 	      this.id = this.options.id || "step-".concat(uniqueId());
 
 	      if (when) {
-	        var _context4;
+	        var _context13;
 
-	        forEach$2(_context4 = entries$2(when)).call(_context4, function (_ref) {
+	        forEach$2(_context13 = entries$2(when)).call(_context13, function (_ref) {
 	          var _ref2 = slicedToArray(_ref, 2),
 	              event = _ref2[0],
 	              handler = _ref2[1];
@@ -8611,6 +8703,8 @@
 	  }, {
 	    key: "_setupElements",
 	    value: function _setupElements() {
+	      var _context14;
+
 	      if (!isUndefined(this.el)) {
 	        this.destroy();
 	      }
@@ -8624,6 +8718,7 @@
 	      }
 
 	      setupTooltip(this);
+	      this.el.classList.add(trim$2(_context14 = this.styles.element).call(_context14));
 	    }
 	    /**
 	     * Triggers `before-show`, generates the tooltip DOM content,
@@ -8798,14 +8893,1011 @@
 
 	var bodyScrollLock = unwrapExports(bodyScrollLock_min);
 
+	var KEBAB_REGEX = /[A-Z]/g;
+
+	var hash = function (str) {
+	    var hash = 5381, i = str.length;
+
+	    while (i) hash = (hash * 33) ^ str.charCodeAt(--i);
+
+	    return '_' + (hash >>> 0).toString(36);
+	};
+
+	var create$3 = function (config) {
+	    config = config || {};
+	    var assign = config.assign || Object.assign;
+	    var client = typeof window === 'object';
+
+	    var renderer = assign({
+	        raw: '',
+	        pfx: '_',
+	        client: client,
+	        assign: assign,
+	        stringify: JSON.stringify,
+	        kebab: function (prop) {
+	            return prop.replace(KEBAB_REGEX, '-$&').toLowerCase();
+	        },
+	        decl: function (key, value) {
+	            key = renderer.kebab(key);
+	            return key + ':' + value + ';';
+	        },
+	        hash: function (obj) {
+	            return hash(renderer.stringify(obj));
+	        },
+	        selector: function (parent, selector) {
+	            return parent + (selector[0] === ':' ? ''  : ' ') + selector;
+	        },
+	        putRaw: function (rawCssRule) {
+	            renderer.raw += rawCssRule;
+	        },
+	    }, config);
+
+	    if (renderer.client) {
+	        if (!renderer.sh)
+	            document.head.appendChild(renderer.sh = document.createElement('style'));
+
+	        renderer.putRaw = function (rawCssRule) {
+	            // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
+	            // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
+	            // that's why we use .appendChild in DEV.
+	            {
+	                var sheet = renderer.sh.sheet;
+
+	                // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
+	                try {
+	                    sheet.insertRule(rawCssRule, sheet.cssRules.length);
+	                // eslint-disable-next-line no-empty
+	                } catch (error) {}
+	            }
+	        };
+	    }
+
+	    renderer.put = function (selector, decls, atrule) {
+	        var str = '';
+	        var prop, value;
+	        var postponed = [];
+
+	        for (prop in decls) {
+	            value = decls[prop];
+
+	            if ((value instanceof Object) && !(value instanceof Array)) {
+	                postponed.push(prop);
+	            } else {
+	                {
+	                    str += renderer.decl(prop, value, selector, atrule);
+	                }
+	            }
+	        }
+
+	        if (str) {
+	            {
+	                str = selector + '{' + str + '}';
+	            }
+	            renderer.putRaw(atrule ? atrule + '{' + str + '}' : str);
+	        }
+
+	        for (var i = 0; i < postponed.length; i++) {
+	            prop = postponed[i];
+
+	            if (prop[0] === "@" && prop !== "@font-face") {
+	                renderer.putAt(selector, decls[prop], prop);
+	            } else {
+	                renderer.put(renderer.selector(selector, prop), decls[prop], atrule);
+	            }
+	        }
+	    };
+
+	    renderer.putAt = renderer.put;
+
+	    return renderer;
+	};
+
+	var addon = function (renderer) {
+	    var cache = {};
+
+	    renderer.cache = function (css) {
+	        if (!css) return '';
+
+	        var key = renderer.hash(css);
+
+	        if (!cache[key]) {
+	            cache[key] = renderer.rule(css, key);
+	        }
+
+	        return cache[key];
+	    };
+	};
+
+	var addon$1 = function (renderer) {
+	    renderer.selector = function (parentSelectors, selector) {
+	        var parents = parentSelectors.split(',');
+	        var result = [];
+	        var selectors = selector.split(',');
+	        var len1 = parents.length;
+	        var len2 = selectors.length;
+	        var i, j, sel, pos, parent, replacedSelector;
+
+	        for (i = 0; i < len2; i++) {
+	            sel = selectors[i];
+	            pos = sel.indexOf('&');
+
+	            if (pos > -1) {
+	                for (j = 0; j < len1; j++) {
+	                    parent = parents[j];
+	                    replacedSelector = sel.replace(/&/g, parent);
+	                    result.push(replacedSelector);
+	                }
+	            } else {
+	                for (j = 0; j < len1; j++) {
+	                    parent = parents[j];
+
+	                    if (parent) {
+	                        result.push(parent + ' ' + sel);
+	                    } else {
+	                        result.push(sel);
+	                    }
+	                }
+	            }
+	        }
+
+	        return result.join(',');
+	    };
+	};
+
+	var capitalizeString_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = capitalizeString;
+	function capitalizeString(str) {
+	  return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(capitalizeString_1);
+
+	var prefixProperty_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = prefixProperty;
+
+
+
+	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function prefixProperty(prefixProperties, property, style) {
+	  if (prefixProperties.hasOwnProperty(property)) {
+	    var newStyle = {};
+	    var requiredPrefixes = prefixProperties[property];
+	    var capitalizedProperty = (0, _capitalizeString2.default)(property);
+	    var keys = Object.keys(style);
+	    for (var i = 0; i < keys.length; i++) {
+	      var styleProperty = keys[i];
+	      if (styleProperty === property) {
+	        for (var j = 0; j < requiredPrefixes.length; j++) {
+	          newStyle[requiredPrefixes[j] + capitalizedProperty] = style[property];
+	        }
+	      }
+	      newStyle[styleProperty] = style[styleProperty];
+	    }
+	    return newStyle;
+	  }
+	  return style;
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(prefixProperty_1);
+
+	var prefixValue_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = prefixValue;
+	function prefixValue(plugins, property, value, style, metaData) {
+	  for (var i = 0, len = plugins.length; i < len; ++i) {
+	    var processedValue = plugins[i](property, value, style, metaData);
+
+	    // we can stop processing if a value is returned
+	    // as all plugin criteria are unique
+	    if (processedValue) {
+	      return processedValue;
+	    }
+	  }
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(prefixValue_1);
+
+	var addNewValuesOnly_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = addNewValuesOnly;
+	function addIfNew(list, value) {
+	  if (list.indexOf(value) === -1) {
+	    list.push(value);
+	  }
+	}
+
+	function addNewValuesOnly(list, values) {
+	  if (Array.isArray(values)) {
+	    for (var i = 0, len = values.length; i < len; ++i) {
+	      addIfNew(list, values[i]);
+	    }
+	  } else {
+	    addIfNew(list, values);
+	  }
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(addNewValuesOnly_1);
+
+	var isObject_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isObject;
+	function isObject(value) {
+	  return value instanceof Object && !Array.isArray(value);
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(isObject_1);
+
+	var createPrefixer_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = createPrefixer;
+
+
+
+	var _prefixProperty2 = _interopRequireDefault(prefixProperty_1);
+
+
+
+	var _prefixValue2 = _interopRequireDefault(prefixValue_1);
+
+
+
+	var _addNewValuesOnly2 = _interopRequireDefault(addNewValuesOnly_1);
+
+
+
+	var _isObject2 = _interopRequireDefault(isObject_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function createPrefixer(_ref) {
+	  var prefixMap = _ref.prefixMap,
+	      plugins = _ref.plugins;
+
+	  function prefixAll(style) {
+	    for (var property in style) {
+	      var value = style[property];
+
+	      // handle nested objects
+	      if ((0, _isObject2.default)(value)) {
+	        style[property] = prefixAll(value);
+	        // handle array values
+	      } else if (Array.isArray(value)) {
+	        var combinedValue = [];
+
+	        for (var i = 0, len = value.length; i < len; ++i) {
+	          var processedValue = (0, _prefixValue2.default)(plugins, property, value[i], style, prefixMap);
+	          (0, _addNewValuesOnly2.default)(combinedValue, processedValue || value[i]);
+	        }
+
+	        // only modify the value if it was touched
+	        // by any plugin to prevent unnecessary mutations
+	        if (combinedValue.length > 0) {
+	          style[property] = combinedValue;
+	        }
+	      } else {
+	        var _processedValue = (0, _prefixValue2.default)(plugins, property, value, style, prefixMap);
+
+	        // only modify the value if it was touched
+	        // by any plugin to prevent unnecessary mutations
+	        if (_processedValue) {
+	          style[property] = _processedValue;
+	        }
+
+	        style = (0, _prefixProperty2.default)(prefixMap, property, style);
+	      }
+	    }
+
+	    return style;
+	  }
+
+	  return prefixAll;
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(createPrefixer_1);
+
+	var staticData = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var w = ["Webkit"];
+	var m = ["Moz"];
+	var ms = ["ms"];
+	var wm = ["Webkit", "Moz"];
+	var wms = ["Webkit", "ms"];
+	var wmms = ["Webkit", "Moz", "ms"];
+
+	exports.default = {
+	  plugins: [],
+	  prefixMap: { "appearance": wm, "textEmphasisPosition": w, "textEmphasis": w, "textEmphasisStyle": w, "textEmphasisColor": w, "boxDecorationBreak": w, "maskImage": w, "maskMode": w, "maskRepeat": w, "maskPosition": w, "maskClip": w, "maskOrigin": w, "maskSize": w, "maskComposite": w, "mask": w, "maskBorderSource": w, "maskBorderMode": w, "maskBorderSlice": w, "maskBorderWidth": w, "maskBorderOutset": w, "maskBorderRepeat": w, "maskBorder": w, "maskType": w, "textDecorationStyle": w, "textDecorationSkip": w, "textDecorationLine": w, "textDecorationColor": w, "userSelect": wmms, "backdropFilter": w, "fontKerning": w, "scrollSnapType": wms, "scrollSnapPointsX": wms, "scrollSnapPointsY": wms, "scrollSnapDestination": wms, "scrollSnapCoordinate": wms, "clipPath": w, "shapeImageThreshold": w, "shapeImageMargin": w, "shapeImageOutside": w, "filter": w, "hyphens": wms, "flowInto": wms, "flowFrom": wms, "breakBefore": wms, "breakAfter": wms, "breakInside": wms, "regionFragment": wms, "writingMode": wms, "textOrientation": w, "tabSize": m, "fontFeatureSettings": w, "columnCount": w, "columnFill": w, "columnGap": w, "columnRule": w, "columnRuleColor": w, "columnRuleStyle": w, "columnRuleWidth": w, "columns": w, "columnSpan": w, "columnWidth": w, "wrapFlow": ms, "wrapThrough": ms, "wrapMargin": ms, "gridTemplateColumns": ms, "gridTemplateRows": ms, "gridTemplateAreas": ms, "gridTemplate": ms, "gridAutoColumns": ms, "gridAutoRows": ms, "gridAutoFlow": ms, "grid": ms, "gridRowStart": ms, "gridColumnStart": ms, "gridRowEnd": ms, "gridRow": ms, "gridColumn": ms, "gridColumnEnd": ms, "gridColumnGap": ms, "gridRowGap": ms, "gridArea": ms, "gridGap": ms, "textSizeAdjust": wms }
+	};
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(staticData);
+
+	var cursor_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = cursor;
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var values = {
+	  'zoom-in': true,
+	  'zoom-out': true,
+	  grab: true,
+	  grabbing: true
+	};
+
+	function cursor(property, value) {
+	  if (property === 'cursor' && values.hasOwnProperty(value)) {
+	    return prefixes.map(function (prefix) {
+	      return prefix + value;
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(cursor_1);
+
+	var isPrefixedValue_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isPrefixedValue;
+	var regex = /-webkit-|-moz-|-ms-/;
+
+	function isPrefixedValue(value) {
+	  return typeof value === 'string' && regex.test(value);
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(isPrefixedValue_1);
+
+	var crossFade_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = crossFade;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#search=cross-fade
+	var prefixes = ['-webkit-', ''];
+	function crossFade(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('cross-fade(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/cross-fade\(/g, prefix + 'cross-fade(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(crossFade_1);
+
+	var filter_1$1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = filter;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#feat=css-filter-function
+	var prefixes = ['-webkit-', ''];
+	function filter(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('filter(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/filter\(/g, prefix + 'filter(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(filter_1$1);
+
+	var flex_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = flex;
+	var values = {
+	  flex: ['-webkit-box', '-moz-box', '-ms-flexbox', '-webkit-flex', 'flex'],
+	  'inline-flex': ['-webkit-inline-box', '-moz-inline-box', '-ms-inline-flexbox', '-webkit-inline-flex', 'inline-flex']
+	};
+
+	function flex(property, value) {
+	  if (property === 'display' && values.hasOwnProperty(value)) {
+	    return values[value];
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(flex_1);
+
+	var flexboxOld_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = flexboxOld;
+	var alternativeValues = {
+	  'space-around': 'justify',
+	  'space-between': 'justify',
+	  'flex-start': 'start',
+	  'flex-end': 'end',
+	  'wrap-reverse': 'multiple',
+	  wrap: 'multiple',
+	  flex: 'box',
+	  'inline-flex': 'inline-box'
+	};
+
+	var alternativeProps = {
+	  alignItems: 'WebkitBoxAlign',
+	  justifyContent: 'WebkitBoxPack',
+	  flexWrap: 'WebkitBoxLines',
+	  flexGrow: 'WebkitBoxFlex'
+	};
+
+	function flexboxOld(property, value, style) {
+	  if (property === 'flexDirection' && typeof value === 'string') {
+	    if (value.indexOf('column') > -1) {
+	      style.WebkitBoxOrient = 'vertical';
+	    } else {
+	      style.WebkitBoxOrient = 'horizontal';
+	    }
+	    if (value.indexOf('reverse') > -1) {
+	      style.WebkitBoxDirection = 'reverse';
+	    } else {
+	      style.WebkitBoxDirection = 'normal';
+	    }
+	  }
+	  if (alternativeProps.hasOwnProperty(property)) {
+	    style[alternativeProps[property]] = alternativeValues[value] || value;
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(flexboxOld_1);
+
+	var gradient_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = gradient;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var values = /linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient/gi;
+
+	function gradient(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && values.test(value)) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(values, function (grad) {
+	        return prefix + grad;
+	      });
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(gradient_1);
+
+	var imageSet_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = imageSet;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#feat=css-image-set
+	var prefixes = ['-webkit-', ''];
+	function imageSet(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('image-set(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/image-set\(/g, prefix + 'image-set(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(imageSet_1);
+
+	var position_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = position;
+	function position(property, value) {
+	  if (property === 'position' && value === 'sticky') {
+	    return ['-webkit-sticky', 'sticky'];
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(position_1);
+
+	var sizing_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = sizing;
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var properties = {
+	  maxHeight: true,
+	  maxWidth: true,
+	  width: true,
+	  height: true,
+	  columnWidth: true,
+	  minWidth: true,
+	  minHeight: true
+	};
+	var values = {
+	  'min-content': true,
+	  'max-content': true,
+	  'fill-available': true,
+	  'fit-content': true,
+	  'contain-floats': true
+	};
+
+	function sizing(property, value) {
+	  if (properties.hasOwnProperty(property) && values.hasOwnProperty(value)) {
+	    return prefixes.map(function (prefix) {
+	      return prefix + value;
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(sizing_1);
+
+	/* eslint-disable no-var, prefer-template */
+	var uppercasePattern = /[A-Z]/g;
+	var msPattern = /^ms-/;
+	var cache = {};
+
+	function toHyphenLower(match) {
+	  return '-' + match.toLowerCase()
+	}
+
+	function hyphenateStyleName(name) {
+	  if (cache.hasOwnProperty(name)) {
+	    return cache[name]
+	  }
+
+	  var hName = name.replace(uppercasePattern, toHyphenLower);
+	  return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
+	}
+
+	var hyphenateProperty_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = hyphenateProperty;
+
+
+
+	var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function hyphenateProperty(property) {
+	  return (0, _hyphenateStyleName2.default)(property);
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(hyphenateProperty_1);
+
+	var transition_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = transition;
+
+
+
+	var _hyphenateProperty2 = _interopRequireDefault(hyphenateProperty_1);
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+
+
+	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var properties = {
+	  transition: true,
+	  transitionProperty: true,
+	  WebkitTransition: true,
+	  WebkitTransitionProperty: true,
+	  MozTransition: true,
+	  MozTransitionProperty: true
+	};
+
+
+	var prefixMapping = {
+	  Webkit: '-webkit-',
+	  Moz: '-moz-',
+	  ms: '-ms-'
+	};
+
+	function prefixValue(value, propertyPrefixMap) {
+	  if ((0, _isPrefixedValue2.default)(value)) {
+	    return value;
+	  }
+
+	  // only split multi values, not cubic beziers
+	  var multipleValues = value.split(/,(?![^()]*(?:\([^()]*\))?\))/g);
+
+	  for (var i = 0, len = multipleValues.length; i < len; ++i) {
+	    var singleValue = multipleValues[i];
+	    var values = [singleValue];
+	    for (var property in propertyPrefixMap) {
+	      var dashCaseProperty = (0, _hyphenateProperty2.default)(property);
+
+	      if (singleValue.indexOf(dashCaseProperty) > -1 && dashCaseProperty !== 'order') {
+	        var prefixes = propertyPrefixMap[property];
+	        for (var j = 0, pLen = prefixes.length; j < pLen; ++j) {
+	          // join all prefixes and create a new value
+	          values.unshift(singleValue.replace(dashCaseProperty, prefixMapping[prefixes[j]] + dashCaseProperty));
+	        }
+	      }
+	    }
+
+	    multipleValues[i] = values.join(',');
+	  }
+
+	  return multipleValues.join(',');
+	}
+
+	function transition(property, value, style, propertyPrefixMap) {
+	  // also check for already prefixed transitions
+	  if (typeof value === 'string' && properties.hasOwnProperty(property)) {
+	    var outputValue = prefixValue(value, propertyPrefixMap);
+	    // if the property is already prefixed
+	    var webkitOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
+	      return !/-moz-|-ms-/.test(val);
+	    }).join(',');
+
+	    if (property.indexOf('Webkit') > -1) {
+	      return webkitOutput;
+	    }
+
+	    var mozOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
+	      return !/-webkit-|-ms-/.test(val);
+	    }).join(',');
+
+	    if (property.indexOf('Moz') > -1) {
+	      return mozOutput;
+	    }
+
+	    style['Webkit' + (0, _capitalizeString2.default)(property)] = webkitOutput;
+	    style['Moz' + (0, _capitalizeString2.default)(property)] = mozOutput;
+	    return outputValue;
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(transition_1);
+
+	var _static = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+
+
+	var _createPrefixer2 = _interopRequireDefault(createPrefixer_1);
+
+
+
+	var _staticData2 = _interopRequireDefault(staticData);
+
+
+
+	var _cursor2 = _interopRequireDefault(cursor_1);
+
+
+
+	var _crossFade2 = _interopRequireDefault(crossFade_1);
+
+
+
+	var _filter2 = _interopRequireDefault(filter_1$1);
+
+
+
+	var _flex2 = _interopRequireDefault(flex_1);
+
+
+
+	var _flexboxOld2 = _interopRequireDefault(flexboxOld_1);
+
+
+
+	var _gradient2 = _interopRequireDefault(gradient_1);
+
+
+
+	var _imageSet2 = _interopRequireDefault(imageSet_1);
+
+
+
+	var _position2 = _interopRequireDefault(position_1);
+
+
+
+	var _sizing2 = _interopRequireDefault(sizing_1);
+
+
+
+	var _transition2 = _interopRequireDefault(transition_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var plugins = [_crossFade2.default, _cursor2.default, _filter2.default, _flexboxOld2.default, _gradient2.default, _imageSet2.default, _position2.default, _sizing2.default, _transition2.default, _flex2.default];
+
+	exports.default = (0, _createPrefixer2.default)({
+	  prefixMap: _staticData2.default.prefixMap,
+	  plugins: plugins
+	});
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(_static);
+
+	var CAMEL_REGEX = /-[a-z\u00E0-\u00F6\u00F8-\u00FE]/g;
+
+	var matchCallback = function (match) {
+	    return match.slice(1).toUpperCase();
+	};
+
+	var addon$2 = function (renderer) {
+	    var decl = renderer.decl;
+	    var origPut = renderer.put;
+
+	    renderer.camel = function (prop) {
+	        return prop.replace(CAMEL_REGEX, matchCallback);
+	    };
+
+	    renderer.prefix = function (prop, value) {
+	        var obj = {};
+	        obj[renderer.camel(prop)] = value;
+	        obj = _static(obj);
+
+	        var result = {};
+
+	        for (var propPrefixed in obj) {
+	            value = obj[propPrefixed];
+	            if (propPrefixed.slice(0, 2) === 'ms') {
+	                propPrefixed = 'M' + propPrefixed.slice(1);
+	            }
+	            propPrefixed = renderer.kebab(propPrefixed);
+
+	            if (value instanceof Array) {
+	                result[propPrefixed] = value.join(';' + propPrefixed + ':');
+	            } else {
+	                result[propPrefixed] = value;
+	            }
+	        }
+
+	        return result;
+	    };
+
+	    renderer.decl = function (prop, value) {
+	        var result = renderer.prefix(prop, value);
+
+	        var returned = '';
+	        Object.keys(result).forEach(function (key) {
+	            var str = decl(key, value);
+	            returned += str;
+	        });
+
+	        return returned;
+	    };
+
+	    function newPut(selector, decls, atrule) {
+	        var indexed = selector.indexOf('::placeholder');
+	        if (indexed > -1) {
+	            var split = selector.split(',');
+	            if (split.length > 1) {
+	                split.forEach(function(sp) {
+	                    newPut(sp.trim(), decls, atrule);
+	                });
+	                return;
+	            }
+	            var bareSelect = selector.substring(0, indexed);
+	            [
+	                '::-webkit-input-placeholder',
+	                '::-moz-placeholder',
+	                ':-ms-input-placeholder',
+	                ':-moz-placeholder'
+	            ].forEach(function(ph) {
+	                origPut(bareSelect + ph, decls, atrule);
+	            });
+	        }
+	        origPut(selector, decls, atrule);
+	    }
+
+	    renderer.put = newPut;
+	};
+
+	var addon$3 = function (renderer) {
+
+	    renderer.rule = function (css, block) {
+
+	        block = block || renderer.hash(css);
+	        block = renderer.pfx + block;
+	        renderer.put('.' + block, css);
+
+	        return ' ' + block;
+	    };
+	};
+
+	var addon$4 = function (renderer) {
+
+	    renderer.sheet = function (map, block) {
+	        var result = {};
+
+	        if (!block) {
+	            block = renderer.hash(map);
+	        }
+
+	        var onElementModifier = function (elementModifier) {
+	            var styles = map[elementModifier];
+
+	            {
+	                Object.defineProperty(result, elementModifier, {
+	                    configurable: true,
+	                    enumerable: true,
+	                    get: function () {
+	                        var classNames = renderer.rule(styles, block + '-' + elementModifier);
+
+	                        Object.defineProperty(result, elementModifier, {
+	                            value: classNames,
+	                            enumerable: true
+	                        });
+
+	                        return classNames;
+	                    },
+	                });
+	            }
+	        };
+
+	        for (var elementModifier in map) {
+	            onElementModifier(elementModifier);
+	        }
+
+	        return result;
+	    };
+	};
+
+	function setupNano(classPrefix) {
+	  var nano = create$3({
+	    // Add prefix to all generated class names.
+	    pfx: classPrefix || ''
+	  });
+	  addon(nano);
+	  addon$1(nano);
+	  addon$2(nano);
+	  addon$3(nano);
+	  addon$4(nano);
+	  return nano;
+	}
+
 	var Modal =
 	/*#__PURE__*/
 	function () {
-	  function Modal(options) {
+	  function Modal() {
+	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 	    classCallCheck(this, Modal);
 
 	    this.createModalOverlay();
 	    this.options = options;
+	    var nano = setupNano(options.classPrefix);
+	    nano.put('#shepherdModalOverlayContainer', {
+	      '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
+	      filter: 'alpha(opacity=50)',
+	      height: '100vh',
+	      left: 0,
+	      opacity: 0.5,
+	      position: 'fixed',
+	      top: 0,
+	      transition: 'all 0.3s ease-out',
+	      width: '100vw',
+	      zIndex: 9997,
+	      '#shepherdModalMask': {
+	        '#shepherdModalMaskRect': {
+	          height: '100vh',
+	          width: '100vw'
+	        }
+	      }
+	    });
 	    autoBind(this);
 	    return this;
 	  }
@@ -8965,6 +10057,1366 @@
 	  });
 	}
 
+	function _extends$2() {
+	  _extends$2 = Object.assign || function (target) {
+	    for (var i = 1; i < arguments.length; i++) {
+	      var source = arguments[i];
+
+	      for (var key in source) {
+	        if (Object.prototype.hasOwnProperty.call(source, key)) {
+	          target[key] = source[key];
+	        }
+	      }
+	    }
+
+	    return target;
+	  };
+
+	  return _extends$2.apply(this, arguments);
+	}
+
+	function _assertThisInitialized$1(self) {
+	  if (self === void 0) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }
+
+	  return self;
+	}
+
+	function _inheritsLoose(subClass, superClass) {
+	  subClass.prototype = Object.create(superClass.prototype);
+	  subClass.prototype.constructor = subClass;
+	  subClass.__proto__ = superClass;
+	}
+
+	function _getPrototypeOf(o) {
+	  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+	    return o.__proto__ || Object.getPrototypeOf(o);
+	  };
+	  return _getPrototypeOf(o);
+	}
+
+	function _setPrototypeOf(o, p) {
+	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+	    o.__proto__ = p;
+	    return o;
+	  };
+
+	  return _setPrototypeOf(o, p);
+	}
+
+	function _isNativeFunction(fn) {
+	  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+	}
+
+	function isNativeReflectConstruct() {
+	  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+	  if (Reflect.construct.sham) return false;
+	  if (typeof Proxy === "function") return true;
+
+	  try {
+	    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+	    return true;
+	  } catch (e) {
+	    return false;
+	  }
+	}
+
+	function _construct(Parent, args, Class) {
+	  if (isNativeReflectConstruct()) {
+	    _construct = Reflect.construct;
+	  } else {
+	    _construct = function _construct(Parent, args, Class) {
+	      var a = [null];
+	      a.push.apply(a, args);
+	      var Constructor = Function.bind.apply(Parent, a);
+	      var instance = new Constructor();
+	      if (Class) _setPrototypeOf(instance, Class.prototype);
+	      return instance;
+	    };
+	  }
+
+	  return _construct.apply(null, arguments);
+	}
+
+	function _wrapNativeSuper(Class) {
+	  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+	  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+	    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+	    if (typeof Class !== "function") {
+	      throw new TypeError("Super expression must either be null or a function");
+	    }
+
+	    if (typeof _cache !== "undefined") {
+	      if (_cache.has(Class)) return _cache.get(Class);
+
+	      _cache.set(Class, Wrapper);
+	    }
+
+	    function Wrapper() {
+	      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+	    }
+
+	    Wrapper.prototype = Object.create(Class.prototype, {
+	      constructor: {
+	        value: Wrapper,
+	        enumerable: false,
+	        writable: true,
+	        configurable: true
+	      }
+	    });
+	    return _setPrototypeOf(Wrapper, Class);
+	  };
+
+	  return _wrapNativeSuper(Class);
+	}
+
+	/**
+	 * Create an error file out of errors.md for development and a simple web link to the full errors
+	 * in production mode.
+	 * @private
+	 */
+
+
+	var PolishedError =
+	/*#__PURE__*/
+	function (_Error) {
+	  _inheritsLoose(PolishedError, _Error);
+
+	  function PolishedError(code) {
+	    var _this;
+
+	    {
+	      _this = _Error.call(this, "An error occurred. See https://github.com/styled-components/polished/blob/master/src/internalHelpers/errors.md#" + code + " for more information.") || this;
+	    }
+
+	    return _assertThisInitialized$1(_this);
+	  }
+
+	  return PolishedError;
+	}(
+	/*#__PURE__*/
+	_wrapNativeSuper(Error));
+
+	function colorToInt(color) {
+	  return Math.round(color * 255);
+	}
+
+	function convertToInt(red, green, blue) {
+	  return colorToInt(red) + "," + colorToInt(green) + "," + colorToInt(blue);
+	}
+
+	function hslToRgb(hue, saturation, lightness, convert) {
+	  if (convert === void 0) {
+	    convert = convertToInt;
+	  }
+
+	  if (saturation === 0) {
+	    // achromatic
+	    return convert(lightness, lightness, lightness);
+	  } // formulae from https://en.wikipedia.org/wiki/HSL_and_HSV
+
+
+	  var huePrime = (hue % 360 + 360) % 360 / 60;
+	  var chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+	  var secondComponent = chroma * (1 - Math.abs(huePrime % 2 - 1));
+	  var red = 0;
+	  var green = 0;
+	  var blue = 0;
+
+	  if (huePrime >= 0 && huePrime < 1) {
+	    red = chroma;
+	    green = secondComponent;
+	  } else if (huePrime >= 1 && huePrime < 2) {
+	    red = secondComponent;
+	    green = chroma;
+	  } else if (huePrime >= 2 && huePrime < 3) {
+	    green = chroma;
+	    blue = secondComponent;
+	  } else if (huePrime >= 3 && huePrime < 4) {
+	    green = secondComponent;
+	    blue = chroma;
+	  } else if (huePrime >= 4 && huePrime < 5) {
+	    red = secondComponent;
+	    blue = chroma;
+	  } else if (huePrime >= 5 && huePrime < 6) {
+	    red = chroma;
+	    blue = secondComponent;
+	  }
+
+	  var lightnessModification = lightness - chroma / 2;
+	  var finalRed = red + lightnessModification;
+	  var finalGreen = green + lightnessModification;
+	  var finalBlue = blue + lightnessModification;
+	  return convert(finalRed, finalGreen, finalBlue);
+	}
+
+	var namedColorMap = {
+	  aliceblue: 'f0f8ff',
+	  antiquewhite: 'faebd7',
+	  aqua: '00ffff',
+	  aquamarine: '7fffd4',
+	  azure: 'f0ffff',
+	  beige: 'f5f5dc',
+	  bisque: 'ffe4c4',
+	  black: '000',
+	  blanchedalmond: 'ffebcd',
+	  blue: '0000ff',
+	  blueviolet: '8a2be2',
+	  brown: 'a52a2a',
+	  burlywood: 'deb887',
+	  cadetblue: '5f9ea0',
+	  chartreuse: '7fff00',
+	  chocolate: 'd2691e',
+	  coral: 'ff7f50',
+	  cornflowerblue: '6495ed',
+	  cornsilk: 'fff8dc',
+	  crimson: 'dc143c',
+	  cyan: '00ffff',
+	  darkblue: '00008b',
+	  darkcyan: '008b8b',
+	  darkgoldenrod: 'b8860b',
+	  darkgray: 'a9a9a9',
+	  darkgreen: '006400',
+	  darkgrey: 'a9a9a9',
+	  darkkhaki: 'bdb76b',
+	  darkmagenta: '8b008b',
+	  darkolivegreen: '556b2f',
+	  darkorange: 'ff8c00',
+	  darkorchid: '9932cc',
+	  darkred: '8b0000',
+	  darksalmon: 'e9967a',
+	  darkseagreen: '8fbc8f',
+	  darkslateblue: '483d8b',
+	  darkslategray: '2f4f4f',
+	  darkslategrey: '2f4f4f',
+	  darkturquoise: '00ced1',
+	  darkviolet: '9400d3',
+	  deeppink: 'ff1493',
+	  deepskyblue: '00bfff',
+	  dimgray: '696969',
+	  dimgrey: '696969',
+	  dodgerblue: '1e90ff',
+	  firebrick: 'b22222',
+	  floralwhite: 'fffaf0',
+	  forestgreen: '228b22',
+	  fuchsia: 'ff00ff',
+	  gainsboro: 'dcdcdc',
+	  ghostwhite: 'f8f8ff',
+	  gold: 'ffd700',
+	  goldenrod: 'daa520',
+	  gray: '808080',
+	  green: '008000',
+	  greenyellow: 'adff2f',
+	  grey: '808080',
+	  honeydew: 'f0fff0',
+	  hotpink: 'ff69b4',
+	  indianred: 'cd5c5c',
+	  indigo: '4b0082',
+	  ivory: 'fffff0',
+	  khaki: 'f0e68c',
+	  lavender: 'e6e6fa',
+	  lavenderblush: 'fff0f5',
+	  lawngreen: '7cfc00',
+	  lemonchiffon: 'fffacd',
+	  lightblue: 'add8e6',
+	  lightcoral: 'f08080',
+	  lightcyan: 'e0ffff',
+	  lightgoldenrodyellow: 'fafad2',
+	  lightgray: 'd3d3d3',
+	  lightgreen: '90ee90',
+	  lightgrey: 'd3d3d3',
+	  lightpink: 'ffb6c1',
+	  lightsalmon: 'ffa07a',
+	  lightseagreen: '20b2aa',
+	  lightskyblue: '87cefa',
+	  lightslategray: '789',
+	  lightslategrey: '789',
+	  lightsteelblue: 'b0c4de',
+	  lightyellow: 'ffffe0',
+	  lime: '0f0',
+	  limegreen: '32cd32',
+	  linen: 'faf0e6',
+	  magenta: 'f0f',
+	  maroon: '800000',
+	  mediumaquamarine: '66cdaa',
+	  mediumblue: '0000cd',
+	  mediumorchid: 'ba55d3',
+	  mediumpurple: '9370db',
+	  mediumseagreen: '3cb371',
+	  mediumslateblue: '7b68ee',
+	  mediumspringgreen: '00fa9a',
+	  mediumturquoise: '48d1cc',
+	  mediumvioletred: 'c71585',
+	  midnightblue: '191970',
+	  mintcream: 'f5fffa',
+	  mistyrose: 'ffe4e1',
+	  moccasin: 'ffe4b5',
+	  navajowhite: 'ffdead',
+	  navy: '000080',
+	  oldlace: 'fdf5e6',
+	  olive: '808000',
+	  olivedrab: '6b8e23',
+	  orange: 'ffa500',
+	  orangered: 'ff4500',
+	  orchid: 'da70d6',
+	  palegoldenrod: 'eee8aa',
+	  palegreen: '98fb98',
+	  paleturquoise: 'afeeee',
+	  palevioletred: 'db7093',
+	  papayawhip: 'ffefd5',
+	  peachpuff: 'ffdab9',
+	  peru: 'cd853f',
+	  pink: 'ffc0cb',
+	  plum: 'dda0dd',
+	  powderblue: 'b0e0e6',
+	  purple: '800080',
+	  rebeccapurple: '639',
+	  red: 'f00',
+	  rosybrown: 'bc8f8f',
+	  royalblue: '4169e1',
+	  saddlebrown: '8b4513',
+	  salmon: 'fa8072',
+	  sandybrown: 'f4a460',
+	  seagreen: '2e8b57',
+	  seashell: 'fff5ee',
+	  sienna: 'a0522d',
+	  silver: 'c0c0c0',
+	  skyblue: '87ceeb',
+	  slateblue: '6a5acd',
+	  slategray: '708090',
+	  slategrey: '708090',
+	  snow: 'fffafa',
+	  springgreen: '00ff7f',
+	  steelblue: '4682b4',
+	  tan: 'd2b48c',
+	  teal: '008080',
+	  thistle: 'd8bfd8',
+	  tomato: 'ff6347',
+	  turquoise: '40e0d0',
+	  violet: 'ee82ee',
+	  wheat: 'f5deb3',
+	  white: 'fff',
+	  whitesmoke: 'f5f5f5',
+	  yellow: 'ff0',
+	  yellowgreen: '9acd32'
+	  /**
+	   * Checks if a string is a CSS named color and returns its equivalent hex value, otherwise returns the original color.
+	   * @private
+	   */
+
+	};
+
+	function nameToHex(color) {
+	  if (typeof color !== 'string') return color;
+	  var normalizedColorName = color.toLowerCase();
+	  return namedColorMap[normalizedColorName] ? "#" + namedColorMap[normalizedColorName] : color;
+	}
+
+	var hexRegex = /^#[a-fA-F0-9]{6}$/;
+	var hexRgbaRegex = /^#[a-fA-F0-9]{8}$/;
+	var reducedHexRegex = /^#[a-fA-F0-9]{3}$/;
+	var reducedRgbaHexRegex = /^#[a-fA-F0-9]{4}$/;
+	var rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i;
+	var rgbaRegex = /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([-+]?[0-9]*[.]?[0-9]+)\s*\)$/i;
+	var hslRegex = /^hsl\(\s*(\d{0,3}[.]?[0-9]+)\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/i;
+	var hslaRegex = /^hsla\(\s*(\d{0,3}[.]?[0-9]+)\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*([-+]?[0-9]*[.]?[0-9]+)\s*\)$/i;
+	/**
+	 * Returns an RgbColor or RgbaColor object. This utility function is only useful
+	 * if want to extract a color component. With the color util `toColorString` you
+	 * can convert a RgbColor or RgbaColor object back to a string.
+	 *
+	 * @example
+	 * // Assigns `{ red: 255, green: 0, blue: 0 }` to color1
+	 * const color1 = parseToRgb('rgb(255, 0, 0)');
+	 * // Assigns `{ red: 92, green: 102, blue: 112, alpha: 0.75 }` to color2
+	 * const color2 = parseToRgb('hsla(210, 10%, 40%, 0.75)');
+	 */
+
+	function parseToRgb(color) {
+	  if (typeof color !== 'string') {
+	    throw new PolishedError(3);
+	  }
+
+	  var normalizedColor = nameToHex(color);
+
+	  if (normalizedColor.match(hexRegex)) {
+	    return {
+	      red: parseInt("" + normalizedColor[1] + normalizedColor[2], 16),
+	      green: parseInt("" + normalizedColor[3] + normalizedColor[4], 16),
+	      blue: parseInt("" + normalizedColor[5] + normalizedColor[6], 16)
+	    };
+	  }
+
+	  if (normalizedColor.match(hexRgbaRegex)) {
+	    var alpha = parseFloat((parseInt("" + normalizedColor[7] + normalizedColor[8], 16) / 255).toFixed(2));
+	    return {
+	      red: parseInt("" + normalizedColor[1] + normalizedColor[2], 16),
+	      green: parseInt("" + normalizedColor[3] + normalizedColor[4], 16),
+	      blue: parseInt("" + normalizedColor[5] + normalizedColor[6], 16),
+	      alpha: alpha
+	    };
+	  }
+
+	  if (normalizedColor.match(reducedHexRegex)) {
+	    return {
+	      red: parseInt("" + normalizedColor[1] + normalizedColor[1], 16),
+	      green: parseInt("" + normalizedColor[2] + normalizedColor[2], 16),
+	      blue: parseInt("" + normalizedColor[3] + normalizedColor[3], 16)
+	    };
+	  }
+
+	  if (normalizedColor.match(reducedRgbaHexRegex)) {
+	    var _alpha = parseFloat((parseInt("" + normalizedColor[4] + normalizedColor[4], 16) / 255).toFixed(2));
+
+	    return {
+	      red: parseInt("" + normalizedColor[1] + normalizedColor[1], 16),
+	      green: parseInt("" + normalizedColor[2] + normalizedColor[2], 16),
+	      blue: parseInt("" + normalizedColor[3] + normalizedColor[3], 16),
+	      alpha: _alpha
+	    };
+	  }
+
+	  var rgbMatched = rgbRegex.exec(normalizedColor);
+
+	  if (rgbMatched) {
+	    return {
+	      red: parseInt("" + rgbMatched[1], 10),
+	      green: parseInt("" + rgbMatched[2], 10),
+	      blue: parseInt("" + rgbMatched[3], 10)
+	    };
+	  }
+
+	  var rgbaMatched = rgbaRegex.exec(normalizedColor);
+
+	  if (rgbaMatched) {
+	    return {
+	      red: parseInt("" + rgbaMatched[1], 10),
+	      green: parseInt("" + rgbaMatched[2], 10),
+	      blue: parseInt("" + rgbaMatched[3], 10),
+	      alpha: parseFloat("" + rgbaMatched[4])
+	    };
+	  }
+
+	  var hslMatched = hslRegex.exec(normalizedColor);
+
+	  if (hslMatched) {
+	    var hue = parseInt("" + hslMatched[1], 10);
+	    var saturation = parseInt("" + hslMatched[2], 10) / 100;
+	    var lightness = parseInt("" + hslMatched[3], 10) / 100;
+	    var rgbColorString = "rgb(" + hslToRgb(hue, saturation, lightness) + ")";
+	    var hslRgbMatched = rgbRegex.exec(rgbColorString);
+
+	    if (!hslRgbMatched) {
+	      throw new PolishedError(4, normalizedColor, rgbColorString);
+	    }
+
+	    return {
+	      red: parseInt("" + hslRgbMatched[1], 10),
+	      green: parseInt("" + hslRgbMatched[2], 10),
+	      blue: parseInt("" + hslRgbMatched[3], 10)
+	    };
+	  }
+
+	  var hslaMatched = hslaRegex.exec(normalizedColor);
+
+	  if (hslaMatched) {
+	    var _hue = parseInt("" + hslaMatched[1], 10);
+
+	    var _saturation = parseInt("" + hslaMatched[2], 10) / 100;
+
+	    var _lightness = parseInt("" + hslaMatched[3], 10) / 100;
+
+	    var _rgbColorString = "rgb(" + hslToRgb(_hue, _saturation, _lightness) + ")";
+
+	    var _hslRgbMatched = rgbRegex.exec(_rgbColorString);
+
+	    if (!_hslRgbMatched) {
+	      throw new PolishedError(4, normalizedColor, _rgbColorString);
+	    }
+
+	    return {
+	      red: parseInt("" + _hslRgbMatched[1], 10),
+	      green: parseInt("" + _hslRgbMatched[2], 10),
+	      blue: parseInt("" + _hslRgbMatched[3], 10),
+	      alpha: parseFloat("" + hslaMatched[4])
+	    };
+	  }
+
+	  throw new PolishedError(5);
+	}
+
+	function rgbToHsl(color) {
+	  // make sure rgb are contained in a set of [0, 255]
+	  var red = color.red / 255;
+	  var green = color.green / 255;
+	  var blue = color.blue / 255;
+	  var max = Math.max(red, green, blue);
+	  var min = Math.min(red, green, blue);
+	  var lightness = (max + min) / 2;
+
+	  if (max === min) {
+	    // achromatic
+	    if (color.alpha !== undefined) {
+	      return {
+	        hue: 0,
+	        saturation: 0,
+	        lightness: lightness,
+	        alpha: color.alpha
+	      };
+	    } else {
+	      return {
+	        hue: 0,
+	        saturation: 0,
+	        lightness: lightness
+	      };
+	    }
+	  }
+
+	  var hue;
+	  var delta = max - min;
+	  var saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+
+	  switch (max) {
+	    case red:
+	      hue = (green - blue) / delta + (green < blue ? 6 : 0);
+	      break;
+
+	    case green:
+	      hue = (blue - red) / delta + 2;
+	      break;
+
+	    default:
+	      // blue case
+	      hue = (red - green) / delta + 4;
+	      break;
+	  }
+
+	  hue *= 60;
+
+	  if (color.alpha !== undefined) {
+	    return {
+	      hue: hue,
+	      saturation: saturation,
+	      lightness: lightness,
+	      alpha: color.alpha
+	    };
+	  }
+
+	  return {
+	    hue: hue,
+	    saturation: saturation,
+	    lightness: lightness
+	  };
+	}
+
+	/**
+	 * Returns an HslColor or HslaColor object. This utility function is only useful
+	 * if want to extract a color component. With the color util `toColorString` you
+	 * can convert a HslColor or HslaColor object back to a string.
+	 *
+	 * @example
+	 * // Assigns `{ hue: 0, saturation: 1, lightness: 0.5 }` to color1
+	 * const color1 = parseToHsl('rgb(255, 0, 0)');
+	 * // Assigns `{ hue: 128, saturation: 1, lightness: 0.5, alpha: 0.75 }` to color2
+	 * const color2 = parseToHsl('hsla(128, 100%, 50%, 0.75)');
+	 */
+	function parseToHsl(color) {
+	  // Note: At a later stage we can optimize this function as right now a hsl
+	  // color would be parsed converted to rgb values and converted back to hsl.
+	  return rgbToHsl(parseToRgb(color));
+	}
+
+	/**
+	 * Reduces hex values if possible e.g. #ff8866 to #f86
+	 * @private
+	 */
+	var reduceHexValue = function reduceHexValue(value) {
+	  if (value.length === 7 && value[1] === value[2] && value[3] === value[4] && value[5] === value[6]) {
+	    return "#" + value[1] + value[3] + value[5];
+	  }
+
+	  return value;
+	};
+
+	function numberToHex(value) {
+	  var hex = value.toString(16);
+	  return hex.length === 1 ? "0" + hex : hex;
+	}
+
+	function colorToHex(color) {
+	  return numberToHex(Math.round(color * 255));
+	}
+
+	function convertToHex(red, green, blue) {
+	  return reduceHexValue("#" + colorToHex(red) + colorToHex(green) + colorToHex(blue));
+	}
+
+	function hslToHex(hue, saturation, lightness) {
+	  return hslToRgb(hue, saturation, lightness, convertToHex);
+	}
+
+	/**
+	 * Returns a string value for the color. The returned result is the smallest possible hex notation.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: hsl(359, 0.75, 0.4),
+	 *   background: hsl({ hue: 360, saturation: 0.75, lightness: 0.4 }),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${hsl(359, 0.75, 0.4)};
+	 *   background: ${hsl({ hue: 360, saturation: 0.75, lightness: 0.4 })};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "#b3191c";
+	 *   background: "#b3191c";
+	 * }
+	 */
+	function hsl(value, saturation, lightness) {
+	  if (typeof value === 'number' && typeof saturation === 'number' && typeof lightness === 'number') {
+	    return hslToHex(value, saturation, lightness);
+	  } else if (typeof value === 'object' && saturation === undefined && lightness === undefined) {
+	    return hslToHex(value.hue, value.saturation, value.lightness);
+	  }
+
+	  throw new PolishedError(1);
+	}
+
+	/**
+	 * Returns a string value for the color. The returned result is the smallest possible rgba or hex notation.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: hsla(359, 0.75, 0.4, 0.7),
+	 *   background: hsla({ hue: 360, saturation: 0.75, lightness: 0.4, alpha: 0,7 }),
+	 *   background: hsla(359, 0.75, 0.4, 1),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${hsla(359, 0.75, 0.4, 0.7)};
+	 *   background: ${hsla({ hue: 360, saturation: 0.75, lightness: 0.4, alpha: 0,7 })};
+	 *   background: ${hsla(359, 0.75, 0.4, 1)};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "rgba(179,25,28,0.7)";
+	 *   background: "rgba(179,25,28,0.7)";
+	 *   background: "#b3191c";
+	 * }
+	 */
+	function hsla(value, saturation, lightness, alpha) {
+	  if (typeof value === 'number' && typeof saturation === 'number' && typeof lightness === 'number' && typeof alpha === 'number') {
+	    return alpha >= 1 ? hslToHex(value, saturation, lightness) : "rgba(" + hslToRgb(value, saturation, lightness) + "," + alpha + ")";
+	  } else if (typeof value === 'object' && saturation === undefined && lightness === undefined && alpha === undefined) {
+	    return value.alpha >= 1 ? hslToHex(value.hue, value.saturation, value.lightness) : "rgba(" + hslToRgb(value.hue, value.saturation, value.lightness) + "," + value.alpha + ")";
+	  }
+
+	  throw new PolishedError(2);
+	}
+
+	/**
+	 * Returns a string value for the color. The returned result is the smallest possible hex notation.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: rgb(255, 205, 100),
+	 *   background: rgb({ red: 255, green: 205, blue: 100 }),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${rgb(255, 205, 100)};
+	 *   background: ${rgb({ red: 255, green: 205, blue: 100 })};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "#ffcd64";
+	 *   background: "#ffcd64";
+	 * }
+	 */
+	function rgb(value, green, blue) {
+	  if (typeof value === 'number' && typeof green === 'number' && typeof blue === 'number') {
+	    return reduceHexValue("#" + numberToHex(value) + numberToHex(green) + numberToHex(blue));
+	  } else if (typeof value === 'object' && green === undefined && blue === undefined) {
+	    return reduceHexValue("#" + numberToHex(value.red) + numberToHex(value.green) + numberToHex(value.blue));
+	  }
+
+	  throw new PolishedError(6);
+	}
+
+	/**
+	 * Returns a string value for the color. The returned result is the smallest possible rgba or hex notation.
+	 *
+	 * Can also be used to fade a color by passing a hex value or named CSS color along with an alpha value.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: rgba(255, 205, 100, 0.7),
+	 *   background: rgba({ red: 255, green: 205, blue: 100, alpha: 0.7 }),
+	 *   background: rgba(255, 205, 100, 1),
+	 *   background: rgba('#ffffff', 0.4),
+	 *   background: rgba('black', 0.7),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${rgba(255, 205, 100, 0.7)};
+	 *   background: ${rgba({ red: 255, green: 205, blue: 100, alpha: 0.7 })};
+	 *   background: ${rgba(255, 205, 100, 1)};
+	 *   background: ${rgba('#ffffff', 0.4)};
+	 *   background: ${rgba('black', 0.7)};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "rgba(255,205,100,0.7)";
+	 *   background: "rgba(255,205,100,0.7)";
+	 *   background: "#ffcd64";
+	 *   background: "rgba(255,255,255,0.4)";
+	 *   background: "rgba(0,0,0,0.7)";
+	 * }
+	 */
+	function rgba(firstValue, secondValue, thirdValue, fourthValue) {
+	  if (typeof firstValue === 'string' && typeof secondValue === 'number') {
+	    var rgbValue = parseToRgb(firstValue);
+	    return "rgba(" + rgbValue.red + "," + rgbValue.green + "," + rgbValue.blue + "," + secondValue + ")";
+	  } else if (typeof firstValue === 'number' && typeof secondValue === 'number' && typeof thirdValue === 'number' && typeof fourthValue === 'number') {
+	    return fourthValue >= 1 ? rgb(firstValue, secondValue, thirdValue) : "rgba(" + firstValue + "," + secondValue + "," + thirdValue + "," + fourthValue + ")";
+	  } else if (typeof firstValue === 'object' && secondValue === undefined && thirdValue === undefined && fourthValue === undefined) {
+	    return firstValue.alpha >= 1 ? rgb(firstValue.red, firstValue.green, firstValue.blue) : "rgba(" + firstValue.red + "," + firstValue.green + "," + firstValue.blue + "," + firstValue.alpha + ")";
+	  }
+
+	  throw new PolishedError(7);
+	}
+
+	var isRgb = function isRgb(color) {
+	  return typeof color.red === 'number' && typeof color.green === 'number' && typeof color.blue === 'number' && (typeof color.alpha !== 'number' || typeof color.alpha === 'undefined');
+	};
+
+	var isRgba = function isRgba(color) {
+	  return typeof color.red === 'number' && typeof color.green === 'number' && typeof color.blue === 'number' && typeof color.alpha === 'number';
+	};
+
+	var isHsl = function isHsl(color) {
+	  return typeof color.hue === 'number' && typeof color.saturation === 'number' && typeof color.lightness === 'number' && (typeof color.alpha !== 'number' || typeof color.alpha === 'undefined');
+	};
+
+	var isHsla = function isHsla(color) {
+	  return typeof color.hue === 'number' && typeof color.saturation === 'number' && typeof color.lightness === 'number' && typeof color.alpha === 'number';
+	};
+	/**
+	 * Converts a RgbColor, RgbaColor, HslColor or HslaColor object to a color string.
+	 * This util is useful in case you only know on runtime which color object is
+	 * used. Otherwise we recommend to rely on `rgb`, `rgba`, `hsl` or `hsla`.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: toColorString({ red: 255, green: 205, blue: 100 }),
+	 *   background: toColorString({ red: 255, green: 205, blue: 100, alpha: 0.72 }),
+	 *   background: toColorString({ hue: 240, saturation: 1, lightness: 0.5 }),
+	 *   background: toColorString({ hue: 360, saturation: 0.75, lightness: 0.4, alpha: 0.72 }),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${toColorString({ red: 255, green: 205, blue: 100 })};
+	 *   background: ${toColorString({ red: 255, green: 205, blue: 100, alpha: 0.72 })};
+	 *   background: ${toColorString({ hue: 240, saturation: 1, lightness: 0.5 })};
+	 *   background: ${toColorString({ hue: 360, saturation: 0.75, lightness: 0.4, alpha: 0.72 })};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 * element {
+	 *   background: "#ffcd64";
+	 *   background: "rgba(255,205,100,0.72)";
+	 *   background: "#00f";
+	 *   background: "rgba(179,25,25,0.72)";
+	 * }
+	 */
+
+
+	function toColorString(color) {
+	  if (typeof color !== 'object') throw new PolishedError(8);
+	  if (isRgba(color)) return rgba(color);
+	  if (isRgb(color)) return rgb(color);
+	  if (isHsla(color)) return hsla(color);
+	  if (isHsl(color)) return hsl(color);
+	  throw new PolishedError(8);
+	}
+
+	// Type definitions taken from https://github.com/gcanti/flow-static-land/blob/master/src/Fun.js
+	// eslint-disable-next-line no-unused-vars
+	// eslint-disable-next-line no-unused-vars
+	// eslint-disable-next-line no-redeclare
+	function curried(f, length, acc) {
+	  return function fn() {
+	    // eslint-disable-next-line prefer-rest-params
+	    var combined = acc.concat(Array.prototype.slice.call(arguments));
+	    return combined.length >= length ? f.apply(this, combined) : curried(f, length, combined);
+	  };
+	} // eslint-disable-next-line no-redeclare
+
+
+	function curry(f) {
+	  // eslint-disable-line no-redeclare
+	  return curried(f, f.length, []);
+	}
+
+	function guard(lowerBoundary, upperBoundary, value) {
+	  return Math.max(lowerBoundary, Math.min(upperBoundary, value));
+	}
+
+	/**
+	 * Returns a string value for the darkened color.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: darken(0.2, '#FFCD64'),
+	 *   background: darken('0.2', 'rgba(255,205,100,0.7)'),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${darken(0.2, '#FFCD64')};
+	 *   background: ${darken('0.2', 'rgba(255,205,100,0.7)')};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "#ffbd31";
+	 *   background: "rgba(255,189,49,0.7)";
+	 * }
+	 */
+
+	function darken(amount, color) {
+	  if (color === 'transparent') return color;
+	  var hslColor = parseToHsl(color);
+	  return toColorString(_extends$2({}, hslColor, {
+	    lightness: guard(0, 1, hslColor.lightness - parseFloat(amount))
+	  }));
+	} // prettier-ignore
+
+
+	var curriedDarken =
+	/*#__PURE__*/
+	curry
+	/* ::<number | string, string, string> */
+	(darken);
+
+	/**
+	 * Decreases the intensity of a color. Its range is between 0 to 1. The first
+	 * argument of the desaturate function is the amount by how much the color
+	 * intensity should be decreased.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: desaturate(0.2, '#CCCD64'),
+	 *   background: desaturate('0.2', 'rgba(204,205,100,0.7)'),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${desaturate(0.2, '#CCCD64')};
+	 *   background: ${desaturate('0.2', 'rgba(204,205,100,0.7)')};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 * element {
+	 *   background: "#b8b979";
+	 *   background: "rgba(184,185,121,0.7)";
+	 * }
+	 */
+
+	function desaturate(amount, color) {
+	  if (color === 'transparent') return color;
+	  var hslColor = parseToHsl(color);
+	  return toColorString(_extends$2({}, hslColor, {
+	    saturation: guard(0, 1, hslColor.saturation - parseFloat(amount))
+	  }));
+	} // prettier-ignore
+
+
+	var curriedDesaturate =
+	/*#__PURE__*/
+	curry
+	/* ::<number | string, string, string> */
+	(desaturate);
+
+	/**
+	 * Returns a number (float) representing the luminance of a color.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: getLuminance('#CCCD64') >= getLuminance('#0000ff') ? '#CCCD64' : '#0000ff',
+	 *   background: getLuminance('rgba(58, 133, 255, 1)') >= getLuminance('rgba(255, 57, 149, 1)') ?
+	 *                             'rgba(58, 133, 255, 1)' :
+	 *                             'rgba(255, 57, 149, 1)',
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${getLuminance('#CCCD64') >= getLuminance('#0000ff') ? '#CCCD64' : '#0000ff'};
+	 *   background: ${getLuminance('rgba(58, 133, 255, 1)') >= getLuminance('rgba(255, 57, 149, 1)') ?
+	 *                             'rgba(58, 133, 255, 1)' :
+	 *                             'rgba(255, 57, 149, 1)'};
+	 *
+	 * // CSS in JS Output
+	 *
+	 * div {
+	 *   background: "#CCCD64";
+	 *   background: "rgba(58, 133, 255, 1)";
+	 * }
+	 */
+
+	function getLuminance(color) {
+	  if (color === 'transparent') return 0;
+	  var rgbColor = parseToRgb(color);
+
+	  var _Object$keys$map = Object.keys(rgbColor).map(function (key) {
+	    var channel = rgbColor[key] / 255;
+	    return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+	  }),
+	      r = _Object$keys$map[0],
+	      g = _Object$keys$map[1],
+	      b = _Object$keys$map[2];
+
+	  return parseFloat((0.2126 * r + 0.7152 * g + 0.0722 * b).toFixed(3));
+	}
+
+	/**
+	 * Returns a string value for the lightened color.
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: lighten(0.2, '#CCCD64'),
+	 *   background: lighten('0.2', 'rgba(204,205,100,0.7)'),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${lighten(0.2, '#FFCD64')};
+	 *   background: ${lighten('0.2', 'rgba(204,205,100,0.7)')};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "#e5e6b1";
+	 *   background: "rgba(229,230,177,0.7)";
+	 * }
+	 */
+
+	function lighten(amount, color) {
+	  if (color === 'transparent') return color;
+	  var hslColor = parseToHsl(color);
+	  return toColorString(_extends$2({}, hslColor, {
+	    lightness: guard(0, 1, hslColor.lightness + parseFloat(amount))
+	  }));
+	} // prettier-ignore
+
+
+	var curriedLighten =
+	/*#__PURE__*/
+	curry
+	/* ::<number | string, string, string> */
+	(lighten);
+
+	/**
+	 * Returns black or white (or optional light and dark return colors) for best contrast depending on the luminosity of the given color.
+	 * Follows [W3C specs for readability](https://www.w3.org/TR/WCAG20-TECHS/G18.html).
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   color: readableColor('#000'),
+	 *   color: readableColor('black', '#001', '#ff8'),
+	 *   color: readableColor('white', '#001', '#ff8'),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   color: ${readableColor('#000')};
+	 *   color: ${readableColor('black', '#001', '#ff8')};
+	 *   color: ${readableColor('white', '#001', '#ff8')};
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   color: "#fff";
+	 *   color: "#ff8";
+	 *   color: "#001";
+	 * }
+	 */
+
+	function readableColor(color, lightReturnColor, darkReturnColor) {
+	  if (lightReturnColor === void 0) {
+	    lightReturnColor = '#000';
+	  }
+
+	  if (darkReturnColor === void 0) {
+	    darkReturnColor = '#fff';
+	  }
+
+	  return getLuminance(color) > 0.179 ? lightReturnColor : darkReturnColor;
+	}
+
+	/**
+	 * Decreases the opacity of a color. Its range for the amount is between 0 to 1.
+	 *
+	 *
+	 * @example
+	 * // Styles as object usage
+	 * const styles = {
+	 *   background: transparentize(0.1, '#fff');
+	 *   background: transparentize(0.2, 'hsl(0, 0%, 100%)'),
+	 *   background: transparentize('0.5', 'rgba(255, 0, 0, 0.8)'),
+	 * }
+	 *
+	 * // styled-components usage
+	 * const div = styled.div`
+	 *   background: ${transparentize(0.1, '#fff')};
+	 *   background: ${transparentize(0.2, 'hsl(0, 0%, 100%)')},
+	 *   background: ${transparentize('0.5', 'rgba(255, 0, 0, 0.8)')},
+	 * `
+	 *
+	 * // CSS in JS Output
+	 *
+	 * element {
+	 *   background: "rgba(255,255,255,0.9)";
+	 *   background: "rgba(255,255,255,0.8)";
+	 *   background: "rgba(255,0,0,0.3)";
+	 * }
+	 */
+
+	function transparentize(amount, color) {
+	  if (color === 'transparent') return color;
+	  var parsedColor = parseToRgb(color);
+	  var alpha = typeof parsedColor.alpha === 'number' ? parsedColor.alpha : 1;
+
+	  var colorWithAlpha = _extends$2({}, parsedColor, {
+	    alpha: guard(0, 1, (alpha * 100 - parseFloat(amount) * 100) / 100)
+	  });
+
+	  return rgba(colorWithAlpha);
+	} // prettier-ignore
+
+
+	var curriedTransparentize =
+	/*#__PURE__*/
+	curry
+	/* ::<number | string, string, string> */
+	(transparentize);
+
+	function ownKeys$5(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context; forEach$2(_context = ownKeys$5(source, true)).call(_context, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context2; forEach$2(_context2 = ownKeys$5(source)).call(_context2, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
+
+	var dark = {
+	  shepherdHeaderBackground: '#303030',
+	  shepherdTextBackground: '#232323',
+	  shepherdThemePrimary: '#3288e6',
+	  useDropShadow: true
+	};
+	var light = {
+	  shepherdHeaderBackground: '#e6e6e6',
+	  shepherdTextBackground: '#f6f6f6',
+	  useDropShadow: true
+	};
+	var baseSquare = {
+	  shepherdButtonBorderRadius: 0,
+	  shepherdElementBorderRadius: 0
+	};
+
+	var squareDark = _objectSpread$1({}, dark, {}, baseSquare);
+
+	var squareLight = _objectSpread$1({}, light, {}, baseSquare);
+
+	var themes = {
+	  dark: dark,
+	  light: light,
+	  squareDark: squareDark,
+	  squareLight: squareLight
+	};
+
+	var styles = {
+	  arrowSize: 2.1,
+	  shepherdButtonBorderRadius: '3px',
+	  shepherdElementBorderRadius: '5px',
+	  shepherdElementMaxHeight: '100%',
+	  shepherdElementMaxWidth: '100%',
+	  shepherdElementWidth: '400px',
+	  shepherdElementZIndex: 9999,
+	  shepherdTextBackground: '#ffffff',
+	  shepherdTextLineHeight: '1.3em',
+	  shepherdTextFontSize: '1rem',
+	  shepherdThemePrimary: '#3288e6'
+	};
+	function getVariables(options) {
+	  if (options.theme) {
+	    assign$2(styles, themes[options.theme]);
+	  }
+
+	  if (options.styleVariables) {
+	    assign$2(styles, options.styleVariables);
+	  }
+
+	  if (!styles.shepherdHeaderBackground) {
+	    styles.shepherdHeaderBackground = curriedDarken(0.1, styles.shepherdTextBackground);
+	  }
+
+	  if (!styles.shepherdThemeSecondary) {
+	    styles.shepherdThemeSecondary = curriedDesaturate(0.7, curriedLighten(0.4, styles.shepherdThemePrimary));
+	  }
+
+	  _setTextColors();
+
+	  return styles;
+	}
+	/**
+	 * Set all the text colors to contrasting ones, for readability, if not already defined.
+	 * @private
+	 */
+
+	function _setTextColors() {
+	  if (!styles.shepherdThemeTextPrimary) {
+	    styles.shepherdThemeTextPrimary = curriedTransparentize(0.25, readableColor(styles.shepherdThemePrimary));
+	  }
+
+	  if (!styles.shepherdThemeTextSecondary) {
+	    styles.shepherdThemeTextSecondary = curriedTransparentize(0.25, readableColor(styles.shepherdThemeSecondary));
+	  }
+
+	  if (!styles.shepherdThemeTextHeader) {
+	    styles.shepherdThemeTextHeader = curriedTransparentize(0.25, readableColor(styles.shepherdHeaderBackground));
+	  }
+
+	  if (!styles.shepherdThemeTextColor) {
+	    styles.shepherdThemeTextColor = curriedTransparentize(0.25, readableColor(styles.shepherdTextBackground));
+	  }
+	}
+
+	function ownKeys$6(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+	function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context4; forEach$2(_context4 = ownKeys$6(source, true)).call(_context4, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context5; forEach$2(_context5 = ownKeys$6(source)).call(_context5, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
+	function generateStyles(options) {
+	  var _context, _context2, _context3, _shepherdModalIs;
+
+	  var variables = getVariables(options);
+	  var nano = setupNano(options.classPrefix);
+	  var classPrefix = options.classPrefix || '';
+	  var styles = {
+	    active: {
+	      '&.shepherd-modal-is-visible': (_shepherdModalIs = {}, defineProperty$8(_shepherdModalIs, ":not(.".concat(classPrefix, "shepherd-target)"), {
+	        pointerEvents: 'none'
+	      }), defineProperty$8(_shepherdModalIs, concat$2(_context = concat$2(_context2 = concat$2(_context3 = ".".concat(classPrefix, "shepherd-button, .")).call(_context3, classPrefix, "shepherd-cancel-link, .")).call(_context2, classPrefix, "shepherd-element, .")).call(_context, classPrefix, "shepherd-target"), {
+	        pointerEvents: 'auto',
+	        '*': {
+	          pointerEvents: 'auto'
+	        }
+	      }), _shepherdModalIs)
+	    },
+	    button: {
+	      background: variables.shepherdThemePrimary,
+	      borderRadius: variables.shepherdButtonBorderRadius,
+	      border: 0,
+	      color: variables.shepherdThemeTextPrimary,
+	      cursor: 'pointer',
+	      display: 'inline-block',
+	      fontFamily: 'inherit',
+	      fontSize: '0.8em',
+	      letterSpacing: '0.1em',
+	      lineHeight: '1em',
+	      marginRight: '0.5em',
+	      padding: '0.75em 2em',
+	      textTransform: 'uppercase',
+	      transition: 'all 0.5s ease',
+	      verticalAlign: 'middle',
+	      '&:hover': {
+	        background: curriedDarken(0.1, variables.shepherdThemePrimary)
+	      },
+	      '&.shepherd-button-secondary': {
+	        background: variables.shepherdThemeSecondary,
+	        color: variables.shepherdThemeTextSecondary,
+	        '&:hover': {
+	          background: curriedDarken(0.1, variables.shepherdThemeSecondary),
+	          color: curriedDarken(0.1, variables.shepherdThemeTextSecondary)
+	        }
+	      }
+	    },
+	    'cancel-link': {
+	      color: curriedLighten(0.7, variables.shepherdThemeTextHeader),
+	      fontSize: '2em',
+	      fontWeight: 'normal',
+	      margin: 0,
+	      padding: 0,
+	      position: 'relative',
+	      textDecoration: 'none',
+	      transition: 'color 0.5s ease',
+	      verticalAlign: 'middle',
+	      '&:hover': {
+	        color: variables.shepherdThemeTextHeader
+	      },
+	      '&:before': {
+	        content: "\"\xD7\""
+	      }
+	    },
+	    content: {
+	      background: variables.shepherdTextBackground,
+	      fontSize: 'inherit',
+	      outline: 'none',
+	      padding: 0
+	    },
+	    element: {
+	      'outline': 'none',
+	      // We need box-sizing: border-box on shepherd-element and everything under it
+	      '&, *': {
+	        '&, &:after, &:before': {
+	          boxSizing: 'border-box'
+	        }
+	      }
+	    },
+	    footer: defineProperty$8({
+	      borderBottomLeftRadius: variables.shepherdElementBorderRadius,
+	      borderBottomRightRadius: variables.shepherdElementBorderRadius,
+	      display: 'flex',
+	      justifyContent: 'flex-end',
+	      padding: '0 0.75em 0.75em'
+	    }, ".".concat(classPrefix, "shepherd-button"), {
+	      '&:last-child': {
+	        marginRight: 0
+	      }
+	    }),
+	    header: defineProperty$8({
+	      alignItems: 'center',
+	      borderTopLeftRadius: variables.shepherdElementBorderRadius,
+	      borderTopRightRadius: variables.shepherdElementBorderRadius,
+	      display: 'flex',
+	      justifyContent: 'flex-end',
+	      lineHeight: '2em',
+	      padding: '0.75em 0.75em 0'
+	    }, ".shepherd-has-title .".concat(classPrefix, "shepherd-content &"), {
+	      background: variables.shepherdHeaderBackground,
+	      padding: '1em'
+	    }),
+	    title: {
+	      color: variables.shepherdThemeTextHeader,
+	      display: 'flex',
+	      flex: '1 0 auto',
+	      fontSize: '1.1em',
+	      fontWeight: 'normal',
+	      margin: 0,
+	      padding: 0,
+	      position: 'relative',
+	      verticalAlign: 'middle'
+	    },
+	    text: {
+	      color: variables.shepherdThemeTextColor,
+	      fontSize: variables.shepherdTextFontSize,
+	      lineHeight: variables.shepherdTextLineHeight,
+	      padding: '0.75em',
+	      p: {
+	        marginTop: 0,
+	        '&:last-child': {
+	          marginBottom: 0
+	        }
+	      },
+	      'a, a:visited, a:active': {
+	        borderBottom: '1px dotted',
+	        borderBottomColor: variables.shepherdThemeTextColor,
+	        color: variables.shepherdThemeTextColor,
+	        textDecoration: 'none',
+	        '&:hover': {
+	          borderBottomStyle: 'solid'
+	        }
+	      }
+	    }
+	  };
+
+	  if (variables.useDropShadow) {
+	    styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
+	  }
+
+	  var classes = nano.sheet(styles, 'shepherd');
+	  var arrowMargin = "calc((".concat(variables.arrowSize, " / 2.1) * 16px)");
+	  var popperThemeArrows = {
+	    '&[x-placement^="top"]': {
+	      marginBottom: arrowMargin,
+	      '.tippy-arrow': {
+	        borderTopColor: variables.shepherdTextBackground
+	      }
+	    },
+	    '&[x-placement^="bottom"]': {
+	      marginTop: arrowMargin,
+	      '.tippy-arrow': {
+	        borderBottomColor: variables.shepherdTextBackground
+	      },
+	      '&.shepherd-has-title': {
+	        '.tippy-arrow': {
+	          borderBottomColor: variables.shepherdHeaderBackground
+	        }
+	      }
+	    },
+	    '&[x-placement^="left"]': {
+	      marginRight: arrowMargin,
+	      '.tippy-arrow': {
+	        borderLeftColor: variables.shepherdTextBackground
+	      }
+	    },
+	    '&[x-placement^="right"]': {
+	      marginLeft: arrowMargin,
+	      '.tippy-arrow': {
+	        borderRightColor: variables.shepherdTextBackground
+	      }
+	    }
+	  }; // We have to add the root shepherd class separately
+
+	  classes.shepherd = nano.rule({
+	    '&.tippy-popper': _objectSpread$2({}, popperThemeArrows, {
+	      zIndex: variables.shepherdElementZIndex,
+	      '.tippy-tooltip': {
+	        backgroundColor: variables.shepherdTextBackground,
+	        '.tippy-arrow': {
+	          transform: "scale(".concat(variables.arrowSize, ")"),
+	          zIndex: variables.shepherdElementZIndex + 1
+	        },
+	        '.tippy-content': {
+	          maxHeight: variables.shepherdElementMaxHeight,
+	          maxWidth: variables.shepherdElementMaxWidth,
+	          padding: 0,
+	          textAlign: 'center',
+	          width: variables.shepherdElementWidth
+	        }
+	      }
+	    })
+	  }, 'shepherd');
+	  return classes;
+	}
+
 	/**
 	 * Creates incremented ID for each newly created tour
 	 *
@@ -9014,6 +11466,7 @@
 	    _this = possibleConstructorReturn(this, getPrototypeOf$3(Tour).call(this, options));
 	    autoBind(assertThisInitialized(_this));
 	    _this.options = options;
+	    _this.styles = generateStyles(options);
 	    _this.steps = _this.options.steps || []; // Pass these events onto the global Shepherd object
 
 	    var events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
@@ -9394,8 +11847,10 @@
 	  }, {
 	    key: "_addBodyAttrs",
 	    value: function _addBodyAttrs() {
+	      var _context9;
+
 	      document.body.setAttribute('data-shepherd-active-tour', this.id);
-	      document.body.classList.add('shepherd-active');
+	      document.body.classList.add(trim$2(_context9 = this.styles.active).call(_context9));
 	    }
 	    /**
 	     * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'

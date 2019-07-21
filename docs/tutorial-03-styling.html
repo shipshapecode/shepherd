@@ -114,21 +114,25 @@
   </header>
 
   <article>
-    <p>We deliver some <a href="/docs/themes.md">predefined themes</a> (e.g., <code>shepherd-theme-default</code> or <code>shepherd-theme-square</code>). You are welcome to use one of them by embedding its stylesheet into your app.</p>
-<pre class="prettyprint source lang-html"><code>&lt;head>
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;shepherd-theme-default.css&quot;>
-&lt;/head>
+    <p>We deliver some <a href="/docs/themes.md">predefined themes</a> (e.g., <code>dark</code> or <code>square</code>).
+You are welcome to use one of them by passing the <code>theme</code> option in the Shepherd config.</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  ...
+  theme: 'light'
+});
 </code></pre>
-<p>If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance — or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
+<p>If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance —
+or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
 <pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
   defaultStepOptions: {
     classes: 'shepherd-theme-custom'
   }
 });
 </code></pre>
-<h3>Leveraging Sass Variables</h3>
-<p>We use <a href="https://sass-lang.com/">SASS</a> as pre-processor for CSS. This allows us to extend the CSS language with various syntax techniques — including variables and color functions that can be used to control theming.</p>
-<p>These values and variables can be found in <a href="/src/scss/_variables.scss"><strong>_variables.scss</strong></a>, and the ones that can be adjusted for theming are listed below.</p>
+<h3>Leveraging Style Variables</h3>
+<p>We use <a href="https://github.com/streamich/nano-css">nano-css</a> to automatically ship all the styles as part of the JS bundle.
+We have a default set of variables, which can be overridden to achieve whatever look and feel you would like.</p>
+<p>These values and variables can be found in <a href="/src/js/styles/variables.js"><strong>variables.js</strong></a>, and the ones that can be adjusted for theming are listed below.</p>
 <p><strong>🎨 Color Settings</strong></p>
 <table>
 <thead>
@@ -140,27 +144,53 @@
 </thead>
 <tbody>
 <tr>
-<td>$shepherd-theme-primary</td>
-<td>Primary or brand color. The primary button gets this color.</td>
+<td>shepherdThemePrimary</td>
+<td>Primary or brand color: The primary button gets this color.</td>
 <td>#3288e6</td>
 </tr>
 <tr>
-<td>$shepherd-theme-secondary</td>
-<td>Secondary color. If it is not set explicitly, it is calculated using the primary color.</td>
-<td>desaturate(lighten($shepherd-theme-primary, 40), 70)</td>
+<td>shepherdThemeSecondary</td>
+<td>Secondary color</td>
+<td>desaturate(0.7, lighten(0.4, shepherdThemePrimary))</td>
 </tr>
 <tr>
-<td>$shepherd-text-background</td>
-<td>Background color of the text area.</td>
+<td>shepherdTextBackground</td>
+<td>Background color of the text area</td>
 <td>#ffffff</td>
 </tr>
 <tr>
-<td>$shepherd-header-background</td>
-<td>Background color of the header element. If it is not set explicitly, it is calculated using the text background color.</td>
-<td>darken($shepherd-text-background, 10)</td>
+<td>shepherdHeaderBackground</td>
+<td>Background color of the header</td>
+<td>darken(0.1, shepherdTextBackground)</td>
+</tr>
+<tr>
+<td>shepherdThemeTextPrimary</td>
+<td>The text color for the primary button</td>
+<td>transparentize(0.25, readableColor(shepherdThemePrimary))</td>
+</tr>
+<tr>
+<td>shepherdThemeTextSecondary</td>
+<td>The text color for the secondary button</td>
+<td>transparentize(0.25, readableColor(shepherdThemeSecondary))</td>
+</tr>
+<tr>
+<td>shepherdThemeTextHeader</td>
+<td>The text color for the header</td>
+<td>transparentize(0.25, readableColor(shepherdHeaderBackground))</td>
+</tr>
+<tr>
+<td>shepherdThemeTextColor</td>
+<td>The text color for the step content</td>
+<td>transparentize(0.25, readableColor(shepherdTextBackground))</td>
 </tr>
 </tbody>
 </table>
+<p>We use <a href="https://github.com/styled-components/polished">polished</a> to calculate lighter, darker, and the most readable colors.</p>
+<ul>
+<li><code>shepherdThemeSecondary</code> is derived from the primary color, if not explicitly set.</li>
+<li><code>shepherdHeaderBackground</code> is calculated using the text background color, if not explicitly set.</li>
+<li>The text colors are calculated to contrast the background colors by default, unless explicitly set.</li>
+</ul>
 <p><strong>⚙️ Options</strong></p>
 <table>
 <thead>
@@ -172,58 +202,67 @@
 </thead>
 <tbody>
 <tr>
-<td>$shepherd-element-width</td>
+<td>shepherdElementWidth</td>
 <td>Width of the step element</td>
 <td>400px</td>
 </tr>
 <tr>
-<td>$shepherd-element-border-radius</td>
-<td>Set radius of rounded corners. 0 means (sharp) pointed corners.</td>
+<td>shepherdElementBorderRadius</td>
+<td>Sets the border-radius of the shepherd-element.</td>
 <td>5px</td>
 </tr>
 <tr>
-<td>$shepherd-element-max-height</td>
+<td>shepherdElementMaxHeight</td>
 <td>Maximum height of the element</td>
 <td>100%</td>
 </tr>
 <tr>
-<td>$shepherd-element-max-width</td>
+<td>shepherdElementMaxWidth</td>
 <td>Maximum width of the element</td>
 <td>100%</td>
 </tr>
 <tr>
-<td>$shepherd-element-z-index</td>
+<td>shepherdElementZIndex</td>
 <td>Move the element forward or backward</td>
 <td>9999</td>
 </tr>
 <tr>
-<td>$shepherd-text-line-height</td>
-<td>Determine the line height of the body text</td>
+<td>shepherdTextLineHeight</td>
+<td>Sets the line height of the body text</td>
 <td>1.3em</td>
 </tr>
 <tr>
-<td>$shepherd-button-border-radius</td>
-<td>Decide whether the buttons should have rounded or pointed corners. 0 means (sharp) pointed corners.</td>
+<td>shepherdButtonBorderRadius</td>
+<td>Decide whether the buttons should have rounded or pointed corners.</td>
 <td>3px</td>
 </tr>
 <tr>
-<td>$use-drop-shadow</td>
+<td>useDropShadow</td>
 <td>The element casts a shadow</td>
 <td>true</td>
 </tr>
 </tbody>
 </table>
-<p>The example below is intended to illustrate the individual customizations. Please make sure that the values are set before the import of the <em>base-theme</em>.</p>
-<pre class="prettyprint source lang-scss"><code>$shepherd-theme-primary: #9b59b6 !default;
-$shepherd-theme-secondary: desaturate(lighten($shepherd-theme-primary, 30), 70) !default;
-$shepherd-header-background: #eeeeee !default;
-$shepherd-element-border-radius: 0 !default;
-$shepherd-button-border-radius: 0 !default;
-$use-drop-shadow: true !default;
-
-@import 'base';
+<p>The example below is intended to illustrate the individual customizations.</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  styleVariables: {
+    shepherdButtonBorderRadius: 0,
+    shepherdElementBorderRadius: 0,
+    shepherdHeaderBackground: '#eeeeee',
+    shepherdThemePrimary: '#9b59b6',
+    useDropShadow: true
+  }
+});
 </code></pre>
-<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements. The header is colored in a light gray tone.</p>
+<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements, and
+the header is colored in a light gray tone.</p>
+<h3>Adding a prefix to the <code>shepherd-*</code> classes</h3>
+<p>If you have a situation where you are running two Shepherd instances on a page, and they need to be styled
+differently, you may want to prefix the class names. This is now possible with the <code>classPrefix</code> option.</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  classPrefix: 'my-tour-'
+});
+</code></pre>
   </article>
 </section>
 
