@@ -1,9 +1,9 @@
 import preact from 'preact';
 import ShepherdButton from './shepherd-button.jsx';
 
-const { Component, render } = preact;
+const { Component } = preact;
 
-class ShepherdFooter extends Component {
+export default class ShepherdFooter extends Component {
   render(props) {
     const { classPrefix, options, styles } = props;
     return <footer className={styles.footer.trim()}>
@@ -16,11 +16,4 @@ class ShepherdFooter extends Component {
       return <ShepherdButton classPrefix={classPrefix} config={config} styles={styles}/>;
     });
   }
-}
-
-export default function createFooter(content, classPrefix, options, styles) {
-  return render(
-    <ShepherdFooter classPrefix={classPrefix} options={options} styles={styles}/>,
-    content
-  );
 }

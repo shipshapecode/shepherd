@@ -1,3 +1,5 @@
+import preact from 'preact';
+
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
@@ -5,15 +7,17 @@ import { bindAdvance } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
 import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
-import createHeader from './components/shepherd-header.jsx';
-import createFooter from './components/shepherd-footer.jsx';
-import createText from './components/shepherd-text.jsx';
+import ShepherdHeader from './components/shepherd-header.jsx';
+import ShepherdFooter from './components/shepherd-footer.jsx';
+import ShepherdText from './components/shepherd-text.jsx';
 
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
+
+const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created step
@@ -289,7 +293,10 @@ export class Step extends Evented {
     content.classList.add(this.styles.content.trim());
 
     // Use preact to create the header
-    createHeader(content, this.options, this.styles, labelId, this);
+    render(
+      <ShepherdHeader labelId={labelId} options={this.options} step={this} styles={this.styles}/>,
+      content
+    );
 
     if (this.options.title) {
       element.setAttribute('aria-labeledby', labelId);
@@ -298,13 +305,19 @@ export class Step extends Evented {
 
     // Add shepherd-text
     if (!isUndefined(this.options.text)) {
-      createText(content, descriptionId, this.options, this, this.styles);
+      render(
+        <ShepherdText descriptionId={descriptionId} options={this.options} step={this} styles={this.styles}/>,
+        content
+      );
       element.setAttribute('aria-describedby', descriptionId);
     }
 
     // Add shepherd-footer and buttons
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-      createFooter(content, this.classPrefix, this.options, this.styles);
+      render(
+        <ShepherdFooter classPrefix={this.classPrefix} options={this.options} styles={this.styles}/>,
+        content
+      );
     }
 
     if (this.options.showCancelLink) {

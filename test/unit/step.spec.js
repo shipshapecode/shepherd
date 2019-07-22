@@ -1,9 +1,8 @@
-import { spy, stub } from 'sinon';
+import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd.js';
-import { Step } from '../../src/js/step.js';
+import { Step } from '../../src/js/step.jsx';
 import { Tour } from '../../src/js/tour.js';
 import tippy from 'tippy.js';
-import defaultButtons from '../cypress/utils/default-buttons';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -274,85 +273,6 @@ describe('Tour | Step', () => {
       expect(step.getTour() instanceof Shepherd.Tour).toBeTruthy();
     });
 
-  });
-
-  describe('_addContent()', () => {
-    it('adds plain text to the content', () => {
-      const content = document.createElement('div');
-      const step = new Step(tour, {});
-      step.options.text = 'I am some test text.';
-
-      step._addContent(content, '123', step);
-
-      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
-    });
-
-    it('applies HTML element directly to content', () => {
-      const content = document.createElement('div');
-      const text = document.createElement('p');
-      const step = new Step(tour, {});
-      text.innerHTML = 'I am some test text.';
-      step.options.text = text;
-
-      step._addContent(content, '123', step);
-
-      expect(content.querySelector('.shepherd-text').innerHTML).toBe('<p>I am some test text.</p>');
-    });
-
-    it('applies the text from a function', () => {
-      const content = document.createElement('div');
-      const step = new Step(tour, {});
-      step.options.text = () => 'I am some test text.';
-
-      step._addContent(content, '123', step);
-
-      expect(typeof step.options.text === 'function').toBeTruthy();
-      expect(content.querySelector('.shepherd-text').innerHTML).toBe('I am some test text.');
-    });
-  });
-
-  describe('_addButtons', () => {
-    it('renders no buttons if an empty array is passed to `options.buttons`', () => {
-      const content = document.createElement('div');
-      const step = new Step(tour, {});
-
-      step.options.buttons = [];
-
-      step._addButtons(content);
-
-      expect(content.children.length).toBe(0);
-    });
-
-    it('renders no buttons if nothing is passed to `options.buttons`', () => {
-      const content = document.createElement('div');
-      const step = new Step(tour, {});
-
-      step._addButtons(content);
-
-      expect(content.children.length).toBe(0);
-    });
-
-    it('renders buttons for each item passed to `options.buttons`', () => {
-      const content = document.createElement('div');
-      const step = new Step(tour, {});
-
-      step.options.buttons = [
-        defaultButtons.cancel,
-        defaultButtons.next
-      ];
-
-      step._addButtons(content);
-
-      expect(content.children.length).toBe(1);
-
-      const buttonContainer = content.querySelector('.shepherd-footer');
-
-      expect(buttonContainer instanceof HTMLElement).toBe(true);
-
-      const buttons = buttonContainer.querySelectorAll('.shepherd-button');
-
-      expect(buttons.length).toBe(2);
-    });
   });
 
   describe('_addKeyDownHandler', () => {

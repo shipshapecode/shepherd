@@ -1,8 +1,8 @@
 import preact from 'preact';
 
-const { Component, render } = preact;
+const { Component } = preact;
 
-class ShepherdHeader extends Component {
+export default class ShepherdHeader extends Component {
   constructor(props) {
     super(props);
 
@@ -52,11 +52,4 @@ class ShepherdHeader extends Component {
 
     return null;
   }
-}
-
-export default function createHeader(content, options, styles, labelId, step) {
-  return render(
-    <ShepherdHeader labelId={labelId} options={options} step={step} styles={styles}/>,
-    content
-  );
 }

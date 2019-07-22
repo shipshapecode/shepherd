@@ -1,5 +1,5 @@
 import { Modal } from '../../src/js/modal';
-import { Step } from '../../src/js/step';
+import { Step } from '../../src/js/step.jsx';
 import { Tour } from '../../src/js/tour';
 import { classNames as modalClassNames } from '../../src/js/utils/modal';
 import { stub } from 'sinon';

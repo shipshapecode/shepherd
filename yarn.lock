@@ -6196,6 +6196,20 @@ postcss@^7.0.1:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
+preact-jsx-chai@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/preact-jsx-chai/-/preact-jsx-chai-2.3.2.tgz#3d58fd60b7a85f38b39d19b408a62dbaca8158bb"
+  integrity sha512-LIvtYOUgC7bdXnylosrRYM//06lsdIvnfmkM3vz6rzCSTMzIU30//9s/jQndA2/XxlQJxkR/H2VNYhLX9zRSiw==
+  dependencies:
+    preact-render-to-string "^4.1.0"
+
+preact-render-to-string@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-4.1.0.tgz#70d98a8385cb86558366c558aad7311ebecb881d"
+  integrity sha512-FlFBJRxo8z4cp6VsDmeYjIEx4ZK2clFJnKIvIj8K1IQCRm7ZgJ/SZ1+BotT86/Nc+V1pNtFabHoUi6gpjx5Pug==
+  dependencies:
+    pretty-format "^3.8.0"
+
 preact@^8.4.2:
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/preact/-/preact-8.4.2.tgz#1263b974a17d1ea80b66590e41ef786ced5d6a23"
@@ -6237,6 +6251,11 @@ pretty-format@^24.0.0, pretty-format@^24.8.0:
     ansi-regex "^4.0.0"
     ansi-styles "^3.2.0"
     react-is "^16.8.4"
+
+pretty-format@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
+  integrity sha1-v77VbV6ad2ZF9LH/eqGjrE+jw4U=
 
 private@^0.1.6:
   version "0.1.8"

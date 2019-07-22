@@ -84,6 +84,7 @@
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.0.4",
     "mutationobserver-shim": "^0.3.3",
+    "preact-jsx-chai": "^2.3.2",
     "replace": "^1.1.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.17.0",

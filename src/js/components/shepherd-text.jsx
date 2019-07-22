@@ -1,9 +1,9 @@
 import preact from 'preact';
 import { isFunction } from '../utils/type-check';
 
-const { Component, render } = preact;
+const { Component } = preact;
 
-class ShepherdText extends Component {
+export default class ShepherdText extends Component {
   render(props) {
     const { descriptionId, options, styles } = props;
     let { text } = options;
@@ -18,11 +18,4 @@ class ShepherdText extends Component {
       id={descriptionId}
     />;
   }
-}
-
-export default function createText(content, descriptionId, options, step, styles) {
-  return render(
-    <ShepherdText descriptionId={descriptionId} options={options} step={step} styles={styles}/>,
-    content
-  );
 }
