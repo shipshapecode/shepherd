@@ -454,9 +454,8 @@ export class Step extends Evented {
       this._setupElements();
     }
 
-    const prefix = this.classPrefix;
-    this.target.classList.add(`${prefix}shepherd-enabled`, `${prefix}shepherd-target`);
-    document.body.setAttribute(`data-${prefix}shepherd-step`, this.id);
+    this.target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -503,7 +502,7 @@ export class Step extends Evented {
     if (this.options.highlightClass) {
       this.target.classList.remove(this.options.highlightClass);
     }
-    const prefix = this.classPrefix;
-    this.target.classList.remove(`${prefix}shepherd-enabled`, `${prefix}shepherd-target`);
+
+    this.target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
   }
 }
