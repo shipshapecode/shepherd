@@ -5,9 +5,10 @@ import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
-import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
+import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
-import ShepherdHeader from './components/shepherd-header.jsx';
+import ShepherdElement from './components/shepherd-element.jsx';
+import ShepherdContent from './components/shepherd-content.jsx';
 import ShepherdFooter from './components/shepherd-footer.jsx';
 import ShepherdText from './components/shepherd-text.jsx';
 
@@ -17,7 +18,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
 
-const { render } = preact;
+const { h, render } = preact;
 
 /**
  * Creates incremented ID for each newly created step
@@ -275,56 +276,30 @@ export class Step extends Evented {
   /**
    * Creates Shepherd element for step based on options
    *
-   * @return {HTMLElement} The DOM element for the step tooltip
+   * @return {Element} The DOM element for the step tooltip
    * @private
    */
   _createTooltipContent() {
-    const content = document.createElement('div');
-    const classes = this.options.classes || '';
+    let classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
-    const element = createFromHTML(
-      `<div class="${classes}"
-       data-${this.classPrefix}shepherd-step-id="${this.id}"
-       role="dialog"
-       tabindex="0">`
-    );
-
-    content.classList.add(this.styles.content.trim());
-
-    // Use preact to create the header
-    render(
-      <ShepherdHeader labelId={labelId} options={this.options} step={this} styles={this.styles}/>,
-      content
-    );
-
-    if (this.options.title) {
-      element.setAttribute('aria-labeledby', labelId);
-    }
-    element.appendChild(content);
-
-    // Add shepherd-text
-    if (!isUndefined(this.options.text)) {
-      render(
-        <ShepherdText descriptionId={descriptionId} options={this.options} step={this} styles={this.styles}/>,
-        content
-      );
-      element.setAttribute('aria-describedby', descriptionId);
-    }
-
-    // Add shepherd-footer and buttons
-    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-      render(
-        <ShepherdFooter classPrefix={this.classPrefix} options={this.options} styles={this.styles}/>,
-        content
-      );
-    }
 
     if (this.options.showCancelLink) {
-      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
+      classes += ` ${this.classPrefix}shepherd-has-cancel-link`;
     }
 
-    return element;
+    return render(
+      <ShepherdElement
+        classPrefix={this.classPrefix}
+        classes={classes}
+        descriptionId={descriptionId}
+        labelId={labelId}
+        options={this.options}
+        step={this}
+        styles={this.styles}
+      />,
+      null
+    );
   }
 
   /**
