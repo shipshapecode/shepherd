@@ -1,6 +1,5 @@
 import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
-import { missingTippy } from './error-messages';
 
 const addHasTitleClass = (step) => {
   return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
@@ -85,7 +84,7 @@ export function debounce(func, wait, immediate) {
  */
 export function setupTooltip(step) {
   if (isUndefined(tippy)) {
-    throw new Error(missingTippy);
+    throw new Error('Using the attachment feature of Shepherd requires the Tippy.js library');
   }
 
   if (step.tooltip) {

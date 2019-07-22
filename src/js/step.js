@@ -7,6 +7,7 @@ import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './
 import { toggleShepherdModalClass } from './utils/modal';
 import createHeader from './components/shepherd-header.jsx';
 import createFooter from './components/shepherd-footer.jsx';
+import createText from './components/shepherd-text.jsx';
 
 // Polyfills
 import 'element-matches';
@@ -214,46 +215,6 @@ export class Step extends Evented {
   }
 
   /**
-   * Adds buttons to the step as passed into options
-   *
-   * @param {HTMLElement} content The element for the step, to append the footer with buttons to
-   * @private
-   */
-  _addButtons(content) {
-    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-      createFooter(content, this.classPrefix, this.options, this.styles);
-    }
-  }
-
-  /**
-   * Adds text passed in as options
-   *
-   * @param {HTMLElement} content The content to append the text to
-   * @param {string} descriptionId The id to set on the shepherd-text element
-   * for the parent element to use for aria-describedby
-   * @params {Step} step The step to get the styles from for the shepherd-text class
-   * @private
-   */
-  _addContent(content, descriptionId, step) {
-    const textContainer = createFromHTML(
-      `<div class="${step.styles.text.trim()}"
-       id="${descriptionId}"
-       ></div>`
-    );
-
-    let { text } = this.options;
-
-    if (isFunction(text)) {
-      text = text.call(this, textContainer);
-    }
-
-    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
-    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
-
-    content.appendChild(textContainer);
-  }
-
-  /**
    * Setup keydown events to allow closing the modal with ESC
    *
    * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
@@ -325,25 +286,29 @@ export class Step extends Evented {
        tabindex="0">`
     );
 
+    content.classList.add(this.styles.content.trim());
+
     // Use preact to create the header
     createHeader(content, this.options, this.styles, labelId, this);
 
     if (this.options.title) {
       element.setAttribute('aria-labeledby', labelId);
     }
-
-    content.classList.add(this.styles.content.trim());
     element.appendChild(content);
 
+    // Add shepherd-text
     if (!isUndefined(this.options.text)) {
-      this._addContent(content, descriptionId, this);
+      createText(content, descriptionId, this.options, this, this.styles);
       element.setAttribute('aria-describedby', descriptionId);
     }
 
-    this._addButtons(content);
+    // Add shepherd-footer and buttons
+    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
+      createFooter(content, this.classPrefix, this.options, this.styles);
+    }
 
     if (this.options.showCancelLink) {
-      element.classList.add('shepherd-has-cancel-link');
+      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
     }
 
     return element;
