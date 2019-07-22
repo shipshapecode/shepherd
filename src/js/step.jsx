@@ -220,60 +220,6 @@ export class Step extends Evented {
   }
 
   /**
-   * Setup keydown events to allow closing the modal with ESC
-   *
-   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
-   *
-   * @param {HTMLElement} element The element for the tooltip
-   * @private
-   */
-  _addKeyDownHandler(element) {
-    const KEY_TAB = 9;
-    const KEY_ESC = 27;
-    const LEFT_ARROW = 37;
-    const RIGHT_ARROW = 39;
-
-    // Get all elements that are focusable
-    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
-    const [firstFocusableElement] = focusableElements;
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
-
-    element.addEventListener('keydown', (e) => {
-      switch (e.keyCode) {
-        case KEY_TAB:
-          if (focusableElements.length === 1) {
-            e.preventDefault();
-            break;
-          }
-          // Backward tab
-          if (e.shiftKey) {
-            if (document.activeElement === firstFocusableElement) {
-              e.preventDefault();
-              lastFocusableElement.focus();
-            }
-          } else {
-            if (document.activeElement === lastFocusableElement) {
-              e.preventDefault();
-              firstFocusableElement.focus();
-            }
-          }
-          break;
-        case KEY_ESC:
-          this.cancel();
-          break;
-        case LEFT_ARROW:
-          this.tour.back();
-          break;
-        case RIGHT_ARROW:
-          this.tour.next();
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  /**
    * Creates Shepherd element for step based on options
    *
    * @return {Element} The DOM element for the step tooltip
@@ -350,14 +296,11 @@ export class Step extends Evented {
 
     this.el = this._createTooltipContent();
 
-    this._addKeyDownHandler(this.el);
-
     if (this.options.advanceOn) {
       bindAdvance(this);
     }
 
     setupTooltip(this);
-    this.el.classList.add(this.styles.element.trim());
   }
 
   /**
