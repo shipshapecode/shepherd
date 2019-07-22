@@ -76,6 +76,7 @@ export class Step extends Evented {
    *   }
    * }
    * ```
+   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes A string of extra classes to add to the step's content element.
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
@@ -230,6 +231,11 @@ export class Step extends Evented {
         const button = createFromHTML(
           `<button class="${this.styles.button.trim()} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
         );
+
+        if (cfg.secondary) {
+          button.classList.add(`${this.classPrefix}shepherd-button-secondary`);
+        }
+
         footer.appendChild(button);
         bindButtonEvents(cfg, button, this);
       });
