@@ -235,7 +235,7 @@ export class Tour extends Evented {
       } else {
         this.trigger('show', {
           step,
-          previous: this.currentStep,
+          previous: this.currentStep
         });
 
         this.currentStep = step;
