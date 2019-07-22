@@ -2,7 +2,9 @@ import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
 import { missingTippy } from './error-messages';
 
-const addHasTitleClass = _createClassModifier('shepherd-has-title');
+const addHasTitleClass = (step) => {
+  return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
+};
 
 function _getCenteredStylePopperModifier(styles) {
   return {
@@ -177,7 +179,7 @@ function _makeAttachedTippyOptions(attachToOptions, step) {
   Object.assign(resultingTippyOptions, step.options.tippyOptions);
 
   if (step.options.title) {
-    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
+    Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
   }
 
   if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
@@ -211,7 +213,7 @@ function _makeCenteredTippy(step) {
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
   if (step.options.title) {
-    Object.assign(defaultPopperOptions.modifiers, { addHasTitleClass });
+    Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
   }
 
   Object.assign(
@@ -229,4 +231,11 @@ function _makeCenteredTippy(step) {
   tippyOptions.popperOptions = finalPopperOptions;
 
   return tippy(document.body, tippyOptions);
+}
+
+export function normalizePrefix(prefix) {
+  if (!isString(prefix) || prefix === '') {
+    return '';
+  }
+  return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
 }

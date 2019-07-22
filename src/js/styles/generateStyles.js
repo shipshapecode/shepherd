@@ -1,11 +1,13 @@
 import { darken, lighten } from 'polished';
 import getVariables from './variables';
 import { setupNano } from './nano';
+import { normalizePrefix } from '../utils/general';
 
 export function generateStyles(options) {
   const variables = getVariables(options);
   const nano = setupNano(options.classPrefix);
-  const classPrefix = options.classPrefix || '';
+  const classPrefix = normalizePrefix(options.classPrefix);
+  const tippyPrefix = normalizePrefix(options.tippyClassPrefix);
 
   const styles = {
     active: {
@@ -43,7 +45,7 @@ export function generateStyles(options) {
       '&:hover': {
         background: darken(0.1, variables.shepherdThemePrimary)
       },
-      '&.shepherd-button-secondary': {
+      [`&.${classPrefix}shepherd-button-secondary`]: {
         background: variables.shepherdThemeSecondary,
         color: variables.shepherdThemeTextSecondary,
         '&:hover': {
@@ -109,7 +111,7 @@ export function generateStyles(options) {
       justifyContent: 'flex-end',
       lineHeight: '2em',
       padding: '0.75em 0.75em 0',
-      [`.shepherd-has-title .${classPrefix}shepherd-content &`]: {
+      [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
         background: variables.shepherdHeaderBackground,
         padding: '1em'
       }
@@ -164,7 +166,7 @@ export function generateStyles(options) {
     '&[x-placement^="top"]': {
       marginBottom: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderTopColor: variables.shepherdTextBackground
       }
     },
@@ -172,12 +174,12 @@ export function generateStyles(options) {
     '&[x-placement^="bottom"]': {
       marginTop: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderBottomColor: variables.shepherdTextBackground
       },
 
-      '&.shepherd-has-title': {
-        '.tippy-arrow': {
+      [`&.${classPrefix}shepherd-has-title`]: {
+        [`.${tippyPrefix}tippy-arrow`]: {
           borderBottomColor: variables.shepherdHeaderBackground
         }
       }
@@ -186,7 +188,7 @@ export function generateStyles(options) {
     '&[x-placement^="left"]': {
       marginRight: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderLeftColor: variables.shepherdTextBackground
       }
     },
@@ -194,7 +196,7 @@ export function generateStyles(options) {
     '&[x-placement^="right"]': {
       marginLeft: arrowMargin,
 
-      '.tippy-arrow': {
+      [`.${tippyPrefix}tippy-arrow`]: {
         borderRightColor: variables.shepherdTextBackground
       }
     }
@@ -202,19 +204,19 @@ export function generateStyles(options) {
 
   // We have to add the root shepherd class separately
   classes.shepherd = nano.rule({
-    '&.tippy-popper': {
+    [`&.${tippyPrefix}tippy-popper`]: {
       ...popperThemeArrows,
       zIndex: variables.shepherdElementZIndex,
 
-      '.tippy-tooltip': {
+      [`.${tippyPrefix}tippy-tooltip`]: {
         backgroundColor: variables.shepherdTextBackground,
 
-        '.tippy-arrow': {
+        [`.${tippyPrefix}tippy-arrow`]: {
           transform: `scale(${variables.arrowSize})`,
           zIndex: variables.shepherdElementZIndex + 1
         },
 
-        '.tippy-content': {
+        [`.${tippyPrefix}tippy-content`]: {
           maxHeight: variables.shepherdElementMaxHeight,
           maxWidth: variables.shepherdElementMaxWidth,
           padding: 0,

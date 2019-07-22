@@ -79,7 +79,6 @@ export function bindButtonEvents(cfg, el, step) {
 
       // Cleanup event listeners on destroy
       step.on('destroy', () => {
-        el.removeAttribute('data-button-event');
         el.removeEventListener(event, handler);
       });
     });
