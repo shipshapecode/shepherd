@@ -1,4 +1,4 @@
-import { bindAdvance, bindButtonEvents, bindCancelLink } from '../../../src/js/utils/bind.js';
+import { bindAdvance } from '../../../src/js/utils/bind.js';
 import { Step } from '../../../src/js/step';
 import { spy } from 'sinon';
 import { Tour } from '../../../src/js/tour';
@@ -90,55 +90,6 @@ describe('Bind Utils', function() {
       bodySpy.restore();
 
       done();
-    });
-  });
-
-  describe('bindButtonEvents()', () => {
-    const link = document.createElement('a');
-    const step = new Step(new Tour(), {});
-    it('adds button events', () => {
-      const event = new Event('test');
-      const hover = new Event('mouseover');
-      let eventTriggered = false;
-
-      bindButtonEvents({
-        events: {
-          'mouseover': '1',
-          test: () => eventTriggered = true
-        },
-        text: 'Next',
-        action: () => {}
-      }, link, step);
-
-      link.dispatchEvent(event);
-      link.dispatchEvent(hover);
-      expect(eventTriggered, 'custom button event was bound/triggered').toBeTruthy();
-    });
-
-    it('removes events once destroyed', () => {
-      step.destroy();
-
-      expect(link.hasAttribute('data-button-event'), 'attribute to confirm event is removed').toBeFalsy();
-    });
-
-  });
-
-  describe('bindCancelLink()', () => {
-    it('adds an event handler for the cancel button', () => {
-      const event = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-      const link = document.createElement('a');
-      const step =new Step(new Tour(), {});
-      let cancelCalled = false;
-
-      step.cancel = () => cancelCalled = true;
-      bindCancelLink(link, step);
-
-      link.dispatchEvent(event);
-      expect(cancelCalled, 'cancel method was called from bound click event').toBeTruthy();
     });
   });
 });

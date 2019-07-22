@@ -66,7 +66,8 @@ export function generateStyles(options) {
       transition: 'color 0.5s ease',
       verticalAlign: 'middle',
       '&:hover': {
-        color: variables.shepherdThemeTextHeader
+        color: variables.shepherdThemeTextHeader,
+        cursor: 'pointer'
       },
       '&:before': {
         content: '"\u00d7"'

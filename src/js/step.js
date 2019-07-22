@@ -1,10 +1,12 @@
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
-import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
+import { bindAdvance } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
 import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
+import createHeader from './components/shepherd-header.jsx';
+import createFooter from './components/shepherd-footer.jsx';
 
 // Polyfills
 import 'element-matches';
@@ -65,17 +67,13 @@ export class Step extends Evented {
    * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
    * footer below the main body text.
    * @param {function} options.buttons.button.action A function executed when the button is clicked on
-   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
-   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
-   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
-   * You can use events to skip steps or navigate to specific steps, with something like:
+   * You can use action to skip steps or navigate to specific steps, with something like:
    * ```js
-   * events: {
-   *   click: function() {
-   *     return Shepherd.activeTour.show('some_step_name');
-   *   }
+   * action: function() {
+   *   return Shepherd.activeTour.show('some_step_name');
    * }
    * ```
+   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes A string of extra classes to add to the step's content element.
@@ -223,40 +221,7 @@ export class Step extends Evented {
    */
   _addButtons(content) {
     if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-      const footer = document.createElement('footer');
-
-      footer.classList.add(this.styles.footer.trim());
-
-      this.options.buttons.map((cfg) => {
-        const button = createFromHTML(
-          `<button class="${this.styles.button.trim()} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
-        );
-
-        if (cfg.secondary) {
-          button.classList.add(`${this.classPrefix}shepherd-button-secondary`);
-        }
-
-        footer.appendChild(button);
-        bindButtonEvents(cfg, button, this);
-      });
-
-      content.appendChild(footer);
-    }
-  }
-
-  /**
-   * Adds the "x" button to cancel the tour
-   * @param {HTMLElement} element The step element
-   * @param {HTMLElement} header The header element for the step
-   * @private
-   */
-  _addCancelLink(element, header) {
-    if (this.options.showCancelLink) {
-      const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
-      header.appendChild(link);
-
-      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
-      bindCancelLink(link, this);
+      createFooter(content, this.classPrefix, this.options, this.styles);
     }
   }
 
@@ -359,22 +324,16 @@ export class Step extends Evented {
        role="dialog"
        tabindex="0">`
     );
-    const header = document.createElement('header');
+
+    // Use preact to create the header
+    createHeader(content, this.options, this.styles, labelId, this);
 
     if (this.options.title) {
-      const title = document.createElement('h3');
-      title.classList.add(this.styles.title.trim());
-      title.innerHTML = `${this.options.title}`;
-      title.id = labelId;
       element.setAttribute('aria-labeledby', labelId);
-      header.appendChild(title);
     }
 
     content.classList.add(this.styles.content.trim());
-
-    header.classList.add(this.styles.header.trim());
     element.appendChild(content);
-    content.appendChild(header);
 
     if (!isUndefined(this.options.text)) {
       this._addContent(content, descriptionId, this);
@@ -382,7 +341,10 @@ export class Step extends Evented {
     }
 
     this._addButtons(content);
-    this._addCancelLink(element, header);
+
+    if (this.options.showCancelLink) {
+      element.classList.add('shepherd-has-cancel-link');
+    }
 
     return element;
   }

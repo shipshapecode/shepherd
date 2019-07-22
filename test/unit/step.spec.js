@@ -400,18 +400,6 @@ describe('Tour | Step', () => {
     });
   });
 
-  describe('_addCancelLink', () => {
-    it('Cancel link', () => {
-      const header = document.createElement('header');
-      const element = document.createElement('div');
-      const step = new Step(tour, { showCancelLink: true });
-
-      step._addCancelLink(element, header);
-
-      expect(element).toHaveClass('shepherd-has-cancel-link');
-    });
-  });
-
   describe('_createTooltipContent', () => {
     it('ARIA attributes set', () => {
       const step = new Step(tour, {

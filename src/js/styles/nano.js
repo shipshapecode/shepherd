@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import { create } from 'nano-css';
 import { addon as cache } from 'nano-css/addon/cache';
 import { addon as nesting } from 'nano-css/addon/nesting';
@@ -8,6 +9,7 @@ import { normalizePrefix } from '../utils/general';
 
 export function setupNano(classPrefix) {
   const nano = create({
+    h,
     // Add prefix to all generated class names.
     pfx: normalizePrefix(classPrefix)
   });
