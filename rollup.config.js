@@ -39,7 +39,6 @@ if (process.env.DEVELOPMENT) {
       server: {
         baseDir: 'demo',
         routes: {
-          '/dist/css/shepherd-theme-default.css': 'dist/css/shepherd-theme-default.css',
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
           '/demo/js/prism.js': 'demo/js/prism.js',
           '/demo/js/welcome.js': 'demo/js/welcome.js',

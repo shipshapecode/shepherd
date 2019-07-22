@@ -40,7 +40,7 @@ export default function(shepherd) {
       id: 'including',
       options: {
         title: 'Including',
-        text: 'Including Shepherd is easy! Just include tippy.all.min.js, shepherd.js, and a Shepherd theme file.',
+        text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
         attachTo: {
           element: '.hero-including',
           on: 'bottom'
