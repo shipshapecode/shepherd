@@ -265,6 +265,7 @@ export class Tour extends Evented {
    * @private
    */
   _done(event) {
+    const index = this.steps.indexOf(this.currentStep);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
@@ -272,7 +273,7 @@ export class Tour extends Evented {
     cleanupStepEventListeners.call(this);
     cleanupSteps(this.tourObject);
 
-    this.trigger(event);
+    this.trigger(event, { index });
 
     Shepherd.activeTour = null;
     this._removeBodyAttrs();

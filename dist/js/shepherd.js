@@ -11806,17 +11806,23 @@
 	  }, {
 	    key: "_done",
 	    value: function _done(event) {
-	      if (isArray$5(this.steps)) {
-	        var _context6;
+	      var _context6;
 
-	        forEach$2(_context6 = this.steps).call(_context6, function (step) {
+	      var index = indexOf$3(_context6 = this.steps).call(_context6, this.currentStep);
+
+	      if (isArray$5(this.steps)) {
+	        var _context7;
+
+	        forEach$2(_context7 = this.steps).call(_context7, function (step) {
 	          return step.destroy();
 	        });
 	      }
 
 	      cleanupStepEventListeners.call(this);
 	      cleanupSteps(this.tourObject);
-	      this.trigger(event);
+	      this.trigger(event, {
+	        index: index
+	      });
 	      Shepherd.activeTour = null;
 
 	      this._removeBodyAttrs();
@@ -11876,9 +11882,9 @@
 	  }, {
 	    key: "_skipStep",
 	    value: function _skipStep(step, forward) {
-	      var _context7;
+	      var _context8;
 
-	      var index = indexOf$3(_context7 = this.steps).call(_context7, step);
+	      var index = indexOf$3(_context8 = this.steps).call(_context8, step);
 
 	      var nextIndex = forward ? index + 1 : index - 1;
 	      this.show(nextIndex, forward);
@@ -11918,11 +11924,11 @@
 	  }, {
 	    key: "_setTourID",
 	    value: function _setTourID() {
-	      var _context8;
+	      var _context9;
 
 	      var tourName = this.options.tourName || 'tour';
 	      var uuid = uniqueId$1();
-	      this.id = concat$2(_context8 = "".concat(tourName, "--")).call(_context8, uuid);
+	      this.id = concat$2(_context9 = "".concat(tourName, "--")).call(_context9, uuid);
 	    }
 	    /**
 	     * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
@@ -11933,10 +11939,10 @@
 	  }, {
 	    key: "_addBodyAttrs",
 	    value: function _addBodyAttrs() {
-	      var _context9;
+	      var _context10;
 
 	      document.body.setAttribute("data-".concat(this.classPrefix, "shepherd-active-tour"), this.id);
-	      document.body.classList.add(trim$2(_context9 = this.styles.active).call(_context9));
+	      document.body.classList.add(trim$2(_context10 = this.styles.active).call(_context10));
 	    }
 	    /**
 	     * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
@@ -11947,10 +11953,10 @@
 	  }, {
 	    key: "_removeBodyAttrs",
 	    value: function _removeBodyAttrs() {
-	      var _context10;
+	      var _context11;
 
 	      document.body.removeAttribute("data-".concat(this.classPrefix, "shepherd-active-tour"));
-	      document.body.classList.remove(trim$2(_context10 = this.styles.active).call(_context10));
+	      document.body.classList.remove(trim$2(_context11 = this.styles.active).call(_context11));
 	    }
 	  }]);
 
