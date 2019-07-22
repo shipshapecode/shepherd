@@ -12,8 +12,12 @@ export default class ShepherdFooter extends Component {
   }
 
   _addButtons(classPrefix, options, styles) {
-    return options.buttons.map((config) => {
-      return <ShepherdButton classPrefix={classPrefix} config={config} styles={styles}/>;
-    });
+    if (options.buttons) {
+      return options.buttons.map((config) => {
+        return <ShepherdButton classPrefix={classPrefix} config={config} styles={styles}/>;
+      });
+    }
+
+    return null;
   }
 }
