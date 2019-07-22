@@ -8,6 +8,7 @@ import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
+import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
 
 /**
@@ -50,7 +51,7 @@ export class Tour extends Evented {
     autoBind(this);
 
     this.options = options;
-    this.classPrefix = this.options && this.options.classPrefix ? `${this.options.classPrefix}-` : '';
+    this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
     this.styles = generateStyles(options);
     this.steps = this.options.steps || [];
 
@@ -379,7 +380,7 @@ export class Tour extends Evented {
    */
   _removeBodyAttrs() {
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-    document.body.classList.remove('shepherd-active');
+    document.body.classList.remove(this.styles.active.trim());
   }
 
 }

@@ -4,11 +4,12 @@ import { addon as nesting } from 'nano-css/addon/nesting';
 import { addon as prefixer } from 'nano-css/addon/prefixer';
 import { addon as rule } from 'nano-css/addon/rule';
 import { addon as sheet } from 'nano-css/addon/sheet';
+import { normalizePrefix } from '../utils/general';
 
 export function setupNano(classPrefix) {
   const nano = create({
     // Add prefix to all generated class names.
-    pfx: classPrefix || ''
+    pfx: normalizePrefix(classPrefix)
   });
 
   cache(nano);

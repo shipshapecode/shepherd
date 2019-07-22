@@ -3,7 +3,7 @@ import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
-import { createFromHTML, setupTooltip, parseAttachTo } from './utils/general.js';
+import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
 
 // Polyfills
@@ -109,7 +109,7 @@ export class Step extends Evented {
   constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
-    this.classPrefix = this.tour.options && this.tour.options.classPrefix ? `${this.tour.options.classPrefix}-` : '';
+    this.classPrefix = this.tour.options ? normalizePrefix(this.tour.options.classPrefix) : '';
     this.styles = tour.styles;
 
     autoBind(this);
@@ -249,7 +249,7 @@ export class Step extends Evented {
       const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
       header.appendChild(link);
 
-      element.classList.add('shepherd-has-cancel-link');
+      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
       bindCancelLink(link, this);
     }
   }
@@ -454,8 +454,7 @@ export class Step extends Evented {
       this._setupElements();
     }
 
-    this.target.classList.add('shepherd-enabled', 'shepherd-target');
-
+    this.target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
     document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
@@ -504,6 +503,6 @@ export class Step extends Evented {
       this.target.classList.remove(this.options.highlightClass);
     }
 
-    this.target.classList.remove('shepherd-enabled', 'shepherd-target');
+    this.target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
   }
 }
