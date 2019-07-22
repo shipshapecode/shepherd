@@ -234,11 +234,8 @@ function _makeCenteredTippy(step) {
 }
 
 export function normalizePrefix(prefix) {
-  if (typeof prefix !== 'string' || prefix === '') {
+  if (!isString(prefix) || prefix === '') {
     return '';
   }
-  if (prefix.charAt(prefix.length - 1) !== '-') {
-    return `${prefix}-`;
-  }
-  return prefix;
+  return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
 }
