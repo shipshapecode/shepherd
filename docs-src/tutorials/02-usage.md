@@ -177,6 +177,7 @@ the step will execute. For example:
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
   - `classes`: Extra classes to apply to the `<a>`
+  - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary` class to the button
   - `action`: A function executed when the button is clicked on
   - `events`: A hash of events to bind onto the button, for example `{'mouseover': function(){}}`.  Adding a click event to `events` when you
   already have an `action` specified is not supported.

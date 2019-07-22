@@ -8376,6 +8376,7 @@
 	   *   }
 	   * }
 	   * ```
+	   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
 	   * @param {string} options.buttons.button.text The HTML text of the button
 	   * @param {string} options.classes A string of extra classes to add to the step's content element.
 	   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
@@ -8555,6 +8556,11 @@
 	          var _context3, _context4, _context5;
 
 	          var button = createFromHTML(concat$2(_context3 = concat$2(_context4 = "<button class=\"".concat(trim$2(_context5 = _this3.styles.button).call(_context5), " ")).call(_context4, cfg.classes || '', "\" tabindex=\"0\">")).call(_context3, cfg.text, "</button>"));
+
+	          if (cfg.secondary) {
+	            button.classList.add("".concat(_this3.classPrefix, "shepherd-button-secondary"));
+	          }
+
 	          footer.appendChild(button);
 	          bindButtonEvents(cfg, button, _this3);
 	        });
