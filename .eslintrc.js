@@ -6,7 +6,8 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:ship-shape/recommended'
+    'plugin:ship-shape/recommended',
+    'standard-jsx'
   ],
   env: {
     browser: true
@@ -14,7 +15,8 @@ module.exports = {
   rules: {
     'complexity': ['warn', 6],
     'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
-    'no-console': 'off'
+    'no-console': 'off',
+    'react/jsx-tag-spacing': 'off'
   },
   overrides: [
     // node files

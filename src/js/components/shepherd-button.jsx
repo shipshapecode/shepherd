@@ -10,7 +10,7 @@ export default class ShepherdButton extends Component {
     return <button
       className={(classes || '') + styles.button + (secondary ? `${classPrefix}shepherd-button-secondary` : '')}
       onClick={action}
-      tabindex="0">
+      tabindex='0'>
       {text}
     </button>;
   }

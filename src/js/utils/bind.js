@@ -1,4 +1,4 @@
-import { isString, isUndefined } from './type-check';
+import { isUndefined } from './type-check';
 
 /**
  * Sets up the handler to determine if we should advance the tour

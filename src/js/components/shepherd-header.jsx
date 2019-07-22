@@ -44,10 +44,10 @@ class ShepherdHeader extends Component {
   _addCancelLink(showCancelLink, styles) {
     if (showCancelLink) {
       return <a
+        href=''
         className={styles['cancel-link'].trim()}
         onClick={this.cancelStep}
-      >
-      </a>;
+      />;
     }
 
     return null;
