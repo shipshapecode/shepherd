@@ -272,52 +272,6 @@ describe('Tour | Step', () => {
 
       expect(step.getTour() instanceof Shepherd.Tour).toBeTruthy();
     });
-
-  });
-
-  describe('_addKeyDownHandler', () => {
-    it('ESC cancels the tour', () => {
-      const element = document.createElement('div');
-      const step = new Step(tour, {});
-
-      const cancelStub = stub(step, 'cancel');
-
-      step._addKeyDownHandler(element);
-
-      const event = new KeyboardEvent('keydown', { keyCode: 27 });
-      element.dispatchEvent(event);
-
-      expect(cancelStub.called).toBe(true);
-      cancelStub.restore();
-    });
-
-    it('arrow keys move between steps', () => {
-      const element = document.createElement('div');
-      const tour = new Tour();
-      const step = new Step(tour, {});
-
-      const tourBackStub = stub(tour, 'back');
-      const tourNextStub = stub(tour, 'next');
-
-      expect(tourBackStub.called).toBe(false);
-      expect(tourNextStub.called).toBe(false);
-
-      step._addKeyDownHandler(element);
-
-      const rightArrowEvent = new KeyboardEvent('keydown', { keyCode: 39 });
-      element.dispatchEvent(rightArrowEvent);
-
-      expect(tourNextStub.called).toBe(true);
-
-
-      const leftArrowEvent = new KeyboardEvent('keydown', { keyCode: 37 });
-      element.dispatchEvent(leftArrowEvent);
-
-      expect(tourBackStub.called).toBe(true);
-
-      tourBackStub.restore();
-      tourNextStub.restore();
-    });
   });
 
   describe('_createTooltipContent', () => {

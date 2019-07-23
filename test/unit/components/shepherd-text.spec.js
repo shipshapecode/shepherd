@@ -8,29 +8,35 @@ describe('components/ShepherdText', () => {
   };
 
   it('adds plain text to the content', () => {
-    const options = {
-      text: 'I am some test text.'
+    const step = {
+      options: {
+        text: 'I am some test text.'
+      }
     };
 
-    const textComponent = <ShepherdText options={options} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles}/>;
     expect(textComponent).to.include('I am some test text.');
   });
 
   it('applies HTML element directly to content', () => {
-    const options = {
-      text: '<p>I am some test text.</p>'
+    const step = {
+      options: {
+        text: '<p>I am some test text.</p>'
+      }
     };
 
-    const textComponent = <ShepherdText options={options} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles}/>;
     expect(textComponent).to.include(<p>I am some test text.</p>);
   });
 
   it('applies the text from a function', () => {
-    const options = {
-      text: () => 'I am some test text.'
+    const step = {
+      options: {
+        text: () => 'I am some test text.'
+      }
     };
 
-    const textComponent = <ShepherdText options={options} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles}/>;
     expect(textComponent).to.include('I am some test text.');
   });
 });

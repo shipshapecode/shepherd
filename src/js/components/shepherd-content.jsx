@@ -8,29 +8,27 @@ const { Component } = preact;
 
 export default class ShepherdContent extends Component {
   render(props) {
-    const { classPrefix, descriptionId, labelId, options, step, styles } = props;
+    const { classPrefix, descriptionId, labelId, step, styles } = props;
 
     return <div
       className={styles.content.trim()}
     >
       <ShepherdHeader
         labelId={labelId}
-        options={options}
         step={step}
         styles={styles}
       />
 
-      {this._addShepherdText(descriptionId, options, step, styles)}
+      {this._addShepherdText(descriptionId, step, styles)}
 
-      {this._addShepherdFooter(classPrefix, options, styles)}
+      {this._addShepherdFooter(classPrefix, step, styles)}
     </div>;
   }
 
-  _addShepherdText(descriptionId, options, step, styles) {
-    if (!isUndefined(options.text)) {
+  _addShepherdText(descriptionId, step, styles) {
+    if (!isUndefined(step.options.text)) {
       return <ShepherdText
         descriptionId={descriptionId}
-        options={options}
         step={step}
         styles={styles}
       />;
@@ -39,11 +37,11 @@ export default class ShepherdContent extends Component {
     return null;
   }
 
-  _addShepherdFooter(classPrefix, options, styles) {
-    if (Array.isArray(options.buttons) && options.buttons.length) {
+  _addShepherdFooter(classPrefix, step, styles) {
+    if (Array.isArray(step.options.buttons) && step.options.buttons.length) {
       return <ShepherdFooter
         classPrefix={classPrefix}
-        options={options}
+        step={step}
         styles={styles}
       />;
     }

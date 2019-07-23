@@ -13,32 +13,35 @@ describe('components/ShepherdHeader', () => {
   };
 
   it('cancel link is added when showCancelLink === true', () => {
-    const options = {
-      showCancelLink: true
+    const step = {
+      options: {
+        showCancelLink: true
+      }
     };
 
-    const header = <ShepherdHeader options={options} styles={styles}/>;
+    const header = <ShepherdHeader step={step} styles={styles}/>;
     expect(header).to.include(<a class="shepherd-cancel-link" href=""></a>);
   });
 
   it('cancel link is not added when showCancelLink === false', () => {
-    const options = {
-      showCancelLink: false
+    const step = {
+      options: {
+        showCancelLink: false
+      }
     };
 
-    const header = <ShepherdHeader options={options} styles={styles}/>;
+    const header = <ShepherdHeader step={step} styles={styles}/>;
     expect(header).to.not.include(<a class="shepherd-cancel-link" href=""></a>);
   });
 
   it('cancel link cancels the tour', async () => {
-    const options = {
-      showCancelLink: true
-    };
     const tour = new Tour();
-    const step = new Step(tour, options);
+    const step = new Step(tour, {
+      showCancelLink: true
+    });
     const stepCancelSpy = spy(step, 'cancel');
 
-    const header = shallow(<ShepherdHeader options={options} step={step} styles={styles}/>);
+    const header = shallow(<ShepherdHeader step={step} styles={styles}/>);
     await header.find('[onClick]').simulate('click', { preventDefault() {} });
     expect(stepCancelSpy.called).to.be.true;
   });

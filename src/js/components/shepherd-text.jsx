@@ -5,8 +5,8 @@ const { Component } = preact;
 
 export default class ShepherdText extends Component {
   render(props) {
-    const { descriptionId, options, step, styles } = props;
-    let { text } = options;
+    const { descriptionId, step, styles } = props;
+    let { text } = step.options;
 
     if (isFunction(text)) {
       text = text.call(step);

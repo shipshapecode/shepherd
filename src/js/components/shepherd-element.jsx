@@ -29,12 +29,12 @@ export default class ShepherdElement extends Component {
   }
 
   render(props) {
-    const { classes, classPrefix, descriptionId, labelId, options, step, styles } = props;
+    const { classes, classPrefix, descriptionId, labelId, step, styles } = props;
     const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
 
     return <div
-      aria-describedby={!isUndefined(options.text) ? descriptionId : null}
-      aria-labeledby={options.title ? labelId : null}
+      aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
+      aria-labeledby={step.options.title ? labelId : null}
       className={classes + styles.element}
       {...dataStepId}
       onKeyDown={this.handleKeyDown}
@@ -46,7 +46,6 @@ export default class ShepherdElement extends Component {
         classPrefix={classPrefix}
         descriptionId={descriptionId}
         labelId={labelId}
-        options={options}
         step={step}
         styles={styles}
       />

@@ -12,10 +12,10 @@ export default class ShepherdHeader extends Component {
   }
 
   render(props) {
-    const { labelId, options, styles } = props;
-    const { showCancelLink, title } = options;
+    const { labelId, step, styles } = props;
+    const { showCancelLink, title } = step.options;
     return <header className={styles.header.trim()}>
-      {this.constructor._addTitle(title, labelId, styles)}
+      {this.constructor._addTitle(labelId, styles, title)}
       {this._addCancelLink(showCancelLink, styles)}
     </header>;
   }
@@ -28,7 +28,7 @@ export default class ShepherdHeader extends Component {
     this.step.cancel();
   }
 
-  static _addTitle(title, labelId, styles) {
+  static _addTitle(labelId, styles, title) {
     if (title) {
       return <h3
         id={labelId}

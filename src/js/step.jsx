@@ -8,9 +8,6 @@ import { getElementForStep } from './utils/dom';
 import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal';
 import ShepherdElement from './components/shepherd-element.jsx';
-import ShepherdContent from './components/shepherd-content.jsx';
-import ShepherdFooter from './components/shepherd-footer.jsx';
-import ShepherdText from './components/shepherd-text.jsx';
 
 // Polyfills
 import 'element-matches';
@@ -240,7 +237,6 @@ export class Step extends Evented {
         classes={classes}
         descriptionId={descriptionId}
         labelId={labelId}
-        options={this.options}
         step={this}
         styles={this.styles}
       />,
