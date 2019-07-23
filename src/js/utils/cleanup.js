@@ -1,4 +1,4 @@
-import { preventModalBodyTouch } from './modal';
+import { preventModalBodyTouch } from './modal.jsx';
 import { getElementForStep } from './dom';
 
 /**

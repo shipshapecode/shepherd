@@ -1,5 +1,4 @@
-import { elementIds } from './modal';
-import { preventModalBodyTouch, preventModalOverlayTouch } from './modal';
+import { elementIds, preventModalBodyTouch, preventModalOverlayTouch } from './modal.jsx';
 
 /**
  * Helper method to check if element is hidden, since we cannot use :visible without jQuery

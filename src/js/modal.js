@@ -4,7 +4,7 @@ import {
   positionModalOpening,
   closeModalOpening,
   classNames as modalClassNames
-} from './utils/modal';
+} from './utils/modal.jsx';
 import autoBind from './utils/auto-bind';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
 import { debounce } from './utils/general';

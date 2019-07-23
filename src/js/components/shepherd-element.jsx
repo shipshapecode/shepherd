@@ -38,7 +38,7 @@ export default class ShepherdElement extends Component {
       className={classes + styles.element}
       {...dataStepId}
       onKeyDown={this.handleKeyDown}
-      ref={c => this.element = c}
+      ref={(c) => this.element = c}
       role='dialog'
       tabindex='0'
     >

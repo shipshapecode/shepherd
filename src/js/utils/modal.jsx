@@ -1,4 +1,7 @@
-const svgNS = 'http://www.w3.org/2000/svg';
+import preact from 'preact';
+import ShepherdModal from '../components/shepherd-modal.jsx';
+
+const { render } = preact;
 
 const elementIds = {
   modalOverlay: 'shepherdModalOverlayContainer',
@@ -11,83 +14,6 @@ const classNames = {
   isVisible: 'shepherd-modal-is-visible',
   modalTarget: 'shepherd-modal-target'
 };
-
-/**
- * <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
- */
-function _createModalContainer() {
-  const element = document.createElementNS(svgNS, 'svg');
-
-  element.setAttributeNS(null, 'id', elementIds.modalOverlay);
-
-  return element;
-}
-
-/**
- * <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%">
- */
-function _createMaskContainer() {
-  const element = document.createElementNS(svgNS, 'mask');
-
-  _setAttributes(element, {
-    height: '100%',
-    id: elementIds.modalOverlayMask,
-    width: '100%',
-    x: '0',
-    y: '0'
-  });
-
-  return element;
-}
-
-/**
- *  <rect id="modalOverlayMaskRect" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
- */
-function _createMaskRect() {
-  const element = document.createElementNS(svgNS, 'rect');
-
-  _setAttributes(element, {
-    fill: '#FFFFFF',
-    height: '100%',
-    id: elementIds.modalOverlayMaskRect,
-    width: '100%',
-    x: '0',
-    y: '0'
-  });
-
-  return element;
-}
-
-/**
- * <rect id="shepherdModalMaskOpening" fill="#000000"/>
- */
-function _createMaskOpening() {
-  const element = document.createElementNS(svgNS, 'rect');
-
-  _setAttributes(element, {
-    fill: '#000000',
-    id: elementIds.modalOverlayMaskOpening
-  });
-
-  return element;
-}
-
-/**
- * <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
- */
-function _createMaskConsumer() {
-  const element = document.createElementNS(svgNS, 'rect');
-
-  _setAttributes(element, {
-    height: '100%',
-    width: '100%',
-    x: '0',
-    y: '0'
-  });
-  element.setAttribute('mask', `url(#${elementIds.modalOverlayMask})`);
-
-  return element;
-}
 
 /**
  * Generates an SVG with the following structure:
@@ -105,22 +31,7 @@ function _createMaskConsumer() {
  * ```
  */
 function createModalOverlay() {
-  const containerElement = _createModalContainer();
-  const defsElement = document.createElementNS(svgNS, 'defs');
-  const maskContainer = _createMaskContainer();
-  const maskRect = _createMaskRect();
-  const maskOpening = _createMaskOpening();
-  const maskConsumer = _createMaskConsumer();
-
-  maskContainer.appendChild(maskRect);
-  maskContainer.appendChild(maskOpening);
-
-  defsElement.appendChild(maskContainer);
-
-  containerElement.appendChild(defsElement);
-  containerElement.appendChild(maskConsumer);
-
-  return containerElement;
+  return render(<ShepherdModal/>, null);
 }
 
 /**

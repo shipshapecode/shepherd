@@ -6,7 +6,7 @@ import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance } from './utils/bind.js';
 import { getElementForStep } from './utils/dom';
 import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
-import { toggleShepherdModalClass } from './utils/modal';
+import { toggleShepherdModalClass } from './utils/modal.jsx';
 import ShepherdElement from './components/shepherd-element.jsx';
 
 // Polyfills
