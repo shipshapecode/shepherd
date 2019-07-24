@@ -11,7 +11,7 @@ module.exports = {
       'README.md',
       './src/js/shepherd.js',
       './src/js/step.jsx',
-      './src/js/tour.js'
+      './src/js/tour.jsx'
     ]
   },
   plugins: [
