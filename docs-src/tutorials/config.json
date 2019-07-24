@@ -6,11 +6,6 @@
     "title": "Usage"
   },
   "03-styling": {
-    "title": "Theming and Styling",
-    "children": {
-      "predefined-themes": {
-        "title": "Predefined Themes"
-      }
-    }
+    "title": "Theming and Styling"
   }
 }

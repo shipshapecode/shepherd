@@ -1,14 +1,4 @@
-We deliver some [predefined themes](/docs/themes.md) (e.g., `dark` or `square`). 
-You are welcome to use one of them by passing the `theme` option in the Shepherd config.
-
-```js
-const tour = new Shepherd.Tour({
-  ...
-  theme: 'light'
-});
-```
-
-If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance &mdash; 
+If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance &mdash; 
 or, as part of the options for each step &mdash; and use them as hooks for your own styling rules.
 
 ```javascript
