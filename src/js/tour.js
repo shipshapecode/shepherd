@@ -2,7 +2,7 @@ import bodyScrollLock from 'body-scroll-lock';
 import tippy from 'tippy.js';
 
 import { Evented } from './evented.js';
-import { Modal } from './modal.js';
+import { Modal } from './modal.jsx';
 import { Step } from './step.jsx';
 import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';

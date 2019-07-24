@@ -1,8 +1,3 @@
-import preact from 'preact';
-import ShepherdModal from '../components/shepherd-modal.jsx';
-
-const { render } = preact;
-
 const elementIds = {
   modalOverlay: 'shepherdModalOverlayContainer',
   modalOverlayMask: 'shepherdModalMask',
@@ -14,56 +9,6 @@ const classNames = {
   isVisible: 'shepherd-modal-is-visible',
   modalTarget: 'shepherd-modal-target'
 };
-
-/**
- * Generates an SVG with the following structure:
- * ```html
- *  <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
- <defs>
- <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
- <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
- <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
- <rect id="shepherdModalMaskOpening"/>
- </mask>
- </defs>
- <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
- </svg>
- * ```
- */
-function createModalOverlay() {
-  return render(<ShepherdModal/>, null);
-}
-
-/**
- * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
- * @param {HTMLElement} targetElement The element the opening will expose
- * @param {SVGElement} openingElement The svg mask for the opening
- * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
- */
-function positionModalOpening(targetElement, openingElement, modalOverlayOpeningPadding = 0) {
-  if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
-    const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
-
-    // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-    _setAttributes(openingElement, {
-      x: (x || left) - modalOverlayOpeningPadding,
-      y: (y || top) - modalOverlayOpeningPadding,
-      width: (width + (modalOverlayOpeningPadding * 2)),
-      height: (height + (modalOverlayOpeningPadding * 2))
-    });
-  }
-}
-
-function closeModalOpening(openingElement) {
-  if (openingElement && openingElement instanceof SVGElement) {
-    _setAttributes(openingElement, {
-      height: '0',
-      x: '0',
-      y: '0',
-      width: '0'
-    });
-  }
-}
 
 function getModalMaskOpening(modalElement) {
   return modalElement.querySelector(`#${elementIds.modalOverlayMaskOpening}`);
@@ -91,24 +36,9 @@ function toggleShepherdModalClass(currentElement) {
   currentElement.classList.add(classNames.modalTarget);
 }
 
-/**
- * Set multiple attributes on an element, via a hash
- * @param {HTMLElement|SVGElement} el The element to set the attributes on
- * @param {Object} attrs A hash of key value pairs for attributes to set
- * @private
- */
-function _setAttributes(el, attrs) {
-  Object.keys(attrs).forEach((key) => {
-    el.setAttribute(key, attrs[key]);
-  });
-}
-
 export {
-  createModalOverlay,
-  positionModalOpening,
   preventModalBodyTouch,
   preventModalOverlayTouch,
-  closeModalOpening,
   getModalMaskOpening,
   elementIds,
   classNames,

@@ -15,7 +15,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
 
-const { h, render } = preact;
+const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created step

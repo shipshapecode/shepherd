@@ -1,14 +1,15 @@
+import preact from 'preact';
 import {
   getModalMaskOpening,
-  createModalOverlay,
-  positionModalOpening,
-  closeModalOpening,
   classNames as modalClassNames
 } from './utils/modal.jsx';
 import autoBind from './utils/auto-bind';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
 import { debounce } from './utils/general';
 import { setupNano } from './styles/nano';
+import ShepherdModal from './components/shepherd-modal.jsx';
+
+const { render } = preact;
 
 export class Modal {
   constructor(options = {}) {
@@ -61,16 +62,11 @@ export class Modal {
   createModalOverlay() {
     if (!this._modalOverlayElem) {
       const existingModal = document.getElementById('shepherdModalOverlayContainer');
-      this._modalOverlayElem = existingModal || createModalOverlay();
+      this._modalOverlayElem = render(<ShepherdModal ref={(c) => this.modalComponent = c}/>, document.body, existingModal);
       this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
 
       // don't show yet -- each step will control that
       this.hide();
-
-      // Only add to the DOM if this is a new modal, not reusing another one
-      if (!existingModal) {
-        document.body.appendChild(this._modalOverlayElem);
-      }
     }
   }
 
@@ -116,22 +112,21 @@ export class Modal {
    * @private
    */
   _styleForStep(step) {
-    const modalOverlayOpening = this._modalOverlayOpening;
     const targetElement = getElementForStep(step);
     const { modalOverlayOpeningPadding } = step.options;
 
     if (targetElement) {
-      positionModalOpening(targetElement, modalOverlayOpening, modalOverlayOpeningPadding);
+      this.modalComponent.positionModalOpening(targetElement, modalOverlayOpeningPadding);
 
       this._onScreenChange = debounce(
-        positionModalOpening.bind(this, targetElement, modalOverlayOpening, modalOverlayOpeningPadding),
+        this.modalComponent.positionModalOpening.bind(this, targetElement, modalOverlayOpeningPadding),
         0
       );
 
       addStepEventListeners.call(this);
 
     } else {
-      closeModalOpening(this._modalOverlayOpening);
+      this.modalComponent.closeModalOpening();
     }
   }
 }
