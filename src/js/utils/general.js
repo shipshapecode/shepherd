@@ -150,7 +150,7 @@ function _createClassModifier(className) {
  * @private
  */
 function _makeTippyInstance(attachToOptions, step) {
-  if (!attachToOptions.element) {
+  if (!attachToOptions.element || !attachToOptions.on) {
     return _makeCenteredTippy(step);
   }
 
