@@ -1,4 +1,4 @@
-/*! shepherd.js 4.0.0-beta.11 */
+/*! shepherd.js 4.0.0-beta.12 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -7774,7 +7774,7 @@
 
 
 	function _makeTippyInstance(attachToOptions, step) {
-	  if (!attachToOptions.element) {
+	  if (!attachToOptions.element || !attachToOptions.on) {
 	    return _makeCenteredTippy(step);
 	  }
 
