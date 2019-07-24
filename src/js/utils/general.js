@@ -231,5 +231,5 @@ export function normalizePrefix(prefix) {
     return '';
   }
 
-  return prefix.endsWith('-') ? prefix : `${prefix}-`;
+  return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
 }
