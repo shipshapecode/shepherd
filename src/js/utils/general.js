@@ -84,7 +84,7 @@ export function setupTooltip(step) {
 
   step.tooltip = _makeTippyInstance(attachToOpts, step);
 
-  step.target = attachToOpts.element || document.body;
+  step.target = attachToOpts.element;
 }
 
 /**

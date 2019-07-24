@@ -130,7 +130,7 @@ export default class ShepherdModal extends Component {
   _styleForStep(step) {
     const { modalOverlayOpeningPadding } = step.options;
 
-    if (step.target && step.target !== document.body) {
+    if (step.target) {
       this.positionModalOpening(step.target, modalOverlayOpeningPadding);
 
       this._onScreenChange = debounce(

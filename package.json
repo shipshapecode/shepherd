@@ -67,6 +67,7 @@
     "babel-jest": "^24.7.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.2.0",
+    "chai-dom": "^1.8.1",
     "codeclimate-test-reporter": "^0.5.1",
     "cypress": "^3.4.0",
     "cypress-plugin-tab": "^1.0.1",

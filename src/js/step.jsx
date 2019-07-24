@@ -4,7 +4,6 @@ import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
 import { bindAdvance } from './utils/bind.js';
-import { getElementForStep } from './utils/dom';
 import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal.jsx';
 import ShepherdElement from './components/shepherd-element.jsx';
@@ -314,7 +313,8 @@ export class Step extends Evented {
     this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
 
-    this.target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    const target = this.target || document.body;
+    target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
     document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
@@ -336,7 +336,7 @@ export class Step extends Evented {
    * @private
    */
   _styleTargetElementForStep(step) {
-    const targetElement = getElementForStep(step);
+    const targetElement = step.target;
 
     if (!targetElement) {
       return;
