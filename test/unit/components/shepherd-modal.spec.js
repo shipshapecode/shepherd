@@ -2,12 +2,144 @@ import preact from 'preact';
 import ShepherdModal from '../../../src/js/components/shepherd-modal.jsx';
 import { expect } from 'chai';
 import { shallow } from 'preact-render-spy';
-import { Tour } from '../../../src/js/tour';
-import { Step } from '../../../src/js/step';
 import { stub } from 'sinon';
-import { cleanupStepEventListeners } from '../../../src/js/utils/dom';
 
 describe('components/ShepherdModal', () => {
+  describe('closeModalOpening()', function() {
+    it('sets values back to 0', () => {
+      const modalComponent = shallow(<ShepherdModal/>);
+
+      modalComponent.component().positionModalOpening({
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 20,
+            y: 20,
+            width: 500
+          };
+        }
+      });
+
+      modalComponent.rerender();
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
+
+      modalComponent.component().closeModalOpening();
+      modalComponent.rerender();
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+    });
+  });
+
+  describe('positionModalOpening()', function() {
+    it('sets the correct attributes when positioning modal opening', () => {
+      const modalComponent = shallow(<ShepherdModal/>);
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+
+      modalComponent.component().positionModalOpening({
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 20,
+            y: 20,
+            width: 500
+          };
+        }
+      });
+
+      modalComponent.rerender();
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
+    });
+
+    it('sets the correct attributes with padding', () => {
+      const modalComponent = shallow(<ShepherdModal/>);
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+
+      modalComponent.component().positionModalOpening({
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 20,
+            y: 20,
+            width: 500
+          };
+        }
+      }, 10);
+
+      modalComponent.rerender();
+
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(270);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(10);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(10);
+      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(520);
+    });
+  });
+
+  describe('setupForStep()', function() {
+    let hideStub, showStub;
+
+    afterEach(() => {
+      hideStub.restore();
+      showStub.restore();
+    });
+
+    it('useModalOverlay: false, hides modal', () => {
+      const modalComponent = shallow(<ShepherdModal/>);
+      const modalComponentInstance = modalComponent.component();
+      const step = {
+        options: {},
+        tour: {
+          options: {
+            useModalOverlay: false
+          }
+        }
+      };
+      hideStub = stub(modalComponentInstance, 'hide');
+      showStub = stub(modalComponentInstance, 'show');
+      modalComponentInstance.setupForStep(step);
+
+      expect(hideStub.called).to.be.true;
+      expect(showStub.called).to.be.false;
+    });
+
+    it('useModalOverlay: true, shows modal', () => {
+      const modalComponent = shallow(<ShepherdModal/>);
+      const modalComponentInstance = modalComponent.component();
+      const step = {
+        options: {},
+        tour: {
+          options: {
+            useModalOverlay: true
+          }
+        }
+      };
+      hideStub = stub(modalComponentInstance, 'hide');
+      showStub = stub(modalComponentInstance, 'show');
+      modalComponentInstance.setupForStep(step);
+
+      expect(hideStub.called).to.be.false;
+      expect(showStub.called).to.be.true;
+    });
+  });
+
   describe('show/hide', function() {
     const modalComponent = shallow(<ShepherdModal/>);
 
@@ -26,90 +158,6 @@ describe('components/ShepherdModal', () => {
       expect(document.body).not.to.have.class('shepherd-modal-is-visible');
       // expect(modal._modalOverlayElem).toHaveStyle('display: none');
     });
-  });
-
-  it('closeModalOpening sets values back to 0', () => {
-    const modalComponent = shallow(<ShepherdModal/>);
-
-    modalComponent.component().positionModalOpening({
-      getBoundingClientRect() {
-        return {
-          height: 250,
-          x: 20,
-          y: 20,
-          width: 500
-        };
-      }
-    });
-
-    modalComponent.rerender();
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
-
-    modalComponent.component().closeModalOpening();
-    modalComponent.rerender();
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
-  });
-
-  it('sets the correct attributes when positioning modal opening', () => {
-    const modalComponent = shallow(<ShepherdModal/>);
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
-
-    modalComponent.component().positionModalOpening({
-      getBoundingClientRect() {
-        return {
-          height: 250,
-          x: 20,
-          y: 20,
-          width: 500
-        };
-      }
-    });
-
-    modalComponent.rerender();
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
-  });
-
-  it('sets the correct attributes with padding', () => {
-    const modalComponent = shallow(<ShepherdModal/>);
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
-
-    modalComponent.component().positionModalOpening({
-      getBoundingClientRect() {
-        return {
-          height: 250,
-          x: 20,
-          y: 20,
-          width: 500
-        };
-      }
-    }, 10);
-
-    modalComponent.rerender();
-
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(270);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(10);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(10);
-    expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(520);
   });
 
   // TODO: finish porting these tests
@@ -146,38 +194,4 @@ describe('components/ShepherdModal', () => {
   //   });
   // });
   //
-  // describe('setupForStep()', function() {
-  //   let hideStub, showStub, tour;
-  //
-  //   beforeEach(() => {
-  //     tour = new Tour();
-  //   });
-  //
-  //   afterEach(() => {
-  //     hideStub.restore();
-  //     showStub.restore();
-  //   });
-  //
-  //   it('useModalOverlay: false, hides modal', () => {
-  //     const modal = new Modal({ useModalOverlay: false });
-  //     const step = new Step(tour, {});
-  //     hideStub = stub(modal, 'hide');
-  //     showStub = stub(modal, 'show');
-  //     modal.setupForStep(step);
-  //
-  //     expect(hideStub.called).toBe(true);
-  //     expect(showStub.called).toBe(false);
-  //   });
-  //
-  //   it('useModalOverlay: true, shows modal', () => {
-  //     const modal = new Modal({ useModalOverlay: true });
-  //     const step = new Step(tour, {});
-  //     hideStub = stub(modal, 'hide');
-  //     showStub = stub(modal, 'show');
-  //     modal.setupForStep(step);
-  //
-  //     expect(hideStub.called).toBe(false);
-  //     expect(showStub.called).toBe(true);
-  //   });
-  // });
 });

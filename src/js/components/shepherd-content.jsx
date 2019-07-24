@@ -19,13 +19,13 @@ export default class ShepherdContent extends Component {
         styles={styles}
       />
 
-      {this._addShepherdText(descriptionId, step, styles)}
+      {ShepherdContent._addShepherdText(descriptionId, step, styles)}
 
-      {this._addShepherdFooter(classPrefix, step, styles)}
+      {ShepherdContent._addShepherdFooter(classPrefix, step, styles)}
     </div>;
   }
 
-  _addShepherdText(descriptionId, step, styles) {
+  static _addShepherdText(descriptionId, step, styles) {
     if (!isUndefined(step.options.text)) {
       return <ShepherdText
         descriptionId={descriptionId}
@@ -37,7 +37,7 @@ export default class ShepherdContent extends Component {
     return null;
   }
 
-  _addShepherdFooter(classPrefix, step, styles) {
+  static _addShepherdFooter(classPrefix, step, styles) {
     if (Array.isArray(step.options.buttons) && step.options.buttons.length) {
       return <ShepherdFooter
         classPrefix={classPrefix}
