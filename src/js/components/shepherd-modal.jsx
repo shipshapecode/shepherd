@@ -1,5 +1,6 @@
 import preact from 'preact';
 import { debounce } from '../utils/general';
+import autoBind from '../utils/auto-bind';
 
 const { Component } = preact;
 
@@ -9,12 +10,7 @@ export default class ShepherdModal extends Component {
 
     this._onScreenChange = null;
 
-    this.closeModalOpening = this.closeModalOpening.bind(this);
-    this.positionModalOpening = this.positionModalOpening.bind(this);
-    this.setupForStep = this.setupForStep.bind(this);
-    this._addStepEventListeners = this._addStepEventListeners.bind(this);
-    this._cleanupStepEventListeners = this._cleanupStepEventListeners.bind(this);
-    this._styleForStep = this._styleForStep.bind(this);
+    autoBind(this);
 
     // Setup initial state
     this.closeModalOpening();
