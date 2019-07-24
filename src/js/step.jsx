@@ -173,7 +173,7 @@ export class Step extends Evented {
    * Hide the step and destroy the tippy instance
    */
   hide() {
-    this.tour.modalComponent.hide();
+    this.tour.modal.hide();
 
     this.trigger('before-hide');
 
@@ -311,7 +311,7 @@ export class Step extends Evented {
       this._setupElements();
     }
 
-    this.tour.modalComponent.setupForStep(this);
+    this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
 
     this.target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);

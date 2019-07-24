@@ -1,5 +1,5 @@
 import preact from 'preact';
-import { addStepEventListeners, getElementForStep } from '../utils/dom';
+import { addStepEventListeners } from '../utils/dom';
 import { debounce } from '../utils/general';
 
 const { Component } = preact;
@@ -130,7 +130,7 @@ export default class ShepherdModal extends Component {
   _styleForStep(step) {
     const { modalOverlayOpeningPadding } = step.options;
 
-    if (step.target) {
+    if (step.target && step.target !== document.body) {
       this.positionModalOpening(step.target, modalOverlayOpeningPadding);
 
       this._onScreenChange = debounce(
@@ -139,7 +139,6 @@ export default class ShepherdModal extends Component {
       );
 
       addStepEventListeners.call(this);
-
     } else {
       this.closeModalOpening();
     }

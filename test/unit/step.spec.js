@@ -1,7 +1,6 @@
-import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd.js';
 import { Step } from '../../src/js/step.jsx';
-import { Tour } from '../../src/js/tour.js';
+import { Tour } from '../../src/js/tour.jsx';
 import tippy from 'tippy.js';
 
 // since importing non UMD, needs assignment
@@ -187,10 +186,8 @@ describe('Tour | Step', () => {
     let modalHideCalled = false;
     const step = new Step({
       modal: {
-        modalComponent: {
-          hide() {
-            modalHideCalled = true;
-          }
+        hide() {
+          modalHideCalled = true;
         }
       }
     }, {});
@@ -202,8 +199,8 @@ describe('Tour | Step', () => {
       expect(beforeHideTriggered, 'before-hide event was triggered').toBeTruthy();
     });
 
-    it('calls tour.modal.modalComponent.hide', () => {
-      expect(modalHideCalled, 'tour.modal.modalComponent.hide called').toBeTruthy();
+    it('calls tour.modal.hide', () => {
+      expect(modalHideCalled, 'tour.modal.hide called').toBeTruthy();
     });
   });
 

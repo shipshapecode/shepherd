@@ -20,18 +20,3 @@ export function cleanupSteps(tour) {
     });
   }
 }
-
-/**
- * Remove resize and scroll event listeners
- */
-export function cleanupStepEventListeners() {
-  if (typeof this._onScreenChange === 'function') {
-    window.removeEventListener('resize', this._onScreenChange, false);
-    window.removeEventListener('scroll', this._onScreenChange, false);
-
-    this._onScreenChange = null;
-  }
-  window.removeEventListener('touchmove', preventModalBodyTouch, {
-    passive: false
-  });
-}

@@ -7,7 +7,8 @@ import { Step } from './step.jsx';
 import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
-import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
+import { cleanupSteps } from './utils/cleanup';
+import { cleanupStepEventListeners } from './utils/dom';
 import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
 import ShepherdModal from './components/shepherd-modal.jsx';
@@ -69,6 +70,9 @@ export class Tour extends Evented {
         });
       })(event);
     });
+
+    const existingModal = document.getElementById('shepherdModalOverlayContainer');
+    render(<ShepherdModal ref={(c) => this.modal = c}/>, document.body, existingModal);
 
     this._setTooltipDefaults();
     this._setTourID();
@@ -271,8 +275,8 @@ export class Tour extends Evented {
       this.steps.forEach((step) => step.destroy());
     }
 
-    cleanupStepEventListeners.call(this);
-    cleanupSteps(this.tourObject);
+    cleanupStepEventListeners.call(this.modal);
+    cleanupSteps(this);
 
     this.trigger(event, { index });
 
@@ -284,7 +288,7 @@ export class Tour extends Evented {
       bodyScrollLock.clearAllBodyScrollLocks();
     }
 
-    this.modalComponent.hide();
+    this.modal.hide();
   }
 
   /**
@@ -292,8 +296,6 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    const existingModal = document.getElementById('shepherdModalOverlayContainer');
-    render(<ShepherdModal ref={(c) => this.modalComponent = c}/>, document.body, existingModal);
     this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
