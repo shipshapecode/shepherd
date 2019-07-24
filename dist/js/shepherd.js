@@ -11229,37 +11229,6 @@
 	/* ::<number | string, string, string> */
 	(transparentize);
 
-	function ownKeys$5(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context; forEach$2(_context = ownKeys$5(source, true)).call(_context, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context2; forEach$2(_context2 = ownKeys$5(source)).call(_context2, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
-
-	var dark = {
-	  shepherdHeaderBackground: '#303030',
-	  shepherdTextBackground: '#232323',
-	  shepherdThemePrimary: '#3288e6',
-	  useDropShadow: true
-	};
-	var light = {
-	  shepherdHeaderBackground: '#e6e6e6',
-	  shepherdTextBackground: '#f6f6f6',
-	  useDropShadow: true
-	};
-	var baseSquare = {
-	  shepherdButtonBorderRadius: 0,
-	  shepherdElementBorderRadius: 0
-	};
-
-	var squareDark = _objectSpread$1({}, dark, {}, baseSquare);
-
-	var squareLight = _objectSpread$1({}, light, {}, baseSquare);
-
-	var themes = {
-	  dark: dark,
-	  light: light,
-	  squareDark: squareDark,
-	  squareLight: squareLight
-	};
-
 	var styles = {
 	  arrowSize: 2.1,
 	  shepherdButtonBorderRadius: '3px',
@@ -11274,10 +11243,6 @@
 	  shepherdThemePrimary: '#3288e6'
 	};
 	function getVariables(options) {
-	  if (options.theme) {
-	    assign$2(styles, themes[options.theme]);
-	  }
-
 	  if (options.styleVariables) {
 	    assign$2(styles, options.styleVariables);
 	  }
@@ -11317,9 +11282,9 @@
 	  }
 	}
 
-	function ownKeys$6(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+	function ownKeys$5(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-	function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context5; forEach$2(_context5 = ownKeys$6(source, true)).call(_context5, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context6; forEach$2(_context6 = ownKeys$6(source)).call(_context6, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
+	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context5; forEach$2(_context5 = ownKeys$5(source, true)).call(_context5, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context6; forEach$2(_context6 = ownKeys$5(source)).call(_context6, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
 	function generateStyles(options) {
 	  var _context, _context2, _context3, _shepherdModalIs, _context4, _xPlacementBott, _$concat2;
 
@@ -11485,7 +11450,7 @@
 	    })
 	  }; // We have to add the root shepherd class separately
 
-	  classes.shepherd = nano.rule(defineProperty$8({}, "&.".concat(tippyPrefix, "tippy-popper"), _objectSpread$2({}, popperThemeArrows, defineProperty$8({
+	  classes.shepherd = nano.rule(defineProperty$8({}, "&.".concat(tippyPrefix, "tippy-popper"), _objectSpread$1({}, popperThemeArrows, defineProperty$8({
 	    zIndex: variables.shepherdElementZIndex
 	  }, ".".concat(tippyPrefix, "tippy-tooltip"), (_$concat2 = {
 	    backgroundColor: variables.shepherdTextBackground

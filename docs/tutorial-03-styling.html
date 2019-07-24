@@ -99,14 +99,6 @@
     <section>
   <header>
     
-      <ul>
-        
-            <li>
-              <a href="tutorial-predefined-themes.html">Predefined Themes</a>
-            </li>
-        
-      </ul>
-    
 
     <h2>
       Theming and Styling
@@ -114,14 +106,7 @@
   </header>
 
   <article>
-    <p>We deliver some <a href="/docs/themes.md">predefined themes</a> (e.g., <code>dark</code> or <code>square</code>).
-You are welcome to use one of them by passing the <code>theme</code> option in the Shepherd config.</p>
-<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
-  ...
-  theme: 'light'
-});
-</code></pre>
-<p>If you'd like to extend a theme within your own CSS, you can pass custom class names to the tour instance —
+    <p>If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance —
 or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
 <pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
   defaultStepOptions: {
