@@ -274,8 +274,8 @@ export class Step extends Evented {
     this.id = this.options.id || `step-${uniqueId()}`;
 
     if (when) {
-      Object.entries(when).forEach(([event, handler]) => {
-        this.on(event, handler, this);
+      Object.keys(when).forEach((event) => {
+        this.on(event, when[event], this);
       });
     }
   }
