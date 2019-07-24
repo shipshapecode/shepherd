@@ -1,6 +1,5 @@
 import preact from 'preact';
 import {
-  getModalMaskOpening,
   classNames as modalClassNames
 } from './utils/modal.jsx';
 import autoBind from './utils/auto-bind';
@@ -63,7 +62,6 @@ export class Modal {
     if (!this._modalOverlayElem) {
       const existingModal = document.getElementById('shepherdModalOverlayContainer');
       this._modalOverlayElem = render(<ShepherdModal ref={(c) => this.modalComponent = c}/>, document.body, existingModal);
-      this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem);
 
       // don't show yet -- each step will control that
       this.hide();

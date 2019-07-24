@@ -10,10 +10,6 @@ const classNames = {
   modalTarget: 'shepherd-modal-target'
 };
 
-function getModalMaskOpening(modalElement) {
-  return modalElement.querySelector(`#${elementIds.modalOverlayMaskOpening}`);
-}
-
 function preventModalBodyTouch(event) {
   event.preventDefault();
 }
@@ -39,7 +35,6 @@ function toggleShepherdModalClass(currentElement) {
 export {
   preventModalBodyTouch,
   preventModalOverlayTouch,
-  getModalMaskOpening,
   elementIds,
   classNames,
   toggleShepherdModalClass
