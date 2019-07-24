@@ -1,5 +1,4 @@
 import { darken, desaturate, lighten, readableColor, transparentize } from 'polished';
-import themes from './themes';
 
 const styles = {
   arrowSize: 2.1,
@@ -16,10 +15,6 @@ const styles = {
 };
 
 export default function getVariables(options) {
-  if (options.theme) {
-    Object.assign(styles, themes[options.theme]);
-  }
-
   if (options.styleVariables) {
     Object.assign(styles, options.styleVariables);
   }
