@@ -1,6 +1,6 @@
 import { Evented } from './evented.js';
 import { Step } from './step.jsx';
-import { Shepherd, Tour } from './tour.js';
+import { Shepherd, Tour } from './tour.jsx';
 
 Object.assign(Shepherd, { Tour, Step, Evented });
 

@@ -1,8 +1,8 @@
 import bodyScrollLock from 'body-scroll-lock';
+import preact from 'preact';
 import tippy from 'tippy.js';
 
 import { Evented } from './evented.js';
-import { Modal } from './modal.jsx';
 import { Step } from './step.jsx';
 import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
@@ -10,6 +10,9 @@ import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps, cleanupStepEventListeners } from './utils/cleanup';
 import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
+import ShepherdModal from './components/shepherd-modal.jsx';
+
+const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created tour
@@ -66,8 +69,6 @@ export class Tour extends Evented {
         });
       })(event);
     });
-
-    this.modal = new Modal(options);
 
     this._setTooltipDefaults();
     this._setTourID();
@@ -283,7 +284,7 @@ export class Tour extends Evented {
       bodyScrollLock.clearAllBodyScrollLocks();
     }
 
-    this.modal.modalComponent.hide();
+    this.modalComponent.hide();
   }
 
   /**
@@ -291,7 +292,8 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    this.modal.createModalOverlay();
+    const existingModal = document.getElementById('shepherdModalOverlayContainer');
+    render(<ShepherdModal ref={(c) => this.modalComponent = c}/>, document.body, existingModal);
     this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
