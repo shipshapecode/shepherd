@@ -187,8 +187,10 @@ describe('Tour | Step', () => {
     let modalHideCalled = false;
     const step = new Step({
       modal: {
-        hide() {
-          modalHideCalled = true;
+        modalComponent: {
+          hide() {
+            modalHideCalled = true;
+          }
         }
       }
     }, {});
@@ -200,8 +202,8 @@ describe('Tour | Step', () => {
       expect(beforeHideTriggered, 'before-hide event was triggered').toBeTruthy();
     });
 
-    it('calls tour.modal.hide', () => {
-      expect(modalHideCalled, 'tour.modal.hide called').toBeTruthy();
+    it('calls tour.modal.modalComponent.hide', () => {
+      expect(modalHideCalled, 'tour.modal.modalComponent.hide called').toBeTruthy();
     });
   });
 

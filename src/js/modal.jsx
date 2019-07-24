@@ -1,7 +1,4 @@
 import preact from 'preact';
-import {
-  classNames as modalClassNames
-} from './utils/modal.jsx';
 import autoBind from './utils/auto-bind';
 import { addStepEventListeners, getElementForStep } from './utils/dom';
 import { debounce } from './utils/general';
@@ -42,89 +39,12 @@ export class Modal {
   }
 
   /**
-   * Removes svg mask from modal overlay and removes classes for modal being visible
-   */
-  cleanup() {
-    const element = this._modalOverlayElem;
-
-    if (element && element instanceof SVGElement) {
-      element.parentNode.removeChild(element);
-    }
-
-    this._modalOverlayElem = null;
-    document.body.classList.remove(modalClassNames.isVisible);
-  }
-
-  /**
    * Create the modal overlay, if it does not already exist
    */
   createModalOverlay() {
     if (!this._modalOverlayElem) {
       const existingModal = document.getElementById('shepherdModalOverlayContainer');
       this._modalOverlayElem = render(<ShepherdModal ref={(c) => this.modalComponent = c}/>, document.body, existingModal);
-
-      // don't show yet -- each step will control that
-      this.hide();
-    }
-  }
-
-  /**
-   * Hide the modal overlay
-   */
-  hide() {
-    document.body.classList.remove(modalClassNames.isVisible);
-
-    if (this._modalOverlayElem) {
-      this._modalOverlayElem.style.display = 'none';
-    }
-  }
-
-  /**
-   * If modal is enabled, setup the svg mask opening and modal overlay for the step
-   * @param {Step} step The step instance
-   */
-  setupForStep(step) {
-    if (this.options.useModalOverlay) {
-      this._styleForStep(step);
-      this.show();
-
-    } else {
-      this.hide();
-    }
-  }
-
-  /**
-   * Show the modal overlay
-   */
-  show() {
-    document.body.classList.add(modalClassNames.isVisible);
-
-    if (this._modalOverlayElem) {
-      this._modalOverlayElem.style.display = 'block';
-    }
-  }
-
-  /**
-   * Style the modal for the step
-   * @param {Step} step The step to style the opening for
-   * @private
-   */
-  _styleForStep(step) {
-    const targetElement = getElementForStep(step);
-    const { modalOverlayOpeningPadding } = step.options;
-
-    if (targetElement) {
-      this.modalComponent.positionModalOpening(targetElement, modalOverlayOpeningPadding);
-
-      this._onScreenChange = debounce(
-        this.modalComponent.positionModalOpening.bind(this, targetElement, modalOverlayOpeningPadding),
-        0
-      );
-
-      addStepEventListeners.call(this);
-
-    } else {
-      this.modalComponent.closeModalOpening();
     }
   }
 }

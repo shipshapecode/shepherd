@@ -283,7 +283,7 @@ export class Tour extends Evented {
       bodyScrollLock.clearAllBodyScrollLocks();
     }
 
-    this.modal.cleanup();
+    this.modal.modalComponent.hide();
   }
 
   /**

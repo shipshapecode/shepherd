@@ -1,15 +1,3 @@
-const elementIds = {
-  modalOverlay: 'shepherdModalOverlayContainer',
-  modalOverlayMask: 'shepherdModalMask',
-  modalOverlayMaskRect: 'shepherdModalMaskRect',
-  modalOverlayMaskOpening: 'shepherdModalMaskOpening'
-};
-
-const classNames = {
-  isVisible: 'shepherd-modal-is-visible',
-  modalTarget: 'shepherd-modal-target'
-};
-
 function preventModalBodyTouch(event) {
   event.preventDefault();
 }
@@ -23,19 +11,17 @@ function preventModalOverlayTouch(event) {
  * @param {HTMLElement} currentElement The element for the current step
  */
 function toggleShepherdModalClass(currentElement) {
-  const shepherdModal = document.querySelector(`${classNames.modalTarget}`);
+  const shepherdModal = document.querySelector('shepherd-modal-target');
 
   if (shepherdModal) {
-    shepherdModal.classList.remove(classNames.modalTarget);
+    shepherdModal.classList.remove('shepherd-modal-target');
   }
 
-  currentElement.classList.add(classNames.modalTarget);
+  currentElement.classList.add('shepherd-modal-target');
 }
 
 export {
   preventModalBodyTouch,
   preventModalOverlayTouch,
-  elementIds,
-  classNames,
   toggleShepherdModalClass
 };

@@ -1,7 +1,6 @@
 import { Modal } from '../../src/js/modal';
 import { Step } from '../../src/js/step.jsx';
 import { Tour } from '../../src/js/tour';
-import { classNames as modalClassNames } from '../../src/js/utils/modal';
 import { stub } from 'sinon';
 
 describe('Modal', function() {
@@ -11,14 +10,14 @@ describe('Modal', function() {
     it('show adds classes', () => {
       modal.show();
 
-      expect(document.body).toHaveClass(modalClassNames.isVisible);
+      expect(document.body).toHaveClass('shepherd-modal-is-visible');
       expect(modal._modalOverlayElem).toHaveStyle('display: block');
     });
 
     it('hide removes classes', () => {
       modal.hide();
 
-      expect(document.body).not.toHaveClass(modalClassNames.isVisible);
+      expect(document.body).not.toHaveClass('shepherd-modal-is-visible');
       expect(modal._modalOverlayElem).toHaveStyle('display: none');
     });
   });

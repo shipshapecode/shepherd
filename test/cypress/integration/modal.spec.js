@@ -1,9 +1,5 @@
 import setupTour from '../utils/setup-tour';
 import tippy from 'tippy.js';
-import {
-  elementIds as modalElementIds,
-  classNames as modalClassNames
-} from '../../../src/js/utils/modal';
 import { assert } from 'chai';
 
 describe('Modal mode', () => {
@@ -37,8 +33,8 @@ describe('Modal mode', () => {
     it('Displaying the modal during tours when modal mode is enabled', () => {
       tour.start();
 
-      cy.get(`#${modalElementIds.modalOverlay}`).should('have.css', 'display', 'block');
-      cy.get('body').should('have.class', modalClassNames.isVisible);
+      cy.get('#shepherdModalOverlayContainer').should('have.css', 'display', 'block');
+      cy.get('body').should('have.class', 'shepherd-modal-is-visible');
     });
   });
 
@@ -52,8 +48,8 @@ describe('Modal mode', () => {
     it('Hiding the modal during tours when modal mode is not enabled', () => {
       tour.start();
 
-      cy.get(`#${modalElementIds.modalOverlay}`).should('have.css', 'display', 'none');
-      cy.get('body').should('not.have.class', modalClassNames.isVisible);
+      cy.get('#shepherdModalOverlayContainer').should('have.css', 'display', 'none');
+      cy.get('body').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
 
@@ -64,11 +60,11 @@ describe('Modal mode', () => {
 
     it('removes shepherd-modal-is-visible class from the BODY', () => {
       tour.start();
-      cy.get('body').should('have.class', modalClassNames.isVisible);
+      cy.get('body').should('have.class', 'shepherd-modal-is-visible');
 
       setTimeout(() => {
         tour.hide();
-        cy.get('body').should('not.have.class', modalClassNames.isVisible);
+        cy.get('body').should('not.have.class', 'shepherd-modal-is-visible');
       }, 0);
     });
   });
