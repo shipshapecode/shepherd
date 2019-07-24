@@ -1,5 +1,4 @@
 import preact from 'preact';
-import { addStepEventListeners } from '../utils/dom';
 import { debounce } from '../utils/general';
 
 const { Component } = preact;
@@ -8,9 +7,14 @@ export default class ShepherdModal extends Component {
   constructor(props) {
     super(props);
 
+    this._onScreenChange = null;
+
     this.closeModalOpening = this.closeModalOpening.bind(this);
     this.positionModalOpening = this.positionModalOpening.bind(this);
     this.setupForStep = this.setupForStep.bind(this);
+    this._addStepEventListeners = this._addStepEventListeners.bind(this);
+    this._cleanupStepEventListeners = this._cleanupStepEventListeners.bind(this);
+    this._styleForStep = this._styleForStep.bind(this);
 
     // Setup initial state
     this.closeModalOpening();
@@ -24,6 +28,7 @@ export default class ShepherdModal extends Component {
   render(props, state) {
     return <svg
       id='shepherdModalOverlayContainer'
+      onTouchMove={ShepherdModal._preventModalOverlayTouch}
       style={state.style}
     >
       <defs>
@@ -72,6 +77,9 @@ export default class ShepherdModal extends Component {
         display: 'none'
       }
     });
+
+    // Ensure we cleanup all event listeners when we hide the modal
+    this._cleanupStepEventListeners();
   }
 
   /**
@@ -100,6 +108,9 @@ export default class ShepherdModal extends Component {
    * @param {Step} step The step instance
    */
   setupForStep(step) {
+    // Ensure we move listeners from the previous step, before we setup new ones
+    this._cleanupStepEventListeners();
+
     if (step.tour.options.useModalOverlay) {
       this._styleForStep(step);
       this.show();
@@ -123,6 +134,39 @@ export default class ShepherdModal extends Component {
   }
 
   /**
+   * Add resize and scroll event listeners
+   * @private
+   */
+  _addStepEventListeners() {
+    if (typeof this._onScreenChange === 'function') {
+      window.removeEventListener('resize', this._onScreenChange, false);
+      window.removeEventListener('scroll', this._onScreenChange, true);
+    }
+
+    window.addEventListener('resize', this._onScreenChange, false);
+    window.addEventListener('scroll', this._onScreenChange, true);
+
+    // Prevents window from moving on touch.
+    window.addEventListener('touchmove', ShepherdModal._preventModalBodyTouch, { passive: false });
+  }
+
+  /**
+   * Remove resize and scroll event listeners
+   * @private
+   */
+  _cleanupStepEventListeners() {
+    if (typeof this._onScreenChange === 'function') {
+      window.removeEventListener('resize', this._onScreenChange, false);
+      window.removeEventListener('scroll', this._onScreenChange, true);
+
+      this._onScreenChange = null;
+    }
+    window.removeEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+      passive: false
+    });
+  }
+
+  /**
    * Style the modal for the step
    * @param {Step} step The step to style the opening for
    * @private
@@ -138,9 +182,17 @@ export default class ShepherdModal extends Component {
         0
       );
 
-      addStepEventListeners.call(this);
+      this._addStepEventListeners();
     } else {
       this.closeModalOpening();
     }
+  }
+
+  static _preventModalBodyTouch(e) {
+    e.preventDefault();
+  }
+
+  static _preventModalOverlayTouch(e) {
+    e.stopPropagation();
   }
 }

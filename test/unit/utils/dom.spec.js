@@ -1,21 +1,8 @@
 import {
-  cleanupStepEventListeners,
   elementIsHidden
 } from '../../../src/js/utils/dom';
 
 describe('DOM Utils', function() {
-  describe('cleanupStepEventListeners', function() {
-    it('removes listeners', () => {
-      const mock = {
-        _onScreenChange() {}
-      };
-
-      cleanupStepEventListeners.call(mock);
-
-      expect(mock._onScreenChange).toBe(null);
-    });
-  });
-
   describe('elementIsHidden', function() {
     it('returns true when hidden', () => {
       const element = document.createElement('div');

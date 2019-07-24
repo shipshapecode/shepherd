@@ -8,7 +8,6 @@ import autoBind from './utils/auto-bind';
 import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps } from './utils/cleanup';
-import { cleanupStepEventListeners } from './utils/dom';
 import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
 import ShepherdModal from './components/shepherd-modal.jsx';
@@ -275,7 +274,6 @@ export class Tour extends Evented {
       this.steps.forEach((step) => step.destroy());
     }
 
-    cleanupStepEventListeners.call(this.modal);
     cleanupSteps(this);
 
     this.trigger(event, { index });

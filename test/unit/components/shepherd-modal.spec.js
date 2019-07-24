@@ -5,6 +5,7 @@ import { shallow } from 'preact-render-spy';
 import { Tour } from '../../../src/js/tour';
 import { Step } from '../../../src/js/step';
 import { stub } from 'sinon';
+import { cleanupStepEventListeners } from '../../../src/js/utils/dom';
 
 describe('components/ShepherdModal', () => {
   describe('show/hide', function() {
@@ -112,6 +113,20 @@ describe('components/ShepherdModal', () => {
   });
 
   // TODO: finish porting these tests
+  // describe('_cleanupStepEventListeners', function() {
+  //   it('adds/removes listeners', () => {
+  //     const modalComponent = shallow(<ShepherdModal/>);
+  //
+  //     const mock = {
+  //       foo: 'bar',
+  //       _onScreenChange() {}
+  //     };
+  //
+  //     modalComponent.component()._cleanupStepEventListeners.call(mock);
+  //
+  //     expect(mock._onScreenChange).to.be.null;
+  //   });
+  // });
   // describe('createModalOverlay()', function() {
   //   it('appends shepherdModalOverlayContainer to DOM when it does not exist', () => {
   //     const modal = new Modal();
