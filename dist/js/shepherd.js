@@ -483,6 +483,28 @@
 
 	var assign$2 = assign$1;
 
+	var _extends_1 = createCommonjsModule(function (module) {
+	function _extends() {
+	  module.exports = _extends = assign$2 || function (target) {
+	    for (var i = 1; i < arguments.length; i++) {
+	      var source = arguments[i];
+
+	      for (var key in source) {
+	        if (Object.prototype.hasOwnProperty.call(source, key)) {
+	          target[key] = source[key];
+	        }
+	      }
+	    }
+
+	    return target;
+	  };
+
+	  return _extends.apply(this, arguments);
+	}
+
+	module.exports = _extends;
+	});
+
 	// `IsArray` abstract operation
 	// https://tc39.github.io/ecma262/#sec-isarray
 	var isArray = Array.isArray || function isArray(arg) {
@@ -1433,72 +1455,43 @@
 
 	var setTimeout$2 = setTimeout$1;
 
-	var propertyIsEnumerable = objectPropertyIsEnumerable.f;
+	var FAILS_ON_PRIMITIVES = fails(function () { objectKeys(1); });
 
-	// `Object.{ entries, values }` methods implementation
-	var createMethod$2 = function (TO_ENTRIES) {
-	  return function (it) {
-	    var O = toIndexedObject(it);
-	    var keys = objectKeys(O);
-	    var length = keys.length;
-	    var i = 0;
-	    var result = [];
-	    var key;
-	    while (length > i) {
-	      key = keys[i++];
-	      if (!descriptors || propertyIsEnumerable.call(O, key)) {
-	        result.push(TO_ENTRIES ? [key, O[key]] : O[key]);
-	      }
-	    }
-	    return result;
-	  };
-	};
-
-	var objectToArray = {
-	  // `Object.entries` method
-	  // https://tc39.github.io/ecma262/#sec-object.entries
-	  entries: createMethod$2(true),
-	  // `Object.values` method
-	  // https://tc39.github.io/ecma262/#sec-object.values
-	  values: createMethod$2(false)
-	};
-
-	var $entries = objectToArray.entries;
-
-	// `Object.entries` method
-	// https://tc39.github.io/ecma262/#sec-object.entries
-	_export({ target: 'Object', stat: true }, {
-	  entries: function entries(O) {
-	    return $entries(O);
+	// `Object.keys` method
+	// https://tc39.github.io/ecma262/#sec-object.keys
+	_export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
+	  keys: function keys(it) {
+	    return objectKeys(toObject(it));
 	  }
 	});
 
-	var entries = path.Object.entries;
+	var keys$1 = path.Object.keys;
 
-	var entries$1 = entries;
+	var keys$2 = keys$1;
 
-	var entries$2 = entries$1;
+	var keys$3 = keys$2;
 
-	// `Array.isArray` method
-	// https://tc39.github.io/ecma262/#sec-array.isarray
-	_export({ target: 'Array', stat: true }, {
-	  isArray: isArray
-	});
+	var f$4 = wellKnownSymbol;
 
-	var isArray$1 = path.Array.isArray;
+	var wrappedWellKnownSymbol = {
+		f: f$4
+	};
 
-	var isArray$2 = isArray$1;
+	var defineProperty$3 = objectDefineProperty.f;
 
-	var isArray$3 = isArray$2;
+	var defineWellKnownSymbol = function (NAME) {
+	  var Symbol = path.Symbol || (path.Symbol = {});
+	  if (!has(Symbol, NAME)) defineProperty$3(Symbol, NAME, {
+	    value: wrappedWellKnownSymbol.f(NAME)
+	  });
+	};
 
-	function _arrayWithHoles(arr) {
-	  if (isArray$3(arr)) return arr;
-	}
-
-	var arrayWithHoles = _arrayWithHoles;
+	// `Symbol.iterator` well-known symbol
+	// https://tc39.github.io/ecma262/#sec-symbol.iterator
+	defineWellKnownSymbol('iterator');
 
 	// `String.prototype.{ codePointAt, at }` methods implementation
-	var createMethod$3 = function (CONVERT_TO_STRING) {
+	var createMethod$2 = function (CONVERT_TO_STRING) {
 	  return function ($this, pos) {
 	    var S = String(requireObjectCoercible($this));
 	    var position = toInteger(pos);
@@ -1516,10 +1509,10 @@
 	var stringMultibyte = {
 	  // `String.prototype.codePointAt` method
 	  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
-	  codeAt: createMethod$3(false),
+	  codeAt: createMethod$2(false),
 	  // `String.prototype.at` method
 	  // https://github.com/mathiasbynens/String.prototype.at
-	  charAt: createMethod$3(true)
+	  charAt: createMethod$2(true)
 	};
 
 	var charAt = stringMultibyte.charAt;
@@ -1551,64 +1544,11 @@
 	  return { value: point, done: false };
 	});
 
-	var ITERATOR$2 = wellKnownSymbol('iterator');
+	var iterator = wrappedWellKnownSymbol.f('iterator');
 
-	var getIteratorMethod = function (it) {
-	  if (it != undefined) return it[ITERATOR$2]
-	    || it['@@iterator']
-	    || iterators[classof(it)];
-	};
+	var iterator$1 = iterator;
 
-	var getIterator = function (it) {
-	  var iteratorMethod = getIteratorMethod(it);
-	  if (typeof iteratorMethod != 'function') {
-	    throw TypeError(String(it) + ' is not iterable');
-	  } return anObject(iteratorMethod.call(it));
-	};
-
-	var getIterator$1 = getIterator;
-
-	var getIterator$2 = getIterator$1;
-
-	function _iterableToArrayLimit(arr, i) {
-	  var _arr = [];
-	  var _n = true;
-	  var _d = false;
-	  var _e = undefined;
-
-	  try {
-	    for (var _i = getIterator$2(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
-	      _arr.push(_s.value);
-
-	      if (i && _arr.length === i) break;
-	    }
-	  } catch (err) {
-	    _d = true;
-	    _e = err;
-	  } finally {
-	    try {
-	      if (!_n && _i["return"] != null) _i["return"]();
-	    } finally {
-	      if (_d) throw _e;
-	    }
-	  }
-
-	  return _arr;
-	}
-
-	var iterableToArrayLimit = _iterableToArrayLimit;
-
-	function _nonIterableRest() {
-	  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-	}
-
-	var nonIterableRest = _nonIterableRest;
-
-	function _slicedToArray(arr, i) {
-	  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
-	}
-
-	var slicedToArray = _slicedToArray;
+	var iterator$2 = iterator$1;
 
 	var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
 	var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
@@ -1654,138 +1594,6 @@
 	    return A;
 	  }
 	});
-
-	var concat = entryVirtual('Array').concat;
-
-	var ArrayPrototype$3 = Array.prototype;
-
-	var concat_1 = function (it) {
-	  var own = it.concat;
-	  return it === ArrayPrototype$3 || (it instanceof Array && own === ArrayPrototype$3.concat) ? concat : own;
-	};
-
-	var concat$1 = concat_1;
-
-	var concat$2 = concat$1;
-
-	var $map = arrayIteration.map;
-
-
-	// `Array.prototype.map` method
-	// https://tc39.github.io/ecma262/#sec-array.prototype.map
-	// with adding support of @@species
-	_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {
-	  map: function map(callbackfn /* , thisArg */) {
-	    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-	  }
-	});
-
-	var map = entryVirtual('Array').map;
-
-	var ArrayPrototype$4 = Array.prototype;
-
-	var map_1 = function (it) {
-	  var own = it.map;
-	  return it === ArrayPrototype$4 || (it instanceof Array && own === ArrayPrototype$4.map) ? map : own;
-	};
-
-	var map$1 = map_1;
-
-	var map$2 = map$1;
-
-	// a string of all valid unicode whitespaces
-	// eslint-disable-next-line max-len
-	var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-	var whitespace = '[' + whitespaces + ']';
-	var ltrim = RegExp('^' + whitespace + whitespace + '*');
-	var rtrim = RegExp(whitespace + whitespace + '*$');
-
-	// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
-	var createMethod$4 = function (TYPE) {
-	  return function ($this) {
-	    var string = String(requireObjectCoercible($this));
-	    if (TYPE & 1) string = string.replace(ltrim, '');
-	    if (TYPE & 2) string = string.replace(rtrim, '');
-	    return string;
-	  };
-	};
-
-	var stringTrim = {
-	  // `String.prototype.{ trimLeft, trimStart }` methods
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
-	  start: createMethod$4(1),
-	  // `String.prototype.{ trimRight, trimEnd }` methods
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
-	  end: createMethod$4(2),
-	  // `String.prototype.trim` method
-	  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
-	  trim: createMethod$4(3)
-	};
-
-	var non = '\u200B\u0085\u180E';
-
-	// check that a method works with the correct list
-	// of whitespaces and has a correct name
-	var forcedStringTrimMethod = function (METHOD_NAME) {
-	  return fails(function () {
-	    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
-	  });
-	};
-
-	var $trim = stringTrim.trim;
-
-
-	// `String.prototype.trim` method
-	// https://tc39.github.io/ecma262/#sec-string.prototype.trim
-	_export({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
-	  trim: function trim() {
-	    return $trim(this);
-	  }
-	});
-
-	var trim = entryVirtual('String').trim;
-
-	var StringPrototype = String.prototype;
-
-	var trim_1 = function (it) {
-	  var own = it.trim;
-	  return typeof it === 'string' || it === StringPrototype
-	    || (it instanceof String && own === StringPrototype.trim) ? trim : own;
-	};
-
-	var trim$1 = trim_1;
-
-	var trim$2 = trim$1;
-
-	var isArray$4 = isArray$1;
-
-	var isArray$5 = isArray$4;
-
-	var f$4 = wellKnownSymbol;
-
-	var wrappedWellKnownSymbol = {
-		f: f$4
-	};
-
-	var defineProperty$3 = objectDefineProperty.f;
-
-	var defineWellKnownSymbol = function (NAME) {
-	  var Symbol = path.Symbol || (path.Symbol = {});
-	  if (!has(Symbol, NAME)) defineProperty$3(Symbol, NAME, {
-	    value: wrappedWellKnownSymbol.f(NAME)
-	  });
-	};
-
-	// `Symbol.iterator` well-known symbol
-	// https://tc39.github.io/ecma262/#sec-symbol.iterator
-	defineWellKnownSymbol('iterator');
-
-	var iterator = wrappedWellKnownSymbol.f('iterator');
-
-	var iterator$1 = iterator;
-
-	var iterator$2 = iterator$1;
 
 	var hiddenKeys$1 = enumBugKeys.concat('length', 'prototype');
 
@@ -2205,11 +2013,11 @@
 
 	var possibleConstructorReturn = _possibleConstructorReturn;
 
-	var FAILS_ON_PRIMITIVES = fails(function () { objectGetPrototypeOf(1); });
+	var FAILS_ON_PRIMITIVES$1 = fails(function () { objectGetPrototypeOf(1); });
 
 	// `Object.getPrototypeOf` method
 	// https://tc39.github.io/ecma262/#sec-object.getprototypeof
-	_export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !correctPrototypeGetter }, {
+	_export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1, sham: !correctPrototypeGetter }, {
 	  getPrototypeOf: function getPrototypeOf(it) {
 	    return objectGetPrototypeOf(toObject(it));
 	  }
@@ -2290,449 +2098,721 @@
 
 	var inherits = _inherits;
 
-	// all object keys, includes non-enumerable and symbols
-	var ownKeys = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
-	  var keys = objectGetOwnPropertyNames.f(anObject(it));
-	  var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
-	  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
-	};
+	var VNode = function VNode() {};
 
-	// `Reflect.ownKeys` method
-	// https://tc39.github.io/ecma262/#sec-reflect.ownkeys
-	_export({ target: 'Reflect', stat: true }, {
-	  ownKeys: ownKeys
+	var options = {};
+
+	var stack = [];
+
+	var EMPTY_CHILDREN = [];
+
+	function h(nodeName, attributes) {
+		var children = EMPTY_CHILDREN,
+		    lastSimple,
+		    child,
+		    simple,
+		    i;
+		for (i = arguments.length; i-- > 2;) {
+			stack.push(arguments[i]);
+		}
+		if (attributes && attributes.children != null) {
+			if (!stack.length) stack.push(attributes.children);
+			delete attributes.children;
+		}
+		while (stack.length) {
+			if ((child = stack.pop()) && child.pop !== undefined) {
+				for (i = child.length; i--;) {
+					stack.push(child[i]);
+				}
+			} else {
+				if (typeof child === 'boolean') child = null;
+
+				if (simple = typeof nodeName !== 'function') {
+					if (child == null) child = '';else if (typeof child === 'number') child = String(child);else if (typeof child !== 'string') simple = false;
+				}
+
+				if (simple && lastSimple) {
+					children[children.length - 1] += child;
+				} else if (children === EMPTY_CHILDREN) {
+					children = [child];
+				} else {
+					children.push(child);
+				}
+
+				lastSimple = simple;
+			}
+		}
+
+		var p = new VNode();
+		p.nodeName = nodeName;
+		p.children = children;
+		p.attributes = attributes == null ? undefined : attributes;
+		p.key = attributes == null ? undefined : attributes.key;
+
+		return p;
+	}
+
+	function extend(obj, props) {
+	  for (var i in props) {
+	    obj[i] = props[i];
+	  }return obj;
+	}
+
+	function applyRef(ref, value) {
+	  if (ref != null) {
+	    if (typeof ref == 'function') ref(value);else ref.current = value;
+	  }
+	}
+
+	var defer = typeof Promise == 'function' ? Promise.resolve().then.bind(Promise.resolve()) : setTimeout;
+
+	function cloneElement(vnode, props) {
+	  return h(vnode.nodeName, extend(extend({}, vnode.attributes), props), arguments.length > 2 ? [].slice.call(arguments, 2) : vnode.children);
+	}
+
+	var IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
+
+	var items = [];
+
+	function enqueueRender(component) {
+		if (!component._dirty && (component._dirty = true) && items.push(component) == 1) {
+			( defer)(rerender);
+		}
+	}
+
+	function rerender() {
+		var p;
+		while (p = items.pop()) {
+			if (p._dirty) renderComponent(p);
+		}
+	}
+
+	function isSameNodeType(node, vnode, hydrating) {
+		if (typeof vnode === 'string' || typeof vnode === 'number') {
+			return node.splitText !== undefined;
+		}
+		if (typeof vnode.nodeName === 'string') {
+			return !node._componentConstructor && isNamedNode(node, vnode.nodeName);
+		}
+		return hydrating || node._componentConstructor === vnode.nodeName;
+	}
+
+	function isNamedNode(node, nodeName) {
+		return node.normalizedNodeName === nodeName || node.nodeName.toLowerCase() === nodeName.toLowerCase();
+	}
+
+	function getNodeProps(vnode) {
+		var props = extend({}, vnode.attributes);
+		props.children = vnode.children;
+
+		var defaultProps = vnode.nodeName.defaultProps;
+		if (defaultProps !== undefined) {
+			for (var i in defaultProps) {
+				if (props[i] === undefined) {
+					props[i] = defaultProps[i];
+				}
+			}
+		}
+
+		return props;
+	}
+
+	function createNode(nodeName, isSvg) {
+		var node = isSvg ? document.createElementNS('http://www.w3.org/2000/svg', nodeName) : document.createElement(nodeName);
+		node.normalizedNodeName = nodeName;
+		return node;
+	}
+
+	function removeNode(node) {
+		var parentNode = node.parentNode;
+		if (parentNode) parentNode.removeChild(node);
+	}
+
+	function setAccessor(node, name, old, value, isSvg) {
+		if (name === 'className') name = 'class';
+
+		if (name === 'key') ; else if (name === 'ref') {
+			applyRef(old, null);
+			applyRef(value, node);
+		} else if (name === 'class' && !isSvg) {
+			node.className = value || '';
+		} else if (name === 'style') {
+			if (!value || typeof value === 'string' || typeof old === 'string') {
+				node.style.cssText = value || '';
+			}
+			if (value && typeof value === 'object') {
+				if (typeof old !== 'string') {
+					for (var i in old) {
+						if (!(i in value)) node.style[i] = '';
+					}
+				}
+				for (var i in value) {
+					node.style[i] = typeof value[i] === 'number' && IS_NON_DIMENSIONAL.test(i) === false ? value[i] + 'px' : value[i];
+				}
+			}
+		} else if (name === 'dangerouslySetInnerHTML') {
+			if (value) node.innerHTML = value.__html || '';
+		} else if (name[0] == 'o' && name[1] == 'n') {
+			var useCapture = name !== (name = name.replace(/Capture$/, ''));
+			name = name.toLowerCase().substring(2);
+			if (value) {
+				if (!old) node.addEventListener(name, eventProxy, useCapture);
+			} else {
+				node.removeEventListener(name, eventProxy, useCapture);
+			}
+			(node._listeners || (node._listeners = {}))[name] = value;
+		} else if (name !== 'list' && name !== 'type' && !isSvg && name in node) {
+			try {
+				node[name] = value == null ? '' : value;
+			} catch (e) {}
+			if ((value == null || value === false) && name != 'spellcheck') node.removeAttribute(name);
+		} else {
+			var ns = isSvg && name !== (name = name.replace(/^xlink:?/, ''));
+
+			if (value == null || value === false) {
+				if (ns) node.removeAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase());else node.removeAttribute(name);
+			} else if (typeof value !== 'function') {
+				if (ns) node.setAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase(), value);else node.setAttribute(name, value);
+			}
+		}
+	}
+
+	function eventProxy(e) {
+		return this._listeners[e.type]( e);
+	}
+
+	var mounts = [];
+
+	var diffLevel = 0;
+
+	var isSvgMode = false;
+
+	var hydrating = false;
+
+	function flushMounts() {
+		var c;
+		while (c = mounts.shift()) {
+			if (c.componentDidMount) c.componentDidMount();
+		}
+	}
+
+	function diff(dom, vnode, context, mountAll, parent, componentRoot) {
+		if (!diffLevel++) {
+			isSvgMode = parent != null && parent.ownerSVGElement !== undefined;
+
+			hydrating = dom != null && !('__preactattr_' in dom);
+		}
+
+		var ret = idiff(dom, vnode, context, mountAll, componentRoot);
+
+		if (parent && ret.parentNode !== parent) parent.appendChild(ret);
+
+		if (! --diffLevel) {
+			hydrating = false;
+
+			if (!componentRoot) flushMounts();
+		}
+
+		return ret;
+	}
+
+	function idiff(dom, vnode, context, mountAll, componentRoot) {
+		var out = dom,
+		    prevSvgMode = isSvgMode;
+
+		if (vnode == null || typeof vnode === 'boolean') vnode = '';
+
+		if (typeof vnode === 'string' || typeof vnode === 'number') {
+			if (dom && dom.splitText !== undefined && dom.parentNode && (!dom._component || componentRoot)) {
+				if (dom.nodeValue != vnode) {
+					dom.nodeValue = vnode;
+				}
+			} else {
+				out = document.createTextNode(vnode);
+				if (dom) {
+					if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
+					recollectNodeTree(dom, true);
+				}
+			}
+
+			out['__preactattr_'] = true;
+
+			return out;
+		}
+
+		var vnodeName = vnode.nodeName;
+		if (typeof vnodeName === 'function') {
+			return buildComponentFromVNode(dom, vnode, context, mountAll);
+		}
+
+		isSvgMode = vnodeName === 'svg' ? true : vnodeName === 'foreignObject' ? false : isSvgMode;
+
+		vnodeName = String(vnodeName);
+		if (!dom || !isNamedNode(dom, vnodeName)) {
+			out = createNode(vnodeName, isSvgMode);
+
+			if (dom) {
+				while (dom.firstChild) {
+					out.appendChild(dom.firstChild);
+				}
+				if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
+
+				recollectNodeTree(dom, true);
+			}
+		}
+
+		var fc = out.firstChild,
+		    props = out['__preactattr_'],
+		    vchildren = vnode.children;
+
+		if (props == null) {
+			props = out['__preactattr_'] = {};
+			for (var a = out.attributes, i = a.length; i--;) {
+				props[a[i].name] = a[i].value;
+			}
+		}
+
+		if (!hydrating && vchildren && vchildren.length === 1 && typeof vchildren[0] === 'string' && fc != null && fc.splitText !== undefined && fc.nextSibling == null) {
+			if (fc.nodeValue != vchildren[0]) {
+				fc.nodeValue = vchildren[0];
+			}
+		} else if (vchildren && vchildren.length || fc != null) {
+				innerDiffNode(out, vchildren, context, mountAll, hydrating || props.dangerouslySetInnerHTML != null);
+			}
+
+		diffAttributes(out, vnode.attributes, props);
+
+		isSvgMode = prevSvgMode;
+
+		return out;
+	}
+
+	function innerDiffNode(dom, vchildren, context, mountAll, isHydrating) {
+		var originalChildren = dom.childNodes,
+		    children = [],
+		    keyed = {},
+		    keyedLen = 0,
+		    min = 0,
+		    len = originalChildren.length,
+		    childrenLen = 0,
+		    vlen = vchildren ? vchildren.length : 0,
+		    j,
+		    c,
+		    f,
+		    vchild,
+		    child;
+
+		if (len !== 0) {
+			for (var i = 0; i < len; i++) {
+				var _child = originalChildren[i],
+				    props = _child['__preactattr_'],
+				    key = vlen && props ? _child._component ? _child._component.__key : props.key : null;
+				if (key != null) {
+					keyedLen++;
+					keyed[key] = _child;
+				} else if (props || (_child.splitText !== undefined ? isHydrating ? _child.nodeValue.trim() : true : isHydrating)) {
+					children[childrenLen++] = _child;
+				}
+			}
+		}
+
+		if (vlen !== 0) {
+			for (var i = 0; i < vlen; i++) {
+				vchild = vchildren[i];
+				child = null;
+
+				var key = vchild.key;
+				if (key != null) {
+					if (keyedLen && keyed[key] !== undefined) {
+						child = keyed[key];
+						keyed[key] = undefined;
+						keyedLen--;
+					}
+				} else if (min < childrenLen) {
+						for (j = min; j < childrenLen; j++) {
+							if (children[j] !== undefined && isSameNodeType(c = children[j], vchild, isHydrating)) {
+								child = c;
+								children[j] = undefined;
+								if (j === childrenLen - 1) childrenLen--;
+								if (j === min) min++;
+								break;
+							}
+						}
+					}
+
+				child = idiff(child, vchild, context, mountAll);
+
+				f = originalChildren[i];
+				if (child && child !== dom && child !== f) {
+					if (f == null) {
+						dom.appendChild(child);
+					} else if (child === f.nextSibling) {
+						removeNode(f);
+					} else {
+						dom.insertBefore(child, f);
+					}
+				}
+			}
+		}
+
+		if (keyedLen) {
+			for (var i in keyed) {
+				if (keyed[i] !== undefined) recollectNodeTree(keyed[i], false);
+			}
+		}
+
+		while (min <= childrenLen) {
+			if ((child = children[childrenLen--]) !== undefined) recollectNodeTree(child, false);
+		}
+	}
+
+	function recollectNodeTree(node, unmountOnly) {
+		var component = node._component;
+		if (component) {
+			unmountComponent(component);
+		} else {
+			if (node['__preactattr_'] != null) applyRef(node['__preactattr_'].ref, null);
+
+			if (unmountOnly === false || node['__preactattr_'] == null) {
+				removeNode(node);
+			}
+
+			removeChildren(node);
+		}
+	}
+
+	function removeChildren(node) {
+		node = node.lastChild;
+		while (node) {
+			var next = node.previousSibling;
+			recollectNodeTree(node, true);
+			node = next;
+		}
+	}
+
+	function diffAttributes(dom, attrs, old) {
+		var name;
+
+		for (name in old) {
+			if (!(attrs && attrs[name] != null) && old[name] != null) {
+				setAccessor(dom, name, old[name], old[name] = undefined, isSvgMode);
+			}
+		}
+
+		for (name in attrs) {
+			if (name !== 'children' && name !== 'innerHTML' && (!(name in old) || attrs[name] !== (name === 'value' || name === 'checked' ? dom[name] : old[name]))) {
+				setAccessor(dom, name, old[name], old[name] = attrs[name], isSvgMode);
+			}
+		}
+	}
+
+	var recyclerComponents = [];
+
+	function createComponent(Ctor, props, context) {
+		var inst,
+		    i = recyclerComponents.length;
+
+		if (Ctor.prototype && Ctor.prototype.render) {
+			inst = new Ctor(props, context);
+			Component.call(inst, props, context);
+		} else {
+			inst = new Component(props, context);
+			inst.constructor = Ctor;
+			inst.render = doRender;
+		}
+
+		while (i--) {
+			if (recyclerComponents[i].constructor === Ctor) {
+				inst.nextBase = recyclerComponents[i].nextBase;
+				recyclerComponents.splice(i, 1);
+				return inst;
+			}
+		}
+
+		return inst;
+	}
+
+	function doRender(props, state, context) {
+		return this.constructor(props, context);
+	}
+
+	function setComponentProps(component, props, renderMode, context, mountAll) {
+		if (component._disable) return;
+		component._disable = true;
+
+		component.__ref = props.ref;
+		component.__key = props.key;
+		delete props.ref;
+		delete props.key;
+
+		if (typeof component.constructor.getDerivedStateFromProps === 'undefined') {
+			if (!component.base || mountAll) {
+				if (component.componentWillMount) component.componentWillMount();
+			} else if (component.componentWillReceiveProps) {
+				component.componentWillReceiveProps(props, context);
+			}
+		}
+
+		if (context && context !== component.context) {
+			if (!component.prevContext) component.prevContext = component.context;
+			component.context = context;
+		}
+
+		if (!component.prevProps) component.prevProps = component.props;
+		component.props = props;
+
+		component._disable = false;
+
+		if (renderMode !== 0) {
+			if (renderMode === 1 || options.syncComponentUpdates !== false || !component.base) {
+				renderComponent(component, 1, mountAll);
+			} else {
+				enqueueRender(component);
+			}
+		}
+
+		applyRef(component.__ref, component);
+	}
+
+	function renderComponent(component, renderMode, mountAll, isChild) {
+		if (component._disable) return;
+
+		var props = component.props,
+		    state = component.state,
+		    context = component.context,
+		    previousProps = component.prevProps || props,
+		    previousState = component.prevState || state,
+		    previousContext = component.prevContext || context,
+		    isUpdate = component.base,
+		    nextBase = component.nextBase,
+		    initialBase = isUpdate || nextBase,
+		    initialChildComponent = component._component,
+		    skip = false,
+		    snapshot = previousContext,
+		    rendered,
+		    inst,
+		    cbase;
+
+		if (component.constructor.getDerivedStateFromProps) {
+			state = extend(extend({}, state), component.constructor.getDerivedStateFromProps(props, state));
+			component.state = state;
+		}
+
+		if (isUpdate) {
+			component.props = previousProps;
+			component.state = previousState;
+			component.context = previousContext;
+			if (renderMode !== 2 && component.shouldComponentUpdate && component.shouldComponentUpdate(props, state, context) === false) {
+				skip = true;
+			} else if (component.componentWillUpdate) {
+				component.componentWillUpdate(props, state, context);
+			}
+			component.props = props;
+			component.state = state;
+			component.context = context;
+		}
+
+		component.prevProps = component.prevState = component.prevContext = component.nextBase = null;
+		component._dirty = false;
+
+		if (!skip) {
+			rendered = component.render(props, state, context);
+
+			if (component.getChildContext) {
+				context = extend(extend({}, context), component.getChildContext());
+			}
+
+			if (isUpdate && component.getSnapshotBeforeUpdate) {
+				snapshot = component.getSnapshotBeforeUpdate(previousProps, previousState);
+			}
+
+			var childComponent = rendered && rendered.nodeName,
+			    toUnmount,
+			    base;
+
+			if (typeof childComponent === 'function') {
+
+				var childProps = getNodeProps(rendered);
+				inst = initialChildComponent;
+
+				if (inst && inst.constructor === childComponent && childProps.key == inst.__key) {
+					setComponentProps(inst, childProps, 1, context, false);
+				} else {
+					toUnmount = inst;
+
+					component._component = inst = createComponent(childComponent, childProps, context);
+					inst.nextBase = inst.nextBase || nextBase;
+					inst._parentComponent = component;
+					setComponentProps(inst, childProps, 0, context, false);
+					renderComponent(inst, 1, mountAll, true);
+				}
+
+				base = inst.base;
+			} else {
+				cbase = initialBase;
+
+				toUnmount = initialChildComponent;
+				if (toUnmount) {
+					cbase = component._component = null;
+				}
+
+				if (initialBase || renderMode === 1) {
+					if (cbase) cbase._component = null;
+					base = diff(cbase, rendered, context, mountAll || !isUpdate, initialBase && initialBase.parentNode, true);
+				}
+			}
+
+			if (initialBase && base !== initialBase && inst !== initialChildComponent) {
+				var baseParent = initialBase.parentNode;
+				if (baseParent && base !== baseParent) {
+					baseParent.replaceChild(base, initialBase);
+
+					if (!toUnmount) {
+						initialBase._component = null;
+						recollectNodeTree(initialBase, false);
+					}
+				}
+			}
+
+			if (toUnmount) {
+				unmountComponent(toUnmount);
+			}
+
+			component.base = base;
+			if (base && !isChild) {
+				var componentRef = component,
+				    t = component;
+				while (t = t._parentComponent) {
+					(componentRef = t).base = base;
+				}
+				base._component = componentRef;
+				base._componentConstructor = componentRef.constructor;
+			}
+		}
+
+		if (!isUpdate || mountAll) {
+			mounts.push(component);
+		} else if (!skip) {
+
+			if (component.componentDidUpdate) {
+				component.componentDidUpdate(previousProps, previousState, snapshot);
+			}
+		}
+
+		while (component._renderCallbacks.length) {
+			component._renderCallbacks.pop().call(component);
+		}if (!diffLevel && !isChild) flushMounts();
+	}
+
+	function buildComponentFromVNode(dom, vnode, context, mountAll) {
+		var c = dom && dom._component,
+		    originalComponent = c,
+		    oldDom = dom,
+		    isDirectOwner = c && dom._componentConstructor === vnode.nodeName,
+		    isOwner = isDirectOwner,
+		    props = getNodeProps(vnode);
+		while (c && !isOwner && (c = c._parentComponent)) {
+			isOwner = c.constructor === vnode.nodeName;
+		}
+
+		if (c && isOwner && (!mountAll || c._component)) {
+			setComponentProps(c, props, 3, context, mountAll);
+			dom = c.base;
+		} else {
+			if (originalComponent && !isDirectOwner) {
+				unmountComponent(originalComponent);
+				dom = oldDom = null;
+			}
+
+			c = createComponent(vnode.nodeName, props, context);
+			if (dom && !c.nextBase) {
+				c.nextBase = dom;
+
+				oldDom = null;
+			}
+			setComponentProps(c, props, 1, context, mountAll);
+			dom = c.base;
+
+			if (oldDom && dom !== oldDom) {
+				oldDom._component = null;
+				recollectNodeTree(oldDom, false);
+			}
+		}
+
+		return dom;
+	}
+
+	function unmountComponent(component) {
+
+		var base = component.base;
+
+		component._disable = true;
+
+		if (component.componentWillUnmount) component.componentWillUnmount();
+
+		component.base = null;
+
+		var inner = component._component;
+		if (inner) {
+			unmountComponent(inner);
+		} else if (base) {
+			if (base['__preactattr_'] != null) applyRef(base['__preactattr_'].ref, null);
+
+			component.nextBase = base;
+
+			removeNode(base);
+			recyclerComponents.push(component);
+
+			removeChildren(base);
+		}
+
+		applyRef(component.__ref, null);
+	}
+
+	function Component(props, context) {
+		this._dirty = true;
+
+		this.context = context;
+
+		this.props = props;
+
+		this.state = this.state || {};
+
+		this._renderCallbacks = [];
+	}
+
+	extend(Component.prototype, {
+		setState: function setState(state, callback) {
+			if (!this.prevState) this.prevState = this.state;
+			this.state = extend(extend({}, this.state), typeof state === 'function' ? state(this.state, this.props) : state);
+			if (callback) this._renderCallbacks.push(callback);
+			enqueueRender(this);
+		},
+		forceUpdate: function forceUpdate(callback) {
+			if (callback) this._renderCallbacks.push(callback);
+			renderComponent(this, 2);
+		},
+		render: function render() {}
 	});
 
-	var ownKeys$1 = path.Reflect.ownKeys;
+	function render(vnode, parent, merge) {
+	  return diff(merge, vnode, {}, false, parent, false);
+	}
 
-	var ownKeys$2 = ownKeys$1;
+	function createRef() {
+		return {};
+	}
 
-	var ownKeys$3 = ownKeys$2;
-
-	// `Reflect.getPrototypeOf` method
-	// https://tc39.github.io/ecma262/#sec-reflect.getprototypeof
-	_export({ target: 'Reflect', stat: true, sham: !correctPrototypeGetter }, {
-	  getPrototypeOf: function getPrototypeOf(target) {
-	    return objectGetPrototypeOf(anObject(target));
-	  }
-	});
-
-	var getPrototypeOf$4 = path.Reflect.getPrototypeOf;
-
-	var getPrototypeOf$5 = getPrototypeOf$4;
-
-	var getPrototypeOf$6 = getPrototypeOf$5;
-
-	var freezing = !fails(function () {
-	  return Object.isExtensible(Object.preventExtensions({}));
-	});
-
-	var internalMetadata = createCommonjsModule(function (module) {
-	var defineProperty = objectDefineProperty.f;
-
-
-
-	var METADATA = uid('meta');
-	var id = 0;
-
-	var isExtensible = Object.isExtensible || function () {
-	  return true;
+	var preact = {
+		h: h,
+		createElement: h,
+		cloneElement: cloneElement,
+		createRef: createRef,
+		Component: Component,
+		render: render,
+		rerender: rerender,
+		options: options
 	};
-
-	var setMetadata = function (it) {
-	  defineProperty(it, METADATA, { value: {
-	    objectID: 'O' + ++id, // object ID
-	    weakData: {}          // weak collections IDs
-	  } });
-	};
-
-	var fastKey = function (it, create) {
-	  // return a primitive with prefix
-	  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-	  if (!has(it, METADATA)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return 'F';
-	    // not necessary to add metadata
-	    if (!create) return 'E';
-	    // add missing metadata
-	    setMetadata(it);
-	  // return object ID
-	  } return it[METADATA].objectID;
-	};
-
-	var getWeakData = function (it, create) {
-	  if (!has(it, METADATA)) {
-	    // can't set metadata to uncaught frozen object
-	    if (!isExtensible(it)) return true;
-	    // not necessary to add metadata
-	    if (!create) return false;
-	    // add missing metadata
-	    setMetadata(it);
-	  // return the store of weak collections IDs
-	  } return it[METADATA].weakData;
-	};
-
-	// add metadata on freeze-family methods calling
-	var onFreeze = function (it) {
-	  if (freezing && meta.REQUIRED && isExtensible(it) && !has(it, METADATA)) setMetadata(it);
-	  return it;
-	};
-
-	var meta = module.exports = {
-	  REQUIRED: false,
-	  fastKey: fastKey,
-	  getWeakData: getWeakData,
-	  onFreeze: onFreeze
-	};
-
-	hiddenKeys[METADATA] = true;
-	});
-	var internalMetadata_1 = internalMetadata.REQUIRED;
-	var internalMetadata_2 = internalMetadata.fastKey;
-	var internalMetadata_3 = internalMetadata.getWeakData;
-	var internalMetadata_4 = internalMetadata.onFreeze;
-
-	var ITERATOR$3 = wellKnownSymbol('iterator');
-	var ArrayPrototype$5 = Array.prototype;
-
-	// check on default Array iterator
-	var isArrayIteratorMethod = function (it) {
-	  return it !== undefined && (iterators.Array === it || ArrayPrototype$5[ITERATOR$3] === it);
-	};
-
-	// call something on iterator step with safe closing on error
-	var callWithSafeIterationClosing = function (iterator, fn, value, ENTRIES) {
-	  try {
-	    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-	  // 7.4.6 IteratorClose(iterator, completion)
-	  } catch (error) {
-	    var returnMethod = iterator['return'];
-	    if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
-	    throw error;
-	  }
-	};
-
-	var iterate_1 = createCommonjsModule(function (module) {
-	var Result = function (stopped, result) {
-	  this.stopped = stopped;
-	  this.result = result;
-	};
-
-	var iterate = module.exports = function (iterable, fn, that, AS_ENTRIES, IS_ITERATOR) {
-	  var boundFunction = bindContext(fn, that, AS_ENTRIES ? 2 : 1);
-	  var iterator, iterFn, index, length, result, step;
-
-	  if (IS_ITERATOR) {
-	    iterator = iterable;
-	  } else {
-	    iterFn = getIteratorMethod(iterable);
-	    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
-	    // optimisation for array iterators
-	    if (isArrayIteratorMethod(iterFn)) {
-	      for (index = 0, length = toLength(iterable.length); length > index; index++) {
-	        result = AS_ENTRIES
-	          ? boundFunction(anObject(step = iterable[index])[0], step[1])
-	          : boundFunction(iterable[index]);
-	        if (result && result instanceof Result) return result;
-	      } return new Result(false);
-	    }
-	    iterator = iterFn.call(iterable);
-	  }
-
-	  while (!(step = iterator.next()).done) {
-	    result = callWithSafeIterationClosing(iterator, boundFunction, step.value, AS_ENTRIES);
-	    if (result && result instanceof Result) return result;
-	  } return new Result(false);
-	};
-
-	iterate.stop = function (result) {
-	  return new Result(true, result);
-	};
-	});
-
-	var anInstance = function (it, Constructor, name) {
-	  if (!(it instanceof Constructor)) {
-	    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
-	  } return it;
-	};
-
-	var defineProperty$4 = objectDefineProperty.f;
-	var forEach$3 = arrayIteration.forEach;
-
-
-
-	var setInternalState$3 = internalState.set;
-	var internalStateGetterFor = internalState.getterFor;
-
-	var collection = function (CONSTRUCTOR_NAME, wrapper, common, IS_MAP, IS_WEAK) {
-	  var NativeConstructor = global_1[CONSTRUCTOR_NAME];
-	  var NativePrototype = NativeConstructor && NativeConstructor.prototype;
-	  var ADDER = IS_MAP ? 'set' : 'add';
-	  var exported = {};
-	  var Constructor;
-
-	  if (!descriptors || typeof NativeConstructor != 'function'
-	    || !(IS_WEAK || NativePrototype.forEach && !fails(function () { new NativeConstructor().entries().next(); }))
-	  ) {
-	    // create collection constructor
-	    Constructor = common.getConstructor(wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER);
-	    internalMetadata.REQUIRED = true;
-	  } else {
-	    Constructor = wrapper(function (target, iterable) {
-	      setInternalState$3(anInstance(target, Constructor, CONSTRUCTOR_NAME), {
-	        type: CONSTRUCTOR_NAME,
-	        collection: new NativeConstructor()
-	      });
-	      if (iterable != undefined) iterate_1(iterable, target[ADDER], target, IS_MAP);
-	    });
-
-	    var getInternalState = internalStateGetterFor(CONSTRUCTOR_NAME);
-
-	    forEach$3(['add', 'clear', 'delete', 'forEach', 'get', 'has', 'set', 'keys', 'values', 'entries'], function (KEY) {
-	      var IS_ADDER = KEY == 'add' || KEY == 'set';
-	      if (KEY in NativePrototype && !(IS_WEAK && KEY == 'clear')) hide(Constructor.prototype, KEY, function (a, b) {
-	        var collection = getInternalState(this).collection;
-	        if (!IS_ADDER && IS_WEAK && !isObject(a)) return KEY == 'get' ? undefined : false;
-	        var result = collection[KEY](a === 0 ? 0 : a, b);
-	        return IS_ADDER ? this : result;
-	      });
-	    });
-
-	    IS_WEAK || defineProperty$4(Constructor.prototype, 'size', {
-	      get: function () {
-	        return getInternalState(this).collection.size;
-	      }
-	    });
-	  }
-
-	  setToStringTag(Constructor, CONSTRUCTOR_NAME, false, true);
-
-	  exported[CONSTRUCTOR_NAME] = Constructor;
-	  _export({ global: true, forced: true }, exported);
-
-	  if (!IS_WEAK) common.setStrong(Constructor, CONSTRUCTOR_NAME, IS_MAP);
-
-	  return Constructor;
-	};
-
-	var redefineAll = function (target, src, options) {
-	  for (var key in src) {
-	    if (options && options.unsafe && target[key]) target[key] = src[key];
-	    else redefine(target, key, src[key], options);
-	  } return target;
-	};
-
-	var SPECIES$3 = wellKnownSymbol('species');
-
-	var setSpecies = function (CONSTRUCTOR_NAME) {
-	  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
-	  var defineProperty = objectDefineProperty.f;
-
-	  if (descriptors && Constructor && !Constructor[SPECIES$3]) {
-	    defineProperty(Constructor, SPECIES$3, {
-	      configurable: true,
-	      get: function () { return this; }
-	    });
-	  }
-	};
-
-	var defineProperty$5 = objectDefineProperty.f;
-
-
-
-
-
-
-
-
-	var fastKey = internalMetadata.fastKey;
-
-
-	var setInternalState$4 = internalState.set;
-	var internalStateGetterFor$1 = internalState.getterFor;
-
-	var collectionStrong = {
-	  getConstructor: function (wrapper, CONSTRUCTOR_NAME, IS_MAP, ADDER) {
-	    var C = wrapper(function (that, iterable) {
-	      anInstance(that, C, CONSTRUCTOR_NAME);
-	      setInternalState$4(that, {
-	        type: CONSTRUCTOR_NAME,
-	        index: objectCreate(null),
-	        first: undefined,
-	        last: undefined,
-	        size: 0
-	      });
-	      if (!descriptors) that.size = 0;
-	      if (iterable != undefined) iterate_1(iterable, that[ADDER], that, IS_MAP);
-	    });
-
-	    var getInternalState = internalStateGetterFor$1(CONSTRUCTOR_NAME);
-
-	    var define = function (that, key, value) {
-	      var state = getInternalState(that);
-	      var entry = getEntry(that, key);
-	      var previous, index;
-	      // change existing entry
-	      if (entry) {
-	        entry.value = value;
-	      // create new entry
-	      } else {
-	        state.last = entry = {
-	          index: index = fastKey(key, true),
-	          key: key,
-	          value: value,
-	          previous: previous = state.last,
-	          next: undefined,
-	          removed: false
-	        };
-	        if (!state.first) state.first = entry;
-	        if (previous) previous.next = entry;
-	        if (descriptors) state.size++;
-	        else that.size++;
-	        // add to index
-	        if (index !== 'F') state.index[index] = entry;
-	      } return that;
-	    };
-
-	    var getEntry = function (that, key) {
-	      var state = getInternalState(that);
-	      // fast case
-	      var index = fastKey(key);
-	      var entry;
-	      if (index !== 'F') return state.index[index];
-	      // frozen object case
-	      for (entry = state.first; entry; entry = entry.next) {
-	        if (entry.key == key) return entry;
-	      }
-	    };
-
-	    redefineAll(C.prototype, {
-	      // 23.1.3.1 Map.prototype.clear()
-	      // 23.2.3.2 Set.prototype.clear()
-	      clear: function clear() {
-	        var that = this;
-	        var state = getInternalState(that);
-	        var data = state.index;
-	        var entry = state.first;
-	        while (entry) {
-	          entry.removed = true;
-	          if (entry.previous) entry.previous = entry.previous.next = undefined;
-	          delete data[entry.index];
-	          entry = entry.next;
-	        }
-	        state.first = state.last = undefined;
-	        if (descriptors) state.size = 0;
-	        else that.size = 0;
-	      },
-	      // 23.1.3.3 Map.prototype.delete(key)
-	      // 23.2.3.4 Set.prototype.delete(value)
-	      'delete': function (key) {
-	        var that = this;
-	        var state = getInternalState(that);
-	        var entry = getEntry(that, key);
-	        if (entry) {
-	          var next = entry.next;
-	          var prev = entry.previous;
-	          delete state.index[entry.index];
-	          entry.removed = true;
-	          if (prev) prev.next = next;
-	          if (next) next.previous = prev;
-	          if (state.first == entry) state.first = next;
-	          if (state.last == entry) state.last = prev;
-	          if (descriptors) state.size--;
-	          else that.size--;
-	        } return !!entry;
-	      },
-	      // 23.2.3.6 Set.prototype.forEach(callbackfn, thisArg = undefined)
-	      // 23.1.3.5 Map.prototype.forEach(callbackfn, thisArg = undefined)
-	      forEach: function forEach(callbackfn /* , that = undefined */) {
-	        var state = getInternalState(this);
-	        var boundFunction = bindContext(callbackfn, arguments.length > 1 ? arguments[1] : undefined, 3);
-	        var entry;
-	        while (entry = entry ? entry.next : state.first) {
-	          boundFunction(entry.value, entry.key, this);
-	          // revert to the last existing entry
-	          while (entry && entry.removed) entry = entry.previous;
-	        }
-	      },
-	      // 23.1.3.7 Map.prototype.has(key)
-	      // 23.2.3.7 Set.prototype.has(value)
-	      has: function has(key) {
-	        return !!getEntry(this, key);
-	      }
-	    });
-
-	    redefineAll(C.prototype, IS_MAP ? {
-	      // 23.1.3.6 Map.prototype.get(key)
-	      get: function get(key) {
-	        var entry = getEntry(this, key);
-	        return entry && entry.value;
-	      },
-	      // 23.1.3.9 Map.prototype.set(key, value)
-	      set: function set(key, value) {
-	        return define(this, key === 0 ? 0 : key, value);
-	      }
-	    } : {
-	      // 23.2.3.1 Set.prototype.add(value)
-	      add: function add(value) {
-	        return define(this, value = value === 0 ? 0 : value, value);
-	      }
-	    });
-	    if (descriptors) defineProperty$5(C.prototype, 'size', {
-	      get: function () {
-	        return getInternalState(this).size;
-	      }
-	    });
-	    return C;
-	  },
-	  setStrong: function (C, CONSTRUCTOR_NAME, IS_MAP) {
-	    var ITERATOR_NAME = CONSTRUCTOR_NAME + ' Iterator';
-	    var getInternalCollectionState = internalStateGetterFor$1(CONSTRUCTOR_NAME);
-	    var getInternalIteratorState = internalStateGetterFor$1(ITERATOR_NAME);
-	    // add .keys, .values, .entries, [@@iterator]
-	    // 23.1.3.4, 23.1.3.8, 23.1.3.11, 23.1.3.12, 23.2.3.5, 23.2.3.8, 23.2.3.10, 23.2.3.11
-	    defineIterator(C, CONSTRUCTOR_NAME, function (iterated, kind) {
-	      setInternalState$4(this, {
-	        type: ITERATOR_NAME,
-	        target: iterated,
-	        state: getInternalCollectionState(iterated),
-	        kind: kind,
-	        last: undefined
-	      });
-	    }, function () {
-	      var state = getInternalIteratorState(this);
-	      var kind = state.kind;
-	      var entry = state.last;
-	      // revert to the last existing entry
-	      while (entry && entry.removed) entry = entry.previous;
-	      // get next entry
-	      if (!state.target || !(state.last = entry = entry ? entry.next : state.state.first)) {
-	        // or finish the iteration
-	        state.target = undefined;
-	        return { value: undefined, done: true };
-	      }
-	      // return step by kind
-	      if (kind == 'keys') return { value: entry.key, done: false };
-	      if (kind == 'values') return { value: entry.value, done: false };
-	      return { value: [entry.key, entry.value], done: false };
-	    }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
-
-	    // add [@@species], 23.1.2.2, 23.2.2.2
-	    setSpecies(CONSTRUCTOR_NAME);
-	  }
-	};
-
-	// `Set` constructor
-	// https://tc39.github.io/ecma262/#sec-set-objects
-	var es_set = collection('Set', function (get) {
-	  return function Set() { return get(this, arguments.length ? arguments[0] : undefined); };
-	}, collectionStrong);
-
-	var set$1 = path.Set;
-
-	var set$2 = set$1;
-
-	var set$3 = set$2;
 
 	var slice$4 = [].slice;
 	var factories = {};
@@ -2777,19 +2857,25 @@
 
 	var bind$2 = bind$1;
 
-	// `Reflect.getOwnPropertyDescriptor` method
-	// https://tc39.github.io/ecma262/#sec-reflect.getownpropertydescriptor
-	_export({ target: 'Reflect', stat: true, sham: !descriptors }, {
-	  getOwnPropertyDescriptor: function getOwnPropertyDescriptor(target, propertyKey) {
-	    return objectGetOwnPropertyDescriptor.f(anObject(target), propertyKey);
-	  }
+	var nativeGetOwnPropertyNames$2 = objectGetOwnPropertyNamesExternal.f;
+
+	var FAILS_ON_PRIMITIVES$2 = fails(function () { return !Object.getOwnPropertyNames(1); });
+
+	// `Object.getOwnPropertyNames` method
+	// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+	_export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
+	  getOwnPropertyNames: nativeGetOwnPropertyNames$2
 	});
 
-	var getOwnPropertyDescriptor$2 = path.Reflect.getOwnPropertyDescriptor;
+	var Object$2 = path.Object;
 
-	var getOwnPropertyDescriptor$3 = getOwnPropertyDescriptor$2;
+	var getOwnPropertyNames = function getOwnPropertyNames(it) {
+	  return Object$2.getOwnPropertyNames(it);
+	};
 
-	var getOwnPropertyDescriptor$4 = getOwnPropertyDescriptor$3;
+	var getOwnPropertyNames$1 = getOwnPropertyNames;
+
+	var getOwnPropertyNames$2 = getOwnPropertyNames$1;
 
 	/**
 	 * Binds all the methods on a JS Class to the `this` context of the class.
@@ -2798,81 +2884,18 @@
 	 * @return {object} The `this` context of the class
 	 */
 	function autoBind(self) {
-	  var _iteratorNormalCompletion = true;
-	  var _didIteratorError = false;
-	  var _iteratorError = undefined;
+	  var keys = getOwnPropertyNames$2(self.constructor.prototype);
 
-	  try {
-	    for (var _iterator = getIterator$2(getAllProperties(self.constructor.prototype)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	      var _step$value = slicedToArray(_step.value, 2),
-	          object = _step$value[0],
-	          key = _step$value[1];
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var val = self[key];
 
-	      if (key === 'constructor') {
-	        continue;
-	      }
-
-	      var descriptor = getOwnPropertyDescriptor$4(object, key);
-
-	      if (descriptor && typeof descriptor.value === 'function') {
-	        var _context;
-
-	        self[key] = bind$2(_context = self[key]).call(_context, self);
-	      }
-	    }
-	  } catch (err) {
-	    _didIteratorError = true;
-	    _iteratorError = err;
-	  } finally {
-	    try {
-	      if (!_iteratorNormalCompletion && _iterator.return != null) {
-	        _iterator.return();
-	      }
-	    } finally {
-	      if (_didIteratorError) {
-	        throw _iteratorError;
-	      }
+	    if (key !== 'constructor' && typeof val === 'function') {
+	      self[key] = bind$2(val).call(val, self);
 	    }
 	  }
 
 	  return self;
-	}
-	/**
-	 * Gets all non-builtin properties up the prototype chain
-	 * @param {object} object The object to get all the properties from
-	 * @return {Set<any>}
-	 */
-
-	function getAllProperties(object) {
-	  var props = new set$3();
-
-	  do {
-	    var _iteratorNormalCompletion2 = true;
-	    var _didIteratorError2 = false;
-	    var _iteratorError2 = undefined;
-
-	    try {
-	      for (var _iterator2 = getIterator$2(ownKeys$3(object)), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	        var key = _step2.value;
-	        props.add([object, key]);
-	      }
-	    } catch (err) {
-	      _didIteratorError2 = true;
-	      _iteratorError2 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-	          _iterator2.return();
-	        }
-	      } finally {
-	        if (_didIteratorError2) {
-	          throw _iteratorError2;
-	        }
-	      }
-	    }
-	  } while ((object = getPrototypeOf$6(object)) && object !== Object.prototype);
-
-	  return props;
 	}
 
 	/**
@@ -2935,377 +2958,10 @@
 	    return console.error('advanceOn was defined, but no event name was passed.');
 	  }
 	}
-	/**
-	 * Bind events to the buttons for next, back, etc
-	 * @param {Object} cfg An object containing the config options for the button
-	 * @param {HTMLElement} el The element for the button
-	 * @param {Step} step The step instance
-	 */
 
-	function bindButtonEvents(cfg, el, step) {
-	  cfg.events = cfg.events || {};
+	var defineProperty$4 = defineProperty_1;
 
-	  if (!isUndefined(cfg.action)) {
-	    // Including both a click event and an action is not supported
-	    cfg.events.click = cfg.action;
-	  }
-
-	  if (cfg.events) {
-	    var _context;
-
-	    forEach$2(_context = entries$2(cfg.events)).call(_context, function (_ref2) {
-	      var _ref3 = slicedToArray(_ref2, 2),
-	          event = _ref3[0],
-	          handler = _ref3[1];
-
-	      if (isString(handler)) {
-	        var page = handler;
-
-	        handler = function handler() {
-	          return step.tour.show(page);
-	        };
-	      }
-
-	      el.dataset.buttonEvent = true;
-	      el.addEventListener(event, handler); // Cleanup event listeners on destroy
-
-	      step.on('destroy', function () {
-	        el.removeAttribute('data-button-event');
-	        el.removeEventListener(event, handler);
-	      });
-	    });
-	  }
-	}
-	/**
-	 * Add a click listener to the cancel link that cancels the tour
-	 * @param {HTMLElement} link The cancel link element
-	 * @param {Step} step The step instance
-	 */
-
-	function bindCancelLink(link, step) {
-	  link.addEventListener('click', function (e) {
-	    e.preventDefault();
-	    step.cancel();
-	  });
-	}
-
-	var FAILS_ON_PRIMITIVES$1 = fails(function () { objectKeys(1); });
-
-	// `Object.keys` method
-	// https://tc39.github.io/ecma262/#sec-object.keys
-	_export({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1 }, {
-	  keys: function keys(it) {
-	    return objectKeys(toObject(it));
-	  }
-	});
-
-	var keys$1 = path.Object.keys;
-
-	var keys$2 = keys$1;
-
-	var keys$3 = keys$2;
-
-	var svgNS = 'http://www.w3.org/2000/svg';
-	var elementIds = {
-	  modalOverlay: 'shepherdModalOverlayContainer',
-	  modalOverlayMask: 'shepherdModalMask',
-	  modalOverlayMaskRect: 'shepherdModalMaskRect',
-	  modalOverlayMaskOpening: 'shepherdModalMaskOpening'
-	};
-	var classNames = {
-	  isVisible: 'shepherd-modal-is-visible',
-	  modalTarget: 'shepherd-modal-target'
-	};
-	/**
-	 * <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
-	 */
-
-	function _createModalContainer() {
-	  var element = document.createElementNS(svgNS, 'svg');
-	  element.setAttributeNS(null, 'id', elementIds.modalOverlay);
-	  return element;
-	}
-	/**
-	 * <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%">
-	 */
-
-
-	function _createMaskContainer() {
-	  var element = document.createElementNS(svgNS, 'mask');
-
-	  _setAttributes(element, {
-	    height: '100%',
-	    id: elementIds.modalOverlayMask,
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  return element;
-	}
-	/**
-	 *  <rect id="modalOverlayMaskRect" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
-	 */
-
-
-	function _createMaskRect() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    fill: '#FFFFFF',
-	    height: '100%',
-	    id: elementIds.modalOverlayMaskRect,
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  return element;
-	}
-	/**
-	 * <rect id="shepherdModalMaskOpening" fill="#000000"/>
-	 */
-
-
-	function _createMaskOpening() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    fill: '#000000',
-	    id: elementIds.modalOverlayMaskOpening
-	  });
-
-	  return element;
-	}
-	/**
-	 * <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
-	 */
-
-
-	function _createMaskConsumer() {
-	  var element = document.createElementNS(svgNS, 'rect');
-
-	  _setAttributes(element, {
-	    height: '100%',
-	    width: '100%',
-	    x: '0',
-	    y: '0'
-	  });
-
-	  element.setAttribute('mask', "url(#".concat(elementIds.modalOverlayMask, ")"));
-	  return element;
-	}
-	/**
-	 * Generates an SVG with the following structure:
-	 * ```html
-	 *  <svg id="shepherdModalOverlayContainer" xmlns="http://www.w3.org/2000/svg">
-	 <defs>
-	 <mask id="shepherdModalMask" x="0" y="0" width="100%" height="100%" >
-	 <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
-	 <!-- This element will "punch a hole" through the mask by preventing it from rendering within the perimeter -->
-	 <rect id="shepherdModalMaskOpening"/>
-	 </mask>
-	 </defs>
-	 <rect x="0" y="0" width="100%" height="100%" mask="url(#shepherdModalMask)"/>
-	 </svg>
-	 * ```
-	 */
-
-
-	function createModalOverlay() {
-	  var containerElement = _createModalContainer();
-
-	  var defsElement = document.createElementNS(svgNS, 'defs');
-
-	  var maskContainer = _createMaskContainer();
-
-	  var maskRect = _createMaskRect();
-
-	  var maskOpening = _createMaskOpening();
-
-	  var maskConsumer = _createMaskConsumer();
-
-	  maskContainer.appendChild(maskRect);
-	  maskContainer.appendChild(maskOpening);
-	  defsElement.appendChild(maskContainer);
-	  containerElement.appendChild(defsElement);
-	  containerElement.appendChild(maskConsumer);
-	  return containerElement;
-	}
-	/**
-	 * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
-	 * @param {HTMLElement} targetElement The element the opening will expose
-	 * @param {SVGElement} openingElement The svg mask for the opening
-	 * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-	 */
-
-
-	function positionModalOpening(targetElement, openingElement) {
-	  var modalOverlayOpeningPadding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-	  if (targetElement.getBoundingClientRect && openingElement instanceof SVGElement) {
-	    var _targetElement$getBou = targetElement.getBoundingClientRect(),
-	        x = _targetElement$getBou.x,
-	        y = _targetElement$getBou.y,
-	        width = _targetElement$getBou.width,
-	        height = _targetElement$getBou.height,
-	        left = _targetElement$getBou.left,
-	        top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-
-
-	    _setAttributes(openingElement, {
-	      x: (x || left) - modalOverlayOpeningPadding,
-	      y: (y || top) - modalOverlayOpeningPadding,
-	      width: width + modalOverlayOpeningPadding * 2,
-	      height: height + modalOverlayOpeningPadding * 2
-	    });
-	  }
-	}
-
-	function closeModalOpening(openingElement) {
-	  if (openingElement && openingElement instanceof SVGElement) {
-	    _setAttributes(openingElement, {
-	      height: '0',
-	      x: '0',
-	      y: '0',
-	      width: '0'
-	    });
-	  }
-	}
-
-	function getModalMaskOpening(modalElement) {
-	  return modalElement.querySelector("#".concat(elementIds.modalOverlayMaskOpening));
-	}
-
-	function preventModalBodyTouch(event) {
-	  event.preventDefault();
-	}
-
-	function preventModalOverlayTouch(event) {
-	  event.stopPropagation();
-	}
-	/**
-	 * Remove any leftover modal target classes and add the modal target class to the currentElement
-	 * @param {HTMLElement} currentElement The element for the current step
-	 */
-
-
-	function toggleShepherdModalClass(currentElement) {
-	  var shepherdModal = document.querySelector("".concat(classNames.modalTarget));
-
-	  if (shepherdModal) {
-	    shepherdModal.classList.remove(classNames.modalTarget);
-	  }
-
-	  currentElement.classList.add(classNames.modalTarget);
-	}
-	/**
-	 * Set multiple attributes on an element, via a hash
-	 * @param {HTMLElement|SVGElement} el The element to set the attributes on
-	 * @param {Object} attrs A hash of key value pairs for attributes to set
-	 * @private
-	 */
-
-
-	function _setAttributes(el, attrs) {
-	  var _context;
-
-	  forEach$2(_context = keys$3(attrs)).call(_context, function (key) {
-	    el.setAttribute(key, attrs[key]);
-	  });
-	}
-
-	/**
-	 * Get the element from an option object
-	 *
-	 * @method getElementFromObject
-	 * @param Object attachTo
-	 * @returns {Element}
-	 * @private
-	 */
-
-
-	function getElementFromObject(attachTo) {
-	  var op = attachTo.element;
-
-	  if (op instanceof HTMLElement) {
-	    return op;
-	  }
-
-	  return document.querySelector(op);
-	}
-	/**
-	 * Return the element for a step
-	 *
-	 * @method getElementForStep
-	 * @param step step the step to get an element for
-	 * @returns {Element} the element for this step
-	 * @private
-	 */
-
-
-	function getElementForStep(step) {
-	  var attachTo = step.options.attachTo;
-
-	  if (!attachTo) {
-	    return null;
-	  }
-
-	  var type = _typeof_1(attachTo);
-
-	  var element;
-
-	  if (type === 'string') {
-	    element = getElementFromString(attachTo);
-	  } else if (type === 'object') {
-	    element = getElementFromObject(attachTo);
-	  } else {
-	    /* istanbul ignore next: cannot test undefined attachTo, but it does work! */
-	    element = null;
-	  }
-
-	  return element;
-	}
-	/**
-	 * Get the element from an option string
-	 *
-	 * @method getElementFromString
-	 * @param element the string in the step configuration
-	 * @returns {Element} the element from the string
-	 * @private
-	 */
-
-
-	function getElementFromString(element) {
-	  var _element$split = element.split(' '),
-	      _element$split2 = slicedToArray(_element$split, 1),
-	      selector = _element$split2[0];
-
-	  return document.querySelector(selector);
-	}
-
-	function addStepEventListeners() {
-	  if (typeof this._onScreenChange === 'function') {
-	    window.removeEventListener('resize', this._onScreenChange, false);
-	    window.removeEventListener('scroll', this._onScreenChange, true);
-	  }
-
-	  window.addEventListener('resize', this._onScreenChange, false);
-	  window.addEventListener('scroll', this._onScreenChange, true);
-	  var overlay = document.querySelector("#".concat(elementIds.modalOverlay)); // Prevents window from moving on touch.
-
-	  window.addEventListener('touchmove', preventModalBodyTouch, {
-	    passive: false
-	  }); // Allows content to move on touch.
-
-	  if (overlay) {
-	    overlay.addEventListener('touchmove', preventModalOverlayTouch, false);
-	  }
-	}
-
-	var defineProperty$6 = defineProperty_1;
-
-	var defineProperty$7 = defineProperty$6;
+	var defineProperty$5 = defineProperty$4;
 
 	// `Object.defineProperties` method
 	// https://tc39.github.io/ecma262/#sec-object.defineproperties
@@ -3326,6 +2982,13 @@
 	var defineProperties = defineProperties_1;
 
 	var defineProperties$1 = defineProperties;
+
+	// all object keys, includes non-enumerable and symbols
+	var ownKeys = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+	  var keys = objectGetOwnPropertyNames.f(anObject(it));
+	  var getOwnPropertySymbols = objectGetOwnPropertySymbols.f;
+	  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
+	};
 
 	// `Object.getOwnPropertyDescriptors` method
 	// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptors
@@ -3354,8 +3017,8 @@
 	var nativeGetOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
 
 
-	var FAILS_ON_PRIMITIVES$2 = fails(function () { nativeGetOwnPropertyDescriptor$2(1); });
-	var FORCED$1 = !descriptors || FAILS_ON_PRIMITIVES$2;
+	var FAILS_ON_PRIMITIVES$3 = fails(function () { nativeGetOwnPropertyDescriptor$2(1); });
+	var FORCED$1 = !descriptors || FAILS_ON_PRIMITIVES$3;
 
 	// `Object.getOwnPropertyDescriptor` method
 	// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
@@ -3375,9 +3038,9 @@
 	if (Object.getOwnPropertyDescriptor.sham) getOwnPropertyDescriptor.sham = true;
 	});
 
-	var getOwnPropertyDescriptor$5 = getOwnPropertyDescriptor_1;
+	var getOwnPropertyDescriptor$2 = getOwnPropertyDescriptor_1;
 
-	var getOwnPropertyDescriptor$6 = getOwnPropertyDescriptor$5;
+	var getOwnPropertyDescriptor$3 = getOwnPropertyDescriptor$2;
 
 	var $filter = arrayIteration.filter;
 
@@ -3393,11 +3056,11 @@
 
 	var filter = entryVirtual('Array').filter;
 
-	var ArrayPrototype$6 = Array.prototype;
+	var ArrayPrototype$3 = Array.prototype;
 
 	var filter_1 = function (it) {
 	  var own = it.filter;
-	  return it === ArrayPrototype$6 || (it instanceof Array && own === ArrayPrototype$6.filter) ? filter : own;
+	  return it === ArrayPrototype$3 || (it instanceof Array && own === ArrayPrototype$3.filter) ? filter : own;
 	};
 
 	var filter$1 = filter_1;
@@ -3409,68 +3072,6 @@
 	var getOwnPropertySymbols$1 = getOwnPropertySymbols;
 
 	var getOwnPropertySymbols$2 = getOwnPropertySymbols$1;
-
-	var MATCH = wellKnownSymbol('match');
-
-	// `IsRegExp` abstract operation
-	// https://tc39.github.io/ecma262/#sec-isregexp
-	var isRegexp = function (it) {
-	  var isRegExp;
-	  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classofRaw(it) == 'RegExp');
-	};
-
-	var notARegexp = function (it) {
-	  if (isRegexp(it)) {
-	    throw TypeError("The method doesn't accept regular expressions");
-	  } return it;
-	};
-
-	var MATCH$1 = wellKnownSymbol('match');
-
-	var correctIsRegexpLogic = function (METHOD_NAME) {
-	  var regexp = /./;
-	  try {
-	    '/./'[METHOD_NAME](regexp);
-	  } catch (e) {
-	    try {
-	      regexp[MATCH$1] = false;
-	      return '/./'[METHOD_NAME](regexp);
-	    } catch (f) { /* empty */ }
-	  } return false;
-	};
-
-	var nativeEndsWith = ''.endsWith;
-	var min$3 = Math.min;
-
-	// `String.prototype.endsWith` method
-	// https://tc39.github.io/ecma262/#sec-string.prototype.endswith
-	_export({ target: 'String', proto: true, forced: !correctIsRegexpLogic('endsWith') }, {
-	  endsWith: function endsWith(searchString /* , endPosition = @length */) {
-	    var that = String(requireObjectCoercible(this));
-	    notARegexp(searchString);
-	    var endPosition = arguments.length > 1 ? arguments[1] : undefined;
-	    var len = toLength(that.length);
-	    var end = endPosition === undefined ? len : min$3(toLength(endPosition), len);
-	    var search = String(searchString);
-	    return nativeEndsWith
-	      ? nativeEndsWith.call(that, search, end)
-	      : that.slice(end - search.length, end) === search;
-	  }
-	});
-
-	var endsWith = entryVirtual('String').endsWith;
-
-	var StringPrototype$1 = String.prototype;
-
-	var endsWith_1 = function (it) {
-	  var own = it.endsWith;
-	  return typeof it === 'string' || it === StringPrototype$1
-	    || (it instanceof String && own === StringPrototype$1.endsWith) ? endsWith : own;
-	};
-
-	var endsWith$1 = endsWith_1;
-
-	var endsWith$2 = endsWith$1;
 
 	function _defineProperty(obj, key, value) {
 	  if (key in obj) {
@@ -3487,7 +3088,72 @@
 	  return obj;
 	}
 
-	var defineProperty$8 = _defineProperty;
+	var defineProperty$6 = _defineProperty;
+
+	// a string of all valid unicode whitespaces
+	// eslint-disable-next-line max-len
+	var whitespaces = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+	var whitespace = '[' + whitespaces + ']';
+	var ltrim = RegExp('^' + whitespace + whitespace + '*');
+	var rtrim = RegExp(whitespace + whitespace + '*$');
+
+	// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+	var createMethod$3 = function (TYPE) {
+	  return function ($this) {
+	    var string = String(requireObjectCoercible($this));
+	    if (TYPE & 1) string = string.replace(ltrim, '');
+	    if (TYPE & 2) string = string.replace(rtrim, '');
+	    return string;
+	  };
+	};
+
+	var stringTrim = {
+	  // `String.prototype.{ trimLeft, trimStart }` methods
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+	  start: createMethod$3(1),
+	  // `String.prototype.{ trimRight, trimEnd }` methods
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+	  end: createMethod$3(2),
+	  // `String.prototype.trim` method
+	  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+	  trim: createMethod$3(3)
+	};
+
+	var non = '\u200B\u0085\u180E';
+
+	// check that a method works with the correct list
+	// of whitespaces and has a correct name
+	var forcedStringTrimMethod = function (METHOD_NAME) {
+	  return fails(function () {
+	    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+	  });
+	};
+
+	var $trim = stringTrim.trim;
+
+
+	// `String.prototype.trim` method
+	// https://tc39.github.io/ecma262/#sec-string.prototype.trim
+	_export({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+	  trim: function trim() {
+	    return $trim(this);
+	  }
+	});
+
+	var trim = entryVirtual('String').trim;
+
+	var StringPrototype = String.prototype;
+
+	var trim_1 = function (it) {
+	  var own = it.trim;
+	  return typeof it === 'string' || it === StringPrototype
+	    || (it instanceof String && own === StringPrototype.trim) ? trim : own;
+	};
+
+	var trim$1 = trim_1;
+
+	var trim$2 = trim$1;
 
 	/**!
 	* tippy.js v5.0.0-alpha.2
@@ -4524,7 +4190,7 @@
 
 
 
-	var defineProperty$9 = function (obj, key, value) {
+	var defineProperty$7 = function (obj, key, value) {
 	  if (key in obj) {
 	    Object.defineProperty(obj, key, {
 	      value: value,
@@ -5603,7 +5269,7 @@
 	  sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0);
 
 	  data.arrowElement = arrowElement;
-	  data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty$9(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty$9(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
+	  data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty$7(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty$7(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
 
 	  return data;
 	}
@@ -6033,7 +5699,7 @@
 	      if (popper[placement] < boundaries[placement] && !options.escapeWithReference) {
 	        value = Math.max(popper[placement], boundaries[placement]);
 	      }
-	      return defineProperty$9({}, placement, value);
+	      return defineProperty$7({}, placement, value);
 	    },
 	    secondary: function secondary(placement) {
 	      var mainSide = placement === 'right' ? 'left' : 'top';
@@ -6041,7 +5707,7 @@
 	      if (popper[placement] > boundaries[placement] && !options.escapeWithReference) {
 	        value = Math.min(popper[mainSide], boundaries[placement] - (placement === 'right' ? popper.width : popper.height));
 	      }
-	      return defineProperty$9({}, mainSide, value);
+	      return defineProperty$7({}, mainSide, value);
 	    }
 	  };
 
@@ -6078,8 +5744,8 @@
 	    var measurement = isVertical ? 'width' : 'height';
 
 	    var shiftOffsets = {
-	      start: defineProperty$9({}, side, reference[side]),
-	      end: defineProperty$9({}, side, reference[side] + reference[measurement] - popper[measurement])
+	      start: defineProperty$7({}, side, reference[side]),
+	      end: defineProperty$7({}, side, reference[side] + reference[measurement] - popper[measurement])
 	    };
 
 	    data.offsets.popper = _extends$1({}, popper, shiftOffsets[shiftvariation]);
@@ -7609,11 +7275,9 @@
 
 	injectCSS(css);
 
-	var missingTippy = 'Using the attachment feature of Shepherd requires the Tippy.js library';
+	function ownKeys$1(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$3(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-	function ownKeys$4(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context3; forEach$2(_context3 = ownKeys$4(source, true)).call(_context3, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context4; forEach$2(_context4 = ownKeys$4(source)).call(_context4, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
+	function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context3; forEach$2(_context3 = ownKeys$1(source, true)).call(_context3, function (key) { defineProperty$6(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context4; forEach$2(_context4 = ownKeys$1(source)).call(_context4, function (key) { defineProperty$5(target, key, getOwnPropertyDescriptor$3(source, key)); }); } } return target; }
 
 	var addHasTitleClass = function addHasTitleClass(step) {
 	  return {
@@ -7628,7 +7292,7 @@
 	    computeStyle: {
 	      enabled: true,
 	      fn: function fn(data) {
-	        data.styles = assign$2({}, data.styles, {
+	        data.styles = _extends_1({}, data.styles, {
 	          left: '50%',
 	          top: '50%',
 	          transform: 'translate(-50%, -50%)'
@@ -7656,18 +7320,6 @@
 	  };
 	}
 	/**
-	 * TODO rewrite the way items are being added to use more performant documentFragment code
-	 * @param html
-	 * @return {HTMLElement} The element created from the passed HTML string
-	 */
-
-
-	function createFromHTML(html) {
-	  var el = document.createElement('div');
-	  el.innerHTML = html;
-	  return el.children[0];
-	}
-	/**
 	 * Returns a function, that, as long as it continues to be invoked, will not
 	 * be triggered. The function will be called after it stops being called for
 	 * N milliseconds. If `immediate` is passed, trigger the function on the
@@ -7677,6 +7329,7 @@
 	 * @param {Boolean} immediate If true, the function will be invoked immediately
 	 * @return {Function}
 	 */
+
 
 	function debounce$2(func, wait, immediate) {
 	  var timeout;
@@ -7702,23 +7355,17 @@
 	  };
 	}
 	/**
-	 * Determines options for the tooltip and initializes
-	 * `step.tooltip` as a Tippy.js instance.
-	 * @param {Step} step The step instance
+	 * Ensure class prefix ends in `-`
+	 * @param {string} prefix The prefix to prepend to the class names generated by nano-css
+	 * @return {string} The prefix ending in `-`
 	 */
 
-	function setupTooltip(step) {
-	  if (isUndefined(tippy)) {
-	    throw new Error(missingTippy);
+	function normalizePrefix(prefix) {
+	  if (!isString(prefix) || prefix === '') {
+	    return '';
 	  }
 
-	  if (step.tooltip) {
-	    step.tooltip.destroy();
-	  }
-
-	  var attachToOpts = parseAttachTo(step);
-	  step.tooltip = _makeTippyInstance(attachToOpts, step);
-	  step.target = attachToOpts.element || document.body;
+	  return prefix.charAt(prefix.length - 1) !== '-' ? "".concat(prefix, "-") : prefix;
 	}
 	/**
 	 * Checks if options.attachTo.element is a string, and if so, tries to find the element
@@ -7731,7 +7378,7 @@
 	function parseAttachTo(step) {
 	  var options = step.options.attachTo || {};
 
-	  var returnOpts = assign$2({}, options);
+	  var returnOpts = _extends_1({}, options);
 
 	  if (isString(options.element)) {
 	    // Can't override the element in user opts reference because we can't
@@ -7747,6 +7394,25 @@
 	  }
 
 	  return returnOpts;
+	}
+	/**
+	 * Determines options for the tooltip and initializes
+	 * `step.tooltip` as a Tippy.js instance.
+	 * @param {Step} step The step instance
+	 */
+
+	function setupTooltip(step) {
+	  if (isUndefined(tippy)) {
+	    throw new Error('Using the attachment feature of Shepherd requires the Tippy.js library');
+	  }
+
+	  if (step.tooltip) {
+	    step.tooltip.destroy();
+	  }
+
+	  var attachToOpts = parseAttachTo(step);
+	  step.tooltip = _makeTippyInstance(attachToOpts, step);
+	  step.target = attachToOpts.element;
 	}
 	/**
 	 * Create a popper modifier for adding the passed className to the popper
@@ -7802,14 +7468,14 @@
 	    placement: attachToOptions.on || 'right'
 	  };
 
-	  assign$2(resultingTippyOptions, step.options.tippyOptions);
+	  _extends_1(resultingTippyOptions, step.options.tippyOptions);
 
 	  if (step.options.title) {
-	    assign$2(defaultPopperOptions.modifiers, addHasTitleClass(step));
+	    _extends_1(defaultPopperOptions.modifiers, addHasTitleClass(step));
 	  }
 
 	  if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-	    assign$2(defaultPopperOptions, step.options.tippyOptions.popperOptions);
+	    _extends_1(defaultPopperOptions, step.options.tippyOptions.popperOptions);
 	  }
 
 	  resultingTippyOptions.popperOptions = defaultPopperOptions;
@@ -7840,30 +7506,522 @@
 	  tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
 	  if (step.options.title) {
-	    assign$2(defaultPopperOptions.modifiers, addHasTitleClass(step));
+	    _extends_1(defaultPopperOptions.modifiers, addHasTitleClass(step));
 	  }
 
-	  assign$2(defaultPopperOptions.modifiers, centeredStylePopperModifier, tippyOptions.popperOptions.modifiers);
+	  _extends_1(defaultPopperOptions.modifiers, centeredStylePopperModifier, tippyOptions.popperOptions.modifiers);
 
-	  var finalPopperOptions = assign$2({}, defaultPopperOptions, tippyOptions.popperOptions);
+	  var finalPopperOptions = _extends_1({}, defaultPopperOptions, tippyOptions.popperOptions);
 
 	  tippyOptions.popperOptions = finalPopperOptions;
 	  return tippy(document.body, tippyOptions);
 	}
+
 	/**
-	 * Ensure class prefix ends in `-`
-	 * @param {string} prefix The prefix to prepend to the class names generated by nano-css
-	 * @return {string} The prefix ending in `-`
+	 * Remove any leftover modal target classes and add the modal target class to the currentElement
+	 * @param {HTMLElement} currentElement The element for the current step
 	 */
+	function toggleShepherdModalClass(currentElement) {
+	  var shepherdModal = document.querySelector('shepherd-modal-target');
 
-
-	function normalizePrefix(prefix) {
-	  if (!isString(prefix) || prefix === '') {
-	    return '';
+	  if (shepherdModal) {
+	    shepherdModal.classList.remove('shepherd-modal-target');
 	  }
 
-	  return endsWith$2(prefix).call(prefix, '-') ? prefix : "".concat(prefix, "-");
+	  currentElement.classList.add('shepherd-modal-target');
 	}
+
+	// `Array.isArray` method
+	// https://tc39.github.io/ecma262/#sec-array.isarray
+	_export({ target: 'Array', stat: true }, {
+	  isArray: isArray
+	});
+
+	var isArray$1 = path.Array.isArray;
+
+	var isArray$2 = isArray$1;
+
+	var isArray$3 = isArray$2;
+
+	function _arrayWithHoles(arr) {
+	  if (isArray$3(arr)) return arr;
+	}
+
+	var arrayWithHoles = _arrayWithHoles;
+
+	var ITERATOR$2 = wellKnownSymbol('iterator');
+
+	var getIteratorMethod = function (it) {
+	  if (it != undefined) return it[ITERATOR$2]
+	    || it['@@iterator']
+	    || iterators[classof(it)];
+	};
+
+	var getIterator = function (it) {
+	  var iteratorMethod = getIteratorMethod(it);
+	  if (typeof iteratorMethod != 'function') {
+	    throw TypeError(String(it) + ' is not iterable');
+	  } return anObject(iteratorMethod.call(it));
+	};
+
+	var getIterator$1 = getIterator;
+
+	var getIterator$2 = getIterator$1;
+
+	function _iterableToArrayLimit(arr, i) {
+	  var _arr = [];
+	  var _n = true;
+	  var _d = false;
+	  var _e = undefined;
+
+	  try {
+	    for (var _i = getIterator$2(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
+	      _arr.push(_s.value);
+
+	      if (i && _arr.length === i) break;
+	    }
+	  } catch (err) {
+	    _d = true;
+	    _e = err;
+	  } finally {
+	    try {
+	      if (!_n && _i["return"] != null) _i["return"]();
+	    } finally {
+	      if (_d) throw _e;
+	    }
+	  }
+
+	  return _arr;
+	}
+
+	var iterableToArrayLimit = _iterableToArrayLimit;
+
+	function _nonIterableRest() {
+	  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+	}
+
+	var nonIterableRest = _nonIterableRest;
+
+	function _slicedToArray(arr, i) {
+	  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+	}
+
+	var slicedToArray = _slicedToArray;
+
+	var isArray$4 = isArray$1;
+
+	var isArray$5 = isArray$4;
+
+	var $map = arrayIteration.map;
+
+
+	// `Array.prototype.map` method
+	// https://tc39.github.io/ecma262/#sec-array.prototype.map
+	// with adding support of @@species
+	_export({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('map') }, {
+	  map: function map(callbackfn /* , thisArg */) {
+	    return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+	  }
+	});
+
+	var map = entryVirtual('Array').map;
+
+	var ArrayPrototype$4 = Array.prototype;
+
+	var map_1 = function (it) {
+	  var own = it.map;
+	  return it === ArrayPrototype$4 || (it instanceof Array && own === ArrayPrototype$4.map) ? map : own;
+	};
+
+	var map$1 = map_1;
+
+	var map$2 = map$1;
+
+	var Component$1 = preact.Component;
+
+	var ShepherdButton =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdButton, _Component);
+
+	  function ShepherdButton() {
+	    classCallCheck(this, ShepherdButton);
+
+	    return possibleConstructorReturn(this, getPrototypeOf$3(ShepherdButton).apply(this, arguments));
+	  }
+
+	  createClass(ShepherdButton, [{
+	    key: "render",
+	    value: function render(props) {
+	      var classPrefix = props.classPrefix,
+	          config = props.config,
+	          styles = props.styles;
+	      var action = config.action,
+	          classes = config.classes,
+	          secondary = config.secondary,
+	          text = config.text;
+	      return preact.h("button", {
+	        className: (classes || '') + styles.button + (secondary ? " ".concat(classPrefix, "shepherd-button-secondary") : ''),
+	        onClick: action,
+	        tabindex: "0"
+	      }, text);
+	    }
+	  }]);
+
+	  return ShepherdButton;
+	}(Component$1);
+
+	var Component$2 = preact.Component;
+
+	var ShepherdFooter =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdFooter, _Component);
+
+	  function ShepherdFooter() {
+	    classCallCheck(this, ShepherdFooter);
+
+	    return possibleConstructorReturn(this, getPrototypeOf$3(ShepherdFooter).apply(this, arguments));
+	  }
+
+	  createClass(ShepherdFooter, [{
+	    key: "render",
+	    value: function render(props) {
+	      var _context;
+
+	      var classPrefix = props.classPrefix,
+	          step = props.step,
+	          styles = props.styles;
+	      var buttons = step.options.buttons;
+	      return preact.h("footer", {
+	        className: trim$2(_context = styles.footer).call(_context)
+	      }, this._addButtons(buttons, classPrefix, styles));
+	    }
+	  }, {
+	    key: "_addButtons",
+	    value: function _addButtons(buttons, classPrefix, styles) {
+	      if (buttons) {
+	        return map$2(buttons).call(buttons, function (config) {
+	          return preact.h(ShepherdButton, {
+	            classPrefix: classPrefix,
+	            config: config,
+	            styles: styles
+	          });
+	        });
+	      }
+
+	      return null;
+	    }
+	  }]);
+
+	  return ShepherdFooter;
+	}(Component$2);
+
+	var Component$3 = preact.Component;
+
+	var ShepherdHeader =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdHeader, _Component);
+
+	  function ShepherdHeader(props) {
+	    var _context;
+
+	    var _this;
+
+	    classCallCheck(this, ShepherdHeader);
+
+	    _this = possibleConstructorReturn(this, getPrototypeOf$3(ShepherdHeader).call(this, props));
+	    _this.step = props.step;
+	    _this.cancelStep = bind$2(_context = _this.cancelStep).call(_context, assertThisInitialized(_this));
+	    return _this;
+	  }
+
+	  createClass(ShepherdHeader, [{
+	    key: "render",
+	    value: function render(props) {
+	      var _context2;
+
+	      var labelId = props.labelId,
+	          step = props.step,
+	          styles = props.styles;
+	      var _step$options = step.options,
+	          showCancelLink = _step$options.showCancelLink,
+	          title = _step$options.title;
+	      return preact.h("header", {
+	        className: trim$2(_context2 = styles.header).call(_context2)
+	      }, this.constructor._addTitle(labelId, styles, title), this._addCancelLink(showCancelLink, styles));
+	    }
+	    /**
+	     * Add a click listener to the cancel link that cancels the tour
+	     */
+
+	  }, {
+	    key: "cancelStep",
+	    value: function cancelStep(e) {
+	      e.preventDefault();
+	      this.step.cancel();
+	    }
+	  }, {
+	    key: "_addCancelLink",
+	    value: function _addCancelLink(showCancelLink, styles) {
+	      if (showCancelLink) {
+	        var _context3;
+
+	        return preact.h("a", {
+	          href: "",
+	          className: trim$2(_context3 = styles['cancel-link']).call(_context3),
+	          onClick: this.cancelStep
+	        });
+	      }
+
+	      return null;
+	    }
+	  }], [{
+	    key: "_addTitle",
+	    value: function _addTitle(labelId, styles, title) {
+	      if (title) {
+	        var _context4;
+
+	        return preact.h("h3", {
+	          id: labelId,
+	          className: trim$2(_context4 = styles.title).call(_context4)
+	        }, title);
+	      }
+
+	      return null;
+	    }
+	  }]);
+
+	  return ShepherdHeader;
+	}(Component$3);
+
+	var Component$4 = preact.Component;
+
+	var ShepherdText =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdText, _Component);
+
+	  function ShepherdText() {
+	    classCallCheck(this, ShepherdText);
+
+	    return possibleConstructorReturn(this, getPrototypeOf$3(ShepherdText).apply(this, arguments));
+	  }
+
+	  createClass(ShepherdText, [{
+	    key: "render",
+	    value: function render(props) {
+	      var _context;
+
+	      var descriptionId = props.descriptionId,
+	          step = props.step,
+	          styles = props.styles;
+	      var text = step.options.text;
+
+	      if (isFunction(text)) {
+	        text = text.call(step);
+	      }
+
+	      return preact.h("div", {
+	        className: trim$2(_context = styles.text).call(_context),
+	        dangerouslySetInnerHTML: {
+	          __html: text
+	        },
+	        id: descriptionId
+	      });
+	    }
+	  }]);
+
+	  return ShepherdText;
+	}(Component$4);
+
+	var Component$5 = preact.Component;
+
+	var ShepherdContent =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdContent, _Component);
+
+	  function ShepherdContent() {
+	    classCallCheck(this, ShepherdContent);
+
+	    return possibleConstructorReturn(this, getPrototypeOf$3(ShepherdContent).apply(this, arguments));
+	  }
+
+	  createClass(ShepherdContent, [{
+	    key: "render",
+	    value: function render(props) {
+	      var _context;
+
+	      var classPrefix = props.classPrefix,
+	          descriptionId = props.descriptionId,
+	          labelId = props.labelId,
+	          step = props.step,
+	          styles = props.styles;
+	      return preact.h("div", {
+	        className: trim$2(_context = styles.content).call(_context)
+	      }, preact.h(ShepherdHeader, {
+	        labelId: labelId,
+	        step: step,
+	        styles: styles
+	      }), ShepherdContent._addShepherdText(descriptionId, step, styles), ShepherdContent._addShepherdFooter(classPrefix, step, styles));
+	    }
+	  }], [{
+	    key: "_addShepherdText",
+	    value: function _addShepherdText(descriptionId, step, styles) {
+	      if (!isUndefined(step.options.text)) {
+	        return preact.h(ShepherdText, {
+	          descriptionId: descriptionId,
+	          step: step,
+	          styles: styles
+	        });
+	      }
+
+	      return null;
+	    }
+	  }, {
+	    key: "_addShepherdFooter",
+	    value: function _addShepherdFooter(classPrefix, step, styles) {
+	      if (isArray$5(step.options.buttons) && step.options.buttons.length) {
+	        return preact.h(ShepherdFooter, {
+	          classPrefix: classPrefix,
+	          step: step,
+	          styles: styles
+	        });
+	      }
+
+	      return null;
+	    }
+	  }]);
+
+	  return ShepherdContent;
+	}(Component$5);
+
+	var Component$6 = preact.Component;
+	var KEY_TAB = 9;
+	var KEY_ESC = 27;
+	var LEFT_ARROW = 37;
+	var RIGHT_ARROW = 39;
+
+	var ShepherdElement =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdElement, _Component);
+
+	  function ShepherdElement(props) {
+	    var _context;
+
+	    var _this;
+
+	    classCallCheck(this, ShepherdElement);
+
+	    _this = possibleConstructorReturn(this, getPrototypeOf$3(ShepherdElement).call(this, props));
+	    _this.step = props.step;
+	    _this.handleKeyDown = bind$2(_context = _this.handleKeyDown).call(_context, assertThisInitialized(_this));
+	    return _this;
+	  }
+
+	  createClass(ShepherdElement, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      // Get all elements that are focusable
+	      var focusableElements = this.element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
+
+	      var _focusableElements = slicedToArray(focusableElements, 1),
+	          firstFocusableElement = _focusableElements[0];
+
+	      var lastFocusableElement = focusableElements[focusableElements.length - 1];
+	      this.focusableElements = focusableElements;
+	      this.firstFocusableElement = firstFocusableElement;
+	      this.lastFocusableElement = lastFocusableElement;
+	    }
+	  }, {
+	    key: "render",
+	    value: function render(props) {
+	      var _this2 = this;
+
+	      var classes = props.classes,
+	          classPrefix = props.classPrefix,
+	          descriptionId = props.descriptionId,
+	          labelId = props.labelId,
+	          step = props.step,
+	          styles = props.styles;
+
+	      var dataStepId = defineProperty$6({}, "data-".concat(classPrefix, "shepherd-step-id"), step.id);
+
+	      return preact.h("div", _extends_1({
+	        "aria-describedby": !isUndefined(step.options.text) ? descriptionId : null,
+	        "aria-labeledby": step.options.title ? labelId : null,
+	        className: classes + styles.element
+	      }, dataStepId, {
+	        onKeyDown: this.handleKeyDown,
+	        ref: function ref(c) {
+	          return _this2.element = c;
+	        },
+	        role: "dialog",
+	        tabindex: "0"
+	      }), preact.h(ShepherdContent, {
+	        classPrefix: classPrefix,
+	        descriptionId: descriptionId,
+	        labelId: labelId,
+	        step: step,
+	        styles: styles
+	      }));
+	    }
+	    /**
+	     * Setup keydown events to allow closing the modal with ESC
+	     *
+	     * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
+	     *
+	     * @private
+	     */
+
+	  }, {
+	    key: "handleKeyDown",
+	    value: function handleKeyDown(e) {
+	      switch (e.keyCode) {
+	        case KEY_TAB:
+	          if (this.focusableElements.length === 1) {
+	            e.preventDefault();
+	            break;
+	          } // Backward tab
+
+
+	          if (e.shiftKey) {
+	            if (document.activeElement === this.firstFocusableElement) {
+	              e.preventDefault();
+	              this.lastFocusableElement.focus();
+	            }
+	          } else {
+	            if (document.activeElement === this.lastFocusableElement) {
+	              e.preventDefault();
+	              this.firstFocusableElement.focus();
+	            }
+	          }
+
+	          break;
+
+	        case KEY_ESC:
+	          this.step.cancel();
+	          break;
+
+	        case LEFT_ARROW:
+	          this.step.tour.back();
+	          break;
+
+	        case RIGHT_ARROW:
+	          this.step.tour.next();
+	          break;
+
+	        default:
+	          break;
+	      }
+	    }
+	  }]);
+
+	  return ShepherdElement;
+	}(Component$6);
 
 	if (!Element.prototype.matches) {
 	    Element.prototype.matches =
@@ -8306,6 +8464,7 @@
 	var smoothscroll_1 = smoothscroll.polyfill;
 
 	smoothscroll.polyfill();
+	var render$1 = preact.render;
 	/**
 	 * Creates incremented ID for each newly created step
 	 *
@@ -8365,17 +8524,13 @@
 	   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
 	   * footer below the main body text.
 	   * @param {function} options.buttons.button.action A function executed when the button is clicked on
-	   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
-	   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
-	   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
-	   * You can use events to skip steps or navigate to specific steps, with something like:
+	   * You can use action to skip steps or navigate to specific steps, with something like:
 	   * ```js
-	   * events: {
-	   *   click: function() {
-	   *     return Shepherd.activeTour.show('some_step_name');
-	   *   }
+	   * action: function() {
+	   *   return Shepherd.activeTour.show('some_step_name');
 	   * }
 	   * ```
+	   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
 	   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
 	   * @param {string} options.buttons.button.text The HTML text of the button
 	   * @param {string} options.classes A string of extra classes to add to the step's content element.
@@ -8535,198 +8690,31 @@
 	      this._show();
 	    }
 	    /**
-	     * Adds buttons to the step as passed into options
-	     *
-	     * @param {HTMLElement} content The element for the step, to append the footer with buttons to
-	     * @private
-	     */
-
-	  }, {
-	    key: "_addButtons",
-	    value: function _addButtons(content) {
-	      var _this3 = this;
-
-	      if (isArray$5(this.options.buttons) && this.options.buttons.length) {
-	        var _context, _context2;
-
-	        var footer = document.createElement('footer');
-	        footer.classList.add(trim$2(_context = this.styles.footer).call(_context));
-
-	        map$2(_context2 = this.options.buttons).call(_context2, function (cfg) {
-	          var _context3, _context4, _context5;
-
-	          var button = createFromHTML(concat$2(_context3 = concat$2(_context4 = "<button class=\"".concat(trim$2(_context5 = _this3.styles.button).call(_context5), " ")).call(_context4, cfg.classes || '', "\" tabindex=\"0\">")).call(_context3, cfg.text, "</button>"));
-
-	          if (cfg.secondary) {
-	            button.classList.add("".concat(_this3.classPrefix, "shepherd-button-secondary"));
-	          }
-
-	          footer.appendChild(button);
-	          bindButtonEvents(cfg, button, _this3);
-	        });
-
-	        content.appendChild(footer);
-	      }
-	    }
-	    /**
-	     * Adds the "x" button to cancel the tour
-	     * @param {HTMLElement} element The step element
-	     * @param {HTMLElement} header The header element for the step
-	     * @private
-	     */
-
-	  }, {
-	    key: "_addCancelLink",
-	    value: function _addCancelLink(element, header) {
-	      if (this.options.showCancelLink) {
-	        var _context6;
-
-	        var link = createFromHTML("<a href class=\"".concat(trim$2(_context6 = this.styles['cancel-link']).call(_context6), "\"></a>"));
-	        header.appendChild(link);
-	        element.classList.add("".concat(this.classPrefix, "shepherd-has-cancel-link"));
-	        bindCancelLink(link, this);
-	      }
-	    }
-	    /**
-	     * Adds text passed in as options
-	     *
-	     * @param {HTMLElement} content The content to append the text to
-	     * @param {string} descriptionId The id to set on the shepherd-text element
-	     * for the parent element to use for aria-describedby
-	     * @params {Step} step The step to get the styles from for the shepherd-text class
-	     * @private
-	     */
-
-	  }, {
-	    key: "_addContent",
-	    value: function _addContent(content, descriptionId, step) {
-	      var _context7, _context8;
-
-	      var textContainer = createFromHTML(concat$2(_context7 = "<div class=\"".concat(trim$2(_context8 = step.styles.text).call(_context8), "\"\n       id=\"")).call(_context7, descriptionId, "\"\n       ></div>"));
-	      var text = this.options.text;
-
-	      if (isFunction(text)) {
-	        text = text.call(this, textContainer);
-	      } // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
-
-
-	      isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
-	      content.appendChild(textContainer);
-	    }
-	    /**
-	     * Setup keydown events to allow closing the modal with ESC
-	     *
-	     * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
-	     *
-	     * @param {HTMLElement} element The element for the tooltip
-	     * @private
-	     */
-
-	  }, {
-	    key: "_addKeyDownHandler",
-	    value: function _addKeyDownHandler(element) {
-	      var _this4 = this;
-
-	      var KEY_TAB = 9;
-	      var KEY_ESC = 27;
-	      var LEFT_ARROW = 37;
-	      var RIGHT_ARROW = 39; // Get all elements that are focusable
-
-	      var focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
-
-	      var _focusableElements = slicedToArray(focusableElements, 1),
-	          firstFocusableElement = _focusableElements[0];
-
-	      var lastFocusableElement = focusableElements[focusableElements.length - 1];
-	      element.addEventListener('keydown', function (e) {
-	        switch (e.keyCode) {
-	          case KEY_TAB:
-	            if (focusableElements.length === 1) {
-	              e.preventDefault();
-	              break;
-	            } // Backward tab
-
-
-	            if (e.shiftKey) {
-	              if (document.activeElement === firstFocusableElement) {
-	                e.preventDefault();
-	                lastFocusableElement.focus();
-	              }
-	            } else {
-	              if (document.activeElement === lastFocusableElement) {
-	                e.preventDefault();
-	                firstFocusableElement.focus();
-	              }
-	            }
-
-	            break;
-
-	          case KEY_ESC:
-	            _this4.cancel();
-
-	            break;
-
-	          case LEFT_ARROW:
-	            _this4.tour.back();
-
-	            break;
-
-	          case RIGHT_ARROW:
-	            _this4.tour.next();
-
-	            break;
-
-	          default:
-	            break;
-	        }
-	      });
-	    }
-	    /**
 	     * Creates Shepherd element for step based on options
 	     *
-	     * @return {HTMLElement} The DOM element for the step tooltip
+	     * @return {Element} The DOM element for the step tooltip
 	     * @private
 	     */
 
 	  }, {
 	    key: "_createTooltipContent",
 	    value: function _createTooltipContent() {
-	      var _context9, _context10, _context12, _context13;
-
-	      var content = document.createElement('div');
 	      var classes = this.options.classes || '';
 	      var descriptionId = "".concat(this.id, "-description");
 	      var labelId = "".concat(this.id, "-label");
-	      var element = createFromHTML(concat$2(_context9 = concat$2(_context10 = "<div class=\"".concat(classes, "\"\n       data-")).call(_context10, this.classPrefix, "shepherd-step-id=\"")).call(_context9, this.id, "\"\n       role=\"dialog\"\n       tabindex=\"0\">"));
-	      var header = document.createElement('header');
 
-	      if (this.options.title) {
-	        var _context11;
-
-	        var title = document.createElement('h3');
-	        title.classList.add(trim$2(_context11 = this.styles.title).call(_context11));
-	        title.innerHTML = "".concat(this.options.title);
-	        title.id = labelId;
-	        element.setAttribute('aria-labeledby', labelId);
-	        header.appendChild(title);
+	      if (this.options.showCancelLink) {
+	        classes += " ".concat(this.classPrefix, "shepherd-has-cancel-link");
 	      }
 
-	      content.classList.add(trim$2(_context12 = this.styles.content).call(_context12));
-	      header.classList.add(trim$2(_context13 = this.styles.header).call(_context13));
-	      element.appendChild(content);
-	      content.appendChild(header);
-
-	      if (!isUndefined(this.options.text)) {
-	        this._addContent(content, descriptionId, this);
-
-	        element.setAttribute('aria-describedby', descriptionId);
-	      }
-
-	      this._addButtons(content);
-
-	      this._addCancelLink(element, header);
-
-	      return element;
+	      return render$1(preact.h(ShepherdElement, {
+	        classPrefix: this.classPrefix,
+	        classes: classes,
+	        descriptionId: descriptionId,
+	        labelId: labelId,
+	        step: this,
+	        styles: this.styles
+	      }), null);
 	    }
 	    /**
 	     * If a custom scrollToHandler is defined, call that, otherwise do the generic
@@ -8758,7 +8746,7 @@
 	  }, {
 	    key: "_setOptions",
 	    value: function _setOptions() {
-	      var _this5 = this;
+	      var _this3 = this;
 
 	      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	      this.options = options;
@@ -8767,14 +8755,10 @@
 	      this.id = this.options.id || "step-".concat(uniqueId());
 
 	      if (when) {
-	        var _context14;
+	        var _context;
 
-	        forEach$2(_context14 = entries$2(when)).call(_context14, function (_ref) {
-	          var _ref2 = slicedToArray(_ref, 2),
-	              event = _ref2[0],
-	              handler = _ref2[1];
-
-	          _this5.on(event, handler, _this5);
+	        forEach$2(_context = keys$3(when)).call(_context, function (event) {
+	          _this3.on(event, when[event], _this3);
 	        });
 	      }
 	    }
@@ -8786,22 +8770,17 @@
 	  }, {
 	    key: "_setupElements",
 	    value: function _setupElements() {
-	      var _context15;
-
 	      if (!isUndefined(this.el)) {
 	        this.destroy();
 	      }
 
 	      this.el = this._createTooltipContent();
 
-	      this._addKeyDownHandler(this.el);
-
 	      if (this.options.advanceOn) {
 	        bindAdvance(this);
 	      }
 
 	      setupTooltip(this);
-	      this.el.classList.add(trim$2(_context15 = this.styles.element).call(_context15));
 	    }
 	    /**
 	     * Triggers `before-show`, generates the tooltip DOM content,
@@ -8812,11 +8791,7 @@
 	  }, {
 	    key: "_show",
 	    value: function _show() {
-	      var _this6 = this;
-
-	      this.tour.modal.setupForStep(this);
-
-	      this._styleTargetElementForStep(this);
+	      var _this4 = this;
 
 	      this.trigger('before-show');
 
@@ -8824,12 +8799,17 @@
 	        this._setupElements();
 	      }
 
-	      this.target.classList.add("".concat(this.classPrefix, "shepherd-enabled"), "".concat(this.classPrefix, "shepherd-target"));
+	      this.tour.modal.setupForStep(this);
+
+	      this._styleTargetElementForStep(this);
+
+	      var target = this.target || document.body;
+	      target.classList.add("".concat(this.classPrefix, "shepherd-enabled"), "".concat(this.classPrefix, "shepherd-target"));
 	      document.body.setAttribute("data-".concat(this.classPrefix, "shepherd-step"), this.id);
 
 	      if (this.options.scrollTo) {
 	        setTimeout$2(function () {
-	          _this6._scrollTo(_this6.options.scrollTo);
+	          _this4._scrollTo(_this4.options.scrollTo);
 	        });
 	      }
 
@@ -8848,7 +8828,7 @@
 	  }, {
 	    key: "_styleTargetElementForStep",
 	    value: function _styleTargetElementForStep(step) {
-	      var targetElement = getElementForStep(step);
+	      var targetElement = step.target;
 
 	      if (!targetElement) {
 	        return;
@@ -8884,6 +8864,19 @@
 	  return Step;
 	}(Evented);
 
+	var concat = entryVirtual('Array').concat;
+
+	var ArrayPrototype$5 = Array.prototype;
+
+	var concat_1 = function (it) {
+	  var own = it.concat;
+	  return it === ArrayPrototype$5 || (it instanceof Array && own === ArrayPrototype$5.concat) ? concat : own;
+	};
+
+	var concat$1 = concat_1;
+
+	var concat$2 = concat$1;
+
 	var $some = arrayIteration.some;
 
 
@@ -8897,11 +8890,11 @@
 
 	var some = entryVirtual('Array').some;
 
-	var ArrayPrototype$7 = Array.prototype;
+	var ArrayPrototype$6 = Array.prototype;
 
 	var some_1 = function (it) {
 	  var own = it.some;
-	  return it === ArrayPrototype$7 || (it instanceof Array && own === ArrayPrototype$7.some) ? some : own;
+	  return it === ArrayPrototype$6 || (it instanceof Array && own === ArrayPrototype$6.some) ? some : own;
 	};
 
 	var some$1 = some_1;
@@ -8927,11 +8920,11 @@
 
 	var find$1 = entryVirtual('Array').find;
 
-	var ArrayPrototype$8 = Array.prototype;
+	var ArrayPrototype$7 = Array.prototype;
 
 	var find_1 = function (it) {
 	  var own = it.find;
-	  return it === ArrayPrototype$8 || (it instanceof Array && own === ArrayPrototype$8.find) ? find$1 : own;
+	  return it === ArrayPrototype$7 || (it instanceof Array && own === ArrayPrototype$7.find) ? find$1 : own;
 	};
 
 	var find$2 = find_1;
@@ -8959,11 +8952,11 @@
 
 	var indexOf$1 = entryVirtual('Array').indexOf;
 
-	var ArrayPrototype$9 = Array.prototype;
+	var ArrayPrototype$8 = Array.prototype;
 
 	var indexOf_1 = function (it) {
 	  var own = it.indexOf;
-	  return it === ArrayPrototype$9 || (it instanceof Array && own === ArrayPrototype$9.indexOf) ? indexOf$1 : own;
+	  return it === ArrayPrototype$8 || (it instanceof Array && own === ArrayPrototype$8.indexOf) ? indexOf$1 : own;
 	};
 
 	var indexOf$2 = indexOf_1;
@@ -8975,1132 +8968,6 @@
 	});
 
 	var bodyScrollLock = unwrapExports(bodyScrollLock_min);
-
-	var $JSON = path.JSON || (path.JSON = { stringify: JSON.stringify });
-
-	var stringify = function stringify(it) { // eslint-disable-line no-unused-vars
-	  return $JSON.stringify.apply($JSON, arguments);
-	};
-
-	var stringify$1 = stringify;
-
-	var stringify$2 = stringify$1;
-
-	var KEBAB_REGEX = /[A-Z]/g;
-
-	var _hash = function hash(str) {
-	  var hash = 5381,
-	      i = str.length;
-
-	  while (i) {
-	    hash = hash * 33 ^ str.charCodeAt(--i);
-	  }
-
-	  return '_' + (hash >>> 0).toString(36);
-	};
-
-	var create$3 = function create(config) {
-	  config = config || {};
-	  var assign = config.assign || assign$2;
-	  var client = (typeof window === "undefined" ? "undefined" : _typeof_1(window)) === 'object'; // Check if we are really in browser environment.
-
-	  var renderer = assign({
-	    raw: '',
-	    pfx: '_',
-	    client: client,
-	    assign: assign,
-	    stringify: stringify$2,
-	    kebab: function kebab(prop) {
-	      return prop.replace(KEBAB_REGEX, '-$&').toLowerCase();
-	    },
-	    decl: function decl(key, value) {
-	      key = renderer.kebab(key);
-	      return key + ':' + value + ';';
-	    },
-	    hash: function hash(obj) {
-	      return _hash(renderer.stringify(obj));
-	    },
-	    selector: function selector(parent, _selector) {
-	      return parent + (_selector[0] === ':' ? '' : ' ') + _selector;
-	    },
-	    putRaw: function putRaw(rawCssRule) {
-	      renderer.raw += rawCssRule;
-	    }
-	  }, config);
-
-	  if (renderer.client) {
-	    if (!renderer.sh) document.head.appendChild(renderer.sh = document.createElement('style'));
-
-	    renderer.putRaw = function (rawCssRule) {
-	      // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
-	      // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
-	      // that's why we use .appendChild in DEV.
-	      {
-	        var sheet = renderer.sh.sheet; // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
-
-	        try {
-	          sheet.insertRule(rawCssRule, sheet.cssRules.length); // eslint-disable-next-line no-empty
-	        } catch (error) {}
-	      }
-	    };
-	  }
-
-	  renderer.put = function (selector, decls, atrule) {
-	    var str = '';
-	    var prop, value;
-	    var postponed = [];
-
-	    for (prop in decls) {
-	      value = decls[prop];
-
-	      if (value instanceof Object && !(value instanceof Array)) {
-	        postponed.push(prop);
-	      } else {
-	        {
-	          str += renderer.decl(prop, value, selector, atrule);
-	        }
-	      }
-	    }
-
-	    if (str) {
-	      {
-	        str = selector + '{' + str + '}';
-	      }
-
-	      renderer.putRaw(atrule ? atrule + '{' + str + '}' : str);
-	    }
-
-	    for (var i = 0; i < postponed.length; i++) {
-	      prop = postponed[i];
-
-	      if (prop[0] === "@" && prop !== "@font-face") {
-	        renderer.putAt(selector, decls[prop], prop);
-	      } else {
-	        renderer.put(renderer.selector(selector, prop), decls[prop], atrule);
-	      }
-	    }
-	  };
-
-	  renderer.putAt = renderer.put;
-	  return renderer;
-	};
-
-	var addon = function addon(renderer) {
-	  var cache = {};
-
-	  renderer.cache = function (css) {
-	    if (!css) return '';
-	    var key = renderer.hash(css);
-
-	    if (!cache[key]) {
-	      cache[key] = renderer.rule(css, key);
-	    }
-
-	    return cache[key];
-	  };
-	};
-
-	var addon$1 = function addon(renderer) {
-	  renderer.selector = function (parentSelectors, selector) {
-	    var parents = parentSelectors.split(',');
-	    var result = [];
-	    var selectors = selector.split(',');
-	    var len1 = parents.length;
-	    var len2 = selectors.length;
-	    var i, j, sel, pos, parent, replacedSelector;
-
-	    for (i = 0; i < len2; i++) {
-	      sel = selectors[i];
-	      pos = indexOf$3(sel).call(sel, '&');
-
-	      if (pos > -1) {
-	        for (j = 0; j < len1; j++) {
-	          parent = parents[j];
-	          replacedSelector = sel.replace(/&/g, parent);
-	          result.push(replacedSelector);
-	        }
-	      } else {
-	        for (j = 0; j < len1; j++) {
-	          parent = parents[j];
-
-	          if (parent) {
-	            result.push(parent + ' ' + sel);
-	          } else {
-	            result.push(sel);
-	          }
-	        }
-	      }
-	    }
-
-	    return result.join(',');
-	  };
-	};
-
-	var capitalizeString_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = capitalizeString;
-	function capitalizeString(str) {
-	  return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-	module.exports = exports["default"];
-	});
-
-	unwrapExports(capitalizeString_1);
-
-	var prefixProperty_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = prefixProperty;
-
-
-
-	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function prefixProperty(prefixProperties, property, style) {
-	  if (prefixProperties.hasOwnProperty(property)) {
-	    var newStyle = {};
-	    var requiredPrefixes = prefixProperties[property];
-	    var capitalizedProperty = (0, _capitalizeString2.default)(property);
-	    var keys = Object.keys(style);
-	    for (var i = 0; i < keys.length; i++) {
-	      var styleProperty = keys[i];
-	      if (styleProperty === property) {
-	        for (var j = 0; j < requiredPrefixes.length; j++) {
-	          newStyle[requiredPrefixes[j] + capitalizedProperty] = style[property];
-	        }
-	      }
-	      newStyle[styleProperty] = style[styleProperty];
-	    }
-	    return newStyle;
-	  }
-	  return style;
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(prefixProperty_1);
-
-	var prefixValue_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = prefixValue;
-	function prefixValue(plugins, property, value, style, metaData) {
-	  for (var i = 0, len = plugins.length; i < len; ++i) {
-	    var processedValue = plugins[i](property, value, style, metaData);
-
-	    // we can stop processing if a value is returned
-	    // as all plugin criteria are unique
-	    if (processedValue) {
-	      return processedValue;
-	    }
-	  }
-	}
-	module.exports = exports["default"];
-	});
-
-	unwrapExports(prefixValue_1);
-
-	var addNewValuesOnly_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = addNewValuesOnly;
-	function addIfNew(list, value) {
-	  if (list.indexOf(value) === -1) {
-	    list.push(value);
-	  }
-	}
-
-	function addNewValuesOnly(list, values) {
-	  if (Array.isArray(values)) {
-	    for (var i = 0, len = values.length; i < len; ++i) {
-	      addIfNew(list, values[i]);
-	    }
-	  } else {
-	    addIfNew(list, values);
-	  }
-	}
-	module.exports = exports["default"];
-	});
-
-	unwrapExports(addNewValuesOnly_1);
-
-	var isObject_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = isObject;
-	function isObject(value) {
-	  return value instanceof Object && !Array.isArray(value);
-	}
-	module.exports = exports["default"];
-	});
-
-	unwrapExports(isObject_1);
-
-	var createPrefixer_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = createPrefixer;
-
-
-
-	var _prefixProperty2 = _interopRequireDefault(prefixProperty_1);
-
-
-
-	var _prefixValue2 = _interopRequireDefault(prefixValue_1);
-
-
-
-	var _addNewValuesOnly2 = _interopRequireDefault(addNewValuesOnly_1);
-
-
-
-	var _isObject2 = _interopRequireDefault(isObject_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function createPrefixer(_ref) {
-	  var prefixMap = _ref.prefixMap,
-	      plugins = _ref.plugins;
-
-	  function prefixAll(style) {
-	    for (var property in style) {
-	      var value = style[property];
-
-	      // handle nested objects
-	      if ((0, _isObject2.default)(value)) {
-	        style[property] = prefixAll(value);
-	        // handle array values
-	      } else if (Array.isArray(value)) {
-	        var combinedValue = [];
-
-	        for (var i = 0, len = value.length; i < len; ++i) {
-	          var processedValue = (0, _prefixValue2.default)(plugins, property, value[i], style, prefixMap);
-	          (0, _addNewValuesOnly2.default)(combinedValue, processedValue || value[i]);
-	        }
-
-	        // only modify the value if it was touched
-	        // by any plugin to prevent unnecessary mutations
-	        if (combinedValue.length > 0) {
-	          style[property] = combinedValue;
-	        }
-	      } else {
-	        var _processedValue = (0, _prefixValue2.default)(plugins, property, value, style, prefixMap);
-
-	        // only modify the value if it was touched
-	        // by any plugin to prevent unnecessary mutations
-	        if (_processedValue) {
-	          style[property] = _processedValue;
-	        }
-
-	        style = (0, _prefixProperty2.default)(prefixMap, property, style);
-	      }
-	    }
-
-	    return style;
-	  }
-
-	  return prefixAll;
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(createPrefixer_1);
-
-	var staticData = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var w = ["Webkit"];
-	var m = ["Moz"];
-	var ms = ["ms"];
-	var wm = ["Webkit", "Moz"];
-	var wms = ["Webkit", "ms"];
-	var wmms = ["Webkit", "Moz", "ms"];
-
-	exports.default = {
-	  plugins: [],
-	  prefixMap: { "appearance": wm, "textEmphasisPosition": w, "textEmphasis": w, "textEmphasisStyle": w, "textEmphasisColor": w, "boxDecorationBreak": w, "maskImage": w, "maskMode": w, "maskRepeat": w, "maskPosition": w, "maskClip": w, "maskOrigin": w, "maskSize": w, "maskComposite": w, "mask": w, "maskBorderSource": w, "maskBorderMode": w, "maskBorderSlice": w, "maskBorderWidth": w, "maskBorderOutset": w, "maskBorderRepeat": w, "maskBorder": w, "maskType": w, "textDecorationStyle": w, "textDecorationSkip": w, "textDecorationLine": w, "textDecorationColor": w, "userSelect": wmms, "backdropFilter": w, "fontKerning": w, "scrollSnapType": wms, "scrollSnapPointsX": wms, "scrollSnapPointsY": wms, "scrollSnapDestination": wms, "scrollSnapCoordinate": wms, "clipPath": w, "shapeImageThreshold": w, "shapeImageMargin": w, "shapeImageOutside": w, "filter": w, "hyphens": wms, "flowInto": wms, "flowFrom": wms, "breakBefore": wms, "breakAfter": wms, "breakInside": wms, "regionFragment": wms, "writingMode": wms, "textOrientation": w, "tabSize": m, "fontFeatureSettings": w, "columnCount": w, "columnFill": w, "columnGap": w, "columnRule": w, "columnRuleColor": w, "columnRuleStyle": w, "columnRuleWidth": w, "columns": w, "columnSpan": w, "columnWidth": w, "wrapFlow": ms, "wrapThrough": ms, "wrapMargin": ms, "gridTemplateColumns": ms, "gridTemplateRows": ms, "gridTemplateAreas": ms, "gridTemplate": ms, "gridAutoColumns": ms, "gridAutoRows": ms, "gridAutoFlow": ms, "grid": ms, "gridRowStart": ms, "gridColumnStart": ms, "gridRowEnd": ms, "gridRow": ms, "gridColumn": ms, "gridColumnEnd": ms, "gridColumnGap": ms, "gridRowGap": ms, "gridArea": ms, "gridGap": ms, "textSizeAdjust": wms }
-	};
-	module.exports = exports["default"];
-	});
-
-	unwrapExports(staticData);
-
-	var cursor_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = cursor;
-	var prefixes = ['-webkit-', '-moz-', ''];
-
-	var values = {
-	  'zoom-in': true,
-	  'zoom-out': true,
-	  grab: true,
-	  grabbing: true
-	};
-
-	function cursor(property, value) {
-	  if (property === 'cursor' && values.hasOwnProperty(value)) {
-	    return prefixes.map(function (prefix) {
-	      return prefix + value;
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(cursor_1);
-
-	var isPrefixedValue_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = isPrefixedValue;
-	var regex = /-webkit-|-moz-|-ms-/;
-
-	function isPrefixedValue(value) {
-	  return typeof value === 'string' && regex.test(value);
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(isPrefixedValue_1);
-
-	var crossFade_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = crossFade;
-
-
-
-	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// http://caniuse.com/#search=cross-fade
-	var prefixes = ['-webkit-', ''];
-	function crossFade(property, value) {
-	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('cross-fade(') > -1) {
-	    return prefixes.map(function (prefix) {
-	      return value.replace(/cross-fade\(/g, prefix + 'cross-fade(');
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(crossFade_1);
-
-	var filter_1$1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = filter;
-
-
-
-	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// http://caniuse.com/#feat=css-filter-function
-	var prefixes = ['-webkit-', ''];
-	function filter(property, value) {
-	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('filter(') > -1) {
-	    return prefixes.map(function (prefix) {
-	      return value.replace(/filter\(/g, prefix + 'filter(');
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(filter_1$1);
-
-	var flex_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = flex;
-	var values = {
-	  flex: ['-webkit-box', '-moz-box', '-ms-flexbox', '-webkit-flex', 'flex'],
-	  'inline-flex': ['-webkit-inline-box', '-moz-inline-box', '-ms-inline-flexbox', '-webkit-inline-flex', 'inline-flex']
-	};
-
-	function flex(property, value) {
-	  if (property === 'display' && values.hasOwnProperty(value)) {
-	    return values[value];
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(flex_1);
-
-	var flexboxOld_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = flexboxOld;
-	var alternativeValues = {
-	  'space-around': 'justify',
-	  'space-between': 'justify',
-	  'flex-start': 'start',
-	  'flex-end': 'end',
-	  'wrap-reverse': 'multiple',
-	  wrap: 'multiple',
-	  flex: 'box',
-	  'inline-flex': 'inline-box'
-	};
-
-	var alternativeProps = {
-	  alignItems: 'WebkitBoxAlign',
-	  justifyContent: 'WebkitBoxPack',
-	  flexWrap: 'WebkitBoxLines',
-	  flexGrow: 'WebkitBoxFlex'
-	};
-
-	function flexboxOld(property, value, style) {
-	  if (property === 'flexDirection' && typeof value === 'string') {
-	    if (value.indexOf('column') > -1) {
-	      style.WebkitBoxOrient = 'vertical';
-	    } else {
-	      style.WebkitBoxOrient = 'horizontal';
-	    }
-	    if (value.indexOf('reverse') > -1) {
-	      style.WebkitBoxDirection = 'reverse';
-	    } else {
-	      style.WebkitBoxDirection = 'normal';
-	    }
-	  }
-	  if (alternativeProps.hasOwnProperty(property)) {
-	    style[alternativeProps[property]] = alternativeValues[value] || value;
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(flexboxOld_1);
-
-	var gradient_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = gradient;
-
-
-
-	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var prefixes = ['-webkit-', '-moz-', ''];
-
-	var values = /linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient/gi;
-
-	function gradient(property, value) {
-	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && values.test(value)) {
-	    return prefixes.map(function (prefix) {
-	      return value.replace(values, function (grad) {
-	        return prefix + grad;
-	      });
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(gradient_1);
-
-	var imageSet_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = imageSet;
-
-
-
-	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// http://caniuse.com/#feat=css-image-set
-	var prefixes = ['-webkit-', ''];
-	function imageSet(property, value) {
-	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('image-set(') > -1) {
-	    return prefixes.map(function (prefix) {
-	      return value.replace(/image-set\(/g, prefix + 'image-set(');
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(imageSet_1);
-
-	var position_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = position;
-	function position(property, value) {
-	  if (property === 'position' && value === 'sticky') {
-	    return ['-webkit-sticky', 'sticky'];
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(position_1);
-
-	var sizing_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = sizing;
-	var prefixes = ['-webkit-', '-moz-', ''];
-
-	var properties = {
-	  maxHeight: true,
-	  maxWidth: true,
-	  width: true,
-	  height: true,
-	  columnWidth: true,
-	  minWidth: true,
-	  minHeight: true
-	};
-	var values = {
-	  'min-content': true,
-	  'max-content': true,
-	  'fill-available': true,
-	  'fit-content': true,
-	  'contain-floats': true
-	};
-
-	function sizing(property, value) {
-	  if (properties.hasOwnProperty(property) && values.hasOwnProperty(value)) {
-	    return prefixes.map(function (prefix) {
-	      return prefix + value;
-	    });
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(sizing_1);
-
-	/* eslint-disable no-var, prefer-template */
-	var uppercasePattern = /[A-Z]/g;
-	var msPattern = /^ms-/;
-	var cache = {};
-
-	function toHyphenLower(match) {
-	  return '-' + match.toLowerCase()
-	}
-
-	function hyphenateStyleName(name) {
-	  if (cache.hasOwnProperty(name)) {
-	    return cache[name]
-	  }
-
-	  var hName = name.replace(uppercasePattern, toHyphenLower);
-	  return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
-	}
-
-	var hyphenateProperty_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = hyphenateProperty;
-
-
-
-	var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function hyphenateProperty(property) {
-	  return (0, _hyphenateStyleName2.default)(property);
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(hyphenateProperty_1);
-
-	var transition_1 = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = transition;
-
-
-
-	var _hyphenateProperty2 = _interopRequireDefault(hyphenateProperty_1);
-
-
-
-	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
-
-
-
-	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var properties = {
-	  transition: true,
-	  transitionProperty: true,
-	  WebkitTransition: true,
-	  WebkitTransitionProperty: true,
-	  MozTransition: true,
-	  MozTransitionProperty: true
-	};
-
-
-	var prefixMapping = {
-	  Webkit: '-webkit-',
-	  Moz: '-moz-',
-	  ms: '-ms-'
-	};
-
-	function prefixValue(value, propertyPrefixMap) {
-	  if ((0, _isPrefixedValue2.default)(value)) {
-	    return value;
-	  }
-
-	  // only split multi values, not cubic beziers
-	  var multipleValues = value.split(/,(?![^()]*(?:\([^()]*\))?\))/g);
-
-	  for (var i = 0, len = multipleValues.length; i < len; ++i) {
-	    var singleValue = multipleValues[i];
-	    var values = [singleValue];
-	    for (var property in propertyPrefixMap) {
-	      var dashCaseProperty = (0, _hyphenateProperty2.default)(property);
-
-	      if (singleValue.indexOf(dashCaseProperty) > -1 && dashCaseProperty !== 'order') {
-	        var prefixes = propertyPrefixMap[property];
-	        for (var j = 0, pLen = prefixes.length; j < pLen; ++j) {
-	          // join all prefixes and create a new value
-	          values.unshift(singleValue.replace(dashCaseProperty, prefixMapping[prefixes[j]] + dashCaseProperty));
-	        }
-	      }
-	    }
-
-	    multipleValues[i] = values.join(',');
-	  }
-
-	  return multipleValues.join(',');
-	}
-
-	function transition(property, value, style, propertyPrefixMap) {
-	  // also check for already prefixed transitions
-	  if (typeof value === 'string' && properties.hasOwnProperty(property)) {
-	    var outputValue = prefixValue(value, propertyPrefixMap);
-	    // if the property is already prefixed
-	    var webkitOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
-	      return !/-moz-|-ms-/.test(val);
-	    }).join(',');
-
-	    if (property.indexOf('Webkit') > -1) {
-	      return webkitOutput;
-	    }
-
-	    var mozOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
-	      return !/-webkit-|-ms-/.test(val);
-	    }).join(',');
-
-	    if (property.indexOf('Moz') > -1) {
-	      return mozOutput;
-	    }
-
-	    style['Webkit' + (0, _capitalizeString2.default)(property)] = webkitOutput;
-	    style['Moz' + (0, _capitalizeString2.default)(property)] = mozOutput;
-	    return outputValue;
-	  }
-	}
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(transition_1);
-
-	var _static = createCommonjsModule(function (module, exports) {
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-
-
-	var _createPrefixer2 = _interopRequireDefault(createPrefixer_1);
-
-
-
-	var _staticData2 = _interopRequireDefault(staticData);
-
-
-
-	var _cursor2 = _interopRequireDefault(cursor_1);
-
-
-
-	var _crossFade2 = _interopRequireDefault(crossFade_1);
-
-
-
-	var _filter2 = _interopRequireDefault(filter_1$1);
-
-
-
-	var _flex2 = _interopRequireDefault(flex_1);
-
-
-
-	var _flexboxOld2 = _interopRequireDefault(flexboxOld_1);
-
-
-
-	var _gradient2 = _interopRequireDefault(gradient_1);
-
-
-
-	var _imageSet2 = _interopRequireDefault(imageSet_1);
-
-
-
-	var _position2 = _interopRequireDefault(position_1);
-
-
-
-	var _sizing2 = _interopRequireDefault(sizing_1);
-
-
-
-	var _transition2 = _interopRequireDefault(transition_1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var plugins = [_crossFade2.default, _cursor2.default, _filter2.default, _flexboxOld2.default, _gradient2.default, _imageSet2.default, _position2.default, _sizing2.default, _transition2.default, _flex2.default];
-
-	exports.default = (0, _createPrefixer2.default)({
-	  prefixMap: _staticData2.default.prefixMap,
-	  plugins: plugins
-	});
-	module.exports = exports['default'];
-	});
-
-	unwrapExports(_static);
-
-	var CAMEL_REGEX = /-[a-z\u00E0-\u00F6\u00F8-\u00FE]/g;
-
-	var matchCallback = function matchCallback(match) {
-	  return slice$2(match).call(match, 1).toUpperCase();
-	};
-
-	var addon$2 = function addon(renderer) {
-	  var decl = renderer.decl;
-	  var origPut = renderer.put;
-
-	  renderer.camel = function (prop) {
-	    return prop.replace(CAMEL_REGEX, matchCallback);
-	  };
-
-	  renderer.prefix = function (prop, value) {
-	    var obj = {};
-	    obj[renderer.camel(prop)] = value;
-	    obj = _static(obj);
-	    var result = {};
-
-	    for (var propPrefixed in obj) {
-	      value = obj[propPrefixed];
-
-	      if (slice$2(propPrefixed).call(propPrefixed, 0, 2) === 'ms') {
-	        propPrefixed = 'M' + slice$2(propPrefixed).call(propPrefixed, 1);
-	      }
-
-	      propPrefixed = renderer.kebab(propPrefixed);
-
-	      if (value instanceof Array) {
-	        result[propPrefixed] = value.join(';' + propPrefixed + ':');
-	      } else {
-	        result[propPrefixed] = value;
-	      }
-	    }
-
-	    return result;
-	  };
-
-	  renderer.decl = function (prop, value) {
-	    var _context;
-
-	    var result = renderer.prefix(prop, value);
-	    var returned = '';
-
-	    forEach$2(_context = keys$3(result)).call(_context, function (key) {
-	      var str = decl(key, value);
-	      returned += str;
-	    });
-
-	    return returned;
-	  };
-
-	  function newPut(selector, decls, atrule) {
-	    var indexed = indexOf$3(selector).call(selector, '::placeholder');
-
-	    if (indexed > -1) {
-	      var _context2;
-
-	      var split = selector.split(',');
-
-	      if (split.length > 1) {
-	        forEach$2(split).call(split, function (sp) {
-	          newPut(trim$2(sp).call(sp), decls, atrule);
-	        });
-
-	        return;
-	      }
-
-	      var bareSelect = selector.substring(0, indexed);
-
-	      forEach$2(_context2 = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-ms-input-placeholder', ':-moz-placeholder']).call(_context2, function (ph) {
-	        origPut(bareSelect + ph, decls, atrule);
-	      });
-	    }
-
-	    origPut(selector, decls, atrule);
-	  }
-
-	  renderer.put = newPut;
-	};
-
-	var addon$3 = function addon(renderer) {
-
-	  renderer.rule = function (css, block) {
-
-	    block = block || renderer.hash(css);
-	    block = renderer.pfx + block;
-	    renderer.put('.' + block, css);
-	    return ' ' + block;
-	  };
-	};
-
-	var addon$4 = function addon(renderer) {
-
-	  renderer.sheet = function (map, block) {
-	    var result = {};
-
-	    if (!block) {
-	      block = renderer.hash(map);
-	    }
-
-	    var onElementModifier = function onElementModifier(elementModifier) {
-	      var styles = map[elementModifier];
-
-	      {
-	        defineProperty$7(result, elementModifier, {
-	          configurable: true,
-	          enumerable: true,
-	          get: function get() {
-	            var classNames = renderer.rule(styles, block + '-' + elementModifier);
-
-	            defineProperty$7(result, elementModifier, {
-	              value: classNames,
-	              enumerable: true
-	            });
-
-	            return classNames;
-	          }
-	        });
-	      }
-	    };
-
-	    for (var elementModifier in map) {
-	      onElementModifier(elementModifier);
-	    }
-
-	    return result;
-	  };
-	};
-
-	function setupNano(classPrefix) {
-	  var nano = create$3({
-	    // Add prefix to all generated class names.
-	    pfx: normalizePrefix(classPrefix)
-	  });
-	  addon(nano);
-	  addon$1(nano);
-	  addon$2(nano);
-	  addon$3(nano);
-	  addon$4(nano);
-	  return nano;
-	}
-
-	var Modal =
-	/*#__PURE__*/
-	function () {
-	  function Modal() {
-	    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-	    classCallCheck(this, Modal);
-
-	    this.createModalOverlay();
-	    this.options = options;
-	    var nano = setupNano(options.classPrefix);
-	    nano.put('#shepherdModalOverlayContainer', {
-	      '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
-	      filter: 'alpha(opacity=50)',
-	      height: '100vh',
-	      left: 0,
-	      opacity: 0.5,
-	      position: 'fixed',
-	      top: 0,
-	      transition: 'all 0.3s ease-out',
-	      width: '100vw',
-	      zIndex: 9997,
-	      '#shepherdModalMask': {
-	        '#shepherdModalMaskRect': {
-	          height: '100vh',
-	          width: '100vw'
-	        }
-	      }
-	    });
-	    autoBind(this);
-	    return this;
-	  }
-	  /**
-	   * Removes svg mask from modal overlay and removes classes for modal being visible
-	   */
-
-
-	  createClass(Modal, [{
-	    key: "cleanup",
-	    value: function cleanup() {
-	      var element = this._modalOverlayElem;
-
-	      if (element && element instanceof SVGElement) {
-	        element.parentNode.removeChild(element);
-	      }
-
-	      this._modalOverlayElem = null;
-	      document.body.classList.remove(classNames.isVisible);
-	    }
-	    /**
-	     * Create the modal overlay, if it does not already exist
-	     */
-
-	  }, {
-	    key: "createModalOverlay",
-	    value: function createModalOverlay$1() {
-	      if (!this._modalOverlayElem) {
-	        var existingModal = document.getElementById('shepherdModalOverlayContainer');
-	        this._modalOverlayElem = existingModal || createModalOverlay();
-	        this._modalOverlayOpening = getModalMaskOpening(this._modalOverlayElem); // don't show yet -- each step will control that
-
-	        this.hide(); // Only add to the DOM if this is a new modal, not reusing another one
-
-	        if (!existingModal) {
-	          document.body.appendChild(this._modalOverlayElem);
-	        }
-	      }
-	    }
-	    /**
-	     * Hide the modal overlay
-	     */
-
-	  }, {
-	    key: "hide",
-	    value: function hide() {
-	      document.body.classList.remove(classNames.isVisible);
-
-	      if (this._modalOverlayElem) {
-	        this._modalOverlayElem.style.display = 'none';
-	      }
-	    }
-	    /**
-	     * If modal is enabled, setup the svg mask opening and modal overlay for the step
-	     * @param {Step} step The step instance
-	     */
-
-	  }, {
-	    key: "setupForStep",
-	    value: function setupForStep(step) {
-	      if (this.options.useModalOverlay) {
-	        this._styleForStep(step);
-
-	        this.show();
-	      } else {
-	        this.hide();
-	      }
-	    }
-	    /**
-	     * Show the modal overlay
-	     */
-
-	  }, {
-	    key: "show",
-	    value: function show() {
-	      document.body.classList.add(classNames.isVisible);
-
-	      if (this._modalOverlayElem) {
-	        this._modalOverlayElem.style.display = 'block';
-	      }
-	    }
-	    /**
-	     * Style the modal for the step
-	     * @param {Step} step The step to style the opening for
-	     * @private
-	     */
-
-	  }, {
-	    key: "_styleForStep",
-	    value: function _styleForStep(step) {
-	      var modalOverlayOpening = this._modalOverlayOpening;
-	      var targetElement = getElementForStep(step);
-	      var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
-
-	      if (targetElement) {
-	        positionModalOpening(targetElement, modalOverlayOpening, modalOverlayOpeningPadding);
-	        this._onScreenChange = debounce$2(bind$2(positionModalOpening).call(positionModalOpening, this, targetElement, modalOverlayOpening, modalOverlayOpeningPadding), 0);
-	        addStepEventListeners.call(this);
-	      } else {
-	        closeModalOpening(this._modalOverlayOpening);
-	      }
-	    }
-	  }]);
-
-	  return Modal;
-	}();
 
 	var defaults = {
 	  trigger: 'manual',
@@ -10122,14 +8989,13 @@
 	 * Cleanup the steps and set pointerEvents back to 'auto'
 	 * @param tour The tour object
 	 */
-
 	function cleanupSteps(tour) {
 	  if (tour) {
 	    var steps = tour.steps;
 
 	    forEach$2(steps).call(steps, function (step) {
 	      if (step.options && step.options.canClickTarget === false && step.options.attachTo) {
-	        var stepElement = getElementForStep(step);
+	        var stepElement = step.target;
 
 	        if (stepElement instanceof HTMLElement) {
 	          stepElement.style.pointerEvents = 'auto';
@@ -10137,21 +9003,6 @@
 	      }
 	    });
 	  }
-	}
-	/**
-	 * Remove resize and scroll event listeners
-	 */
-
-	function cleanupStepEventListeners() {
-	  if (typeof this._onScreenChange === 'function') {
-	    window.removeEventListener('resize', this._onScreenChange, false);
-	    window.removeEventListener('scroll', this._onScreenChange, false);
-	    this._onScreenChange = null;
-	  }
-
-	  window.removeEventListener('touchmove', preventModalBodyTouch, {
-	    passive: false
-	  });
 	}
 
 	function _extends$2() {
@@ -11244,7 +10095,7 @@
 	};
 	function getVariables(options) {
 	  if (options.styleVariables) {
-	    assign$2(styles, options.styleVariables);
+	    _extends_1(styles, options.styleVariables);
 	  }
 
 	  if (!styles.shepherdHeaderBackground) {
@@ -11282,28 +10133,1003 @@
 	  }
 	}
 
-	function ownKeys$5(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$6(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+	var $JSON = path.JSON || (path.JSON = { stringify: JSON.stringify });
 
-	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context5; forEach$2(_context5 = ownKeys$5(source, true)).call(_context5, function (key) { defineProperty$8(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context6; forEach$2(_context6 = ownKeys$5(source)).call(_context6, function (key) { defineProperty$7(target, key, getOwnPropertyDescriptor$6(source, key)); }); } } return target; }
-	function generateStyles(options) {
-	  var _context, _context2, _context3, _shepherdModalIs, _context4, _xPlacementBott, _$concat2;
+	var stringify = function stringify(it) { // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
 
-	  var variables = getVariables(options);
-	  var nano = setupNano(options.classPrefix);
-	  var classPrefix = normalizePrefix(options.classPrefix);
-	  var tippyPrefix = normalizePrefix(options.tippyClassPrefix);
-	  var styles = {
-	    active: {
-	      '&.shepherd-modal-is-visible': (_shepherdModalIs = {}, defineProperty$8(_shepherdModalIs, ":not(.".concat(classPrefix, "shepherd-target)"), {
-	        pointerEvents: 'none'
-	      }), defineProperty$8(_shepherdModalIs, concat$2(_context = concat$2(_context2 = concat$2(_context3 = ".".concat(classPrefix, "shepherd-button, .")).call(_context3, classPrefix, "shepherd-cancel-link, .")).call(_context2, classPrefix, "shepherd-element, .")).call(_context, classPrefix, "shepherd-target"), {
-	        pointerEvents: 'auto',
-	        '*': {
-	          pointerEvents: 'auto'
-	        }
-	      }), _shepherdModalIs)
+	var stringify$1 = stringify;
+
+	var stringify$2 = stringify$1;
+
+	var assign$3 = assign;
+
+	var assign$4 = assign$3;
+
+	var KEBAB_REGEX = /[A-Z]/g;
+
+	var _hash = function hash(str) {
+	  var hash = 5381,
+	      i = str.length;
+
+	  while (i) {
+	    hash = hash * 33 ^ str.charCodeAt(--i);
+	  }
+
+	  return '_' + (hash >>> 0).toString(36);
+	};
+
+	var create$3 = function create(config) {
+	  config = config || {};
+	  var assign = config.assign || assign$4;
+	  var client = (typeof window === "undefined" ? "undefined" : _typeof_1(window)) === 'object'; // Check if we are really in browser environment.
+
+	  var renderer = assign({
+	    raw: '',
+	    pfx: '_',
+	    client: client,
+	    assign: assign,
+	    stringify: stringify$2,
+	    kebab: function kebab(prop) {
+	      return prop.replace(KEBAB_REGEX, '-$&').toLowerCase();
 	    },
-	    button: defineProperty$8({
+	    decl: function decl(key, value) {
+	      key = renderer.kebab(key);
+	      return key + ':' + value + ';';
+	    },
+	    hash: function hash(obj) {
+	      return _hash(renderer.stringify(obj));
+	    },
+	    selector: function selector(parent, _selector) {
+	      return parent + (_selector[0] === ':' ? '' : ' ') + _selector;
+	    },
+	    putRaw: function putRaw(rawCssRule) {
+	      renderer.raw += rawCssRule;
+	    }
+	  }, config);
+
+	  if (renderer.client) {
+	    if (!renderer.sh) document.head.appendChild(renderer.sh = document.createElement('style'));
+
+	    renderer.putRaw = function (rawCssRule) {
+	      // .insertRule() is faster than .appendChild(), that's why we use it in PROD.
+	      // But CSS injected using .insertRule() is not displayed in Chrome Devtools,
+	      // that's why we use .appendChild in DEV.
+	      {
+	        var sheet = renderer.sh.sheet; // Unknown pseudo-selectors will throw, this try/catch swallows all errors.
+
+	        try {
+	          sheet.insertRule(rawCssRule, sheet.cssRules.length); // eslint-disable-next-line no-empty
+	        } catch (error) {}
+	      }
+	    };
+	  }
+
+	  renderer.put = function (selector, decls, atrule) {
+	    var str = '';
+	    var prop, value;
+	    var postponed = [];
+
+	    for (prop in decls) {
+	      value = decls[prop];
+
+	      if (value instanceof Object && !(value instanceof Array)) {
+	        postponed.push(prop);
+	      } else {
+	        {
+	          str += renderer.decl(prop, value, selector, atrule);
+	        }
+	      }
+	    }
+
+	    if (str) {
+	      {
+	        str = selector + '{' + str + '}';
+	      }
+
+	      renderer.putRaw(atrule ? atrule + '{' + str + '}' : str);
+	    }
+
+	    for (var i = 0; i < postponed.length; i++) {
+	      prop = postponed[i];
+
+	      if (prop[0] === "@" && prop !== "@font-face") {
+	        renderer.putAt(selector, decls[prop], prop);
+	      } else {
+	        renderer.put(renderer.selector(selector, prop), decls[prop], atrule);
+	      }
+	    }
+	  };
+
+	  renderer.putAt = renderer.put;
+	  return renderer;
+	};
+
+	var addon = function addon(renderer) {
+	  var cache = {};
+
+	  renderer.cache = function (css) {
+	    if (!css) return '';
+	    var key = renderer.hash(css);
+
+	    if (!cache[key]) {
+	      cache[key] = renderer.rule(css, key);
+	    }
+
+	    return cache[key];
+	  };
+	};
+
+	var addon$1 = function addon(renderer) {
+	  renderer.selector = function (parentSelectors, selector) {
+	    var parents = parentSelectors.split(',');
+	    var result = [];
+	    var selectors = selector.split(',');
+	    var len1 = parents.length;
+	    var len2 = selectors.length;
+	    var i, j, sel, pos, parent, replacedSelector;
+
+	    for (i = 0; i < len2; i++) {
+	      sel = selectors[i];
+	      pos = indexOf$3(sel).call(sel, '&');
+
+	      if (pos > -1) {
+	        for (j = 0; j < len1; j++) {
+	          parent = parents[j];
+	          replacedSelector = sel.replace(/&/g, parent);
+	          result.push(replacedSelector);
+	        }
+	      } else {
+	        for (j = 0; j < len1; j++) {
+	          parent = parents[j];
+
+	          if (parent) {
+	            result.push(parent + ' ' + sel);
+	          } else {
+	            result.push(sel);
+	          }
+	        }
+	      }
+	    }
+
+	    return result.join(',');
+	  };
+	};
+
+	var capitalizeString_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = capitalizeString;
+	function capitalizeString(str) {
+	  return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(capitalizeString_1);
+
+	var prefixProperty_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = prefixProperty;
+
+
+
+	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function prefixProperty(prefixProperties, property, style) {
+	  if (prefixProperties.hasOwnProperty(property)) {
+	    var newStyle = {};
+	    var requiredPrefixes = prefixProperties[property];
+	    var capitalizedProperty = (0, _capitalizeString2.default)(property);
+	    var keys = Object.keys(style);
+	    for (var i = 0; i < keys.length; i++) {
+	      var styleProperty = keys[i];
+	      if (styleProperty === property) {
+	        for (var j = 0; j < requiredPrefixes.length; j++) {
+	          newStyle[requiredPrefixes[j] + capitalizedProperty] = style[property];
+	        }
+	      }
+	      newStyle[styleProperty] = style[styleProperty];
+	    }
+	    return newStyle;
+	  }
+	  return style;
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(prefixProperty_1);
+
+	var prefixValue_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = prefixValue;
+	function prefixValue(plugins, property, value, style, metaData) {
+	  for (var i = 0, len = plugins.length; i < len; ++i) {
+	    var processedValue = plugins[i](property, value, style, metaData);
+
+	    // we can stop processing if a value is returned
+	    // as all plugin criteria are unique
+	    if (processedValue) {
+	      return processedValue;
+	    }
+	  }
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(prefixValue_1);
+
+	var addNewValuesOnly_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = addNewValuesOnly;
+	function addIfNew(list, value) {
+	  if (list.indexOf(value) === -1) {
+	    list.push(value);
+	  }
+	}
+
+	function addNewValuesOnly(list, values) {
+	  if (Array.isArray(values)) {
+	    for (var i = 0, len = values.length; i < len; ++i) {
+	      addIfNew(list, values[i]);
+	    }
+	  } else {
+	    addIfNew(list, values);
+	  }
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(addNewValuesOnly_1);
+
+	var isObject_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isObject;
+	function isObject(value) {
+	  return value instanceof Object && !Array.isArray(value);
+	}
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(isObject_1);
+
+	var createPrefixer_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = createPrefixer;
+
+
+
+	var _prefixProperty2 = _interopRequireDefault(prefixProperty_1);
+
+
+
+	var _prefixValue2 = _interopRequireDefault(prefixValue_1);
+
+
+
+	var _addNewValuesOnly2 = _interopRequireDefault(addNewValuesOnly_1);
+
+
+
+	var _isObject2 = _interopRequireDefault(isObject_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function createPrefixer(_ref) {
+	  var prefixMap = _ref.prefixMap,
+	      plugins = _ref.plugins;
+
+	  function prefixAll(style) {
+	    for (var property in style) {
+	      var value = style[property];
+
+	      // handle nested objects
+	      if ((0, _isObject2.default)(value)) {
+	        style[property] = prefixAll(value);
+	        // handle array values
+	      } else if (Array.isArray(value)) {
+	        var combinedValue = [];
+
+	        for (var i = 0, len = value.length; i < len; ++i) {
+	          var processedValue = (0, _prefixValue2.default)(plugins, property, value[i], style, prefixMap);
+	          (0, _addNewValuesOnly2.default)(combinedValue, processedValue || value[i]);
+	        }
+
+	        // only modify the value if it was touched
+	        // by any plugin to prevent unnecessary mutations
+	        if (combinedValue.length > 0) {
+	          style[property] = combinedValue;
+	        }
+	      } else {
+	        var _processedValue = (0, _prefixValue2.default)(plugins, property, value, style, prefixMap);
+
+	        // only modify the value if it was touched
+	        // by any plugin to prevent unnecessary mutations
+	        if (_processedValue) {
+	          style[property] = _processedValue;
+	        }
+
+	        style = (0, _prefixProperty2.default)(prefixMap, property, style);
+	      }
+	    }
+
+	    return style;
+	  }
+
+	  return prefixAll;
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(createPrefixer_1);
+
+	var staticData = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var w = ["Webkit"];
+	var m = ["Moz"];
+	var ms = ["ms"];
+	var wm = ["Webkit", "Moz"];
+	var wms = ["Webkit", "ms"];
+	var wmms = ["Webkit", "Moz", "ms"];
+
+	exports.default = {
+	  plugins: [],
+	  prefixMap: { "appearance": wm, "textEmphasisPosition": w, "textEmphasis": w, "textEmphasisStyle": w, "textEmphasisColor": w, "boxDecorationBreak": w, "maskImage": w, "maskMode": w, "maskRepeat": w, "maskPosition": w, "maskClip": w, "maskOrigin": w, "maskSize": w, "maskComposite": w, "mask": w, "maskBorderSource": w, "maskBorderMode": w, "maskBorderSlice": w, "maskBorderWidth": w, "maskBorderOutset": w, "maskBorderRepeat": w, "maskBorder": w, "maskType": w, "textDecorationStyle": w, "textDecorationSkip": w, "textDecorationLine": w, "textDecorationColor": w, "userSelect": wmms, "backdropFilter": w, "fontKerning": w, "scrollSnapType": wms, "scrollSnapPointsX": wms, "scrollSnapPointsY": wms, "scrollSnapDestination": wms, "scrollSnapCoordinate": wms, "clipPath": w, "shapeImageThreshold": w, "shapeImageMargin": w, "shapeImageOutside": w, "filter": w, "hyphens": wms, "flowInto": wms, "flowFrom": wms, "breakBefore": wms, "breakAfter": wms, "breakInside": wms, "regionFragment": wms, "writingMode": wms, "textOrientation": w, "tabSize": m, "fontFeatureSettings": w, "columnCount": w, "columnFill": w, "columnGap": w, "columnRule": w, "columnRuleColor": w, "columnRuleStyle": w, "columnRuleWidth": w, "columns": w, "columnSpan": w, "columnWidth": w, "wrapFlow": ms, "wrapThrough": ms, "wrapMargin": ms, "gridTemplateColumns": ms, "gridTemplateRows": ms, "gridTemplateAreas": ms, "gridTemplate": ms, "gridAutoColumns": ms, "gridAutoRows": ms, "gridAutoFlow": ms, "grid": ms, "gridRowStart": ms, "gridColumnStart": ms, "gridRowEnd": ms, "gridRow": ms, "gridColumn": ms, "gridColumnEnd": ms, "gridColumnGap": ms, "gridRowGap": ms, "gridArea": ms, "gridGap": ms, "textSizeAdjust": wms }
+	};
+	module.exports = exports["default"];
+	});
+
+	unwrapExports(staticData);
+
+	var cursor_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = cursor;
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var values = {
+	  'zoom-in': true,
+	  'zoom-out': true,
+	  grab: true,
+	  grabbing: true
+	};
+
+	function cursor(property, value) {
+	  if (property === 'cursor' && values.hasOwnProperty(value)) {
+	    return prefixes.map(function (prefix) {
+	      return prefix + value;
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(cursor_1);
+
+	var isPrefixedValue_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isPrefixedValue;
+	var regex = /-webkit-|-moz-|-ms-/;
+
+	function isPrefixedValue(value) {
+	  return typeof value === 'string' && regex.test(value);
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(isPrefixedValue_1);
+
+	var crossFade_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = crossFade;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#search=cross-fade
+	var prefixes = ['-webkit-', ''];
+	function crossFade(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('cross-fade(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/cross-fade\(/g, prefix + 'cross-fade(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(crossFade_1);
+
+	var filter_1$1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = filter;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#feat=css-filter-function
+	var prefixes = ['-webkit-', ''];
+	function filter(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('filter(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/filter\(/g, prefix + 'filter(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(filter_1$1);
+
+	var flex_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = flex;
+	var values = {
+	  flex: ['-webkit-box', '-moz-box', '-ms-flexbox', '-webkit-flex', 'flex'],
+	  'inline-flex': ['-webkit-inline-box', '-moz-inline-box', '-ms-inline-flexbox', '-webkit-inline-flex', 'inline-flex']
+	};
+
+	function flex(property, value) {
+	  if (property === 'display' && values.hasOwnProperty(value)) {
+	    return values[value];
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(flex_1);
+
+	var flexboxOld_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = flexboxOld;
+	var alternativeValues = {
+	  'space-around': 'justify',
+	  'space-between': 'justify',
+	  'flex-start': 'start',
+	  'flex-end': 'end',
+	  'wrap-reverse': 'multiple',
+	  wrap: 'multiple',
+	  flex: 'box',
+	  'inline-flex': 'inline-box'
+	};
+
+	var alternativeProps = {
+	  alignItems: 'WebkitBoxAlign',
+	  justifyContent: 'WebkitBoxPack',
+	  flexWrap: 'WebkitBoxLines',
+	  flexGrow: 'WebkitBoxFlex'
+	};
+
+	function flexboxOld(property, value, style) {
+	  if (property === 'flexDirection' && typeof value === 'string') {
+	    if (value.indexOf('column') > -1) {
+	      style.WebkitBoxOrient = 'vertical';
+	    } else {
+	      style.WebkitBoxOrient = 'horizontal';
+	    }
+	    if (value.indexOf('reverse') > -1) {
+	      style.WebkitBoxDirection = 'reverse';
+	    } else {
+	      style.WebkitBoxDirection = 'normal';
+	    }
+	  }
+	  if (alternativeProps.hasOwnProperty(property)) {
+	    style[alternativeProps[property]] = alternativeValues[value] || value;
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(flexboxOld_1);
+
+	var gradient_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = gradient;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var values = /linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient/gi;
+
+	function gradient(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && values.test(value)) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(values, function (grad) {
+	        return prefix + grad;
+	      });
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(gradient_1);
+
+	var imageSet_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = imageSet;
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	// http://caniuse.com/#feat=css-image-set
+	var prefixes = ['-webkit-', ''];
+	function imageSet(property, value) {
+	  if (typeof value === 'string' && !(0, _isPrefixedValue2.default)(value) && value.indexOf('image-set(') > -1) {
+	    return prefixes.map(function (prefix) {
+	      return value.replace(/image-set\(/g, prefix + 'image-set(');
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(imageSet_1);
+
+	var position_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = position;
+	function position(property, value) {
+	  if (property === 'position' && value === 'sticky') {
+	    return ['-webkit-sticky', 'sticky'];
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(position_1);
+
+	var sizing_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = sizing;
+	var prefixes = ['-webkit-', '-moz-', ''];
+
+	var properties = {
+	  maxHeight: true,
+	  maxWidth: true,
+	  width: true,
+	  height: true,
+	  columnWidth: true,
+	  minWidth: true,
+	  minHeight: true
+	};
+	var values = {
+	  'min-content': true,
+	  'max-content': true,
+	  'fill-available': true,
+	  'fit-content': true,
+	  'contain-floats': true
+	};
+
+	function sizing(property, value) {
+	  if (properties.hasOwnProperty(property) && values.hasOwnProperty(value)) {
+	    return prefixes.map(function (prefix) {
+	      return prefix + value;
+	    });
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(sizing_1);
+
+	/* eslint-disable no-var, prefer-template */
+	var uppercasePattern = /[A-Z]/g;
+	var msPattern = /^ms-/;
+	var cache = {};
+
+	function toHyphenLower(match) {
+	  return '-' + match.toLowerCase()
+	}
+
+	function hyphenateStyleName(name) {
+	  if (cache.hasOwnProperty(name)) {
+	    return cache[name]
+	  }
+
+	  var hName = name.replace(uppercasePattern, toHyphenLower);
+	  return (cache[name] = msPattern.test(hName) ? '-' + hName : hName)
+	}
+
+	var hyphenateProperty_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = hyphenateProperty;
+
+
+
+	var _hyphenateStyleName2 = _interopRequireDefault(hyphenateStyleName);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function hyphenateProperty(property) {
+	  return (0, _hyphenateStyleName2.default)(property);
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(hyphenateProperty_1);
+
+	var transition_1 = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = transition;
+
+
+
+	var _hyphenateProperty2 = _interopRequireDefault(hyphenateProperty_1);
+
+
+
+	var _isPrefixedValue2 = _interopRequireDefault(isPrefixedValue_1);
+
+
+
+	var _capitalizeString2 = _interopRequireDefault(capitalizeString_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var properties = {
+	  transition: true,
+	  transitionProperty: true,
+	  WebkitTransition: true,
+	  WebkitTransitionProperty: true,
+	  MozTransition: true,
+	  MozTransitionProperty: true
+	};
+
+
+	var prefixMapping = {
+	  Webkit: '-webkit-',
+	  Moz: '-moz-',
+	  ms: '-ms-'
+	};
+
+	function prefixValue(value, propertyPrefixMap) {
+	  if ((0, _isPrefixedValue2.default)(value)) {
+	    return value;
+	  }
+
+	  // only split multi values, not cubic beziers
+	  var multipleValues = value.split(/,(?![^()]*(?:\([^()]*\))?\))/g);
+
+	  for (var i = 0, len = multipleValues.length; i < len; ++i) {
+	    var singleValue = multipleValues[i];
+	    var values = [singleValue];
+	    for (var property in propertyPrefixMap) {
+	      var dashCaseProperty = (0, _hyphenateProperty2.default)(property);
+
+	      if (singleValue.indexOf(dashCaseProperty) > -1 && dashCaseProperty !== 'order') {
+	        var prefixes = propertyPrefixMap[property];
+	        for (var j = 0, pLen = prefixes.length; j < pLen; ++j) {
+	          // join all prefixes and create a new value
+	          values.unshift(singleValue.replace(dashCaseProperty, prefixMapping[prefixes[j]] + dashCaseProperty));
+	        }
+	      }
+	    }
+
+	    multipleValues[i] = values.join(',');
+	  }
+
+	  return multipleValues.join(',');
+	}
+
+	function transition(property, value, style, propertyPrefixMap) {
+	  // also check for already prefixed transitions
+	  if (typeof value === 'string' && properties.hasOwnProperty(property)) {
+	    var outputValue = prefixValue(value, propertyPrefixMap);
+	    // if the property is already prefixed
+	    var webkitOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
+	      return !/-moz-|-ms-/.test(val);
+	    }).join(',');
+
+	    if (property.indexOf('Webkit') > -1) {
+	      return webkitOutput;
+	    }
+
+	    var mozOutput = outputValue.split(/,(?![^()]*(?:\([^()]*\))?\))/g).filter(function (val) {
+	      return !/-webkit-|-ms-/.test(val);
+	    }).join(',');
+
+	    if (property.indexOf('Moz') > -1) {
+	      return mozOutput;
+	    }
+
+	    style['Webkit' + (0, _capitalizeString2.default)(property)] = webkitOutput;
+	    style['Moz' + (0, _capitalizeString2.default)(property)] = mozOutput;
+	    return outputValue;
+	  }
+	}
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(transition_1);
+
+	var _static = createCommonjsModule(function (module, exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+
+
+	var _createPrefixer2 = _interopRequireDefault(createPrefixer_1);
+
+
+
+	var _staticData2 = _interopRequireDefault(staticData);
+
+
+
+	var _cursor2 = _interopRequireDefault(cursor_1);
+
+
+
+	var _crossFade2 = _interopRequireDefault(crossFade_1);
+
+
+
+	var _filter2 = _interopRequireDefault(filter_1$1);
+
+
+
+	var _flex2 = _interopRequireDefault(flex_1);
+
+
+
+	var _flexboxOld2 = _interopRequireDefault(flexboxOld_1);
+
+
+
+	var _gradient2 = _interopRequireDefault(gradient_1);
+
+
+
+	var _imageSet2 = _interopRequireDefault(imageSet_1);
+
+
+
+	var _position2 = _interopRequireDefault(position_1);
+
+
+
+	var _sizing2 = _interopRequireDefault(sizing_1);
+
+
+
+	var _transition2 = _interopRequireDefault(transition_1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var plugins = [_crossFade2.default, _cursor2.default, _filter2.default, _flexboxOld2.default, _gradient2.default, _imageSet2.default, _position2.default, _sizing2.default, _transition2.default, _flex2.default];
+
+	exports.default = (0, _createPrefixer2.default)({
+	  prefixMap: _staticData2.default.prefixMap,
+	  plugins: plugins
+	});
+	module.exports = exports['default'];
+	});
+
+	unwrapExports(_static);
+
+	var CAMEL_REGEX = /-[a-z\u00E0-\u00F6\u00F8-\u00FE]/g;
+
+	var matchCallback = function matchCallback(match) {
+	  return slice$2(match).call(match, 1).toUpperCase();
+	};
+
+	var addon$2 = function addon(renderer) {
+	  var decl = renderer.decl;
+	  var origPut = renderer.put;
+
+	  renderer.camel = function (prop) {
+	    return prop.replace(CAMEL_REGEX, matchCallback);
+	  };
+
+	  renderer.prefix = function (prop, value) {
+	    var obj = {};
+	    obj[renderer.camel(prop)] = value;
+	    obj = _static(obj);
+	    var result = {};
+
+	    for (var propPrefixed in obj) {
+	      value = obj[propPrefixed];
+
+	      if (slice$2(propPrefixed).call(propPrefixed, 0, 2) === 'ms') {
+	        propPrefixed = 'M' + slice$2(propPrefixed).call(propPrefixed, 1);
+	      }
+
+	      propPrefixed = renderer.kebab(propPrefixed);
+
+	      if (value instanceof Array) {
+	        result[propPrefixed] = value.join(';' + propPrefixed + ':');
+	      } else {
+	        result[propPrefixed] = value;
+	      }
+	    }
+
+	    return result;
+	  };
+
+	  renderer.decl = function (prop, value) {
+	    var _context;
+
+	    var result = renderer.prefix(prop, value);
+	    var returned = '';
+
+	    forEach$2(_context = keys$3(result)).call(_context, function (key) {
+	      var str = decl(key, value);
+	      returned += str;
+	    });
+
+	    return returned;
+	  };
+
+	  function newPut(selector, decls, atrule) {
+	    var indexed = indexOf$3(selector).call(selector, '::placeholder');
+
+	    if (indexed > -1) {
+	      var _context2;
+
+	      var split = selector.split(',');
+
+	      if (split.length > 1) {
+	        forEach$2(split).call(split, function (sp) {
+	          newPut(trim$2(sp).call(sp), decls, atrule);
+	        });
+
+	        return;
+	      }
+
+	      var bareSelect = selector.substring(0, indexed);
+
+	      forEach$2(_context2 = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-ms-input-placeholder', ':-moz-placeholder']).call(_context2, function (ph) {
+	        origPut(bareSelect + ph, decls, atrule);
+	      });
+	    }
+
+	    origPut(selector, decls, atrule);
+	  }
+
+	  renderer.put = newPut;
+	};
+
+	var addon$3 = function addon(renderer) {
+
+	  renderer.rule = function (css, block) {
+
+	    block = block || renderer.hash(css);
+	    block = renderer.pfx + block;
+	    renderer.put('.' + block, css);
+	    return ' ' + block;
+	  };
+	};
+
+	var addon$4 = function addon(renderer) {
+
+	  renderer.sheet = function (map, block) {
+	    var result = {};
+
+	    if (!block) {
+	      block = renderer.hash(map);
+	    }
+
+	    var onElementModifier = function onElementModifier(elementModifier) {
+	      var styles = map[elementModifier];
+
+	      {
+	        defineProperty$5(result, elementModifier, {
+	          configurable: true,
+	          enumerable: true,
+	          get: function get() {
+	            var classNames = renderer.rule(styles, block + '-' + elementModifier);
+
+	            defineProperty$5(result, elementModifier, {
+	              value: classNames,
+	              enumerable: true
+	            });
+
+	            return classNames;
+	          }
+	        });
+	      }
+	    };
+
+	    for (var elementModifier in map) {
+	      onElementModifier(elementModifier);
+	    }
+
+	    return result;
+	  };
+	};
+
+	var nano = create$3({
+	  h: h,
+	  pfx: ''
+	});
+	addon(nano);
+	addon$1(nano);
+	addon$2(nano);
+	addon$3(nano);
+	addon$4(nano);
+	var put = nano.put,
+	    rule = nano.rule,
+	    sheet = nano.sheet;
+
+	function buttonStyles(classPrefix, variables) {
+	  return {
+	    button: defineProperty$6({
 	      background: variables.shepherdThemePrimary,
 	      borderRadius: variables.shepherdButtonBorderRadius,
 	      border: 0,
@@ -11329,7 +11155,55 @@
 	        background: curriedDarken(0.1, variables.shepherdThemeSecondary),
 	        color: curriedDarken(0.1, variables.shepherdThemeTextSecondary)
 	      }
-	    }),
+	    })
+	  };
+	}
+
+	function contentStyles(variables) {
+	  return {
+	    content: {
+	      background: variables.shepherdTextBackground,
+	      fontSize: 'inherit',
+	      outline: 'none',
+	      padding: 0
+	    }
+	  };
+	}
+
+	function elementStyles() {
+	  return {
+	    element: {
+	      'outline': 'none',
+	      // We need box-sizing: border-box on shepherd-element and everything under it
+	      '&, *': {
+	        '&, &:after, &:before': {
+	          boxSizing: 'border-box'
+	        }
+	      }
+	    }
+	  };
+	}
+
+	function footerStyles(classPrefix, variables) {
+	  return {
+	    footer: defineProperty$6({
+	      borderBottomLeftRadius: variables.shepherdElementBorderRadius,
+	      borderBottomRightRadius: variables.shepherdElementBorderRadius,
+	      display: 'flex',
+	      justifyContent: 'flex-end',
+	      padding: '0 0.75em 0.75em'
+	    }, ".".concat(classPrefix, "shepherd-button"), {
+	      '&:last-child': {
+	        marginRight: 0
+	      }
+	    })
+	  };
+	}
+
+	function headerStyles(classPrefix, variables) {
+	  var _context;
+
+	  return {
 	    'cancel-link': {
 	      color: curriedLighten(0.7, variables.shepherdThemeTextHeader),
 	      fontSize: '2em',
@@ -11341,39 +11215,14 @@
 	      transition: 'color 0.5s ease',
 	      verticalAlign: 'middle',
 	      '&:hover': {
-	        color: variables.shepherdThemeTextHeader
+	        color: variables.shepherdThemeTextHeader,
+	        cursor: 'pointer'
 	      },
 	      '&:before': {
 	        content: "\"\xD7\""
 	      }
 	    },
-	    content: {
-	      background: variables.shepherdTextBackground,
-	      fontSize: 'inherit',
-	      outline: 'none',
-	      padding: 0
-	    },
-	    element: {
-	      'outline': 'none',
-	      // We need box-sizing: border-box on shepherd-element and everything under it
-	      '&, *': {
-	        '&, &:after, &:before': {
-	          boxSizing: 'border-box'
-	        }
-	      }
-	    },
-	    footer: defineProperty$8({
-	      borderBottomLeftRadius: variables.shepherdElementBorderRadius,
-	      borderBottomRightRadius: variables.shepherdElementBorderRadius,
-	      display: 'flex',
-	      justifyContent: 'flex-end',
-	      padding: '0 0.75em 0.75em'
-	    }, ".".concat(classPrefix, "shepherd-button"), {
-	      '&:last-child': {
-	        marginRight: 0
-	      }
-	    }),
-	    header: defineProperty$8({
+	    header: defineProperty$6({
 	      alignItems: 'center',
 	      borderTopLeftRadius: variables.shepherdElementBorderRadius,
 	      borderTopRightRadius: variables.shepherdElementBorderRadius,
@@ -11381,7 +11230,7 @@
 	      justifyContent: 'flex-end',
 	      lineHeight: '2em',
 	      padding: '0.75em 0.75em 0'
-	    }, concat$2(_context4 = ".".concat(classPrefix, "shepherd-has-title .")).call(_context4, classPrefix, "shepherd-content &"), {
+	    }, concat$2(_context = ".".concat(classPrefix, "shepherd-has-title .")).call(_context, classPrefix, "shepherd-content &"), {
 	      background: variables.shepherdHeaderBackground,
 	      padding: '1em'
 	    }),
@@ -11395,7 +11244,12 @@
 	      padding: 0,
 	      position: 'relative',
 	      verticalAlign: 'middle'
-	    },
+	    }
+	  };
+	}
+
+	function textStyles(variables) {
+	  return {
 	    text: {
 	      color: variables.shepherdThemeTextColor,
 	      fontSize: variables.shepherdTextFontSize,
@@ -11418,55 +11272,333 @@
 	      }
 	    }
 	  };
+	}
+
+	function ownKeys$2(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); if (enumerableOnly) symbols = filter$2(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$3(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context4; forEach$2(_context4 = ownKeys$2(source, true)).call(_context4, function (key) { defineProperty$6(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context5; forEach$2(_context5 = ownKeys$2(source)).call(_context5, function (key) { defineProperty$5(target, key, getOwnPropertyDescriptor$3(source, key)); }); } } return target; }
+	function generateStyles(options) {
+	  var _context, _context2, _context3, _shepherdModalIs, _xPlacementBott, _$concat2;
+
+	  var variables = getVariables(options);
+	  var classPrefix = normalizePrefix(options.classPrefix);
+	  var tippyPrefix = normalizePrefix(options.tippyClassPrefix);
+
+	  var styles = _objectSpread$1({
+	    active: {
+	      '&.shepherd-modal-is-visible': (_shepherdModalIs = {}, defineProperty$6(_shepherdModalIs, ":not(.".concat(classPrefix, "shepherd-target)"), {
+	        pointerEvents: 'none'
+	      }), defineProperty$6(_shepherdModalIs, concat$2(_context = concat$2(_context2 = concat$2(_context3 = ".".concat(classPrefix, "shepherd-button, .")).call(_context3, classPrefix, "shepherd-cancel-link, .")).call(_context2, classPrefix, "shepherd-element, .")).call(_context, classPrefix, "shepherd-target"), {
+	        pointerEvents: 'auto',
+	        '*': {
+	          pointerEvents: 'auto'
+	        }
+	      }), _shepherdModalIs)
+	    }
+	  }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, textStyles(variables));
 
 	  if (variables.useDropShadow) {
 	    styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
 	  }
 
-	  var classes = nano.sheet(styles, 'shepherd');
+	  var classes = sheet(styles, "".concat(classPrefix, "shepherd"));
 	  var arrowMargin = "calc((".concat(variables.arrowSize, " / 2.1) * 16px)");
 	  var popperThemeArrows = {
-	    '&[x-placement^="top"]': defineProperty$8({
+	    '&[x-placement^="top"]': defineProperty$6({
 	      marginBottom: arrowMargin
 	    }, ".".concat(tippyPrefix, "tippy-arrow"), {
 	      borderTopColor: variables.shepherdTextBackground
 	    }),
 	    '&[x-placement^="bottom"]': (_xPlacementBott = {
 	      marginTop: arrowMargin
-	    }, defineProperty$8(_xPlacementBott, ".".concat(tippyPrefix, "tippy-arrow"), {
+	    }, defineProperty$6(_xPlacementBott, ".".concat(tippyPrefix, "tippy-arrow"), {
 	      borderBottomColor: variables.shepherdTextBackground
-	    }), defineProperty$8(_xPlacementBott, "&.".concat(classPrefix, "shepherd-has-title"), defineProperty$8({}, ".".concat(tippyPrefix, "tippy-arrow"), {
+	    }), defineProperty$6(_xPlacementBott, "&.".concat(classPrefix, "shepherd-has-title"), defineProperty$6({}, ".".concat(tippyPrefix, "tippy-arrow"), {
 	      borderBottomColor: variables.shepherdHeaderBackground
 	    })), _xPlacementBott),
-	    '&[x-placement^="left"]': defineProperty$8({
+	    '&[x-placement^="left"]': defineProperty$6({
 	      marginRight: arrowMargin
 	    }, ".".concat(tippyPrefix, "tippy-arrow"), {
 	      borderLeftColor: variables.shepherdTextBackground
 	    }),
-	    '&[x-placement^="right"]': defineProperty$8({
+	    '&[x-placement^="right"]': defineProperty$6({
 	      marginLeft: arrowMargin
 	    }, ".".concat(tippyPrefix, "tippy-arrow"), {
 	      borderRightColor: variables.shepherdTextBackground
 	    })
 	  }; // We have to add the root shepherd class separately
 
-	  classes.shepherd = nano.rule(defineProperty$8({}, "&.".concat(tippyPrefix, "tippy-popper"), _objectSpread$1({}, popperThemeArrows, defineProperty$8({
+	  classes.shepherd = rule(defineProperty$6({}, "&.".concat(tippyPrefix, "tippy-popper"), _objectSpread$1({}, popperThemeArrows, defineProperty$6({
 	    zIndex: variables.shepherdElementZIndex
 	  }, ".".concat(tippyPrefix, "tippy-tooltip"), (_$concat2 = {
 	    backgroundColor: variables.shepherdTextBackground
-	  }, defineProperty$8(_$concat2, ".".concat(tippyPrefix, "tippy-arrow"), {
+	  }, defineProperty$6(_$concat2, ".".concat(tippyPrefix, "tippy-arrow"), {
 	    transform: "scale(".concat(variables.arrowSize, ")"),
 	    zIndex: variables.shepherdElementZIndex + 1
-	  }), defineProperty$8(_$concat2, ".".concat(tippyPrefix, "tippy-content"), {
+	  }), defineProperty$6(_$concat2, ".".concat(tippyPrefix, "tippy-content"), {
 	    maxHeight: variables.shepherdElementMaxHeight,
 	    maxWidth: variables.shepherdElementMaxWidth,
 	    padding: 0,
 	    textAlign: 'center',
 	    width: variables.shepherdElementWidth
-	  }), _$concat2)))), 'shepherd');
+	  }), _$concat2)))), "".concat(classPrefix, "shepherd"));
+
+	  _addModalStyles(put);
+
 	  return classes;
 	}
 
+	function _addModalStyles(put) {
+	  put('#shepherdModalOverlayContainer', {
+	    '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
+	    filter: 'alpha(opacity=50)',
+	    height: '100vh',
+	    left: 0,
+	    opacity: 0.5,
+	    position: 'fixed',
+	    top: 0,
+	    transition: 'all 0.3s ease-out',
+	    width: '100vw',
+	    zIndex: 9997,
+	    '#shepherdModalMask': {
+	      '#shepherdModalMaskRect': {
+	        height: '100vh',
+	        width: '100vw'
+	      }
+	    }
+	  });
+	}
+
+	var Component$7 = preact.Component;
+
+	var ShepherdModal =
+	/*#__PURE__*/
+	function (_Component) {
+	  inherits(ShepherdModal, _Component);
+
+	  function ShepherdModal(props) {
+	    var _this;
+
+	    classCallCheck(this, ShepherdModal);
+
+	    _this = possibleConstructorReturn(this, getPrototypeOf$3(ShepherdModal).call(this, props));
+	    _this._onScreenChange = null;
+	    autoBind(assertThisInitialized(_this)); // Setup initial state
+
+	    _this.closeModalOpening();
+
+	    _this.setState({
+	      style: {
+	        display: 'none'
+	      }
+	    });
+
+	    return _this;
+	  }
+
+	  createClass(ShepherdModal, [{
+	    key: "render",
+	    value: function render(props, state) {
+	      return preact.h("svg", {
+	        id: "shepherdModalOverlayContainer",
+	        onTouchMove: ShepherdModal._preventModalOverlayTouch,
+	        style: state.style
+	      }, preact.h("defs", null, preact.h("mask", {
+	        height: "100%",
+	        id: "shepherdModalMask",
+	        width: "100%",
+	        x: "0",
+	        y: "0"
+	      }, preact.h("rect", {
+	        fill: "#FFFFFF",
+	        height: "100%",
+	        id: "shepherdModalMaskRect",
+	        width: "100%",
+	        x: "0",
+	        y: "0"
+	      }), preact.h("rect", {
+	        fill: "#000000",
+	        id: "shepherdModalMaskOpening",
+	        height: state.openingProperties.height,
+	        x: state.openingProperties.x,
+	        y: state.openingProperties.y,
+	        width: state.openingProperties.width
+	      }))), preact.h("rect", {
+	        height: "100%",
+	        width: "100%",
+	        x: "0",
+	        y: "0",
+	        mask: "url(#shepherdModalMask)"
+	      }));
+	    }
+	  }, {
+	    key: "closeModalOpening",
+	    value: function closeModalOpening() {
+	      this.setState({
+	        openingProperties: {
+	          height: 0,
+	          x: 0,
+	          y: 0,
+	          width: 0
+	        }
+	      });
+	    }
+	    /**
+	     * Hide the modal overlay
+	     */
+
+	  }, {
+	    key: "hide",
+	    value: function hide() {
+	      document.body.classList.remove('shepherd-modal-is-visible');
+	      this.setState({
+	        style: {
+	          display: 'none'
+	        }
+	      }); // Ensure we cleanup all event listeners when we hide the modal
+
+	      this._cleanupStepEventListeners();
+	    }
+	    /**
+	     * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
+	     * @param {HTMLElement} targetElement The element the opening will expose
+	     * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+	     */
+
+	  }, {
+	    key: "positionModalOpening",
+	    value: function positionModalOpening(targetElement) {
+	      var modalOverlayOpeningPadding = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+	      if (targetElement.getBoundingClientRect) {
+	        var _targetElement$getBou = targetElement.getBoundingClientRect(),
+	            x = _targetElement$getBou.x,
+	            y = _targetElement$getBou.y,
+	            width = _targetElement$getBou.width,
+	            height = _targetElement$getBou.height,
+	            left = _targetElement$getBou.left,
+	            top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+
+
+	        this.setState({
+	          openingProperties: {
+	            x: (x || left) - modalOverlayOpeningPadding,
+	            y: (y || top) - modalOverlayOpeningPadding,
+	            width: width + modalOverlayOpeningPadding * 2,
+	            height: height + modalOverlayOpeningPadding * 2
+	          }
+	        });
+	      }
+	    }
+	    /**
+	     * If modal is enabled, setup the svg mask opening and modal overlay for the step
+	     * @param {Step} step The step instance
+	     */
+
+	  }, {
+	    key: "setupForStep",
+	    value: function setupForStep(step) {
+	      // Ensure we move listeners from the previous step, before we setup new ones
+	      this._cleanupStepEventListeners();
+
+	      if (step.tour.options.useModalOverlay) {
+	        this._styleForStep(step);
+
+	        this.show();
+	      } else {
+	        this.hide();
+	      }
+	    }
+	    /**
+	     * Show the modal overlay
+	     */
+
+	  }, {
+	    key: "show",
+	    value: function show() {
+	      document.body.classList.add('shepherd-modal-is-visible');
+	      this.setState({
+	        style: {
+	          display: 'block'
+	        }
+	      });
+	    }
+	    /**
+	     * Add resize and scroll event listeners
+	     * @private
+	     */
+
+	  }, {
+	    key: "_addStepEventListeners",
+	    value: function _addStepEventListeners() {
+	      if (typeof this._onScreenChange === 'function') {
+	        window.removeEventListener('resize', this._onScreenChange, false);
+	        window.removeEventListener('scroll', this._onScreenChange, true);
+	      }
+
+	      window.addEventListener('resize', this._onScreenChange, false);
+	      window.addEventListener('scroll', this._onScreenChange, true); // Prevents window from moving on touch.
+
+	      window.addEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+	        passive: false
+	      });
+	    }
+	    /**
+	     * Remove resize and scroll event listeners
+	     * @private
+	     */
+
+	  }, {
+	    key: "_cleanupStepEventListeners",
+	    value: function _cleanupStepEventListeners() {
+	      if (typeof this._onScreenChange === 'function') {
+	        window.removeEventListener('resize', this._onScreenChange, false);
+	        window.removeEventListener('scroll', this._onScreenChange, true);
+	        this._onScreenChange = null;
+	      }
+
+	      window.removeEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+	        passive: false
+	      });
+	    }
+	    /**
+	     * Style the modal for the step
+	     * @param {Step} step The step to style the opening for
+	     * @private
+	     */
+
+	  }, {
+	    key: "_styleForStep",
+	    value: function _styleForStep(step) {
+	      var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
+
+	      if (step.target) {
+	        var _context;
+
+	        this.positionModalOpening(step.target, modalOverlayOpeningPadding);
+	        this._onScreenChange = debounce$2(bind$2(_context = this.positionModalOpening).call(_context, this, step.target, modalOverlayOpeningPadding), 0);
+
+	        this._addStepEventListeners();
+	      } else {
+	        this.closeModalOpening();
+	      }
+	    }
+	  }], [{
+	    key: "_preventModalBodyTouch",
+	    value: function _preventModalBodyTouch(e) {
+	      e.preventDefault();
+	    }
+	  }, {
+	    key: "_preventModalOverlayTouch",
+	    value: function _preventModalOverlayTouch(e) {
+	      e.stopPropagation();
+	    }
+	  }]);
+
+	  return ShepherdModal;
+	}(Component$7);
+
+	var render$2 = preact.render;
 	/**
 	 * Creates incremented ID for each newly created tour
 	 *
@@ -11532,7 +11664,12 @@
 	      })(event);
 	    });
 
-	    _this.modal = new Modal(options);
+	    var existingModal = document.getElementById('shepherdModalOverlayContainer');
+	    render$2(preact.h(ShepherdModal, {
+	      ref: function ref(c) {
+	        return _this.modal = c;
+	      }
+	    }), document.body, existingModal);
 
 	    _this._setTooltipDefaults();
 
@@ -11783,8 +11920,7 @@
 	        });
 	      }
 
-	      cleanupStepEventListeners.call(this);
-	      cleanupSteps(this.tourObject);
+	      cleanupSteps(this);
 	      this.trigger(event, {
 	        index: index
 	      });
@@ -11800,7 +11936,7 @@
 	        bodyScrollLock.clearAllBodyScrollLocks();
 	      }
 
-	      this.modal.cleanup();
+	      this.modal.hide();
 	    }
 	    /**
 	     * Make this tour "active"
@@ -11810,8 +11946,6 @@
 	  }, {
 	    key: "_setupActiveTour",
 	    value: function _setupActiveTour() {
-	      this.modal.createModalOverlay();
-
 	      this._addBodyAttrs();
 
 	      this.trigger('active', {
@@ -11834,7 +11968,7 @@
 	        stepOptions.id = name.toString();
 	      }
 
-	      stepOptions = assign$2({}, this.options.defaultStepOptions, stepOptions);
+	      stepOptions = _extends_1({}, this.options.defaultStepOptions, stepOptions);
 	      return new Step(this, stepOptions);
 	    }
 	    /**
@@ -11928,7 +12062,7 @@
 	  return Tour;
 	}(Evented);
 
-	assign$2(Shepherd, {
+	_extends_1(Shepherd, {
 	  Tour: Tour,
 	  Step: Step,
 	  Evented: Evented

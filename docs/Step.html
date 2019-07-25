@@ -515,7 +515,12 @@ footer below the main body text.</p>
         
 
         <td class="description last">
-          <p>A function executed when the button is clicked on</p>
+          <p>A function executed when the button is clicked on
+You can use action to skip steps or navigate to specific steps, with something like:</p>
+<pre class="prettyprint source lang-js"><code>action: function() {
+  return Shepherd.activeTour.show('some_step_name');
+}
+</code></pre>
           
         </td>
       </tr>
@@ -545,43 +550,6 @@ footer below the main body text.</p>
 
         <td class="description last">
           <p>Extra classes to apply to the <code>&lt;a&gt;</code></p>
-          
-        </td>
-      </tr>
-
-    
-      <tr>
-        
-          <td class="name"><code>button.events</code></td>
-        
-
-        <td class="type">
-          
-            
-    <span class="param-type">
-      Object
-    </span>
-
-    
-
-
-          
-        </td>
-
-        
-
-        
-
-        <td class="description last">
-          <p>A hash of events to bind onto the button, for example
-<code>{'mouseover': function(){}}</code>. Adding a <code>click</code> event to events when you already have an <code>action</code> specified is not supported.
-You can use events to skip steps or navigate to specific steps, with something like:</p>
-<pre class="prettyprint source lang-js"><code>events: {
-  click: function() {
-    return Shepherd.activeTour.show('some_step_name');
-  }
-}
-</code></pre>
           
         </td>
       </tr>
@@ -1038,7 +1006,7 @@ If it returns false, the step will be skipped.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line110">line 110</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line110">line 110</a>
         </li>
       </ul>
     </dd>
@@ -1172,7 +1140,7 @@ Triggers the <code>cancel</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line127">line 127</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line127">line 127</a>
         </li>
       </ul>
     </dd>
@@ -1264,7 +1232,7 @@ Triggers the <code>complete</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line136">line 136</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line136">line 136</a>
         </li>
       </ul>
     </dd>
@@ -1356,7 +1324,7 @@ Triggers <code>destroy</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line145">line 145</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line145">line 145</a>
         </li>
       </ul>
     </dd>
@@ -1447,7 +1415,7 @@ Triggers <code>destroy</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line167">line 167</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line167">line 167</a>
         </li>
       </ul>
     </dd>
@@ -1538,7 +1506,7 @@ Triggers <code>destroy</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line174">line 174</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line174">line 174</a>
         </li>
       </ul>
     </dd>
@@ -1629,7 +1597,7 @@ Triggers <code>destroy</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line196">line 196</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line196">line 196</a>
         </li>
       </ul>
     </dd>
@@ -1720,7 +1688,7 @@ Triggers <code>destroy</code> event</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="step.js.html">step.js</a>, <a href="step.js.html#line208">line 208</a>
+          <a href="step.jsx.html">step.jsx</a>, <a href="step.jsx.html#line208">line 208</a>
         </li>
       </ul>
     </dd>

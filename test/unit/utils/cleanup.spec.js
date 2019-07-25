@@ -1,4 +1,4 @@
-import { cleanupSteps, cleanupStepEventListeners } from '../../../src/js/utils/cleanup';
+import { cleanupSteps } from '../../../src/js/utils/cleanup';
 
 describe('Cleanup Utils', function() {
   // Create some elements to use to attach to
@@ -21,7 +21,9 @@ describe('Cleanup Utils', function() {
             on: 'bottom'
           },
           canClickTarget: false
-        }
+        },
+        // Manually add the target. The tour would do this, if it were a real tour
+        target: firstAttachElement
       },
       {
         options: {
@@ -30,7 +32,9 @@ describe('Cleanup Utils', function() {
             on: 'bottom'
           },
           canClickTarget: false
-        }
+        },
+        // Manually add the target. The tour would do this, if it were a real tour
+        target: secondAttachElement
       }
     ]
   };
@@ -41,18 +45,6 @@ describe('Cleanup Utils', function() {
 
       expect(firstAttachElement).toHaveStyle('pointer-events: auto');
       expect(secondAttachElement).toHaveStyle('pointer-events: auto');
-    });
-  });
-
-  describe('cleanupStepEventListeners', function() {
-    it('removes listeners', () => {
-      const mock = {
-        _onScreenChange() {}
-      };
-
-      cleanupStepEventListeners.call(mock);
-
-      expect(mock._onScreenChange).toBe(null);
     });
   });
 });
