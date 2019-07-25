@@ -35,7 +35,6 @@
         element: '.hero-welcome',
         on: 'bottom'
       },
-      classes: 'shepherd shepherd-welcome',
       buttons: [
         {
           action: shepherd.cancel,

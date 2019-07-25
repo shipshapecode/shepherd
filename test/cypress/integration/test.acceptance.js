@@ -101,8 +101,8 @@ describe('Shepherd Acceptance Tests', () => {
         // Step text should be visible
         cy.get('.shepherd-text')
           .contains('When attachTo is undefined, the step is centered.').should('be.visible');
-        cy.document().then((document) => {
-          assert.deepEqual(document.body, tour.getCurrentStep().target, 'document.body is the target');
+        cy.document().then(() => {
+          assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
         });
       });
     });

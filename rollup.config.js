@@ -15,7 +15,9 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
-  resolve(),
+  resolve({
+    extensions: ['.js', '.jsx', '.json' ]
+  }),
   commonjs(),
   eslint(),
   babel({
@@ -96,7 +98,9 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
-        resolve(),
+        resolve({
+          extensions: ['.js', '.jsx', '.json' ]
+        }),
         commonjs(),
         babel({
           exclude: /node_modules\/(?!(nano-css)\/).*/,

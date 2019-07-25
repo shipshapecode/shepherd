@@ -1,16 +1,20 @@
-import { Evented } from './evented.js';
+import preact from 'preact';
+
+import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
-import { bindAdvance, bindButtonEvents, bindCancelLink } from './utils/bind.js';
-import { getElementForStep } from './utils/dom';
-import { createFromHTML, setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
+import { bindAdvance } from './utils/bind';
+import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general';
 import { toggleShepherdModalClass } from './utils/modal';
+import ShepherdElement from './components/shepherd-element';
 
 // Polyfills
 import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
+
+const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created step
@@ -65,17 +69,13 @@ export class Step extends Evented {
    * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
    * footer below the main body text.
    * @param {function} options.buttons.button.action A function executed when the button is clicked on
-   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
-   * @param {Object} options.buttons.button.events A hash of events to bind onto the button, for example
-   * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
-   * You can use events to skip steps or navigate to specific steps, with something like:
+   * You can use action to skip steps or navigate to specific steps, with something like:
    * ```js
-   * events: {
-   *   click: function() {
-   *     return Shepherd.activeTour.show('some_step_name');
-   *   }
+   * action: function() {
+   *   return Shepherd.activeTour.show('some_step_name');
    * }
    * ```
+   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {string} options.classes A string of extra classes to add to the step's content element.
@@ -216,175 +216,31 @@ export class Step extends Evented {
   }
 
   /**
-   * Adds buttons to the step as passed into options
-   *
-   * @param {HTMLElement} content The element for the step, to append the footer with buttons to
-   * @private
-   */
-  _addButtons(content) {
-    if (Array.isArray(this.options.buttons) && this.options.buttons.length) {
-      const footer = document.createElement('footer');
-
-      footer.classList.add(this.styles.footer.trim());
-
-      this.options.buttons.map((cfg) => {
-        const button = createFromHTML(
-          `<button class="${this.styles.button.trim()} ${cfg.classes || ''}" tabindex="0">${cfg.text}</button>`
-        );
-
-        if (cfg.secondary) {
-          button.classList.add(`${this.classPrefix}shepherd-button-secondary`);
-        }
-
-        footer.appendChild(button);
-        bindButtonEvents(cfg, button, this);
-      });
-
-      content.appendChild(footer);
-    }
-  }
-
-  /**
-   * Adds the "x" button to cancel the tour
-   * @param {HTMLElement} element The step element
-   * @param {HTMLElement} header The header element for the step
-   * @private
-   */
-  _addCancelLink(element, header) {
-    if (this.options.showCancelLink) {
-      const link = createFromHTML(`<a href class="${this.styles['cancel-link'].trim()}"></a>`);
-      header.appendChild(link);
-
-      element.classList.add(`${this.classPrefix}shepherd-has-cancel-link`);
-      bindCancelLink(link, this);
-    }
-  }
-
-  /**
-   * Adds text passed in as options
-   *
-   * @param {HTMLElement} content The content to append the text to
-   * @param {string} descriptionId The id to set on the shepherd-text element
-   * for the parent element to use for aria-describedby
-   * @params {Step} step The step to get the styles from for the shepherd-text class
-   * @private
-   */
-  _addContent(content, descriptionId, step) {
-    const textContainer = createFromHTML(
-      `<div class="${step.styles.text.trim()}"
-       id="${descriptionId}"
-       ></div>`
-    );
-
-    let { text } = this.options;
-
-    if (isFunction(text)) {
-      text = text.call(this, textContainer);
-    }
-
-    // If the test is already and HTMLElement, we append it, if it is a string, we add it to `innerHTML`
-    isElement(text) ? textContainer.appendChild(text) : textContainer.innerHTML += text;
-
-    content.appendChild(textContainer);
-  }
-
-  /**
-   * Setup keydown events to allow closing the modal with ESC
-   *
-   * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
-   *
-   * @param {HTMLElement} element The element for the tooltip
-   * @private
-   */
-  _addKeyDownHandler(element) {
-    const KEY_TAB = 9;
-    const KEY_ESC = 27;
-    const LEFT_ARROW = 37;
-    const RIGHT_ARROW = 39;
-
-    // Get all elements that are focusable
-    const focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
-    const [firstFocusableElement] = focusableElements;
-    const lastFocusableElement = focusableElements[focusableElements.length - 1];
-
-    element.addEventListener('keydown', (e) => {
-      switch (e.keyCode) {
-        case KEY_TAB:
-          if (focusableElements.length === 1) {
-            e.preventDefault();
-            break;
-          }
-          // Backward tab
-          if (e.shiftKey) {
-            if (document.activeElement === firstFocusableElement) {
-              e.preventDefault();
-              lastFocusableElement.focus();
-            }
-          } else {
-            if (document.activeElement === lastFocusableElement) {
-              e.preventDefault();
-              firstFocusableElement.focus();
-            }
-          }
-          break;
-        case KEY_ESC:
-          this.cancel();
-          break;
-        case LEFT_ARROW:
-          this.tour.back();
-          break;
-        case RIGHT_ARROW:
-          this.tour.next();
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  /**
    * Creates Shepherd element for step based on options
    *
-   * @return {HTMLElement} The DOM element for the step tooltip
+   * @return {Element} The DOM element for the step tooltip
    * @private
    */
   _createTooltipContent() {
-    const content = document.createElement('div');
-    const classes = this.options.classes || '';
+    let classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
-    const element = createFromHTML(
-      `<div class="${classes}"
-       data-${this.classPrefix}shepherd-step-id="${this.id}"
-       role="dialog"
-       tabindex="0">`
+
+    if (this.options.showCancelLink) {
+      classes += ` ${this.classPrefix}shepherd-has-cancel-link`;
+    }
+
+    return render(
+      <ShepherdElement
+        classPrefix={this.classPrefix}
+        classes={classes}
+        descriptionId={descriptionId}
+        labelId={labelId}
+        step={this}
+        styles={this.styles}
+      />,
+      null
     );
-    const header = document.createElement('header');
-
-    if (this.options.title) {
-      const title = document.createElement('h3');
-      title.classList.add(this.styles.title.trim());
-      title.innerHTML = `${this.options.title}`;
-      title.id = labelId;
-      element.setAttribute('aria-labeledby', labelId);
-      header.appendChild(title);
-    }
-
-    content.classList.add(this.styles.content.trim());
-
-    header.classList.add(this.styles.header.trim());
-    element.appendChild(content);
-    content.appendChild(header);
-
-    if (!isUndefined(this.options.text)) {
-      this._addContent(content, descriptionId, this);
-      element.setAttribute('aria-describedby', descriptionId);
-    }
-
-    this._addButtons(content);
-    this._addCancelLink(element, header);
-
-    return element;
   }
 
   /**
@@ -418,8 +274,8 @@ export class Step extends Evented {
     this.id = this.options.id || `step-${uniqueId()}`;
 
     if (when) {
-      Object.entries(when).forEach(([event, handler]) => {
-        this.on(event, handler, this);
+      Object.keys(when).forEach((event) => {
+        this.on(event, when[event], this);
       });
     }
   }
@@ -435,14 +291,11 @@ export class Step extends Evented {
 
     this.el = this._createTooltipContent();
 
-    this._addKeyDownHandler(this.el);
-
     if (this.options.advanceOn) {
       bindAdvance(this);
     }
 
     setupTooltip(this);
-    this.el.classList.add(this.styles.element.trim());
   }
 
   /**
@@ -451,16 +304,17 @@ export class Step extends Evented {
    * @private
    */
   _show() {
-    this.tour.modal.setupForStep(this);
-    this._styleTargetElementForStep(this);
-
     this.trigger('before-show');
 
     if (!this.el) {
       this._setupElements();
     }
 
-    this.target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    this.tour.modal.setupForStep(this);
+    this._styleTargetElementForStep(this);
+
+    const target = this.target || document.body;
+    target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
     document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
@@ -482,7 +336,7 @@ export class Step extends Evented {
    * @private
    */
   _styleTargetElementForStep(step) {
-    const targetElement = getElementForStep(step);
+    const targetElement = step.target;
 
     if (!targetElement) {
       return;

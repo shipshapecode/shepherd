@@ -5,33 +5,14 @@
  * @return {object} The `this` context of the class
  */
 export default function autoBind(self) {
-  for (const [object, key] of getAllProperties(self.constructor.prototype)) {
-    if (key === 'constructor') {
-      continue;
-    }
-
-    const descriptor = Reflect.getOwnPropertyDescriptor(object, key);
-    if (descriptor && typeof descriptor.value === 'function') {
-      self[key] = self[key].bind(self);
+  const keys = Object.getOwnPropertyNames(self.constructor.prototype);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const val = self[key];
+    if (key !== 'constructor' && typeof val === 'function') {
+      self[key] = val.bind(self);
     }
   }
 
   return self;
-}
-
-/**
- * Gets all non-builtin properties up the prototype chain
- * @param {object} object The object to get all the properties from
- * @return {Set<any>}
- */
-function getAllProperties(object) {
-  const props = new Set();
-
-  do {
-    for (const key of Reflect.ownKeys(object)) {
-      props.add([object, key]);
-    }
-  } while ((object = Reflect.getPrototypeOf(object)) && object !== Object.prototype);
-
-  return props;
 }

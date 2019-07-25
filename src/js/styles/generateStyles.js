@@ -1,11 +1,16 @@
-import { darken, lighten } from 'polished';
 import getVariables from './variables';
-import { setupNano } from './nano';
+import { put, rule, sheet } from './nano';
 import { normalizePrefix } from '../utils/general';
+
+import buttonStyles from '../components/shepherd-content/shepherd-footer/shepherd-button/styles';
+import contentStyles from '../components/shepherd-content/styles';
+import elementStyles from '../components/shepherd-element/styles';
+import footerStyles from '../components/shepherd-content/shepherd-footer/styles';
+import headerStyles from '../components/shepherd-content/shepherd-header/styles';
+import textStyles from '../components/shepherd-content/shepherd-text/styles';
 
 export function generateStyles(options) {
   const variables = getVariables(options);
-  const nano = setupNano(options.classPrefix);
   const classPrefix = normalizePrefix(options.classPrefix);
   const tippyPrefix = normalizePrefix(options.tippyClassPrefix);
 
@@ -26,139 +31,19 @@ export function generateStyles(options) {
       }
     },
 
-    button: {
-      background: variables.shepherdThemePrimary,
-      borderRadius: variables.shepherdButtonBorderRadius,
-      border: 0,
-      color: variables.shepherdThemeTextPrimary,
-      cursor: 'pointer',
-      display: 'inline-block',
-      fontFamily: 'inherit',
-      fontSize: '0.8em',
-      letterSpacing: '0.1em',
-      lineHeight: '1em',
-      marginRight: '0.5em',
-      padding: '0.75em 2em',
-      textTransform: 'uppercase',
-      transition: 'all 0.5s ease',
-      verticalAlign: 'middle',
-      '&:hover': {
-        background: darken(0.1, variables.shepherdThemePrimary)
-      },
-      [`&.${classPrefix}shepherd-button-secondary`]: {
-        background: variables.shepherdThemeSecondary,
-        color: variables.shepherdThemeTextSecondary,
-        '&:hover': {
-          background: darken(0.1, variables.shepherdThemeSecondary),
-          color: darken(0.1, variables.shepherdThemeTextSecondary)
-        }
-      }
-    },
-
-    'cancel-link': {
-      color: lighten(0.7, variables.shepherdThemeTextHeader),
-      fontSize: '2em',
-      fontWeight: 'normal',
-      margin: 0,
-      padding: 0,
-      position: 'relative',
-      textDecoration: 'none',
-      transition: 'color 0.5s ease',
-      verticalAlign: 'middle',
-      '&:hover': {
-        color: variables.shepherdThemeTextHeader
-      },
-      '&:before': {
-        content: '"\u00d7"'
-      }
-    },
-
-    content: {
-      background: variables.shepherdTextBackground,
-      fontSize: 'inherit',
-      outline: 'none',
-      padding: 0
-    },
-
-    element: {
-      'outline': 'none',
-      // We need box-sizing: border-box on shepherd-element and everything under it
-      '&, *': {
-        '&, &:after, &:before': {
-          boxSizing: 'border-box'
-        }
-      }
-    },
-
-    footer: {
-      borderBottomLeftRadius: variables.shepherdElementBorderRadius,
-      borderBottomRightRadius: variables.shepherdElementBorderRadius,
-      display: 'flex',
-      justifyContent: 'flex-end',
-      padding: '0 0.75em 0.75em',
-      [`.${classPrefix}shepherd-button`]: {
-        '&:last-child': {
-          marginRight: 0
-        }
-      }
-    },
-
-    header: {
-      alignItems: 'center',
-      borderTopLeftRadius: variables.shepherdElementBorderRadius,
-      borderTopRightRadius: variables.shepherdElementBorderRadius,
-      display: 'flex',
-      justifyContent: 'flex-end',
-      lineHeight: '2em',
-      padding: '0.75em 0.75em 0',
-      [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
-        background: variables.shepherdHeaderBackground,
-        padding: '1em'
-      }
-    },
-
-    title: {
-      color: variables.shepherdThemeTextHeader,
-      display: 'flex',
-      flex: '1 0 auto',
-      fontSize: '1.1em',
-      fontWeight: 'normal',
-      margin: 0,
-      padding: 0,
-      position: 'relative',
-      verticalAlign: 'middle'
-    },
-
-    text: {
-      color: variables.shepherdThemeTextColor,
-      fontSize: variables.shepherdTextFontSize,
-      lineHeight: variables.shepherdTextLineHeight,
-      padding: '0.75em',
-      p: {
-        marginTop: 0,
-
-        '&:last-child': {
-          marginBottom: 0
-        }
-      },
-      'a, a:visited, a:active': {
-        borderBottom: '1px dotted',
-        borderBottomColor: variables.shepherdThemeTextColor,
-        color: variables.shepherdThemeTextColor,
-        textDecoration: 'none',
-
-        '&:hover': {
-          borderBottomStyle: 'solid'
-        }
-      }
-    }
+    ...buttonStyles(classPrefix, variables),
+    ...contentStyles(variables),
+    ...elementStyles(),
+    ...footerStyles(classPrefix, variables),
+    ...headerStyles(classPrefix, variables),
+    ...textStyles(variables)
   };
 
   if (variables.useDropShadow) {
     styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
   }
 
-  const classes = nano.sheet(styles, 'shepherd');
+  const classes = sheet(styles, `${classPrefix}shepherd`);
 
   const arrowMargin = `calc((${variables.arrowSize} / 2.1) * 16px)`;
 
@@ -203,7 +88,7 @@ export function generateStyles(options) {
   };
 
   // We have to add the root shepherd class separately
-  classes.shepherd = nano.rule({
+  classes.shepherd = rule({
     [`&.${tippyPrefix}tippy-popper`]: {
       ...popperThemeArrows,
       zIndex: variables.shepherdElementZIndex,
@@ -225,6 +110,30 @@ export function generateStyles(options) {
         }
       }
     }
-  }, 'shepherd');
+  }, `${classPrefix}shepherd`);
+
+  _addModalStyles(put);
+
   return classes;
+}
+
+function _addModalStyles(put) {
+  put('#shepherdModalOverlayContainer', {
+    '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
+    filter: 'alpha(opacity=50)',
+    height: '100vh',
+    left: 0,
+    opacity: 0.5,
+    position: 'fixed',
+    top: 0,
+    transition: 'all 0.3s ease-out',
+    width: '100vw',
+    zIndex: 9997,
+    '#shepherdModalMask': {
+      '#shepherdModalMaskRect': {
+        height: '100vh',
+        width: '100vw'
+      }
+    }
+  });
 }
