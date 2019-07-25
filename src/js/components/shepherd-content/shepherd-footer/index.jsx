@@ -1,5 +1,5 @@
 import preact from 'preact';
-import ShepherdButton from './shepherd-button.jsx';
+import ShepherdButton from './shepherd-button';
 
 const { Component } = preact;
 

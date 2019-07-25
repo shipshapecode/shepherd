@@ -1,5 +1,5 @@
 import preact from 'preact';
-import ShepherdElement from '../../../src/js/components/shepherd-element.jsx';
+import ShepherdElement from '../../../src/js/components/shepherd-element';
 import { expect } from 'chai';
 import { Step } from '../../../src/js/step';
 import { spy, stub } from 'sinon';

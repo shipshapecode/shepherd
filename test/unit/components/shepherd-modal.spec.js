@@ -1,5 +1,5 @@
 import preact from 'preact';
-import ShepherdModal from '../../../src/js/components/shepherd-modal.jsx';
+import ShepherdModal from '../../../src/js/components/shepherd-modal';
 import { expect } from 'chai';
 import { shallow } from 'preact-render-spy';
 import { stub } from 'sinon';

@@ -1,6 +1,6 @@
 import preact from 'preact';
-import ShepherdContent from './shepherd-content.jsx';
-import { isUndefined } from '../utils/type-check';
+import ShepherdContent from '../shepherd-content';
+import { isUndefined } from '../../utils/type-check';
 
 const { Component } = preact;
 

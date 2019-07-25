@@ -1,5 +1,5 @@
 import preact from 'preact';
-import ShepherdText from '../../../src/js/components/shepherd-text.jsx';
+import ShepherdText from '../../../src/js/components/shepherd-content/shepherd-text';
 import { expect } from 'chai';
 
 describe('components/ShepherdText', () => {

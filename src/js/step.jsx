@@ -1,12 +1,12 @@
 import preact from 'preact';
 
-import { Evented } from './evented.js';
+import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isUndefined } from './utils/type-check';
-import { bindAdvance } from './utils/bind.js';
-import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
-import { toggleShepherdModalClass } from './utils/modal.jsx';
-import ShepherdElement from './components/shepherd-element.jsx';
+import { bindAdvance } from './utils/bind';
+import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general';
+import { toggleShepherdModalClass } from './utils/modal';
+import ShepherdElement from './components/shepherd-element';
 
 // Polyfills
 import 'element-matches';

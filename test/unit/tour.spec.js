@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { stub } from 'sinon';
-import Shepherd from '../../src/js/shepherd.js';
-import { Step } from '../../src/js/step.jsx';
+import Shepherd from '../../src/js/shepherd';
+import { Step } from '../../src/js/step';
 import tippy from 'tippy.js';
 import { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';
 import { spy } from 'sinon';

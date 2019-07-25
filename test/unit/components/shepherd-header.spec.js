@@ -2,9 +2,9 @@ import preact from 'preact';
 import { expect } from 'chai';
 import { shallow } from 'preact-render-spy';
 import { spy } from 'sinon';
-import ShepherdHeader from '../../../src/js/components/shepherd-header.jsx';
+import ShepherdHeader from '../../../src/js/components/shepherd-content/shepherd-header';
 import { Tour } from '../../../src/js/tour';
-import { Step } from '../../../src/js/step.jsx';
+import { Step } from '../../../src/js/step';
 
 describe('components/ShepherdHeader', () => {
   const styles = {

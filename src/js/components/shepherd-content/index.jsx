@@ -1,8 +1,8 @@
 import preact from 'preact';
-import ShepherdFooter from './shepherd-footer.jsx';
-import ShepherdHeader from './shepherd-header.jsx';
-import ShepherdText from './shepherd-text.jsx';
-import { isUndefined } from '../utils/type-check';
+import ShepherdFooter from './shepherd-footer';
+import ShepherdHeader from './shepherd-header';
+import ShepherdText from './shepherd-text';
+import { isUndefined } from '../../utils/type-check';
 
 const { Component } = preact;
 

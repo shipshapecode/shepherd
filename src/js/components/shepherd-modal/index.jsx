@@ -1,6 +1,6 @@
 import preact from 'preact';
-import { debounce } from '../utils/general';
-import autoBind from '../utils/auto-bind';
+import { debounce } from '../../utils/general';
+import autoBind from '../../utils/auto-bind';
 
 const { Component } = preact;
 

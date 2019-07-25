@@ -1,6 +1,6 @@
-import Shepherd from '../../src/js/shepherd.js';
-import { Step } from '../../src/js/step.jsx';
-import { Tour } from '../../src/js/tour.jsx';
+import Shepherd from '../../src/js/shepherd';
+import { Step } from '../../src/js/step';
+import { Tour } from '../../src/js/tour';
 import tippy from 'tippy.js';
 
 // since importing non UMD, needs assignment

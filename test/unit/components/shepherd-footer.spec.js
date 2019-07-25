@@ -1,5 +1,5 @@
 import preact from 'preact';
-import ShepherdFooter from '../../../src/js/components/shepherd-footer.jsx';
+import ShepherdFooter from '../../../src/js/components/shepherd-content/shepherd-footer';
 import { expect } from 'chai';
 import defaultButtons from '../../cypress/utils/default-buttons';
 

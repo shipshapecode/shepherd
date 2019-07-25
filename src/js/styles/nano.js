@@ -1,25 +1,27 @@
 import { h } from 'preact';
 import { create } from 'nano-css';
-import { addon as cache } from 'nano-css/addon/cache';
-import { addon as nesting } from 'nano-css/addon/nesting';
+import { addon as addonCache } from 'nano-css/addon/cache';
+import { addon as addonNesting } from 'nano-css/addon/nesting';
 import { addon as prefixer } from 'nano-css/addon/prefixer';
-import { addon as rule } from 'nano-css/addon/rule';
-import { addon as sheet } from 'nano-css/addon/sheet';
-import { normalizePrefix } from '../utils/general';
+import { addon as addonRule } from 'nano-css/addon/rule';
+import { addon as addonSheet } from 'nano-css/addon/sheet';
 
-export function setupNano(classPrefix) {
-  const nano = create({
-    h,
-    // Add prefix to all generated class names.
-    pfx: normalizePrefix(classPrefix)
-  });
+const nano = create({
+  h,
+  pfx: ''
+});
 
-  cache(nano);
-  nesting(nano);
-  prefixer(nano);
-  rule(nano);
-  sheet(nano);
+addonCache(nano);
+addonNesting(nano);
+prefixer(nano);
+addonRule(nano);
+addonSheet(nano);
 
-  return nano;
-}
+const { put, rule, sheet } = nano;
+
+export {
+  put,
+  rule,
+  sheet
+};
 

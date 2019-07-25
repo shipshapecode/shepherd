@@ -1,5 +1,5 @@
 import preact from 'preact';
-import { isFunction } from '../utils/type-check';
+import { isFunction } from '../../../utils/type-check';
 
 const { Component } = preact;
 

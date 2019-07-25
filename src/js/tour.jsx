@@ -10,7 +10,7 @@ import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps } from './utils/cleanup';
 import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
-import ShepherdModal from './components/shepherd-modal.jsx';
+import ShepherdModal from './components/shepherd-modal';
 
 const { render } = preact;
 
