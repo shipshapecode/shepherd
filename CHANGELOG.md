@@ -1,5 +1,87 @@
 # Changelog
 
+## [v4.0.0-beta.13](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.13) (2019-07-25)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.12...v4.0.0-beta.13)
+
+**Breaking changes:**
+
+- Remove predefined themes [\#462](https://github.com/shipshapecode/shepherd/pull/462) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Convert to Preact components [\#458](https://github.com/shipshapecode/shepherd/pull/458) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- ommiting 'on' doesn't work [\#460](https://github.com/shipshapecode/shepherd/issues/460)
+- Modal mask opening shows back up on scroll [\#444](https://github.com/shipshapecode/shepherd/issues/444)
+
+## [v4.0.0-beta.12](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.12) (2019-07-24)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.11...v4.0.0-beta.12)
+
+**Implemented enhancements:**
+
+- Add first class support for secondary button [\#457](https://github.com/shipshapecode/shepherd/pull/457) ([rwwagner90](https://github.com/rwwagner90))
+- Prefixes fixes [\#453](https://github.com/shipshapecode/shepherd/pull/453) ([genadis](https://github.com/genadis))
+
+**Fixed bugs:**
+
+- IE11 support is broken [\#437](https://github.com/shipshapecode/shepherd/issues/437)
+
+**Merged pull requests:**
+
+- Add index to 'show' and 'cancel' events [\#454](https://github.com/shipshapecode/shepherd/pull/454) ([genadis](https://github.com/genadis))
+
+## [v4.0.0-beta.11](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.11) (2019-07-21)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.10...v4.0.0-beta.11)
+
+## [v4.0.0-beta.10](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.10) (2019-07-21)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.9...v4.0.0-beta.10)
+
+**Breaking changes:**
+
+- Switch to CSSinJS [\#450](https://github.com/shipshapecode/shepherd/pull/450) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Add prefix to data attributes [\#452](https://github.com/shipshapecode/shepherd/pull/452) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Remove Eager [\#451](https://github.com/shipshapecode/shepherd/pull/451) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.9](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.9) (2019-07-18)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.8...v4.0.0-beta.9)
+
+## [v4.0.0-beta.8](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.8) (2019-07-18)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.7...v4.0.0-beta.8)
+
+## [v4.0.0-beta.7](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.7) (2019-07-18)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.6...v4.0.0-beta.7)
+
+**Implemented enhancements:**
+
+- Import ES5 bodyScrollLock, use babel-transform-runtime [\#447](https://github.com/shipshapecode/shepherd/pull/447) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Add StackShare badge [\#446](https://github.com/shipshapecode/shepherd/pull/446) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.6](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.6) (2019-07-16)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.5...v4.0.0-beta.6)
+
+**Merged pull requests:**
+
+- Transpile auto-bind [\#441](https://github.com/shipshapecode/shepherd/pull/441) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v4.0.0-beta.5](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.5) (2019-07-16)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.4...v4.0.0-beta.5)
