@@ -31,7 +31,13 @@ export default class ShepherdModal extends Component {
       style={state.style}
     >
       <defs>
-        <mask height='100%' id='shepherdModalMask' width='100%' x='0' y='0'>
+        <mask
+          className={`${classPrefix}shepherd-modal-mask`}
+          height='100%'
+          width='100%'
+          x='0'
+          y='0'
+        >
           <rect
             className={styles['modal-mask-rect']}
             fill='#FFFFFF'
