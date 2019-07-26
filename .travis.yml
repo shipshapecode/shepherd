@@ -19,6 +19,7 @@ addons:
 branches:
   only:
     - master
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 
 cache:
   yarn: true
@@ -31,6 +32,14 @@ before_install:
 
 install:
   - yarn install --ignore-engines
+
+stages:
+  - test
+  - name: npm-release
+    if: (tag =~ ^v)
+  - name: github-releases
+    if: (tag =~ ^v)
+  - gh-pages release
 
 jobs:
   include:

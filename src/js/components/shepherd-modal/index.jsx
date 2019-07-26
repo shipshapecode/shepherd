@@ -34,6 +34,7 @@ export default class ShepherdModal extends Component {
         <mask
           className={`${classPrefix}shepherd-modal-mask`}
           height='100%'
+          id={`${classPrefix}shepherd-modal-mask`}
           width='100%'
           x='0'
           y='0'
@@ -56,7 +57,13 @@ export default class ShepherdModal extends Component {
           />
         </mask>
       </defs>
-      <rect height='100%' width='100%' x='0' y='0' mask='url(#shepherdModalMask)'/>
+      <rect
+        height='100%'
+        width='100%'
+        x='0'
+        y='0'
+        mask={`url(#${classPrefix}shepherd-modal-mask)`}
+      />
     </svg>;
   }
 

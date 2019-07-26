@@ -17,7 +17,7 @@ export function generateStyles(options) {
 
   const styles = {
     active: {
-      '&.shepherd-modal-is-visible': {
+      [`&.${classPrefix}shepherd-modal-is-visible`]: {
         [`:not(.${classPrefix}shepherd-target)`]: {
           pointerEvents: 'none'
         },

@@ -1,4 +1,4 @@
-/*! shepherd.js 4.0.0-beta.15 */
+/*! shepherd.js 4.0.0-beta.17 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -11294,23 +11294,21 @@
 
 	function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { var _context4; forEach$2(_context4 = ownKeys$2(source, true)).call(_context4, function (key) { defineProperty$6(target, key, source[key]); }); } else if (getOwnPropertyDescriptors$2) { defineProperties$1(target, getOwnPropertyDescriptors$2(source)); } else { var _context5; forEach$2(_context5 = ownKeys$2(source)).call(_context5, function (key) { defineProperty$5(target, key, getOwnPropertyDescriptor$3(source, key)); }); } } return target; }
 	function generateStyles(options) {
-	  var _context, _context2, _context3, _shepherdModalIs, _xPlacementBott, _$concat2;
+	  var _context, _context2, _context3, _$concat, _xPlacementBott, _$concat3;
 
 	  var variables = getVariables(options);
 	  var classPrefix = normalizePrefix(options.classPrefix);
 	  var tippyPrefix = normalizePrefix(options.tippyClassPrefix);
 
 	  var styles = _objectSpread$1({
-	    active: {
-	      '&.shepherd-modal-is-visible': (_shepherdModalIs = {}, defineProperty$6(_shepherdModalIs, ":not(.".concat(classPrefix, "shepherd-target)"), {
-	        pointerEvents: 'none'
-	      }), defineProperty$6(_shepherdModalIs, concat$2(_context = concat$2(_context2 = concat$2(_context3 = ".".concat(classPrefix, "shepherd-button, .")).call(_context3, classPrefix, "shepherd-cancel-link, .")).call(_context2, classPrefix, "shepherd-element, .")).call(_context, classPrefix, "shepherd-target"), {
-	        pointerEvents: 'auto',
-	        '*': {
-	          pointerEvents: 'auto'
-	        }
-	      }), _shepherdModalIs)
-	    }
+	    active: defineProperty$6({}, "&.".concat(classPrefix, "shepherd-modal-is-visible"), (_$concat = {}, defineProperty$6(_$concat, ":not(.".concat(classPrefix, "shepherd-target)"), {
+	      pointerEvents: 'none'
+	    }), defineProperty$6(_$concat, concat$2(_context = concat$2(_context2 = concat$2(_context3 = ".".concat(classPrefix, "shepherd-button, .")).call(_context3, classPrefix, "shepherd-cancel-link, .")).call(_context2, classPrefix, "shepherd-element, .")).call(_context, classPrefix, "shepherd-target"), {
+	      pointerEvents: 'auto',
+	      '*': {
+	        pointerEvents: 'auto'
+	      }
+	    }), _$concat))
 	  }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(), {}, textStyles(variables));
 
 	  if (variables.useDropShadow) {
@@ -11346,18 +11344,18 @@
 
 	  classes.shepherd = rule(defineProperty$6({}, "&.".concat(tippyPrefix, "tippy-popper"), _objectSpread$1({}, popperThemeArrows, defineProperty$6({
 	    zIndex: variables.shepherdElementZIndex
-	  }, ".".concat(tippyPrefix, "tippy-tooltip"), (_$concat2 = {
+	  }, ".".concat(tippyPrefix, "tippy-tooltip"), (_$concat3 = {
 	    backgroundColor: variables.shepherdTextBackground
-	  }, defineProperty$6(_$concat2, ".".concat(tippyPrefix, "tippy-arrow"), {
+	  }, defineProperty$6(_$concat3, ".".concat(tippyPrefix, "tippy-arrow"), {
 	    transform: "scale(".concat(variables.arrowSize, ")"),
 	    zIndex: variables.shepherdElementZIndex + 1
-	  }), defineProperty$6(_$concat2, ".".concat(tippyPrefix, "tippy-content"), {
+	  }), defineProperty$6(_$concat3, ".".concat(tippyPrefix, "tippy-content"), {
 	    maxHeight: variables.shepherdElementMaxHeight,
 	    maxWidth: variables.shepherdElementMaxWidth,
 	    padding: 0,
 	    textAlign: 'center',
 	    width: variables.shepherdElementWidth
-	  }), _$concat2)))), "".concat(classPrefix, "shepherd"));
+	  }), _$concat3)))), "".concat(classPrefix, "shepherd"));
 	  return classes;
 	}
 
@@ -11401,6 +11399,7 @@
 	      }, preact.h("defs", null, preact.h("mask", {
 	        className: "".concat(classPrefix, "shepherd-modal-mask"),
 	        height: "100%",
+	        id: "".concat(classPrefix, "shepherd-modal-mask"),
 	        width: "100%",
 	        x: "0",
 	        y: "0"
@@ -11423,7 +11422,7 @@
 	        width: "100%",
 	        x: "0",
 	        y: "0",
-	        mask: "url(#shepherdModalMask)"
+	        mask: "url(#".concat(classPrefix, "shepherd-modal-mask)")
 	      }));
 	    }
 	  }, {
