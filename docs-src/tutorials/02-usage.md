@@ -174,6 +174,7 @@ the step will execute. For example:
     });
   },
   ```
+- `canClickTarget` A boolean, that when set to false, will set `pointer-events: none` on the target
 - `classes`: A string of extra classes to add to the step's content element.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
