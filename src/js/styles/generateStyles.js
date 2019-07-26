@@ -1,5 +1,5 @@
 import getVariables from './variables';
-import { put, rule, sheet } from './nano';
+import { rule, sheet } from './nano';
 import { normalizePrefix } from '../utils/general';
 
 import buttonStyles from '../components/shepherd-content/shepherd-footer/shepherd-button/styles';
@@ -7,6 +7,7 @@ import contentStyles from '../components/shepherd-content/styles';
 import elementStyles from '../components/shepherd-element/styles';
 import footerStyles from '../components/shepherd-content/shepherd-footer/styles';
 import headerStyles from '../components/shepherd-content/shepherd-header/styles';
+import modalStyles from '../components/shepherd-modal/styles';
 import textStyles from '../components/shepherd-content/shepherd-text/styles';
 
 export function generateStyles(options) {
@@ -36,6 +37,7 @@ export function generateStyles(options) {
     ...elementStyles(),
     ...footerStyles(classPrefix, variables),
     ...headerStyles(classPrefix, variables),
+    ...modalStyles(),
     ...textStyles(variables)
   };
 
@@ -112,28 +114,5 @@ export function generateStyles(options) {
     }
   }, `${classPrefix}shepherd`);
 
-  _addModalStyles(put);
-
   return classes;
-}
-
-function _addModalStyles(put) {
-  put('#shepherdModalOverlayContainer', {
-    '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
-    filter: 'alpha(opacity=50)',
-    height: '100vh',
-    left: 0,
-    opacity: 0.5,
-    position: 'fixed',
-    top: 0,
-    transition: 'all 0.3s ease-out',
-    width: '100vw',
-    zIndex: 9997,
-    '#shepherdModalMask': {
-      '#shepherdModalMaskRect': {
-        height: '100vh',
-        width: '100vw'
-      }
-    }
-  });
 }

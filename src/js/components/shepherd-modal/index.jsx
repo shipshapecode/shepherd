@@ -10,6 +10,8 @@ export default class ShepherdModal extends Component {
 
     this._onScreenChange = null;
 
+    this.classPrefix = props.classPrefix;
+
     autoBind(this);
 
     // Setup initial state
@@ -22,24 +24,31 @@ export default class ShepherdModal extends Component {
   }
 
   render(props, state) {
+    const { classPrefix, styles } = props;
     return <svg
-      id='shepherdModalOverlayContainer'
+      className={styles['modal-overlay-container']}
       onTouchMove={ShepherdModal._preventModalOverlayTouch}
       style={state.style}
     >
       <defs>
-        <mask height='100%' id='shepherdModalMask' width='100%' x='0' y='0'>
+        <mask
+          className={`${classPrefix}shepherd-modal-mask`}
+          height='100%'
+          width='100%'
+          x='0'
+          y='0'
+        >
           <rect
+            className={styles['modal-mask-rect']}
             fill='#FFFFFF'
             height='100%'
-            id='shepherdModalMaskRect'
             width='100%'
             x='0'
             y='0'
           />
           <rect
+            className={`${classPrefix}shepherd-modal-mask-opening`}
             fill='#000000'
-            id='shepherdModalMaskOpening'
             height={state.openingProperties.height}
             x={state.openingProperties.x}
             y={state.openingProperties.y}
@@ -66,7 +75,7 @@ export default class ShepherdModal extends Component {
    * Hide the modal overlay
    */
   hide() {
-    document.body.classList.remove('shepherd-modal-is-visible');
+    document.body.classList.remove(`${this.classPrefix}shepherd-modal-is-visible`);
 
     this.setState({
       style: {
@@ -120,7 +129,7 @@ export default class ShepherdModal extends Component {
    * Show the modal overlay
    */
   show() {
-    document.body.classList.add('shepherd-modal-is-visible');
+    document.body.classList.add(`${this.classPrefix}shepherd-modal-is-visible`);
 
     this.setState({
       style: {
