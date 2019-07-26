@@ -4,7 +4,6 @@
  * @param {string} classPrefix The prefix to add to the class name
  */
 function toggleShepherdModalClass(currentElement, classPrefix) {
-  debugger;
   const shepherdModalTarget = document.querySelector(`.${classPrefix}shepherd-modal-target`);
 
   if (shepherdModalTarget) {

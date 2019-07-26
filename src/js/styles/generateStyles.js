@@ -1,5 +1,5 @@
 import getVariables from './variables';
-import { put, rule, sheet } from './nano';
+import { rule, sheet } from './nano';
 import { normalizePrefix } from '../utils/general';
 
 import buttonStyles from '../components/shepherd-content/shepherd-footer/shepherd-button/styles';

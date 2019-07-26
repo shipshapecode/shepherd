@@ -48,7 +48,7 @@ describe('Modal mode', () => {
     it('Hiding the modal during tours when modal mode is not enabled', () => {
       tour.start();
 
-      cy.get('shepherd-modal-overlay-container').should('have.css', 'display', 'none');
+      cy.get('.shepherd-modal-overlay-container').should('have.css', 'display', 'none');
       cy.get('body').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
