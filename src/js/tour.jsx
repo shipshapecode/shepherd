@@ -5,7 +5,7 @@ import tippy from 'tippy.js';
 import { Evented } from './evented.js';
 import { Step } from './step.jsx';
 import autoBind from './utils/auto-bind';
-import { isFunction, isNumber, isString, isUndefined } from './utils/type-check';
+import { isFunction, isString } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps } from './utils/cleanup';
 import { normalizePrefix } from './utils/general';
@@ -81,25 +81,14 @@ export class Tour extends Evented {
 
   /**
    * Adds a new step to the tour
-   * @param {Object|Number|Step|String} arg1
-   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
-   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
-   * @param {Object|Step} arg2 An object containing step options or a Step instance
+   * @param {Object|Step} options An object containing step options or a Step instance
    * @return {Step} The newly added step
    */
-  addStep(arg1, arg2) {
-    let name, step;
-
-    // If we just have one argument, we can assume it is an object of step options, with an id
-    if (isUndefined(arg2)) {
-      step = arg1;
-    } else {
-      name = arg1;
-      step = arg2;
-    }
+  addStep(options) {
+    let step = options;
 
     if (!(step instanceof Step)) {
-      step = this._setupStep(step, name);
+      step = this._setupStep(step);
     } else {
       step.tour = this;
     }
@@ -303,15 +292,10 @@ export class Tour extends Evented {
   /**
    * Setup a new step object
    * @param {Object} stepOptions The object describing the options for the step
-   * @param {String|Number} name The string or number to use as the `id` for the step
    * @return {Step} The step instance
    * @private
    */
-  _setupStep(stepOptions, name) {
-    if (isString(name) || isNumber(name)) {
-      stepOptions.id = name.toString();
-    }
-
+  _setupStep(stepOptions) {
     stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
 
     return new Step(this, stepOptions);

@@ -27,7 +27,8 @@ to all this tour's steps by default.
 Next, add your steps:
 
 ```javascript
-tour.addStep('example-step', {
+tour.addStep({
+  id: 'example-step',
   text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
   attachTo: { 
     element: '.example-css-selector', 
@@ -113,7 +114,7 @@ dynamically generated `id` property -- which is also set on the `body` element a
 
 ##### Tour Methods
 
-- `addStep(id, options)`: Creates a new Step object with options, and returns the `Step` instance it created.  If you'd like you can also just pass an options hash which includes `id` as a key.
+- `addStep(options)`: Creates a new Step object with options, and returns the `Step` instance it created.
 If the options hash doesn't include an `id`, one will be generated.
 You can also pass an existing `Step` instance rather than `options`, but note that Shepherd does not support a Step being attached to multiple Tours.
 - `getById(id)`: Return a step with a specific id
@@ -136,7 +137,7 @@ You can also pass an existing `Step` instance rather than `options`, but note th
 - `show`: Triggered with a hash of the `step` and the `previous` step
 - `start`
 
-Steps are instances of the Step object.  They are generally created by the `Tour::addStep` method, which returns the `Step` instance it
+Steps are instances of the Step object. They are generally created by the `Tour::addStep` method, which returns the `Step` instance it
 created.
 
 #### Steps
@@ -193,6 +194,7 @@ the step will execute. For example:
 For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.  
 You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
+- `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
 - `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
@@ -239,7 +241,7 @@ You can use the `advanceOn` option, or the Next button, to advance steps.  If yo
 complex user action, you can do the following:
 
 ```javascript
-const myStep = myTour.addStep('my-step', options);
+const myStep = myTour.addStep(options);
 
 yourApp.on('some-event', () => {
   if (myStep.isOpen()){
@@ -281,7 +283,8 @@ By default, Shepherd will generate and position an "arrow" element that points t
 of a step. This is done by setting [Tippy's `arrow` option](https://atomiks.github.io/tippyjs/#arrow-option) to `true` on each ``Step.options.tippyOptions` &mdash; but you can disable the arrow manually by setting it to false:
 
 ```js
-myTour.addStep('Step 1', {
+myTour.addStep({
+  id: 'Step 1', 
   tippyOptions: {
     arrow: false
   }

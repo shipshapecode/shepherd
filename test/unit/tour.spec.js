@@ -89,12 +89,12 @@ describe('Tour | Top-Level Class', function() {
         defaultStepOptions
       });
 
-      instance.addStep('test', {
+      instance.addStep({
         id: 'test',
         title: 'This is a test step for our tour'
       });
 
-      instance.addStep('skipped-step', {
+      instance.addStep({
         classes: 'skipped',
         id: 'skipped-step',
         title: 'This step should be skipped',
@@ -103,12 +103,12 @@ describe('Tour | Top-Level Class', function() {
         }
       });
 
-      instance.addStep('test2', {
+      instance.addStep({
         id: 'test2',
         title: 'Another Step'
       });
 
-      instance.addStep('test3', {
+      instance.addStep({
         id: 'test3',
         title: 'Yet, another test step'
       });
@@ -232,7 +232,7 @@ describe('Tour | Top-Level Class', function() {
           confirmCancelMessage: 'Confirm cancel?'
         });
 
-        instance.addStep('test', {
+        instance.addStep({
           id: 'test',
           title: 'This is a test step for our tour'
         });
