@@ -22,18 +22,18 @@ describe('components/ShepherdModal', () => {
 
       modalComponent.rerender();
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(250);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(20);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(20);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(500);
 
       modalComponent.component().closeModalOpening();
       modalComponent.rerender();
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(0);
     });
   });
 
@@ -41,10 +41,10 @@ describe('components/ShepherdModal', () => {
     it('sets the correct attributes when positioning modal opening', () => {
       const modalComponent = shallow(<ShepherdModal/>);
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(0);
 
       modalComponent.component().positionModalOpening({
         getBoundingClientRect() {
@@ -59,19 +59,19 @@ describe('components/ShepherdModal', () => {
 
       modalComponent.rerender();
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(250);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(20);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(20);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(500);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(250);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(20);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(20);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(500);
     });
 
     it('sets the correct attributes with padding', () => {
       const modalComponent = shallow(<ShepherdModal/>);
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(0);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(0);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(0);
 
       modalComponent.component().positionModalOpening({
         getBoundingClientRect() {
@@ -86,10 +86,10 @@ describe('components/ShepherdModal', () => {
 
       modalComponent.rerender();
 
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('height')).to.equal(270);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('x')).to.equal(10);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('y')).to.equal(10);
-      expect(modalComponent.find('#shepherdModalMaskOpening').attr('width')).to.equal(520);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(270);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(10);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('y')).to.equal(10);
+      expect(modalComponent.find('.shepherd-modal-mask-opening').attr('width')).to.equal(520);
     });
   });
 

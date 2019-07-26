@@ -70,8 +70,16 @@ export class Tour extends Evented {
       })(event);
     });
 
-    const existingModal = document.getElementById('shepherdModalOverlayContainer');
-    render(<ShepherdModal ref={(c) => this.modal = c}/>, document.body, existingModal);
+    const existingModal = document.querySelector(`.${this.classPrefix}shepherd-modal-overlay-container`);
+    render(
+      <ShepherdModal
+        classPrefix={this.classPrefix}
+        ref={(c) => this.modal = c}
+        styles={this.styles}
+      />,
+      document.body,
+      existingModal
+    );
 
     this._setTooltipDefaults();
     this._setTourID();
