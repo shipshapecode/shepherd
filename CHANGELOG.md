@@ -1,5 +1,26 @@
 # Changelog
 
+## [Unreleased](https://github.com/shipshapecode/shepherd/tree/HEAD)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.15...HEAD)
+
+**Closed issues:**
+
+- An in-range update of eslint-plugin-jest is breaking the build 🚨 [\#443](https://github.com/shipshapecode/shepherd/issues/443)
+
+## [v4.0.0-beta.15](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.15) (2019-07-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.14...v4.0.0-beta.15)
+
+**Breaking changes:**
+
+- Switch modals from ids to classes and prefix them [\#466](https://github.com/shipshapecode/shepherd/pull/466) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Modal classes are not prefixed [\#456](https://github.com/shipshapecode/shepherd/issues/456)
+- fix removing 'shepherd-modal-target' [\#455](https://github.com/shipshapecode/shepherd/issues/455)
+
 ## [v4.0.0-beta.14](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.14) (2019-07-26)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.13...v4.0.0-beta.14)
