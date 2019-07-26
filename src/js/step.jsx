@@ -344,7 +344,7 @@ export class Step extends Evented {
       return;
     }
 
-    toggleShepherdModalClass(targetElement);
+    toggleShepherdModalClass(targetElement, step.classPrefix);
 
     if (step.options.highlightClass) {
       targetElement.classList.add(step.options.highlightClass);
