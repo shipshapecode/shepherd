@@ -8525,6 +8525,7 @@
 	   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
 	   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
 	   * @param {string} options.buttons.button.text The HTML text of the button
+	   * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
 	   * @param {string} options.classes A string of extra classes to add to the step's content element.
 	   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
 	   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
