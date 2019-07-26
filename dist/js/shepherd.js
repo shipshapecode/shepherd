@@ -1316,14 +1316,6 @@
 	  return typeof value === 'function';
 	}
 	/**
-	 * Checks if `value` is classified as a `Number` object.
-	 * @param {*} value The param to check if it is a number
-	 */
-
-	function isNumber(value) {
-	  return typeof value === 'number';
-	}
-	/**
 	 * Checks if `value` is classified as a `String` object.
 	 * @param {*} value The param to check if it is a string
 	 */
@@ -8536,6 +8528,7 @@
 	   * @param {string} options.classes A string of extra classes to add to the step's content element.
 	   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
 	   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
+	   * @param {string} options.id The string to use as the `id` for the step.
 	   * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
 	   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
 	   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
@@ -11679,28 +11672,18 @@
 	  }
 	  /**
 	   * Adds a new step to the tour
-	   * @param {Object|Number|Step|String} arg1
-	   * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
-	   * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
-	   * @param {Object|Step} arg2 An object containing step options or a Step instance
+	   * @param {Object|Step} options An object containing step options or a Step instance
 	   * @return {Step} The newly added step
 	   */
 
 
 	  createClass(Tour, [{
 	    key: "addStep",
-	    value: function addStep(arg1, arg2) {
-	      var name, step; // If we just have one argument, we can assume it is an object of step options, with an id
-
-	      if (isUndefined(arg2)) {
-	        step = arg1;
-	      } else {
-	        name = arg1;
-	        step = arg2;
-	      }
+	    value: function addStep(options) {
+	      var step = options;
 
 	      if (!(step instanceof Step)) {
-	        step = this._setupStep(step, name);
+	        step = this._setupStep(step);
 	      } else {
 	        step.tour = this;
 	      }
@@ -11956,18 +11939,13 @@
 	    /**
 	     * Setup a new step object
 	     * @param {Object} stepOptions The object describing the options for the step
-	     * @param {String|Number} name The string or number to use as the `id` for the step
 	     * @return {Step} The step instance
 	     * @private
 	     */
 
 	  }, {
 	    key: "_setupStep",
-	    value: function _setupStep(stepOptions, name) {
-	      if (isString(name) || isNumber(name)) {
-	        stepOptions.id = name.toString();
-	      }
-
+	    value: function _setupStep(stepOptions) {
 	      stepOptions = _extends_1({}, this.options.defaultStepOptions, stepOptions);
 	      return new Step(this, stepOptions);
 	    }

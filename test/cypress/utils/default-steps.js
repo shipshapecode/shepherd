@@ -1,7 +1,6 @@
 export default function(shepherd) {
   return [
     {
-      id: 'welcome',
       options: {
         text: `
          <p>
@@ -33,11 +32,11 @@ export default function(shepherd) {
             classes: 'shepherd-button-example-primary',
             text: 'Next'
           }
-        ]
+        ],
+        id: 'welcome'
       }
     },
     {
-      id: 'including',
       options: {
         title: 'Including',
         text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
@@ -56,11 +55,11 @@ export default function(shepherd) {
             text: 'Next'
           }
         ],
+        id: 'including',
         classes: 'shepherd-step-element second-step'
       }
     },
     {
-      id: 'example',
       options: {
         title: 'Example Shepherd',
         text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
@@ -79,11 +78,11 @@ export default function(shepherd) {
             text: 'Next'
           }
         ],
+        id: 'example',
         classes: 'shepherd-step-element third-step'
       }
     },
     {
-      id: 'followup',
       options: {
         title: 'Learn more',
         text: 'Star Shepherd on Github so you remember it for your next project',
@@ -102,6 +101,7 @@ export default function(shepherd) {
             text: 'Done'
           }
         ],
+        id: 'followup',
         classes: 'shepherd-step-element fourth-step'
       }
     }

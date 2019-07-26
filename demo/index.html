@@ -53,7 +53,7 @@
               }
             });
 
-            tour.addStep('creating', {
+            tour.addStep({
               title: 'Creating a Shepherd Tour',
               text: `Creating a Shepherd tour is easy. too!\
               Just create a \`Tour\` instance, and add as many steps as you want.`,
@@ -71,7 +71,8 @@
                   action: shepherd.next,
                   text: 'Next'
                 }
-              ]
+              ],
+              id: 'creating'
             });
 
             tour.start();
