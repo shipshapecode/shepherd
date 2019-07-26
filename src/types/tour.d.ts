@@ -42,13 +42,10 @@ declare class Tour extends Evented {
 
     /**
      * Adds a new step to the tour
-     * @param arg1
-     * When arg2 is defined, arg1 can either be a string or number, to use for the `id` for the step
-     * When arg2 is undefined, arg1 is either an object containing step options or a Step instance
-     * @param arg2 An object containing step options or a Step instance
+     * @param options An object containing step options or a Step instance
      * @return The newly added step
      */
-    addStep(arg1: Step | Step.StepOptions | number | string, arg2: Step | Step.StepOptions): Step;
+    addStep(options: Step | Step.StepOptions): Step;
 
     /**
      * Go to the previous step in the tour

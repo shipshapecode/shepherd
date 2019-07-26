@@ -21,8 +21,8 @@ export default function(Shepherd, globalDefaults, customSteps, otherOptions) {
   const steps = typeof customSteps === 'function' ? customSteps(shepherd) : defaultSteps(shepherd);
 
   steps.forEach((step) => {
-    const { id, options } = step;
-    shepherd.addStep(id, options);
+    const { options } = step;
+    shepherd.addStep(options);
   });
 
   return shepherd;

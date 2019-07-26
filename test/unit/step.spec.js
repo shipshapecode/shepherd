@@ -23,27 +23,27 @@ describe('Tour | Step', () => {
       }
     });
 
-    const testStep = instance.addStep('test', {
+    const testStep = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
-      id: 'test-id',
       text: 'This is a step for testing',
       buttons: [
         {
           text: 'Next',
           action: instance.next
         }
-      ]
+      ],
+      id: 'test'
     });
 
-    const showTestStep = instance.addStep('test2', {
+    const showTestStep = instance.addStep({
       buttons: [],
-      id: 'test2-id',
+      id: 'test2',
       text: 'Another Step'
     });
 
     // Add more steps for total _setupButtons coverage
-    instance.addStep('test3', {
+    instance.addStep({
       buttons: {
         text: 'Next',
         action: instance.next
@@ -81,8 +81,9 @@ describe('Tour | Step', () => {
       return setTimeout(1000, resolve('beforeShowPromise worked!'));
     });
 
-    const beforeShowPromiseTestStep = instance.addStep('test3', {
+    const beforeShowPromiseTestStep = instance.addStep({
       text: 'Before Show Promise Step',
+      id: 'test3',
       beforeShowPromise() {
         return beforeShowPromise;
       }
@@ -97,7 +98,7 @@ describe('Tour | Step', () => {
     });
 
     it('has all the correct properties', () => {
-      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'id', 'text', 'buttons'];
+      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
       expect(values).toEqual(Object.keys(testStep.options));
 
       expect(testStep.id, 'passed name set as id').toBe('test');

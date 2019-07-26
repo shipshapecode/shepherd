@@ -52,7 +52,7 @@
               }
             });
 
-            tour.addStep('example', {
+            tour.addStep({
               title: 'Example Shepherd',
               text: 'Creating a Shepherd is easy too! Just create ...',
               attachTo: {
@@ -62,7 +62,8 @@
               advanceOn: {
                 selector: '.docs-link',
                 event: 'click'
-              }
+              },
+              id: 'example'
             });
 
             tour.start();
