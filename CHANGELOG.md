@@ -1,5 +1,21 @@
 # Changelog
 
+## [v4.0.0-beta.14](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.14) (2019-07-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.13...v4.0.0-beta.14)
+
+**Breaking changes:**
+
+- Simplify addStep API [\#464](https://github.com/shipshapecode/shepherd/pull/464) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Document canClickTarget [\#461](https://github.com/shipshapecode/shepherd/issues/461)
+
+**Merged pull requests:**
+
+- Document canClickTarget [\#465](https://github.com/shipshapecode/shepherd/pull/465) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v4.0.0-beta.13](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.13) (2019-07-25)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.12...v4.0.0-beta.13)
