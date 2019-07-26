@@ -108,11 +108,3 @@ jobs:
         keep-history: true
         on:
           branch: master
-
-stages:
-  - test
-  - name: npm-release
-    if: (tag =~ ^v)
-  - name: github-releases
-    if: (tag =~ ^v)
-  - gh-pages release
