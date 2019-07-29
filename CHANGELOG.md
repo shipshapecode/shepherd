@@ -1,197 +1,15 @@
 # Changelog
 
-## [v4.0.0-beta.18](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.18) (2019-07-29)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.17...v4.0.0-beta.18)
-
-**Implemented enhancements:**
-
-- Make build smaller, while still supporting IE11 [\#467](https://github.com/shipshapecode/shepherd/pull/467) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.17](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.17) (2019-07-26)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.16...v4.0.0-beta.17)
-
-## [v4.0.0-beta.16](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.16) (2019-07-26)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.15...v4.0.0-beta.16)
-
-**Closed issues:**
-
-- An in-range update of eslint-plugin-jest is breaking the build 🚨 [\#443](https://github.com/shipshapecode/shepherd/issues/443)
-
-## [v4.0.0-beta.15](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.15) (2019-07-26)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.14...v4.0.0-beta.15)
+## [v4.0.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0) (2019-07-29)
 
 **Breaking changes:**
 
 - Switch modals from ids to classes and prefix them [\#466](https://github.com/shipshapecode/shepherd/pull/466) ([rwwagner90](https://github.com/rwwagner90))
-
-**Closed issues:**
-
-- Modal classes are not prefixed [\#456](https://github.com/shipshapecode/shepherd/issues/456)
-- fix removing 'shepherd-modal-target' [\#455](https://github.com/shipshapecode/shepherd/issues/455)
-
-## [v4.0.0-beta.14](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.14) (2019-07-26)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.13...v4.0.0-beta.14)
-
-**Breaking changes:**
-
 - Simplify addStep API [\#464](https://github.com/shipshapecode/shepherd/pull/464) ([rwwagner90](https://github.com/rwwagner90))
-
-**Closed issues:**
-
-- Document canClickTarget [\#461](https://github.com/shipshapecode/shepherd/issues/461)
-
-**Merged pull requests:**
-
-- Document canClickTarget [\#465](https://github.com/shipshapecode/shepherd/pull/465) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.13](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.13) (2019-07-25)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.12...v4.0.0-beta.13)
-
-**Breaking changes:**
-
 - Remove predefined themes [\#462](https://github.com/shipshapecode/shepherd/pull/462) ([rwwagner90](https://github.com/rwwagner90))
-
-**Implemented enhancements:**
-
-- Convert to Preact components [\#458](https://github.com/shipshapecode/shepherd/pull/458) ([rwwagner90](https://github.com/rwwagner90))
-
-**Fixed bugs:**
-
-- ommiting 'on' doesn't work [\#460](https://github.com/shipshapecode/shepherd/issues/460)
-- Modal mask opening shows back up on scroll [\#444](https://github.com/shipshapecode/shepherd/issues/444)
-
-## [v4.0.0-beta.12](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.12) (2019-07-24)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.11...v4.0.0-beta.12)
-
-**Implemented enhancements:**
-
-- Add first class support for secondary button [\#457](https://github.com/shipshapecode/shepherd/pull/457) ([rwwagner90](https://github.com/rwwagner90))
-- Prefixes fixes [\#453](https://github.com/shipshapecode/shepherd/pull/453) ([genadis](https://github.com/genadis))
-
-**Fixed bugs:**
-
-- IE11 support is broken [\#437](https://github.com/shipshapecode/shepherd/issues/437)
-
-**Merged pull requests:**
-
-- Add index to 'show' and 'cancel' events [\#454](https://github.com/shipshapecode/shepherd/pull/454) ([genadis](https://github.com/genadis))
-
-## [v4.0.0-beta.11](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.11) (2019-07-21)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.10...v4.0.0-beta.11)
-
-## [v4.0.0-beta.10](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.10) (2019-07-21)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.9...v4.0.0-beta.10)
-
-**Breaking changes:**
-
 - Switch to CSSinJS [\#450](https://github.com/shipshapecode/shepherd/pull/450) ([rwwagner90](https://github.com/rwwagner90))
-
-**Implemented enhancements:**
-
-- Add prefix to data attributes [\#452](https://github.com/shipshapecode/shepherd/pull/452) ([rwwagner90](https://github.com/rwwagner90))
-
-**Merged pull requests:**
-
-- Remove Eager [\#451](https://github.com/shipshapecode/shepherd/pull/451) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.9](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.9) (2019-07-18)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.8...v4.0.0-beta.9)
-
-## [v4.0.0-beta.8](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.8) (2019-07-18)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.7...v4.0.0-beta.8)
-
-## [v4.0.0-beta.7](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.7) (2019-07-18)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.6...v4.0.0-beta.7)
-
-**Implemented enhancements:**
-
-- Import ES5 bodyScrollLock, use babel-transform-runtime [\#447](https://github.com/shipshapecode/shepherd/pull/447) ([rwwagner90](https://github.com/rwwagner90))
-
-**Merged pull requests:**
-
-- Add StackShare badge [\#446](https://github.com/shipshapecode/shepherd/pull/446) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.6](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.6) (2019-07-16)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.5...v4.0.0-beta.6)
-
-**Merged pull requests:**
-
-- Transpile auto-bind [\#441](https://github.com/shipshapecode/shepherd/pull/441) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.5](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.5) (2019-07-16)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.4...v4.0.0-beta.5)
-
-**Breaking changes:**
-
 - Use autoBind, pass context rather than manually binding [\#440](https://github.com/shipshapecode/shepherd/pull/440) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.4](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.4) (2019-07-15)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.3...v4.0.0-beta.4)
-
-**Fixed bugs:**
-
-- Polyfill all `usage` with core-js [\#439](https://github.com/shipshapecode/shepherd/pull/439) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.3](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.3) (2019-07-15)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.2...v4.0.0-beta.3)
-
-**Implemented enhancements:**
-
-- Remove drop util [\#436](https://github.com/shipshapecode/shepherd/pull/436) ([rwwagner90](https://github.com/rwwagner90))
-
-**Fixed bugs:**
-
-- Incorrect path to typings files in package.json [\#435](https://github.com/shipshapecode/shepherd/issues/435)
-- Start fixing IE11 support [\#438](https://github.com/shipshapecode/shepherd/pull/438) ([rwwagner90](https://github.com/rwwagner90))
-- fix for incorrect types path in package.json [\#434](https://github.com/shipshapecode/shepherd/pull/434) ([cmcnicholas](https://github.com/cmcnicholas))
-
-## [v4.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.2) (2019-07-13)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.1...v4.0.0-beta.2)
-
-**Breaking changes:**
-
 - Remove array support for `step.options.text` [\#429](https://github.com/shipshapecode/shepherd/pull/429) ([rwwagner90](https://github.com/rwwagner90))
-
-**Implemented enhancements:**
-
-- Cleanup public/private API [\#430](https://github.com/shipshapecode/shepherd/pull/430) ([rwwagner90](https://github.com/rwwagner90))
-
-**Merged pull requests:**
-
-- Update del to the latest version 🚀 [\#425](https://github.com/shipshapecode/shepherd/pull/425) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-
-## [v4.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.1) (2019-07-02)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.0...v4.0.0-beta.1)
-
-**Fixed bugs:**
-
-- Arrow navigation skips steps if you do back then next [\#423](https://github.com/shipshapecode/shepherd/issues/423)
-- Only add keydown listeners once [\#424](https://github.com/shipshapecode/shepherd/pull/424) ([rwwagner90](https://github.com/rwwagner90))
-
-## [v4.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.0) (2019-07-02)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.1.0...v4.0.0-beta.0)
-
-**Breaking changes:**
-
 - .shepherd-popper -\> .shepherd, move .shepherd-has-title [\#422](https://github.com/shipshapecode/shepherd/pull/422) ([rwwagner90](https://github.com/rwwagner90))
 - Tippy v5 [\#420](https://github.com/shipshapecode/shepherd/pull/420) ([rwwagner90](https://github.com/rwwagner90))
 - Remove remaining lodash, IE 11+ [\#419](https://github.com/shipshapecode/shepherd/pull/419) ([rwwagner90](https://github.com/rwwagner90))
@@ -200,7 +18,42 @@
 
 **Fixed bugs:**
 
--  useModalOverlay does not play well with multiple instances on the page [\#370](https://github.com/shipshapecode/shepherd/issues/370)
+- ommiting 'on' doesn't work [\#460](https://github.com/shipshapecode/shepherd/issues/460)
+- Modal mask opening shows back up on scroll [\#444](https://github.com/shipshapecode/shepherd/issues/444)
+- IE11 support is broken [\#437](https://github.com/shipshapecode/shepherd/issues/437)
+- Incorrect path to typings files in package.json [\#435](https://github.com/shipshapecode/shepherd/issues/435)
+- Start fixing IE11 support [\#438](https://github.com/shipshapecode/shepherd/pull/438) ([rwwagner90](https://github.com/rwwagner90))
+- fix for incorrect types path in package.json [\#434](https://github.com/shipshapecode/shepherd/pull/434) ([cmcnicholas](https://github.com/cmcnicholas))
+- Arrow navigation skips steps if you do back then next [\#423](https://github.com/shipshapecode/shepherd/issues/423)
+- Only add keydown listeners once [\#424](https://github.com/shipshapecode/shepherd/pull/424) ([rwwagner90](https://github.com/rwwagner90))
+- useModalOverlay does not play well with multiple instances on the page [\#370](https://github.com/shipshapecode/shepherd/issues/370)
+
+**Implemented enhancements:**
+
+- Make build smaller, while still supporting IE11 [\#467](https://github.com/shipshapecode/shepherd/pull/467) ([rwwagner90](https://github.com/rwwagner90))
+- Convert to Preact components [\#458](https://github.com/shipshapecode/shepherd/pull/458) ([rwwagner90](https://github.com/rwwagner90))
+- Add first class support for secondary button [\#457](https://github.com/shipshapecode/shepherd/pull/457) ([rwwagner90](https://github.com/rwwagner90))
+- Prefixes fixes [\#453](https://github.com/shipshapecode/shepherd/pull/453) ([genadis](https://github.com/genadis))
+- Add prefix to data attributes [\#452](https://github.com/shipshapecode/shepherd/pull/452) ([rwwagner90](https://github.com/rwwagner90))
+- Import ES5 bodyScrollLock, use babel-transform-runtime [\#447](https://github.com/shipshapecode/shepherd/pull/447) ([rwwagner90](https://github.com/rwwagner90))
+- Remove drop util [\#436](https://github.com/shipshapecode/shepherd/pull/436) ([rwwagner90](https://github.com/rwwagner90))
+- Cleanup public/private API [\#430](https://github.com/shipshapecode/shepherd/pull/430) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- An in-range update of eslint-plugin-jest is breaking the build 🚨 [\#443](https://github.com/shipshapecode/shepherd/issues/443)
+- Modal classes are not prefixed [\#456](https://github.com/shipshapecode/shepherd/issues/456)
+- fix removing 'shepherd-modal-target' [\#455](https://github.com/shipshapecode/shepherd/issues/455)
+- Document canClickTarget [\#461](https://github.com/shipshapecode/shepherd/issues/461)
+
+**Merged pull requests:**
+
+- Document canClickTarget [\#465](https://github.com/shipshapecode/shepherd/pull/465) ([rwwagner90](https://github.com/rwwagner90))
+- Add index to 'show' and 'cancel' events [\#454](https://github.com/shipshapecode/shepherd/pull/454) ([genadis](https://github.com/genadis))
+- Remove Eager [\#451](https://github.com/shipshapecode/shepherd/pull/451) ([rwwagner90](https://github.com/rwwagner90))
+- Add StackShare badge [\#446](https://github.com/shipshapecode/shepherd/pull/446) ([rwwagner90](https://github.com/rwwagner90))
+- Transpile auto-bind [\#441](https://github.com/shipshapecode/shepherd/pull/441) ([rwwagner90](https://github.com/rwwagner90)
+- Update del to the latest version 🚀 [\#425](https://github.com/shipshapecode/shepherd/pull/425) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v3.1.0](https://github.com/shipshapecode/shepherd/tree/v3.1.0) (2019-06-25)
 
@@ -283,8 +136,6 @@
 **Merged pull requests:**
 
 - Optional padding on modalOverlayOpening [\#383](https://github.com/shipshapecode/shepherd/pull/383) ([skmbr](https://github.com/skmbr))
-
-# Changelog
 
 ## [v2.9.0](https://github.com/shipshapecode/shepherd/tree/v2.9.0) (2019-05-26)
 
@@ -993,9 +844,6 @@
 - Remove bundled versions
 - Restructure directory layout
 - Update `gulp` builds
-
-
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
 
 
 \* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
