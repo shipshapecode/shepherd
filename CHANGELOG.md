@@ -1,8 +1,20 @@
 # Changelog
 
-## [Unreleased](https://github.com/shipshapecode/shepherd/tree/HEAD)
+## [v4.0.0-beta.18](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.18) (2019-07-29)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.15...HEAD)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.17...v4.0.0-beta.18)
+
+**Implemented enhancements:**
+
+- Make build smaller, while still supporting IE11 [\#467](https://github.com/shipshapecode/shepherd/pull/467) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.0.0-beta.17](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.17) (2019-07-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.16...v4.0.0-beta.17)
+
+## [v4.0.0-beta.16](https://github.com/shipshapecode/shepherd/tree/v4.0.0-beta.16) (2019-07-26)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0-beta.15...v4.0.0-beta.16)
 
 **Closed issues:**
 
