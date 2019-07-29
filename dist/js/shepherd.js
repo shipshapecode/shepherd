@@ -1313,7 +1313,7 @@
   }
 
   /**!
-  * tippy.js v5.0.0-alpha.2
+  * tippy.js v5.0.0-beta.0
   * (c) 2017-2019 atomiks
   * MIT License
   */
@@ -1358,6 +1358,7 @@
     flip: true,
     flipBehavior: 'flip',
     flipOnUpdate: false,
+    followCursor: false,
     hideOnClick: true,
     ignoreAttributes: false,
     inertia: false,
@@ -1386,8 +1387,12 @@
     trigger: 'mouseenter focus',
     triggerTarget: null,
     updateDuration: 0,
-    wait: null,
     zIndex: 9999
+    /**
+     * If the setProps() method encounters one of these, the popperInstance must be
+     * recreated
+     */
+
   };
   var POPPER_INSTANCE_DEPENDENCIES = ['arrow', 'boundary', 'distance', 'flip', 'flipBehavior', 'flipOnUpdate', 'offset', 'placement', 'popperOptions'];
 
@@ -1408,7 +1413,7 @@
   var CONTENT_SELECTOR = "." + CONTENT_CLASS;
   var BACKDROP_SELECTOR = "." + BACKDROP_CLASS;
   var ARROW_SELECTOR = "." + ARROW_CLASS;
-  var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS;
+  var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS; // TODO: Work out best way to make these updateable
 
   var currentInput = {
     isTouch: false
@@ -1542,20 +1547,16 @@
       return value;
     }
 
-    try {
-      return arrayFrom(document.querySelectorAll(value));
-    } catch (e) {
-      return [];
-    }
+    return arrayFrom(document.querySelectorAll(value));
   }
   /**
    * Returns a value at a given index depending on if it's an array or number
    */
 
-  function getValue(value, index, defaultValue) {
+  function getValueAtIndexOrReturn(value, index, defaultValue) {
     if (Array.isArray(value)) {
       var v = value[index];
-      return v == null ? defaultValue : v;
+      return v == null ? Array.isArray(defaultValue) ? defaultValue[index] : defaultValue : v;
     }
 
     return value;
@@ -1700,7 +1701,7 @@
     return null;
   }
   /**
-   * Determines if an array or string includes a value
+   * Determines if an array or string includes a string
    */
 
   function includes(a, b) {
@@ -4568,12 +4569,12 @@
   Popper.Defaults = Defaults;
 
   /**!
-  * tippy.js v5.0.0-alpha.2
+  * tippy.js v5.0.0-beta.0
   * (c) 2017-2019 atomiks
   * MIT License
   */
 
-  var version = "5.0.0-alpha.2";
+  var version = "5.0.0-beta.0";
 
   var idCounter = 1; // Workaround for IE11's lack of new MouseEvent constructor
 
@@ -4600,7 +4601,6 @@
     var isBeingDestroyed = false;
     var hasMountCallbackRun = false;
     var didHideDueToDocumentMouseDown = false;
-    var normalizedPlacement;
     var currentMountCallback;
     var currentTransitionEndListener;
     var listeners = [];
@@ -4680,14 +4680,6 @@
     return instance;
     /* ======================= 🔒 Private methods 🔒 ======================= */
 
-    function getIsVerticalPlacement() {
-      return includes(['top', 'bottom'], getBasePlacement(instance.state.currentPlacement));
-    }
-
-    function getIsOppositePlacement() {
-      return includes(['bottom', 'right'], getBasePlacement(instance.state.currentPlacement));
-    }
-
     function getNormalizedTouchSettings() {
       var touch = instance.props.touch;
       return Array.isArray(touch) ? touch : [touch, 0];
@@ -4758,14 +4750,19 @@
 
     function makeSticky() {
       setTransitionDuration([popper], isIE ? 0 : instance.props.updateDuration);
+      var prevRefRect = reference.getBoundingClientRect();
 
       function updatePosition() {
-        instance.popperInstance.scheduleUpdate();
+        var currentRefRect = reference.getBoundingClientRect(); // Only schedule an update if the reference rect has changed
+
+        if (prevRefRect.top !== currentRefRect.top || prevRefRect.right !== currentRefRect.right || prevRefRect.bottom !== currentRefRect.bottom || prevRefRect.left !== currentRefRect.left) {
+          instance.popperInstance.scheduleUpdate();
+        }
+
+        prevRefRect = currentRefRect;
 
         if (instance.state.isMounted) {
           requestAnimationFrame(updatePosition);
-        } else {
-          setTransitionDuration([popper], 0);
         }
       }
 
@@ -4953,15 +4950,9 @@
     }
 
     function createPopperInstance() {
-      var _instance$props = instance.props,
-          popperOptions = _instance$props.popperOptions,
-          placement = _instance$props.placement;
+      var popperOptions = instance.props.popperOptions;
       var arrow = instance.popperChildren.arrow;
-      var preventOverflowModifier = getModifier(popperOptions, 'preventOverflow'); // Due to the virtual offsets normalization when using `followCursor`, we
-      // need to use the opposite placement
-
-      var shift = instance.state.currentPlacement.split('-')[1];
-      normalizedPlacement = instance.props.followCursor && shift ? placement.replace(shift, shift === 'start' ? 'end' : 'start') : placement;
+      var preventOverflowModifier = getModifier(popperOptions, 'preventOverflow');
 
       function applyMutations(data) {
         instance.state.currentPlacement = data.placement;
@@ -4974,53 +4965,68 @@
           setFlipModifierEnabled(instance.popperInstance.modifiers, false);
         }
 
-        tooltip.setAttribute('data-placement', instance.state.currentPlacement);
+        tooltip.setAttribute('data-placement', data.placement);
 
         if (data.attributes['x-out-of-boundaries'] !== false) {
           tooltip.setAttribute('data-out-of-boundaries', '');
         } else {
           tooltip.removeAttribute('data-out-of-boundaries');
-        } // Apply the `distance` prop
+        }
 
+        var basePlacement = getBasePlacement(data.placement);
+        var isVerticalPlacement = includes(['top', 'bottom'], basePlacement);
+        var isSecondaryPlacement = includes(['bottom', 'right'], basePlacement); // Apply `distance` prop
 
-        var basePlacement = getBasePlacement(instance.state.currentPlacement);
         var tooltipStyles = tooltip.style;
         tooltipStyles.top = '0';
         tooltipStyles.left = '0';
-        tooltipStyles[getIsVerticalPlacement() ? 'top' : 'left'] = (getIsOppositePlacement() ? 1 : -1) * instance.props.distance + "px";
-        var padding = preventOverflowModifier && preventOverflowModifier.padding !== undefined ? preventOverflowModifier.padding : PREVENT_OVERFLOW_PADDING;
-        var isPaddingNumber = typeof padding === 'number';
-
-        var computedPadding = _extends$1({
-          top: isPaddingNumber ? padding : padding.top,
-          bottom: isPaddingNumber ? padding : padding.bottom,
-          left: isPaddingNumber ? padding : padding.left,
-          right: isPaddingNumber ? padding : padding.right
-        }, !isPaddingNumber && padding);
-
-        computedPadding[basePlacement] = isPaddingNumber ? padding + instance.props.distance : (padding[basePlacement] || 0) + instance.props.distance;
-        instance.popperInstance.modifiers.filter(function (m) {
-          return m.name === 'preventOverflow';
-        })[0].padding = computedPadding;
+        tooltipStyles[isVerticalPlacement ? 'top' : 'left'] = (isSecondaryPlacement ? 1 : -1) * instance.props.distance + "px";
       }
 
       var config = _extends$1({
         eventsEnabled: false,
-        placement: normalizedPlacement
+        placement: instance.props.placement
       }, popperOptions, {
-        modifiers: _extends$1({}, popperOptions ? popperOptions.modifiers : {}, {
+        modifiers: _extends$1({}, popperOptions && popperOptions.modifiers, {
           preventOverflow: _extends$1({
             boundariesElement: instance.props.boundary,
             padding: PREVENT_OVERFLOW_PADDING
           }, preventOverflowModifier),
+          // Adds the `distance` calculation to preventOverflow padding
+          tippySetPreventOverflowPadding: {
+            enabled: true,
+            order: 299,
+            fn: function fn(data) {
+              var basePlacement = getBasePlacement(data.placement);
+              var padding = preventOverflowModifier && preventOverflowModifier.padding !== undefined ? preventOverflowModifier.padding : PREVENT_OVERFLOW_PADDING;
+              var isPaddingNumber = typeof padding === 'number';
+              var paddingObject = {
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0
+              };
+              var computedPadding = Object.keys(paddingObject).reduce(function (obj, key) {
+                obj[key] = isPaddingNumber ? padding : padding[key];
+
+                if (basePlacement === key) {
+                  obj[key] = isPaddingNumber ? padding + instance.props.distance : (padding[basePlacement] || 0) + instance.props.distance;
+                }
+
+                return obj;
+              }, paddingObject);
+              instance.popperInstance.modifiers.filter(function (m) {
+                return m.name === 'preventOverflow';
+              })[0].padding = computedPadding;
+              return data;
+            }
+          },
           arrow: _extends$1({
             element: arrow,
             enabled: !!arrow
           }, getModifier(popperOptions, 'arrow')),
           flip: _extends$1({
             enabled: instance.props.flip,
-            // The tooltip is offset by 10px from the popper in CSS,
-            // we need to account for its distance
             padding: instance.props.distance + PREVENT_OVERFLOW_PADDING,
             behavior: instance.props.flipBehavior
           }, getModifier(popperOptions, 'flip')),
@@ -5087,12 +5093,8 @@
         instance.props.onTrigger(instance, event);
       }
 
-      if (instance.props.wait) {
-        return instance.props.wait(instance, event);
-      }
-
       addDocumentMouseDownListener();
-      var delay = getValue(instance.props.delay, 0, defaultProps.delay);
+      var delay = getValueAtIndexOrReturn(instance.props.delay, 0, defaultProps.delay);
 
       if (delay) {
         showTimeout = setTimeout(function () {
@@ -5113,7 +5115,7 @@
       }
 
       instance.state.isScheduledToShow = false;
-      var delay = getValue(instance.props.delay, 1, defaultProps.delay);
+      var delay = getValueAtIndexOrReturn(instance.props.delay, 1, defaultProps.delay);
 
       if (delay) {
         hideTimeout = setTimeout(function () {
@@ -5144,9 +5146,11 @@
       clearTimeout(showTimeout);
       clearTimeout(hideTimeout);
       cancelAnimationFrame(scheduleHideAnimationFrame);
-    }
+    } // Cloning as we're deleting non-updateable props in DEV mode
 
-    function setProps(partialProps) {
+
+    function setProps(_ref2) {
+      var partialProps = _extends$1({}, _ref2);
 
       if (instance.state.isDestroyed) {
         return;
@@ -5154,7 +5158,7 @@
 
       removeTriggersFromEventListenersTarget();
       var prevProps = instance.props;
-      var nextProps = evaluateProps(reference, _extends$1({}, instance.props, partialProps, {
+      var nextProps = evaluateProps(reference, _extends$1({}, instance.props, {}, partialProps, {
         ignoreAttributes: true
       }));
       nextProps.ignoreAttributes = hasOwnProperty$1(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
@@ -5189,7 +5193,7 @@
 
     function show(duration, shouldPreventPopperTransition) {
       if (duration === void 0) {
-        duration = getValue(instance.props.duration, 0, defaultProps.duration[1]);
+        duration = getValueAtIndexOrReturn(instance.props.duration, 0, defaultProps.duration);
       }
 
       if (shouldPreventPopperTransition === void 0) {
@@ -5261,7 +5265,7 @@
 
     function hide(duration) {
       if (duration === void 0) {
-        duration = getValue(instance.props.duration, 1, defaultProps.duration[1]);
+        duration = getValueAtIndexOrReturn(instance.props.duration, 1, defaultProps.duration);
       }
 
 
@@ -5290,7 +5294,7 @@
         }
 
         instance.popperInstance.disableEventListeners();
-        instance.popperInstance.options.placement = normalizedPlacement;
+        instance.popperInstance.options.placement = instance.props.placement;
         popper.parentNode.removeChild(popper);
         instance.props.onHidden(instance);
         instance.state.isMounted = false;
@@ -5324,7 +5328,7 @@
 
     bindGlobalEventListeners();
 
-    var props = _extends$1({}, defaultProps, optionalProps);
+    var props = _extends$1({}, defaultProps, {}, optionalProps);
 
     var elements = getArrayOfElements(targets);
 
@@ -5403,34 +5407,33 @@
   }
 
   /**!
-  * tippy.js v5.0.0-alpha.2
+  * tippy.js v5.0.0-beta.0
   * (c) 2017-2019 atomiks
   * MIT License
   */
 
-  var css = ".tippy-tooltip[data-animation=fade][data-state=hidden]{opacity:0}.tippy-iOS{cursor:pointer!important;-webkit-tap-highlight-color:transparent}.tippy-popper{pointer-events:none;max-width:calc(100% - 8px);transition-timing-function:cubic-bezier(.165,.84,.44,1)}.tippy-tooltip{position:relative;color:#fff;border-radius:.25rem;font-size:.875rem;line-height:1.4;background-color:#333;overflow:hidden;transition-property:visibility,opacity,transform;outline:0}.tippy-tooltip[data-placement^=top] .tippy-arrow{border-width:8px 8px 0;border-top-color:#333;margin:0 3px;transform-origin:50% 0;bottom:-7px}.tippy-tooltip[data-placement^=bottom] .tippy-arrow{border-width:0 8px 8px;border-bottom-color:#333;margin:0 3px;transform-origin:50% 7px;top:-7px}.tippy-tooltip[data-placement^=left] .tippy-arrow{border-width:8px 0 8px 8px;border-left-color:#333;margin:3px 0;transform-origin:0 50%;right:-7px}.tippy-tooltip[data-placement^=right] .tippy-arrow{border-width:8px 8px 8px 0;border-right-color:#333;margin:3px 0;transform-origin:7px 50%;left:-7px}.tippy-tooltip[data-arrow]{overflow:visible}.tippy-tooltip[data-animatefill]{background-color:transparent!important}.tippy-tooltip[data-interactive]{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow{border-color:transparent;border-style:solid;position:absolute}.tippy-arrow[data-state=hidden]{opacity:0}.tippy-content{padding:.3125rem .5625rem}";
+  var css = ".tippy-tooltip[data-animation=fade][data-state=hidden]{opacity:0}.tippy-iOS{cursor:pointer!important;-webkit-tap-highlight-color:transparent}.tippy-popper{pointer-events:none;max-width:calc(100% - 10px);transition-timing-function:cubic-bezier(.165,.84,.44,1)}.tippy-tooltip{position:relative;color:#fff;border-radius:.25rem;font-size:.875rem;line-height:1.4;background-color:#333;overflow:hidden;transition-property:visibility,opacity,transform;outline:0}.tippy-tooltip[data-placement^=top] .tippy-arrow{border-width:8px 8px 0;border-top-color:#333;margin:0 3px;transform-origin:50% 0;bottom:-7px}.tippy-tooltip[data-placement^=bottom] .tippy-arrow{border-width:0 8px 8px;border-bottom-color:#333;margin:0 3px;transform-origin:50% 7px;top:-7px}.tippy-tooltip[data-placement^=left] .tippy-arrow{border-width:8px 0 8px 8px;border-left-color:#333;margin:3px 0;transform-origin:0 50%;right:-7px}.tippy-tooltip[data-placement^=right] .tippy-arrow{border-width:8px 8px 8px 0;border-right-color:#333;margin:3px 0;transform-origin:7px 50%;left:-7px}.tippy-tooltip[data-arrow]{overflow:visible}.tippy-tooltip[data-animatefill]{background-color:transparent!important}.tippy-tooltip[data-interactive]{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow{border-color:transparent;border-style:solid;position:absolute}.tippy-arrow[data-state=hidden]{opacity:0}.tippy-content{padding:.3125rem .5625rem}";
 
   /**
    * Injects a string of CSS styles to a style node in <head>
    */
-
   function injectCSS(css) {
-    if (isBrowser) {
-      var style = document.createElement('style');
-      style.textContent = css;
-      style.setAttribute('data-tippy-stylesheet', '');
-      var head = document.head;
-      var firstStyleOrLinkTag = head.querySelector('style,link');
+    var style = document.createElement('style');
+    style.textContent = css;
+    style.setAttribute('data-tippy-stylesheet', '');
+    var head = document.head;
+    var firstStyleOrLinkTag = head.querySelector('style,link');
 
-      if (firstStyleOrLinkTag) {
-        head.insertBefore(style, firstStyleOrLinkTag);
-      } else {
-        head.appendChild(style);
-      }
+    if (firstStyleOrLinkTag) {
+      head.insertBefore(style, firstStyleOrLinkTag);
+    } else {
+      head.appendChild(style);
     }
   }
 
-  injectCSS(css);
+  if (isBrowser) {
+    injectCSS(css);
+  }
 
   var addHasTitleClass = function addHasTitleClass(step) {
     return {

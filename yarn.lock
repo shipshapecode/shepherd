@@ -6184,7 +6184,7 @@ polished@^3.4.1:
   dependencies:
     "@babel/runtime" "^7.4.5"
 
-popper.js@^1.14.7:
+popper.js@^1.15.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
   integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
@@ -7847,12 +7847,12 @@ through@2, through@^2.3.6, through@~2.3, through@~2.3.1:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
-tippy.js@^5.0.0-alpha.2:
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-5.0.0-alpha.2.tgz#4c04681e0eebff9008dcbe855ffd86a49dbc7968"
-  integrity sha512-L++ky4uMlXhqEjQaBDzNu9ZauqOx63xcLsm+afeEDeZ/iC/+7yVODgdYFBeTadbsoo45SlVWWSTxl7C7lPUdug==
+tippy.js@^5.0.0-beta.0:
+  version "5.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-5.0.0-beta.0.tgz#d5a0ea9fb92c63fc2ab0a8068577d1b467e3e6cd"
+  integrity sha512-3IOuSWzJ+8dj1yL7aPNma18TV1iwgcuX6fB68RRLS5MhzHU2otf44eacY3gWuYJtnyU+rxoUsdRkiFVxBLmEug==
   dependencies:
-    popper.js "^1.14.7"
+    popper.js "^1.15.0"
 
 tmp@0.1.0:
   version "0.1.0"
