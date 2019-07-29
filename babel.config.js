@@ -6,18 +6,15 @@ module.exports = function(api) {
       development: {
         presets: [
           [
-            '@babel/preset-env'
+            '@babel/preset-env',
+            {
+              loose: true
+            }
           ]
         ],
         plugins: [
           '@babel/plugin-transform-object-assign',
-          ['@babel/plugin-transform-react-jsx', { 'pragma': 'preact.h' }],
-          [
-            '@babel/plugin-transform-runtime',
-            {
-              corejs: 3
-            }
-          ]
+          ['@babel/plugin-transform-react-jsx', { 'pragma': 'preact.h' }]
         ]
       },
       test: {
