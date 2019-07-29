@@ -1,3 +1,5 @@
+import 'es6-symbol/implement';
+
 import { Evented } from './evented';
 import { Step } from './step';
 import { Shepherd, Tour } from './tour';
