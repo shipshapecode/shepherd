@@ -127,4 +127,4 @@ declare class Tour extends Evented {
     start(): void;
 }
 
-export = Tour;
+export default Tour;

@@ -226,4 +226,4 @@ declare class Step extends Evented {
     show(): Promise<void> | void;
 }
 
-export = Step;
+export default Step;

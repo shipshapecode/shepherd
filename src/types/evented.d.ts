@@ -11,4 +11,4 @@ declare class Evented {
     trigger(event: string): void;
 }
 
-export = Evented;
+export default Evented;
