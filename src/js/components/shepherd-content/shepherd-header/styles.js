@@ -3,6 +3,8 @@ import { lighten } from 'polished';
 export default function headerStyles(classPrefix, variables) {
   return {
     'cancel-link': {
+      background: 'transparent',
+      border: 'none',
       color: lighten(0.7, variables.shepherdThemeTextHeader),
       fontSize: '2em',
       fontWeight: 'normal',
@@ -15,9 +17,6 @@ export default function headerStyles(classPrefix, variables) {
       '&:hover': {
         color: variables.shepherdThemeTextHeader,
         cursor: 'pointer'
-      },
-      '&:before': {
-        content: '"\u00d7"'
       }
     },
 

@@ -43,11 +43,14 @@ export default class ShepherdHeader extends Component {
 
   _addCancelLink(showCancelLink, styles) {
     if (showCancelLink) {
-      return <a
-        href=''
+      return <button
+        aria-label='Close Tour'
         className={styles['cancel-link'].trim()}
         onClick={this.cancelStep}
-      />;
+        type='button'
+      >
+        <span aria-hidden='true'>&times;</span>
+      </button>;
     }
 
     return null;
