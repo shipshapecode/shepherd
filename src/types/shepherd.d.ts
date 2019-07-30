@@ -8,4 +8,4 @@ declare abstract class Shepherd extends Evented {
     static Evented: { new(): Evented };
 }
 
-export = Shepherd;
+export default Shepherd;
