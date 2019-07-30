@@ -5807,11 +5807,14 @@
 
     _proto._addCancelLink = function _addCancelLink(showCancelLink, styles) {
       if (showCancelLink) {
-        return preact.h("a", {
-          href: "",
+        return preact.h("button", {
+          "aria-label": "Close Tour",
           className: styles['cancel-link'].trim(),
-          onClick: this.cancelStep
-        });
+          onClick: this.cancelStep,
+          type: "button"
+        }, preact.h("span", {
+          "aria-hidden": "true"
+        }, "\xD7"));
       }
 
       return null;
@@ -9121,6 +9124,8 @@
 
     return {
       'cancel-link': {
+        background: 'transparent',
+        border: 'none',
         color: curriedLighten(0.7, variables.shepherdThemeTextHeader),
         fontSize: '2em',
         fontWeight: 'normal',
@@ -9133,9 +9138,6 @@
         '&:hover': {
           color: variables.shepherdThemeTextHeader,
           cursor: 'pointer'
-        },
-        '&:before': {
-          content: "\"\xD7\""
         }
       },
       header: (_header = {

@@ -20,7 +20,7 @@ describe('components/ShepherdHeader', () => {
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.include(<a class="shepherd-cancel-link" href=""></a>);
+    expect(header).to.include(<button aria-label="Close Tour" class="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
   });
 
   it('cancel link is not added when showCancelLink === false', () => {
@@ -31,7 +31,7 @@ describe('components/ShepherdHeader', () => {
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.not.include(<a class="shepherd-cancel-link" href=""></a>);
+    expect(header).to.not.include(<button aria-label="Close Tour" className="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
   });
 
   it('cancel link cancels the tour', async () => {
