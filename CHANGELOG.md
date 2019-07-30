@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.1.0](https://github.com/shipshapecode/shepherd/tree/v4.1.0) (2019-07-30)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Make cancel link more accessible [\#469](https://github.com/shipshapecode/shepherd/pull/469) ([rwwagner90](https://github.com/rwwagner90))
+- switched to default export in TS typing [\#468](https://github.com/shipshapecode/shepherd/pull/468) ([grycmat](https://github.com/grycmat))
+
 ## [v4.0.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0) (2019-07-29)
 
 **Breaking changes:**
