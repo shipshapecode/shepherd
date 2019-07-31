@@ -1,11 +1,15 @@
-<img src="https://i.imgur.com/E76xkHa.png"/>
+<img 
+  alt="Shepherd.js Logo"
+  style="height: auto; max-width: 800px; width: 100%;" 
+  src="https://i.imgur.com/E76xkHa.png"/>
 
-<a href="https://shipshape.io">
-  <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="50" height="50"/>
-</a>
+<div>
+  <a href="https://shipshape.io">
+    <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="50" height="50"/>
+  </a>
  
   **[Shepherd is maintained by Ship Shape. Contact us for web app consulting, development, and training for your project](https://shipshape.io/ember-consulting/)**.
-  
+</div>  
 
 [![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
