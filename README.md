@@ -1,5 +1,4 @@
-Shepherd
-----------------------------------------------------------
+<img src="https://i.imgur.com/E76xkHa.png"/>
 
 <a href="https://shipshape.io/"><img src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="100" height="100"/></a>
 
