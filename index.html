@@ -28,26 +28,61 @@
   html, body {
     height: 100%;
   }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .logo-container {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .logo {
+    box-sizing: border-box;
+    height: auto;
+    max-width: 800px;
+    padding: 15px;
+    width: 100%;
+  }
+
+  .outer {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
 </style>
 
 <body>
-<div class="hero-outer">
-  <div class="hero-inner">
-    <div class="hero-welcome">
-      <h1>Shepherd</h1>
-
-      <h2>Guide your users through a tour of your app.</h2>
+<div class="outer">
+  <div class="inner">
+    <div class="logo-container">
+      <img
+        alt="Shepherd.js Logo"
+        class="logo"
+        src="https://i.imgur.com/E76xkHa.png"/>
     </div>
 
-    <div class="hero-followup">
-      <p>
-        <a class="button star" href="https://github.com/shipshapecode/shepherd">★ on Github</a>
-        <a class="button" href="https://shepherdjs.dev/demo/">Demo</a>
-        <a class="button" href="https://shepherdjs.dev/docs/">View Docs</a>
-      </p>
-    </div>
-    <div>
-      <img src="demo/sheep.svg"/>
+
+    <div class="hero-outer">
+      <div class="hero-inner">
+        <div class="hero-welcome">
+          <h2>Guide your users through a tour of your app.</h2>
+        </div>
+
+        <div class="hero-followup">
+          <p>
+            <a class="button star" href="https://github.com/shipshapecode/shepherd">★ on Github</a>
+            <a class="button" href="https://shepherdjs.dev/demo/">Demo</a>
+            <a class="button" href="https://shepherdjs.dev/docs/">View Docs</a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </body>
