@@ -19,7 +19,7 @@
         },
         showCancelLink: true,
         tippyOptions: {
-          maxWidth: 500
+          maxWidth: '400px'
         }
       },
       classPrefix: prefix,
