@@ -1,5 +1,7 @@
 ## [v4.0.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0) (2019-07-29)
 
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.1.0...v4.0.0)
+
 **Breaking changes:**
 
 - Switch modals from ids to classes and prefix them [\#466](https://github.com/shipshapecode/shepherd/pull/466) ([rwwagner90](https://github.com/rwwagner90))
