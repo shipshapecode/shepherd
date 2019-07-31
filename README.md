@@ -23,7 +23,7 @@
 
 <a href="https://shepherdjs.dev/demo/">
   <img 
-    src="/docs-src/assets/img/intro-step.png" 
+    src="/demo/assets/img/intro-step.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
