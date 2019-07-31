@@ -1,5 +1,12 @@
 <img src="https://i.imgur.com/E76xkHa.png"/>
 
+<a href="https://shipshape.io">
+  <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="50" height="50"/>
+</a>
+ 
+  **[Shepherd is maintained by Ship Shape. Contact us for web app consulting, development, and training for your project](https://shipshape.io/ember-consulting/)**.
+  
+
 [![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 [![npm](https://img.shields.io/npm/dm/shepherd.js.svg)]()
@@ -7,13 +14,7 @@
 [![Build Status](https://travis-ci.org/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.org/shipshapecode/shepherd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
-[![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)
-
-<a href="https://shipshape.io">
-  <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="100" height="100"/>
-</a>
- 
-  **[Shepherd is maintained by Ship Shape. Contact us for web app consulting, development, and training for your project](https://shipshape.io/ember-consulting/)**.
+[![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
 <a href="https://shepherdjs.dev/demo/">
