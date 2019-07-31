@@ -4813,10 +4813,10 @@ jsbn@~0.1.0:
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
 
-jsdoc-template-ship-shape@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.0.4.tgz#c3696594a36eada22b23cff7bff7ca7738809070"
-  integrity sha512-ifXmnll/n9S932Fbi7oXsmVujfMV+qAiDmgwunxIasFSwaYARpHtCNNKu1jJCsMXqIbAaqipjJLE+ljHsoRHKw==
+jsdoc-template-ship-shape@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/jsdoc-template-ship-shape/-/jsdoc-template-ship-shape-0.1.1.tgz#a6c1dc20c8b581ae1e25f5ce0d2a3c45436d0590"
+  integrity sha512-xC2iWf+sUzPG/bORafP/cPltUrbi623tOsBEHwk9FixDIZk56efcYIXojNi+NhJc9CfpBn9mjDG437y/vY2b1Q==
   dependencies:
     taffydb "^2.7.3"
 

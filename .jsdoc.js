@@ -20,6 +20,7 @@ module.exports = {
   sourceType: 'module',
   templates: {
     referenceTitle: 'Shepherd.js',
+    favicon: './demo/assets/favicons/favicon-32x32.png',
     githubLink: 'https://github.com/shipshapecode/shepherd',
     // Do not disable sorting
     disableSort: false,
