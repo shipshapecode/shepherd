@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.2.0](https://github.com/shipshapecode/shepherd/tree/v4.2.0) (2019-07-31)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.1.0...v4.2.0)
+
+**Implemented enhancements:**
+
+- Accessibility support [\#198](https://github.com/shipshapecode/shepherd/issues/198)
+- Remove shepherdElementWidth option [\#471](https://github.com/shipshapecode/shepherd/pull/471) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v4.1.0](https://github.com/shipshapecode/shepherd/tree/v4.1.0) (2019-07-30)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0...v4.1.0)
