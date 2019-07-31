@@ -1,5 +1,6 @@
 import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
+import getVariables from '../styles/variables';
 
 const addHasTitleClass = (step) => {
   return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
@@ -171,25 +172,28 @@ function _makeTippyInstance(attachToOptions, step) {
  */
 function _makeAttachedTippyOptions(attachToOptions, step) {
   const defaultPopperOptions = _getDefaultPopperOptions(step.styles);
-  const resultingTippyOptions = {
+  const tippyOptions = {
     content: step.el,
     flipOnUpdate: true,
-    placement: attachToOptions.on || 'right'
+    placement: attachToOptions.on || 'right',
+    ...step.options.tippyOptions
   };
-
-  Object.assign(resultingTippyOptions, step.options.tippyOptions);
 
   if (step.options.title) {
     Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
+  }
+
+  if (step.options.tippyOptions && step.options.tippyOptions.maxWidth) {
+    Object.assign(tippyOptions, step.options.tippyOptions.maxWidth);
   }
 
   if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
     Object.assign(defaultPopperOptions, step.options.tippyOptions.popperOptions);
   }
 
-  resultingTippyOptions.popperOptions = defaultPopperOptions;
+  tippyOptions.popperOptions = defaultPopperOptions;
 
-  return resultingTippyOptions;
+  return tippyOptions;
 }
 
 /**
@@ -215,6 +219,10 @@ function _makeCenteredTippy(step) {
 
   if (step.options.title) {
     Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
+  }
+
+  if (step.options.tippyOptions && step.options.tippyOptions.maxWidth) {
+    Object.assign(tippyOptions, step.options.tippyOptions.maxWidth);
   }
 
   Object.assign(
