@@ -107,8 +107,7 @@ export function generateStyles(options) {
           maxHeight: variables.shepherdElementMaxHeight,
           maxWidth: variables.shepherdElementMaxWidth,
           padding: 0,
-          textAlign: 'center',
-          width: variables.shepherdElementWidth
+          textAlign: 'center'
         }
       }
     }

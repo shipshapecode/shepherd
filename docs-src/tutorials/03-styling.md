@@ -39,7 +39,6 @@ We use [polished](https://github.com/styled-components/polished) to calculate li
 
 | Variable                    | Purpose                                                            | Default
 |-----------------------------|--------------------------------------------------------------------|--------
-| shepherdElementWidth        | Width of the step element                                          | 400px
 | shepherdElementBorderRadius | Sets the border-radius of the shepherd-element.                    | 5px
 | shepherdElementMaxHeight    | Maximum height of the element                                      | 100%
 | shepherdElementMaxWidth     | Maximum width of the element                                       | 100%
