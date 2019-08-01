@@ -9555,6 +9555,8 @@
      * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
      * modal overlay. If true, the overlay will create an opening around the target element so that it
      * can remain interactive
+     * @param {HTMLElement} options.modalContainer Optional container Element for the modal.
+     * If not set, the modal will be appended to document.body.
      * @returns {Tour}
      */
     function Tour(options) {
@@ -9588,7 +9590,7 @@
           return _this.modal = c;
         },
         styles: _this.styles
-      }), document.body, existingModal);
+      }), options.modalContainer || document.body, existingModal);
 
       _this._setTooltipDefaults();
 
