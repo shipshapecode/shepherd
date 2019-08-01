@@ -9116,7 +9116,13 @@
     };
   }
 
-  function getLitgherOrDarker(color) {
+  /**
+   * Check the luminance of the color and lighten or darken accordingly
+   * @param {string} color The color to check
+   * @return {string} The lightened or darkened color
+   */
+
+  function getLighterOrDarker(color) {
     var l = getLuminance(color);
 
     if (l > 0.6) {
@@ -9133,7 +9139,7 @@
       'cancel-link': (_cancelLink = {
         background: 'transparent',
         border: 'none',
-        color: getLitgherOrDarker(variables.shepherdThemeTextColor),
+        color: getLighterOrDarker(variables.shepherdThemeTextColor),
         fontSize: '2em',
         fontWeight: 'normal',
         margin: 0,
@@ -9147,7 +9153,7 @@
           cursor: 'pointer'
         }
       }, _cancelLink["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
-        color: getLitgherOrDarker(variables.shepherdThemeTextHeader),
+        color: getLighterOrDarker(variables.shepherdThemeTextHeader),
         '&:hover': {
           color: variables.shepherdThemeTextHeader
         }
