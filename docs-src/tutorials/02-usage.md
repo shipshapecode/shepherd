@@ -104,13 +104,14 @@ const myTour = new Shepherd.Tour(options);
 
 ##### Tour Options
 
-- `steps`: An array of Step instances to initialize the tour with
+- `confirmCancel`: If true, will issue a `window.confirm` before cancelling
+- `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
+- `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
+- `steps`: An array of Step instances to initialize the tour with.
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's
 dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute whenever the tour becomes active.
 - `useModalOverlay`: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.
-- `confirmCancel`: If true, will issue a window.confirm before cancelling
-- `confirmCancelMessage`: The message to display in the confirm dialog
 
 ##### Tour Methods
 

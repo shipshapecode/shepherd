@@ -36,9 +36,13 @@ const Shepherd = new Evented();
 export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
+   * @param {boolean} options.confirmCancel If true, will issue a `window.confirm` before cancelling
+   * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
    * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
+   * @param {HTMLElement} options.modalContainer An optional container element for the modal.
+   * If not set, the modal will be appended to `document.body`.
    * @param {Step[]} options.steps An array of Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -46,8 +50,6 @@ export class Tour extends Evented {
    * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
    * can remain interactive
-   * @param {HTMLElement} options.modalContainer Optional container Element for the modal.
-   * If not set, the modal will be appended to document.body.
    * @returns {Tour}
    */
   constructor(options = {}) {
