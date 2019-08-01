@@ -9116,14 +9116,24 @@
     };
   }
 
+  function getLitgherOrDarker(color) {
+    var l = getLuminance(color);
+
+    if (l > 0.6) {
+      return curriedDarken(l / 2, color);
+    }
+
+    return curriedLighten((1 - l) / 2, color);
+  }
+
   function headerStyles(classPrefix, variables) {
-    var _header;
+    var _cancelLink, _header;
 
     return {
-      'cancel-link': {
+      'cancel-link': (_cancelLink = {
         background: 'transparent',
         border: 'none',
-        color: curriedLighten(0.7, variables.shepherdThemeTextHeader),
+        color: getLitgherOrDarker(variables.shepherdThemeTextColor),
         fontSize: '2em',
         fontWeight: 'normal',
         margin: 0,
@@ -9133,10 +9143,15 @@
         transition: 'color 0.5s ease',
         verticalAlign: 'middle',
         '&:hover': {
-          color: variables.shepherdThemeTextHeader,
+          color: variables.shepherdThemeTextColor,
           cursor: 'pointer'
         }
-      },
+      }, _cancelLink["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
+        color: getLitgherOrDarker(variables.shepherdThemeTextHeader),
+        '&:hover': {
+          color: variables.shepherdThemeTextHeader
+        }
+      }, _cancelLink),
       header: (_header = {
         alignItems: 'center',
         borderTopLeftRadius: variables.shepherdElementBorderRadius,
