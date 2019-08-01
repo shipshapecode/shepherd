@@ -46,6 +46,8 @@ export class Tour extends Evented {
    * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
    * can remain interactive
+   * @param {HTMLElement} options.modalContainer Optional container Element for the modal.
+   * If not set, the modal will be appended to document.body.
    * @returns {Tour}
    */
   constructor(options = {}) {
@@ -77,7 +79,7 @@ export class Tour extends Evented {
         ref={(c) => this.modal = c}
         styles={this.styles}
       />,
-      document.body,
+      options.modalContainer || document.body,
       existingModal
     );
 
