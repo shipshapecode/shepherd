@@ -1,5 +1,19 @@
 # Changelog
 
+## [v4.3.0](https://github.com/shipshapecode/shepherd/tree/v4.3.0) (2019-08-01)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.2.0...v4.3.0)
+
+**Implemented enhancements:**
+
+- Add option to specify container element for the modal [\#474](https://github.com/shipshapecode/shepherd/pull/474) ([genadis](https://github.com/genadis))
+
+**Fixed bugs:**
+
+- Fix cancel link color for when the header has dark background [\#477](https://github.com/shipshapecode/shepherd/pull/477) ([genadis](https://github.com/genadis))
+- Fix content border radius [\#476](https://github.com/shipshapecode/shepherd/pull/476) ([genadis](https://github.com/genadis))
+- Fix applying tippyOptions [\#475](https://github.com/shipshapecode/shepherd/pull/475) ([genadis](https://github.com/genadis))
+
 ## [v4.2.0](https://github.com/shipshapecode/shepherd/tree/v4.2.0) (2019-07-31)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.1.0...v4.2.0)
