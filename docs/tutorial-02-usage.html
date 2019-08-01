@@ -184,13 +184,14 @@ event handlers a <code>tour</code> key pointing to the instance which fired the 
 </code></pre>
 <h5>Tour Options</h5>
 <ul>
-<li><code>steps</code>: An array of Step instances to initialize the tour with</li>
+<li><code>confirmCancel</code>: If true, will issue a <code>window.confirm</code> before cancelling</li>
+<li><code>confirmCancelMessage</code>: The message to display in the confirm dialog</li>
 <li><code>defaultStepOptions</code>: Default options for Steps created through <code>addStep</code></li>
+<li><code>modalContainer</code> An optional container element for the modal. If not set, the modal will be appended to <code>document.body</code>.</li>
+<li><code>steps</code>: An array of Step instances to initialize the tour with.</li>
 <li><code>tourName</code>: An optional &quot;name&quot; for the tour. This will be appended to the the tour's
 dynamically generated <code>id</code> property -- which is also set on the <code>body</code> element as the <code>data-shepherd-active-tour</code> attribute whenever the tour becomes active.</li>
 <li><code>useModalOverlay</code>: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.</li>
-<li><code>confirmCancel</code>: If true, will issue a window.confirm before cancelling</li>
-<li><code>confirmCancelMessage</code>: The message to display in the confirm dialog</li>
 </ul>
 <h5>Tour Methods</h5>
 <ul>
