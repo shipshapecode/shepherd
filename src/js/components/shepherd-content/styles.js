@@ -4,7 +4,8 @@ export default function contentStyles(variables) {
       background: variables.shepherdTextBackground,
       fontSize: 'inherit',
       outline: 'none',
-      padding: 0
+      padding: 0,
+      borderRadius: variables.shepherdElementBorderRadius
     }
   };
 }
