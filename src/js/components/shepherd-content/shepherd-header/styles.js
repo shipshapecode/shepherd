@@ -1,11 +1,19 @@
-import { lighten } from 'polished';
+import { lighten, darken, getLuminance } from 'polished';
+
+function getLitgherOrDarker(color) {
+  const l = getLuminance(color);
+  if (l > 0.6) {
+    return darken(l / 2, color);
+  }
+  return lighten((1 - l) / 2, color);
+}
 
 export default function headerStyles(classPrefix, variables) {
   return {
     'cancel-link': {
       background: 'transparent',
       border: 'none',
-      color: lighten(0.7, variables.shepherdThemeTextHeader),
+      color: getLitgherOrDarker(variables.shepherdThemeTextColor),
       fontSize: '2em',
       fontWeight: 'normal',
       margin: 0,
@@ -15,8 +23,14 @@ export default function headerStyles(classPrefix, variables) {
       transition: 'color 0.5s ease',
       verticalAlign: 'middle',
       '&:hover': {
-        color: variables.shepherdThemeTextHeader,
+        color: variables.shepherdThemeTextColor,
         cursor: 'pointer'
+      },
+      [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
+        color: getLitgherOrDarker(variables.shepherdThemeTextHeader),
+        '&:hover': {
+          color: variables.shepherdThemeTextHeader
+        }
       }
     },
 
