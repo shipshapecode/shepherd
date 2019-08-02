@@ -9789,8 +9789,10 @@
 
       if (this.options.disableScroll) {
         bodyScrollLock.disableBodyScroll();
-      }
+      } // Save the focused element before the tour opens
 
+
+      this.focusedElBeforeOpen = document.activeElement;
       this.currentStep = null;
 
       this._setupActiveTour();
@@ -9829,7 +9831,11 @@
         bodyScrollLock.clearAllBodyScrollLocks();
       }
 
-      this.modal.hide();
+      this.modal.hide(); // Focus the element that was focused before the tour started
+
+      if (isElement(this.focusedElBeforeOpen)) {
+        this.focusedElBeforeOpen.focus();
+      }
     }
     /**
      * Make this tour "active"
