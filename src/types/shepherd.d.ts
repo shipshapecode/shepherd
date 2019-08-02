@@ -1,11 +1,15 @@
-import Tour from './tour';
-import Evented from './evented';
-import Step from './step';
+import _Evented from './evented';
+import _Step from './step';
+import _Tour from './tour';
 
-declare abstract class Shepherd extends Evented {
-  static Tour: { new(options?: Tour.TourOptions): Tour };
-  static Step: { new(tour: Tour, options: Step.StepOptions): Step };
-  static Evented: { new(): Evented };
+declare class Shepherd extends _Evented {
+  activeTour?: _Tour;
+}
+
+declare namespace Shepherd {
+  export import Step = _Step;
+  export import Tour = _Tour;
 }
 
 export default Shepherd;
+

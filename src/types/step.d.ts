@@ -1,6 +1,78 @@
 import Tour from './tour';
 import Evented from './evented';
 
+/**
+ * Class representing steps to be added to a tour
+ * @extends {Evented}
+ */
+declare class Step extends Evented {
+  /**
+   * Create a step
+   * @param tour The tour for the step
+   * @param options The options for the step
+   * @return The newly created Step instance
+   */
+  constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
+
+  /**
+   * Returns the tour for the step
+   * @return The tour instance
+   */
+  getTour(): Tour;
+
+  /**
+   * Cancel the tour
+   * Triggers the `cancel` event
+   */
+  cancel(): void;
+
+  /**
+   * Complete the tour
+   * Triggers the `complete` event
+   */
+  complete(): void;
+
+  /**
+   * Remove the step, delete the step's element, and destroy the tippy instance for the step
+   * Triggers `destroy` event
+   */
+  destroy(): void;
+
+  /**
+   * Hide the step and destroy the tippy instance
+   */
+  hide(): void;
+
+  /**
+   * Check if the step is open and visible
+   * @return True if the step is open and visible
+   */
+  isOpen(): boolean;
+
+  /**
+   * Create the element and set up the tippy instance
+   */
+  setupElements(): void;
+
+  /**
+   * If a custom scrollToHandler is defined, call that, otherwise do the generic
+   * scrollIntoView call.
+   */
+  scrollTo(): void;
+
+  /**
+   * Sets the options for the step, maps `when` to events, sets up buttons
+   * @param options The options for the step default is `{}`
+   */
+  setOptions(options?: Step.StepOptions): void;
+
+  /**
+   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
+   * @return Promise
+   */
+  show(): Promise<void> | void;
+}
+
 declare namespace Step {
   /**
    * The options for the step
@@ -46,6 +118,11 @@ declare namespace Step {
      * highlighted (that is, when its step is active). You can then target that selector in your CSS.
      */
     highlightClass?: string;
+
+    /**
+     * The string to use as the `id` for the step.
+     */
+    id?: string;
 
     /**
      * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
@@ -137,7 +214,7 @@ declare namespace Step {
      * }
      * ```
      */
-    events?: StepOptoonsButtonEvent;
+    events?: StepOptionsButtonEvent;
 
     /**
      * The HTML text of the button
@@ -145,85 +222,13 @@ declare namespace Step {
     text?: string;
   }
 
-  interface StepOptoonsButtonEvent {
+  interface StepOptionsButtonEvent {
     [key: string]: (() => void);
   }
 
   interface StepOptionsWhen {
     [key: string]: (() => void);
   }
-}
-
-/**
- * Class representing steps to be added to a tour
- * @extends {Evented}
- */
-declare class Step extends Evented {
-  /**
-   * Create a step
-   * @param tour The tour for the step
-   * @param options The options for the step
-   * @return The newly created Step instance
-   */
-  constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
-
-  /**
-   * Returns the tour for the step
-   * @return The tour instance
-   */
-  getTour(): Tour;
-
-  /**
-   * Cancel the tour
-   * Triggers the `cancel` event
-   */
-  cancel(): void;
-
-  /**
-   * Complete the tour
-   * Triggers the `complete` event
-   */
-  complete(): void;
-
-  /**
-   * Remove the step, delete the step's element, and destroy the tippy instance for the step
-   * Triggers `destroy` event
-   */
-  destroy(): void;
-
-  /**
-   * Hide the step and destroy the tippy instance
-   */
-  hide(): void;
-
-  /**
-   * Check if the step is open and visible
-   * @return True if the step is open and visible
-   */
-  isOpen(): boolean;
-
-  /**
-   * Create the element and set up the tippy instance
-   */
-  setupElements(): void;
-
-  /**
-   * If a custom scrollToHandler is defined, call that, otherwise do the generic
-   * scrollIntoView call.
-   */
-  scrollTo(): void;
-
-  /**
-   * Sets the options for the step, maps `when` to events, sets up buttons
-   * @param options The options for the step default is `{}`
-   */
-  setOptions(options?: Step.StepOptions): void;
-
-  /**
-   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
-   * @return Promise
-   */
-  show(): Promise<void> | void;
 }
 
 export default Step;

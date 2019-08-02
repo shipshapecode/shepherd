@@ -1,42 +1,6 @@
 import Evented from './evented';
 import Step from './step';
 
-declare namespace Tour {
-  interface TourOptions {
-    /**
-     * If true, will issue a `window.confirm` before cancelling
-     */
-    confirmCancel?: boolean;
-    /**
-     * The message to display in the confirm dialog
-     */
-    confirmCancelMessage?: string;
-    /**
-     * Default options for Steps created through `addStep`
-     */
-    defaultStepOptions?: Step.StepOptions;
-
-    /**
-     * An array of Step instances to initialize the tour with
-     */
-    steps?: Step[];
-
-    /**
-     * An optional "name" for the tour. This will be appended to the the tour's
-     * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
-     * whenever the tour becomes active.
-     */
-    tourName?: string;
-
-    /**
-     * Whether or not steps should be placed above a darkened
-     * modal overlay. If true, the overlay will create an opening around the target element so that it
-     * can remain interactive
-     */
-    useModalOverlay?: string | boolean;
-  }
-}
-
 /**
  * Class representing the site tour
  * @extends {Evented}
@@ -133,6 +97,42 @@ declare class Tour extends Evented {
    * Start the tour
    */
   start(): void;
+}
+
+declare namespace Tour {
+  interface TourOptions {
+    /**
+     * If true, will issue a `window.confirm` before cancelling
+     */
+    confirmCancel?: boolean;
+    /**
+     * The message to display in the confirm dialog
+     */
+    confirmCancelMessage?: string;
+    /**
+     * Default options for Steps created through `addStep`
+     */
+    defaultStepOptions?: Step.StepOptions;
+
+    /**
+     * An array of Step instances to initialize the tour with
+     */
+    steps?: Step[];
+
+    /**
+     * An optional "name" for the tour. This will be appended to the the tour's
+     * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
+     * whenever the tour becomes active.
+     */
+    tourName?: string;
+
+    /**
+     * Whether or not steps should be placed above a darkened
+     * modal overlay. If true, the overlay will create an opening around the target element so that it
+     * can remain interactive
+     */
+    useModalOverlay?: string | boolean;
+  }
 }
 
 export default Tour;
