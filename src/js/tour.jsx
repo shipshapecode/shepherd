@@ -5,7 +5,7 @@ import tippy from 'tippy.js';
 import { Evented } from './evented.js';
 import { Step } from './step.jsx';
 import autoBind from './utils/auto-bind';
-import { isFunction, isString } from './utils/type-check';
+import { isElement, isFunction, isString } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
 import { cleanupSteps } from './utils/cleanup';
 import { normalizePrefix } from './utils/general';
@@ -293,7 +293,9 @@ export class Tour extends Evented {
     this.modal.hide();
 
     // Focus the element that was focused before the tour started
-    this.focusedElBeforeOpen.focus();
+    if (isElement(this.focusedElBeforeOpen)) {
+      this.focusedElBeforeOpen.focus();
+    }
   }
 
   /**
