@@ -4,6 +4,14 @@ import Step from "./step";
 declare namespace Tour {
     interface TourOptions {
         /**
+         * If true, will issue a `window.confirm` before cancelling
+         */
+        confirmCancel?: boolean;
+        /**
+         *  The message to display in the confirm dialog
+         */
+        confirmCancelMessage?: string;
+        /**
          * Default options for Steps created through `addStep`
          */
         defaultStepOptions?: Step.StepOptions;
