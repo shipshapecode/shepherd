@@ -259,6 +259,9 @@ export class Tour extends Evented {
       bodyScrollLock.disableBodyScroll();
     }
 
+    // Save the focused element before the tour opens
+    this.focusedElBeforeOpen = document.activeElement;
+
     this.currentStep = null;
     this._setupActiveTour();
     this.next();
@@ -288,6 +291,9 @@ export class Tour extends Evented {
     }
 
     this.modal.hide();
+
+    // Focus the element that was focused before the tour started
+    this.focusedElBeforeOpen.focus();
   }
 
   /**
