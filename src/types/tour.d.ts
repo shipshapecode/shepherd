@@ -8,7 +8,7 @@ declare namespace Tour {
          */
         confirmCancel?: boolean;
         /**
-         *  The message to display in the confirm dialog
+         * The message to display in the confirm dialog
          */
         confirmCancelMessage?: string;
         /**
