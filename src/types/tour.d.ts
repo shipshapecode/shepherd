@@ -36,12 +36,6 @@ declare class Tour extends Evented {
   complete(): void;
 
   /**
-   * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param event The event name to trigger
-   */
-  done(event: string): void;
-
-  /**
    * Gets the step from a given id
    * @param id The id of the step to retrieve
    * @return The step corresponding to the `id`
@@ -77,16 +71,6 @@ declare class Tour extends Evented {
   removeStep(name: string): void;
 
   /**
-   * Setup a new step object
-   * @param stepOptions The object describing the options for the step
-   * @param name The string or number to use as the `id` for the step
-   * @return The step instance
-   */
-  setupStep(stepOptions: Step.StepOptions, name: string | number): Step;
-
-  beforeShowStep(step: Step): void;
-
-  /**
    * Show a specific step in the tour
    * @param key The key to look up the step by
    * @param forward True if we are going forward, false if backward
@@ -101,6 +85,10 @@ declare class Tour extends Evented {
 
 declare namespace Tour {
   interface TourOptions {
+    /**
+     * The prefix to add to all the `shepherd-*` class names.
+     */
+    classPrefix?: string;
     /**
      * If true, will issue a `window.confirm` before cancelling
      */
@@ -118,6 +106,11 @@ declare namespace Tour {
      * An array of Step instances to initialize the tour with
      */
     steps?: Step[];
+
+    /**
+     * An object hash of style variables to override
+     */
+    styleVariables?: object;
 
     /**
      * An optional "name" for the tour. This will be appended to the the tour's

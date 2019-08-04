@@ -9547,12 +9547,14 @@
      * @param {Object} options The options for the tour
      * @param {boolean} options.confirmCancel If true, will issue a `window.confirm` before cancelling
      * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
+     * @param {string} options.classPrefix The prefix to add to all the `shepherd-*` class names.
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
      * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
      * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
      * @param {HTMLElement} options.modalContainer An optional container element for the modal.
      * If not set, the modal will be appended to `document.body`.
      * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+     * @param {object} options.styleVariables An object hash of style variables to override
      * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
      * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
      * whenever the tour becomes active.
