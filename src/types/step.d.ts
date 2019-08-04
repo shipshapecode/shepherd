@@ -15,12 +15,6 @@ declare class Step extends Evented {
   constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
 
   /**
-   * Returns the tour for the step
-   * @return The tour instance
-   */
-  getTour(): Tour;
-
-  /**
    * Cancel the tour
    * Triggers the `cancel` event
    */
@@ -39,6 +33,12 @@ declare class Step extends Evented {
   destroy(): void;
 
   /**
+   * Returns the tour for the step
+   * @return The tour instance
+   */
+  getTour(): Tour;
+
+  /**
    * Hide the step and destroy the tippy instance
    */
   hide(): void;
@@ -48,23 +48,6 @@ declare class Step extends Evented {
    * @return True if the step is open and visible
    */
   isOpen(): boolean;
-
-  /**
-   * Create the element and set up the tippy instance
-   */
-  setupElements(): void;
-
-  /**
-   * If a custom scrollToHandler is defined, call that, otherwise do the generic
-   * scrollIntoView call.
-   */
-  scrollTo(): void;
-
-  /**
-   * Sets the options for the step, maps `when` to events, sets up buttons
-   * @param options The options for the step default is `{}`
-   */
-  setOptions(options?: Step.StepOptions): void;
 
   /**
    * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
