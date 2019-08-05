@@ -1,8 +1,7 @@
 export default function(shepherd) {
   return [
     {
-      options: {
-        text: `
+      text: `
          <p>
            Shepherd is a JavaScript library for guiding users through your app.
            It uses <a href="https://atomiks.github.io/tippyjs//" data-test-tippy-link>Tippy.js</a>,
@@ -17,93 +16,86 @@ export default function(shepherd) {
            It also offers a robust API for styling animations of steps
            as they enter and exit the view.
          </p>`,
-        attachTo: {
-          element: '.hero-welcome',
-          on: 'bottom'
-        },
-        classes: 'shepherd-step-element shepherd-transparent-text first-step',
-        buttons: [
-          {
-            action: shepherd.cancel,
-            classes: 'shepherd-button-secondary',
-            text: 'Exit'
-          }, {
-            action: shepherd.next,
-            classes: 'shepherd-button-example-primary',
-            text: 'Next'
-          }
-        ],
-        id: 'welcome'
-      }
+      attachTo: {
+        element: '.hero-welcome',
+        on: 'bottom'
+      },
+      classes: 'shepherd-step-element shepherd-transparent-text first-step',
+      buttons: [
+        {
+          action: shepherd.cancel,
+          classes: 'shepherd-button-secondary',
+          text: 'Exit'
+        }, {
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
+        }
+      ],
+      id: 'welcome'
     },
     {
-      options: {
-        title: 'Including',
-        text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
-        attachTo: {
-          element: '.hero-including',
-          on: 'bottom'
-        },
-        buttons: [
-          {
-            action: shepherd.back,
-            classes: 'shepherd-button-secondary',
-            text: 'Back'
-          }, {
-            action: shepherd.next,
-            classes: 'shepherd-button-example-primary',
-            text: 'Next'
-          }
-        ],
-        id: 'including',
-        classes: 'shepherd-step-element second-step'
-      }
+      title: 'Including',
+      text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
+      attachTo: {
+        element: '.hero-including',
+        on: 'bottom'
+      },
+      buttons: [
+        {
+          action: shepherd.back,
+          classes: 'shepherd-button-secondary',
+          text: 'Back'
+        }, {
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
+        }
+      ],
+      id: 'including',
+      classes: 'shepherd-step-element second-step'
     },
     {
-      options: {
-        title: 'Example Shepherd',
-        text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
-        attachTo: {
-          element: '.hero-example',
-          on: 'bottom'
-        },
-        buttons: [
-          {
-            action: shepherd.back,
-            classes: 'shepherd-button-secondary',
-            text: 'Back'
-          }, {
-            action: shepherd.next,
-            classes: 'shepherd-button-example-primary',
-            text: 'Next'
-          }
-        ],
-        id: 'example',
-        classes: 'shepherd-step-element third-step'
-      }
+      title: 'Example Shepherd',
+      text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
+      attachTo: {
+        element: '.hero-example',
+        on: 'bottom'
+      },
+      buttons: [
+        {
+          action: shepherd.back,
+          classes: 'shepherd-button-secondary',
+          text: 'Back'
+        }, {
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Next'
+        }
+      ],
+      id: 'example',
+      classes: 'shepherd-step-element third-step'
     },
     {
-      options: {
-        title: 'Learn more',
-        text: 'Star Shepherd on Github so you remember it for your next project',
-        attachTo: {
-          element:'.hero-followup',
-          on: 'left'
-        },
-        buttons: [
-          {
-            action: shepherd.back,
-            classes: 'shepherd-button-secondary',
-            text: 'Back'
-          }, {
-            action: shepherd.next,
-            classes: 'shepherd-button-example-primary',
-            text: 'Done'
-          }
-        ],
-        id: 'followup',
-        classes: 'shepherd-step-element fourth-step'
-      }
+      title: 'Learn more',
+      text: 'Star Shepherd on Github so you remember it for your next project',
+      attachTo: {
+        element: '.hero-followup',
+        on: 'left'
+      },
+      buttons: [
+        {
+          action: shepherd.back,
+          classes: 'shepherd-button-secondary',
+          text: 'Back'
+        }, {
+          action: shepherd.next,
+          classes: 'shepherd-button-example-primary',
+          text: 'Done'
+        }
+      ],
+      id: 'followup',
+      classes: 'shepherd-step-element fourth-step'
     }
   ];
 }

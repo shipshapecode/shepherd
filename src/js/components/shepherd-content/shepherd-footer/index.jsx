@@ -9,14 +9,19 @@ export default class ShepherdFooter extends Component {
     const { buttons } = step.options;
 
     return <footer className={styles.footer.trim()}>
-      {this._addButtons(buttons, classPrefix, styles)}
+      {this._addButtons(buttons, classPrefix, step, styles)}
     </footer>;
   }
 
-  _addButtons(buttons, classPrefix, styles) {
+  _addButtons(buttons, classPrefix, step, styles) {
     if (buttons) {
       return buttons.map((config) => {
-        return <ShepherdButton classPrefix={classPrefix} config={config} styles={styles}/>;
+        return <ShepherdButton
+          classPrefix={classPrefix}
+          config={config}
+          step={step}
+          styles={styles}
+        />;
       });
     }
 

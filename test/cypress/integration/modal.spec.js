@@ -73,15 +73,13 @@ describe('Modal mode', () => {
     const steps = () => {
       return [
         {
+          attachTo: {
+            element: '.hero-welcome',
+            on: 'bottom'
+          },
+          highlightClass: 'highlight',
           id: 'test-highlight',
-          options: {
-            attachTo: {
-              element:'.hero-welcome',
-              on:'bottom'
-            },
-            highlightClass: 'highlight',
-            text: 'Testing highlight'
-          }
+          text: 'Testing highlight'
         }
       ];
     };

@@ -68,11 +68,13 @@ export class Step extends Evented {
    * When the promise resolves, the rest of the `show` code for the step will execute.
    * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
    * footer below the main body text.
-   * @param {function} options.buttons.button.action A function executed when the button is clicked on
+   * @param {function} options.buttons.button.action A function executed when the button is clicked on.
+   * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
+   * work inside the action.
    * You can use action to skip steps or navigate to specific steps, with something like:
    * ```js
-   * action: function() {
-   *   return Shepherd.activeTour.show('some_step_name');
+   * action() {
+   *   return this.show('some_step_name');
    * }
    * ```
    * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`

@@ -108,7 +108,7 @@ const myTour = new Shepherd.Tour(options);
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
-- `steps`: An array of Step instances to initialize the tour with.
+- `steps`: An array of step options objects or Step instances to initialize the tour with.
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's
 dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute whenever the tour becomes active.
 - `useModalOverlay`: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.
@@ -182,6 +182,13 @@ the step will execute. For example:
   - `classes`: Extra classes to apply to the `<a>`
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary` class to the button
   - `action`: A function executed when the button is clicked on
+   It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
+   work inside the action. You can use action to skip steps or navigate to specific steps, with something like:
+   ```javascript
+     action() {
+       return this.show('some_step_name');
+     }
+   ```
   - `events`: A hash of events to bind onto the button, for example `{'mouseover': function(){}}`.  Adding a click event to `events` when you
   already have an `action` specified is not supported.
   You can use `events` to skip steps or navigate to specific steps, with something like:

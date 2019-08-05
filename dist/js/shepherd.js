@@ -5698,6 +5698,7 @@
     _proto.render = function render(props) {
       var classPrefix = props.classPrefix,
           config = props.config,
+          step = props.step,
           styles = props.styles;
       var action = config.action,
           classes = config.classes,
@@ -5705,7 +5706,7 @@
           text = config.text;
       return preact.h("button", {
         className: (classes || '') + styles.button + (secondary ? " " + classPrefix + "shepherd-button-secondary" : ''),
-        onClick: action,
+        onClick: action ? action.bind(step.tour) : null,
         tabindex: "0"
       }, text);
     };
@@ -5733,15 +5734,16 @@
       var buttons = step.options.buttons;
       return preact.h("footer", {
         className: styles.footer.trim()
-      }, this._addButtons(buttons, classPrefix, styles));
+      }, this._addButtons(buttons, classPrefix, step, styles));
     };
 
-    _proto._addButtons = function _addButtons(buttons, classPrefix, styles) {
+    _proto._addButtons = function _addButtons(buttons, classPrefix, step, styles) {
       if (buttons) {
         return buttons.map(function (config) {
           return preact.h(ShepherdButton, {
             classPrefix: classPrefix,
             config: config,
+            step: step,
             styles: styles
           });
         });
@@ -6525,11 +6527,13 @@
      * When the promise resolves, the rest of the `show` code for the step will execute.
      * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
      * footer below the main body text.
-     * @param {function} options.buttons.button.action A function executed when the button is clicked on
+     * @param {function} options.buttons.button.action A function executed when the button is clicked on.
+     * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
+     * work inside the action.
      * You can use action to skip steps or navigate to specific steps, with something like:
      * ```js
-     * action: function() {
-     *   return Shepherd.activeTour.show('some_step_name');
+     * action() {
+     *   return this.show('some_step_name');
      * }
      * ```
      * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
@@ -9553,7 +9557,7 @@
      * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
      * @param {HTMLElement} options.modalContainer An optional container element for the modal.
      * If not set, the modal will be appended to `document.body`.
-     * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+     * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
      * @param {object} options.styleVariables An object hash of style variables to override
      * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
      * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -9575,7 +9579,10 @@
       _this.options = options;
       _this.classPrefix = _this.options ? normalizePrefix(_this.options.classPrefix) : '';
       _this.styles = generateStyles(options);
-      _this.steps = _this.options.steps || []; // Pass these events onto the global Shepherd object
+      _this.steps = [];
+
+      _this.addSteps(_this.options.steps); // Pass these events onto the global Shepherd object
+
 
       var events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
       events.map(function (event) {
@@ -9622,6 +9629,23 @@
 
       this.steps.push(step);
       return step;
+    }
+    /**
+     * Add multiple steps to the tour
+     * @param {Array<object> | Array<Step>} steps The steps to add to the tour
+     */
+    ;
+
+    _proto.addSteps = function addSteps(steps) {
+      var _this2 = this;
+
+      if (Array.isArray(steps)) {
+        steps.forEach(function (step) {
+          _this2.addStep(step);
+        });
+      }
+
+      return this;
     }
     /**
      * Go to the previous step in the tour
@@ -9722,7 +9746,7 @@
     ;
 
     _proto.removeStep = function removeStep(name) {
-      var _this2 = this;
+      var _this3 = this;
 
       var current = this.getCurrentStep(); // Find the step, destroy it and remove it from this.steps
 
@@ -9734,7 +9758,7 @@
 
           step.destroy();
 
-          _this2.steps.splice(i, 1);
+          _this3.steps.splice(i, 1);
 
           return true;
         }
