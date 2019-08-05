@@ -177,6 +177,14 @@ declare namespace Step {
   interface StepOptionsButton {
     /**
      * A function executed when the button is clicked on
+     * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
+     * work inside the action.
+     * You can use action to skip steps or navigate to specific steps, with something like:
+     * ```js
+     * action() {
+     *   return this.show('some_step_name');
+     * }
+     * ```
      */
     action?: (() => void);
 

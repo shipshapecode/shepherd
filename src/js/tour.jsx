@@ -44,7 +44,7 @@ export class Tour extends Evented {
    * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
    * If not set, the modal will be appended to `document.body`.
-   * @param {Step[]} options.steps An array of Step instances to initialize the tour with
+   * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
    * @param {object} options.styleVariables An object hash of style variables to override
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
@@ -62,7 +62,8 @@ export class Tour extends Evented {
     this.options = options;
     this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
     this.styles = generateStyles(options);
-    this.steps = this.options.steps || [];
+    this.steps = [];
+    this.addSteps(this.options.steps);
 
     // Pass these events onto the global Shepherd object
     const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
@@ -109,6 +110,20 @@ export class Tour extends Evented {
 
     this.steps.push(step);
     return step;
+  }
+
+  /**
+   * Add multiple steps to the tour
+   * @param {Array<object> | Array<Step>} steps The steps to add to the tour
+   */
+  addSteps(steps) {
+    if (Array.isArray(steps)) {
+      steps.forEach((step) => {
+        this.addStep(step);
+      });
+    }
+
+    return this;
   }
 
   /**
