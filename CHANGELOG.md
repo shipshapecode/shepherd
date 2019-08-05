@@ -1,5 +1,55 @@
 # Changelog
 
+## [v4.4.0](https://github.com/shipshapecode/shepherd/tree/v4.4.0) (2019-08-05)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.4...v4.4.0)
+
+**Implemented enhancements:**
+
+- Add addSteps method and allow passing steps to tour constructor [\#485](https://github.com/shipshapecode/shepherd/pull/485) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Shepherd.Tour constructor definition of steps errors with showOn being undefined [\#114](https://github.com/shipshapecode/shepherd/issues/114)
+
+## [v4.3.4](https://github.com/shipshapecode/shepherd/tree/v4.3.4) (2019-08-04)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.3...v4.3.4)
+
+**Implemented enhancements:**
+
+- styleVariables missing in 'TourOptions' declaration and beforeShowStep not implemented [\#483](https://github.com/shipshapecode/shepherd/issues/483)
+- Fix some types and docs [\#484](https://github.com/shipshapecode/shepherd/pull/484) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.3](https://github.com/shipshapecode/shepherd/tree/v4.3.3) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.2...v4.3.3)
+
+**Implemented enhancements:**
+
+- Fix some TypeScript issues [\#482](https://github.com/shipshapecode/shepherd/pull/482) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.2](https://github.com/shipshapecode/shepherd/tree/v4.3.2) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.1...v4.3.2)
+
+**Implemented enhancements:**
+
+- Add confirmCancel and confirmCancelMessage to types [\#480](https://github.com/shipshapecode/shepherd/pull/480) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.1](https://github.com/shipshapecode/shepherd/tree/v4.3.1) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.0...v4.3.1)
+
+**Implemented enhancements:**
+
+- Closing the tour should move the focus back to the element that opened it [\#473](https://github.com/shipshapecode/shepherd/issues/473)
+- Return focus after closing the tour [\#479](https://github.com/shipshapecode/shepherd/pull/479) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-license to the latest version 🚀 [\#478](https://github.com/shipshapecode/shepherd/pull/478) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v4.3.0](https://github.com/shipshapecode/shepherd/tree/v4.3.0) (2019-08-01)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.2.0...v4.3.0)
