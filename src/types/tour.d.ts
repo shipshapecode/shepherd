@@ -20,6 +20,11 @@ declare class Tour extends Evented {
   addStep(options: Step | Step.StepOptions): Step;
 
   /**
+   * Add multiple steps to the tour
+   */
+  addSteps(steps: Array<object> | Array<Step>): Tour;
+
+  /**
    * Go to the previous step in the tour
    */
   back(): void;
@@ -103,9 +108,9 @@ declare namespace Tour {
     defaultStepOptions?: Step.StepOptions;
 
     /**
-     * An array of Step instances to initialize the tour with
+     * An array of step options objects or Step instances to initialize the tour with
      */
-    steps?: Step[];
+    steps?: Array<object> | Array<Step>;
 
     /**
      * An object hash of style variables to override

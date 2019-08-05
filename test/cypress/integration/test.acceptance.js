@@ -24,15 +24,13 @@ describe('Shepherd Acceptance Tests', () => {
         const steps = () => {
           return [
             {
-              id: 'welcome',
-              options: {
-                text: 'Shepherd is a JavaScript library',
-                attachTo: {
-                  element: '.hero-welcome',
-                  on: 'bottom'
-                },
-                classes: 'shepherd shepherd-transparent-text'
-              }
+              text: 'Shepherd is a JavaScript library',
+              attachTo: {
+                element: '.hero-welcome',
+                on: 'bottom'
+              },
+              classes: 'shepherd shepherd-transparent-text',
+              id: 'welcome'
             }
           ];
         };
@@ -59,15 +57,13 @@ describe('Shepherd Acceptance Tests', () => {
           const steps = () => {
             return [
               {
-                id: 'including',
-                options: {
-                  title: 'Including',
-                  text: 'Including Shepherd is easy!',
-                  attachTo: {
-                    element: heroIncludingElement,
-                    on: 'bottom'
-                  }
-                }
+                title: 'Including',
+                text: 'Including Shepherd is easy!',
+                attachTo: {
+                  element: heroIncludingElement,
+                  on: 'bottom'
+                },
+                id: 'including'
               }
             ];
           };
@@ -87,10 +83,8 @@ describe('Shepherd Acceptance Tests', () => {
           return [
             {
               id: 'undefined-attachto',
-              options: {
-                title: 'Undefined attachTo',
-                text: 'When attachTo is undefined, the step is centered.'
-              }
+              title: 'Undefined attachTo',
+              text: 'When attachTo is undefined, the step is centered.'
             }
           ];
         };
