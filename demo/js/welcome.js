@@ -19,7 +19,14 @@
         },
         showCancelLink: true,
         tippyOptions: {
-          maxWidth: '400px'
+          maxWidth: '400px',
+          popperOptions: {
+            modifiers: {
+              preventOverflow: {
+                escapeWithReference: true
+              }
+            }
+          }
         }
       },
       classPrefix: prefix,
@@ -33,14 +40,14 @@
           },
           buttons: [
             {
-              action() {
+              action: function() {
                 return this.cancel();
               },
               secondary: true,
               text: 'Exit'
             },
             {
-              action() {
+              action: function() {
                 return this.next();
               },
               text: 'Next'
@@ -67,14 +74,14 @@
         },
         buttons: [
           {
-            action() {
+            action: function() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action() {
+            action: function() {
               return this.next();
             },
             text: 'Next'
@@ -91,14 +98,14 @@
         },
         buttons: [
           {
-            action() {
+            action: function() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action() {
+            action: function() {
               return this.next();
             },
             text: 'Next'
@@ -115,14 +122,14 @@
         },
         buttons: [
           {
-            action() {
+            action: function() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action() {
+            action: function() {
               return this.next();
             },
             text: 'Next'
@@ -140,14 +147,14 @@
       text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
       buttons: [
         {
-          action() {
+          action: function() {
             return this.back();
           },
           secondary: true,
           text: 'Back'
         },
         {
-          action() {
+          action: function() {
             return this.next();
           },
           text: 'Next'
@@ -165,14 +172,14 @@
       },
       buttons: [
         {
-          action() {
+          action: function() {
             return this.back();
           },
           secondary: true,
           text: 'Back'
         },
         {
-          action() {
+          action: function() {
             return this.next();
           },
           text: 'Done'

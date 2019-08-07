@@ -1,4 +1,5 @@
 import { isString, isUndefined } from './type-check';
+import objectAssignDeep from 'object-assign-deep';
 import tippy from 'tippy.js';
 
 const addHasTitleClass = (step) => {
@@ -179,11 +180,11 @@ function _makeAttachedTippyOptions(attachToOptions, step) {
   };
 
   if (step.options.title) {
-    Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
+    objectAssignDeep(defaultPopperOptions.modifiers, addHasTitleClass(step));
   }
 
   if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-    Object.assign(defaultPopperOptions, step.options.tippyOptions.popperOptions);
+    objectAssignDeep(defaultPopperOptions, step.options.tippyOptions.popperOptions);
   }
 
   tippyOptions.popperOptions = defaultPopperOptions;
@@ -213,16 +214,16 @@ function _makeCenteredTippy(step) {
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
   if (step.options.title) {
-    Object.assign(defaultPopperOptions.modifiers, addHasTitleClass(step));
+    objectAssignDeep(defaultPopperOptions.modifiers, addHasTitleClass(step));
   }
 
-  Object.assign(
+  objectAssignDeep(
     defaultPopperOptions.modifiers,
     centeredStylePopperModifier,
     tippyOptions.popperOptions.modifiers
   );
 
-  const finalPopperOptions = Object.assign(
+  const finalPopperOptions = objectAssignDeep(
     {},
     defaultPopperOptions,
     tippyOptions.popperOptions

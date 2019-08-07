@@ -21,7 +21,7 @@ const plugins = [
   commonjs(),
   eslint(),
   babel({
-    exclude: /node_modules\/(?!(nano-css)\/).*/
+    exclude: /node_modules\/(?!(nano-css|object-assign-deep)\/).*/
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
@@ -102,7 +102,7 @@ if (!process.env.DEVELOPMENT) {
         }),
         commonjs(),
         babel({
-          exclude: /node_modules\/(?!(nano-css)\/).*/
+          exclude: /node_modules\/(?!(nano-css|object-assign-deep)\/).*/
         }),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
