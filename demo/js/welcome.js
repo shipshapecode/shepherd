@@ -63,11 +63,14 @@
       useModalOverlay: true
     });
 
+    const element = document.createElement('p');
+    element.innerText = 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
+
     // These steps should be added via `addSteps`
     const steps = [
       {
         title: 'Including',
-        text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
+        text: element,
         attachTo: {
           element: '.hero-including',
           on: 'bottom'
