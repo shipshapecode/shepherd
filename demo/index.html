@@ -72,12 +72,16 @@
               },
               buttons: [
                 {
-                  action: shepherd.back,
+                  action() {
+                    return this.back();
+                  },
                   classes: 'shepherd-button-secondary',
                   text: 'Back'
                 },
                 {
-                  action: shepherd.next,
+                  action() {
+                    return this.next();
+                  },
                   text: 'Next'
                 }
               ],
