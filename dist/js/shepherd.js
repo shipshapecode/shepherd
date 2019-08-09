@@ -5992,6 +5992,23 @@
 
     var _proto = ShepherdText.prototype;
 
+    _proto.shouldComponentUpdate = function shouldComponentUpdate() {
+      return false;
+    };
+
+    _proto.componentDidMount = function componentDidMount() {
+      var step = this.props.step;
+      var text = step.options.text;
+
+      if (isFunction(text)) {
+        text = text.call(step);
+      }
+
+      if (isElement(text)) {
+        this.base.appendChild(text);
+      }
+    };
+
     _proto.render = function render(props) {
       var descriptionId = props.descriptionId,
           step = props.step,
@@ -6005,7 +6022,7 @@
       return preact.h("div", {
         className: styles.text.trim(),
         dangerouslySetInnerHTML: {
-          __html: text
+          __html: !isElement(text) ? text : null
         },
         id: descriptionId
       });
