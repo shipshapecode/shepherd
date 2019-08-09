@@ -16,11 +16,6 @@ export default class ShepherdModal extends Component {
 
     // Setup initial state
     this.closeModalOpening();
-    this.setState({
-      style: {
-        display: 'none'
-      }
-    });
   }
 
   render(props, state) {
@@ -28,7 +23,6 @@ export default class ShepherdModal extends Component {
     return <svg
       className={styles['modal-overlay-container']}
       onTouchMove={ShepherdModal._preventModalOverlayTouch}
-      style={state.style}
     >
       <defs>
         <mask
@@ -84,12 +78,6 @@ export default class ShepherdModal extends Component {
   hide() {
     document.body.classList.remove(`${this.classPrefix}shepherd-modal-is-visible`);
 
-    this.setState({
-      style: {
-        display: 'none'
-      }
-    });
-
     // Ensure we cleanup all event listeners when we hide the modal
     this._cleanupStepEventListeners();
   }
@@ -137,12 +125,6 @@ export default class ShepherdModal extends Component {
    */
   show() {
     document.body.classList.add(`${this.classPrefix}shepherd-modal-is-visible`);
-
-    this.setState({
-      style: {
-        display: 'block'
-      }
-    });
   }
 
   /**
