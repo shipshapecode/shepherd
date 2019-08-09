@@ -115,7 +115,7 @@ declare namespace Step {
     /**
      * Should the element be scrolled to when this step is shown?
      */
-    scrollTo?: boolean;
+    scrollTo?: boolean | ScrollIntoViewOptions;
 
     /**
      * A function that lets you override the default scrollTo behavior and
