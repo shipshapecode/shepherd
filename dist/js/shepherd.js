@@ -575,7 +575,7 @@
   }
 
   function applyRef(ref, value) {
-    if (ref != null) {
+    if (ref) {
       if (typeof ref == 'function') ref(value);else ref.current = value;
     }
   }
@@ -1471,7 +1471,7 @@
   objectAssignDeep.withOptions = withOptions;
 
   /**!
-  * tippy.js v5.0.0-beta.0
+  * tippy.js v5.0.0-beta.1
   * (c) 2017-2019 atomiks
   * MIT License
   */
@@ -4727,12 +4727,12 @@
   Popper.Defaults = Defaults;
 
   /**!
-  * tippy.js v5.0.0-beta.0
+  * tippy.js v5.0.0-beta.1
   * (c) 2017-2019 atomiks
   * MIT License
   */
 
-  var version = "5.0.0-beta.0";
+  var version = "5.0.0-beta.1";
 
   var idCounter = 1; // Workaround for IE11's lack of new MouseEvent constructor
 
@@ -5297,6 +5297,9 @@
     }
 
     function disable() {
+      // Disabling the instance should also hide it
+      // https://github.com/atomiks/tippy.js-react/issues/106
+      instance.hide();
       instance.state.isEnabled = false;
     }
 
@@ -5410,7 +5413,11 @@
         setVisibilityState(transitionableElements, 'visible');
         onTransitionedIn(duration, function () {
           if (instance.props.aria) {
-            getEventListenersTarget().setAttribute("aria-" + instance.props.aria, tooltip.id);
+            var node = getEventListenersTarget();
+            var attrName = "aria-" + instance.props.aria;
+            var currentAttrValue = node.getAttribute(attrName);
+            var nextAttrValue = currentAttrValue ? currentAttrValue + " " + tooltip.id : tooltip.id;
+            node.setAttribute(attrName, nextAttrValue);
           }
 
           instance.props.onShown(instance);
@@ -5448,7 +5455,16 @@
       setVisibilityState(transitionableElements, 'hidden');
       onTransitionedOut(duration, function () {
         if (instance.props.aria) {
-          getEventListenersTarget().removeAttribute("aria-" + instance.props.aria);
+          var node = getEventListenersTarget();
+          var attrName = "aria-" + instance.props.aria;
+          var currentAttrValue = node.getAttribute(attrName);
+          var nextAttrValue = currentAttrValue ? currentAttrValue.replace(tooltip.id, '').trim() : null;
+
+          if (nextAttrValue) {
+            node.setAttribute(attrName, nextAttrValue);
+          } else {
+            node.removeAttribute(attrName);
+          }
         }
 
         instance.popperInstance.disableEventListeners();
@@ -5565,7 +5581,7 @@
   }
 
   /**!
-  * tippy.js v5.0.0-beta.0
+  * tippy.js v5.0.0-beta.1
   * (c) 2017-2019 atomiks
   * MIT License
   */
