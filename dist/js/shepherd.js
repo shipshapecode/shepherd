@@ -1,4 +1,4 @@
-/*! shepherd.js 4.5.0 */
+/*! shepherd.js 4.6.0 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -9378,20 +9378,27 @@
     };
   }
 
-  function modalStyles() {
+  function modalStyles(classPrefix) {
+    var _modalOverlayContai;
+
     return {
-      'modal-overlay-container': {
+      'modal-overlay-container': (_modalOverlayContai = {
         '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
         filter: 'alpha(opacity=50)',
-        height: '100vh',
+        height: 0,
         left: 0,
-        opacity: 0.5,
+        opacity: 0,
+        overflow: 'hidden',
         position: 'fixed',
         top: 0,
-        transition: 'all 0.3s ease-out',
+        transition: 'all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms',
         width: '100vw',
         zIndex: 9997
-      },
+      }, _modalOverlayContai["." + classPrefix + "shepherd-modal-is-visible &"] = {
+        height: '100vh',
+        opacity: '0.5',
+        transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
+      }, _modalOverlayContai),
       'modal-mask-rect': {
         height: '100vh',
         width: '100vw'
@@ -9441,7 +9448,7 @@
           pointerEvents: 'auto'
         }
       }, _ref), _active)
-    }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(), {}, textStyles(variables));
+    }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(classPrefix), {}, textStyles(variables));
 
     if (variables.useDropShadow) {
       styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
@@ -9507,12 +9514,6 @@
 
       _this.closeModalOpening();
 
-      _this.setState({
-        style: {
-          display: 'none'
-        }
-      });
-
       return _this;
     }
 
@@ -9523,8 +9524,7 @@
           styles = props.styles;
       return preact.h("svg", {
         className: styles['modal-overlay-container'],
-        onTouchMove: ShepherdModal._preventModalOverlayTouch,
-        style: state.style
+        onTouchMove: ShepherdModal._preventModalOverlayTouch
       }, preact.h("defs", null, preact.h("mask", {
         className: classPrefix + "shepherd-modal-mask",
         height: "100%",
@@ -9571,12 +9571,7 @@
     ;
 
     _proto.hide = function hide() {
-      document.body.classList.remove(this.classPrefix + "shepherd-modal-is-visible");
-      this.setState({
-        style: {
-          display: 'none'
-        }
-      }); // Ensure we cleanup all event listeners when we hide the modal
+      document.body.classList.remove(this.classPrefix + "shepherd-modal-is-visible"); // Ensure we cleanup all event listeners when we hide the modal
 
       this._cleanupStepEventListeners();
     }
@@ -9637,11 +9632,6 @@
 
     _proto.show = function show() {
       document.body.classList.add(this.classPrefix + "shepherd-modal-is-visible");
-      this.setState({
-        style: {
-          display: 'block'
-        }
-      });
     }
     /**
      * Add resize and scroll event listeners
