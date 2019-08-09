@@ -1,4 +1,4 @@
-/*! shepherd.js 4.6.0 */
+/*! shepherd.js 4.5.0 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
