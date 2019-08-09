@@ -1,5 +1,33 @@
 # Changelog
 
+## [v4.6.0](https://github.com/shipshapecode/shepherd/tree/v4.6.0) (2019-08-09)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.5.0...v4.6.0)
+
+**Implemented enhancements:**
+
+- Wrong type definition for scrollTo [\#490](https://github.com/shipshapecode/shepherd/issues/490)
+- Fade in modal overlay [\#496](https://github.com/shipshapecode/shepherd/pull/496) ([rwwagner90](https://github.com/rwwagner90))
+- Fix for the wrong type definition of StepOptions.scrollTo [\#494](https://github.com/shipshapecode/shepherd/pull/494) ([moxival](https://github.com/moxival))
+
+## [v4.5.0](https://github.com/shipshapecode/shepherd/tree/v4.5.0) (2019-08-09)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.4.1...v4.5.0)
+
+**Fixed bugs:**
+
+- Passing 'HTMLElement' to tour.addStep{ text: ... } doesn't work anymore [\#492](https://github.com/shipshapecode/shepherd/issues/492)
+- Support passing elements for text [\#493](https://github.com/shipshapecode/shepherd/pull/493) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.4.1](https://github.com/shipshapecode/shepherd/tree/v4.4.1) (2019-08-07)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.4.0...v4.4.1)
+
+**Fixed bugs:**
+
+- ShepherdClass missing after adding modifiers of popper [\#486](https://github.com/shipshapecode/shepherd/issues/486)
+- Use objectAssignDeep to deeply merge tippyOptions [\#488](https://github.com/shipshapecode/shepherd/pull/488) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v4.4.0](https://github.com/shipshapecode/shepherd/tree/v4.4.0) (2019-08-05)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.4...v4.4.0)
