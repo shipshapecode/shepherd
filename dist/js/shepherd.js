@@ -413,107 +413,6 @@
   			writable: true });
   }
 
-  /**
-   * Checks if `value` is classified as an `HTMLElement`.
-   * @param {*} value The param to check if it is an HTMLElement
-   */
-  function isElement(value) {
-    return value instanceof HTMLElement;
-  }
-  /**
-   * Checks if `value` is classified as a `Function` object.
-   * @param {*} value The param to check if it is a function
-   */
-
-  function isFunction(value) {
-    return typeof value === 'function';
-  }
-  /**
-   * Checks if `value` is classified as a `String` object.
-   * @param {*} value The param to check if it is a string
-   */
-
-  function isString(value) {
-    return typeof value === 'string';
-  }
-  /**
-   * Checks if `value` is undefined.
-   * @param {*} value The param to check if it is undefined
-   */
-
-  function isUndefined(value) {
-    return value === undefined;
-  }
-
-  var Evented =
-  /*#__PURE__*/
-  function () {
-    function Evented() {}
-
-    var _proto = Evented.prototype;
-
-    _proto.on = function on(event, handler, ctx) {
-      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-      if (isUndefined(this.bindings)) {
-        this.bindings = {};
-      }
-
-      if (isUndefined(this.bindings[event])) {
-        this.bindings[event] = [];
-      }
-
-      this.bindings[event].push({
-        handler: handler,
-        ctx: ctx,
-        once: once
-      });
-    };
-
-    _proto.once = function once(event, handler, ctx) {
-      this.on(event, handler, ctx, true);
-    };
-
-    _proto.off = function off(event, handler) {
-      var _this = this;
-
-      if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
-        return false;
-      }
-
-      if (isUndefined(handler)) {
-        delete this.bindings[event];
-      } else {
-        this.bindings[event].forEach(function (binding, index) {
-          if (binding.handler === handler) {
-            _this.bindings[event].splice(index, 1);
-          }
-        });
-      }
-    };
-
-    _proto.trigger = function trigger(event) {
-      var _this2 = this;
-
-      if (!isUndefined(this.bindings) && this.bindings[event]) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        this.bindings[event].forEach(function (binding, index) {
-          var ctx = binding.ctx,
-              handler = binding.handler,
-              once = binding.once;
-          var context = ctx || _this2;
-          handler.apply(context, args);
-
-          if (once) {
-            _this2.bindings[event].splice(index, 1);
-          }
-        });
-      }
-    };
-
-    return Evented;
-  }();
-
   var VNode = function VNode() {};
 
   var options = {};
@@ -1229,6 +1128,107 @@
   	rerender: rerender,
   	options: options
   };
+
+  /**
+   * Checks if `value` is classified as an `HTMLElement`.
+   * @param {*} value The param to check if it is an HTMLElement
+   */
+  function isElement(value) {
+    return value instanceof HTMLElement;
+  }
+  /**
+   * Checks if `value` is classified as a `Function` object.
+   * @param {*} value The param to check if it is a function
+   */
+
+  function isFunction(value) {
+    return typeof value === 'function';
+  }
+  /**
+   * Checks if `value` is classified as a `String` object.
+   * @param {*} value The param to check if it is a string
+   */
+
+  function isString(value) {
+    return typeof value === 'string';
+  }
+  /**
+   * Checks if `value` is undefined.
+   * @param {*} value The param to check if it is undefined
+   */
+
+  function isUndefined(value) {
+    return value === undefined;
+  }
+
+  var Evented =
+  /*#__PURE__*/
+  function () {
+    function Evented() {}
+
+    var _proto = Evented.prototype;
+
+    _proto.on = function on(event, handler, ctx) {
+      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+      if (isUndefined(this.bindings)) {
+        this.bindings = {};
+      }
+
+      if (isUndefined(this.bindings[event])) {
+        this.bindings[event] = [];
+      }
+
+      this.bindings[event].push({
+        handler: handler,
+        ctx: ctx,
+        once: once
+      });
+    };
+
+    _proto.once = function once(event, handler, ctx) {
+      this.on(event, handler, ctx, true);
+    };
+
+    _proto.off = function off(event, handler) {
+      var _this = this;
+
+      if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
+        return false;
+      }
+
+      if (isUndefined(handler)) {
+        delete this.bindings[event];
+      } else {
+        this.bindings[event].forEach(function (binding, index) {
+          if (binding.handler === handler) {
+            _this.bindings[event].splice(index, 1);
+          }
+        });
+      }
+    };
+
+    _proto.trigger = function trigger(event) {
+      var _this2 = this;
+
+      if (!isUndefined(this.bindings) && this.bindings[event]) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        this.bindings[event].forEach(function (binding, index) {
+          var ctx = binding.ctx,
+              handler = binding.handler,
+              once = binding.once;
+          var context = ctx || _this2;
+          handler.apply(context, args);
+
+          if (once) {
+            _this2.bindings[event].splice(index, 1);
+          }
+        });
+      }
+    };
+
+    return Evented;
+  }();
 
   /**
    * Binds all the methods on a JS Class to the `this` context of the class.
@@ -10145,8 +10145,7 @@
 
   _extends(Shepherd, {
     Tour: Tour,
-    Step: Step,
-    Evented: Evented
+    Step: Step
   });
 
   return Shepherd;

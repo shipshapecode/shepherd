@@ -337,17 +337,6 @@ yourApp.on('some-event', () => {
   }
 });
 </code></pre>
-<p>It's strongly recommended that you use some sort of event mediator to connect your app's actions with Shepherd, to prevent
-having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
-mediator if need be using the <code>Evented</code> object which is provided with Shepherd:</p>
-<pre class="prettyprint source lang-javascript"><code>const mediator = new Shepherd.Evented();
-</code></pre>
-<p>You can then trigger events in one part of your app:</p>
-<pre class="prettyprint source lang-javascript"><code>mediator.trigger('user-create');
-</code></pre>
-<p>And listen for them in other areas:</p>
-<pre class="prettyprint source lang-javascript"><code>mediator.on('user-create', () => {});
-</code></pre>
 <h3>Rendering Tours in Specific Locations</h3>
 <p>By default, tour steps will append their elements to the <code>body</code> element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
 <a href="https://atomiks.github.io/tippyjs/#append-to-option"><code>appendTo</code> option</a> by defining it on the
