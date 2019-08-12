@@ -12,6 +12,7 @@ export default class ShepherdContent extends Component {
 
     return <div
       className={styles.content.trim()}
+      role="document"
     >
       <ShepherdHeader
         labelId={labelId}
