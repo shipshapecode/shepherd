@@ -259,26 +259,6 @@ yourApp.on('some-event', () => {
 });
 ```
 
-It's strongly recommended that you use some sort of event mediator to connect your app's actions with Shepherd, to prevent
-having to sprinkle Shepherd code throughout your codebase, and to keep things loosely coupled.  You can create a basic
-mediator if need be using the `Evented` object which is provided with Shepherd:
-
-```javascript
-const mediator = new Shepherd.Evented();
-```
-
-You can then trigger events in one part of your app:
-
-```javascript
-mediator.trigger('user-create');
-```
-
-And listen for them in other areas:
-
-```javascript
-mediator.on('user-create', () => {});
-```
-
 ### Rendering Tours in Specific Locations
 
 By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
