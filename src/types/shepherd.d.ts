@@ -1,12 +1,11 @@
-import _Evented from './evented';
 import _Step from './step';
 import _Tour from './tour';
 
-declare class Shepherd extends _Evented {
-  activeTour?: _Tour;
-}
-
 declare namespace Shepherd {
+  /**
+   * The currently active tour instance
+   */
+  export const activeTour: _Tour | undefined;
   export import Step = _Step;
   export import Tour = _Tour;
 }
