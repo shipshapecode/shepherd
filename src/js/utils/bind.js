@@ -10,8 +10,8 @@ import { isUndefined } from './type-check';
 function _setupAdvanceOnHandler(selector, step) {
   return (event) => {
     if (step.isOpen()) {
-      const targetIsEl = step.el && event.target === step.el;
-      const targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
+      const targetIsEl = step.el && event.currentTarget === step.el;
+      const targetIsSelector = !isUndefined(selector) && event.currentTarget.matches(selector);
 
       if (targetIsSelector || targetIsEl) {
         step.tour.next();
