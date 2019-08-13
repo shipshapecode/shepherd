@@ -11,16 +11,6 @@ export default function textStyles(variables) {
         '&:last-child': {
           marginBottom: 0
         }
-      },
-      'a, a:visited, a:active': {
-        borderBottom: '1px dotted',
-        borderBottomColor: variables.shepherdThemeTextColor,
-        color: variables.shepherdThemeTextColor,
-        textDecoration: 'none',
-
-        '&:hover': {
-          borderBottomStyle: 'solid'
-        }
       }
     }
   };
