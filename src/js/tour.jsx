@@ -42,6 +42,10 @@ export class Tour extends Evented {
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
    * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
+   * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
+   * set to false.
+   * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
+   * unless this is explicitly set to false.
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
    * If not set, the modal will be appended to `document.body`.
    * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
@@ -59,7 +63,12 @@ export class Tour extends Evented {
 
     autoBind(this);
 
-    this.options = options;
+    const defaultTourOptions = {
+      exitOnEsc: true,
+      keyboardNavigation: true
+    };
+
+    this.options = Object.assign({}, defaultTourOptions, options);
     this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
     this.styles = generateStyles(options);
     this.steps = [];
