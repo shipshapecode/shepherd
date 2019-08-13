@@ -107,3 +107,18 @@ pre {
   background: #ececec;
   color: #00213B;
 }
+
+.demo-shepherd-text a,
+.demo-shepherd-text a:visited,
+.demo-shepherd-text a:active {
+  border-bottom: 1px dotted;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+}
+
+.demo-shepherd-text a:hover,
+.demo-shepherd-text a:visited:hover,
+.demo-shepherd-text a:active:hover {
+  border-bottom-style: solid;
+}
