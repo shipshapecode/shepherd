@@ -39,6 +39,8 @@ We use [polished](https://github.com/styled-components/polished) to calculate li
 
 | Variable                    | Purpose                                                            | Default
 |-----------------------------|--------------------------------------------------------------------|--------
+| arrowSize                   | Sets the scale of the arrow for the tooltip.                       | 2.1
+| overlayOpacity              | Sets the opacity of the modal overlay.                             | 0.5
 | shepherdElementBorderRadius | Sets the border-radius of the shepherd-element.                    | 5px
 | shepherdElementMaxHeight    | Maximum height of the element                                      | 100%
 | shepherdElementMaxWidth     | Maximum width of the element                                       | 100%

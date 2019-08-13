@@ -1,4 +1,4 @@
-export default function modalStyles(classPrefix) {
+export default function modalStyles(classPrefix, variables) {
   return {
     'modal-overlay-container': {
       '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
@@ -14,7 +14,7 @@ export default function modalStyles(classPrefix) {
       zIndex: 9997,
       [`.${classPrefix}shepherd-modal-is-visible &`]: {
         height: '100vh',
-        opacity: '0.5',
+        opacity: variables.overlayOpacity,
         transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
       }
     },
