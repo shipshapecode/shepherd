@@ -8177,6 +8177,7 @@
 
   var styles = {
     arrowSize: 2.1,
+    overlayOpacity: 0.5,
     shepherdButtonBorderRadius: '3px',
     shepherdElementBorderRadius: '5px',
     shepherdElementMaxHeight: '100%',
@@ -9389,7 +9390,7 @@
     };
   }
 
-  function modalStyles(classPrefix) {
+  function modalStyles(classPrefix, variables) {
     var _modalOverlayContai;
 
     return {
@@ -9407,7 +9408,7 @@
         zIndex: 9997
       }, _modalOverlayContai["." + classPrefix + "shepherd-modal-is-visible &"] = {
         height: '100vh',
-        opacity: '0.5',
+        opacity: variables.overlayOpacity,
         transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
       }, _modalOverlayContai),
       'modal-mask-rect': {
@@ -9450,7 +9451,7 @@
           pointerEvents: 'auto'
         }
       }, _ref), _active)
-    }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(classPrefix), {}, textStyles(variables));
+    }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(classPrefix, variables), {}, textStyles(variables));
 
     if (variables.useDropShadow) {
       styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
