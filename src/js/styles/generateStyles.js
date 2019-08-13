@@ -37,7 +37,7 @@ export function generateStyles(options) {
     ...elementStyles(),
     ...footerStyles(classPrefix, variables),
     ...headerStyles(classPrefix, variables),
-    ...modalStyles(classPrefix),
+    ...modalStyles(classPrefix, variables),
     ...textStyles(variables)
   };
 

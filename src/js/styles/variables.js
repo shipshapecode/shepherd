@@ -2,6 +2,7 @@ import { darken, desaturate, lighten, readableColor, transparentize } from 'poli
 
 const styles = {
   arrowSize: 2.1,
+  overlayOpacity: 0.5,
   shepherdButtonBorderRadius: '3px',
   shepherdElementBorderRadius: '5px',
   shepherdElementMaxHeight: '100%',
