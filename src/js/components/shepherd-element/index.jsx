@@ -60,6 +60,7 @@ export default class ShepherdElement extends Component {
    * @private
    */
   handleKeyDown(e) {
+    const { tour } = this.step;
     switch (e.keyCode) {
       case KEY_TAB:
         if (this.focusableElements.length === 1) {
@@ -80,13 +81,19 @@ export default class ShepherdElement extends Component {
         }
         break;
       case KEY_ESC:
-        this.step.cancel();
+        if (tour.options.exitOnEsc) {
+          this.step.cancel();
+        }
         break;
       case LEFT_ARROW:
-        this.step.tour.back();
+        if (tour.options.keyboardNavigation) {
+          tour.back();
+        }
         break;
       case RIGHT_ARROW:
-        this.step.tour.next();
+        if (tour.options.keyboardNavigation) {
+          tour.next();
+        }
         break;
       default:
         break;
