@@ -6174,6 +6174,8 @@
     ;
 
     _proto.handleKeyDown = function handleKeyDown(e) {
+      var tour = this.step.tour;
+
       switch (e.keyCode) {
         case KEY_TAB:
           if (this.focusableElements.length === 1) {
@@ -6197,15 +6199,24 @@
           break;
 
         case KEY_ESC:
-          this.step.cancel();
+          if (tour.options.exitOnEsc) {
+            this.step.cancel();
+          }
+
           break;
 
         case LEFT_ARROW:
-          this.step.tour.back();
+          if (tour.options.keyboardNavigation) {
+            tour.back();
+          }
+
           break;
 
         case RIGHT_ARROW:
-          this.step.tour.next();
+          if (tour.options.keyboardNavigation) {
+            tour.next();
+          }
+
           break;
 
         default:
@@ -9734,6 +9745,10 @@
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
      * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
      * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
+     * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
+     * set to false.
+     * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
+     * unless this is explicitly set to false.
      * @param {HTMLElement} options.modalContainer An optional container element for the modal.
      * If not set, the modal will be appended to `document.body`.
      * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
@@ -9755,7 +9770,11 @@
 
       _this = _Evented.call(this, options) || this;
       autoBind(_assertThisInitialized(_this));
-      _this.options = options;
+      var defaultTourOptions = {
+        exitOnEsc: true,
+        keyboardNavigation: true
+      };
+      _this.options = _extends({}, defaultTourOptions, options);
       _this.classPrefix = _this.options ? normalizePrefix(_this.options.classPrefix) : '';
       _this.styles = generateStyles(options);
       _this.steps = [];

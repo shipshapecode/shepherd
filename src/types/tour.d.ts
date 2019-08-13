@@ -94,18 +94,33 @@ declare namespace Tour {
      * The prefix to add to all the `shepherd-*` class names.
      */
     classPrefix?: string;
+
     /**
      * If true, will issue a `window.confirm` before cancelling
      */
     confirmCancel?: boolean;
+
     /**
      * The message to display in the confirm dialog
      */
     confirmCancelMessage?: string;
+
     /**
      * Default options for Steps created through `addStep`
      */
     defaultStepOptions?: Step.StepOptions;
+
+    /**
+     * Exiting the tour with the escape key will be enabled unless this is explicitly
+     * set to false.
+     */
+    exitOnEsc?: boolean;
+
+    /**
+     * Navigating the tour via left and right arrow keys will be enabled
+     * unless this is explicitly set to false.
+     */
+    keyboardNavigation?: boolean;
 
     /**
      * An array of step options objects or Step instances to initialize the tour with
