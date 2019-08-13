@@ -1262,8 +1262,8 @@
   function _setupAdvanceOnHandler(selector, step) {
     return function (event) {
       if (step.isOpen()) {
-        var targetIsEl = step.el && event.target === step.el;
-        var targetIsSelector = !isUndefined(selector) && event.target.matches(selector);
+        var targetIsEl = step.el && event.currentTarget === step.el;
+        var targetIsSelector = !isUndefined(selector) && event.currentTarget.matches(selector);
 
         if (targetIsSelector || targetIsEl) {
           step.tour.next();
