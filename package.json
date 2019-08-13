@@ -77,7 +77,7 @@
     "del": "^5.0.0",
     "eslint": "^6.1.0",
     "eslint-config-standard-jsx": "^7.0.0",
-    "eslint-plugin-jest": "^22.15.0",
+    "eslint-plugin-jest": "^22.15.1",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-ship-shape": "^0.6.0",
     "glob": "^7.1.3",
