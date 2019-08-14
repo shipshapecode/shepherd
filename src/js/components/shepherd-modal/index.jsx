@@ -1,5 +1,4 @@
 import preact from 'preact';
-import { debounce } from '../../utils/general';
 import autoBind from '../../utils/auto-bind';
 
 const { Component } = preact;
@@ -128,33 +127,26 @@ export default class ShepherdModal extends Component {
   }
 
   /**
-   * Add resize and scroll event listeners
+   * Add touchmove event listener
    * @private
    */
   _addStepEventListeners() {
-    if (typeof this._onScreenChange === 'function') {
-      window.removeEventListener('resize', this._onScreenChange, false);
-      window.removeEventListener('scroll', this._onScreenChange, true);
-    }
-
-    window.addEventListener('resize', this._onScreenChange, false);
-    window.addEventListener('scroll', this._onScreenChange, true);
-
     // Prevents window from moving on touch.
-    window.addEventListener('touchmove', ShepherdModal._preventModalBodyTouch, { passive: false });
+    window.addEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+      passive: false
+    });
   }
 
   /**
-   * Remove resize and scroll event listeners
+   * Cancel the requestAnimationFrame loop and remove touchmove event listeners
    * @private
    */
   _cleanupStepEventListeners() {
-    if (typeof this._onScreenChange === 'function') {
-      window.removeEventListener('resize', this._onScreenChange, false);
-      window.removeEventListener('scroll', this._onScreenChange, true);
-
-      this._onScreenChange = null;
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = undefined;
     }
+
     window.removeEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
       passive: false
     });
@@ -169,12 +161,14 @@ export default class ShepherdModal extends Component {
     const { modalOverlayOpeningPadding } = step.options;
 
     if (step.target) {
-      this.positionModalOpening(step.target, modalOverlayOpeningPadding);
+      // Setup recursive function to call requestAnimationFrame to update the modal opening position
+      const rafLoop = () => {
+        this.rafId = undefined;
+        this.positionModalOpening(step.target, modalOverlayOpeningPadding);
+        this.rafId = requestAnimationFrame(rafLoop);
+      };
 
-      this._onScreenChange = debounce(
-        this.positionModalOpening.bind(this, step.target, modalOverlayOpeningPadding),
-        0
-      );
+      rafLoop();
 
       this._addStepEventListeners();
     } else {
