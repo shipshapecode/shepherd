@@ -16,6 +16,7 @@ module.exports = {
     'complexity': ['warn', 6],
     'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
     'no-console': 'off',
+    'prefer-const': 'off',
     'react/jsx-tag-spacing': 'off'
   },
   overrides: [

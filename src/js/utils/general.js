@@ -1,40 +1,6 @@
+import { makeAttachedTippyOptions, makeCenteredTippy } from './tippy-popper-options';
 import { isString, isUndefined } from './type-check';
 import tippy from 'tippy.js';
-
-const addHasTitleClass = (step) => {
-  return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
-};
-
-function _getCenteredStylePopperModifier(styles) {
-  return {
-    computeStyle: {
-      enabled: true,
-      fn(data) {
-        data.styles = Object.assign({}, data.styles, {
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)'
-        });
-
-        return data;
-      }
-    },
-    addShepherdClass: _createClassModifier(styles.shepherd.trim())
-  };
-}
-
-/**
- * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
- * @private
- */
-function _getDefaultPopperOptions(styles) {
-  return {
-    positionFixed: true,
-    modifiers: {
-      addShepherdClass: _createClassModifier(styles.shepherd.trim())
-    }
-  };
-}
 
 /**
  * Ensure class prefix ends in `-`
@@ -98,22 +64,6 @@ export function setupTooltip(step) {
 }
 
 /**
- * Create a popper modifier for adding the passed className to the popper
- * @param {string} className The class to add to the popper
- * @return {{fn(*): *, enabled: boolean}|*}
- * @private
- */
-function _createClassModifier(className) {
-  return {
-    enabled: true,
-    fn(data) {
-      data.instance.popper.classList.add(className);
-      return data;
-    }
-  };
-}
-
-/**
  * Generates a `Tippy` instance from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
@@ -121,101 +71,16 @@ function _createClassModifier(className) {
  * @private
  */
 function _makeTippyInstance(attachToOptions, step) {
+  let tippyOptions = {};
+  let element = document.body;
+
   if (!attachToOptions.element || !attachToOptions.on) {
-    return _makeCenteredTippy(step);
+    tippyOptions = makeCenteredTippy(step);
+  } else {
+    tippyOptions = makeAttachedTippyOptions(attachToOptions, step);
+    element = attachToOptions.element;
   }
 
-  const tippyOptions = _makeAttachedTippyOptions(attachToOptions, step);
-
-  return tippy(attachToOptions.element, tippyOptions);
+  return tippy(element, tippyOptions);
 }
 
-/**
- * Generates the hash of options that will be passed to `Tippy` instances
- * target an element in the DOM.
- *
- * @param {Object} attachToOptions The local `attachTo` options
- * @param {Step} step The step instance
- * @return {Object} The final tippy options  object
- * @private
- */
-function _makeAttachedTippyOptions(attachToOptions, step) {
-  const defaultPopperOptions = _getDefaultPopperOptions(step.styles);
-  const tippyOptions = {
-    content: step.el,
-    flipOnUpdate: true,
-    placement: attachToOptions.on || 'right',
-    ...step.options.tippyOptions
-  };
-
-  let popperModifiers = defaultPopperOptions.modifiers;
-  let popperOptions = defaultPopperOptions;
-
-  if (step.options.title) {
-    popperModifiers = {
-      ...popperModifiers,
-      ...addHasTitleClass(step)
-    };
-  }
-
-  if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-    popperModifiers = {
-      ...popperModifiers,
-      ...step.options.tippyOptions.popperOptions.modifiers
-    };
-    popperOptions = {
-      ...popperOptions,
-      ...step.options.tippyOptions.popperOptions
-    };
-  }
-
-  popperOptions.modifiers = popperModifiers;
-  tippyOptions.popperOptions = popperOptions;
-
-  return tippyOptions;
-}
-
-/**
- * Generates a `Tippy` instance for a tooltip that doesn't have a
- * target element in the DOM -- and thus is positioned in the center
- * of the view
- *
- * @param {Step} step The step instance
- * @return {tippy} The final tippy instance
- * @private
- */
-function _makeCenteredTippy(step) {
-  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step.styles);
-  const defaultPopperOptions = _getDefaultPopperOptions(step.styles);
-  const tippyOptions = {
-    content: step.el,
-    placement: 'top',
-    ...step.options.tippyOptions
-  };
-
-  tippyOptions.arrow = false;
-  tippyOptions.popperOptions = tippyOptions.popperOptions || {};
-
-  let popperModifiers = defaultPopperOptions.modifiers;
-  const popperOptions = {
-    ...defaultPopperOptions,
-    ...tippyOptions.popperOptions
-  };
-
-  if (step.options.title) {
-    popperModifiers = {
-      ...popperModifiers,
-      ...addHasTitleClass(step)
-    };
-  }
-
-  popperModifiers = {
-    ...popperModifiers,
-    ...centeredStylePopperModifier,
-    ...tippyOptions.popperOptions.modifiers
-  };
-  popperOptions.modifiers = popperModifiers;
-  tippyOptions.popperOptions = popperOptions;
-
-  return tippy(document.body, tippyOptions);
-}

@@ -1,7 +1,6 @@
 import { bindAdvance } from '../../../src/js/utils/bind.js';
 import { Step } from '../../../src/js/step.jsx';
 import { spy } from 'sinon';
-import { Tour } from '../../../src/js/tour';
 
 describe('Bind Utils', function() {
   describe('bindAdvance()', () => {
