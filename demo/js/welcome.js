@@ -19,7 +19,15 @@
         },
         showCancelLink: true,
         tippyOptions: {
-          maxWidth: '400px'
+          maxWidth: '400px',
+          popperOptions: {
+            modifiers: {
+              foo: 'bar',
+              preventOverflow: {
+                escapeWithReference: false
+              }
+            }
+          }
         }
       },
       classPrefix: prefix,

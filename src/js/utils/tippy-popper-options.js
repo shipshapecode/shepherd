@@ -66,7 +66,11 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
   if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
     popperOptions = {
       ...popperOptions,
-      ...step.options.tippyOptions.popperOptions
+      ...step.options.tippyOptions.popperOptions,
+      modifiers: {
+        ...popperOptions.modifiers,
+        ...step.options.tippyOptions.popperOptions.modifiers
+      }
     };
   }
 
@@ -91,15 +95,14 @@ export function makeCenteredTippy(step) {
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
-  popperOptions.modifiers = {
-    ...popperOptions.modifiers,
-    ...centeredStylePopperModifier,
-    ...tippyOptions.popperOptions.modifiers
-  };
-
   popperOptions = {
     ...popperOptions,
-    ...tippyOptions.popperOptions
+    ...tippyOptions.popperOptions,
+    modifiers: {
+      ...popperOptions.modifiers,
+      ...centeredStylePopperModifier,
+      ...tippyOptions.popperOptions.modifiers
+    }
   };
 
   tippyOptions.popperOptions = popperOptions;

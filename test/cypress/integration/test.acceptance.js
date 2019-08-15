@@ -180,6 +180,23 @@ describe('Shepherd Acceptance Tests', () => {
       cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
     });
 
+    it('Adds shepherd class when popperOptions.modifiers passed', () => {
+      const tour = setupTour(Shepherd, {
+        tippyOptions: {
+          popperOptions: {
+            modifiers: {
+              foo: 'bar',
+              preventOverflow: {
+                escapeWithReference: false
+              }
+            }
+          }
+        }
+      });
+      tour.start();
+      cy.get('.tippy-popper').should('have.class', 'shepherd');
+    });
+
     describe('scrolling', () => {
       it('scrollTo:true scrolls', () => {
         const tour = setupTour(Shepherd, {
