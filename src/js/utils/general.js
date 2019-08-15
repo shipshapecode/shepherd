@@ -1,5 +1,4 @@
 import { isString, isUndefined } from './type-check';
-import objectAssignDeep from 'object-assign-deep';
 import tippy from 'tippy.js';
 
 const addHasTitleClass = (step) => {
@@ -149,15 +148,29 @@ function _makeAttachedTippyOptions(attachToOptions, step) {
     ...step.options.tippyOptions
   };
 
+  let popperModifiers = defaultPopperOptions.modifiers;
+  let popperOptions = defaultPopperOptions;
+
   if (step.options.title) {
-    objectAssignDeep(defaultPopperOptions.modifiers, addHasTitleClass(step));
+    popperModifiers = {
+      ...popperModifiers,
+      ...addHasTitleClass(step)
+    };
   }
 
   if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-    objectAssignDeep(defaultPopperOptions, step.options.tippyOptions.popperOptions);
+    popperModifiers = {
+      ...popperModifiers,
+      ...step.options.tippyOptions.popperOptions.modifiers
+    };
+    popperOptions = {
+      ...popperOptions,
+      ...step.options.tippyOptions.popperOptions
+    };
+    popperOptions.modifiers = popperModifiers;
   }
 
-  tippyOptions.popperOptions = defaultPopperOptions;
+  tippyOptions.popperOptions = popperOptions;
 
   return tippyOptions;
 }
@@ -183,23 +196,26 @@ function _makeCenteredTippy(step) {
   tippyOptions.arrow = false;
   tippyOptions.popperOptions = tippyOptions.popperOptions || {};
 
+  let popperModifiers = defaultPopperOptions.modifiers;
+  const popperOptions = {
+    ...defaultPopperOptions,
+    ...tippyOptions.popperOptions
+  };
+
   if (step.options.title) {
-    objectAssignDeep(defaultPopperOptions.modifiers, addHasTitleClass(step));
+    popperModifiers = {
+      ...popperModifiers,
+      ...addHasTitleClass(step)
+    };
   }
 
-  objectAssignDeep(
-    defaultPopperOptions.modifiers,
-    centeredStylePopperModifier,
-    tippyOptions.popperOptions.modifiers
-  );
-
-  const finalPopperOptions = objectAssignDeep(
-    {},
-    defaultPopperOptions,
-    tippyOptions.popperOptions
-  );
-
-  tippyOptions.popperOptions = finalPopperOptions;
+  popperModifiers = {
+    ...popperModifiers,
+    ...centeredStylePopperModifier,
+    ...tippyOptions.popperOptions.modifiers
+  };
+  popperOptions.modifiers = popperModifiers;
+  tippyOptions.popperOptions = popperOptions;
 
   return tippy(document.body, tippyOptions);
 }
