@@ -1384,7 +1384,9 @@
     tippyOptions.placement = attachToOptions.on || 'right';
 
     if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-      popperOptions = _extends({}, popperOptions, {}, step.options.tippyOptions.popperOptions);
+      popperOptions = _extends({}, popperOptions, {}, step.options.tippyOptions.popperOptions, {
+        modifiers: _extends({}, popperOptions.modifiers, {}, step.options.tippyOptions.popperOptions.modifiers)
+      });
     }
 
     tippyOptions.popperOptions = popperOptions;
@@ -1409,8 +1411,9 @@
     tippyOptions.placement = 'top';
     tippyOptions.arrow = false;
     tippyOptions.popperOptions = tippyOptions.popperOptions || {};
-    popperOptions.modifiers = _extends({}, popperOptions.modifiers, {}, centeredStylePopperModifier, {}, tippyOptions.popperOptions.modifiers);
-    popperOptions = _extends({}, popperOptions, {}, tippyOptions.popperOptions);
+    popperOptions = _extends({}, popperOptions, {}, tippyOptions.popperOptions, {
+      modifiers: _extends({}, popperOptions.modifiers, {}, centeredStylePopperModifier, {}, tippyOptions.popperOptions.modifiers)
+    });
     tippyOptions.popperOptions = popperOptions;
     return tippyOptions;
   }
