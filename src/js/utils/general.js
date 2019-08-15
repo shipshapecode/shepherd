@@ -167,9 +167,9 @@ function _makeAttachedTippyOptions(attachToOptions, step) {
       ...popperOptions,
       ...step.options.tippyOptions.popperOptions
     };
-    popperOptions.modifiers = popperModifiers;
   }
-
+  
+  popperOptions.modifiers = popperModifiers;
   tippyOptions.popperOptions = popperOptions;
 
   return tippyOptions;
