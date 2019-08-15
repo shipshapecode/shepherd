@@ -51,7 +51,6 @@
     "es6-object-assign": "^1.1.0",
     "es6-symbol": "^3.1.1",
     "nano-css": "^5.2.0",
-    "object-assign-deep": "^0.4.0",
     "polished": "^3.4.1",
     "preact": "^8.5.1",
     "smoothscroll-polyfill": "^0.4.4",
