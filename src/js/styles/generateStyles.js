@@ -22,7 +22,7 @@ export function generateStyles(options) {
           pointerEvents: 'none'
         },
 
-        [`.${classPrefix}shepherd-button, .${classPrefix}shepherd-cancel-link, .${classPrefix}shepherd-element, .${classPrefix}shepherd-target`]: {
+        [`.${classPrefix}shepherd-button, .${classPrefix}shepherd-cancel-icon, .${classPrefix}shepherd-element, .${classPrefix}shepherd-target`]: {
           pointerEvents: 'auto',
 
           '*': {

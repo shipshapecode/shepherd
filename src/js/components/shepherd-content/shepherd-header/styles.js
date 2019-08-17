@@ -2,7 +2,7 @@ import { getLighterOrDarker } from '../../../styles/utils';
 
 export default function headerStyles(classPrefix, variables) {
   return {
-    'cancel-link': {
+    'cancel-icon': {
       background: 'transparent',
       border: 'none',
       color: getLighterOrDarker(variables.shepherdThemeTextColor),

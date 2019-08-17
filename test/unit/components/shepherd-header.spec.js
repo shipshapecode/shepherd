@@ -8,36 +8,56 @@ import { Step } from '../../../src/js/step';
 
 describe('components/ShepherdHeader', () => {
   const styles = {
-    'cancel-link': ' shepherd-cancel-link',
+    'cancel-icon': ' shepherd-cancel-icon',
     header: ' shepherd-header'
   };
 
-  it('cancel link is added when showCancelLink === true', () => {
+  it('cancel icon is added when cancelIcon.enabled === true', () => {
     const step = {
       options: {
-        showCancelLink: true
+        cancelIcon: {
+          enabled: true
+        }
       }
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.include(<button aria-label="Close Tour" class="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
+    expect(header).to.include(<button aria-label="Close Tour" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
   });
 
-  it('cancel link is not added when showCancelLink === false', () => {
+  it('cancel icon is not added when cancelIcon.enabled === false', () => {
     const step = {
       options: {
-        showCancelLink: false
+        cancelIcon: {
+          enabled: false
+        }
       }
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.not.include(<button aria-label="Close Tour" className="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
+    expect(header).to.not.include(<button aria-label="Close Tour" className="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
   });
 
-  it('cancel link cancels the tour', async () => {
+  it('cancel icon aria-label overridden when cancelIcon.label is set', () => {
+    const step = {
+      options: {
+        cancelIcon: {
+          enabled: true,
+          label: 'Test'
+        }
+      }
+    };
+
+    const header = <ShepherdHeader step={step} styles={styles}/>;
+    expect(header).to.include(<button aria-label="Test" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
+  });
+
+  it('cancel icon cancels the tour', async () => {
     const tour = new Tour();
     const step = new Step(tour, {
-      showCancelLink: true
+      cancelIcon: {
+        enabled: true
+      }
     });
     const stepCancelSpy = spy(step, 'cancel');
 

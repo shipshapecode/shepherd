@@ -5767,11 +5767,11 @@
           step = props.step,
           styles = props.styles;
       var _step$options = step.options,
-          showCancelLink = _step$options.showCancelLink,
+          cancelIcon = _step$options.cancelIcon,
           title = _step$options.title;
       return preact.h("header", {
         className: styles.header.trim()
-      }, this.constructor._addTitle(labelId, styles, title), this._addCancelLink(showCancelLink, styles));
+      }, this.constructor._addTitle(labelId, styles, title), this._addCancelLink(cancelIcon, styles));
     }
     /**
      * Add a click listener to the cancel link that cancels the tour
@@ -5792,13 +5792,21 @@
       }
 
       return null;
-    };
+    }
+    /**
+     * If enabled, add the cancel "x" icon
+     * @param {object} cancelIcon The options for the cancel icon
+     * @param styles
+     * @return {null|*}
+     * @private
+     */
+    ;
 
-    _proto._addCancelLink = function _addCancelLink(showCancelLink, styles) {
-      if (showCancelLink) {
+    _proto._addCancelLink = function _addCancelLink(cancelIcon, styles) {
+      if (cancelIcon && cancelIcon.enabled) {
         return preact.h("button", {
-          "aria-label": "Close Tour",
-          className: styles['cancel-link'].trim(),
+          "aria-label": cancelIcon.label ? cancelIcon.label : 'Close Tour',
+          className: styles['cancel-icon'].trim(),
           onClick: this.cancelStep,
           type: "button"
         }, preact.h("span", {
@@ -6557,6 +6565,9 @@
      * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
      * @param {string} options.buttons.button.text The HTML text of the button
      * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
+     * @param {object} options.cancelIcon Options for the cancel icon
+     * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
+     * @param {string} options.cancelIcon.label The label to add for `aria-label`
      * @param {string} options.classes A string of extra classes to add to the step's content element.
      * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
      * highlighted (that is, when its step is active). You can then target that selector in your CSS.
@@ -6566,7 +6577,6 @@
      * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
      * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
      * define a custom action to do the scrolling, and possibly other logic.
-     * @param {boolean} options.showCancelLink Should a cancel “✕” be shown in the header of the step?
      * @param {function} options.showOn A function that, when it returns `true`, will show the step.
      * If it returns false, the step will be skipped.
      * @param {string} options.text The text in the body of the step. It can be one of three types:
@@ -6721,8 +6731,8 @@
       var descriptionId = this.id + "-description";
       var labelId = this.id + "-label";
 
-      if (this.options.showCancelLink) {
-        classes += " " + this.classPrefix + "shepherd-has-cancel-link";
+      if (this.options.cancelIcon && this.options.cancelIcon.enabled) {
+        classes += " " + this.classPrefix + "shepherd-has-cancel-icon";
       }
 
       return render$1(preact.h(ShepherdElement, {
@@ -9156,10 +9166,10 @@
   }
 
   function headerStyles(classPrefix, variables) {
-    var _cancelLink, _header;
+    var _cancelIcon, _header;
 
     return {
-      'cancel-link': (_cancelLink = {
+      'cancel-icon': (_cancelIcon = {
         background: 'transparent',
         border: 'none',
         color: getLighterOrDarker(variables.shepherdThemeTextColor),
@@ -9175,12 +9185,12 @@
           color: variables.shepherdThemeTextColor,
           cursor: 'pointer'
         }
-      }, _cancelLink["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
+      }, _cancelIcon["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
         color: getLighterOrDarker(variables.shepherdThemeTextHeader),
         '&:hover': {
           color: variables.shepherdThemeTextHeader
         }
-      }, _cancelLink),
+      }, _cancelIcon),
       header: (_header = {
         alignItems: 'center',
         borderTopLeftRadius: variables.shepherdElementBorderRadius,
@@ -9262,7 +9272,7 @@
     var styles = _extends({
       active: (_active = {}, _active["&." + classPrefix + "shepherd-modal-is-visible"] = (_ref = {}, _ref[":not(." + classPrefix + "shepherd-target)"] = {
         pointerEvents: 'none'
-      }, _ref["." + classPrefix + "shepherd-button, ." + classPrefix + "shepherd-cancel-link, ." + classPrefix + "shepherd-element, ." + classPrefix + "shepherd-target"] = {
+      }, _ref["." + classPrefix + "shepherd-button, ." + classPrefix + "shepherd-cancel-icon, ." + classPrefix + "shepherd-element, ." + classPrefix + "shepherd-target"] = {
         pointerEvents: 'auto',
         '*': {
           pointerEvents: 'auto'

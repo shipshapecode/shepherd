@@ -12,12 +12,14 @@
     var prefix = 'demo-';
     var shepherd = new Shepherd.Tour({
       defaultStepOptions: {
+        cancelIcon: {
+          enabled: true
+        },
         classes: 'class-1 class-2',
         scrollTo: {
           behavior: 'smooth',
           block: 'center'
         },
-        showCancelLink: true,
         tippyOptions: {
           maxWidth: '400px',
           popperOptions: {
