@@ -22,7 +22,7 @@ describe('components/ShepherdHeader', () => {
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.include(<button aria-label="Close Tour" class="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
+    expect(header).to.include(<button aria-label="Close Tour" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
   });
 
   it('cancel icon is not added when cancelIcon.enabled === false', () => {
@@ -35,7 +35,21 @@ describe('components/ShepherdHeader', () => {
     };
 
     const header = <ShepherdHeader step={step} styles={styles}/>;
-    expect(header).to.not.include(<button aria-label="Close Tour" className="shepherd-cancel-link" type="button"><span aria-hidden="true">×</span></button>);
+    expect(header).to.not.include(<button aria-label="Close Tour" className="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
+  });
+
+  it('cancel icon aria-label overridden when cancelIcon.label is set', () => {
+    const step = {
+      options: {
+        cancelIcon: {
+          enabled: true,
+          label: 'Test'
+        }
+      }
+    };
+
+    const header = <ShepherdHeader step={step} styles={styles}/>;
+    expect(header).to.include(<button aria-label="Test" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>);
   });
 
   it('cancel icon cancels the tour', async () => {

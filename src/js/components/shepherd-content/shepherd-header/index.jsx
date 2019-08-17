@@ -49,7 +49,7 @@ export default class ShepherdHeader extends Component {
    * @private
    */
   _addCancelLink(cancelIcon, styles) {
-    if (cancelIcon.enabled) {
+    if (cancelIcon && cancelIcon.enabled) {
       return <button
         aria-label={cancelIcon.label ? cancelIcon.label : 'Close Tour'}
         className={styles['cancel-icon'].trim()}

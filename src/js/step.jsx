@@ -232,7 +232,7 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    if (this.options.cancelIcon.enabled) {
+    if (this.options.cancelIcon && this.options.cancelIcon.enabled) {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 
