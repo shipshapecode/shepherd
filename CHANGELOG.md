@@ -1,5 +1,40 @@
 # Changelog
 
+## [v5.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.0) (2019-08-17)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.6.0...v5.0.0-beta.0)
+
+**Breaking changes:**
+
+- showCancelLink -\> cancelIcon [\#518](https://github.com/shipshapecode/shepherd/pull/518) ([rwwagner90](https://github.com/rwwagner90))
+- Remove link styles [\#509](https://github.com/shipshapecode/shepherd/pull/509) ([rwwagner90](https://github.com/rwwagner90))
+- Remove Shepherd.Evented [\#506](https://github.com/shipshapecode/shepherd/pull/506) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Types don't support activeTour or Evented properties. [\#504](https://github.com/shipshapecode/shepherd/issues/504)
+- Remove object-assign-deep, refactor setting popper options [\#516](https://github.com/shipshapecode/shepherd/pull/516) ([genadis](https://github.com/genadis))
+- Use requestAnimationFrame to position modal opening [\#514](https://github.com/shipshapecode/shepherd/pull/514) ([rwwagner90](https://github.com/rwwagner90))
+- Add overlayOpacity to styleVariables options [\#512](https://github.com/shipshapecode/shepherd/pull/512) ([rwwagner90](https://github.com/rwwagner90))
+- Add keyboardNav and exitOnEsc options [\#508](https://github.com/shipshapecode/shepherd/pull/508) ([rwwagner90](https://github.com/rwwagner90))
+- Move activeTour to namespace [\#507](https://github.com/shipshapecode/shepherd/pull/507) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- advanceOn click doesn't work on nested elements [\#511](https://github.com/shipshapecode/shepherd/issues/511)
+- Use currentTarget for advanceOn [\#513](https://github.com/shipshapecode/shepherd/pull/513) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Feature Request: I18n cancel link [\#499](https://github.com/shipshapecode/shepherd/issues/499)
+
+**Merged pull requests:**
+
+- Update rimraf to the latest version 🚀 [\#515](https://github.com/shipshapecode/shepherd/pull/515) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-license to the latest version 🚀 [\#505](https://github.com/shipshapecode/shepherd/pull/505) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- adding alt and role to img element [\#503](https://github.com/shipshapecode/shepherd/pull/503) ([MelSumner](https://github.com/MelSumner))
+- fixing a11y issue by adding lang attribute to html element [\#501](https://github.com/shipshapecode/shepherd/pull/501) ([MelSumner](https://github.com/MelSumner))
+
 ## [v4.6.0](https://github.com/shipshapecode/shepherd/tree/v4.6.0) (2019-08-09)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.5.0...v4.6.0)
