@@ -178,6 +178,9 @@ the step will execute. For example:
   },
   ```
 - `canClickTarget` A boolean, that when set to false, will set `pointer-events: none` on the target
+- `cancelIcon` Options for the cancel icon
+  - `enabled` Should a cancel “✕” be shown in the header of the step?
+  - `label` The label to add for `aria-label`
 - `classes`: A string of extra classes to add to the step's content element.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
@@ -206,7 +209,6 @@ For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to 
 You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
-- `showCancelLink`: Should a cancel "✕" be shown in the header of the step?
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,

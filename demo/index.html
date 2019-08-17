@@ -56,9 +56,11 @@
           <code class="language-javascript">
             const tour = new Shepherd.Tour({
               defaultStepOptions: {
+                cancelIcon: {
+                  enabled: true
+                },
                 classes: 'class-1 class-2',
-                scrollTo: { behavior: 'smooth', block: 'center' },
-                showCancelLink: true
+                scrollTo: { behavior: 'smooth', block: 'center' }
               }
             });
 

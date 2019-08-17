@@ -36,7 +36,9 @@ describe('Shepherd Acceptance Tests', () => {
         };
 
         const tour = setupTour(Shepherd, {
-          showCancelLink: false
+          cancelIcon: {
+            enabled: false
+          }
         }, steps);
 
         tour.start();
@@ -68,7 +70,9 @@ describe('Shepherd Acceptance Tests', () => {
             ];
           };
           const tour = setupTour(Shepherd, {
-            showCancelLink: false
+            cancelIcon: {
+              enabled: false
+            }
           }, steps);
           tour.start();
           // Step text should be visible
@@ -89,7 +93,9 @@ describe('Shepherd Acceptance Tests', () => {
           ];
         };
         const tour = setupTour(Shepherd, {
-          showCancelLink: false
+          cancelIcon: {
+            enabled: false
+          }
         }, steps);
         tour.start();
         // Step text should be visible
@@ -156,7 +162,9 @@ describe('Shepherd Acceptance Tests', () => {
 
       it('Hides cancel link', () => {
         const tour = setupTour(Shepherd, {
-          showCancelLink: false
+          cancelIcon: {
+            enabled: false
+          }
         });
         tour.start();
         cy.get('.shepherd-cancel-link')

@@ -92,6 +92,11 @@ declare namespace Step {
     buttons?: ReadonlyArray<StepOptionsButton>;
 
     /**
+     * Should a cancel “✕” be shown in the header of the step?
+     */
+    cancelIcon?: StepOptionsCancelIcon;
+
+    /**
      * A string of extra classes to add to the step's content element.
      */
     classes?: string;
@@ -122,11 +127,6 @@ declare namespace Step {
      * define a custom action to do the scrolling, and possibly other logic.
      */
     scrollToHandler?: ((element: HTMLElement) => void);
-
-    /**
-     * Should a cancel “✕” be shown in the header of the step?
-     */
-    showCancelLink?: boolean;
 
     /**
      * A function that, when it returns `true`, will show the step.
@@ -215,6 +215,11 @@ declare namespace Step {
 
   interface StepOptionsButtonEvent {
     [key: string]: (() => void);
+  }
+
+  interface StepOptionsCancelIcon {
+    enabled?: boolean;
+    label?: string;
   }
 
   interface StepOptionsWhen {

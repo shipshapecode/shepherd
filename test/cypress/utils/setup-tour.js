@@ -9,7 +9,9 @@ import defaultSteps from './default-steps';
  */
 export default function(Shepherd, globalDefaults, customSteps, otherOptions) {
   const defaultStepOptions = Object.assign({}, {
-    showCancelLink: true
+    cancelIcon:{
+      enabled: true
+    }
   }, globalDefaults);
 
   const shepherdOptions = Object.assign({}, {

@@ -13,10 +13,10 @@ export default class ShepherdHeader extends Component {
 
   render(props) {
     const { labelId, step, styles } = props;
-    const { showCancelLink, title } = step.options;
+    const { cancelIcon, title } = step.options;
     return <header className={styles.header.trim()}>
       {this.constructor._addTitle(labelId, styles, title)}
-      {this._addCancelLink(showCancelLink, styles)}
+      {this._addCancelLink(cancelIcon, styles)}
     </header>;
   }
 
@@ -41,11 +41,18 @@ export default class ShepherdHeader extends Component {
     return null;
   }
 
-  _addCancelLink(showCancelLink, styles) {
-    if (showCancelLink) {
+  /**
+   * If enabled, add the cancel "x" icon
+   * @param {object} cancelIcon The options for the cancel icon
+   * @param styles
+   * @return {null|*}
+   * @private
+   */
+  _addCancelLink(cancelIcon, styles) {
+    if (cancelIcon.enabled) {
       return <button
-        aria-label='Close Tour'
-        className={styles['cancel-link'].trim()}
+        aria-label={cancelIcon.label ? cancelIcon.label : 'Close Tour'}
+        className={styles['cancel-icon'].trim()}
         onClick={this.cancelStep}
         type='button'
       >
