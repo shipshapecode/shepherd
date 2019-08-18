@@ -155,7 +155,12 @@ export class Step extends Evented {
     }
 
     if (isElement(this.el) && this.el.parentNode) {
-      this.el.parentNode.removeChild(this.el);
+      render(
+        null,
+        this.el.parentNode,
+        this.el
+      );
+
       this.el = null;
     }
 
