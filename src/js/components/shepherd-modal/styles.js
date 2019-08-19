@@ -11,7 +11,7 @@ export default function modalStyles(classPrefix, variables) {
       top: 0,
       transition: 'all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms',
       width: '100vw',
-      zIndex: 9997,
+      zIndex: variables.shepherdElementZIndex - 2,
       [`.${classPrefix}shepherd-modal-is-visible &`]: {
         height: '100vh',
         opacity: variables.overlayOpacity,
