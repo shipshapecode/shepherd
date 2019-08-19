@@ -111,6 +111,12 @@ declare namespace Tour {
     defaultStepOptions?: Step.StepOptions;
 
     /**
+     * When set to true, will keep the user from scrolling with the scrollbar,
+     * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
+     */
+    disableScroll?: boolean;
+
+    /**
      * Exiting the tour with the escape key will be enabled unless this is explicitly
      * set to false.
      */
