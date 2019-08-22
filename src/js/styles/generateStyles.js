@@ -14,6 +14,7 @@ export function generateStyles(options) {
   const variables = getVariables(options);
   const classPrefix = normalizePrefix(options.classPrefix);
   const tippyPrefix = normalizePrefix(options.tippyClassPrefix);
+  const { includeStyles } = options;
 
   const styles = {
     active: {
@@ -32,13 +33,13 @@ export function generateStyles(options) {
       }
     },
 
-    ...buttonStyles(classPrefix, variables),
-    ...contentStyles(variables),
+    ...buttonStyles(classPrefix, variables, includeStyles),
+    ...contentStyles(variables, includeStyles),
     ...elementStyles(),
-    ...footerStyles(classPrefix, variables),
-    ...headerStyles(classPrefix, variables),
+    ...footerStyles(classPrefix, variables, includeStyles),
+    ...headerStyles(classPrefix, variables, includeStyles),
     ...modalStyles(classPrefix, variables),
-    ...textStyles(variables)
+    ...textStyles(variables, includeStyles)
   };
 
   if (variables.useDropShadow) {
