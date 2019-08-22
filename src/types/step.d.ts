@@ -113,9 +113,9 @@ declare namespace Step {
     id?: string;
 
     /**
-     * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
+     * An amount of padding to add around the modal overlay opening
      */
-    tippyOptions?: object;
+    modalOverlayOpeningPadding?: number;
 
     /**
      * Should the element be scrolled to when this step is shown?
@@ -144,6 +144,11 @@ declare namespace Step {
      * ```
      */
     text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement)
+
+    /**
+     * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
+     */
+    tippyOptions?: object;
 
     /**
      * The step's title. It becomes an `h3` at the top of the step.

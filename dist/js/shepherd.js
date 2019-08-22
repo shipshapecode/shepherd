@@ -8310,49 +8310,61 @@
   var rule = nano.rule,
       sheet = nano.sheet;
 
-  function buttonStyles(classPrefix, variables) {
-    var _button;
+  function buttonStyles(classPrefix, variables, includeStyles) {
+    if (includeStyles) {
+      var _button;
+
+      return {
+        button: (_button = {
+          background: variables.shepherdThemePrimary,
+          borderRadius: variables.shepherdButtonBorderRadius,
+          border: 0,
+          color: variables.shepherdThemeTextPrimary,
+          cursor: 'pointer',
+          display: 'inline-block',
+          fontFamily: 'inherit',
+          fontSize: '0.8em',
+          letterSpacing: '0.1em',
+          lineHeight: '1em',
+          marginRight: '0.5em',
+          padding: '0.75em 2em',
+          textTransform: 'uppercase',
+          transition: 'all 0.5s ease',
+          verticalAlign: 'middle',
+          '&:hover': {
+            background: curriedDarken(0.1, variables.shepherdThemePrimary)
+          }
+        }, _button["&." + classPrefix + "shepherd-button-secondary"] = {
+          background: variables.shepherdThemeSecondary,
+          color: variables.shepherdThemeTextSecondary,
+          '&:hover': {
+            background: curriedDarken(0.1, variables.shepherdThemeSecondary),
+            color: curriedDarken(0.1, variables.shepherdThemeTextSecondary)
+          }
+        }, _button)
+      };
+    }
 
     return {
-      button: (_button = {
-        background: variables.shepherdThemePrimary,
-        borderRadius: variables.shepherdButtonBorderRadius,
-        border: 0,
-        color: variables.shepherdThemeTextPrimary,
-        cursor: 'pointer',
-        display: 'inline-block',
-        fontFamily: 'inherit',
-        fontSize: '0.8em',
-        letterSpacing: '0.1em',
-        lineHeight: '1em',
-        marginRight: '0.5em',
-        padding: '0.75em 2em',
-        textTransform: 'uppercase',
-        transition: 'all 0.5s ease',
-        verticalAlign: 'middle',
-        '&:hover': {
-          background: curriedDarken(0.1, variables.shepherdThemePrimary)
-        }
-      }, _button["&." + classPrefix + "shepherd-button-secondary"] = {
-        background: variables.shepherdThemeSecondary,
-        color: variables.shepherdThemeTextSecondary,
-        '&:hover': {
-          background: curriedDarken(0.1, variables.shepherdThemeSecondary),
-          color: curriedDarken(0.1, variables.shepherdThemeTextSecondary)
-        }
-      }, _button)
+      button: {}
     };
   }
 
-  function contentStyles(variables) {
+  function contentStyles(variables, includeStyles) {
+    if (includeStyles) {
+      return {
+        content: {
+          background: variables.shepherdTextBackground,
+          borderRadius: variables.shepherdElementBorderRadius,
+          fontSize: 'inherit',
+          outline: 'none',
+          padding: 0
+        }
+      };
+    }
+
     return {
-      content: {
-        background: variables.shepherdTextBackground,
-        borderRadius: variables.shepherdElementBorderRadius,
-        fontSize: 'inherit',
-        outline: 'none',
-        padding: 0
-      }
+      content: {}
     };
   }
 
@@ -8370,21 +8382,27 @@
     };
   }
 
-  function footerStyles(classPrefix, variables) {
-    var _footer;
+  function footerStyles(classPrefix, variables, includeStyles) {
+    if (includeStyles) {
+      var _footer;
+
+      return {
+        footer: (_footer = {
+          borderBottomLeftRadius: variables.shepherdElementBorderRadius,
+          borderBottomRightRadius: variables.shepherdElementBorderRadius,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          padding: '0 0.75em 0.75em'
+        }, _footer["." + classPrefix + "shepherd-button"] = {
+          '&:last-child': {
+            marginRight: 0
+          }
+        }, _footer)
+      };
+    }
 
     return {
-      footer: (_footer = {
-        borderBottomLeftRadius: variables.shepherdElementBorderRadius,
-        borderBottomRightRadius: variables.shepherdElementBorderRadius,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        padding: '0 0.75em 0.75em'
-      }, _footer["." + classPrefix + "shepherd-button"] = {
-        '&:last-child': {
-          marginRight: 0
-        }
-      }, _footer)
+      footer: {}
     };
   }
 
@@ -8404,10 +8422,33 @@
     return curriedLighten((1 - l) / 2, color);
   }
 
-  function headerStyles(classPrefix, variables) {
-    var _cancelIcon, _header;
+  function headerStyles(classPrefix, variables, includeStyles) {
+    var _header, _cancelIcon;
 
-    return {
+    var header = (_header = {
+      alignItems: 'center',
+      borderTopLeftRadius: variables.shepherdElementBorderRadius,
+      borderTopRightRadius: variables.shepherdElementBorderRadius,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      lineHeight: '2em',
+      padding: '0.75em 0.75em 0'
+    }, _header["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
+      background: variables.shepherdHeaderBackground,
+      padding: '1em'
+    }, _header);
+    var title = {
+      color: variables.shepherdThemeTextHeader,
+      display: 'flex',
+      flex: '1 0 auto',
+      fontSize: '1.1em',
+      fontWeight: 'normal',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+      verticalAlign: 'middle'
+    };
+    var styles = {
       'cancel-icon': (_cancelIcon = {
         background: 'transparent',
         border: 'none',
@@ -8429,31 +8470,22 @@
         '&:hover': {
           color: variables.shepherdThemeTextHeader
         }
-      }, _cancelIcon),
-      header: (_header = {
-        alignItems: 'center',
-        borderTopLeftRadius: variables.shepherdElementBorderRadius,
-        borderTopRightRadius: variables.shepherdElementBorderRadius,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        lineHeight: '2em',
-        padding: '0.75em 0.75em 0'
-      }, _header["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
-        background: variables.shepherdHeaderBackground,
-        padding: '1em'
-      }, _header),
-      title: {
-        color: variables.shepherdThemeTextHeader,
-        display: 'flex',
-        flex: '1 0 auto',
-        fontSize: '1.1em',
-        fontWeight: 'normal',
-        margin: 0,
-        padding: 0,
-        position: 'relative',
-        verticalAlign: 'middle'
-      }
+      }, _cancelIcon)
     };
+
+    if (includeStyles) {
+      styles = _extends({}, styles, {
+        header: header,
+        title: title
+      });
+    } else {
+      styles = _extends({}, styles, {
+        header: {},
+        title: {}
+      });
+    }
+
+    return styles;
   }
 
   function modalStyles(classPrefix, variables) {
@@ -8484,20 +8516,26 @@
     };
   }
 
-  function textStyles(variables) {
-    return {
-      text: {
-        color: variables.shepherdThemeTextColor,
-        fontSize: variables.shepherdTextFontSize,
-        lineHeight: variables.shepherdTextLineHeight,
-        padding: '0.75em',
-        p: {
-          marginTop: 0,
-          '&:last-child': {
-            marginBottom: 0
+  function textStyles(variables, includeStyles) {
+    if (includeStyles) {
+      return {
+        text: {
+          color: variables.shepherdThemeTextColor,
+          fontSize: variables.shepherdTextFontSize,
+          lineHeight: variables.shepherdTextLineHeight,
+          padding: '0.75em',
+          p: {
+            marginTop: 0,
+            '&:last-child': {
+              marginBottom: 0
+            }
           }
         }
-      }
+      };
+    }
+
+    return {
+      text: {}
     };
   }
 
@@ -8507,6 +8545,7 @@
     var variables = getVariables(options);
     var classPrefix = normalizePrefix(options.classPrefix);
     var tippyPrefix = normalizePrefix(options.tippyClassPrefix);
+    var includeStyles = options.includeStyles;
 
     var styles = _extends({
       active: (_active = {}, _active["&." + classPrefix + "shepherd-modal-is-visible"] = (_ref = {}, _ref[":not(." + classPrefix + "shepherd-target)"] = {
@@ -8517,7 +8556,7 @@
           pointerEvents: 'auto'
         }
       }, _ref), _active)
-    }, buttonStyles(classPrefix, variables), {}, contentStyles(variables), {}, elementStyles(), {}, footerStyles(classPrefix, variables), {}, headerStyles(classPrefix, variables), {}, modalStyles(classPrefix, variables), {}, textStyles(variables));
+    }, buttonStyles(classPrefix, variables, includeStyles), {}, contentStyles(variables, includeStyles), {}, elementStyles(), {}, footerStyles(classPrefix, variables, includeStyles), {}, headerStyles(classPrefix, variables, includeStyles), {}, modalStyles(classPrefix, variables), {}, textStyles(variables, includeStyles));
 
     if (variables.useDropShadow) {
       styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
@@ -8807,6 +8846,8 @@
      * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
      * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
      * set to false.
+     * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
+     * You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
      * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
      * unless this is explicitly set to false.
      * @param {HTMLElement} options.modalContainer An optional container element for the modal.
@@ -8832,11 +8873,12 @@
       autoBind(_assertThisInitialized(_this));
       var defaultTourOptions = {
         exitOnEsc: true,
+        includeStyles: true,
         keyboardNavigation: true
       };
       _this.options = _extends({}, defaultTourOptions, options);
       _this.classPrefix = _this.options ? normalizePrefix(_this.options.classPrefix) : '';
-      _this.styles = generateStyles(options);
+      _this.styles = generateStyles(_this.options);
       _this.steps = [];
 
       _this.addSteps(_this.options.steps); // Pass these events onto the global Shepherd object
