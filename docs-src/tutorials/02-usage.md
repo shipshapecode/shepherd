@@ -108,6 +108,8 @@ const myTour = new Shepherd.Tour(options);
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `exitOnEsc`: Exiting the tour with the escape key will be enabled unless this is explicitly set to `false`.
+- `includeStyles`: If false, the majority of the Shepherd styles will not be included.
+You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
 - `keyboardNavigation`: Navigating the tour via left and right arrow keys will be enabled unless this is explicitly set to `false`.
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
 - `steps`: An array of step options objects or Step instances to initialize the tour with.
@@ -209,6 +211,7 @@ For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to 
 You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
+- `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown?
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,
