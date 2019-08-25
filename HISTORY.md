@@ -1,3 +1,189 @@
+## [v5.0.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0) (2019-08-25)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.2...v5.0.0)
+
+**Implemented enhancements:**
+
+- Vue wrapper [\#333](https://github.com/shipshapecode/shepherd/issues/333)
+
+**Closed issues:**
+
+- ionic element - bubbles not pointing to right place due to clientHeight = 0 \(etc.\) [\#426](https://github.com/shipshapecode/shepherd/issues/426)
+
+## [v5.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.2) (2019-08-22)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.1...v5.0.0-beta.2)
+
+**Implemented enhancements:**
+
+- Add includeStyles option [\#526](https://github.com/shipshapecode/shepherd/pull/526) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Disable built in component styles [\#497](https://github.com/shipshapecode/shepherd/issues/497)
+
+## [v5.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.1) (2019-08-19)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.0...v5.0.0-beta.1)
+
+**Breaking changes:**
+
+- Remove style vendor prefixing [\#519](https://github.com/shipshapecode/shepherd/pull/519) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Tie modal z-index to shepherdElementZIndex [\#523](https://github.com/shipshapecode/shepherd/pull/523) ([rwwagner90](https://github.com/rwwagner90))
+- Add disableScroll to types [\#522](https://github.com/shipshapecode/shepherd/pull/522) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Z-Index Issues [\#521](https://github.com/shipshapecode/shepherd/issues/521)
+
+## [v5.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.0) (2019-08-17)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.6.0...v5.0.0-beta.0)
+
+**Breaking changes:**
+
+- showCancelLink -\> cancelIcon [\#518](https://github.com/shipshapecode/shepherd/pull/518) ([rwwagner90](https://github.com/rwwagner90))
+- Remove link styles [\#509](https://github.com/shipshapecode/shepherd/pull/509) ([rwwagner90](https://github.com/rwwagner90))
+- Remove Shepherd.Evented [\#506](https://github.com/shipshapecode/shepherd/pull/506) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Types don't support activeTour or Evented properties. [\#504](https://github.com/shipshapecode/shepherd/issues/504)
+- Remove object-assign-deep, refactor setting popper options [\#516](https://github.com/shipshapecode/shepherd/pull/516) ([genadis](https://github.com/genadis))
+- Use requestAnimationFrame to position modal opening [\#514](https://github.com/shipshapecode/shepherd/pull/514) ([rwwagner90](https://github.com/rwwagner90))
+- Add overlayOpacity to styleVariables options [\#512](https://github.com/shipshapecode/shepherd/pull/512) ([rwwagner90](https://github.com/rwwagner90))
+- Add keyboardNav and exitOnEsc options [\#508](https://github.com/shipshapecode/shepherd/pull/508) ([rwwagner90](https://github.com/rwwagner90))
+- Move activeTour to namespace [\#507](https://github.com/shipshapecode/shepherd/pull/507) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- advanceOn click doesn't work on nested elements [\#511](https://github.com/shipshapecode/shepherd/issues/511)
+- Use currentTarget for advanceOn [\#513](https://github.com/shipshapecode/shepherd/pull/513) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Feature Request: I18n cancel link [\#499](https://github.com/shipshapecode/shepherd/issues/499)
+
+**Merged pull requests:**
+
+- Update rimraf to the latest version 🚀 [\#515](https://github.com/shipshapecode/shepherd/pull/515) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update rollup-plugin-license to the latest version 🚀 [\#505](https://github.com/shipshapecode/shepherd/pull/505) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- adding alt and role to img element [\#503](https://github.com/shipshapecode/shepherd/pull/503) ([MelSumner](https://github.com/MelSumner))
+- fixing a11y issue by adding lang attribute to html element [\#501](https://github.com/shipshapecode/shepherd/pull/501) ([MelSumner](https://github.com/MelSumner))
+
+## [v4.6.0](https://github.com/shipshapecode/shepherd/tree/v4.6.0) (2019-08-09)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.5.0...v4.6.0)
+
+**Implemented enhancements:**
+
+- Wrong type definition for scrollTo [\#490](https://github.com/shipshapecode/shepherd/issues/490)
+- Fade in modal overlay [\#496](https://github.com/shipshapecode/shepherd/pull/496) ([rwwagner90](https://github.com/rwwagner90))
+- Fix for the wrong type definition of StepOptions.scrollTo [\#494](https://github.com/shipshapecode/shepherd/pull/494) ([moxival](https://github.com/moxival))
+
+## [v4.5.0](https://github.com/shipshapecode/shepherd/tree/v4.5.0) (2019-08-09)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.4.1...v4.5.0)
+
+**Fixed bugs:**
+
+- Passing 'HTMLElement' to tour.addStep{ text: ... } doesn't work anymore [\#492](https://github.com/shipshapecode/shepherd/issues/492)
+- Support passing elements for text [\#493](https://github.com/shipshapecode/shepherd/pull/493) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.4.1](https://github.com/shipshapecode/shepherd/tree/v4.4.1) (2019-08-07)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.4.0...v4.4.1)
+
+**Fixed bugs:**
+
+- ShepherdClass missing after adding modifiers of popper [\#486](https://github.com/shipshapecode/shepherd/issues/486)
+- Use objectAssignDeep to deeply merge tippyOptions [\#488](https://github.com/shipshapecode/shepherd/pull/488) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.4.0](https://github.com/shipshapecode/shepherd/tree/v4.4.0) (2019-08-05)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.4...v4.4.0)
+
+**Implemented enhancements:**
+
+- Add addSteps method and allow passing steps to tour constructor [\#485](https://github.com/shipshapecode/shepherd/pull/485) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Shepherd.Tour constructor definition of steps errors with showOn being undefined [\#114](https://github.com/shipshapecode/shepherd/issues/114)
+
+## [v4.3.4](https://github.com/shipshapecode/shepherd/tree/v4.3.4) (2019-08-04)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.3...v4.3.4)
+
+**Implemented enhancements:**
+
+- styleVariables missing in 'TourOptions' declaration and beforeShowStep not implemented [\#483](https://github.com/shipshapecode/shepherd/issues/483)
+- Fix some types and docs [\#484](https://github.com/shipshapecode/shepherd/pull/484) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.3](https://github.com/shipshapecode/shepherd/tree/v4.3.3) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.2...v4.3.3)
+
+**Implemented enhancements:**
+
+- Fix some TypeScript issues [\#482](https://github.com/shipshapecode/shepherd/pull/482) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.2](https://github.com/shipshapecode/shepherd/tree/v4.3.2) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.1...v4.3.2)
+
+**Implemented enhancements:**
+
+- Add confirmCancel and confirmCancelMessage to types [\#480](https://github.com/shipshapecode/shepherd/pull/480) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.3.1](https://github.com/shipshapecode/shepherd/tree/v4.3.1) (2019-08-02)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.3.0...v4.3.1)
+
+**Implemented enhancements:**
+
+- Closing the tour should move the focus back to the element that opened it [\#473](https://github.com/shipshapecode/shepherd/issues/473)
+- Return focus after closing the tour [\#479](https://github.com/shipshapecode/shepherd/pull/479) ([rwwagner90](https://github.com/rwwagner90))
+
+**Merged pull requests:**
+
+- Update rollup-plugin-license to the latest version 🚀 [\#478](https://github.com/shipshapecode/shepherd/pull/478) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
+## [v4.3.0](https://github.com/shipshapecode/shepherd/tree/v4.3.0) (2019-08-01)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.2.0...v4.3.0)
+
+**Implemented enhancements:**
+
+- Add option to specify container element for the modal [\#474](https://github.com/shipshapecode/shepherd/pull/474) ([genadis](https://github.com/genadis))
+
+**Fixed bugs:**
+
+- Fix cancel link color for when the header has dark background [\#477](https://github.com/shipshapecode/shepherd/pull/477) ([genadis](https://github.com/genadis))
+- Fix content border radius [\#476](https://github.com/shipshapecode/shepherd/pull/476) ([genadis](https://github.com/genadis))
+- Fix applying tippyOptions [\#475](https://github.com/shipshapecode/shepherd/pull/475) ([genadis](https://github.com/genadis))
+
+## [v4.2.0](https://github.com/shipshapecode/shepherd/tree/v4.2.0) (2019-07-31)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.1.0...v4.2.0)
+
+**Implemented enhancements:**
+
+- Accessibility support [\#198](https://github.com/shipshapecode/shepherd/issues/198)
+- Remove shepherdElementWidth option [\#471](https://github.com/shipshapecode/shepherd/pull/471) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v4.1.0](https://github.com/shipshapecode/shepherd/tree/v4.1.0) (2019-07-30)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Make cancel link more accessible [\#469](https://github.com/shipshapecode/shepherd/pull/469) ([rwwagner90](https://github.com/rwwagner90))
+- switched to default export in TS typing [\#468](https://github.com/shipshapecode/shepherd/pull/468) ([grycmat](https://github.com/grycmat))
+
 ## [v4.0.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0) (2019-07-29)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v3.1.0...v4.0.0)
