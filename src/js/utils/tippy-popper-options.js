@@ -1,3 +1,5 @@
+import get from 'get-value';
+
 const addHasTitleClass = (step) => {
   return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
 };
@@ -63,13 +65,15 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
   tippyOptions.flipOnUpdate = true;
   tippyOptions.placement = attachToOptions.on || 'right';
 
-  if (step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
+  const stepPopperOptions = get(step, 'options.tippyOptions.popperOptions');
+
+  if (stepPopperOptions) {
     popperOptions = {
       ...popperOptions,
-      ...step.options.tippyOptions.popperOptions,
+      ...stepPopperOptions,
       modifiers: {
         ...popperOptions.modifiers,
-        ...step.options.tippyOptions.popperOptions.modifiers
+        ...stepPopperOptions.modifiers
       }
     };
   }
@@ -118,11 +122,10 @@ function _makeCommonTippyOptions(step) {
     ...step.options.tippyOptions
   };
 
-  if (step.tour.options &&
-    step.tour.options.styleVariables &&
-    step.tour.options.styleVariables.shepherdElementZIndex
-  ) {
-    tippyOptions.zIndex = step.tour.options.styleVariables.shepherdElementZIndex;
+  const shepherdElementZIndex = get(step, 'tour.options.styleVariables.shepherdElementZIndex');
+
+  if (shepherdElementZIndex) {
+    tippyOptions.zIndex = shepherdElementZIndex;
   }
 
   if (step.options.title) {

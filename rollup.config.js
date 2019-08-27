@@ -16,7 +16,7 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   resolve({
-    extensions: ['.js', '.jsx', '.json' ]
+    extensions: ['.js', '.jsx', '.json']
   }),
   commonjs(),
   eslint(),
@@ -98,7 +98,7 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         resolve({
-          extensions: ['.js', '.jsx', '.json' ]
+          extensions: ['.js', '.jsx', '.json']
         }),
         commonjs(),
         babel({

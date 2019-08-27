@@ -10,28 +10,32 @@ export default class ShepherdContent extends Component {
   render(props) {
     const { classPrefix, descriptionId, labelId, step, styles } = props;
 
-    return <div
-      className={styles.content.trim()}
-    >
-      <ShepherdHeader
-        labelId={labelId}
-        step={step}
-        styles={styles}
-      />
+    return (
+      <div
+        className={styles.content.trim()}
+      >
+        <ShepherdHeader
+          labelId={labelId}
+          step={step}
+          styles={styles}
+        />
 
-      {ShepherdContent._addShepherdText(descriptionId, step, styles)}
+        {ShepherdContent._addShepherdText(descriptionId, step, styles)}
 
-      {ShepherdContent._addShepherdFooter(classPrefix, step, styles)}
-    </div>;
+        {ShepherdContent._addShepherdFooter(classPrefix, step, styles)}
+      </div>
+    );
   }
 
   static _addShepherdText(descriptionId, step, styles) {
     if (!isUndefined(step.options.text)) {
-      return <ShepherdText
-        descriptionId={descriptionId}
-        step={step}
-        styles={styles}
-      />;
+      return (
+        <ShepherdText
+          descriptionId={descriptionId}
+          step={step}
+          styles={styles}
+        />
+      );
     }
 
     return null;
@@ -39,11 +43,13 @@ export default class ShepherdContent extends Component {
 
   static _addShepherdFooter(classPrefix, step, styles) {
     if (Array.isArray(step.options.buttons) && step.options.buttons.length) {
-      return <ShepherdFooter
-        classPrefix={classPrefix}
-        step={step}
-        styles={styles}
-      />;
+      return (
+        <ShepherdFooter
+          classPrefix={classPrefix}
+          step={step}
+          styles={styles}
+        />
+      );
     }
 
     return null;

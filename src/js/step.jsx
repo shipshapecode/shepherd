@@ -1,3 +1,4 @@
+import get from 'get-value';
 import preact from 'preact';
 
 import { Evented } from './evented';
@@ -228,11 +229,12 @@ export class Step extends Evented {
    * @private
    */
   _createTooltipContent() {
+    const cancelIconEnabled = get(this, 'options.cancelIcon.enabled');
     let classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    if (this.options.cancelIcon && this.options.cancelIcon.enabled) {
+    if (cancelIconEnabled) {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 
