@@ -23,8 +23,8 @@ module.exports = {
     // node files
     {
       files: [
-        'gulpfile.js',
-        'karma.conf.js'
+        'babel.config.js',
+        'jest.config.js'
       ],
       parserOptions: {
         sourceType: 'script',

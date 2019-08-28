@@ -29,6 +29,7 @@ module.exports = {
     node: true
   },
   rules: {
+    'jest/valid-expect': 'off',
     'no-console': 'off'
   }
 };

@@ -19,45 +19,47 @@ export default class ShepherdModal extends Component {
 
   render(props, state) {
     const { classPrefix, styles } = props;
-    return <svg
-      className={styles['modal-overlay-container']}
-      onTouchMove={ShepherdModal._preventModalOverlayTouch}
-    >
-      <defs>
-        <mask
-          className={`${classPrefix}shepherd-modal-mask`}
-          height='100%'
-          id={`${classPrefix}shepherd-modal-mask`}
-          width='100%'
-          x='0'
-          y='0'
-        >
-          <rect
-            className={styles['modal-mask-rect']}
-            fill='#FFFFFF'
+    return (
+      <svg
+        className={styles['modal-overlay-container']}
+        onTouchMove={ShepherdModal._preventModalOverlayTouch}
+      >
+        <defs>
+          <mask
+            className={`${classPrefix}shepherd-modal-mask`}
             height='100%'
+            id={`${classPrefix}shepherd-modal-mask`}
             width='100%'
             x='0'
             y='0'
-          />
-          <rect
-            className={`${classPrefix}shepherd-modal-mask-opening`}
-            fill='#000000'
-            height={state.openingProperties.height}
-            x={state.openingProperties.x}
-            y={state.openingProperties.y}
-            width={state.openingProperties.width}
-          />
-        </mask>
-      </defs>
-      <rect
-        height='100%'
-        width='100%'
-        x='0'
-        y='0'
-        mask={`url(#${classPrefix}shepherd-modal-mask)`}
-      />
-    </svg>;
+          >
+            <rect
+              className={styles['modal-mask-rect']}
+              fill='#FFFFFF'
+              height='100%'
+              width='100%'
+              x='0'
+              y='0'
+            />
+            <rect
+              className={`${classPrefix}shepherd-modal-mask-opening`}
+              fill='#000000'
+              height={state.openingProperties.height}
+              x={state.openingProperties.x}
+              y={state.openingProperties.y}
+              width={state.openingProperties.width}
+            />
+          </mask>
+        </defs>
+        <rect
+          height='100%'
+          width='100%'
+          x='0'
+          y='0'
+          mask={`url(#${classPrefix}shepherd-modal-mask)`}
+        />
+      </svg>
+    );
   }
 
   closeModalOpening() {
