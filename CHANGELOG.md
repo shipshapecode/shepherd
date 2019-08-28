@@ -1,5 +1,14 @@
 # Changelog
 
+## [v5.0.1](https://github.com/shipshapecode/shepherd/tree/v5.0.1) (2019-08-28)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0...v5.0.1)
+
+**Fixed bugs:**
+
+- Can't get shepherdElementZIndex to work [\#528](https://github.com/shipshapecode/shepherd/issues/528)
+- Pass shepherdElementZIndex to tippy as zIndex [\#529](https://github.com/shipshapecode/shepherd/pull/529) ([rwwagner90](https://github.com/rwwagner90))
+
 ## [v5.0.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0) (2019-08-25)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.6.0...v5.0.0)
