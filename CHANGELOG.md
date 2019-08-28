@@ -2,57 +2,21 @@
 
 ## [v5.0.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0) (2019-08-25)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.2...v5.0.0)
-
-**Implemented enhancements:**
-
-- Vue wrapper [\#333](https://github.com/shipshapecode/shepherd/issues/333)
-
-**Closed issues:**
-
-- ionic element - bubbles not pointing to right place due to clientHeight = 0 \(etc.\) [\#426](https://github.com/shipshapecode/shepherd/issues/426)
-
-## [v5.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.2) (2019-08-22)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.1...v5.0.0-beta.2)
-
-**Implemented enhancements:**
-
-- Add includeStyles option [\#526](https://github.com/shipshapecode/shepherd/pull/526) ([rwwagner90](https://github.com/rwwagner90))
-
-**Closed issues:**
-
-- Disable built in component styles [\#497](https://github.com/shipshapecode/shepherd/issues/497)
-
-## [v5.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.1) (2019-08-19)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0-beta.0...v5.0.0-beta.1)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.6.0...v5.0.0)
 
 **Breaking changes:**
 
 - Remove style vendor prefixing [\#519](https://github.com/shipshapecode/shepherd/pull/519) ([rwwagner90](https://github.com/rwwagner90))
-
-**Implemented enhancements:**
-
-- Tie modal z-index to shepherdElementZIndex [\#523](https://github.com/shipshapecode/shepherd/pull/523) ([rwwagner90](https://github.com/rwwagner90))
-- Add disableScroll to types [\#522](https://github.com/shipshapecode/shepherd/pull/522) ([rwwagner90](https://github.com/rwwagner90))
-
-**Closed issues:**
-
-- Z-Index Issues [\#521](https://github.com/shipshapecode/shepherd/issues/521)
-
-## [v5.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0-beta.0) (2019-08-17)
-
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v4.6.0...v5.0.0-beta.0)
-
-**Breaking changes:**
-
 - showCancelLink -\> cancelIcon [\#518](https://github.com/shipshapecode/shepherd/pull/518) ([rwwagner90](https://github.com/rwwagner90))
 - Remove link styles [\#509](https://github.com/shipshapecode/shepherd/pull/509) ([rwwagner90](https://github.com/rwwagner90))
 - Remove Shepherd.Evented [\#506](https://github.com/shipshapecode/shepherd/pull/506) ([rwwagner90](https://github.com/rwwagner90))
 
 **Implemented enhancements:**
 
+- Vue wrapper [\#333](https://github.com/shipshapecode/shepherd/issues/333)
+- Add includeStyles option [\#526](https://github.com/shipshapecode/shepherd/pull/526) ([rwwagner90](https://github.com/rwwagner90))
+- Tie modal z-index to shepherdElementZIndex [\#523](https://github.com/shipshapecode/shepherd/pull/523) ([rwwagner90](https://github.com/rwwagner90))
+- Add disableScroll to types [\#522](https://github.com/shipshapecode/shepherd/pull/522) ([rwwagner90](https://github.com/rwwagner90))
 - Types don't support activeTour or Evented properties. [\#504](https://github.com/shipshapecode/shepherd/issues/504)
 - Remove object-assign-deep, refactor setting popper options [\#516](https://github.com/shipshapecode/shepherd/pull/516) ([genadis](https://github.com/genadis))
 - Use requestAnimationFrame to position modal opening [\#514](https://github.com/shipshapecode/shepherd/pull/514) ([rwwagner90](https://github.com/rwwagner90))
@@ -67,6 +31,9 @@
 
 **Closed issues:**
 
+- Z-Index Issues [\#521](https://github.com/shipshapecode/shepherd/issues/521)
+- ionic element - bubbles not pointing to right place due to clientHeight = 0 \(etc.\) [\#426](https://github.com/shipshapecode/shepherd/issues/426)
+- Disable built in component styles [\#497](https://github.com/shipshapecode/shepherd/issues/497)
 - Feature Request: I18n cancel link [\#499](https://github.com/shipshapecode/shepherd/issues/499)
 
 **Merged pull requests:**
