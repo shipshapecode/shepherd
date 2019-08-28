@@ -1,4 +1,4 @@
-/*! shepherd.js 5.0.0 */
+/*! shepherd.js 5.0.1 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -5861,6 +5861,7 @@
           return preact.h(ShepherdButton, {
             classPrefix: classPrefix,
             config: config,
+            key: config.toString(),
             step: step,
             styles: styles
           });
@@ -5885,7 +5886,7 @@
 
       _this = _Component.call(this, props) || this;
       _this.step = props.step;
-      _this.cancelStep = _this.cancelStep.bind(_assertThisInitialized(_this));
+      _this.handleCancelClick = _this.handleCancelClick.bind(_assertThisInitialized(_this));
       return _this;
     }
 
@@ -5907,7 +5908,7 @@
      */
     ;
 
-    _proto.cancelStep = function cancelStep(e) {
+    _proto.handleCancelClick = function handleCancelClick(e) {
       e.preventDefault();
       this.step.cancel();
     };
@@ -5936,7 +5937,7 @@
         return preact.h("button", {
           "aria-label": cancelIcon.label ? cancelIcon.label : 'Close Tour',
           className: styles['cancel-icon'].trim(),
-          onClick: this.cancelStep,
+          onClick: this.handleCancelClick,
           type: "button"
         }, preact.h("span", {
           "aria-hidden": "true"
@@ -8762,7 +8763,7 @@
           styles = props.styles;
       return preact.h("svg", {
         className: styles['modal-overlay-container'],
-        onTouchMove: ShepherdModal._preventModalOverlayTouch
+        onTouchMove: ShepherdModal.handlePreventModalOverlayTouch
       }, preact.h("defs", null, preact.h("mask", {
         className: classPrefix + "shepherd-modal-mask",
         height: "100%",
@@ -8933,7 +8934,7 @@
       e.preventDefault();
     };
 
-    ShepherdModal._preventModalOverlayTouch = function _preventModalOverlayTouch(e) {
+    ShepherdModal.handlePreventModalOverlayTouch = function handlePreventModalOverlayTouch(e) {
       e.stopPropagation();
     };
 

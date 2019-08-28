@@ -22,7 +22,7 @@ export default class ShepherdModal extends Component {
     return (
       <svg
         className={styles['modal-overlay-container']}
-        onTouchMove={ShepherdModal._preventModalOverlayTouch}
+        onTouchMove={ShepherdModal.handlePreventModalOverlayTouch}
       >
         <defs>
           <mask
@@ -182,7 +182,7 @@ export default class ShepherdModal extends Component {
     e.preventDefault();
   }
 
-  static _preventModalOverlayTouch(e) {
+  static handlePreventModalOverlayTouch(e) {
     e.stopPropagation();
   }
 }

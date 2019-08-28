@@ -22,6 +22,7 @@ export default class ShepherdFooter extends Component {
           <ShepherdButton
             classPrefix={classPrefix}
             config={config}
+            key={config.toString()}
             step={step}
             styles={styles}
           />

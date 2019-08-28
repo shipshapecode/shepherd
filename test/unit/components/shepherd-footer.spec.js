@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import preact from 'preact';
 import ShepherdFooter from '../../../src/js/components/shepherd-content/shepherd-footer';
 import { expect } from 'chai';
@@ -16,15 +17,15 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const footer = <ShepherdFooter step={step} styles={styles}/>;
-    expect(footer).to.equal(<footer className="shepherd-footer"></footer>);
+    const footer = <ShepherdFooter step={step} styles={styles} />;
+    expect(footer).to.equal(<footer className='shepherd-footer' />);
   });
 
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
     const step = { options: {} };
 
-    const footer = <ShepherdFooter step={step} styles={styles}/>;
-    expect(footer).to.equal(<footer className="shepherd-footer"></footer>);
+    const footer = <ShepherdFooter step={step} styles={styles} />;
+    expect(footer).to.equal(<footer className='shepherd-footer' />);
   });
 
   it('renders buttons for each item passed to `options.buttons`', () => {
@@ -37,8 +38,8 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const footer = <ShepherdFooter step={step} styles={styles}/>;
-    expect(footer).to.contain(<button class="shepherd-button-secondary cancel-button shepherd-button" tabindex="0">Exit</button>);
-    expect(footer).to.contain(<button class="shepherd-button-primary next-button shepherd-button" tabindex="0">Next</button>);
+    const footer = <ShepherdFooter step={step} styles={styles} />;
+    expect(footer).to.contain(<button class='shepherd-button-secondary cancel-button shepherd-button' tabindex='0'>Exit</button>);
+    expect(footer).to.contain(<button class='shepherd-button-primary next-button shepherd-button' tabindex='0'>Next</button>);
   });
 });

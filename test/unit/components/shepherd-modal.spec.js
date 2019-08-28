@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import preact from 'preact';
 import ShepherdModal from '../../../src/js/components/shepherd-modal';
 import { expect } from 'chai';
@@ -13,7 +14,7 @@ const styles = {
 describe('components/ShepherdModal', () => {
   describe('closeModalOpening()', function() {
     it('sets values back to 0', () => {
-      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
 
       modalComponent.component().positionModalOpening({
         getBoundingClientRect() {
@@ -45,7 +46,7 @@ describe('components/ShepherdModal', () => {
 
   describe('positionModalOpening()', function() {
     it('sets the correct attributes when positioning modal opening', () => {
-      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
 
       expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(0);
       expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(0);
@@ -72,7 +73,7 @@ describe('components/ShepherdModal', () => {
     });
 
     it('sets the correct attributes with padding', () => {
-      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
 
       expect(modalComponent.find('.shepherd-modal-mask-opening').attr('height')).to.equal(0);
       expect(modalComponent.find('.shepherd-modal-mask-opening').attr('x')).to.equal(0);
@@ -108,7 +109,7 @@ describe('components/ShepherdModal', () => {
     });
 
     it('useModalOverlay: false, hides modal', () => {
-      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
       const modalComponentInstance = modalComponent.component();
       const step = {
         options: {},
@@ -127,7 +128,7 @@ describe('components/ShepherdModal', () => {
     });
 
     it('useModalOverlay: true, shows modal', () => {
-      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+      const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
       const modalComponentInstance = modalComponent.component();
       const step = {
         options: {},
@@ -147,7 +148,7 @@ describe('components/ShepherdModal', () => {
   });
 
   describe('show/hide', function() {
-    const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
+    const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles} />);
 
     it('show adds classes', () => {
       modalComponent.component().show();

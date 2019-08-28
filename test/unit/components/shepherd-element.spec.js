@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import preact from 'preact';
 import ShepherdElement from '../../../src/js/components/shepherd-element';
 import { expect } from 'chai';
@@ -20,7 +21,7 @@ describe('components/ShepherdElement', () => {
       const element = shallow(<ShepherdElement
         step={step}
         styles={styles}
-      />);
+                              />);
       await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 27, preventDefault() {} });
       expect(stepCancelSpy.called).to.be.true;
     });
@@ -33,7 +34,7 @@ describe('components/ShepherdElement', () => {
       const element = shallow(<ShepherdElement
         step={step}
         styles={styles}
-      />);
+                              />);
       await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 27, preventDefault() {} });
       expect(stepCancelSpy.called).to.be.false;
     });
@@ -51,7 +52,7 @@ describe('components/ShepherdElement', () => {
       const element = shallow(<ShepherdElement
         step={step}
         styles={styles}
-      />);
+                              />);
 
       await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
       expect(tourNextStub.called).to.be.true;
@@ -76,7 +77,7 @@ describe('components/ShepherdElement', () => {
       const element = shallow(<ShepherdElement
         step={step}
         styles={styles}
-      />);
+                              />);
 
       await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
       expect(tourNextStub.called).to.be.false;

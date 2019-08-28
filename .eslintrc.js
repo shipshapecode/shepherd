@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2019,
     sourceType: 'module'
   },
   extends: [
@@ -10,7 +10,8 @@ module.exports = {
     'standard-jsx'
   ],
   env: {
-    browser: true
+    browser: true,
+    es6: true
   },
   rules: {
     'complexity': ['warn', 6],
@@ -24,14 +25,14 @@ module.exports = {
     {
       files: [
         'babel.config.js',
-        'jest.config.js'
+        'jest.config.js',
+        'rollup.config.js'
       ],
       parserOptions: {
-        sourceType: 'script',
+        sourceType: 'module',
         ecmaVersion: 2015
       },
       env: {
-        browser: false,
         node: true
       }
     }
