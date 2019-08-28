@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2017,
+    ecmaVersion: 2019,
     sourceType: 'module'
   },
   plugins: [
@@ -9,27 +9,29 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:jest/recommended'
+    'plugin:jest/recommended',
+    'standard-jsx'
   ],
   globals: {
     Cypress: false,
+    Event: true,
+    MouseEvent: true,
     Shepherd: false,
     assert: false,
     cy: false,
     document: false,
-    Event: true,
-    MouseEvent: true,
     expect: false,
     require: false,
     window: false
   },
   env: {
-    browser: false,
+    es6: true,
     mocha: true,
     node: true
   },
   rules: {
     'jest/valid-expect': 'off',
+    'jest/valid-expect-in-promise': 'off',
     'no-console': 'off'
   }
 };

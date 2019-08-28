@@ -8,7 +8,7 @@ export default class ShepherdHeader extends Component {
 
     this.step = props.step;
 
-    this.cancelStep = this.cancelStep.bind(this);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
   }
 
   render(props) {
@@ -25,7 +25,7 @@ export default class ShepherdHeader extends Component {
   /**
    * Add a click listener to the cancel link that cancels the tour
    */
-  cancelStep(e) {
+  handleCancelClick(e) {
     e.preventDefault();
     this.step.cancel();
   }
@@ -59,7 +59,7 @@ export default class ShepherdHeader extends Component {
         <button
           aria-label={cancelIcon.label ? cancelIcon.label : 'Close Tour'}
           className={styles['cancel-icon'].trim()}
-          onClick={this.cancelStep}
+          onClick={this.handleCancelClick}
           type='button'
         >
           <span aria-hidden='true'>&times;</span>

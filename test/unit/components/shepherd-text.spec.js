@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import preact from 'preact';
 import ShepherdText from '../../../src/js/components/shepherd-content/shepherd-text';
 import { expect } from 'chai';
@@ -14,7 +15,7 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const textComponent = <ShepherdText step={step} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles} />;
     expect(textComponent).to.include('I am some test text.');
   });
 
@@ -25,7 +26,7 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const textComponent = <ShepherdText step={step} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles} />;
     expect(textComponent).to.include(<p>I am some test text.</p>);
   });
 
@@ -36,7 +37,7 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const textComponent = <ShepherdText step={step} styles={styles}/>;
+    const textComponent = <ShepherdText step={step} styles={styles} />;
     expect(textComponent).to.include('I am some test text.');
   });
 });
