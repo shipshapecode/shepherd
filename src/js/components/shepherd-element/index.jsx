@@ -32,24 +32,26 @@ export default class ShepherdElement extends Component {
     const { classes, classPrefix, descriptionId, labelId, step, styles } = props;
     const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
 
-    return <div
-      aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
-      aria-labeledby={step.options.title ? labelId : null}
-      className={classes + styles.element}
-      {...dataStepId}
-      onKeyDown={this.handleKeyDown}
-      ref={(c) => this.element = c}
-      role='dialog'
-      tabindex='0'
-    >
-      <ShepherdContent
-        classPrefix={classPrefix}
-        descriptionId={descriptionId}
-        labelId={labelId}
-        step={step}
-        styles={styles}
-      />
-    </div>;
+    return (
+      <div
+        aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
+        aria-labeledby={step.options.title ? labelId : null}
+        className={classes + styles.element}
+        {...dataStepId}
+        onKeyDown={this.handleKeyDown}
+        ref={(c) => this.element = c}
+        role='dialog'
+        tabindex='0'
+      >
+        <ShepherdContent
+          classPrefix={classPrefix}
+          descriptionId={descriptionId}
+          labelId={labelId}
+          step={step}
+          styles={styles}
+        />
+      </div>
+    );
   }
 
   /**

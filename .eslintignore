@@ -1,5 +1,6 @@
 /coverage/
 /cypress/dummy/js/prism.js
+/demo/
 /dist/
 /docs/
-/src/scss/
+/test/dummy/

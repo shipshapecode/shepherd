@@ -29,10 +29,12 @@ export default class ShepherdText extends Component {
       text = text.call(step);
     }
 
-    return <div
-      className={styles.text.trim()}
-      dangerouslySetInnerHTML={{ __html: !isElement(text) ? text : null }}
-      id={descriptionId}
-    />;
+    return (
+      <div
+        className={styles.text.trim()}
+        dangerouslySetInnerHTML={{ __html: !isElement(text) ? text : null }}
+        id={descriptionId}
+      />
+    );
   }
 }

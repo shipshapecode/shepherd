@@ -60,6 +60,7 @@
         }
       ],
       styleVariables: {
+        shepherdElementZIndex: 10,
         shepherdThemePrimary: '#00213b',
         shepherdThemeSecondary: '#e5e5e5'
       },
