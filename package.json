@@ -51,7 +51,6 @@
     "element-matches": "^0.1.2",
     "es6-object-assign": "^1.1.0",
     "es6-symbol": "^3.1.1",
-    "get-value": "^3.0.1",
     "nano-css": "^5.2.0",
     "polished": "^3.4.1",
     "preact": "^8.5.2",
