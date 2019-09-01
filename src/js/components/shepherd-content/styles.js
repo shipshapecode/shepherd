@@ -1,17 +1,9 @@
-export default function contentStyles(variables, includeStyles) {
-  if (includeStyles) {
-    return {
-      content: {
-        background: variables.shepherdTextBackground,
-        borderRadius: variables.shepherdElementBorderRadius,
-        fontSize: 'inherit',
-        outline: 'none',
-        padding: 0
-      }
-    };
-  }
-
+export default function contentStyles(variables) {
   return {
-    content: {}
+    content: {
+      borderRadius: variables.elementBorderRadius,
+      outline: 'none',
+      padding: 0
+    }
   };
 }

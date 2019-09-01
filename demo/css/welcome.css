@@ -102,12 +102,6 @@ pre {
   line-height: 1.4em;
 }
 
-.demo-shepherd-element .demo-shepherd-button:hover,
-.shepherd-element .shepherd-button:hover {
-  background: #ececec;
-  color: #00213B;
-}
-
 .demo-shepherd-text a,
 .demo-shepherd-text a:visited,
 .demo-shepherd-text a:active {

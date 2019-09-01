@@ -122,10 +122,10 @@ function _makeCommonTippyOptions(step) {
     ...step.options.tippyOptions
   };
 
-  const shepherdElementZIndex = get(step, 'tour.options.styleVariables.shepherdElementZIndex');
+  const zIndex = get(step, 'tour.options.styleVariables.zIndex');
 
-  if (shepherdElementZIndex) {
-    tippyOptions.zIndex = shepherdElementZIndex;
+  if (zIndex) {
+    tippyOptions.zIndex = zIndex;
   }
 
   if (step.options.title) {
