@@ -34,8 +34,8 @@ export function generateStyles(options) {
     },
 
     ...buttonStyles(classPrefix, variables, includeStyles),
-    ...contentStyles(variables, includeStyles),
-    ...elementStyles(),
+    ...contentStyles(variables),
+    ...elementStyles(variables),
     ...footerStyles(classPrefix, variables, includeStyles),
     ...headerStyles(classPrefix, variables, includeStyles),
     ...modalStyles(classPrefix, variables),
@@ -43,7 +43,7 @@ export function generateStyles(options) {
   };
 
   if (variables.useDropShadow) {
-    styles.element.filter = 'drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2))';
+    styles.element.boxShadow = '0 1px 4px rgba(0, 0, 0, 0.2)';
   }
 
   const classes = sheet(styles, `${classPrefix}shepherd`);
@@ -55,7 +55,7 @@ export function generateStyles(options) {
       marginBottom: arrowMargin,
 
       [`.${tippyPrefix}tippy-arrow`]: {
-        borderTopColor: variables.shepherdTextBackground
+        borderTopColor: variables.tippyBackground
       }
     },
 
@@ -63,12 +63,12 @@ export function generateStyles(options) {
       marginTop: arrowMargin,
 
       [`.${tippyPrefix}tippy-arrow`]: {
-        borderBottomColor: variables.shepherdTextBackground
+        borderBottomColor: variables.tippyBackground
       },
 
       [`&.${classPrefix}shepherd-has-title`]: {
         [`.${tippyPrefix}tippy-arrow`]: {
-          borderBottomColor: variables.shepherdHeaderBackground
+          borderBottomColor: variables.headerBackground
         }
       }
     },
@@ -77,7 +77,7 @@ export function generateStyles(options) {
       marginRight: arrowMargin,
 
       [`.${tippyPrefix}tippy-arrow`]: {
-        borderLeftColor: variables.shepherdTextBackground
+        borderLeftColor: variables.tippyBackground
       }
     },
 
@@ -85,7 +85,7 @@ export function generateStyles(options) {
       marginLeft: arrowMargin,
 
       [`.${tippyPrefix}tippy-arrow`]: {
-        borderRightColor: variables.shepherdTextBackground
+        borderRightColor: variables.tippyBackground
       }
     }
   };
@@ -94,19 +94,19 @@ export function generateStyles(options) {
   classes.shepherd = rule({
     [`&.${tippyPrefix}tippy-popper`]: {
       ...popperThemeArrows,
-      zIndex: variables.shepherdElementZIndex,
+      zIndex: variables.zIndex,
 
       [`.${tippyPrefix}tippy-tooltip`]: {
-        backgroundColor: variables.shepherdTextBackground,
+        backgroundColor: variables.tippyBackground,
+        borderRadius: variables.elementBorderRadius,
 
         [`.${tippyPrefix}tippy-arrow`]: {
           transform: `scale(${variables.arrowSize})`,
-          zIndex: variables.shepherdElementZIndex + 1
+          zIndex: variables.zIndex + 1
         },
 
         [`.${tippyPrefix}tippy-content`]: {
-          maxHeight: variables.shepherdElementMaxHeight,
-          maxWidth: variables.shepherdElementMaxWidth,
+          borderRadius: variables.elementBorderRadius,
           padding: 0,
           textAlign: 'center'
         }

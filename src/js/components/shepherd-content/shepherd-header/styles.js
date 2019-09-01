@@ -1,22 +1,20 @@
-import { getLighterOrDarker } from '../../../styles/utils';
-
 export default function headerStyles(classPrefix, variables, includeStyles) {
   const header = {
     alignItems: 'center',
-    borderTopLeftRadius: variables.shepherdElementBorderRadius,
-    borderTopRightRadius: variables.shepherdElementBorderRadius,
+    borderTopLeftRadius: variables.elementBorderRadius,
+    borderTopRightRadius: variables.elementBorderRadius,
     display: 'flex',
     justifyContent: 'flex-end',
     lineHeight: '2em',
     padding: '0.75em 0.75em 0',
     [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
-      background: variables.shepherdHeaderBackground,
+      background: variables.headerBgColor,
       padding: '1em'
     }
   };
 
   const title = {
-    color: variables.shepherdThemeTextHeader,
+    color: variables.headerColor,
     display: 'flex',
     flex: '1 0 auto',
     fontSize: '1.1em',
@@ -31,7 +29,7 @@ export default function headerStyles(classPrefix, variables, includeStyles) {
     'cancel-icon': {
       background: 'transparent',
       border: 'none',
-      color: getLighterOrDarker(variables.shepherdThemeTextColor),
+      color: variables.cancelIconColor,
       fontSize: '2em',
       fontWeight: 'normal',
       margin: 0,
@@ -41,13 +39,13 @@ export default function headerStyles(classPrefix, variables, includeStyles) {
       transition: 'color 0.5s ease',
       verticalAlign: 'middle',
       '&:hover': {
-        color: variables.shepherdThemeTextColor,
+        color: variables.cancelIconHoverColor,
         cursor: 'pointer'
       },
       [`.${classPrefix}shepherd-has-title .${classPrefix}shepherd-content &`]: {
-        color: getLighterOrDarker(variables.shepherdThemeTextHeader),
+        color: variables.cancelIconHasTitleColor,
         '&:hover': {
-          color: variables.shepherdThemeTextHeader
+          color: variables.cancelIconHasTitleHoverColor
         }
       }
     }

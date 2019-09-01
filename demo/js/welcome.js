@@ -60,11 +60,12 @@
         }
       ],
       styleVariables: {
-        shepherdElementZIndex: 10,
-        shepherdThemePrimary: '#00213b',
-        shepherdThemeSecondary: '#e5e5e5'
+        primaryButtonBgColor: '#00213b',
+        primaryButtonHoverBgColor: '#ececec',
+        primaryButtonHoverColor: '#00213b',
+        zIndex: 10
       },
-      useModalOverlay: true
+      useModalOverlay: false
     });
 
     const element = document.createElement('p');

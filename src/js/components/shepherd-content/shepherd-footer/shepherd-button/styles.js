@@ -1,13 +1,11 @@
-import { darken } from 'polished';
-
 export default function buttonStyles(classPrefix, variables, includeStyles) {
   if (includeStyles) {
     return {
       button: {
-        background: variables.shepherdThemePrimary,
-        borderRadius: variables.shepherdButtonBorderRadius,
+        background: variables.primaryButtonBgColor,
+        borderRadius: variables.buttonBorderRadius,
         border: 0,
-        color: variables.shepherdThemeTextPrimary,
+        color: variables.primaryButtonColor,
         cursor: 'pointer',
         display: 'inline-block',
         fontFamily: 'inherit',
@@ -20,14 +18,15 @@ export default function buttonStyles(classPrefix, variables, includeStyles) {
         transition: 'all 0.5s ease',
         verticalAlign: 'middle',
         '&:hover': {
-          background: darken(0.1, variables.shepherdThemePrimary)
+          background: variables.primaryButtonHoverBgColor,
+          color: variables.primaryButtonHoverColor
         },
         [`&.${classPrefix}shepherd-button-secondary`]: {
-          background: variables.shepherdThemeSecondary,
-          color: variables.shepherdThemeTextSecondary,
+          background: variables.secondaryButtonBgColor,
+          color: variables.secondaryButtonColor,
           '&:hover': {
-            background: darken(0.1, variables.shepherdThemeSecondary),
-            color: darken(0.1, variables.shepherdThemeTextSecondary)
+            background: variables.secondaryButtonHoverBgColor,
+            color: variables.secondaryButtonHoverColor
           }
         }
       }

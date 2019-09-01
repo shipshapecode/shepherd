@@ -1,17 +1,43 @@
-import { darken, desaturate, lighten, readableColor, transparentize } from 'polished';
-
 const styles = {
   arrowSize: 2.1,
+  buttonBorderRadius: '3px',
+
+  // Cancel icon
+  cancelIconColor: 'rgba(128, 128, 128, 0.75)',
+  cancelIconHoverColor: 'rgba(0, 0, 0, 0.75)',
+  cancelIconHasTitleColor: 'rgba(128, 128, 128, 0.75)',
+  cancelIconHasTitleHoverColor: 'rgba(0, 0, 0, 0.75)',
+
+  // .shepherd-element
+  elementBorderRadius: '5px',
+
+  // Header
+  headerBgColor: '#e6e6e6',
+  headerColor: 'rgba(0, 0, 0, 0.75)',
+
   overlayOpacity: 0.5,
-  shepherdButtonBorderRadius: '3px',
-  shepherdElementBorderRadius: '5px',
-  shepherdElementMaxHeight: '100%',
-  shepherdElementMaxWidth: '100%',
-  shepherdElementZIndex: 9999,
-  shepherdTextBackground: '#ffffff',
-  shepherdTextLineHeight: '1.3em',
-  shepherdTextFontSize: '1rem',
-  shepherdThemePrimary: '#3288e6'
+
+  // Primary button
+  primaryButtonBgColor: 'rgb(50, 136, 230)',
+  primaryButtonColor: 'rgba(255, 255, 255, 0.75)',
+  primaryButtonHoverBgColor: 'rgb(25, 111, 204)',
+  primaryButtonHoverColor: 'rgba(255, 255, 255, 0.75)',
+
+  // Secondary button
+  secondaryButtonBgColor: 'rgb(241, 242, 243)',
+  secondaryButtonColor: 'rgba(0, 0, 0, 0.75)',
+  secondaryButtonHoverBgColor: 'rgb(214, 217, 219)',
+  secondaryButtonHoverColor: 'rgba(0, 0, 0, 0.75)',
+
+  // .shepherd-text
+  textColor: 'rgba(0, 0, 0, 0.75)',
+  textFontSize: '1rem',
+  textLineHeight: '1.3em',
+
+  // Tooltip
+  tippyBackground: '#ffffff',
+  useDropShadow: true,
+  zIndex: 9999
 };
 
 export default function getVariables(options) {
@@ -19,37 +45,5 @@ export default function getVariables(options) {
     Object.assign(styles, options.styleVariables);
   }
 
-  if (!styles.shepherdHeaderBackground) {
-    styles.shepherdHeaderBackground = darken(0.1, styles.shepherdTextBackground);
-  }
-
-  if (!styles.shepherdThemeSecondary) {
-    styles.shepherdThemeSecondary = desaturate(0.7, lighten(0.4, styles.shepherdThemePrimary));
-  }
-
-  _setTextColors();
-
   return styles;
-}
-
-/**
- * Set all the text colors to contrasting ones, for readability, if not already defined.
- * @private
- */
-function _setTextColors() {
-  if (!styles.shepherdThemeTextPrimary) {
-    styles.shepherdThemeTextPrimary = transparentize(0.25, readableColor(styles.shepherdThemePrimary));
-  }
-
-  if (!styles.shepherdThemeTextSecondary) {
-    styles.shepherdThemeTextSecondary = transparentize(0.25, readableColor(styles.shepherdThemeSecondary));
-  }
-
-  if (!styles.shepherdThemeTextHeader) {
-    styles.shepherdThemeTextHeader = transparentize(0.25, readableColor(styles.shepherdHeaderBackground));
-  }
-
-  if (!styles.shepherdThemeTextColor) {
-    styles.shepherdThemeTextColor = transparentize(0.25, readableColor(styles.shepherdTextBackground));
-  }
 }
