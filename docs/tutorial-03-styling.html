@@ -108,7 +108,8 @@
   </header>
 
   <article>
-    <p>If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance —
+    <h3>Custom Classes</h3>
+<p>If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance —
 or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
 <pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
   defaultStepOptions: {
@@ -116,11 +117,31 @@ or, as part of the options for each step — and use them as hooks for your own 
   }
 });
 </code></pre>
+<h3>Adding a prefix to the default <code>shepherd-*</code> classes</h3>
+<p>If you have a situation where you are running two Shepherd instances on a page, and they need to be styled
+differently, you may want to prefix the class names. This is now possible with the <code>classPrefix</code> option.</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  classPrefix: 'my-tour-'
+});
+</code></pre>
 <h3>Leveraging Style Variables</h3>
 <p>We use <a href="https://github.com/streamich/nano-css">nano-css</a> to automatically ship all the styles as part of the JS bundle.
 We have a default set of variables, which can be overridden to achieve whatever look and feel you would like.</p>
+<p>For example:</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  styleVariables: {
+    buttonBorderRadius: 0,
+    elementBorderRadius: 0,
+    headerBgColor: '#eeeeee',
+    primaryButtonBgColor: '#9b59b6',
+    useDropShadow: true
+  }
+});
+</code></pre>
+<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements, and
+the header is colored in a light gray tone.</p>
 <p>These values and variables can be found in <a href="/src/js/styles/variables.js"><strong>variables.js</strong></a>, and the ones that can be adjusted for theming are listed below.</p>
-<p><strong>🎨 Color Settings</strong></p>
+<p><strong>Buttons</strong></p>
 <table>
 <thead>
 <tr>
@@ -131,54 +152,151 @@ We have a default set of variables, which can be overridden to achieve whatever 
 </thead>
 <tbody>
 <tr>
-<td>shepherdThemePrimary</td>
-<td>Primary or brand color: The primary button gets this color.</td>
-<td>#3288e6</td>
+<td>buttonBorderRadius</td>
+<td>Decide whether the buttons should have rounded or pointed corners.</td>
+<td>3px</td>
 </tr>
 <tr>
-<td>shepherdThemeSecondary</td>
-<td>Secondary color</td>
-<td>desaturate(0.7, lighten(0.4, shepherdThemePrimary))</td>
+<td>primaryButtonBgColor</td>
+<td>Background color for primary buttons</td>
+<td>rgb(50, 136, 230)</td>
 </tr>
 <tr>
-<td>shepherdTextBackground</td>
-<td>Background color of the text area</td>
-<td>#ffffff</td>
+<td>primaryButtonColor</td>
+<td>Text color for primary buttons</td>
+<td>rgba(255, 255, 255, 0.75)</td>
 </tr>
 <tr>
-<td>shepherdHeaderBackground</td>
-<td>Background color of the header</td>
-<td>darken(0.1, shepherdTextBackground)</td>
+<td>primaryButtonHoverBgColor</td>
+<td>Hover state background color for primary buttons</td>
+<td>rgb(25, 111, 204)</td>
 </tr>
 <tr>
-<td>shepherdThemeTextPrimary</td>
-<td>The text color for the primary button</td>
-<td>transparentize(0.25, readableColor(shepherdThemePrimary))</td>
+<td>primaryButtonHoverColor</td>
+<td>Hover state text color for primary buttons</td>
+<td>rgba(255, 255, 255, 0.75)</td>
 </tr>
 <tr>
-<td>shepherdThemeTextSecondary</td>
-<td>The text color for the secondary button</td>
-<td>transparentize(0.25, readableColor(shepherdThemeSecondary))</td>
+<td>secondaryButtonBgColor</td>
+<td>Background color for secondary buttons</td>
+<td>rgb(241, 242, 243)</td>
 </tr>
 <tr>
-<td>shepherdThemeTextHeader</td>
-<td>The text color for the header</td>
-<td>transparentize(0.25, readableColor(shepherdHeaderBackground))</td>
+<td>secondaryButtonColor</td>
+<td>Text color for secondary buttons</td>
+<td>rgba(0, 0, 0, 0.75)</td>
 </tr>
 <tr>
-<td>shepherdThemeTextColor</td>
-<td>The text color for the step content</td>
-<td>transparentize(0.25, readableColor(shepherdTextBackground))</td>
+<td>secondaryButtonHoverBgColor</td>
+<td>Hover state background color for secondary buttons</td>
+<td>rgb(214, 217, 219)</td>
+</tr>
+<tr>
+<td>secondaryButtonHoverColor</td>
+<td>Hover state text color for secondary buttons</td>
+<td>rgb(214, 217, 219)</td>
 </tr>
 </tbody>
 </table>
-<p>We use <a href="https://github.com/styled-components/polished">polished</a> to calculate lighter, darker, and the most readable colors.</p>
-<ul>
-<li><code>shepherdThemeSecondary</code> is derived from the primary color, if not explicitly set.</li>
-<li><code>shepherdHeaderBackground</code> is calculated using the text background color, if not explicitly set.</li>
-<li>The text colors are calculated to contrast the background colors by default, unless explicitly set.</li>
-</ul>
-<p><strong>⚙️ Options</strong></p>
+<p><strong>Cancel Icon</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cancelIconColor</td>
+<td>Color for the &quot;x&quot; icon</td>
+<td>rgba(128, 128, 128, 0.75)</td>
+</tr>
+<tr>
+<td>cancelIconHoverColor</td>
+<td>Hover state color for the &quot;x&quot; icon</td>
+<td>rgba(0, 0, 0, 0.75)</td>
+</tr>
+<tr>
+<td>cancelIconHasTitleColor</td>
+<td>Color for the &quot;x&quot; icon when the step has a title</td>
+<td>rgba(128, 128, 128, 0.75)</td>
+</tr>
+<tr>
+<td>cancelIconHasTitleHoverColor</td>
+<td>Hover state color for the &quot;x&quot; icon when the step has a title</td>
+<td>rgba(0, 0, 0, 0.75)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Header</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>headerBgColor</td>
+<td>Background color for headers with titles</td>
+<td>#e6e6e6</td>
+</tr>
+<tr>
+<td>headerColor</td>
+<td>Text color for headers with titles</td>
+<td>rgba(0, 0, 0, 0.75)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Modal</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>overlayOpacity</td>
+<td>Sets the opacity of the modal overlay.</td>
+<td>0.5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Text Content</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>textColor</td>
+<td>Color for the text content</td>
+<td>rgba(0, 0, 0, 0.75)</td>
+</tr>
+<tr>
+<td>textFontSize</td>
+<td>Font size for the text content</td>
+<td>1rem</td>
+</tr>
+<tr>
+<td>textLineHeight</td>
+<td>Line height for the text content</td>
+<td>1.3em</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tooltip</strong></p>
 <table>
 <thead>
 <tr>
@@ -194,67 +312,27 @@ We have a default set of variables, which can be overridden to achieve whatever 
 <td>2.1</td>
 </tr>
 <tr>
-<td>overlayOpacity</td>
-<td>Sets the opacity of the modal overlay.</td>
-<td>0.5</td>
-</tr>
-<tr>
-<td>shepherdElementBorderRadius</td>
-<td>Sets the border-radius of the shepherd-element.</td>
+<td>elementBorderRadius</td>
+<td>Sets the border-radius of the shepherd-element, tippy, etc</td>
 <td>5px</td>
 </tr>
 <tr>
-<td>shepherdElementMaxHeight</td>
-<td>Maximum height of the element</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>shepherdElementMaxWidth</td>
-<td>Maximum width of the element</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>shepherdElementZIndex</td>
-<td>Move the element forward or backward</td>
-<td>9999</td>
-</tr>
-<tr>
-<td>shepherdTextLineHeight</td>
-<td>Sets the line height of the body text</td>
-<td>1.3em</td>
-</tr>
-<tr>
-<td>shepherdButtonBorderRadius</td>
-<td>Decide whether the buttons should have rounded or pointed corners.</td>
-<td>3px</td>
+<td>tippyBackground</td>
+<td>Sets the background color of the tooltip to override the tippy default</td>
+<td>#ffffff</td>
 </tr>
 <tr>
 <td>useDropShadow</td>
 <td>The element casts a shadow</td>
 <td>true</td>
 </tr>
+<tr>
+<td>zIndex</td>
+<td>Move the element forward or backward</td>
+<td>9999</td>
+</tr>
 </tbody>
 </table>
-<p>The example below is intended to illustrate the individual customizations.</p>
-<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
-  styleVariables: {
-    shepherdButtonBorderRadius: 0,
-    shepherdElementBorderRadius: 0,
-    shepherdHeaderBackground: '#eeeeee',
-    shepherdThemePrimary: '#9b59b6',
-    useDropShadow: true
-  }
-});
-</code></pre>
-<p>As a result you get a squared theme with a purple primary button. The individual steps cast a shadow on the underlying elements, and
-the header is colored in a light gray tone.</p>
-<h3>Adding a prefix to the <code>shepherd-*</code> classes</h3>
-<p>If you have a situation where you are running two Shepherd instances on a page, and they need to be styled
-differently, you may want to prefix the class names. This is now possible with the <code>classPrefix</code> option.</p>
-<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
-  classPrefix: 'my-tour-'
-});
-</code></pre>
   </article>
 </section>
 
