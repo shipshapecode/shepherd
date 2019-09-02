@@ -65,6 +65,10 @@ export default class ShepherdElement extends Component {
     const { tour } = this.step;
     switch (e.keyCode) {
       case KEY_TAB:
+        if (this.focusableElements.length === 0) {
+          e.preventDefault();
+          break;
+        }
         if (this.focusableElements.length === 1) {
           e.preventDefault();
           this.firstFocusableElement.focus();
