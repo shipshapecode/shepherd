@@ -41,7 +41,7 @@ IE 11
 Shepherd v6.x no longer ships with the required polyfills to work with IE 11 out of the box,
 however, if you are supporting IE 11 already, you are probably shipping some polyfills.
 The only required polyfills are `Object.assign`, `Symbol`, and `element.matches` for things to work. 
-Our demo app includes the polyfills using Polyfill.io, but Babel, core-js, etc would all work.
+Our demo app includes the polyfills using [Polyfill.io](https://polyfill.io/v3/), but Babel, core-js, etc would all work.
 
 ```html
 <script src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CSymbol%2CElement.prototype.matches"></script>
