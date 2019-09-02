@@ -1,4 +1,3 @@
-import bodyScrollLock from 'body-scroll-lock';
 import preact from 'preact';
 import tippy from 'tippy.js';
 
@@ -40,8 +39,6 @@ export class Tour extends Evented {
    * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
    * @param {string} options.classPrefix The prefix to add to all the `shepherd-*` class names.
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
-   * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
-   * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
    * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
@@ -284,10 +281,6 @@ export class Tour extends Evented {
   start() {
     this.trigger('start');
 
-    if (this.options.disableScroll) {
-      bodyScrollLock.disableBodyScroll();
-    }
-
     // Save the focused element before the tour opens
     this.focusedElBeforeOpen = document.activeElement;
 
@@ -314,10 +307,6 @@ export class Tour extends Evented {
     Shepherd.activeTour = null;
     this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
-
-    if (this.options.disableScroll) {
-      bodyScrollLock.clearAllBodyScrollLocks();
-    }
 
     this.modal.hide();
 
