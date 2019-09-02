@@ -6110,7 +6110,7 @@
           return _this2.element = c;
         },
         role: "dialog",
-        tabindex: "0"
+        tabIndex: "0"
       }), preact.h(ShepherdContent, {
         classPrefix: classPrefix,
         descriptionId: descriptionId,
