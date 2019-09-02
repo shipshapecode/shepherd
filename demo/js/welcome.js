@@ -65,7 +65,7 @@
         primaryButtonHoverColor: '#00213b',
         zIndex: 10
       },
-      useModalOverlay: false
+      useModalOverlay: true
     });
 
     const element = document.createElement('p');

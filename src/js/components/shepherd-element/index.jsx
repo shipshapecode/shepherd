@@ -41,7 +41,7 @@ export default class ShepherdElement extends Component {
         onKeyDown={this.handleKeyDown}
         ref={(c) => this.element = c}
         role='dialog'
-        tabindex='0'
+        tabIndex='0'
       >
         <ShepherdContent
           classPrefix={classPrefix}
