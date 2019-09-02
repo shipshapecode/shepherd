@@ -67,6 +67,7 @@ export default class ShepherdElement extends Component {
       case KEY_TAB:
         if (this.focusableElements.length === 1) {
           e.preventDefault();
+          this.firstFocusableElement.focus();
           break;
         }
         // Backward tab
