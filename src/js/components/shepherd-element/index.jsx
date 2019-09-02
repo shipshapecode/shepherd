@@ -69,11 +69,6 @@ export default class ShepherdElement extends Component {
           e.preventDefault();
           break;
         }
-        if (this.focusableElements.length === 1) {
-          e.preventDefault();
-          this.firstFocusableElement.focus();
-          break;
-        }
         // Backward tab
         if (e.shiftKey) {
           if (document.activeElement === this.firstFocusableElement) {
