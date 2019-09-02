@@ -6133,7 +6133,7 @@
 
       switch (e.keyCode) {
         case KEY_TAB:
-          if (this.focusableElements.length === 1) {
+          if (this.focusableElements.length === 0) {
             e.preventDefault();
             break;
           } // Backward tab
