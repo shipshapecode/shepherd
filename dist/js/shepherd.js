@@ -57,10 +57,10 @@
   var global$1 = (function () {
   	if (this) return this;
 
-  	// Unexpected strict mode (may happen if e.g. bundled into ESM module) be nice
+  	// Unexpected strict mode (may happen if e.g. bundled into ESM module), be nice
 
   	// Thanks @mathiasbynens -> https://mathiasbynens.be/notes/globalthis
-  	// In all ES5 engines global object inherits from Object.prototype
+  	// In all ES5+ engines global object inherits from Object.prototype
   	// (if you approached one that doesn't please report)
   	Object.defineProperty(Object.prototype, "__global__", {
   		get: function () { return this; },
@@ -69,12 +69,6 @@
   	try { return __global__; }
   	finally { delete Object.prototype.__global__; }
   })();
-
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  function unwrapExports (x) {
-  	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-  }
 
   function createCommonjsModule(fn, module) {
   	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -132,7 +126,7 @@
   	if (typeof assign !== "function") return false;
   	obj = { foo: "raz" };
   	assign(obj, { bar: "dwa" }, { trzy: "trzy" });
-  	return (obj.foo + obj.bar + obj.trzy) === "razdwatrzy";
+  	return obj.foo + obj.bar + obj.trzy === "razdwatrzy";
   };
 
   var isImplemented$2 = function () {
@@ -149,9 +143,7 @@
 
   var _undefined$1 = noop(); // Support ES3 engines
 
-  var isValue = function (val) {
-   return (val !== _undefined$1) && (val !== null);
-  };
+  var isValue = function (val) { return val !== _undefined$1 && val !== null; };
 
   var keys = Object.keys;
 
@@ -166,7 +158,7 @@
 
   var max   = Math.max;
 
-  var shim$1 = function (dest, src /*, …srcn*/) {
+  var shim$1 = function (dest, src/*, …srcn*/) {
   	var error, i, length = max(arguments.length, 2), assign;
   	dest = Object(validValue(dest));
   	assign = function (key) {
@@ -184,9 +176,7 @@
   	return dest;
   };
 
-  var assign = isImplemented$1()
-  	? Object.assign
-  	: shim$1;
+  var assign = isImplemented$1() ? Object.assign : shim$1;
 
   var forEach = Array.prototype.forEach, create = Object.create;
 
@@ -196,7 +186,7 @@
   };
 
   // eslint-disable-next-line no-unused-vars
-  var normalizeOptions = function (opts1 /*, …options*/) {
+  var normalizeOptions = function (opts1/*, …options*/) {
   	var result = create(null);
   	forEach.call(arguments, function (options) {
   		if (!isValue(options)) return;
@@ -209,7 +199,7 @@
 
   var isImplemented$3 = function () {
   	if (typeof str.contains !== "function") return false;
-  	return (str.contains("dwa") === true) && (str.contains("foo") === false);
+  	return str.contains("dwa") === true && str.contains("foo") === false;
   };
 
   var indexOf = String.prototype.indexOf;
@@ -218,9 +208,7 @@
   	return indexOf.call(this, searchString, arguments[1]) > -1;
   };
 
-  var contains = isImplemented$3()
-  	? String.prototype.contains
-  	: shim$2;
+  var contains = isImplemented$3() ? String.prototype.contains : shim$2;
 
   var d_1 = createCommonjsModule(function (module) {
 
@@ -7017,12 +7005,6 @@
     return Step;
   }(Evented);
 
-  var bodyScrollLock_min = createCommonjsModule(function (module, exports) {
-  !function(e,t){t(exports);}(commonjsGlobal,function(exports){function r(e){if(Array.isArray(e)){for(var t=0,o=Array(e.length);t<e.length;t++)o[t]=e[t];return o}return Array.from(e)}Object.defineProperty(exports,"__esModule",{value:!0});var l=!1;if("undefined"!=typeof window){var e={get passive(){l=!0;}};window.addEventListener("testPassive",null,e),window.removeEventListener("testPassive",null,e);}var d="undefined"!=typeof window&&window.navigator&&window.navigator.platform&&/iP(ad|hone|od)/.test(window.navigator.platform),c=[],u=!1,a=-1,s=void 0,v=void 0,f=function(t){return c.some(function(e){return !(!e.options.allowTouchMove||!e.options.allowTouchMove(t))})},m=function(e){var t=e||window.event;return !!f(t.target)||(1<t.touches.length||(t.preventDefault&&t.preventDefault(),!1))},o=function(){setTimeout(function(){void 0!==v&&(document.body.style.paddingRight=v,v=void 0),void 0!==s&&(document.body.style.overflow=s,s=void 0);});};exports.disableBodyScroll=function(i,e){if(d){if(!i)return void console.error("disableBodyScroll unsuccessful - targetElement must be provided when calling disableBodyScroll on IOS devices.");if(i&&!c.some(function(e){return e.targetElement===i})){var t={targetElement:i,options:e||{}};c=[].concat(r(c),[t]),i.ontouchstart=function(e){1===e.targetTouches.length&&(a=e.targetTouches[0].clientY);},i.ontouchmove=function(e){var t,o,n,r;1===e.targetTouches.length&&(o=i,r=(t=e).targetTouches[0].clientY-a,!f(t.target)&&(o&&0===o.scrollTop&&0<r?m(t):(n=o)&&n.scrollHeight-n.scrollTop<=n.clientHeight&&r<0?m(t):t.stopPropagation()));},u||(document.addEventListener("touchmove",m,l?{passive:!1}:void 0),u=!0);}}else{n=e,setTimeout(function(){if(void 0===v){var e=!!n&&!0===n.reserveScrollBarGap,t=window.innerWidth-document.documentElement.clientWidth;e&&0<t&&(v=document.body.style.paddingRight,document.body.style.paddingRight=t+"px");}void 0===s&&(s=document.body.style.overflow,document.body.style.overflow="hidden");});var o={targetElement:i,options:e||{}};c=[].concat(r(c),[o]);}var n;},exports.clearAllBodyScrollLocks=function(){d?(c.forEach(function(e){e.targetElement.ontouchstart=null,e.targetElement.ontouchmove=null;}),u&&(document.removeEventListener("touchmove",m,l?{passive:!1}:void 0),u=!1),c=[],a=-1):(o(),c=[]);},exports.enableBodyScroll=function(t){if(d){if(!t)return void console.error("enableBodyScroll unsuccessful - targetElement must be provided when calling enableBodyScroll on IOS devices.");t.ontouchstart=null,t.ontouchmove=null,c=c.filter(function(e){return e.targetElement!==t}),u&&0===c.length&&(document.removeEventListener("touchmove",m,l?{passive:!1}:void 0),u=!1);}else(c=c.filter(function(e){return e.targetElement!==t})).length||o();};});
-  });
-
-  var bodyScrollLock = unwrapExports(bodyScrollLock_min);
-
   var defaults = {
     trigger: 'manual',
     arrow: true,
@@ -7864,8 +7846,6 @@
      * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
      * @param {string} options.classPrefix The prefix to add to all the `shepherd-*` class names.
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
-     * @param {boolean} options.disableScroll When set to true, will keep the user from scrolling with the scrollbar,
-     * mousewheel, arrow keys, etc. You may want to use this to ensure you are driving the scroll position with the tour.
      * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
      * set to false.
      * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
@@ -8133,12 +8113,7 @@
     ;
 
     _proto.start = function start() {
-      this.trigger('start');
-
-      if (this.options.disableScroll) {
-        bodyScrollLock.disableBodyScroll();
-      } // Save the focused element before the tour opens
-
+      this.trigger('start'); // Save the focused element before the tour opens
 
       this.focusedElBeforeOpen = document.activeElement;
       this.currentStep = null;
@@ -8174,11 +8149,6 @@
       this.trigger('inactive', {
         tour: this
       });
-
-      if (this.options.disableScroll) {
-        bodyScrollLock.clearAllBodyScrollLocks();
-      }
-
       this.modal.hide(); // Focus the element that was focused before the tour started
 
       if (isElement(this.focusedElBeforeOpen)) {
