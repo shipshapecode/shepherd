@@ -33,7 +33,19 @@ Browsers support
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
-| IE11, Edge| last 2 versions| last 2 versions| last 2 versions
+| Edge| last 2 versions| last 2 versions| last 2 versions
+
+IE 11
+----------------------------------------------------------
+
+Shepherd v6.x no longer ships with the required polyfills to work with IE 11 out of the box,
+however, if you are supporting IE 11 already, you are probably shipping some polyfills.
+The only required polyfills are `Object.assign`, `Symbol`, and `element.matches` for things to work. 
+Our demo app includes the polyfills using Polyfill.io, but Babel, core-js, etc would all work.
+
+```html
+<script src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CSymbol%2CElement.prototype.matches"></script>
+```
 
 
 Documentation
