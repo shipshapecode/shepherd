@@ -68,7 +68,7 @@ export function generateStyles(options) {
 
       [`&.${classPrefix}shepherd-has-title`]: {
         [`.${tippyPrefix}tippy-arrow`]: {
-          borderBottomColor: variables.headerBackground
+          borderBottomColor: variables.headerBgColor
         }
       }
     },
