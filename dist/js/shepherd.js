@@ -7597,7 +7597,7 @@
       }, _xPlacementBott["." + tippyPrefix + "tippy-arrow"] = {
         borderBottomColor: variables.tippyBackground
       }, _xPlacementBott["&." + classPrefix + "shepherd-has-title"] = (_ref2 = {}, _ref2["." + tippyPrefix + "tippy-arrow"] = {
-        borderBottomColor: variables.headerBackground
+        borderBottomColor: variables.headerBgColor
       }, _ref2), _xPlacementBott),
       '&[x-placement^="left"]': (_xPlacementLeft = {
         marginRight: arrowMargin
