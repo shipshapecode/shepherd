@@ -74,7 +74,7 @@
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
-  className={classes + styles.element}
+  class={classes + styles.element}
   {...dataStepId}
   on:keydown={handleKeyDown}
   role="dialog"
