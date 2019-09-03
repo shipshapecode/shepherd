@@ -6,21 +6,27 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:ship-shape/recommended',
-    'standard-jsx'
+    'plugin:ship-shape/recommended'
   ],
   env: {
     browser: true,
     es6: true
   },
+  plugins: [
+    'svelte3'
+  ],
   rules: {
     'complexity': ['warn', 6],
     'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
     'no-console': 'off',
-    'prefer-const': 'off',
-    'react/jsx-tag-spacing': 'off'
+    'prefer-const': 'off'
   },
   overrides: [
+    // svelte files
+    {
+      files: ['**/*.svelte'],
+      processor: 'svelte3/svelte3'
+    },
     // node files
     {
       files: [

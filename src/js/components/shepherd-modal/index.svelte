@@ -1,9 +1,6 @@
 <script>
-  import autoBind from '../../utils/auto-bind';
-
   export let classPrefix, styles;
   let rafId = undefined;
-  let _onScreenChange = null;
   let openingProperties = {
     height: 0,
     x: 0,

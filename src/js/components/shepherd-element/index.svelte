@@ -8,9 +8,9 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  export let classes, classPrefix, descriptionId, labelId, step, styles;
+  export let classes, classPrefix, element, descriptionId, firstFocusableElement,
+    focusableElements, labelId, lastFocusableElement, step, styles;
   const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
-  let element, firstFocusableElement, focusableElements, lastFocusableElement;
 
   export const getElement = () => element;
 

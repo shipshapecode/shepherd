@@ -2,8 +2,7 @@
   import { onMount } from 'svelte';
   import { isElement, isFunction } from '../../../utils/type-check';
 
-  export let descriptionId, step, styles;
-  let base;
+  export let base, descriptionId, step, styles;
 
   onMount(() => {
     let { text } = step.options;
