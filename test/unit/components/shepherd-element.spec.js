@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { render, cleanup, fireEvent } from '@testing-library/svelte';
 import ShepherdElement from '../../../src/js/components/shepherd-element/index.svelte';
-import { Step } from '../../../src/js/step';
+import { Step } from '../../../src/js/step.js';
 import { spy, stub } from 'sinon';
-import { Tour } from '../../../src/js/tour';
+import { Tour } from '../../../src/js/tour.js';
 
 describe('components/ShepherdElement', () => {
   const styles = {

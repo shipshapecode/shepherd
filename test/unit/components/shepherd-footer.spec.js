@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
-import preact from 'preact';
-import ShepherdFooter from '../../../src/js/components/shepherd-content/shepherd-footer';
-import { expect } from 'chai';
-import defaultButtons from '../../cypress/utils/default-buttons';
+import { render, cleanup, fireEvent } from '@testing-library/svelte';
+import ShepherdFooter from '../../../src/js/components/shepherd-content/shepherd-footer/index.svelte';
+import defaultButtons from '../../cypress/utils/default-buttons.js';
+import ShepherdElement from '../../../src/js/components/shepherd-element/index.svelte';
 
 describe('components/ShepherdFooter', () => {
   const styles = {
@@ -17,15 +16,39 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const footer = <ShepherdFooter step={step} styles={styles} />;
-    expect(footer).to.equal(<footer className='shepherd-footer' />);
+    const { container } = render(ShepherdFooter, {
+      props: {
+        step,
+        styles
+      }
+    });
+
+    expect(container.querySelector('footer')).toMatchInlineSnapshot(`
+      <footer
+        class="shepherd-footer"
+      >
+        
+      </footer>
+    `);
   });
 
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
     const step = { options: {} };
 
-    const footer = <ShepherdFooter step={step} styles={styles} />;
-    expect(footer).to.equal(<footer className='shepherd-footer' />);
+    const { container } = render(ShepherdFooter, {
+      props: {
+        step,
+        styles
+      }
+    });
+
+    expect(container.querySelector('footer')).toMatchInlineSnapshot(`
+      <footer
+        class="shepherd-footer"
+      >
+        
+      </footer>
+    `);
   });
 
   it('renders buttons for each item passed to `options.buttons`', () => {
@@ -38,8 +61,21 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const footer = <ShepherdFooter step={step} styles={styles} />;
-    expect(footer).to.contain(<button class='shepherd-button-secondary cancel-button shepherd-button' tabindex='0'>Exit</button>);
-    expect(footer).to.contain(<button class='shepherd-button-primary next-button shepherd-button' tabindex='0'>Next</button>);
+    const { container } = render(ShepherdFooter, {
+      props: {
+        step,
+        styles
+      }
+    });
+
+    const cancelButton = container.querySelector('footer .cancel-button');
+    expect(cancelButton).toHaveAttribute('tabindex', '0');
+    expect(cancelButton).toHaveClass('shepherd-button-secondary cancel-button shepherd-button');
+    expect(cancelButton).toHaveTextContent('Exit');
+
+    const nextButton = container.querySelector('footer .next-button');
+    expect(nextButton).toHaveAttribute('tabindex', '0');
+    expect(nextButton).toHaveClass('shepherd-button-primary next-button shepherd-button');
+    expect(nextButton).toHaveTextContent('Next');
   });
 });
