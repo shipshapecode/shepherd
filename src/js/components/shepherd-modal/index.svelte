@@ -1,12 +1,19 @@
 <script>
-  export let classPrefix, styles;
+  export let classPrefix, element, openingProperties, styles;
   let rafId = undefined;
-  let openingProperties = {
-    height: 0,
-    x: 0,
-    y: 0,
-    width: 0
-  };
+
+  closeModalOpening();
+
+  export const getElement = () => element;
+
+  export function closeModalOpening() {
+    openingProperties = {
+      height: 0,
+      x: 0,
+      y: 0,
+      width: 0
+    };
+  }
 
   /**
    * Hide the modal overlay
@@ -26,6 +33,8 @@
   export function positionModalOpening(targetElement, modalOverlayOpeningPadding = 0) {
     if (targetElement.getBoundingClientRect) {
       const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
+
+      console.log(targetElement.getBoundingClientRect());
 
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
@@ -115,17 +124,13 @@
 
       _addStepEventListeners();
     } else {
-      openingProperties = {
-        height: 0,
-        x: 0,
-        y: 0,
-        width: 0
-      };
+      closeModalOpening();
     }
   }
 </script>
 
 <svg
+  bind:this={element}
   class={styles['modal-overlay-container']}
   on:touchmove={_preventModalOverlayTouch}
 >
