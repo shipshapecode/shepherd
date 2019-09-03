@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { render, cleanup, fireEvent } from '@testing-library/svelte';
+import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdElement from '../../../src/js/components/shepherd-element/index.svelte';
 import { Step } from '../../../src/js/step.js';
 import { spy, stub } from 'sinon';
@@ -28,7 +27,7 @@ describe('components/ShepherdElement', () => {
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
-      expect(stepCancelSpy.called).to.be.true;
+      expect(stepCancelSpy.called).toBe(true);
     });
 
     it('exitOnEsc: false - ESC does not cancel the tour', async () => {
@@ -43,7 +42,7 @@ describe('components/ShepherdElement', () => {
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
-      expect(stepCancelSpy.called).to.be.false;
+      expect(stepCancelSpy.called).toBe(false);
     });
 
     it('keyboardNavigation: true - arrow keys move between steps', async () => {
@@ -53,8 +52,8 @@ describe('components/ShepherdElement', () => {
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
 
-      expect(tourBackStub.called).to.be.false;
-      expect(tourNextStub.called).to.be.false;
+      expect(tourBackStub.called).toBe(false);
+      expect(tourNextStub.called).toBe(false);
 
       const { container } = render(ShepherdElement, {
         props: {
@@ -63,10 +62,10 @@ describe('components/ShepherdElement', () => {
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
-      expect(tourNextStub.called).to.be.true;
+      expect(tourNextStub.called).toBe(true);
 
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
-      expect(tourBackStub.called).to.be.true;
+      expect(tourBackStub.called).toBe(true);
 
       tourBackStub.restore();
       tourNextStub.restore();
@@ -79,8 +78,8 @@ describe('components/ShepherdElement', () => {
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
 
-      expect(tourBackStub.called).to.be.false;
-      expect(tourNextStub.called).to.be.false;
+      expect(tourBackStub.called).toBe(false);
+      expect(tourNextStub.called).toBe(false);
 
       const { container } = render(ShepherdElement, {
         props: {
@@ -89,10 +88,10 @@ describe('components/ShepherdElement', () => {
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
-      expect(tourNextStub.called).to.be.false;
+      expect(tourNextStub.called).toBe(false);
 
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
-      expect(tourBackStub.called).to.be.false;
+      expect(tourBackStub.called).toBe(false);
 
       tourBackStub.restore();
       tourNextStub.restore();

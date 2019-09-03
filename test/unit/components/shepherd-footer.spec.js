@@ -1,9 +1,10 @@
-import { render, cleanup, fireEvent } from '@testing-library/svelte';
+import { cleanup, render } from '@testing-library/svelte';
 import ShepherdFooter from '../../../src/js/components/shepherd-content/shepherd-footer/index.svelte';
 import defaultButtons from '../../cypress/utils/default-buttons.js';
-import ShepherdElement from '../../../src/js/components/shepherd-element/index.svelte';
 
 describe('components/ShepherdFooter', () => {
+  beforeEach(cleanup);
+
   const styles = {
     button: ' shepherd-button',
     footer: ' shepherd-footer'
@@ -23,13 +24,7 @@ describe('components/ShepherdFooter', () => {
       }
     });
 
-    expect(container.querySelector('footer')).toMatchInlineSnapshot(`
-      <footer
-        class="shepherd-footer"
-      >
-        
-      </footer>
-    `);
+    expect(container).toContainHTML('<footer class="shepherd-footer"></footer>');
   });
 
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
@@ -42,13 +37,7 @@ describe('components/ShepherdFooter', () => {
       }
     });
 
-    expect(container.querySelector('footer')).toMatchInlineSnapshot(`
-      <footer
-        class="shepherd-footer"
-      >
-        
-      </footer>
-    `);
+    expect(container).toContainHTML('<footer class="shepherd-footer"></footer>');
   });
 
   it('renders buttons for each item passed to `options.buttons`', () => {
