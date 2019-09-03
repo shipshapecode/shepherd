@@ -10,7 +10,6 @@ import { toggleShepherdModalClass } from './utils/modal';
 import ShepherdElement from './components/shepherd-element';
 
 // Polyfills
-import 'element-matches';
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
