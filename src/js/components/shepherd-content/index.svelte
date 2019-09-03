@@ -1,7 +1,7 @@
 <script>
-  import ShepherdFooter from './shepherd-footer';
-  import ShepherdHeader from './shepherd-header';
-  import ShepherdText from './shepherd-text';
+  import ShepherdFooter from './shepherd-footer/index.svelte';
+  import ShepherdHeader from './shepherd-header/index.svelte';
+  import ShepherdText from './shepherd-text/index.svelte';
   import { isUndefined } from '../../utils/type-check';
 
   export let classPrefix, descriptionId, labelId, step, styles;

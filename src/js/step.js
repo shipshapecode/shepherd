@@ -1,12 +1,12 @@
 import get from 'get-value';
 
-import { Evented } from './evented';
-import autoBind from './utils/auto-bind';
-import { isElement, isFunction, isUndefined } from './utils/type-check';
-import { bindAdvance } from './utils/bind';
-import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general';
-import { toggleShepherdModalClass } from './utils/modal';
-import ShepherdElement from './components/shepherd-element';
+import { Evented } from './evented.js';
+import autoBind from './utils/auto-bind.js';
+import { isElement, isFunction, isUndefined } from './utils/type-check.js';
+import { bindAdvance } from './utils/bind.js';
+import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
+import { toggleShepherdModalClass } from './utils/modal.js';
+import ShepherdElement from './components/shepherd-element/index.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';

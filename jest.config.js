@@ -23,10 +23,10 @@ module.exports = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     'src/js/*.js',
-    'src/js/*.jsx',
-    'src/js/components/**/*.jsx',
+    'src/js/*.svelte',
+    'src/js/components/**/*.svelte',
     'src/js/utils/*.js',
-    'src/js/utils/*.jsx'
+    'src/js/utils/*.svelte'
   ],
 
   // The directory where Jest should output its coverage files
@@ -166,14 +166,15 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.js$': 'babel-jest',
+    '^.+\\.svelte$': 'jest-transform-svelte',
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css'
-  },
+  }
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: [
-    'node_modules/?!(lodash-es)/'
-  ]
+  // transformIgnorePatterns: [
+  //   'node_modules/?!(lodash-es)/'
+  // ]
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
