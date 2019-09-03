@@ -34,8 +34,6 @@
     if (targetElement.getBoundingClientRect) {
       const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
-      console.log(targetElement.getBoundingClientRect());
-
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
         x: (x || left) - modalOverlayOpeningPadding,
@@ -57,7 +55,6 @@
     if (step.tour.options.useModalOverlay) {
       _styleForStep(step);
       show();
-
     } else {
       hide();
     }
