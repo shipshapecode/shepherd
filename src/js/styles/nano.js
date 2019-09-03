@@ -1,4 +1,3 @@
-import { assign } from 'es6-object-assign';
 import { h } from 'preact';
 import { create } from 'nano-css';
 import { addon as addonCache } from 'nano-css/addon/cache';
@@ -7,7 +6,6 @@ import { addon as addonRule } from 'nano-css/addon/rule';
 import { addon as addonSheet } from 'nano-css/addon/sheet';
 
 const nano = create({
-  assign,
   h,
   pfx: ''
 });

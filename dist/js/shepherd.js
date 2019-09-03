@@ -38,369 +38,6 @@
     return self;
   }
 
-  var validTypes = { object: true, symbol: true };
-
-  var isImplemented = function () {
-  	var symbol;
-  	if (typeof Symbol !== 'function') return false;
-  	symbol = Symbol('test symbol');
-  	try { String(symbol); } catch (e) { return false; }
-
-  	// Return 'true' also for polyfills
-  	if (!validTypes[typeof Symbol.iterator]) return false;
-  	if (!validTypes[typeof Symbol.toPrimitive]) return false;
-  	if (!validTypes[typeof Symbol.toStringTag]) return false;
-
-  	return true;
-  };
-
-  var global$1 = (function () {
-  	if (this) return this;
-
-  	// Unexpected strict mode (may happen if e.g. bundled into ESM module), be nice
-
-  	// Thanks @mathiasbynens -> https://mathiasbynens.be/notes/globalthis
-  	// In all ES5+ engines global object inherits from Object.prototype
-  	// (if you approached one that doesn't please report)
-  	Object.defineProperty(Object.prototype, "__global__", {
-  		get: function () { return this; },
-  		configurable: true
-  	});
-  	try { return __global__; }
-  	finally { delete Object.prototype.__global__; }
-  })();
-
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  // ES3 safe
-  var _undefined = void 0;
-
-  var is = function (value) { return value !== _undefined && value !== null; };
-
-  // prettier-ignore
-  var possibleTypes = { "object": true, "function": true, "undefined": true /* document.all */ };
-
-  var is$1 = function (value) {
-  	if (!is(value)) return false;
-  	return hasOwnProperty.call(possibleTypes, typeof value);
-  };
-
-  var is$2 = function (value) {
-  	if (!is$1(value)) return false;
-  	try {
-  		if (!value.constructor) return false;
-  		return value.constructor.prototype === value;
-  	} catch (error) {
-  		return false;
-  	}
-  };
-
-  var is$3 = function (value) {
-  	if (typeof value !== "function") return false;
-
-  	if (!hasOwnProperty.call(value, "length")) return false;
-
-  	try {
-  		if (typeof value.length !== "number") return false;
-  		if (typeof value.call !== "function") return false;
-  		if (typeof value.apply !== "function") return false;
-  	} catch (error) {
-  		return false;
-  	}
-
-  	return !is$2(value);
-  };
-
-  var classRe = /^\s*class[\s{/}]/, functionToString = Function.prototype.toString;
-
-  var is$4 = function (value) {
-  	if (!is$3(value)) return false;
-  	if (classRe.test(functionToString.call(value))) return false;
-  	return true;
-  };
-
-  var isImplemented$1 = function () {
-  	var assign = Object.assign, obj;
-  	if (typeof assign !== "function") return false;
-  	obj = { foo: "raz" };
-  	assign(obj, { bar: "dwa" }, { trzy: "trzy" });
-  	return obj.foo + obj.bar + obj.trzy === "razdwatrzy";
-  };
-
-  var isImplemented$2 = function () {
-  	try {
-  		Object.keys("primitive");
-  		return true;
-  	} catch (e) {
-  		return false;
-  	}
-  };
-
-  // eslint-disable-next-line no-empty-function
-  var noop = function () {};
-
-  var _undefined$1 = noop(); // Support ES3 engines
-
-  var isValue = function (val) { return val !== _undefined$1 && val !== null; };
-
-  var keys = Object.keys;
-
-  var shim = function (object) { return keys(isValue(object) ? Object(object) : object); };
-
-  var keys$1 = isImplemented$2() ? Object.keys : shim;
-
-  var validValue = function (value) {
-  	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
-  	return value;
-  };
-
-  var max   = Math.max;
-
-  var shim$1 = function (dest, src/*, …srcn*/) {
-  	var error, i, length = max(arguments.length, 2), assign;
-  	dest = Object(validValue(dest));
-  	assign = function (key) {
-  		try {
-  			dest[key] = src[key];
-  		} catch (e) {
-  			if (!error) error = e;
-  		}
-  	};
-  	for (i = 1; i < length; ++i) {
-  		src = arguments[i];
-  		keys$1(src).forEach(assign);
-  	}
-  	if (error !== undefined) throw error;
-  	return dest;
-  };
-
-  var assign = isImplemented$1() ? Object.assign : shim$1;
-
-  var forEach = Array.prototype.forEach, create = Object.create;
-
-  var process = function (src, obj) {
-  	var key;
-  	for (key in src) obj[key] = src[key];
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  var normalizeOptions = function (opts1/*, …options*/) {
-  	var result = create(null);
-  	forEach.call(arguments, function (options) {
-  		if (!isValue(options)) return;
-  		process(Object(options), result);
-  	});
-  	return result;
-  };
-
-  var str = "razdwatrzy";
-
-  var isImplemented$3 = function () {
-  	if (typeof str.contains !== "function") return false;
-  	return str.contains("dwa") === true && str.contains("foo") === false;
-  };
-
-  var indexOf = String.prototype.indexOf;
-
-  var shim$2 = function (searchString/*, position*/) {
-  	return indexOf.call(this, searchString, arguments[1]) > -1;
-  };
-
-  var contains = isImplemented$3() ? String.prototype.contains : shim$2;
-
-  var d_1 = createCommonjsModule(function (module) {
-
-
-
-  var d = (module.exports = function (dscr, value/*, options*/) {
-  	var c, e, w, options, desc;
-  	if (arguments.length < 2 || typeof dscr !== "string") {
-  		options = value;
-  		value = dscr;
-  		dscr = null;
-  	} else {
-  		options = arguments[2];
-  	}
-  	if (is(dscr)) {
-  		c = contains.call(dscr, "c");
-  		e = contains.call(dscr, "e");
-  		w = contains.call(dscr, "w");
-  	} else {
-  		c = w = true;
-  		e = false;
-  	}
-
-  	desc = { value: value, configurable: c, enumerable: e, writable: w };
-  	return !options ? desc : assign(normalizeOptions(options), desc);
-  });
-
-  d.gs = function (dscr, get, set/*, options*/) {
-  	var c, e, options, desc;
-  	if (typeof dscr !== "string") {
-  		options = set;
-  		set = get;
-  		get = dscr;
-  		dscr = null;
-  	} else {
-  		options = arguments[3];
-  	}
-  	if (!is(get)) {
-  		get = undefined;
-  	} else if (!is$4(get)) {
-  		options = get;
-  		get = set = undefined;
-  	} else if (!is(set)) {
-  		set = undefined;
-  	} else if (!is$4(set)) {
-  		options = set;
-  		set = undefined;
-  	}
-  	if (is(dscr)) {
-  		c = contains.call(dscr, "c");
-  		e = contains.call(dscr, "e");
-  	} else {
-  		c = true;
-  		e = false;
-  	}
-
-  	desc = { get: get, set: set, configurable: c, enumerable: e };
-  	return !options ? desc : assign(normalizeOptions(options), desc);
-  };
-  });
-
-  var isSymbol = function (x) {
-  	if (!x) return false;
-  	if (typeof x === 'symbol') return true;
-  	if (!x.constructor) return false;
-  	if (x.constructor.name !== 'Symbol') return false;
-  	return (x[x.constructor.toStringTag] === 'Symbol');
-  };
-
-  var validateSymbol = function (value) {
-  	if (!isSymbol(value)) throw new TypeError(value + " is not a symbol");
-  	return value;
-  };
-
-  var create$1 = Object.create, defineProperties = Object.defineProperties
-    , defineProperty = Object.defineProperty, objPrototype = Object.prototype
-    , NativeSymbol, SymbolPolyfill, HiddenSymbol, globalSymbols = create$1(null)
-    , isNativeSafe;
-
-  if (typeof Symbol === 'function') {
-  	NativeSymbol = Symbol;
-  	try {
-  		String(NativeSymbol());
-  		isNativeSafe = true;
-  	} catch (ignore) {}
-  }
-
-  var generateName = (function () {
-  	var created = create$1(null);
-  	return function (desc) {
-  		var postfix = 0, name, ie11BugWorkaround;
-  		while (created[desc + (postfix || '')]) ++postfix;
-  		desc += (postfix || '');
-  		created[desc] = true;
-  		name = '@@' + desc;
-  		defineProperty(objPrototype, name, d_1.gs(null, function (value) {
-  			// For IE11 issue see:
-  			// https://connect.microsoft.com/IE/feedbackdetail/view/1928508/
-  			//    ie11-broken-getters-on-dom-objects
-  			// https://github.com/medikoo/es6-symbol/issues/12
-  			if (ie11BugWorkaround) return;
-  			ie11BugWorkaround = true;
-  			defineProperty(this, name, d_1(value));
-  			ie11BugWorkaround = false;
-  		}));
-  		return name;
-  	};
-  }());
-
-  // Internal constructor (not one exposed) for creating Symbol instances.
-  // This one is used to ensure that `someSymbol instanceof Symbol` always return false
-  HiddenSymbol = function Symbol(description) {
-  	if (this instanceof HiddenSymbol) throw new TypeError('Symbol is not a constructor');
-  	return SymbolPolyfill(description);
-  };
-
-  // Exposed `Symbol` constructor
-  // (returns instances of HiddenSymbol)
-  var polyfill = SymbolPolyfill = function Symbol(description) {
-  	var symbol;
-  	if (this instanceof Symbol) throw new TypeError('Symbol is not a constructor');
-  	if (isNativeSafe) return NativeSymbol(description);
-  	symbol = create$1(HiddenSymbol.prototype);
-  	description = (description === undefined ? '' : String(description));
-  	return defineProperties(symbol, {
-  		__description__: d_1('', description),
-  		__name__: d_1('', generateName(description))
-  	});
-  };
-  defineProperties(SymbolPolyfill, {
-  	for: d_1(function (key) {
-  		if (globalSymbols[key]) return globalSymbols[key];
-  		return (globalSymbols[key] = SymbolPolyfill(String(key)));
-  	}),
-  	keyFor: d_1(function (s) {
-  		var key;
-  		validateSymbol(s);
-  		for (key in globalSymbols) if (globalSymbols[key] === s) return key;
-  	}),
-
-  	// To ensure proper interoperability with other native functions (e.g. Array.from)
-  	// fallback to eventual native implementation of given symbol
-  	hasInstance: d_1('', (NativeSymbol && NativeSymbol.hasInstance) || SymbolPolyfill('hasInstance')),
-  	isConcatSpreadable: d_1('', (NativeSymbol && NativeSymbol.isConcatSpreadable) ||
-  		SymbolPolyfill('isConcatSpreadable')),
-  	iterator: d_1('', (NativeSymbol && NativeSymbol.iterator) || SymbolPolyfill('iterator')),
-  	match: d_1('', (NativeSymbol && NativeSymbol.match) || SymbolPolyfill('match')),
-  	replace: d_1('', (NativeSymbol && NativeSymbol.replace) || SymbolPolyfill('replace')),
-  	search: d_1('', (NativeSymbol && NativeSymbol.search) || SymbolPolyfill('search')),
-  	species: d_1('', (NativeSymbol && NativeSymbol.species) || SymbolPolyfill('species')),
-  	split: d_1('', (NativeSymbol && NativeSymbol.split) || SymbolPolyfill('split')),
-  	toPrimitive: d_1('', (NativeSymbol && NativeSymbol.toPrimitive) || SymbolPolyfill('toPrimitive')),
-  	toStringTag: d_1('', (NativeSymbol && NativeSymbol.toStringTag) || SymbolPolyfill('toStringTag')),
-  	unscopables: d_1('', (NativeSymbol && NativeSymbol.unscopables) || SymbolPolyfill('unscopables'))
-  });
-
-  // Internal tweaks for real symbol producer
-  defineProperties(HiddenSymbol.prototype, {
-  	constructor: d_1(SymbolPolyfill),
-  	toString: d_1('', function () { return this.__name__; })
-  });
-
-  // Proper implementation of methods exposed on Symbol.prototype
-  // They won't be accessible on produced symbol instances as they derive from HiddenSymbol.prototype
-  defineProperties(SymbolPolyfill.prototype, {
-  	toString: d_1(function () { return 'Symbol (' + validateSymbol(this).__description__ + ')'; }),
-  	valueOf: d_1(function () { return validateSymbol(this); })
-  });
-  defineProperty(SymbolPolyfill.prototype, SymbolPolyfill.toPrimitive, d_1('', function () {
-  	var symbol = validateSymbol(this);
-  	if (typeof symbol === 'symbol') return symbol;
-  	return symbol.toString();
-  }));
-  defineProperty(SymbolPolyfill.prototype, SymbolPolyfill.toStringTag, d_1('c', 'Symbol'));
-
-  // Proper implementaton of toPrimitive and toStringTag for returned symbol instances
-  defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toStringTag,
-  	d_1('c', SymbolPolyfill.prototype[SymbolPolyfill.toStringTag]));
-
-  // Note: It's important to define `toPrimitive` as last one, as some implementations
-  // implement `toPrimitive` natively without implementing `toStringTag` (or other specified symbols)
-  // And that may invoke error in definition flow:
-  // See: https://github.com/medikoo/es6-symbol/issues/13#issuecomment-164146149
-  defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toPrimitive,
-  	d_1('c', SymbolPolyfill.prototype[SymbolPolyfill.toPrimitive]));
-
-  if (!isImplemented()) {
-  	Object.defineProperty(global$1, 'Symbol',
-  		{ value: polyfill, configurable: true, enumerable: false,
-  			writable: true });
-  }
-
   /*!
    * isobject <https://github.com/jonschlinkert/isobject>
    *
@@ -1450,7 +1087,7 @@
       computeStyle: {
         enabled: true,
         fn: function fn(data) {
-          data.styles = _extends({}, data.styles, {
+          data.styles = Object.assign({}, data.styles, {
             left: '50%',
             top: '50%',
             transform: 'translate(-50%, -50%)'
@@ -1728,13 +1365,13 @@
     window.addEventListener('blur', onWindowBlur);
   }
 
-  var keys$2 = Object.keys(defaultProps);
+  var keys = Object.keys(defaultProps);
   /**
    * Returns an object of optional props from data-tippy-* attributes
    */
 
   function getDataAttributeProps(reference) {
-    var props = keys$2.reduce(function (acc, key) {
+    var props = keys.reduce(function (acc, key) {
       var valueAsString = (reference.getAttribute("data-tippy-" + key) || '').trim();
 
       if (!valueAsString) {
@@ -1767,7 +1404,7 @@
    * Safe .hasOwnProperty check, for prototype-less objects
    */
 
-  function hasOwnProperty$1(obj, key) {
+  function hasOwnProperty(obj, key) {
     return {}.hasOwnProperty.call(obj, key);
   }
   /**
@@ -2588,7 +2225,7 @@
 
 
 
-  var defineProperty$1 = function (obj, key, value) {
+  var defineProperty = function (obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -3667,7 +3304,7 @@
     sideValue = Math.max(Math.min(popper[len] - arrowElementSize, sideValue), 0);
 
     data.arrowElement = arrowElement;
-    data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty$1(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty$1(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
+    data.offsets.arrow = (_data$offsets$arrow = {}, defineProperty(_data$offsets$arrow, side, Math.round(sideValue)), defineProperty(_data$offsets$arrow, altSide, ''), _data$offsets$arrow);
 
     return data;
   }
@@ -4097,7 +3734,7 @@
         if (popper[placement] < boundaries[placement] && !options.escapeWithReference) {
           value = Math.max(popper[placement], boundaries[placement]);
         }
-        return defineProperty$1({}, placement, value);
+        return defineProperty({}, placement, value);
       },
       secondary: function secondary(placement) {
         var mainSide = placement === 'right' ? 'left' : 'top';
@@ -4105,7 +3742,7 @@
         if (popper[placement] > boundaries[placement] && !options.escapeWithReference) {
           value = Math.min(popper[mainSide], boundaries[placement] - (placement === 'right' ? popper.width : popper.height));
         }
-        return defineProperty$1({}, mainSide, value);
+        return defineProperty({}, mainSide, value);
       }
     };
 
@@ -4142,8 +3779,8 @@
       var measurement = isVertical ? 'width' : 'height';
 
       var shiftOffsets = {
-        start: defineProperty$1({}, side, reference[side]),
-        end: defineProperty$1({}, side, reference[side] + reference[measurement] - popper[measurement])
+        start: defineProperty({}, side, reference[side]),
+        end: defineProperty({}, side, reference[side] + reference[measurement] - popper[measurement])
       };
 
       data.offsets.popper = _extends$2({}, popper, shiftOffsets[shiftvariation]);
@@ -5404,7 +5041,7 @@
       var nextProps = evaluateProps(reference, _extends$1({}, instance.props, {}, partialProps, {
         ignoreAttributes: true
       }));
-      nextProps.ignoreAttributes = hasOwnProperty$1(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
+      nextProps.ignoreAttributes = hasOwnProperty(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
       instance.props = nextProps;
       addTriggersToEventListenersTarget();
       cleanupInteractiveMouseListeners();
@@ -5414,7 +5051,7 @@
 
       if (instance.popperInstance) {
         if (POPPER_INSTANCE_DEPENDENCIES.some(function (prop) {
-          return hasOwnProperty$1(partialProps, prop) && partialProps[prop] !== prevProps[prop];
+          return hasOwnProperty(partialProps, prop) && partialProps[prop] !== prevProps[prop];
         })) {
           instance.popperInstance.destroy();
           createPopperInstance();
@@ -5714,8 +5351,7 @@
 
   function parseAttachTo(step) {
     var options = step.options.attachTo || {};
-
-    var returnOpts = _extends({}, options);
+    var returnOpts = Object.assign({}, options);
 
     if (isString(options.element)) {
       // Can't override the element in user opts reference because we can't
@@ -6170,11 +5806,8 @@
     return ShepherdElement;
   }(Component$6);
 
-  if (!Element.prototype.matches) {
-      Element.prototype.matches =
-          Element.prototype.matchesSelector ||
-          Element.prototype.msMatchesSelector ||
-          Element.prototype.webkitMatchesSelector;
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
   }
 
   var smoothscroll = createCommonjsModule(function (module, exports) {
@@ -7075,57 +6708,11 @@
   };
   function getVariables(options) {
     if (options.styleVariables) {
-      _extends(styles, options.styleVariables);
+      Object.assign(styles, options.styleVariables);
     }
 
     return styles;
   }
-
-  /**
-   * Code refactored from Mozilla Developer Network:
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-   */
-
-  function assign$1(target, firstSource) {
-    if (target === undefined || target === null) {
-      throw new TypeError('Cannot convert first argument to object');
-    }
-
-    var to = Object(target);
-    for (var i = 1; i < arguments.length; i++) {
-      var nextSource = arguments[i];
-      if (nextSource === undefined || nextSource === null) {
-        continue;
-      }
-
-      var keysArray = Object.keys(Object(nextSource));
-      for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-        var nextKey = keysArray[nextIndex];
-        var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-        if (desc !== undefined && desc.enumerable) {
-          to[nextKey] = nextSource[nextKey];
-        }
-      }
-    }
-    return to;
-  }
-
-  function polyfill$1() {
-    if (!Object.assign) {
-      Object.defineProperty(Object, 'assign', {
-        enumerable: false,
-        configurable: true,
-        writable: true,
-        value: assign$1
-      });
-    }
-  }
-
-  var es6ObjectAssign = {
-    assign: assign$1,
-    polyfill: polyfill$1
-  };
-  var es6ObjectAssign_1 = es6ObjectAssign.assign;
 
   var KEBAB_REGEX = /[A-Z]/g;
 
@@ -7140,7 +6727,7 @@
     return '_' + (hash >>> 0).toString(36);
   };
 
-  var create$2 = function create(config) {
+  var create = function create(config) {
     config = config || {};
     var assign = config.assign || Object.assign;
     var client = typeof window === 'object'; // Check if we are really in browser environment.
@@ -7324,8 +6911,7 @@
     };
   };
 
-  var nano = create$2({
-    assign: es6ObjectAssign_1,
+  var nano = create({
     h: h,
     pfx: ''
   });
@@ -7878,7 +7464,7 @@
         includeStyles: true,
         keyboardNavigation: true
       };
-      _this.options = _extends({}, defaultTourOptions, options);
+      _this.options = Object.assign({}, defaultTourOptions, options);
       _this.classPrefix = _this.options ? normalizePrefix(_this.options.classPrefix) : '';
       _this.styles = generateStyles(_this.options);
       _this.steps = [];
@@ -8178,7 +7764,7 @@
     ;
 
     _proto._setupStep = function _setupStep(stepOptions) {
-      stepOptions = _extends({}, this.options.defaultStepOptions, stepOptions);
+      stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
       return new Step(this, stepOptions);
     }
     /**
@@ -8256,7 +7842,7 @@
     return Tour;
   }(Evented);
 
-  _extends(Shepherd, {
+  Object.assign(Shepherd, {
     Tour: Tour,
     Step: Step
   });
