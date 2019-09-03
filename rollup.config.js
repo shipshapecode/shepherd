@@ -16,17 +16,17 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
+  eslint(),
+  svelte(),
+  babel({
+    exclude: /node_modules\/(?!(nano-css)\/).*/
+  }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
   }),
   commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
-  }),
-  eslint(),
-  svelte(),
-  babel({
-    exclude: /node_modules\/(?!(nano-css)\/).*/
   })
 ];
 
@@ -99,16 +99,16 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
+        svelte(),
+        babel({
+          exclude: /node_modules\/(?!(nano-css)\/).*/
+        }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
         }),
         commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
-        }),
-        svelte(),
-        babel({
-          exclude: /node_modules\/(?!(nano-css)\/).*/
         }),
         terser(),
         license({
