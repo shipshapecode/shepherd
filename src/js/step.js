@@ -1,5 +1,4 @@
 import get from 'get-value';
-import preact from 'preact';
 
 import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
@@ -13,8 +12,6 @@ import ShepherdElement from './components/shepherd-element';
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
-
-const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created step
@@ -237,7 +234,7 @@ export class Step extends Evented {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 
-    const el = new ShepherdElement({
+    const ShepherdElementComponent = new ShepherdElement({
       target: document.body,
       props:
         {
@@ -250,7 +247,7 @@ export class Step extends Evented {
         }
     });
 
-    return el.$$.ctx.element;
+    return ShepherdElementComponent.getElement();
   }
 
   /**

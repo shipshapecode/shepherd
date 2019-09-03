@@ -12,6 +12,8 @@
   const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
   let element, firstFocusableElement, focusableElements, lastFocusableElement;
 
+  export const getElement = () => element;
+
   onMount(() => {
     // Get all elements that are focusable
     focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
@@ -70,7 +72,7 @@
 
 <div
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
-  aria-labeledby={step.options.title ? labelId : null}
+  aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
   className={classes + styles.element}
   {...dataStepId}

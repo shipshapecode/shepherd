@@ -1,8 +1,7 @@
-import preact from 'preact';
 import tippy from 'tippy.js';
 
 import { Evented } from './evented.js';
-import { Step } from './step.jsx';
+import { Step } from './step.js';
 import autoBind from './utils/auto-bind';
 import { isElement, isFunction, isString } from './utils/type-check';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults';
@@ -10,8 +9,6 @@ import { cleanupSteps } from './utils/cleanup';
 import { normalizePrefix } from './utils/general';
 import { generateStyles } from './styles/generateStyles';
 import ShepherdModal from './components/shepherd-modal';
-
-const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created tour
@@ -87,15 +84,14 @@ export class Tour extends Evented {
     });
 
     const existingModal = document.querySelector(`.${this.classPrefix}shepherd-modal-overlay-container`);
-    render(
-      <ShepherdModal
-        classPrefix={this.classPrefix}
-        ref={(c) => this.modal = c}
-        styles={this.styles}
-      />,
-      options.modalContainer || document.body,
-      existingModal
-    );
+    this.modal = new ShepherdModal({
+      target: existingModal || options.modalContainer || document.body,
+      props:
+        {
+          classPrefix: this.classPrefix,
+          styles: this.styles
+        }
+    });
 
     this._setTooltipDefaults();
     this._setTourID();

@@ -17,7 +17,7 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   resolve({
-    extensions: ['.js', '.jsx', '.json', '.svelte']
+    extensions: ['.js', '.json', '.svelte']
   }),
   commonjs(),
   replace({
@@ -100,7 +100,7 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         resolve({
-          extensions: ['.js', '.jsx', '.json', '.svelte']
+          extensions: ['.js', '.json', '.svelte']
         }),
         commonjs(),
         replace({

@@ -1,4 +1,4 @@
-import { Step } from '../../../src/js/step.jsx';
+import { Step } from '../../../src/js/step.js';
 import { parseAttachTo } from '../../../src/js/utils/general';
 
 
