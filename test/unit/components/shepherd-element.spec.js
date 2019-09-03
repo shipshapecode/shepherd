@@ -46,55 +46,56 @@ describe('components/ShepherdElement', () => {
       expect(stepCancelSpy.called).to.be.false;
     });
 
-    //
-    // it('keyboardNavigation: true - arrow keys move between steps', async () => {
-    //   const tour = new Tour();
-    //   const step = new Step(tour, {});
-    //
-    //   const tourBackStub = stub(tour, 'back');
-    //   const tourNextStub = stub(tour, 'next');
-    //
-    //   expect(tourBackStub.called).to.be.false;
-    //   expect(tourNextStub.called).to.be.false;
-    //
-    //   const element = shallow(<ShepherdElement
-    //     step={step}
-    //     styles={styles}
-    //   />);
-    //
-    //   await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
-    //   expect(tourNextStub.called).to.be.true;
-    //
-    //   await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 37, preventDefault() {} });
-    //   expect(tourBackStub.called).to.be.true;
-    //
-    //   tourBackStub.restore();
-    //   tourNextStub.restore();
-    // });
-    //
-    // it('keyboardNavigation: false - arrow keys do not move between steps', async () => {
-    //   const tour = new Tour({ keyboardNavigation: false });
-    //   const step = new Step(tour, {});
-    //
-    //   const tourBackStub = stub(tour, 'back');
-    //   const tourNextStub = stub(tour, 'next');
-    //
-    //   expect(tourBackStub.called).to.be.false;
-    //   expect(tourNextStub.called).to.be.false;
-    //
-    //   const element = shallow(<ShepherdElement
-    //     step={step}
-    //     styles={styles}
-    //   />);
-    //
-    //   await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
-    //   expect(tourNextStub.called).to.be.false;
-    //
-    //   await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 37, preventDefault() {} });
-    //   expect(tourBackStub.called).to.be.false;
-    //
-    //   tourBackStub.restore();
-    //   tourNextStub.restore();
-    // });
+    it('keyboardNavigation: true - arrow keys move between steps', async () => {
+      const tour = new Tour();
+      const step = new Step(tour, {});
+
+      const tourBackStub = stub(tour, 'back');
+      const tourNextStub = stub(tour, 'next');
+
+      expect(tourBackStub.called).to.be.false;
+      expect(tourNextStub.called).to.be.false;
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
+      expect(tourNextStub.called).to.be.true;
+
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
+      expect(tourBackStub.called).to.be.true;
+
+      tourBackStub.restore();
+      tourNextStub.restore();
+    });
+
+    it('keyboardNavigation: false - arrow keys do not move between steps', async () => {
+      const tour = new Tour({ keyboardNavigation: false });
+      const step = new Step(tour, {});
+
+      const tourBackStub = stub(tour, 'back');
+      const tourNextStub = stub(tour, 'next');
+
+      expect(tourBackStub.called).to.be.false;
+      expect(tourNextStub.called).to.be.false;
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
+      expect(tourNextStub.called).to.be.false;
+
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
+      expect(tourBackStub.called).to.be.false;
+
+      tourBackStub.restore();
+      tourNextStub.restore();
+    });
   });
 });
