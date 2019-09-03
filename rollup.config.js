@@ -6,6 +6,7 @@ import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
+import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 
@@ -16,15 +17,16 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   resolve({
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json', '.svelte']
   }),
   commonjs(),
-  eslint(),
-  babel({
-    exclude: /node_modules\/(?!(nano-css)\/).*/
-  }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  eslint(),
+  svelte(),
+  babel({
+    exclude: /node_modules\/(?!(nano-css)\/).*/
   })
 ];
 
@@ -98,14 +100,15 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         resolve({
-          extensions: ['.js', '.jsx', '.json']
+          extensions: ['.js', '.jsx', '.json', '.svelte']
         }),
         commonjs(),
-        babel({
-          exclude: /node_modules\/(?!(nano-css)\/).*/
-        }),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
+        }),
+        svelte(),
+        babel({
+          exclude: /node_modules\/(?!(nano-css)\/).*/
         }),
         terser(),
         license({

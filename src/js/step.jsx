@@ -237,17 +237,20 @@ export class Step extends Evented {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 
-    return render(
-      <ShepherdElement
-        classPrefix={this.classPrefix}
-        classes={classes}
-        descriptionId={descriptionId}
-        labelId={labelId}
-        step={this}
-        styles={this.styles}
-      />,
-      null
-    );
+    const el = new ShepherdElement({
+      target: document.body,
+      props:
+        {
+          classPrefix: this.classPrefix,
+          classes,
+          descriptionId,
+          labelId,
+          step: this,
+          styles: this.styles
+        }
+    });
+
+    return el.$$.ctx.element;
   }
 
   /**
