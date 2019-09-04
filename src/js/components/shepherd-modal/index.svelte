@@ -1,5 +1,7 @@
 <script>
   export let classPrefix, element, openingProperties, styles;
+  const guid = UUID();
+  let modalIsVisible = false;
   let rafId = undefined;
 
   closeModalOpening();
@@ -20,6 +22,7 @@
    */
   export function hide() {
     document.body.classList.remove(`${classPrefix}shepherd-modal-is-visible`);
+    modalIsVisible = false;
 
     // Ensure we cleanup all event listeners when we hide the modal
     _cleanupStepEventListeners();
@@ -65,6 +68,7 @@
    */
   export function show() {
     document.body.classList.add(`${classPrefix}shepherd-modal-is-visible`);
+    modalIsVisible = true;
   }
 
   const _preventModalBodyTouch = (e) => {
@@ -101,6 +105,21 @@
     });
   }
 
+  function UUID() {
+    var nbr, randStr = '';
+    do {
+      randStr += (nbr = Math.random()).toString(16).substr(3, 6);
+    } while (randStr.length < 30);
+    return (
+      randStr.substr(0, 8) + '-' +
+      randStr.substr(8, 4) + '-4' +
+      randStr.substr(12, 3) + '-' +
+      ((nbr * 4 | 0) + 8).toString(16) + // [89ab]
+      randStr.substr(15, 3) + '-' +
+      randStr.substr(18, 12)
+    );
+  }
+
   /**
    * Style the modal for the step
    * @param {Step} step The step to style the opening for
@@ -128,20 +147,20 @@
 
 <svg
   bind:this={element}
-  class={styles['modal-overlay-container']}
+  class="{(modalIsVisible ? 'modal-is-visible' : '') + styles['modal-overlay-container']}"
   on:touchmove={_preventModalOverlayTouch}
 >
   <defs>
     <mask
       class={`${classPrefix}shepherd-modal-mask`}
       height='100%'
-      id={`${classPrefix}shepherd-modal-mask`}
+      id={`${classPrefix}shepherd-modal-mask-${guid}`}
       width='100%'
       x='0'
       y='0'
     >
       <rect
-        class={styles['modal-mask-rect']}
+        class={`${classPrefix}modal-mask-rect`}
         fill='#FFFFFF'
         height='100%'
         width='100%'
@@ -163,6 +182,6 @@
     width='100%'
     x='0'
     y='0'
-    mask={`url(#${classPrefix}shepherd-modal-mask)`}
+    mask={`url(#${classPrefix}shepherd-modal-mask-${guid})`}
   />
 </svg>

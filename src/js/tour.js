@@ -83,9 +83,8 @@ export class Tour extends Evented {
       })(event);
     });
 
-    const existingModal = document.querySelector(`.${this.classPrefix}shepherd-modal-overlay-container`);
     this.modal = new ShepherdModal({
-      target: existingModal || options.modalContainer || document.body,
+      target: options.modalContainer || document.body,
       props:
         {
           classPrefix: this.classPrefix,

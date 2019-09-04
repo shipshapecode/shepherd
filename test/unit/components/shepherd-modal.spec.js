@@ -1,4 +1,5 @@
 import ShepherdModal from '../../../src/js/components/shepherd-modal/index.svelte';
+import { Tour } from '../../../src/js/tour.js';
 import { stub } from 'sinon';
 
 const classPrefix = '';
@@ -45,6 +46,8 @@ describe('components/ShepherdModal', () => {
       expect(modalMaskOpening).toHaveAttribute('x', '0');
       expect(modalMaskOpening).toHaveAttribute('y', '0');
       expect(modalMaskOpening).toHaveAttribute('width', '0');
+
+      modalComponent.$destroy();
     });
   });
 
@@ -83,6 +86,8 @@ describe('components/ShepherdModal', () => {
       expect(modalMaskOpening).toHaveAttribute('x', '20');
       expect(modalMaskOpening).toHaveAttribute('y', '20');
       expect(modalMaskOpening).toHaveAttribute('width', '500');
+
+      modalComponent.$destroy();
     });
 
     it('sets the correct attributes with padding', async () => {
@@ -119,6 +124,8 @@ describe('components/ShepherdModal', () => {
       expect(modalMaskOpening).toHaveAttribute('x', '10');
       expect(modalMaskOpening).toHaveAttribute('y', '10');
       expect(modalMaskOpening).toHaveAttribute('width', '520');
+
+      modalComponent.$destroy();
     });
   });
 
@@ -154,6 +161,8 @@ describe('components/ShepherdModal', () => {
 
       expect(hideStub.called).toBe(true);
       expect(showStub.called).toBe(false);
+
+      modalComponent.$destroy();
     });
 
     it.skip('useModalOverlay: true, shows modal', async () => {
@@ -180,6 +189,8 @@ describe('components/ShepherdModal', () => {
 
       expect(hideStub.called).toBe(false);
       expect(showStub.called).toBe(true);
+
+      modalComponent.$destroy();
     });
   });
 
@@ -197,49 +208,24 @@ describe('components/ShepherdModal', () => {
       await modalComponent.show();
 
       expect(document.body).toHaveClass('shepherd-modal-is-visible');
-      // expect(modal._modalOverlayElem).toHaveStyle('display: block');
     });
 
     it('hide removes classes', async () => {
       await modalComponent.hide();
 
       expect(document.body).not.toHaveClass('shepherd-modal-is-visible');
-      // expect(modal._modalOverlayElem).toHaveStyle('display: none');
+
+      modalComponent.$destroy();
     });
   });
 
-  // TODO: finish porting these tests
-  // describe('_cleanupStepEventListeners', function() {
-  //   it('adds/removes listeners', () => {
-  //     const modalComponent = shallow(<ShepherdModal classPrefix={classPrefix} styles={styles}/>);
-  //
-  //     const mock = {
-  //       foo: 'bar',
-  //       _onScreenChange() {}
-  //     };
-  //
-  //     modalComponent.component()._cleanupStepEventListeners.call(mock);
-  //
-  //     expect(mock._onScreenChange).to.be.null;
-  //   });
-  // });
-  // describe('createModalOverlay()', function() {
-  //   it('appends shepherdModalOverlayContainer to DOM when it does not exist', () => {
-  //     const modal = new Modal();
-  //     modal.createModalOverlay();
-  //
-  //     expect(document.querySelectorAll('#shepherdModalOverlayContainer').length).toBe(1);
-  //   });
-  //
-  //   it('reuses shepherdModalOverlayContainer rather than making a new one', () => {
-  //     const modal = new Modal();
-  //     const modal2 = new Modal();
-  //     modal.createModalOverlay();
-  //     modal2.createModalOverlay();
-  //
-  //     expect(document.querySelectorAll('#shepherdModalOverlayContainer').length).toBe(1);
-  //     expect(modal._modalOverlayElem).toBe(modal2._modalOverlayElem);
-  //   });
-  // });
-  //
+  describe('shepherdModalOverlayContainer', function() {
+    it('appends shepherdModalOverlayContainer to DOM when it does not exist', () => {
+      expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(0);
+
+      new Tour({ useModalOverlay: true });
+
+      expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(1);
+    });
+  });
 });
