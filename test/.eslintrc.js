@@ -9,8 +9,7 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:jest/recommended',
-    'standard-jsx'
+    'plugin:jest/recommended'
   ],
   globals: {
     Cypress: false,

@@ -10,8 +10,8 @@ module.exports = {
       'package.json',
       'README.md',
       './src/js/shepherd.js',
-      './src/js/step.jsx',
-      './src/js/tour.jsx'
+      './src/js/step.js',
+      './src/js/tour.js'
     ]
   },
   plugins: [

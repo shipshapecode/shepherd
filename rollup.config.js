@@ -6,6 +6,7 @@ import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
+import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 
@@ -15,14 +16,15 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
-  resolve({
-    extensions: ['.js', '.jsx', '.json']
-  }),
-  commonjs(),
   eslint(),
+  svelte(),
   babel({
     exclude: /node_modules\/(?!(nano-css)\/).*/
   }),
+  resolve({
+    extensions: ['.js', '.json', '.svelte']
+  }),
+  commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
   })
@@ -97,13 +99,14 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
-        resolve({
-          extensions: ['.js', '.jsx', '.json']
-        }),
-        commonjs(),
+        svelte(),
         babel({
           exclude: /node_modules\/(?!(nano-css)\/).*/
         }),
+        resolve({
+          extensions: ['.js', '.json', '.svelte']
+        }),
+        commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
         }),

@@ -1,6 +1,5 @@
-import { Step } from '../../../src/js/step.jsx';
-import { parseAttachTo } from '../../../src/js/utils/general';
-
+import { Step } from '../../../src/js/step.js';
+import { parseAttachTo } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   describe('parseAttachTo()', function() {

@@ -1,29 +1,33 @@
-// eslint-disable-next-line no-unused-vars
-import preact from 'preact';
-import ShepherdElement from '../../../src/js/components/shepherd-element';
-import { expect } from 'chai';
-import { Step } from '../../../src/js/step';
+import { cleanup, fireEvent, render } from '@testing-library/svelte';
+import ShepherdElement from '../../../src/js/components/shepherd-element/index.svelte';
+import { Step } from '../../../src/js/step.js';
 import { spy, stub } from 'sinon';
-import { Tour } from '../../../src/js/tour';
-import { shallow } from 'preact-render-spy';
+import { Tour } from '../../../src/js/tour.js';
 
 describe('components/ShepherdElement', () => {
   const styles = {
+    content: ' shepherd-content',
+    element: ' shepherd-element',
+    header: ' shepherd-header',
     text: ' shepherd-text'
   };
 
   describe('handleKeyDown', () => {
+    beforeEach(cleanup);
+
     it('exitOnEsc: true - ESC cancels the tour', async () => {
       const tour = new Tour();
       const step = new Step(tour, {});
       const stepCancelSpy = spy(step, 'cancel');
 
-      const element = shallow(<ShepherdElement
-        step={step}
-        styles={styles}
-                              />);
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 27, preventDefault() {} });
-      expect(stepCancelSpy.called).to.be.true;
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
+      expect(stepCancelSpy.called).toBe(true);
     });
 
     it('exitOnEsc: false - ESC does not cancel the tour', async () => {
@@ -31,12 +35,14 @@ describe('components/ShepherdElement', () => {
       const step = new Step(tour, {});
       const stepCancelSpy = spy(step, 'cancel');
 
-      const element = shallow(<ShepherdElement
-        step={step}
-        styles={styles}
-                              />);
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 27, preventDefault() {} });
-      expect(stepCancelSpy.called).to.be.false;
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
+      expect(stepCancelSpy.called).toBe(false);
     });
 
     it('keyboardNavigation: true - arrow keys move between steps', async () => {
@@ -46,19 +52,20 @@ describe('components/ShepherdElement', () => {
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
 
-      expect(tourBackStub.called).to.be.false;
-      expect(tourNextStub.called).to.be.false;
+      expect(tourBackStub.called).toBe(false);
+      expect(tourNextStub.called).toBe(false);
 
-      const element = shallow(<ShepherdElement
-        step={step}
-        styles={styles}
-                              />);
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
+      expect(tourNextStub.called).toBe(true);
 
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
-      expect(tourNextStub.called).to.be.true;
-
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 37, preventDefault() {} });
-      expect(tourBackStub.called).to.be.true;
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
+      expect(tourBackStub.called).toBe(true);
 
       tourBackStub.restore();
       tourNextStub.restore();
@@ -71,19 +78,20 @@ describe('components/ShepherdElement', () => {
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
 
-      expect(tourBackStub.called).to.be.false;
-      expect(tourNextStub.called).to.be.false;
+      expect(tourBackStub.called).toBe(false);
+      expect(tourNextStub.called).toBe(false);
 
-      const element = shallow(<ShepherdElement
-        step={step}
-        styles={styles}
-                              />);
+      const { container } = render(ShepherdElement, {
+        props: {
+          step,
+          styles
+        }
+      });
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
+      expect(tourNextStub.called).toBe(false);
 
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 39, preventDefault() {} });
-      expect(tourNextStub.called).to.be.false;
-
-      await element.find('[onKeyDown]').simulate('keyDown', { keyCode: 37, preventDefault() {} });
-      expect(tourBackStub.called).to.be.false;
+      fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
+      expect(tourBackStub.called).toBe(false);
 
       tourBackStub.restore();
       tourNextStub.restore();

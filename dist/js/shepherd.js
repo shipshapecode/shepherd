@@ -160,722 +160,6 @@
     return isobject(val) || Array.isArray(val) || typeof val === 'function';
   }
 
-  var VNode = function VNode() {};
-
-  var options = {};
-
-  var stack = [];
-
-  var EMPTY_CHILDREN = [];
-
-  function h(nodeName, attributes) {
-  	var children = EMPTY_CHILDREN,
-  	    lastSimple,
-  	    child,
-  	    simple,
-  	    i;
-  	for (i = arguments.length; i-- > 2;) {
-  		stack.push(arguments[i]);
-  	}
-  	if (attributes && attributes.children != null) {
-  		if (!stack.length) stack.push(attributes.children);
-  		delete attributes.children;
-  	}
-  	while (stack.length) {
-  		if ((child = stack.pop()) && child.pop !== undefined) {
-  			for (i = child.length; i--;) {
-  				stack.push(child[i]);
-  			}
-  		} else {
-  			if (typeof child === 'boolean') child = null;
-
-  			if (simple = typeof nodeName !== 'function') {
-  				if (child == null) child = '';else if (typeof child === 'number') child = String(child);else if (typeof child !== 'string') simple = false;
-  			}
-
-  			if (simple && lastSimple) {
-  				children[children.length - 1] += child;
-  			} else if (children === EMPTY_CHILDREN) {
-  				children = [child];
-  			} else {
-  				children.push(child);
-  			}
-
-  			lastSimple = simple;
-  		}
-  	}
-
-  	var p = new VNode();
-  	p.nodeName = nodeName;
-  	p.children = children;
-  	p.attributes = attributes == null ? undefined : attributes;
-  	p.key = attributes == null ? undefined : attributes.key;
-
-  	return p;
-  }
-
-  function extend(obj, props) {
-    for (var i in props) {
-      obj[i] = props[i];
-    }return obj;
-  }
-
-  function applyRef(ref, value) {
-    if (ref) {
-      if (typeof ref == 'function') ref(value);else ref.current = value;
-    }
-  }
-
-  var defer = typeof Promise == 'function' ? Promise.resolve().then.bind(Promise.resolve()) : setTimeout;
-
-  function cloneElement(vnode, props) {
-    return h(vnode.nodeName, extend(extend({}, vnode.attributes), props), arguments.length > 2 ? [].slice.call(arguments, 2) : vnode.children);
-  }
-
-  var IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
-
-  var items = [];
-
-  function enqueueRender(component) {
-  	if (!component._dirty && (component._dirty = true) && items.push(component) == 1) {
-  		( defer)(rerender);
-  	}
-  }
-
-  function rerender() {
-  	var p;
-  	while (p = items.pop()) {
-  		if (p._dirty) renderComponent(p);
-  	}
-  }
-
-  function isSameNodeType(node, vnode, hydrating) {
-  	if (typeof vnode === 'string' || typeof vnode === 'number') {
-  		return node.splitText !== undefined;
-  	}
-  	if (typeof vnode.nodeName === 'string') {
-  		return !node._componentConstructor && isNamedNode(node, vnode.nodeName);
-  	}
-  	return hydrating || node._componentConstructor === vnode.nodeName;
-  }
-
-  function isNamedNode(node, nodeName) {
-  	return node.normalizedNodeName === nodeName || node.nodeName.toLowerCase() === nodeName.toLowerCase();
-  }
-
-  function getNodeProps(vnode) {
-  	var props = extend({}, vnode.attributes);
-  	props.children = vnode.children;
-
-  	var defaultProps = vnode.nodeName.defaultProps;
-  	if (defaultProps !== undefined) {
-  		for (var i in defaultProps) {
-  			if (props[i] === undefined) {
-  				props[i] = defaultProps[i];
-  			}
-  		}
-  	}
-
-  	return props;
-  }
-
-  function createNode(nodeName, isSvg) {
-  	var node = isSvg ? document.createElementNS('http://www.w3.org/2000/svg', nodeName) : document.createElement(nodeName);
-  	node.normalizedNodeName = nodeName;
-  	return node;
-  }
-
-  function removeNode(node) {
-  	var parentNode = node.parentNode;
-  	if (parentNode) parentNode.removeChild(node);
-  }
-
-  function setAccessor(node, name, old, value, isSvg) {
-  	if (name === 'className') name = 'class';
-
-  	if (name === 'key') ; else if (name === 'ref') {
-  		applyRef(old, null);
-  		applyRef(value, node);
-  	} else if (name === 'class' && !isSvg) {
-  		node.className = value || '';
-  	} else if (name === 'style') {
-  		if (!value || typeof value === 'string' || typeof old === 'string') {
-  			node.style.cssText = value || '';
-  		}
-  		if (value && typeof value === 'object') {
-  			if (typeof old !== 'string') {
-  				for (var i in old) {
-  					if (!(i in value)) node.style[i] = '';
-  				}
-  			}
-  			for (var i in value) {
-  				node.style[i] = typeof value[i] === 'number' && IS_NON_DIMENSIONAL.test(i) === false ? value[i] + 'px' : value[i];
-  			}
-  		}
-  	} else if (name === 'dangerouslySetInnerHTML') {
-  		if (value) node.innerHTML = value.__html || '';
-  	} else if (name[0] == 'o' && name[1] == 'n') {
-  		var useCapture = name !== (name = name.replace(/Capture$/, ''));
-  		name = name.toLowerCase().substring(2);
-  		if (value) {
-  			if (!old) node.addEventListener(name, eventProxy, useCapture);
-  		} else {
-  			node.removeEventListener(name, eventProxy, useCapture);
-  		}
-  		(node._listeners || (node._listeners = {}))[name] = value;
-  	} else if (name !== 'list' && name !== 'type' && !isSvg && name in node) {
-  		try {
-  			node[name] = value == null ? '' : value;
-  		} catch (e) {}
-  		if ((value == null || value === false) && name != 'spellcheck') node.removeAttribute(name);
-  	} else {
-  		var ns = isSvg && name !== (name = name.replace(/^xlink:?/, ''));
-
-  		if (value == null || value === false) {
-  			if (ns) node.removeAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase());else node.removeAttribute(name);
-  		} else if (typeof value !== 'function') {
-  			if (ns) node.setAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase(), value);else node.setAttribute(name, value);
-  		}
-  	}
-  }
-
-  function eventProxy(e) {
-  	return this._listeners[e.type]( e);
-  }
-
-  var mounts = [];
-
-  var diffLevel = 0;
-
-  var isSvgMode = false;
-
-  var hydrating = false;
-
-  function flushMounts() {
-  	var c;
-  	while (c = mounts.shift()) {
-  		if (c.componentDidMount) c.componentDidMount();
-  	}
-  }
-
-  function diff(dom, vnode, context, mountAll, parent, componentRoot) {
-  	if (!diffLevel++) {
-  		isSvgMode = parent != null && parent.ownerSVGElement !== undefined;
-
-  		hydrating = dom != null && !('__preactattr_' in dom);
-  	}
-
-  	var ret = idiff(dom, vnode, context, mountAll, componentRoot);
-
-  	if (parent && ret.parentNode !== parent) parent.appendChild(ret);
-
-  	if (! --diffLevel) {
-  		hydrating = false;
-
-  		if (!componentRoot) flushMounts();
-  	}
-
-  	return ret;
-  }
-
-  function idiff(dom, vnode, context, mountAll, componentRoot) {
-  	var out = dom,
-  	    prevSvgMode = isSvgMode;
-
-  	if (vnode == null || typeof vnode === 'boolean') vnode = '';
-
-  	if (typeof vnode === 'string' || typeof vnode === 'number') {
-  		if (dom && dom.splitText !== undefined && dom.parentNode && (!dom._component || componentRoot)) {
-  			if (dom.nodeValue != vnode) {
-  				dom.nodeValue = vnode;
-  			}
-  		} else {
-  			out = document.createTextNode(vnode);
-  			if (dom) {
-  				if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
-  				recollectNodeTree(dom, true);
-  			}
-  		}
-
-  		out['__preactattr_'] = true;
-
-  		return out;
-  	}
-
-  	var vnodeName = vnode.nodeName;
-  	if (typeof vnodeName === 'function') {
-  		return buildComponentFromVNode(dom, vnode, context, mountAll);
-  	}
-
-  	isSvgMode = vnodeName === 'svg' ? true : vnodeName === 'foreignObject' ? false : isSvgMode;
-
-  	vnodeName = String(vnodeName);
-  	if (!dom || !isNamedNode(dom, vnodeName)) {
-  		out = createNode(vnodeName, isSvgMode);
-
-  		if (dom) {
-  			while (dom.firstChild) {
-  				out.appendChild(dom.firstChild);
-  			}
-  			if (dom.parentNode) dom.parentNode.replaceChild(out, dom);
-
-  			recollectNodeTree(dom, true);
-  		}
-  	}
-
-  	var fc = out.firstChild,
-  	    props = out['__preactattr_'],
-  	    vchildren = vnode.children;
-
-  	if (props == null) {
-  		props = out['__preactattr_'] = {};
-  		for (var a = out.attributes, i = a.length; i--;) {
-  			props[a[i].name] = a[i].value;
-  		}
-  	}
-
-  	if (!hydrating && vchildren && vchildren.length === 1 && typeof vchildren[0] === 'string' && fc != null && fc.splitText !== undefined && fc.nextSibling == null) {
-  		if (fc.nodeValue != vchildren[0]) {
-  			fc.nodeValue = vchildren[0];
-  		}
-  	} else if (vchildren && vchildren.length || fc != null) {
-  			innerDiffNode(out, vchildren, context, mountAll, hydrating || props.dangerouslySetInnerHTML != null);
-  		}
-
-  	diffAttributes(out, vnode.attributes, props);
-
-  	isSvgMode = prevSvgMode;
-
-  	return out;
-  }
-
-  function innerDiffNode(dom, vchildren, context, mountAll, isHydrating) {
-  	var originalChildren = dom.childNodes,
-  	    children = [],
-  	    keyed = {},
-  	    keyedLen = 0,
-  	    min = 0,
-  	    len = originalChildren.length,
-  	    childrenLen = 0,
-  	    vlen = vchildren ? vchildren.length : 0,
-  	    j,
-  	    c,
-  	    f,
-  	    vchild,
-  	    child;
-
-  	if (len !== 0) {
-  		for (var i = 0; i < len; i++) {
-  			var _child = originalChildren[i],
-  			    props = _child['__preactattr_'],
-  			    key = vlen && props ? _child._component ? _child._component.__key : props.key : null;
-  			if (key != null) {
-  				keyedLen++;
-  				keyed[key] = _child;
-  			} else if (props || (_child.splitText !== undefined ? isHydrating ? _child.nodeValue.trim() : true : isHydrating)) {
-  				children[childrenLen++] = _child;
-  			}
-  		}
-  	}
-
-  	if (vlen !== 0) {
-  		for (var i = 0; i < vlen; i++) {
-  			vchild = vchildren[i];
-  			child = null;
-
-  			var key = vchild.key;
-  			if (key != null) {
-  				if (keyedLen && keyed[key] !== undefined) {
-  					child = keyed[key];
-  					keyed[key] = undefined;
-  					keyedLen--;
-  				}
-  			} else if (min < childrenLen) {
-  					for (j = min; j < childrenLen; j++) {
-  						if (children[j] !== undefined && isSameNodeType(c = children[j], vchild, isHydrating)) {
-  							child = c;
-  							children[j] = undefined;
-  							if (j === childrenLen - 1) childrenLen--;
-  							if (j === min) min++;
-  							break;
-  						}
-  					}
-  				}
-
-  			child = idiff(child, vchild, context, mountAll);
-
-  			f = originalChildren[i];
-  			if (child && child !== dom && child !== f) {
-  				if (f == null) {
-  					dom.appendChild(child);
-  				} else if (child === f.nextSibling) {
-  					removeNode(f);
-  				} else {
-  					dom.insertBefore(child, f);
-  				}
-  			}
-  		}
-  	}
-
-  	if (keyedLen) {
-  		for (var i in keyed) {
-  			if (keyed[i] !== undefined) recollectNodeTree(keyed[i], false);
-  		}
-  	}
-
-  	while (min <= childrenLen) {
-  		if ((child = children[childrenLen--]) !== undefined) recollectNodeTree(child, false);
-  	}
-  }
-
-  function recollectNodeTree(node, unmountOnly) {
-  	var component = node._component;
-  	if (component) {
-  		unmountComponent(component);
-  	} else {
-  		if (node['__preactattr_'] != null) applyRef(node['__preactattr_'].ref, null);
-
-  		if (unmountOnly === false || node['__preactattr_'] == null) {
-  			removeNode(node);
-  		}
-
-  		removeChildren(node);
-  	}
-  }
-
-  function removeChildren(node) {
-  	node = node.lastChild;
-  	while (node) {
-  		var next = node.previousSibling;
-  		recollectNodeTree(node, true);
-  		node = next;
-  	}
-  }
-
-  function diffAttributes(dom, attrs, old) {
-  	var name;
-
-  	for (name in old) {
-  		if (!(attrs && attrs[name] != null) && old[name] != null) {
-  			setAccessor(dom, name, old[name], old[name] = undefined, isSvgMode);
-  		}
-  	}
-
-  	for (name in attrs) {
-  		if (name !== 'children' && name !== 'innerHTML' && (!(name in old) || attrs[name] !== (name === 'value' || name === 'checked' ? dom[name] : old[name]))) {
-  			setAccessor(dom, name, old[name], old[name] = attrs[name], isSvgMode);
-  		}
-  	}
-  }
-
-  var recyclerComponents = [];
-
-  function createComponent(Ctor, props, context) {
-  	var inst,
-  	    i = recyclerComponents.length;
-
-  	if (Ctor.prototype && Ctor.prototype.render) {
-  		inst = new Ctor(props, context);
-  		Component.call(inst, props, context);
-  	} else {
-  		inst = new Component(props, context);
-  		inst.constructor = Ctor;
-  		inst.render = doRender;
-  	}
-
-  	while (i--) {
-  		if (recyclerComponents[i].constructor === Ctor) {
-  			inst.nextBase = recyclerComponents[i].nextBase;
-  			recyclerComponents.splice(i, 1);
-  			return inst;
-  		}
-  	}
-
-  	return inst;
-  }
-
-  function doRender(props, state, context) {
-  	return this.constructor(props, context);
-  }
-
-  function setComponentProps(component, props, renderMode, context, mountAll) {
-  	if (component._disable) return;
-  	component._disable = true;
-
-  	component.__ref = props.ref;
-  	component.__key = props.key;
-  	delete props.ref;
-  	delete props.key;
-
-  	if (typeof component.constructor.getDerivedStateFromProps === 'undefined') {
-  		if (!component.base || mountAll) {
-  			if (component.componentWillMount) component.componentWillMount();
-  		} else if (component.componentWillReceiveProps) {
-  			component.componentWillReceiveProps(props, context);
-  		}
-  	}
-
-  	if (context && context !== component.context) {
-  		if (!component.prevContext) component.prevContext = component.context;
-  		component.context = context;
-  	}
-
-  	if (!component.prevProps) component.prevProps = component.props;
-  	component.props = props;
-
-  	component._disable = false;
-
-  	if (renderMode !== 0) {
-  		if (renderMode === 1 || options.syncComponentUpdates !== false || !component.base) {
-  			renderComponent(component, 1, mountAll);
-  		} else {
-  			enqueueRender(component);
-  		}
-  	}
-
-  	applyRef(component.__ref, component);
-  }
-
-  function renderComponent(component, renderMode, mountAll, isChild) {
-  	if (component._disable) return;
-
-  	var props = component.props,
-  	    state = component.state,
-  	    context = component.context,
-  	    previousProps = component.prevProps || props,
-  	    previousState = component.prevState || state,
-  	    previousContext = component.prevContext || context,
-  	    isUpdate = component.base,
-  	    nextBase = component.nextBase,
-  	    initialBase = isUpdate || nextBase,
-  	    initialChildComponent = component._component,
-  	    skip = false,
-  	    snapshot = previousContext,
-  	    rendered,
-  	    inst,
-  	    cbase;
-
-  	if (component.constructor.getDerivedStateFromProps) {
-  		state = extend(extend({}, state), component.constructor.getDerivedStateFromProps(props, state));
-  		component.state = state;
-  	}
-
-  	if (isUpdate) {
-  		component.props = previousProps;
-  		component.state = previousState;
-  		component.context = previousContext;
-  		if (renderMode !== 2 && component.shouldComponentUpdate && component.shouldComponentUpdate(props, state, context) === false) {
-  			skip = true;
-  		} else if (component.componentWillUpdate) {
-  			component.componentWillUpdate(props, state, context);
-  		}
-  		component.props = props;
-  		component.state = state;
-  		component.context = context;
-  	}
-
-  	component.prevProps = component.prevState = component.prevContext = component.nextBase = null;
-  	component._dirty = false;
-
-  	if (!skip) {
-  		rendered = component.render(props, state, context);
-
-  		if (component.getChildContext) {
-  			context = extend(extend({}, context), component.getChildContext());
-  		}
-
-  		if (isUpdate && component.getSnapshotBeforeUpdate) {
-  			snapshot = component.getSnapshotBeforeUpdate(previousProps, previousState);
-  		}
-
-  		var childComponent = rendered && rendered.nodeName,
-  		    toUnmount,
-  		    base;
-
-  		if (typeof childComponent === 'function') {
-
-  			var childProps = getNodeProps(rendered);
-  			inst = initialChildComponent;
-
-  			if (inst && inst.constructor === childComponent && childProps.key == inst.__key) {
-  				setComponentProps(inst, childProps, 1, context, false);
-  			} else {
-  				toUnmount = inst;
-
-  				component._component = inst = createComponent(childComponent, childProps, context);
-  				inst.nextBase = inst.nextBase || nextBase;
-  				inst._parentComponent = component;
-  				setComponentProps(inst, childProps, 0, context, false);
-  				renderComponent(inst, 1, mountAll, true);
-  			}
-
-  			base = inst.base;
-  		} else {
-  			cbase = initialBase;
-
-  			toUnmount = initialChildComponent;
-  			if (toUnmount) {
-  				cbase = component._component = null;
-  			}
-
-  			if (initialBase || renderMode === 1) {
-  				if (cbase) cbase._component = null;
-  				base = diff(cbase, rendered, context, mountAll || !isUpdate, initialBase && initialBase.parentNode, true);
-  			}
-  		}
-
-  		if (initialBase && base !== initialBase && inst !== initialChildComponent) {
-  			var baseParent = initialBase.parentNode;
-  			if (baseParent && base !== baseParent) {
-  				baseParent.replaceChild(base, initialBase);
-
-  				if (!toUnmount) {
-  					initialBase._component = null;
-  					recollectNodeTree(initialBase, false);
-  				}
-  			}
-  		}
-
-  		if (toUnmount) {
-  			unmountComponent(toUnmount);
-  		}
-
-  		component.base = base;
-  		if (base && !isChild) {
-  			var componentRef = component,
-  			    t = component;
-  			while (t = t._parentComponent) {
-  				(componentRef = t).base = base;
-  			}
-  			base._component = componentRef;
-  			base._componentConstructor = componentRef.constructor;
-  		}
-  	}
-
-  	if (!isUpdate || mountAll) {
-  		mounts.push(component);
-  	} else if (!skip) {
-
-  		if (component.componentDidUpdate) {
-  			component.componentDidUpdate(previousProps, previousState, snapshot);
-  		}
-  	}
-
-  	while (component._renderCallbacks.length) {
-  		component._renderCallbacks.pop().call(component);
-  	}if (!diffLevel && !isChild) flushMounts();
-  }
-
-  function buildComponentFromVNode(dom, vnode, context, mountAll) {
-  	var c = dom && dom._component,
-  	    originalComponent = c,
-  	    oldDom = dom,
-  	    isDirectOwner = c && dom._componentConstructor === vnode.nodeName,
-  	    isOwner = isDirectOwner,
-  	    props = getNodeProps(vnode);
-  	while (c && !isOwner && (c = c._parentComponent)) {
-  		isOwner = c.constructor === vnode.nodeName;
-  	}
-
-  	if (c && isOwner && (!mountAll || c._component)) {
-  		setComponentProps(c, props, 3, context, mountAll);
-  		dom = c.base;
-  	} else {
-  		if (originalComponent && !isDirectOwner) {
-  			unmountComponent(originalComponent);
-  			dom = oldDom = null;
-  		}
-
-  		c = createComponent(vnode.nodeName, props, context);
-  		if (dom && !c.nextBase) {
-  			c.nextBase = dom;
-
-  			oldDom = null;
-  		}
-  		setComponentProps(c, props, 1, context, mountAll);
-  		dom = c.base;
-
-  		if (oldDom && dom !== oldDom) {
-  			oldDom._component = null;
-  			recollectNodeTree(oldDom, false);
-  		}
-  	}
-
-  	return dom;
-  }
-
-  function unmountComponent(component) {
-
-  	var base = component.base;
-
-  	component._disable = true;
-
-  	if (component.componentWillUnmount) component.componentWillUnmount();
-
-  	component.base = null;
-
-  	var inner = component._component;
-  	if (inner) {
-  		unmountComponent(inner);
-  	} else if (base) {
-  		if (base['__preactattr_'] != null) applyRef(base['__preactattr_'].ref, null);
-
-  		component.nextBase = base;
-
-  		removeNode(base);
-  		recyclerComponents.push(component);
-
-  		removeChildren(base);
-  	}
-
-  	applyRef(component.__ref, null);
-  }
-
-  function Component(props, context) {
-  	this._dirty = true;
-
-  	this.context = context;
-
-  	this.props = props;
-
-  	this.state = this.state || {};
-
-  	this._renderCallbacks = [];
-  }
-
-  extend(Component.prototype, {
-  	setState: function setState(state, callback) {
-  		if (!this.prevState) this.prevState = this.state;
-  		this.state = extend(extend({}, this.state), typeof state === 'function' ? state(this.state, this.props) : state);
-  		if (callback) this._renderCallbacks.push(callback);
-  		enqueueRender(this);
-  	},
-  	forceUpdate: function forceUpdate(callback) {
-  		if (callback) this._renderCallbacks.push(callback);
-  		renderComponent(this, 2);
-  	},
-  	render: function render() {}
-  });
-
-  function render(vnode, parent, merge) {
-    return diff(merge, vnode, {}, false, parent, false);
-  }
-
-  function createRef() {
-  	return {};
-  }
-
-  var preact = {
-  	h: h,
-  	createElement: h,
-  	cloneElement: cloneElement,
-  	createRef: createRef,
-  	Component: Component,
-  	render: render,
-  	rerender: rerender,
-  	options: options
-  };
-
   /**
    * Checks if `value` is classified as an `HTMLElement`.
    * @param {*} value The param to check if it is an HTMLElement
@@ -5424,325 +4708,1244 @@
     currentElement.classList.add(classPrefix + "shepherd-modal-target");
   }
 
-  var Component$1 = preact.Component;
+  function noop() { }
+  function assign(tar, src) {
+      // @ts-ignore
+      for (const k in src)
+          tar[k] = src[k];
+      return tar;
+  }
+  function run(fn) {
+      return fn();
+  }
+  function blank_object() {
+      return Object.create(null);
+  }
+  function run_all(fns) {
+      fns.forEach(run);
+  }
+  function is_function(thing) {
+      return typeof thing === 'function';
+  }
+  function safe_not_equal(a, b) {
+      return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+  }
 
-  var ShepherdButton =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdButton, _Component);
-
-    function ShepherdButton() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = ShepherdButton.prototype;
-
-    _proto.render = function render(props) {
-      var classPrefix = props.classPrefix,
-          config = props.config,
-          step = props.step,
-          styles = props.styles;
-      var action = config.action,
-          classes = config.classes,
-          secondary = config.secondary,
-          text = config.text;
-      return preact.h("button", {
-        className: (classes || '') + styles.button + (secondary ? " " + classPrefix + "shepherd-button-secondary" : ''),
-        onClick: action ? action.bind(step.tour) : null,
-        tabindex: "0"
-      }, text);
-    };
-
-    return ShepherdButton;
-  }(Component$1);
-
-  var Component$2 = preact.Component;
-
-  var ShepherdFooter =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdFooter, _Component);
-
-    function ShepherdFooter() {
-      return _Component.apply(this, arguments) || this;
-    }
-
-    var _proto = ShepherdFooter.prototype;
-
-    _proto.render = function render(props) {
-      var classPrefix = props.classPrefix,
-          step = props.step,
-          styles = props.styles;
-      var buttons = step.options.buttons;
-      return preact.h("footer", {
-        className: styles.footer.trim()
-      }, this._addButtons(buttons, classPrefix, step, styles));
-    };
-
-    _proto._addButtons = function _addButtons(buttons, classPrefix, step, styles) {
-      if (buttons) {
-        return buttons.map(function (config) {
-          return preact.h(ShepherdButton, {
-            classPrefix: classPrefix,
-            config: config,
-            key: config.toString(),
-            step: step,
-            styles: styles
-          });
-        });
+  function append(target, node) {
+      target.appendChild(node);
+  }
+  function insert(target, node, anchor) {
+      target.insertBefore(node, anchor || null);
+  }
+  function detach(node) {
+      node.parentNode.removeChild(node);
+  }
+  function destroy_each(iterations, detaching) {
+      for (let i = 0; i < iterations.length; i += 1) {
+          if (iterations[i])
+              iterations[i].d(detaching);
       }
+  }
+  function element(name) {
+      return document.createElement(name);
+  }
+  function svg_element(name) {
+      return document.createElementNS('http://www.w3.org/2000/svg', name);
+  }
+  function text(data) {
+      return document.createTextNode(data);
+  }
+  function space() {
+      return text(' ');
+  }
+  function empty() {
+      return text('');
+  }
+  function listen(node, event, handler, options) {
+      node.addEventListener(event, handler, options);
+      return () => node.removeEventListener(event, handler, options);
+  }
+  function attr(node, attribute, value) {
+      if (value == null)
+          node.removeAttribute(attribute);
+      else
+          node.setAttribute(attribute, value);
+  }
+  function set_attributes(node, attributes) {
+      for (const key in attributes) {
+          if (key === 'style') {
+              node.style.cssText = attributes[key];
+          }
+          else if (key in node) {
+              node[key] = attributes[key];
+          }
+          else {
+              attr(node, key, attributes[key]);
+          }
+      }
+  }
+  function children(element) {
+      return Array.from(element.childNodes);
+  }
 
-      return null;
-    };
+  let current_component;
+  function set_current_component(component) {
+      current_component = component;
+  }
+  function get_current_component() {
+      if (!current_component)
+          throw new Error(`Function called outside component initialization`);
+      return current_component;
+  }
+  function onMount(fn) {
+      get_current_component().$$.on_mount.push(fn);
+  }
 
-    return ShepherdFooter;
-  }(Component$2);
+  const dirty_components = [];
+  const binding_callbacks = [];
+  const render_callbacks = [];
+  const flush_callbacks = [];
+  const resolved_promise = Promise.resolve();
+  let update_scheduled = false;
+  function schedule_update() {
+      if (!update_scheduled) {
+          update_scheduled = true;
+          resolved_promise.then(flush);
+      }
+  }
+  function add_render_callback(fn) {
+      render_callbacks.push(fn);
+  }
+  function flush() {
+      const seen_callbacks = new Set();
+      do {
+          // first, call beforeUpdate functions
+          // and update components
+          while (dirty_components.length) {
+              const component = dirty_components.shift();
+              set_current_component(component);
+              update$1(component.$$);
+          }
+          while (binding_callbacks.length)
+              binding_callbacks.pop()();
+          // then, once components are updated, call
+          // afterUpdate functions. This may cause
+          // subsequent updates...
+          for (let i = 0; i < render_callbacks.length; i += 1) {
+              const callback = render_callbacks[i];
+              if (!seen_callbacks.has(callback)) {
+                  callback();
+                  // ...so guard against infinite loops
+                  seen_callbacks.add(callback);
+              }
+          }
+          render_callbacks.length = 0;
+      } while (dirty_components.length);
+      while (flush_callbacks.length) {
+          flush_callbacks.pop()();
+      }
+      update_scheduled = false;
+  }
+  function update$1($$) {
+      if ($$.fragment) {
+          $$.update($$.dirty);
+          run_all($$.before_update);
+          $$.fragment.p($$.dirty, $$.ctx);
+          $$.dirty = null;
+          $$.after_update.forEach(add_render_callback);
+      }
+  }
+  const outroing = new Set();
+  let outros;
+  function group_outros() {
+      outros = {
+          r: 0,
+          c: [],
+          p: outros // parent group
+      };
+  }
+  function check_outros() {
+      if (!outros.r) {
+          run_all(outros.c);
+      }
+      outros = outros.p;
+  }
+  function transition_in(block, local) {
+      if (block && block.i) {
+          outroing.delete(block);
+          block.i(local);
+      }
+  }
+  function transition_out(block, local, detach, callback) {
+      if (block && block.o) {
+          if (outroing.has(block))
+              return;
+          outroing.add(block);
+          outros.c.push(() => {
+              outroing.delete(block);
+              if (callback) {
+                  if (detach)
+                      block.d(1);
+                  callback();
+              }
+          });
+          block.o(local);
+      }
+  }
 
-  var Component$3 = preact.Component;
+  function get_spread_update(levels, updates) {
+      const update = {};
+      const to_null_out = {};
+      const accounted_for = { $$scope: 1 };
+      let i = levels.length;
+      while (i--) {
+          const o = levels[i];
+          const n = updates[i];
+          if (n) {
+              for (const key in o) {
+                  if (!(key in n))
+                      to_null_out[key] = 1;
+              }
+              for (const key in n) {
+                  if (!accounted_for[key]) {
+                      update[key] = n[key];
+                      accounted_for[key] = 1;
+                  }
+              }
+              levels[i] = n;
+          }
+          else {
+              for (const key in o) {
+                  accounted_for[key] = 1;
+              }
+          }
+      }
+      for (const key in to_null_out) {
+          if (!(key in update))
+              update[key] = undefined;
+      }
+      return update;
+  }
+  function mount_component(component, target, anchor) {
+      const { fragment, on_mount, on_destroy, after_update } = component.$$;
+      fragment.m(target, anchor);
+      // onMount happens before the initial afterUpdate
+      add_render_callback(() => {
+          const new_on_destroy = on_mount.map(run).filter(is_function);
+          if (on_destroy) {
+              on_destroy.push(...new_on_destroy);
+          }
+          else {
+              // Edge case - component was destroyed immediately,
+              // most likely as a result of a binding initialising
+              run_all(new_on_destroy);
+          }
+          component.$$.on_mount = [];
+      });
+      after_update.forEach(add_render_callback);
+  }
+  function destroy_component(component, detaching) {
+      if (component.$$.fragment) {
+          run_all(component.$$.on_destroy);
+          component.$$.fragment.d(detaching);
+          // TODO null out other refs, including component.$$ (but need to
+          // preserve final state?)
+          component.$$.on_destroy = component.$$.fragment = null;
+          component.$$.ctx = {};
+      }
+  }
+  function make_dirty(component, key) {
+      if (!component.$$.dirty) {
+          dirty_components.push(component);
+          schedule_update();
+          component.$$.dirty = blank_object();
+      }
+      component.$$.dirty[key] = true;
+  }
+  function init(component, options, instance, create_fragment, not_equal, prop_names) {
+      const parent_component = current_component;
+      set_current_component(component);
+      const props = options.props || {};
+      const $$ = component.$$ = {
+          fragment: null,
+          ctx: null,
+          // state
+          props: prop_names,
+          update: noop,
+          not_equal,
+          bound: blank_object(),
+          // lifecycle
+          on_mount: [],
+          on_destroy: [],
+          before_update: [],
+          after_update: [],
+          context: new Map(parent_component ? parent_component.$$.context : []),
+          // everything else
+          callbacks: blank_object(),
+          dirty: null
+      };
+      let ready = false;
+      $$.ctx = instance
+          ? instance(component, props, (key, value) => {
+              if ($$.ctx && not_equal($$.ctx[key], $$.ctx[key] = value)) {
+                  if ($$.bound[key])
+                      $$.bound[key](value);
+                  if (ready)
+                      make_dirty(component, key);
+              }
+          })
+          : props;
+      $$.update();
+      ready = true;
+      run_all($$.before_update);
+      $$.fragment = create_fragment($$.ctx);
+      if (options.target) {
+          if (options.hydrate) {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              $$.fragment.l(children(options.target));
+          }
+          else {
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              $$.fragment.c();
+          }
+          if (options.intro)
+              transition_in(component.$$.fragment);
+          mount_component(component, options.target, options.anchor);
+          flush();
+      }
+      set_current_component(parent_component);
+  }
+  class SvelteComponent {
+      $destroy() {
+          destroy_component(this, 1);
+          this.$destroy = noop;
+      }
+      $on(type, callback) {
+          const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+          callbacks.push(callback);
+          return () => {
+              const index = callbacks.indexOf(callback);
+              if (index !== -1)
+                  callbacks.splice(index, 1);
+          };
+      }
+      $set() {
+          // overridden by instance, if it has props
+      }
+  }
 
-  var ShepherdHeader =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdHeader, _Component);
+  /* src/js/components/shepherd-content/shepherd-footer/shepherd-button/index.svelte generated by Svelte v3.9.1 */
 
-    function ShepherdHeader(props) {
-      var _this;
+  function create_fragment(ctx) {
+  	var button, t, button_class_value, dispose;
 
-      _this = _Component.call(this, props) || this;
-      _this.step = props.step;
-      _this.handleCancelClick = _this.handleCancelClick.bind(_assertThisInitialized(_this));
-      return _this;
-    }
+  	return {
+  		c() {
+  			button = element("button");
+  			t = text(ctx.text);
+  			attr(button, "class", button_class_value = (ctx.classes || '') + ctx.styles.button + (ctx.secondary ? ` ${ctx.classPrefix}shepherd-button-secondary` : ''));
+  			attr(button, "tabindex", "0");
+  			dispose = listen(button, "click", ctx.action ? ctx.action.bind(ctx.step.tour) : null);
+  		},
 
-    var _proto = ShepherdHeader.prototype;
+  		m(target, anchor) {
+  			insert(target, button, anchor);
+  			append(button, t);
+  		},
 
-    _proto.render = function render(props) {
-      var labelId = props.labelId,
-          step = props.step,
-          styles = props.styles;
-      var _step$options = step.options,
-          cancelIcon = _step$options.cancelIcon,
-          title = _step$options.title;
-      return preact.h("header", {
-        className: styles.header.trim()
-      }, this.constructor._addTitle(labelId, styles, title), this._addCancelLink(cancelIcon, styles));
-    }
+  		p(changed, ctx) {
+  			if ((changed.styles || changed.classPrefix) && button_class_value !== (button_class_value = (ctx.classes || '') + ctx.styles.button + (ctx.secondary ? ` ${ctx.classPrefix}shepherd-button-secondary` : ''))) {
+  				attr(button, "class", button_class_value);
+  			}
+  		},
+
+  		i: noop,
+  		o: noop,
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(button);
+  			}
+
+  			dispose();
+  		}
+  	};
+  }
+
+  function instance($$self, $$props, $$invalidate) {
+  	let { classPrefix, config, step, styles } = $$props;
+    const { action, classes, secondary, text } = config;
+
+  	$$self.$set = $$props => {
+  		if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
+  		if ('config' in $$props) $$invalidate('config', config = $$props.config);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
+
+  	return {
+  		classPrefix,
+  		config,
+  		step,
+  		styles,
+  		action,
+  		classes,
+  		secondary,
+  		text
+  	};
+  }
+
+  class Index extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance, create_fragment, safe_not_equal, ["classPrefix", "config", "step", "styles"]);
+  	}
+  }
+
+  /* src/js/components/shepherd-content/shepherd-footer/index.svelte generated by Svelte v3.9.1 */
+
+  function get_each_context(ctx, list, i) {
+  	const child_ctx = Object.create(ctx);
+  	child_ctx.config = list[i];
+  	return child_ctx;
+  }
+
+  // (9:4) {#if buttons}
+  function create_if_block(ctx) {
+  	var each_1_anchor, current;
+
+  	var each_value = ctx.buttons;
+
+  	var each_blocks = [];
+
+  	for (var i = 0; i < each_value.length; i += 1) {
+  		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+  	}
+
+  	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+  		each_blocks[i] = null;
+  	});
+
+  	return {
+  		c() {
+  			for (var i = 0; i < each_blocks.length; i += 1) {
+  				each_blocks[i].c();
+  			}
+
+  			each_1_anchor = empty();
+  		},
+
+  		m(target, anchor) {
+  			for (var i = 0; i < each_blocks.length; i += 1) {
+  				each_blocks[i].m(target, anchor);
+  			}
+
+  			insert(target, each_1_anchor, anchor);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			if (changed.classPrefix || changed.buttons || changed.step || changed.styles) {
+  				each_value = ctx.buttons;
+
+  				for (var i = 0; i < each_value.length; i += 1) {
+  					const child_ctx = get_each_context(ctx, each_value, i);
+
+  					if (each_blocks[i]) {
+  						each_blocks[i].p(changed, child_ctx);
+  						transition_in(each_blocks[i], 1);
+  					} else {
+  						each_blocks[i] = create_each_block(child_ctx);
+  						each_blocks[i].c();
+  						transition_in(each_blocks[i], 1);
+  						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+  					}
+  				}
+
+  				group_outros();
+  				for (i = each_value.length; i < each_blocks.length; i += 1) out(i);
+  				check_outros();
+  			}
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			for (var i = 0; i < each_value.length; i += 1) transition_in(each_blocks[i]);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			each_blocks = each_blocks.filter(Boolean);
+  			for (let i = 0; i < each_blocks.length; i += 1) transition_out(each_blocks[i]);
+
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			destroy_each(each_blocks, detaching);
+
+  			if (detaching) {
+  				detach(each_1_anchor);
+  			}
+  		}
+  	};
+  }
+
+  // (10:8) {#each buttons as config}
+  function create_each_block(ctx) {
+  	var current;
+
+  	var shepherdbutton = new Index({
+  		props: {
+  		classPrefix: ctx.classPrefix,
+  		config: ctx.config,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
+
+  	return {
+  		c() {
+  			shepherdbutton.$$.fragment.c();
+  		},
+
+  		m(target, anchor) {
+  			mount_component(shepherdbutton, target, anchor);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			var shepherdbutton_changes = {};
+  			if (changed.classPrefix) shepherdbutton_changes.classPrefix = ctx.classPrefix;
+  			if (changed.buttons) shepherdbutton_changes.config = ctx.config;
+  			if (changed.step) shepherdbutton_changes.step = ctx.step;
+  			if (changed.styles) shepherdbutton_changes.styles = ctx.styles;
+  			shepherdbutton.$set(shepherdbutton_changes);
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdbutton.$$.fragment, local);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdbutton.$$.fragment, local);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			destroy_component(shepherdbutton, detaching);
+  		}
+  	};
+  }
+
+  function create_fragment$1(ctx) {
+  	var footer, footer_class_value, current;
+
+  	var if_block = (ctx.buttons) && create_if_block(ctx);
+
+  	return {
+  		c() {
+  			footer = element("footer");
+  			if (if_block) if_block.c();
+  			attr(footer, "class", footer_class_value = ctx.styles.footer.trim());
+  		},
+
+  		m(target, anchor) {
+  			insert(target, footer, anchor);
+  			if (if_block) if_block.m(footer, null);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			if (ctx.buttons) {
+  				if (if_block) {
+  					if_block.p(changed, ctx);
+  					transition_in(if_block, 1);
+  				} else {
+  					if_block = create_if_block(ctx);
+  					if_block.c();
+  					transition_in(if_block, 1);
+  					if_block.m(footer, null);
+  				}
+  			} else if (if_block) {
+  				group_outros();
+  				transition_out(if_block, 1, 1, () => {
+  					if_block = null;
+  				});
+  				check_outros();
+  			}
+
+  			if ((!current || changed.styles) && footer_class_value !== (footer_class_value = ctx.styles.footer.trim())) {
+  				attr(footer, "class", footer_class_value);
+  			}
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(if_block);
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(if_block);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(footer);
+  			}
+
+  			if (if_block) if_block.d();
+  		}
+  	};
+  }
+
+  function instance$1($$self, $$props, $$invalidate) {
+  	let { classPrefix, step, styles } = $$props;
+    const { buttons } = step.options;
+
+  	$$self.$set = $$props => {
+  		if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
+
+  	return { classPrefix, step, styles, buttons };
+  }
+
+  class Index$1 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["classPrefix", "step", "styles"]);
+  	}
+  }
+
+  /* src/js/components/shepherd-content/shepherd-header/index.svelte generated by Svelte v3.9.1 */
+
+  // (15:4) {#if title}
+  function create_if_block_1(ctx) {
+  	var h3, t, h3_class_value;
+
+  	return {
+  		c() {
+  			h3 = element("h3");
+  			t = text(ctx.title);
+  			attr(h3, "id", ctx.labelId);
+  			attr(h3, "class", h3_class_value = ctx.styles.title.trim());
+  		},
+
+  		m(target, anchor) {
+  			insert(target, h3, anchor);
+  			append(h3, t);
+  		},
+
+  		p(changed, ctx) {
+  			if (changed.labelId) {
+  				attr(h3, "id", ctx.labelId);
+  			}
+
+  			if ((changed.styles) && h3_class_value !== (h3_class_value = ctx.styles.title.trim())) {
+  				attr(h3, "class", h3_class_value);
+  			}
+  		},
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(h3);
+  			}
+  		}
+  	};
+  }
+
+  // (24:4) {#if cancelIcon && cancelIcon.enabled}
+  function create_if_block$1(ctx) {
+  	var button, span, button_aria_label_value, button_class_value, dispose;
+
+  	return {
+  		c() {
+  			button = element("button");
+  			span = element("span");
+  			span.textContent = "×";
+  			attr(span, "aria-hidden", "true");
+  			attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour');
+  			attr(button, "class", button_class_value = ctx.styles['cancel-icon'].trim());
+  			attr(button, "type", "button");
+  			dispose = listen(button, "click", ctx.handleCancelClick);
+  		},
+
+  		m(target, anchor) {
+  			insert(target, button, anchor);
+  			append(button, span);
+  		},
+
+  		p(changed, ctx) {
+  			if ((changed.styles) && button_class_value !== (button_class_value = ctx.styles['cancel-icon'].trim())) {
+  				attr(button, "class", button_class_value);
+  			}
+  		},
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(button);
+  			}
+
+  			dispose();
+  		}
+  	};
+  }
+
+  function create_fragment$2(ctx) {
+  	var header, t, header_class_value;
+
+  	var if_block0 = (ctx.title) && create_if_block_1(ctx);
+
+  	var if_block1 = (ctx.cancelIcon && ctx.cancelIcon.enabled) && create_if_block$1(ctx);
+
+  	return {
+  		c() {
+  			header = element("header");
+  			if (if_block0) if_block0.c();
+  			t = space();
+  			if (if_block1) if_block1.c();
+  			attr(header, "class", header_class_value = ctx.styles.header.trim());
+  		},
+
+  		m(target, anchor) {
+  			insert(target, header, anchor);
+  			if (if_block0) if_block0.m(header, null);
+  			append(header, t);
+  			if (if_block1) if_block1.m(header, null);
+  		},
+
+  		p(changed, ctx) {
+  			if (ctx.title) {
+  				if (if_block0) {
+  					if_block0.p(changed, ctx);
+  				} else {
+  					if_block0 = create_if_block_1(ctx);
+  					if_block0.c();
+  					if_block0.m(header, t);
+  				}
+  			} else if (if_block0) {
+  				if_block0.d(1);
+  				if_block0 = null;
+  			}
+
+  			if (ctx.cancelIcon && ctx.cancelIcon.enabled) {
+  				if (if_block1) {
+  					if_block1.p(changed, ctx);
+  				} else {
+  					if_block1 = create_if_block$1(ctx);
+  					if_block1.c();
+  					if_block1.m(header, null);
+  				}
+  			} else if (if_block1) {
+  				if_block1.d(1);
+  				if_block1 = null;
+  			}
+
+  			if ((changed.styles) && header_class_value !== (header_class_value = ctx.styles.header.trim())) {
+  				attr(header, "class", header_class_value);
+  			}
+  		},
+
+  		i: noop,
+  		o: noop,
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(header);
+  			}
+
+  			if (if_block0) if_block0.d();
+  			if (if_block1) if_block1.d();
+  		}
+  	};
+  }
+
+  function instance$2($$self, $$props, $$invalidate) {
+  	let { labelId, step, styles } = $$props;
+    const { cancelIcon, title } = step.options;
+
     /**
      * Add a click listener to the cancel link that cancels the tour
      */
-    ;
-
-    _proto.handleCancelClick = function handleCancelClick(e) {
+    const handleCancelClick = (e) => {
       e.preventDefault();
-      this.step.cancel();
+      step.cancel();
     };
 
-    ShepherdHeader._addTitle = function _addTitle(labelId, styles, title) {
-      if (title) {
-        return preact.h("h3", {
-          id: labelId,
-          className: styles.title.trim()
-        }, title);
-      }
+  	$$self.$set = $$props => {
+  		if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
 
-      return null;
-    }
-    /**
-     * If enabled, add the cancel "x" icon
-     * @param {object} cancelIcon The options for the cancel icon
-     * @param styles
-     * @return {null|*}
-     * @private
-     */
-    ;
+  	return {
+  		labelId,
+  		step,
+  		styles,
+  		cancelIcon,
+  		title,
+  		handleCancelClick
+  	};
+  }
 
-    _proto._addCancelLink = function _addCancelLink(cancelIcon, styles) {
-      if (cancelIcon && cancelIcon.enabled) {
-        return preact.h("button", {
-          "aria-label": cancelIcon.label ? cancelIcon.label : 'Close Tour',
-          className: styles['cancel-icon'].trim(),
-          onClick: this.handleCancelClick,
-          type: "button"
-        }, preact.h("span", {
-          "aria-hidden": "true"
-        }, "\xD7"));
-      }
+  class Index$2 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["labelId", "step", "styles"]);
+  	}
+  }
 
-      return null;
-    };
+  /* src/js/components/shepherd-content/shepherd-text/index.svelte generated by Svelte v3.9.1 */
 
-    return ShepherdHeader;
-  }(Component$3);
+  function create_fragment$3(ctx) {
+  	var div, div_class_value;
 
-  var Component$4 = preact.Component;
+  	return {
+  		c() {
+  			div = element("div");
+  			attr(div, "class", div_class_value = ctx.styles.text.trim());
+  			attr(div, "id", ctx.descriptionId);
+  		},
 
-  var ShepherdText =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdText, _Component);
+  		m(target, anchor) {
+  			insert(target, div, anchor);
+  			ctx.div_binding(div);
+  		},
 
-    function ShepherdText() {
-      return _Component.apply(this, arguments) || this;
-    }
+  		p(changed, ctx) {
+  			if ((changed.styles) && div_class_value !== (div_class_value = ctx.styles.text.trim())) {
+  				attr(div, "class", div_class_value);
+  			}
 
-    var _proto = ShepherdText.prototype;
+  			if (changed.descriptionId) {
+  				attr(div, "id", ctx.descriptionId);
+  			}
+  		},
 
-    _proto.shouldComponentUpdate = function shouldComponentUpdate() {
-      return false;
-    };
+  		i: noop,
+  		o: noop,
 
-    _proto.componentDidMount = function componentDidMount() {
-      var step = this.props.step;
-      var text = step.options.text;
+  		d(detaching) {
+  			if (detaching) {
+  				detach(div);
+  			}
+
+  			ctx.div_binding(null);
+  		}
+  	};
+  }
+
+  function instance$3($$self, $$props, $$invalidate) {
+  	
+
+    let { base, descriptionId, step, styles } = $$props;
+
+    onMount(() => {
+      let { text } = step.options;
 
       if (isFunction(text)) {
         text = text.call(step);
       }
 
       if (isElement(text)) {
-        this.base.appendChild(text);
+        base.appendChild(text);
+      } else {
+        base.innerHTML = text; $$invalidate('base', base);
       }
-    };
+    });
 
-    _proto.render = function render(props) {
-      var descriptionId = props.descriptionId,
-          step = props.step,
-          styles = props.styles;
-      var text = step.options.text;
+  	function div_binding($$value) {
+  		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+  			$$invalidate('base', base = $$value);
+  		});
+  	}
 
-      if (isFunction(text)) {
-        text = text.call(step);
-      }
+  	$$self.$set = $$props => {
+  		if ('base' in $$props) $$invalidate('base', base = $$props.base);
+  		if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
 
-      return preact.h("div", {
-        className: styles.text.trim(),
-        dangerouslySetInnerHTML: {
-          __html: !isElement(text) ? text : null
-        },
-        id: descriptionId
-      });
-    };
+  	return {
+  		base,
+  		descriptionId,
+  		step,
+  		styles,
+  		div_binding
+  	};
+  }
 
-    return ShepherdText;
-  }(Component$4);
+  class Index$3 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["base", "descriptionId", "step", "styles"]);
+  	}
+  }
 
-  var Component$5 = preact.Component;
+  /* src/js/components/shepherd-content/index.svelte generated by Svelte v3.9.1 */
 
-  var ShepherdContent =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdContent, _Component);
+  // (19:4) {#if !isUndefined(step.options.text)}
+  function create_if_block_1$1(ctx) {
+  	var current;
 
-    function ShepherdContent() {
-      return _Component.apply(this, arguments) || this;
-    }
+  	var shepherdtext = new Index$3({
+  		props: {
+  		descriptionId: ctx.descriptionId,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
 
-    var _proto = ShepherdContent.prototype;
+  	return {
+  		c() {
+  			shepherdtext.$$.fragment.c();
+  		},
 
-    _proto.render = function render(props) {
-      var classPrefix = props.classPrefix,
-          descriptionId = props.descriptionId,
-          labelId = props.labelId,
-          step = props.step,
-          styles = props.styles;
-      return preact.h("div", {
-        className: styles.content.trim()
-      }, preact.h(ShepherdHeader, {
-        labelId: labelId,
-        step: step,
-        styles: styles
-      }), ShepherdContent._addShepherdText(descriptionId, step, styles), ShepherdContent._addShepherdFooter(classPrefix, step, styles));
-    };
+  		m(target, anchor) {
+  			mount_component(shepherdtext, target, anchor);
+  			current = true;
+  		},
 
-    ShepherdContent._addShepherdText = function _addShepherdText(descriptionId, step, styles) {
-      if (!isUndefined(step.options.text)) {
-        return preact.h(ShepherdText, {
-          descriptionId: descriptionId,
-          step: step,
-          styles: styles
-        });
-      }
+  		p(changed, ctx) {
+  			var shepherdtext_changes = {};
+  			if (changed.descriptionId) shepherdtext_changes.descriptionId = ctx.descriptionId;
+  			if (changed.step) shepherdtext_changes.step = ctx.step;
+  			if (changed.styles) shepherdtext_changes.styles = ctx.styles;
+  			shepherdtext.$set(shepherdtext_changes);
+  		},
 
-      return null;
-    };
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdtext.$$.fragment, local);
 
-    ShepherdContent._addShepherdFooter = function _addShepherdFooter(classPrefix, step, styles) {
-      if (Array.isArray(step.options.buttons) && step.options.buttons.length) {
-        return preact.h(ShepherdFooter, {
-          classPrefix: classPrefix,
-          step: step,
-          styles: styles
-        });
-      }
+  			current = true;
+  		},
 
-      return null;
-    };
+  		o(local) {
+  			transition_out(shepherdtext.$$.fragment, local);
+  			current = false;
+  		},
 
-    return ShepherdContent;
-  }(Component$5);
+  		d(detaching) {
+  			destroy_component(shepherdtext, detaching);
+  		}
+  	};
+  }
 
-  var Component$6 = preact.Component;
-  var KEY_TAB = 9;
-  var KEY_ESC = 27;
-  var LEFT_ARROW = 37;
-  var RIGHT_ARROW = 39;
+  // (27:4) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
+  function create_if_block$2(ctx) {
+  	var current;
 
-  var ShepherdElement =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdElement, _Component);
+  	var shepherdfooter = new Index$1({
+  		props: {
+  		classPrefix: ctx.classPrefix,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
 
-    function ShepherdElement(props) {
-      var _this;
+  	return {
+  		c() {
+  			shepherdfooter.$$.fragment.c();
+  		},
 
-      _this = _Component.call(this, props) || this;
-      _this.step = props.step;
-      _this.handleKeyDown = _this.handleKeyDown.bind(_assertThisInitialized(_this));
-      return _this;
-    }
+  		m(target, anchor) {
+  			mount_component(shepherdfooter, target, anchor);
+  			current = true;
+  		},
 
-    var _proto = ShepherdElement.prototype;
+  		p(changed, ctx) {
+  			var shepherdfooter_changes = {};
+  			if (changed.classPrefix) shepherdfooter_changes.classPrefix = ctx.classPrefix;
+  			if (changed.step) shepherdfooter_changes.step = ctx.step;
+  			if (changed.styles) shepherdfooter_changes.styles = ctx.styles;
+  			shepherdfooter.$set(shepherdfooter_changes);
+  		},
 
-    _proto.componentDidMount = function componentDidMount() {
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdfooter.$$.fragment, local);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdfooter.$$.fragment, local);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			destroy_component(shepherdfooter, detaching);
+  		}
+  	};
+  }
+
+  function create_fragment$4(ctx) {
+  	var div, t0, show_if_1 = !isUndefined(ctx.step.options.text), t1, show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length, div_class_value, current;
+
+  	var shepherdheader = new Index$2({
+  		props: {
+  		labelId: ctx.labelId,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
+
+  	var if_block0 = (show_if_1) && create_if_block_1$1(ctx);
+
+  	var if_block1 = (show_if) && create_if_block$2(ctx);
+
+  	return {
+  		c() {
+  			div = element("div");
+  			shepherdheader.$$.fragment.c();
+  			t0 = space();
+  			if (if_block0) if_block0.c();
+  			t1 = space();
+  			if (if_block1) if_block1.c();
+  			attr(div, "class", div_class_value = ctx.styles.content.trim());
+  		},
+
+  		m(target, anchor) {
+  			insert(target, div, anchor);
+  			mount_component(shepherdheader, div, null);
+  			append(div, t0);
+  			if (if_block0) if_block0.m(div, null);
+  			append(div, t1);
+  			if (if_block1) if_block1.m(div, null);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			var shepherdheader_changes = {};
+  			if (changed.labelId) shepherdheader_changes.labelId = ctx.labelId;
+  			if (changed.step) shepherdheader_changes.step = ctx.step;
+  			if (changed.styles) shepherdheader_changes.styles = ctx.styles;
+  			shepherdheader.$set(shepherdheader_changes);
+
+  			if (changed.step) show_if_1 = !isUndefined(ctx.step.options.text);
+
+  			if (show_if_1) {
+  				if (if_block0) {
+  					if_block0.p(changed, ctx);
+  					transition_in(if_block0, 1);
+  				} else {
+  					if_block0 = create_if_block_1$1(ctx);
+  					if_block0.c();
+  					transition_in(if_block0, 1);
+  					if_block0.m(div, t1);
+  				}
+  			} else if (if_block0) {
+  				group_outros();
+  				transition_out(if_block0, 1, 1, () => {
+  					if_block0 = null;
+  				});
+  				check_outros();
+  			}
+
+  			if (changed.step) show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length;
+
+  			if (show_if) {
+  				if (if_block1) {
+  					if_block1.p(changed, ctx);
+  					transition_in(if_block1, 1);
+  				} else {
+  					if_block1 = create_if_block$2(ctx);
+  					if_block1.c();
+  					transition_in(if_block1, 1);
+  					if_block1.m(div, null);
+  				}
+  			} else if (if_block1) {
+  				group_outros();
+  				transition_out(if_block1, 1, 1, () => {
+  					if_block1 = null;
+  				});
+  				check_outros();
+  			}
+
+  			if ((!current || changed.styles) && div_class_value !== (div_class_value = ctx.styles.content.trim())) {
+  				attr(div, "class", div_class_value);
+  			}
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdheader.$$.fragment, local);
+
+  			transition_in(if_block0);
+  			transition_in(if_block1);
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdheader.$$.fragment, local);
+  			transition_out(if_block0);
+  			transition_out(if_block1);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(div);
+  			}
+
+  			destroy_component(shepherdheader);
+
+  			if (if_block0) if_block0.d();
+  			if (if_block1) if_block1.d();
+  		}
+  	};
+  }
+
+  function instance$4($$self, $$props, $$invalidate) {
+  	
+
+    let { classPrefix, descriptionId, labelId, step, styles } = $$props;
+
+  	$$self.$set = $$props => {
+  		if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
+  		if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
+  		if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
+
+  	return {
+  		classPrefix,
+  		descriptionId,
+  		labelId,
+  		step,
+  		styles
+  	};
+  }
+
+  class Index$4 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$4, create_fragment$4, safe_not_equal, ["classPrefix", "descriptionId", "labelId", "step", "styles"]);
+  	}
+  }
+
+  /* src/js/components/shepherd-element/index.svelte generated by Svelte v3.9.1 */
+
+  function create_fragment$5(ctx) {
+  	var div, current, dispose;
+
+  	var shepherdcontent = new Index$4({
+  		props: {
+  		classPrefix: ctx.classPrefix,
+  		descriptionId: ctx.descriptionId,
+  		labelId: ctx.labelId,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
+
+  	var div_levels = [
+  		{ "aria-describedby": !isUndefined(ctx.step.options.text) ? ctx.descriptionId : null },
+  		{ "aria-labelledby": ctx.step.options.title ? ctx.labelId : null },
+  		{ class: ctx.classes + ctx.styles.element },
+  		ctx.dataStepId,
+  		{ role: "dialog" },
+  		{ tabindex: "0" }
+  	];
+
+  	var div_data = {};
+  	for (var i = 0; i < div_levels.length; i += 1) {
+  		div_data = assign(div_data, div_levels[i]);
+  	}
+
+  	return {
+  		c() {
+  			div = element("div");
+  			shepherdcontent.$$.fragment.c();
+  			set_attributes(div, div_data);
+  			dispose = listen(div, "keydown", ctx.handleKeyDown);
+  		},
+
+  		m(target, anchor) {
+  			insert(target, div, anchor);
+  			mount_component(shepherdcontent, div, null);
+  			ctx.div_binding(div);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			var shepherdcontent_changes = {};
+  			if (changed.classPrefix) shepherdcontent_changes.classPrefix = ctx.classPrefix;
+  			if (changed.descriptionId) shepherdcontent_changes.descriptionId = ctx.descriptionId;
+  			if (changed.labelId) shepherdcontent_changes.labelId = ctx.labelId;
+  			if (changed.step) shepherdcontent_changes.step = ctx.step;
+  			if (changed.styles) shepherdcontent_changes.styles = ctx.styles;
+  			shepherdcontent.$set(shepherdcontent_changes);
+
+  			set_attributes(div, get_spread_update(div_levels, [
+  				(changed.isUndefined || changed.step || changed.descriptionId) && { "aria-describedby": !isUndefined(ctx.step.options.text) ? ctx.descriptionId : null },
+  				(changed.step || changed.labelId) && { "aria-labelledby": ctx.step.options.title ? ctx.labelId : null },
+  				(changed.classes || changed.styles) && { class: ctx.classes + ctx.styles.element },
+  				(changed.dataStepId) && ctx.dataStepId,
+  				{ role: "dialog" },
+  				{ tabindex: "0" }
+  			]));
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdcontent.$$.fragment, local);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdcontent.$$.fragment, local);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(div);
+  			}
+
+  			destroy_component(shepherdcontent);
+
+  			ctx.div_binding(null);
+  			dispose();
+  		}
+  	};
+  }
+
+  const KEY_TAB = 9;
+
+  const KEY_ESC = 27;
+
+  const LEFT_ARROW = 37;
+
+  const RIGHT_ARROW = 39;
+
+  function instance$5($$self, $$props, $$invalidate) {
+  	
+
+    let { classes, classPrefix, element, descriptionId, firstFocusableElement, focusableElements, labelId, lastFocusableElement, step, styles } = $$props;
+    const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
+
+    const getElement = () => element;
+
+    onMount(() => {
       // Get all elements that are focusable
-      var focusableElements = this.element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]');
-      var firstFocusableElement = focusableElements[0];
-      var lastFocusableElement = focusableElements[focusableElements.length - 1];
-      this.focusableElements = focusableElements;
-      this.firstFocusableElement = firstFocusableElement;
-      this.lastFocusableElement = lastFocusableElement;
-    };
+      $$invalidate('focusableElements', focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
+      $$invalidate('firstFocusableElement', firstFocusableElement = focusableElements[0]);
+      $$invalidate('lastFocusableElement', lastFocusableElement = focusableElements[focusableElements.length - 1]);
+    });
 
-    _proto.render = function render(props) {
-      var _dataStepId,
-          _this2 = this;
-
-      var classes = props.classes,
-          classPrefix = props.classPrefix,
-          descriptionId = props.descriptionId,
-          labelId = props.labelId,
-          step = props.step,
-          styles = props.styles;
-      var dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId);
-      return preact.h("div", _extends({
-        "aria-describedby": !isUndefined(step.options.text) ? descriptionId : null,
-        "aria-labeledby": step.options.title ? labelId : null,
-        className: classes + styles.element
-      }, dataStepId, {
-        onKeyDown: this.handleKeyDown,
-        ref: function ref(c) {
-          return _this2.element = c;
-        },
-        role: "dialog",
-        tabIndex: "0"
-      }), preact.h(ShepherdContent, {
-        classPrefix: classPrefix,
-        descriptionId: descriptionId,
-        labelId: labelId,
-        step: step,
-        styles: styles
-      }));
-    }
     /**
      * Setup keydown events to allow closing the modal with ESC
      *
@@ -5750,61 +5953,94 @@
      *
      * @private
      */
-    ;
-
-    _proto.handleKeyDown = function handleKeyDown(e) {
-      var tour = this.step.tour;
-
+    const handleKeyDown = (e) => {
+      const { tour } = step;
       switch (e.keyCode) {
         case KEY_TAB:
-          if (this.focusableElements.length === 0) {
+          if (focusableElements.length === 0) {
             e.preventDefault();
             break;
-          } // Backward tab
-
-
+          }
+          // Backward tab
           if (e.shiftKey) {
-            if (document.activeElement === this.firstFocusableElement) {
+            if (document.activeElement === firstFocusableElement) {
               e.preventDefault();
-              this.lastFocusableElement.focus();
+              lastFocusableElement.focus();
             }
           } else {
-            if (document.activeElement === this.lastFocusableElement) {
+            if (document.activeElement === lastFocusableElement) {
               e.preventDefault();
-              this.firstFocusableElement.focus();
+              firstFocusableElement.focus();
             }
           }
-
           break;
-
         case KEY_ESC:
           if (tour.options.exitOnEsc) {
-            this.step.cancel();
+            step.cancel();
           }
-
           break;
-
         case LEFT_ARROW:
           if (tour.options.keyboardNavigation) {
             tour.back();
           }
-
           break;
-
         case RIGHT_ARROW:
           if (tour.options.keyboardNavigation) {
             tour.next();
           }
-
           break;
-
         default:
           break;
       }
     };
 
-    return ShepherdElement;
-  }(Component$6);
+  	function div_binding($$value) {
+  		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+  			$$invalidate('element', element = $$value);
+  		});
+  	}
+
+  	$$self.$set = $$props => {
+  		if ('classes' in $$props) $$invalidate('classes', classes = $$props.classes);
+  		if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
+  		if ('element' in $$props) $$invalidate('element', element = $$props.element);
+  		if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
+  		if ('firstFocusableElement' in $$props) $$invalidate('firstFocusableElement', firstFocusableElement = $$props.firstFocusableElement);
+  		if ('focusableElements' in $$props) $$invalidate('focusableElements', focusableElements = $$props.focusableElements);
+  		if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
+  		if ('lastFocusableElement' in $$props) $$invalidate('lastFocusableElement', lastFocusableElement = $$props.lastFocusableElement);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
+
+  	return {
+  		classes,
+  		classPrefix,
+  		element,
+  		descriptionId,
+  		firstFocusableElement,
+  		focusableElements,
+  		labelId,
+  		lastFocusableElement,
+  		step,
+  		styles,
+  		dataStepId,
+  		getElement,
+  		handleKeyDown,
+  		div_binding
+  	};
+  }
+
+  class Index$5 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$5, create_fragment$5, safe_not_equal, ["classes", "classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "styles", "getElement"]);
+  	}
+
+  	get getElement() {
+  		return this.$$.ctx.getElement;
+  	}
+  }
 
   function createCommonjsModule(fn, module) {
   	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -6244,7 +6480,6 @@
   var smoothscroll_1 = smoothscroll.polyfill;
 
   smoothscroll.polyfill();
-  var render$1 = preact.render;
   /**
    * Creates incremented ID for each newly created step
    *
@@ -6487,14 +6722,18 @@
         classes += " " + this.classPrefix + "shepherd-has-cancel-icon";
       }
 
-      return render$1(preact.h(ShepherdElement, {
-        classPrefix: this.classPrefix,
-        classes: classes,
-        descriptionId: descriptionId,
-        labelId: labelId,
-        step: this,
-        styles: this.styles
-      }), null);
+      var ShepherdElementComponent = new Index$5({
+        target: document.body,
+        props: {
+          classPrefix: this.classPrefix,
+          classes: classes,
+          descriptionId: descriptionId,
+          labelId: labelId,
+          step: this,
+          styles: this.styles
+        }
+      });
+      return ShepherdElementComponent.getElement();
     }
     /**
      * If a custom scrollToHandler is defined, call that, otherwise do the generic
@@ -6727,7 +6966,7 @@
     return '_' + (hash >>> 0).toString(36);
   };
 
-  var create = function create(config) {
+  var create = function (config) {
     config = config || {};
     var assign = config.assign || Object.assign;
     var client = typeof window === 'object'; // Check if we are really in browser environment.
@@ -6813,7 +7052,7 @@
     return renderer;
   };
 
-  var addon = function addon(renderer) {
+  var addon = function (renderer) {
     var cache = {};
 
     renderer.cache = function (css) {
@@ -6828,7 +7067,7 @@
     };
   };
 
-  var addon$1 = function addon(renderer) {
+  var addon$1 = function (renderer) {
     renderer.selector = function (parentSelectors, selector) {
       var parents = parentSelectors.split(',');
       var result = [];
@@ -6864,7 +7103,7 @@
     };
   };
 
-  var addon$2 = function addon(renderer) {
+  var addon$2 = function (renderer) {
 
     renderer.rule = function (css, block) {
 
@@ -6875,7 +7114,7 @@
     };
   };
 
-  var addon$3 = function addon(renderer) {
+  var addon$3 = function (renderer) {
 
     renderer.sheet = function (map, block) {
       var result = {};
@@ -6912,7 +7151,6 @@
   };
 
   var nano = create({
-    h: h,
     pfx: ''
   });
   addon(nano);
@@ -7079,10 +7317,10 @@
   }
 
   function modalStyles(classPrefix, variables) {
-    var _modalOverlayContai;
+    var _modalIsVisible;
 
     return {
-      'modal-overlay-container': (_modalOverlayContai = {
+      'modal-overlay-container': {
         '-ms-filter': 'progid:dximagetransform.microsoft.gradient.alpha(Opacity=50)',
         filter: 'alpha(opacity=50)',
         height: 0,
@@ -7093,15 +7331,15 @@
         top: 0,
         transition: 'all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms',
         width: '100vw',
-        zIndex: variables.zIndex - 2
-      }, _modalOverlayContai["." + classPrefix + "shepherd-modal-is-visible &"] = {
-        height: '100vh',
-        opacity: variables.overlayOpacity,
-        transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
-      }, _modalOverlayContai),
-      'modal-mask-rect': {
-        height: '100vh',
-        width: '100vw'
+        zIndex: variables.zIndex - 2,
+        '&.modal-is-visible': (_modalIsVisible = {
+          height: '100vh',
+          opacity: variables.overlayOpacity,
+          transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
+        }, _modalIsVisible["." + classPrefix + "modal-mask-rect"] = {
+          height: '100vh',
+          width: '100vw'
+        }, _modalIsVisible)
       }
     };
   }
@@ -7195,212 +7433,316 @@
     return classes;
   }
 
-  var Component$7 = preact.Component;
+  /* src/js/components/shepherd-modal/index.svelte generated by Svelte v3.9.1 */
 
-  var ShepherdModal =
-  /*#__PURE__*/
-  function (_Component) {
-    _inheritsLoose(ShepherdModal, _Component);
+  function create_fragment$6(ctx) {
+  	var svg, defs, mask, rect0, rect0_class_value, rect1, rect1_class_value, rect1_height_value, rect1_x_value, rect1_y_value, rect1_width_value, mask_class_value, mask_id_value, rect2, rect2_mask_value, svg_class_value, dispose;
 
-    function ShepherdModal(props) {
-      var _this;
+  	return {
+  		c() {
+  			svg = svg_element("svg");
+  			defs = svg_element("defs");
+  			mask = svg_element("mask");
+  			rect0 = svg_element("rect");
+  			rect1 = svg_element("rect");
+  			rect2 = svg_element("rect");
+  			attr(rect0, "class", rect0_class_value = `${ctx.classPrefix}modal-mask-rect`);
+  			attr(rect0, "fill", "#FFFFFF");
+  			attr(rect0, "height", "100%");
+  			attr(rect0, "width", "100%");
+  			attr(rect0, "x", "0");
+  			attr(rect0, "y", "0");
+  			attr(rect1, "class", rect1_class_value = `${ctx.classPrefix}shepherd-modal-mask-opening`);
+  			attr(rect1, "fill", "#000000");
+  			attr(rect1, "height", rect1_height_value = ctx.openingProperties.height);
+  			attr(rect1, "x", rect1_x_value = ctx.openingProperties.x);
+  			attr(rect1, "y", rect1_y_value = ctx.openingProperties.y);
+  			attr(rect1, "width", rect1_width_value = ctx.openingProperties.width);
+  			attr(mask, "class", mask_class_value = `${ctx.classPrefix}shepherd-modal-mask`);
+  			attr(mask, "height", "100%");
+  			attr(mask, "id", mask_id_value = `${ctx.classPrefix}shepherd-modal-mask-${ctx.guid}`);
+  			attr(mask, "width", "100%");
+  			attr(mask, "x", "0");
+  			attr(mask, "y", "0");
+  			attr(rect2, "height", "100%");
+  			attr(rect2, "width", "100%");
+  			attr(rect2, "x", "0");
+  			attr(rect2, "y", "0");
+  			attr(rect2, "mask", rect2_mask_value = `url(#${ctx.classPrefix}shepherd-modal-mask-${ctx.guid})`);
+  			attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? 'modal-is-visible' : '') + ctx.styles['modal-overlay-container']);
+  			dispose = listen(svg, "touchmove", ctx._preventModalOverlayTouch);
+  		},
 
-      _this = _Component.call(this, props) || this;
-      _this._onScreenChange = null;
-      _this.classPrefix = props.classPrefix;
-      autoBind(_assertThisInitialized(_this)); // Setup initial state
+  		m(target, anchor) {
+  			insert(target, svg, anchor);
+  			append(svg, defs);
+  			append(defs, mask);
+  			append(mask, rect0);
+  			append(mask, rect1);
+  			append(svg, rect2);
+  			ctx.svg_binding(svg);
+  		},
 
-      _this.closeModalOpening();
+  		p(changed, ctx) {
+  			if ((changed.classPrefix) && rect0_class_value !== (rect0_class_value = `${ctx.classPrefix}modal-mask-rect`)) {
+  				attr(rect0, "class", rect0_class_value);
+  			}
 
-      return _this;
-    }
+  			if ((changed.classPrefix) && rect1_class_value !== (rect1_class_value = `${ctx.classPrefix}shepherd-modal-mask-opening`)) {
+  				attr(rect1, "class", rect1_class_value);
+  			}
 
-    var _proto = ShepherdModal.prototype;
+  			if ((changed.openingProperties) && rect1_height_value !== (rect1_height_value = ctx.openingProperties.height)) {
+  				attr(rect1, "height", rect1_height_value);
+  			}
 
-    _proto.render = function render(props, state) {
-      var classPrefix = props.classPrefix,
-          styles = props.styles;
-      return preact.h("svg", {
-        className: styles['modal-overlay-container'],
-        onTouchMove: ShepherdModal.handlePreventModalOverlayTouch
-      }, preact.h("defs", null, preact.h("mask", {
-        className: classPrefix + "shepherd-modal-mask",
-        height: "100%",
-        id: classPrefix + "shepherd-modal-mask",
-        width: "100%",
-        x: "0",
-        y: "0"
-      }, preact.h("rect", {
-        className: styles['modal-mask-rect'],
-        fill: "#FFFFFF",
-        height: "100%",
-        width: "100%",
-        x: "0",
-        y: "0"
-      }), preact.h("rect", {
-        className: classPrefix + "shepherd-modal-mask-opening",
-        fill: "#000000",
-        height: state.openingProperties.height,
-        x: state.openingProperties.x,
-        y: state.openingProperties.y,
-        width: state.openingProperties.width
-      }))), preact.h("rect", {
-        height: "100%",
-        width: "100%",
-        x: "0",
-        y: "0",
-        mask: "url(#" + classPrefix + "shepherd-modal-mask)"
-      }));
-    };
+  			if ((changed.openingProperties) && rect1_x_value !== (rect1_x_value = ctx.openingProperties.x)) {
+  				attr(rect1, "x", rect1_x_value);
+  			}
 
-    _proto.closeModalOpening = function closeModalOpening() {
-      this.setState({
-        openingProperties: {
-          height: 0,
-          x: 0,
-          y: 0,
-          width: 0
-        }
+  			if ((changed.openingProperties) && rect1_y_value !== (rect1_y_value = ctx.openingProperties.y)) {
+  				attr(rect1, "y", rect1_y_value);
+  			}
+
+  			if ((changed.openingProperties) && rect1_width_value !== (rect1_width_value = ctx.openingProperties.width)) {
+  				attr(rect1, "width", rect1_width_value);
+  			}
+
+  			if ((changed.classPrefix) && mask_class_value !== (mask_class_value = `${ctx.classPrefix}shepherd-modal-mask`)) {
+  				attr(mask, "class", mask_class_value);
+  			}
+
+  			if ((changed.classPrefix) && mask_id_value !== (mask_id_value = `${ctx.classPrefix}shepherd-modal-mask-${ctx.guid}`)) {
+  				attr(mask, "id", mask_id_value);
+  			}
+
+  			if ((changed.classPrefix) && rect2_mask_value !== (rect2_mask_value = `url(#${ctx.classPrefix}shepherd-modal-mask-${ctx.guid})`)) {
+  				attr(rect2, "mask", rect2_mask_value);
+  			}
+
+  			if ((changed.modalIsVisible || changed.styles) && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? 'modal-is-visible' : '') + ctx.styles['modal-overlay-container'])) {
+  				attr(svg, "class", svg_class_value);
+  			}
+  		},
+
+  		i: noop,
+  		o: noop,
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(svg);
+  			}
+
+  			ctx.svg_binding(null);
+  			dispose();
+  		}
+  	};
+  }
+
+  function _uuid() {
+    let d = Date.now();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  function instance$6($$self, $$props, $$invalidate) {
+  	let { classPrefix, element, openingProperties, styles } = $$props;
+    const guid = _uuid();
+    let modalIsVisible = false;
+    let rafId = undefined;
+
+    closeModalOpening();
+
+    const getElement = () => element;
+
+    function closeModalOpening() {
+      $$invalidate('openingProperties', openingProperties = {
+        height: 0,
+        x: 0,
+        y: 0,
+        width: 0
       });
     }
+
     /**
      * Hide the modal overlay
      */
-    ;
+    function hide() {
+      document.body.classList.remove(`${classPrefix}shepherd-modal-is-visible`);
+      $$invalidate('modalIsVisible', modalIsVisible = false);
 
-    _proto.hide = function hide() {
-      document.body.classList.remove(this.classPrefix + "shepherd-modal-is-visible"); // Ensure we cleanup all event listeners when we hide the modal
-
-      this._cleanupStepEventListeners();
+      // Ensure we cleanup all event listeners when we hide the modal
+      _cleanupStepEventListeners();
     }
+
     /**
      * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
      * @param {HTMLElement} targetElement The element the opening will expose
      * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
      */
-    ;
-
-    _proto.positionModalOpening = function positionModalOpening(targetElement, modalOverlayOpeningPadding) {
-      if (modalOverlayOpeningPadding === void 0) {
-        modalOverlayOpeningPadding = 0;
-      }
-
+    function positionModalOpening(targetElement, modalOverlayOpeningPadding = 0) {
       if (targetElement.getBoundingClientRect) {
-        var _targetElement$getBou = targetElement.getBoundingClientRect(),
-            x = _targetElement$getBou.x,
-            y = _targetElement$getBou.y,
-            width = _targetElement$getBou.width,
-            height = _targetElement$getBou.height,
-            left = _targetElement$getBou.left,
-            top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+        const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
-
-        this.setState({
-          openingProperties: {
-            x: (x || left) - modalOverlayOpeningPadding,
-            y: (y || top) - modalOverlayOpeningPadding,
-            width: width + modalOverlayOpeningPadding * 2,
-            height: height + modalOverlayOpeningPadding * 2
-          }
+        // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+        $$invalidate('openingProperties', openingProperties = {
+          x: (x || left) - modalOverlayOpeningPadding,
+          y: (y || top) - modalOverlayOpeningPadding,
+          width: (width + (modalOverlayOpeningPadding * 2)),
+          height: (height + (modalOverlayOpeningPadding * 2))
         });
       }
     }
+
     /**
      * If modal is enabled, setup the svg mask opening and modal overlay for the step
      * @param {Step} step The step instance
      */
-    ;
-
-    _proto.setupForStep = function setupForStep(step) {
+    function setupForStep(step) {
       // Ensure we move listeners from the previous step, before we setup new ones
-      this._cleanupStepEventListeners();
+      _cleanupStepEventListeners();
 
       if (step.tour.options.useModalOverlay) {
-        this._styleForStep(step);
-
-        this.show();
+        _styleForStep(step);
+        show();
       } else {
-        this.hide();
+        hide();
       }
     }
+
     /**
      * Show the modal overlay
      */
-    ;
-
-    _proto.show = function show() {
-      document.body.classList.add(this.classPrefix + "shepherd-modal-is-visible");
+    function show() {
+      document.body.classList.add(`${classPrefix}shepherd-modal-is-visible`);
+      $$invalidate('modalIsVisible', modalIsVisible = true);
     }
+
+    const _preventModalBodyTouch = (e) => {
+      e.preventDefault();
+    };
+
+    const _preventModalOverlayTouch = (e) => {
+      e.stopPropagation();
+    };
+
     /**
      * Add touchmove event listener
      * @private
      */
-    ;
-
-    _proto._addStepEventListeners = function _addStepEventListeners() {
+    function _addStepEventListeners() {
       // Prevents window from moving on touch.
-      window.addEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+      window.addEventListener('touchmove', _preventModalBodyTouch, {
         passive: false
       });
     }
+
     /**
      * Cancel the requestAnimationFrame loop and remove touchmove event listeners
      * @private
      */
-    ;
-
-    _proto._cleanupStepEventListeners = function _cleanupStepEventListeners() {
-      if (this.rafId) {
-        cancelAnimationFrame(this.rafId);
-        this.rafId = undefined;
+    function _cleanupStepEventListeners() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = undefined;
       }
 
-      window.removeEventListener('touchmove', ShepherdModal._preventModalBodyTouch, {
+      window.removeEventListener('touchmove', _preventModalBodyTouch, {
         passive: false
       });
     }
+
     /**
      * Style the modal for the step
      * @param {Step} step The step to style the opening for
      * @private
      */
-    ;
-
-    _proto._styleForStep = function _styleForStep(step) {
-      var _this2 = this;
-
-      var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
+    function _styleForStep(step) {
+      const { modalOverlayOpeningPadding } = step.options;
 
       if (step.target) {
         // Setup recursive function to call requestAnimationFrame to update the modal opening position
-        var rafLoop = function rafLoop() {
-          _this2.rafId = undefined;
-
-          _this2.positionModalOpening(step.target, modalOverlayOpeningPadding);
-
-          _this2.rafId = requestAnimationFrame(rafLoop);
+        const rafLoop = () => {
+          rafId = undefined;
+          positionModalOpening(step.target, modalOverlayOpeningPadding);
+          rafId = requestAnimationFrame(rafLoop);
         };
 
         rafLoop();
 
-        this._addStepEventListeners();
+        _addStepEventListeners();
       } else {
-        this.closeModalOpening();
+        closeModalOpening();
       }
-    };
+    }
 
-    ShepherdModal._preventModalBodyTouch = function _preventModalBodyTouch(e) {
-      e.preventDefault();
-    };
+    /* eslint-enable prefer-template */
 
-    ShepherdModal.handlePreventModalOverlayTouch = function handlePreventModalOverlayTouch(e) {
-      e.stopPropagation();
-    };
+  	function svg_binding($$value) {
+  		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+  			$$invalidate('element', element = $$value);
+  		});
+  	}
 
-    return ShepherdModal;
-  }(Component$7);
+  	$$self.$set = $$props => {
+  		if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
+  		if ('element' in $$props) $$invalidate('element', element = $$props.element);
+  		if ('openingProperties' in $$props) $$invalidate('openingProperties', openingProperties = $$props.openingProperties);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
 
-  var render$2 = preact.render;
+  	return {
+  		classPrefix,
+  		element,
+  		openingProperties,
+  		styles,
+  		guid,
+  		modalIsVisible,
+  		getElement,
+  		closeModalOpening,
+  		hide,
+  		positionModalOpening,
+  		setupForStep,
+  		show,
+  		_preventModalOverlayTouch,
+  		svg_binding
+  	};
+  }
+
+  class Index$6 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		init(this, options, instance$6, create_fragment$6, safe_not_equal, ["classPrefix", "element", "openingProperties", "styles", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
+  	}
+
+  	get getElement() {
+  		return this.$$.ctx.getElement;
+  	}
+
+  	get closeModalOpening() {
+  		return this.$$.ctx.closeModalOpening;
+  	}
+
+  	get hide() {
+  		return this.$$.ctx.hide;
+  	}
+
+  	get positionModalOpening() {
+  		return this.$$.ctx.positionModalOpening;
+  	}
+
+  	get setupForStep() {
+  		return this.$$.ctx.setupForStep;
+  	}
+
+  	get show() {
+  		return this.$$.ctx.show;
+  	}
+  }
+
   /**
    * Creates incremented ID for each newly created tour
    *
@@ -7482,14 +7824,13 @@
           });
         })(event);
       });
-      var existingModal = document.querySelector("." + _this.classPrefix + "shepherd-modal-overlay-container");
-      render$2(preact.h(ShepherdModal, {
-        classPrefix: _this.classPrefix,
-        ref: function ref(c) {
-          return _this.modal = c;
-        },
-        styles: _this.styles
-      }), options.modalContainer || document.body, existingModal);
+      _this.modal = new Index$6({
+        target: options.modalContainer || document.body,
+        props: {
+          classPrefix: _this.classPrefix,
+          styles: _this.styles
+        }
+      });
 
       _this._setTooltipDefaults();
 

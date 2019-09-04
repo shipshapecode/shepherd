@@ -11,9 +11,6 @@ module.exports = function(api) {
               loose: true
             }
           ]
-        ],
-        plugins: [
-          ['@babel/plugin-transform-react-jsx', { 'pragma': 'preact.h' }]
         ]
       },
       test: {
@@ -23,7 +20,6 @@ module.exports = function(api) {
           ]
         ],
         plugins: [
-          ['@babel/plugin-transform-react-jsx', { 'pragma': 'preact.h' }],
           'transform-es2015-modules-commonjs'
         ]
       }
