@@ -131,20 +131,14 @@
 
   /* eslint-disable prefer-template */
   function _uuid() {
-    let nbr;
-    let randStr = '';
-    do {
-      randStr += (nbr = Math.random()).toString(16).substr(3, 6);
-    } while (randStr.length < 30);
-    return (
-      randStr.substr(0, 8) + '-' +
-      randStr.substr(8, 4) + '-4' +
-      randStr.substr(12, 3) + '-' +
-      ((nbr * 4 | 0) + 8).toString(16) + // [89ab]
-      randStr.substr(15, 3) + '-' +
-      randStr.substr(18, 12)
-    );
+    let d = Date.now();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
   }
+
   /* eslint-enable prefer-template */
 </script>
 
