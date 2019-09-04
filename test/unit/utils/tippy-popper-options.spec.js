@@ -1,4 +1,4 @@
-import { makeAttachedTippyOptions } from '../../../src/js/utils/tippy-popper-options';
+import { makeAttachedTippyOptions } from '../../../src/js/utils/tippy-popper-options.js';
 
 describe('Tippy/Popper Options Utils', function() {
   describe('makeAttachedTippyOptions()', function() {

@@ -12,15 +12,17 @@ export default function modalStyles(classPrefix, variables) {
       transition: 'all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms',
       width: '100vw',
       zIndex: variables.zIndex - 2,
-      [`.${classPrefix}shepherd-modal-is-visible &`]: {
+
+      '&.modal-is-visible': {
         height: '100vh',
         opacity: variables.overlayOpacity,
-        transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s'
+        transition: 'all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s',
+
+        [`.${classPrefix}modal-mask-rect`]: {
+          height: '100vh',
+          width: '100vw'
+        }
       }
-    },
-    'modal-mask-rect': {
-      height: '100vh',
-      width: '100vw'
     }
   };
 }

@@ -284,7 +284,7 @@ describe('Tour | Step', () => {
 
       const element = step._createTooltipContent();
 
-      expect(element.getAttribute('aria-labeledby')).toBe('test-step-label');
+      expect(element.getAttribute('aria-labelledby')).toBe('test-step-label');
       expect(element.querySelector('.shepherd-title').id).toBe('test-step-label');
 
       expect(element.getAttribute('aria-describedby')).toBe('test-step-description');

@@ -1,20 +1,17 @@
 import get from 'get-value';
-import preact from 'preact';
 
-import { Evented } from './evented';
-import autoBind from './utils/auto-bind';
-import { isElement, isFunction, isUndefined } from './utils/type-check';
-import { bindAdvance } from './utils/bind';
-import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general';
-import { toggleShepherdModalClass } from './utils/modal';
-import ShepherdElement from './components/shepherd-element';
+import { Evented } from './evented.js';
+import autoBind from './utils/auto-bind.js';
+import { isElement, isFunction, isUndefined } from './utils/type-check.js';
+import { bindAdvance } from './utils/bind.js';
+import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
+import { toggleShepherdModalClass } from './utils/modal.js';
+import ShepherdElement from './components/shepherd-element/index.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
-
-const { render } = preact;
 
 /**
  * Creates incremented ID for each newly created step
@@ -237,17 +234,20 @@ export class Step extends Evented {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 
-    return render(
-      <ShepherdElement
-        classPrefix={this.classPrefix}
-        classes={classes}
-        descriptionId={descriptionId}
-        labelId={labelId}
-        step={this}
-        styles={this.styles}
-      />,
-      null
-    );
+    const ShepherdElementComponent = new ShepherdElement({
+      target: document.body,
+      props:
+        {
+          classPrefix: this.classPrefix,
+          classes,
+          descriptionId,
+          labelId,
+          step: this,
+          styles: this.styles
+        }
+    });
+
+    return ShepherdElementComponent.getElement();
   }
 
   /**
