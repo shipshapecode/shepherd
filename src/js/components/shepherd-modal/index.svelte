@@ -1,6 +1,6 @@
 <script>
   export let classPrefix, element, openingProperties, styles;
-  const guid = UUID();
+  const guid = _uuid();
   let modalIsVisible = false;
   let rafId = undefined;
 
@@ -105,21 +105,6 @@
     });
   }
 
-  function UUID() {
-    var nbr, randStr = '';
-    do {
-      randStr += (nbr = Math.random()).toString(16).substr(3, 6);
-    } while (randStr.length < 30);
-    return (
-      randStr.substr(0, 8) + '-' +
-      randStr.substr(8, 4) + '-4' +
-      randStr.substr(12, 3) + '-' +
-      ((nbr * 4 | 0) + 8).toString(16) + // [89ab]
-      randStr.substr(15, 3) + '-' +
-      randStr.substr(18, 12)
-    );
-  }
-
   /**
    * Style the modal for the step
    * @param {Step} step The step to style the opening for
@@ -143,6 +128,24 @@
       closeModalOpening();
     }
   }
+
+  /* eslint-disable prefer-template */
+  function _uuid() {
+    let nbr;
+    let randStr = '';
+    do {
+      randStr += (nbr = Math.random()).toString(16).substr(3, 6);
+    } while (randStr.length < 30);
+    return (
+      randStr.substr(0, 8) + '-' +
+      randStr.substr(8, 4) + '-4' +
+      randStr.substr(12, 3) + '-' +
+      ((nbr * 4 | 0) + 8).toString(16) + // [89ab]
+      randStr.substr(15, 3) + '-' +
+      randStr.substr(18, 12)
+    );
+  }
+  /* eslint-enable prefer-template */
 </script>
 
 <svg
