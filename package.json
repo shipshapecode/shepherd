@@ -47,7 +47,6 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "get-value": "^3.0.1",
     "nano-css": "^5.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-beta.2"
