@@ -1,11 +1,12 @@
-body {
-  height: 100%;
+html, body {
+  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
 }
 
 body {
+
   background-color: rgba(236, 243, 246, 50);
   color: #5F6976;
-  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
+  height: 100%;
   margin: 0;
 }
 
@@ -67,30 +68,24 @@ body {
   text-align: center;
 }
 
-.hero-outer .hero-inner h1,
-.hero-outer .hero-inner h2,
-.hero-outer .hero-inner h3 {
+.demo-heading {
   color: #00213B;
 }
 
-.hero-outer .hero-inner h1,
-.hero-outer .hero-inner h2,
-.hero-outer .hero-inner h3,
-.hero-outer .hero-inner p {
-  font-weight: normal;
-  line-height: 1;
-  margin: 0 0 20px;
-}
-
-.hero-outer .hero-inner h1 {
+h1.demo-heading {
   font-size: 3rem;
   font-weight: bold;
   padding-top: 10px;
 }
 
-.hero-outer .hero-inner h3 {
+h3.demo-heading {
   font-size: 1.3em;
   padding-top: 13px;
+}
+
+h2.demo-heading,
+h3.demo-heading {
+  font-weight: normal;
 }
 
 .hero-outer .hero-followup {
@@ -100,6 +95,11 @@ body {
 pre {
   border: 1px solid rgba(0, 0, 0, 0.15);
   line-height: 1.4em;
+}
+
+.demo-shepherd-button {
+  font-size: 0.7rem;
+  text-transform: uppercase;
 }
 
 .demo-shepherd-text a,
