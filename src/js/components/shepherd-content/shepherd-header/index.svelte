@@ -1,34 +1,34 @@
 <script>
-  import ShepherdCancelIcon from './shepherd-cancel-icon/index.svelte';
-  import ShepherdTitle from './shepherd-title/index.svelte';
-
   export let labelId, step, styles;
   const { cancelIcon, title } = step.options;
-</script>
 
-<style>
-  header {
-    align-items: center;
-    display: flex;
-    justify-content: flex-end;
-    padding: 0.75rem 0.75rem 0;
-  }
-</style>
+  /**
+   * Add a click listener to the cancel link that cancels the tour
+   */
+  const handleCancelClick = (e) => {
+    e.preventDefault();
+    step.cancel();
+  };
+</script>
 
 <header class="{styles.header.trim()}">
     {#if title}
-      <ShepherdTitle
-        {labelId}
-        {styles}
-        {title}
-      />
+      <h3
+        id="{labelId}"
+        class="{styles.title.trim()}"
+      >
+          {title}
+      </h3>
     {/if}
 
     {#if cancelIcon && cancelIcon.enabled}
-      <ShepherdCancelIcon
-        {cancelIcon}
-        {step}
-        {styles}
-      />
+      <button
+        aria-label="{cancelIcon.label ? cancelIcon.label : 'Close Tour'}"
+        class="{styles['cancel-icon'].trim()}"
+        on:click={handleCancelClick}
+        type="button"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     {/if}
 </header>
