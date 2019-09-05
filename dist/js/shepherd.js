@@ -474,7 +474,7 @@
   }
 
   /**!
-  * tippy.js v5.0.0-beta.1
+  * tippy.js v5.0.0-beta.2
   * (c) 2017-2019 atomiks
   * MIT License
   */
@@ -515,7 +515,7 @@
     content: '',
     delay: 0,
     distance: 10,
-    duration: [325, 275],
+    duration: [300, 250],
     flip: true,
     flipBehavior: 'flip',
     flipOnUpdate: false,
@@ -574,7 +574,7 @@
   var CONTENT_SELECTOR = "." + CONTENT_CLASS;
   var BACKDROP_SELECTOR = "." + BACKDROP_CLASS;
   var ARROW_SELECTOR = "." + ARROW_CLASS;
-  var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS; // TODO: Work out best way to make these updateable
+  var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS;
 
   var currentInput = {
     isTouch: false
@@ -750,7 +750,7 @@
    */
 
   function invokeWithArgsOrReturn(value, args) {
-    return typeof value === 'function' ? value.apply(null, args) : value;
+    return typeof value === 'function' ? value.apply(void 0, args) : value;
   }
   /**
    * Sets a popperInstance `flip` modifier's enabled state
@@ -808,6 +808,10 @@
       out.animateFill = false;
     }
 
+    if (out.interactive) {
+      out.aria = null;
+    }
+
     return out;
   }
   /**
@@ -836,7 +840,7 @@
 
   function preserveInvocation(originalFn, currentFn, args) {
     if (originalFn && originalFn !== currentFn) {
-      originalFn.apply(null, args);
+      originalFn.apply(void 0, args);
     }
   }
   /**
@@ -867,6 +871,13 @@
 
   function includes(a, b) {
     return a.indexOf(b) > -1;
+  }
+  /**
+   * Creates an array from string of values separated by whitespace
+   */
+
+  function splitBySpaces(value) {
+    return value.split(/\s+/).filter(Boolean);
   }
 
   /**
@@ -987,10 +998,8 @@
    */
 
   function updateTheme(tooltip, action, theme) {
-    theme.split(' ').forEach(function (name) {
-      if (name) {
-        tooltip.classList[action](name + "-theme");
-      }
+    splitBySpaces(theme).forEach(function (name) {
+      tooltip.classList[action](name + "-theme");
     });
   }
   /**
@@ -3730,12 +3739,12 @@
   Popper.Defaults = Defaults;
 
   /**!
-  * tippy.js v5.0.0-beta.1
+  * tippy.js v5.0.0-beta.2
   * (c) 2017-2019 atomiks
   * MIT License
   */
 
-  var version = "5.0.0-beta.1";
+  var version = "5.0.0-beta.2";
 
   var idCounter = 1; // Workaround for IE11's lack of new MouseEvent constructor
 
@@ -3755,13 +3764,12 @@
     /* ======================= 🔒 Private members 🔒 ======================= */
 
 
-    var lastTriggerEventType;
     var showTimeout;
     var hideTimeout;
     var scheduleHideAnimationFrame;
     var isBeingDestroyed = false;
-    var hasMountCallbackRun = false;
     var didHideDueToDocumentMouseDown = false;
+    var popperUpdates = 0;
     var currentMountCallback;
     var currentTransitionEndListener;
     var listeners = [];
@@ -3815,7 +3823,8 @@
 
     reference._tippy = instance;
     popper._tippy = instance;
-    addTriggersToEventListenersTarget();
+    addListenersToTriggerTarget();
+    handleAriaExpandedAttribute();
 
     if (!props.lazy) {
       createPopperInstance();
@@ -3828,12 +3837,12 @@
 
 
     popper.addEventListener('mouseenter', function () {
-      if (instance.props.interactive && instance.state.isVisible && lastTriggerEventType === 'mouseenter') {
+      if (instance.props.interactive && instance.state.isVisible) {
         instance.clearDelayTimeouts();
       }
     });
     popper.addEventListener('mouseleave', function () {
-      if (instance.props.interactive && lastTriggerEventType === 'mouseenter') {
+      if (instance.props.interactive && includes(instance.props.trigger, 'mouseenter')) {
         document.addEventListener('mousemove', debouncedOnMouseMove);
       }
     });
@@ -3854,8 +3863,44 @@
       return [tooltip, content, instance.popperChildren.backdrop];
     }
 
-    function getEventListenersTarget() {
+    function getTriggerTarget() {
       return instance.props.triggerTarget || reference;
+    }
+
+    function handleAriaDescribedByAttribute() {
+      var aria = instance.props.aria;
+
+      if (!aria) {
+        return;
+      }
+
+      var attr = "aria-" + aria;
+      var node = getTriggerTarget();
+      var id = tooltip.id;
+      var currentValue = node.getAttribute(attr);
+
+      if (instance.state.isVisible) {
+        node.setAttribute(attr, currentValue ? currentValue + " " + id : id);
+      } else {
+        var nextValue = currentValue && currentValue.replace(id, '').trim();
+
+        if (nextValue) {
+          node.setAttribute(attr, nextValue);
+        } else {
+          node.removeAttribute(attr);
+        }
+      }
+    }
+
+    function handleAriaExpandedAttribute() {
+      var attr = 'aria-expanded';
+      var node = getTriggerTarget();
+
+      if (instance.props.interactive) {
+        node.setAttribute(attr, instance.state.isVisible ? 'true' : 'false');
+      } else {
+        node.removeAttribute(attr);
+      }
     }
 
     function cleanupInteractiveMouseListeners() {
@@ -3873,7 +3918,7 @@
       } // Clicked on the event listeners target
 
 
-      if (getEventListenersTarget().contains(event.target)) {
+      if (getTriggerTarget().contains(event.target)) {
         if (currentInput.isTouch) {
           return;
         }
@@ -3907,27 +3952,6 @@
 
     function removeDocumentMouseDownListener() {
       document.removeEventListener('mousedown', onDocumentMouseDown, true);
-    }
-
-    function makeSticky() {
-      setTransitionDuration([popper], isIE ? 0 : instance.props.updateDuration);
-      var prevRefRect = reference.getBoundingClientRect();
-
-      function updatePosition() {
-        var currentRefRect = reference.getBoundingClientRect(); // Only schedule an update if the reference rect has changed
-
-        if (prevRefRect.top !== currentRefRect.top || prevRefRect.right !== currentRefRect.right || prevRefRect.bottom !== currentRefRect.bottom || prevRefRect.left !== currentRefRect.left) {
-          instance.popperInstance.scheduleUpdate();
-        }
-
-        prevRefRect = currentRefRect;
-
-        if (instance.state.isMounted) {
-          requestAnimationFrame(updatePosition);
-        }
-      }
-
-      updatePosition();
     }
 
     function onTransitionedOut(duration, callback) {
@@ -3969,7 +3993,7 @@
         options = false;
       }
 
-      getEventListenersTarget().addEventListener(eventType, handler, options);
+      getTriggerTarget().addEventListener(eventType, handler, options);
       listeners.push({
         eventType: eventType,
         handler: handler,
@@ -3977,7 +4001,7 @@
       });
     }
 
-    function addTriggersToEventListenersTarget() {
+    function addListenersToTriggerTarget() {
       if (getIsCustomTouchBehavior()) {
         on('touchstart', onTrigger, PASSIVE);
         on('touchend', onMouseLeave, PASSIVE);
@@ -3992,7 +4016,7 @@
         });
       }
 
-      instance.props.trigger.trim().split(' ').forEach(function (eventType) {
+      splitBySpaces(instance.props.trigger).forEach(function (eventType) {
         if (eventType === 'manual') {
           return;
         }
@@ -4011,12 +4035,12 @@
       });
     }
 
-    function removeTriggersFromEventListenersTarget() {
+    function removeListenersFromTriggerTarget() {
       listeners.forEach(function (_ref) {
         var eventType = _ref.eventType,
             handler = _ref.handler,
             options = _ref.options;
-        getEventListenersTarget().removeEventListener(eventType, handler, options);
+        getTriggerTarget().removeEventListener(eventType, handler, options);
       });
       listeners = [];
     }
@@ -4026,18 +4050,14 @@
         return;
       }
 
-      if (!instance.state.isVisible) {
-        lastTriggerEventType = event.type;
-
-        if (event instanceof MouseEvent) {
-          // If scrolling, `mouseenter` events can be fired if the cursor lands
-          // over a new target, but `mousemove` events don't get fired. This
-          // causes interactive tooltips to get stuck open until the cursor is
-          // moved
-          mouseMoveListeners.forEach(function (listener) {
-            return listener(event);
-          });
-        }
+      if (!instance.state.isVisible && event instanceof MouseEvent) {
+        // If scrolling, `mouseenter` events can be fired if the cursor lands
+        // over a new target, but `mousemove` events don't get fired. This
+        // causes interactive tooltips to get stuck open until the cursor is
+        // moved
+        mouseMoveListeners.forEach(function (listener) {
+          return listener(event);
+        });
       } // Toggle show/hide when clicking click-triggered tooltips
 
 
@@ -4091,7 +4111,7 @@
     }
 
     function onBlur(event) {
-      if (event.target !== getEventListenersTarget()) {
+      if (event.target !== getTriggerTarget()) {
         return;
       } // If focus was moved to within the popper
 
@@ -4211,8 +4231,15 @@
     }
 
     function runMountCallback() {
-      if (!hasMountCallbackRun && currentMountCallback) {
-        hasMountCallbackRun = true;
+      // Only invoke currentMountCallback after 2 updates
+      // This fixes some bugs in Popper.js (TODO: aim for only 1 update)
+      if (popperUpdates === 0) {
+        popperUpdates++; // 1
+
+        instance.popperInstance.update();
+      } else if (currentMountCallback && popperUpdates === 1) {
+        popperUpdates++; // 2
+
         reflow(popper);
         currentMountCallback();
       }
@@ -4221,10 +4248,21 @@
     function mount() {
       // The mounting callback (`currentMountCallback`) is only run due to a
       // popperInstance update/create
-      hasMountCallbackRun = false;
+      popperUpdates = 0;
       var appendTo = instance.props.appendTo;
-      var parentNode = appendTo === 'parent' ? reference.parentNode : invokeWithArgsOrReturn(appendTo, [reference]); // The popper element needs to exist on the DOM before its position can be
+      var parentNode; // By default, we'll append the popper to the triggerTargets's parentNode so
+      // it's directly after the reference element so the elements inside the
+      // tippy can be tabbed to
+      // If there are clipping issues, the user can specify a different appendTo
+      // and ensure focus management is handled correctly manually
+
+      if (instance.props.interactive && appendTo === defaultProps.appendTo || appendTo === 'parent') {
+        parentNode = getTriggerTarget().parentNode;
+      } else {
+        parentNode = invokeWithArgsOrReturn(appendTo, [reference]);
+      } // The popper element needs to exist on the DOM before its position can be
       // updated as Popper.js needs to read its dimensions
+
 
       if (!parentNode.contains(popper)) {
         parentNode.appendChild(popper);
@@ -4234,7 +4272,7 @@
         setFlipModifierEnabled(instance.popperInstance.modifiers, instance.props.flip);
         instance.popperInstance.enableEventListeners(); // Mounting callback invoked in `onUpdate`
 
-        instance.popperInstance.scheduleUpdate();
+        instance.popperInstance.update();
       } else {
         // Mounting callback invoked in `onCreate`
         createPopperInstance();
@@ -4310,28 +4348,27 @@
       clearTimeout(showTimeout);
       clearTimeout(hideTimeout);
       cancelAnimationFrame(scheduleHideAnimationFrame);
-    } // Cloning as we're deleting non-updateable props in DEV mode
+    }
 
-
-    function setProps(_ref2) {
-      var partialProps = _extends$1({}, _ref2);
+    function setProps(partialProps) {
 
       if (instance.state.isDestroyed) {
         return;
       }
 
-      removeTriggersFromEventListenersTarget();
+      removeListenersFromTriggerTarget();
       var prevProps = instance.props;
       var nextProps = evaluateProps(reference, _extends$1({}, instance.props, {}, partialProps, {
         ignoreAttributes: true
       }));
       nextProps.ignoreAttributes = hasOwnProperty(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
       instance.props = nextProps;
-      addTriggersToEventListenersTarget();
+      addListenersToTriggerTarget();
       cleanupInteractiveMouseListeners();
       debouncedOnMouseMove = debounce(onMouseMove, nextProps.interactiveDebounce);
       updatePopperElement(popper, prevProps, nextProps, instance.state.isVisible);
       instance.popperChildren = getChildren(popper);
+      handleAriaExpandedAttribute();
 
       if (instance.popperInstance) {
         if (POPPER_INSTANCE_DEPENDENCIES.some(function (prop) {
@@ -4377,7 +4414,7 @@
       // Using a wrapper element (i.e. <span>) is recommended.
 
 
-      if (getEventListenersTarget().hasAttribute('disabled')) {
+      if (getTriggerTarget().hasAttribute('disabled')) {
         return;
       }
 
@@ -4396,10 +4433,8 @@
       currentMountCallback = function currentMountCallback() {
         if (!instance.state.isVisible) {
           return;
-        } // Double update will apply correct mutations
+        }
 
-
-        instance.popperInstance.update();
         instance.props.onMount(instance);
         instance.state.isMounted = true; // The content should fade in after the backdrop has mostly filled the
         // tooltip element. `clip-path` is the other alternative but is not well-
@@ -4408,21 +4443,15 @@
         content.style.transitionDelay = instance.popperChildren.backdrop ? Math.round(duration / 12) + "ms" : '';
 
         if (instance.props.sticky) {
-          makeSticky();
+          makeSticky(instance);
         }
 
         setTransitionDuration([popper], instance.props.updateDuration);
         setTransitionDuration(transitionableElements, duration);
         setVisibilityState(transitionableElements, 'visible');
+        handleAriaDescribedByAttribute();
+        handleAriaExpandedAttribute();
         onTransitionedIn(duration, function () {
-          if (instance.props.aria) {
-            var node = getEventListenersTarget();
-            var attrName = "aria-" + instance.props.aria;
-            var currentAttrValue = node.getAttribute(attrName);
-            var nextAttrValue = currentAttrValue ? currentAttrValue + " " + tooltip.id : tooltip.id;
-            node.setAttribute(attrName, nextAttrValue);
-          }
-
           instance.props.onShown(instance);
           instance.state.isShown = true;
         });
@@ -4456,20 +4485,9 @@
       var transitionableElements = getTransitionableElements();
       setTransitionDuration(transitionableElements, duration);
       setVisibilityState(transitionableElements, 'hidden');
+      handleAriaDescribedByAttribute();
+      handleAriaExpandedAttribute();
       onTransitionedOut(duration, function () {
-        if (instance.props.aria) {
-          var node = getEventListenersTarget();
-          var attrName = "aria-" + instance.props.aria;
-          var currentAttrValue = node.getAttribute(attrName);
-          var nextAttrValue = currentAttrValue ? currentAttrValue.replace(tooltip.id, '').trim() : null;
-
-          if (nextAttrValue) {
-            node.setAttribute(attrName, nextAttrValue);
-          } else {
-            node.removeAttribute(attrName);
-          }
-        }
-
         instance.popperInstance.disableEventListeners();
         instance.popperInstance.options.placement = instance.props.placement;
         popper.parentNode.removeChild(popper);
@@ -4486,7 +4504,7 @@
 
       isBeingDestroyed = true;
       instance.hide(0);
-      removeTriggersFromEventListenersTarget();
+      removeListenersFromTriggerTarget();
       delete reference._tippy;
 
       if (instance.popperInstance) {
@@ -4496,6 +4514,32 @@
       isBeingDestroyed = false;
       instance.state.isDestroyed = true;
     }
+  }
+  /**
+   * Updates the position of the tippy on every animation frame to ensure it stays
+   * stuck to the reference element.
+   * Optimized by ensuring the reference's clientRect has actually changed before
+   * scheduling an update.
+   */
+
+  function makeSticky(instance) {
+    var prevRefRect = instance.reference.getBoundingClientRect();
+
+    function updatePosition() {
+      var currentRefRect = instance.reference.getBoundingClientRect(); // Only schedule an update if the reference rect has changed
+
+      if (prevRefRect.top !== currentRefRect.top || prevRefRect.right !== currentRefRect.right || prevRefRect.bottom !== currentRefRect.bottom || prevRefRect.left !== currentRefRect.left) {
+        instance.popperInstance.scheduleUpdate();
+      }
+
+      prevRefRect = currentRefRect;
+
+      if (instance.state.isMounted) {
+        requestAnimationFrame(updatePosition);
+      }
+    }
+
+    updatePosition();
   }
 
   /**
@@ -4584,7 +4628,7 @@
   }
 
   /**!
-  * tippy.js v5.0.0-beta.1
+  * tippy.js v5.0.0-beta.2
   * (c) 2017-2019 atomiks
   * MIT License
   */
@@ -4730,6 +4774,9 @@
   function safe_not_equal(a, b) {
       return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
   }
+  function null_to_empty(value) {
+      return value == null ? '' : value;
+  }
 
   function append(target, node) {
       target.appendChild(node);
@@ -4786,6 +4833,11 @@
   }
   function children(element) {
       return Array.from(element.childNodes);
+  }
+  function set_data(text, data) {
+      data = '' + data;
+      if (text.data !== data)
+          text.data = data;
   }
 
   let current_component;
@@ -5036,6 +5088,13 @@
 
   /* src/js/components/shepherd-content/shepherd-footer/shepherd-button/index.svelte generated by Svelte v3.9.1 */
 
+  function add_css() {
+  	var style = element("style");
+  	style.id = 'svelte-169cldv-style';
+  	style.textContent = "button.svelte-169cldv{border:0;cursor:pointer;margin-right:0.5rem;padding:0.5rem 1.5rem;transition:all 0.5s ease}";
+  	append(document.head, style);
+  }
+
   function create_fragment(ctx) {
   	var button, t, button_class_value, dispose;
 
@@ -5043,7 +5102,7 @@
   		c() {
   			button = element("button");
   			t = text(ctx.text);
-  			attr(button, "class", button_class_value = (ctx.classes || '') + ctx.styles.button + (ctx.secondary ? ` ${ctx.classPrefix}shepherd-button-secondary` : ''));
+  			attr(button, "class", button_class_value = "" + null_to_empty((`${(ctx.classes || '')} ${ctx.styles.button} ${(ctx.secondary ? `${ctx.classPrefix}shepherd-button-secondary` : '')}`)) + " svelte-169cldv");
   			attr(button, "tabindex", "0");
   			dispose = listen(button, "click", ctx.action ? ctx.action.bind(ctx.step.tour) : null);
   		},
@@ -5054,7 +5113,7 @@
   		},
 
   		p(changed, ctx) {
-  			if ((changed.styles || changed.classPrefix) && button_class_value !== (button_class_value = (ctx.classes || '') + ctx.styles.button + (ctx.secondary ? ` ${ctx.classPrefix}shepherd-button-secondary` : ''))) {
+  			if ((changed.styles || changed.classPrefix) && button_class_value !== (button_class_value = "" + null_to_empty((`${(ctx.classes || '')} ${ctx.styles.button} ${(ctx.secondary ? `${ctx.classPrefix}shepherd-button-secondary` : '')}`)) + " svelte-169cldv")) {
   				attr(button, "class", button_class_value);
   			}
   		},
@@ -5098,11 +5157,19 @@
   class Index extends SvelteComponent {
   	constructor(options) {
   		super();
+  		if (!document.getElementById("svelte-169cldv-style")) add_css();
   		init(this, options, instance, create_fragment, safe_not_equal, ["classPrefix", "config", "step", "styles"]);
   	}
   }
 
   /* src/js/components/shepherd-content/shepherd-footer/index.svelte generated by Svelte v3.9.1 */
+
+  function add_css$1() {
+  	var style = element("style");
+  	style.id = 'svelte-65c732-style';
+  	style.textContent = "footer.svelte-65c732{display:flex;justify-content:flex-end;padding:0 0.75rem 0.75rem}";
+  	append(document.head, style);
+  }
 
   function get_each_context(ctx, list, i) {
   	const child_ctx = Object.create(ctx);
@@ -5110,7 +5177,7 @@
   	return child_ctx;
   }
 
-  // (9:4) {#if buttons}
+  // (17:4) {#if buttons}
   function create_if_block(ctx) {
   	var each_1_anchor, current;
 
@@ -5192,7 +5259,7 @@
   	};
   }
 
-  // (10:8) {#each buttons as config}
+  // (18:8) {#each buttons as config}
   function create_each_block(ctx) {
   	var current;
 
@@ -5251,7 +5318,7 @@
   		c() {
   			footer = element("footer");
   			if (if_block) if_block.c();
-  			attr(footer, "class", footer_class_value = ctx.styles.footer.trim());
+  			attr(footer, "class", footer_class_value = "" + null_to_empty(ctx.styles.footer.trim()) + " svelte-65c732");
   		},
 
   		m(target, anchor) {
@@ -5279,7 +5346,7 @@
   				check_outros();
   			}
 
-  			if ((!current || changed.styles) && footer_class_value !== (footer_class_value = ctx.styles.footer.trim())) {
+  			if ((!current || changed.styles) && footer_class_value !== (footer_class_value = "" + null_to_empty(ctx.styles.footer.trim()) + " svelte-65c732")) {
   				attr(footer, "class", footer_class_value);
   			}
   		},
@@ -5321,49 +5388,21 @@
   class Index$1 extends SvelteComponent {
   	constructor(options) {
   		super();
+  		if (!document.getElementById("svelte-65c732-style")) add_css$1();
   		init(this, options, instance$1, create_fragment$1, safe_not_equal, ["classPrefix", "step", "styles"]);
   	}
   }
 
-  /* src/js/components/shepherd-content/shepherd-header/index.svelte generated by Svelte v3.9.1 */
+  /* src/js/components/shepherd-content/shepherd-header/shepherd-cancel-icon/index.svelte generated by Svelte v3.9.1 */
 
-  // (15:4) {#if title}
-  function create_if_block_1(ctx) {
-  	var h3, t, h3_class_value;
-
-  	return {
-  		c() {
-  			h3 = element("h3");
-  			t = text(ctx.title);
-  			attr(h3, "id", ctx.labelId);
-  			attr(h3, "class", h3_class_value = ctx.styles.title.trim());
-  		},
-
-  		m(target, anchor) {
-  			insert(target, h3, anchor);
-  			append(h3, t);
-  		},
-
-  		p(changed, ctx) {
-  			if (changed.labelId) {
-  				attr(h3, "id", ctx.labelId);
-  			}
-
-  			if ((changed.styles) && h3_class_value !== (h3_class_value = ctx.styles.title.trim())) {
-  				attr(h3, "class", h3_class_value);
-  			}
-  		},
-
-  		d(detaching) {
-  			if (detaching) {
-  				detach(h3);
-  			}
-  		}
-  	};
+  function add_css$2() {
+  	var style = element("style");
+  	style.id = 'svelte-akbht5-style';
+  	style.textContent = "button.svelte-akbht5{background:transparent;border:none;cursor:pointer;font-weight:normal;margin:0;padding:0;transition:color 0.5s ease}";
+  	append(document.head, style);
   }
 
-  // (24:4) {#if cancelIcon && cancelIcon.enabled}
-  function create_if_block$1(ctx) {
+  function create_fragment$2(ctx) {
   	var button, span, button_aria_label_value, button_class_value, dispose;
 
   	return {
@@ -5373,7 +5412,7 @@
   			span.textContent = "×";
   			attr(span, "aria-hidden", "true");
   			attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour');
-  			attr(button, "class", button_class_value = ctx.styles['cancel-icon'].trim());
+  			attr(button, "class", button_class_value = "" + null_to_empty(ctx.styles['cancel-icon'].trim()) + " svelte-akbht5");
   			attr(button, "type", "button");
   			dispose = listen(button, "click", ctx.handleCancelClick);
   		},
@@ -5384,10 +5423,17 @@
   		},
 
   		p(changed, ctx) {
-  			if ((changed.styles) && button_class_value !== (button_class_value = ctx.styles['cancel-icon'].trim())) {
+  			if ((changed.cancelIcon) && button_aria_label_value !== (button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour')) {
+  				attr(button, "aria-label", button_aria_label_value);
+  			}
+
+  			if ((changed.styles) && button_class_value !== (button_class_value = "" + null_to_empty(ctx.styles['cancel-icon'].trim()) + " svelte-akbht5")) {
   				attr(button, "class", button_class_value);
   			}
   		},
+
+  		i: noop,
+  		o: noop,
 
   		d(detaching) {
   			if (detaching) {
@@ -5399,8 +5445,216 @@
   	};
   }
 
-  function create_fragment$2(ctx) {
-  	var header, t, header_class_value;
+  function instance$2($$self, $$props, $$invalidate) {
+  	let { cancelIcon, step, styles } = $$props;
+
+    /**
+     * Add a click listener to the cancel link that cancels the tour
+     */
+    const handleCancelClick = (e) => {
+      e.preventDefault();
+      step.cancel();
+    };
+
+  	$$self.$set = $$props => {
+  		if ('cancelIcon' in $$props) $$invalidate('cancelIcon', cancelIcon = $$props.cancelIcon);
+  		if ('step' in $$props) $$invalidate('step', step = $$props.step);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  	};
+
+  	return {
+  		cancelIcon,
+  		step,
+  		styles,
+  		handleCancelClick
+  	};
+  }
+
+  class Index$2 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		if (!document.getElementById("svelte-akbht5-style")) add_css$2();
+  		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["cancelIcon", "step", "styles"]);
+  	}
+  }
+
+  /* src/js/components/shepherd-content/shepherd-header/shepherd-title/index.svelte generated by Svelte v3.9.1 */
+
+  function add_css$3() {
+  	var style = element("style");
+  	style.id = 'svelte-13igrss-style';
+  	style.textContent = "h3.svelte-13igrss{display:flex;font-size:1rem;font-weight:normal;flex:1 0 auto;margin:0;padding:0}";
+  	append(document.head, style);
+  }
+
+  function create_fragment$3(ctx) {
+  	var h3, t, h3_class_value;
+
+  	return {
+  		c() {
+  			h3 = element("h3");
+  			t = text(ctx.title);
+  			attr(h3, "id", ctx.labelId);
+  			attr(h3, "class", h3_class_value = "" + null_to_empty(ctx.styles.title.trim()) + " svelte-13igrss");
+  		},
+
+  		m(target, anchor) {
+  			insert(target, h3, anchor);
+  			append(h3, t);
+  		},
+
+  		p(changed, ctx) {
+  			if (changed.title) {
+  				set_data(t, ctx.title);
+  			}
+
+  			if (changed.labelId) {
+  				attr(h3, "id", ctx.labelId);
+  			}
+
+  			if ((changed.styles) && h3_class_value !== (h3_class_value = "" + null_to_empty(ctx.styles.title.trim()) + " svelte-13igrss")) {
+  				attr(h3, "class", h3_class_value);
+  			}
+  		},
+
+  		i: noop,
+  		o: noop,
+
+  		d(detaching) {
+  			if (detaching) {
+  				detach(h3);
+  			}
+  		}
+  	};
+  }
+
+  function instance$3($$self, $$props, $$invalidate) {
+  	let { labelId, styles, title } = $$props;
+
+  	$$self.$set = $$props => {
+  		if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
+  		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
+  		if ('title' in $$props) $$invalidate('title', title = $$props.title);
+  	};
+
+  	return { labelId, styles, title };
+  }
+
+  class Index$3 extends SvelteComponent {
+  	constructor(options) {
+  		super();
+  		if (!document.getElementById("svelte-13igrss-style")) add_css$3();
+  		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["labelId", "styles", "title"]);
+  	}
+  }
+
+  /* src/js/components/shepherd-content/shepherd-header/index.svelte generated by Svelte v3.9.1 */
+
+  function add_css$4() {
+  	var style = element("style");
+  	style.id = 'svelte-1yqs20q-style';
+  	style.textContent = "header.svelte-1yqs20q{align-items:center;display:flex;justify-content:flex-end;padding:0.75rem 0.75rem 0}";
+  	append(document.head, style);
+  }
+
+  // (19:4) {#if title}
+  function create_if_block_1(ctx) {
+  	var current;
+
+  	var shepherdtitle = new Index$3({
+  		props: {
+  		labelId: ctx.labelId,
+  		styles: ctx.styles,
+  		title: ctx.title
+  	}
+  	});
+
+  	return {
+  		c() {
+  			shepherdtitle.$$.fragment.c();
+  		},
+
+  		m(target, anchor) {
+  			mount_component(shepherdtitle, target, anchor);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			var shepherdtitle_changes = {};
+  			if (changed.labelId) shepherdtitle_changes.labelId = ctx.labelId;
+  			if (changed.styles) shepherdtitle_changes.styles = ctx.styles;
+  			if (changed.title) shepherdtitle_changes.title = ctx.title;
+  			shepherdtitle.$set(shepherdtitle_changes);
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdtitle.$$.fragment, local);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdtitle.$$.fragment, local);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			destroy_component(shepherdtitle, detaching);
+  		}
+  	};
+  }
+
+  // (27:4) {#if cancelIcon && cancelIcon.enabled}
+  function create_if_block$1(ctx) {
+  	var current;
+
+  	var shepherdcancelicon = new Index$2({
+  		props: {
+  		cancelIcon: ctx.cancelIcon,
+  		step: ctx.step,
+  		styles: ctx.styles
+  	}
+  	});
+
+  	return {
+  		c() {
+  			shepherdcancelicon.$$.fragment.c();
+  		},
+
+  		m(target, anchor) {
+  			mount_component(shepherdcancelicon, target, anchor);
+  			current = true;
+  		},
+
+  		p(changed, ctx) {
+  			var shepherdcancelicon_changes = {};
+  			if (changed.cancelIcon) shepherdcancelicon_changes.cancelIcon = ctx.cancelIcon;
+  			if (changed.step) shepherdcancelicon_changes.step = ctx.step;
+  			if (changed.styles) shepherdcancelicon_changes.styles = ctx.styles;
+  			shepherdcancelicon.$set(shepherdcancelicon_changes);
+  		},
+
+  		i(local) {
+  			if (current) return;
+  			transition_in(shepherdcancelicon.$$.fragment, local);
+
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(shepherdcancelicon.$$.fragment, local);
+  			current = false;
+  		},
+
+  		d(detaching) {
+  			destroy_component(shepherdcancelicon, detaching);
+  		}
+  	};
+  }
+
+  function create_fragment$4(ctx) {
+  	var header, t, header_class_value, current;
 
   	var if_block0 = (ctx.title) && create_if_block_1(ctx);
 
@@ -5412,7 +5666,7 @@
   			if (if_block0) if_block0.c();
   			t = space();
   			if (if_block1) if_block1.c();
-  			attr(header, "class", header_class_value = ctx.styles.header.trim());
+  			attr(header, "class", header_class_value = "" + null_to_empty(ctx.styles.header.trim()) + " svelte-1yqs20q");
   		},
 
   		m(target, anchor) {
@@ -5420,42 +5674,63 @@
   			if (if_block0) if_block0.m(header, null);
   			append(header, t);
   			if (if_block1) if_block1.m(header, null);
+  			current = true;
   		},
 
   		p(changed, ctx) {
   			if (ctx.title) {
   				if (if_block0) {
   					if_block0.p(changed, ctx);
+  					transition_in(if_block0, 1);
   				} else {
   					if_block0 = create_if_block_1(ctx);
   					if_block0.c();
+  					transition_in(if_block0, 1);
   					if_block0.m(header, t);
   				}
   			} else if (if_block0) {
-  				if_block0.d(1);
-  				if_block0 = null;
+  				group_outros();
+  				transition_out(if_block0, 1, 1, () => {
+  					if_block0 = null;
+  				});
+  				check_outros();
   			}
 
   			if (ctx.cancelIcon && ctx.cancelIcon.enabled) {
   				if (if_block1) {
   					if_block1.p(changed, ctx);
+  					transition_in(if_block1, 1);
   				} else {
   					if_block1 = create_if_block$1(ctx);
   					if_block1.c();
+  					transition_in(if_block1, 1);
   					if_block1.m(header, null);
   				}
   			} else if (if_block1) {
-  				if_block1.d(1);
-  				if_block1 = null;
+  				group_outros();
+  				transition_out(if_block1, 1, 1, () => {
+  					if_block1 = null;
+  				});
+  				check_outros();
   			}
 
-  			if ((changed.styles) && header_class_value !== (header_class_value = ctx.styles.header.trim())) {
+  			if ((!current || changed.styles) && header_class_value !== (header_class_value = "" + null_to_empty(ctx.styles.header.trim()) + " svelte-1yqs20q")) {
   				attr(header, "class", header_class_value);
   			}
   		},
 
-  		i: noop,
-  		o: noop,
+  		i(local) {
+  			if (current) return;
+  			transition_in(if_block0);
+  			transition_in(if_block1);
+  			current = true;
+  		},
+
+  		o(local) {
+  			transition_out(if_block0);
+  			transition_out(if_block1);
+  			current = false;
+  		},
 
   		d(detaching) {
   			if (detaching) {
@@ -5468,17 +5743,11 @@
   	};
   }
 
-  function instance$2($$self, $$props, $$invalidate) {
-  	let { labelId, step, styles } = $$props;
-    const { cancelIcon, title } = step.options;
+  function instance$4($$self, $$props, $$invalidate) {
+  	
 
-    /**
-     * Add a click listener to the cancel link that cancels the tour
-     */
-    const handleCancelClick = (e) => {
-      e.preventDefault();
-      step.cancel();
-    };
+    let { labelId, step, styles } = $$props;
+    const { cancelIcon, title } = step.options;
 
   	$$self.$set = $$props => {
   		if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
@@ -5486,26 +5755,20 @@
   		if ('styles' in $$props) $$invalidate('styles', styles = $$props.styles);
   	};
 
-  	return {
-  		labelId,
-  		step,
-  		styles,
-  		cancelIcon,
-  		title,
-  		handleCancelClick
-  	};
+  	return { labelId, step, styles, cancelIcon, title };
   }
 
-  class Index$2 extends SvelteComponent {
+  class Index$4 extends SvelteComponent {
   	constructor(options) {
   		super();
-  		init(this, options, instance$2, create_fragment$2, safe_not_equal, ["labelId", "step", "styles"]);
+  		if (!document.getElementById("svelte-1yqs20q-style")) add_css$4();
+  		init(this, options, instance$4, create_fragment$4, safe_not_equal, ["labelId", "step", "styles"]);
   	}
   }
 
   /* src/js/components/shepherd-content/shepherd-text/index.svelte generated by Svelte v3.9.1 */
 
-  function create_fragment$3(ctx) {
+  function create_fragment$5(ctx) {
   	var div, div_class_value;
 
   	return {
@@ -5543,7 +5806,7 @@
   	};
   }
 
-  function instance$3($$self, $$props, $$invalidate) {
+  function instance$5($$self, $$props, $$invalidate) {
   	
 
     let { base, descriptionId, step, styles } = $$props;
@@ -5584,10 +5847,10 @@
   	};
   }
 
-  class Index$3 extends SvelteComponent {
+  class Index$5 extends SvelteComponent {
   	constructor(options) {
   		super();
-  		init(this, options, instance$3, create_fragment$3, safe_not_equal, ["base", "descriptionId", "step", "styles"]);
+  		init(this, options, instance$5, create_fragment$5, safe_not_equal, ["base", "descriptionId", "step", "styles"]);
   	}
   }
 
@@ -5597,7 +5860,7 @@
   function create_if_block_1$1(ctx) {
   	var current;
 
-  	var shepherdtext = new Index$3({
+  	var shepherdtext = new Index$5({
   		props: {
   		descriptionId: ctx.descriptionId,
   		step: ctx.step,
@@ -5689,10 +5952,10 @@
   	};
   }
 
-  function create_fragment$4(ctx) {
+  function create_fragment$6(ctx) {
   	var div, t0, show_if_1 = !isUndefined(ctx.step.options.text), t1, show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length, div_class_value, current;
 
-  	var shepherdheader = new Index$2({
+  	var shepherdheader = new Index$4({
   		props: {
   		labelId: ctx.labelId,
   		step: ctx.step,
@@ -5806,7 +6069,7 @@
   	};
   }
 
-  function instance$4($$self, $$props, $$invalidate) {
+  function instance$6($$self, $$props, $$invalidate) {
   	
 
     let { classPrefix, descriptionId, labelId, step, styles } = $$props;
@@ -5828,19 +6091,19 @@
   	};
   }
 
-  class Index$4 extends SvelteComponent {
+  class Index$6 extends SvelteComponent {
   	constructor(options) {
   		super();
-  		init(this, options, instance$4, create_fragment$4, safe_not_equal, ["classPrefix", "descriptionId", "labelId", "step", "styles"]);
+  		init(this, options, instance$6, create_fragment$6, safe_not_equal, ["classPrefix", "descriptionId", "labelId", "step", "styles"]);
   	}
   }
 
   /* src/js/components/shepherd-element/index.svelte generated by Svelte v3.9.1 */
 
-  function create_fragment$5(ctx) {
+  function create_fragment$7(ctx) {
   	var div, current, dispose;
 
-  	var shepherdcontent = new Index$4({
+  	var shepherdcontent = new Index$6({
   		props: {
   		classPrefix: ctx.classPrefix,
   		descriptionId: ctx.descriptionId,
@@ -5931,7 +6194,7 @@
 
   const RIGHT_ARROW = 39;
 
-  function instance$5($$self, $$props, $$invalidate) {
+  function instance$7($$self, $$props, $$invalidate) {
   	
 
     let { classes, classPrefix, element, descriptionId, firstFocusableElement, focusableElements, labelId, lastFocusableElement, step, styles } = $$props;
@@ -6031,10 +6294,10 @@
   	};
   }
 
-  class Index$5 extends SvelteComponent {
+  class Index$7 extends SvelteComponent {
   	constructor(options) {
   		super();
-  		init(this, options, instance$5, create_fragment$5, safe_not_equal, ["classes", "classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "styles", "getElement"]);
+  		init(this, options, instance$7, create_fragment$7, safe_not_equal, ["classes", "classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "styles", "getElement"]);
   	}
 
   	get getElement() {
@@ -6722,7 +6985,7 @@
         classes += " " + this.classPrefix + "shepherd-has-cancel-icon";
       }
 
-      var ShepherdElementComponent = new Index$5({
+      var ShepherdElementComponent = new Index$7({
         target: document.body,
         props: {
           classPrefix: this.classPrefix,
@@ -7168,19 +7431,7 @@
         button: (_button = {
           background: variables.primaryButtonBgColor,
           borderRadius: variables.buttonBorderRadius,
-          border: 0,
           color: variables.primaryButtonColor,
-          cursor: 'pointer',
-          display: 'inline-block',
-          fontFamily: 'inherit',
-          fontSize: '0.8em',
-          letterSpacing: '0.1em',
-          lineHeight: '1em',
-          marginRight: '0.5em',
-          padding: '0.75em 2em',
-          textTransform: 'uppercase',
-          transition: 'all 0.5s ease',
-          verticalAlign: 'middle',
           '&:hover': {
             background: variables.primaryButtonHoverBgColor,
             color: variables.primaryButtonHoverColor
@@ -7233,10 +7484,7 @@
       return {
         footer: (_footer = {
           borderBottomLeftRadius: variables.elementBorderRadius,
-          borderBottomRightRadius: variables.elementBorderRadius,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          padding: '0 0.75em 0.75em'
+          borderBottomRightRadius: variables.elementBorderRadius
         }, _footer["." + classPrefix + "shepherd-button"] = {
           '&:last-child': {
             marginRight: 0
@@ -7254,44 +7502,22 @@
     var _header, _cancelIcon;
 
     var header = (_header = {
-      alignItems: 'center',
       borderTopLeftRadius: variables.elementBorderRadius,
       borderTopRightRadius: variables.elementBorderRadius,
-      display: 'flex',
-      justifyContent: 'flex-end',
-      lineHeight: '2em',
-      padding: '0.75em 0.75em 0'
+      lineHeight: '2em'
     }, _header["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
       background: variables.headerBgColor,
       padding: '1em'
     }, _header);
     var title = {
-      color: variables.headerColor,
-      display: 'flex',
-      flex: '1 0 auto',
-      fontSize: '1.1em',
-      fontWeight: 'normal',
-      margin: 0,
-      padding: 0,
-      position: 'relative',
-      verticalAlign: 'middle'
+      color: variables.headerColor
     };
     var styles = {
       'cancel-icon': (_cancelIcon = {
-        background: 'transparent',
-        border: 'none',
         color: variables.cancelIconColor,
         fontSize: '2em',
-        fontWeight: 'normal',
-        margin: 0,
-        padding: 0,
-        position: 'relative',
-        textDecoration: 'none',
-        transition: 'color 0.5s ease',
-        verticalAlign: 'middle',
         '&:hover': {
-          color: variables.cancelIconHoverColor,
-          cursor: 'pointer'
+          color: variables.cancelIconHoverColor
         }
       }, _cancelIcon["." + classPrefix + "shepherd-has-title ." + classPrefix + "shepherd-content &"] = {
         color: variables.cancelIconHasTitleColor,
@@ -7435,7 +7661,7 @@
 
   /* src/js/components/shepherd-modal/index.svelte generated by Svelte v3.9.1 */
 
-  function create_fragment$6(ctx) {
+  function create_fragment$8(ctx) {
   	var svg, defs, mask, rect0, rect0_class_value, rect1, rect1_class_value, rect1_height_value, rect1_x_value, rect1_y_value, rect1_width_value, mask_class_value, mask_id_value, rect2, rect2_mask_value, svg_class_value, dispose;
 
   	return {
@@ -7548,7 +7774,7 @@
     });
   }
 
-  function instance$6($$self, $$props, $$invalidate) {
+  function instance$8($$self, $$props, $$invalidate) {
   	let { classPrefix, element, openingProperties, styles } = $$props;
     const guid = _uuid();
     let modalIsVisible = false;
@@ -7712,10 +7938,10 @@
   	};
   }
 
-  class Index$6 extends SvelteComponent {
+  class Index$8 extends SvelteComponent {
   	constructor(options) {
   		super();
-  		init(this, options, instance$6, create_fragment$6, safe_not_equal, ["classPrefix", "element", "openingProperties", "styles", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
+  		init(this, options, instance$8, create_fragment$8, safe_not_equal, ["classPrefix", "element", "openingProperties", "styles", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
   	}
 
   	get getElement() {
@@ -7824,7 +8050,7 @@
           });
         })(event);
       });
-      _this.modal = new Index$6({
+      _this.modal = new Index$8({
         target: options.modalContainer || document.body,
         props: {
           classPrefix: _this.classPrefix,
