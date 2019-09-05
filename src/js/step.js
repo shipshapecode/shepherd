@@ -1,5 +1,3 @@
-import get from 'get-value';
-
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
@@ -225,12 +223,11 @@ export class Step extends Evented {
    * @private
    */
   _createTooltipContent() {
-    const cancelIconEnabled = get(this, 'options.cancelIcon.enabled');
     let classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    if (cancelIconEnabled) {
+    if (this.options && this.options.cancelIcon && this.options.cancelIcon.enabled) {
       classes += ` ${this.classPrefix}shepherd-has-cancel-icon`;
     }
 

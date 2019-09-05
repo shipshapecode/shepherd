@@ -1,5 +1,3 @@
-import get from 'get-value';
-
 const addHasTitleClass = (step) => {
   return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
 };
@@ -65,9 +63,8 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
   tippyOptions.flipOnUpdate = true;
   tippyOptions.placement = attachToOptions.on || 'right';
 
-  const stepPopperOptions = get(step, 'options.tippyOptions.popperOptions');
-
-  if (stepPopperOptions) {
+  if (step.options && step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
+    const stepPopperOptions = step.options.tippyOptions.popperOptions;
     popperOptions = {
       ...popperOptions,
       ...stepPopperOptions,
@@ -122,10 +119,11 @@ function _makeCommonTippyOptions(step) {
     ...step.options.tippyOptions
   };
 
-  const zIndex = get(step, 'tour.options.styleVariables.zIndex');
-
-  if (zIndex) {
-    tippyOptions.zIndex = zIndex;
+  if (step.tour &&
+    step.tour.options &&
+    step.tour.options.styleVariables &&
+    step.tour.options.styleVariables.zIndex) {
+    tippyOptions.zIndex = step.tour.options.styleVariables.zIndex;
   }
 
   if (step.options.title) {
