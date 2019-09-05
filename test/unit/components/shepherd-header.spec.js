@@ -28,7 +28,10 @@ describe('components/ShepherdHeader', () => {
       }
     });
 
-    expect(container).toContainHTML('<button aria-label="Close Tour" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>');
+    const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+    expect(cancelIcon).toBeInTheDocument();
+    expect(cancelIcon).toHaveAttribute('aria-label', 'Close Tour');
+    expect(cancelIcon).toHaveAttribute('type', 'button');
   });
 
   it('cancel icon is not added when cancelIcon.enabled === false', () => {
@@ -47,7 +50,9 @@ describe('components/ShepherdHeader', () => {
       }
     });
 
-    expect(container).not.toContainHTML('<button aria-label="Close Tour" class="shepherd-cancel-icon" type="button"><span aria-hidden="true">×</span></button>');
+    const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+
+    expect(cancelIcon).not.toBeInTheDocument();
   });
 
   it('cancel icon aria-label overridden when cancelIcon.label is set', () => {
