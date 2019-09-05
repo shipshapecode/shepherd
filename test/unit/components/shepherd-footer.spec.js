@@ -24,7 +24,8 @@ describe('components/ShepherdFooter', () => {
       }
     });
 
-    expect(container).toContainHTML('<footer class="shepherd-footer"></footer>');
+    const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
+    expect(buttons.length).toBe(0);
   });
 
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
@@ -37,7 +38,8 @@ describe('components/ShepherdFooter', () => {
       }
     });
 
-    expect(container).toContainHTML('<footer class="shepherd-footer"></footer>');
+    const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
+    expect(buttons.length).toBe(0);
   });
 
   it('renders buttons for each item passed to `options.buttons`', () => {
@@ -56,6 +58,9 @@ describe('components/ShepherdFooter', () => {
         styles
       }
     });
+
+    const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
+    expect(buttons.length).toBe(2);
 
     const cancelButton = container.querySelector('footer .cancel-button');
     expect(cancelButton).toHaveAttribute('tabindex', '0');

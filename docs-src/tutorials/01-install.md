@@ -25,3 +25,13 @@ yarn add shepherd.js
 
 Whenever we release a new version, the contents of the `dist` are uploaded
 to the release in GitHub. You can find those assets [here](https://github.com/shipshapecode/shepherd/releases).
+
+### jsDelivr CDN
+
+You can use jsDelivr to pull down any release from npm. For example, you could include v5.0.1 in your app
+with:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/shepherd.js@5.0.1/dist/js/shepherd.js"></script>
+```
+
