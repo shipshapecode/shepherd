@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { isElement, isFunction } from '../../../utils/type-check';
+  import { isElement, isFunction } from '../utils/type-check';
 
   export let base, classPrefix, descriptionId, step;
 

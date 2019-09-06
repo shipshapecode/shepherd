@@ -47,7 +47,6 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "nano-css": "^5.2.0",
     "smoothscroll-polyfill": "^0.4.4",
     "tippy.js": "^5.0.0-beta.2"
   },
@@ -86,13 +85,14 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-browsersync": "^1.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-css-only": "^1.0.0",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-filesize": "^6.2.0",
     "rollup-plugin-license": "^0.12.1",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-scss": "^1.0.2",
     "rollup-plugin-svelte": "^5.1.0",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.5.4",

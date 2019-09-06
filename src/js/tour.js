@@ -7,8 +7,7 @@ import { isElement, isFunction, isString } from './utils/type-check.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix } from './utils/general.js';
-import { generateStyles } from './styles/generateStyles.js';
-import ShepherdModal from './components/shepherd-modal/index.svelte';
+import ShepherdModal from './components/shepherd-modal';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -67,7 +66,6 @@ export class Tour extends Evented {
 
     this.options = Object.assign({}, defaultTourOptions, options);
     this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
-    this.styles = generateStyles(this.options);
     this.steps = [];
     this.addSteps(this.options.steps);
 
@@ -387,7 +385,7 @@ export class Tour extends Evented {
    */
   _addBodyAttrs() {
     document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
-    document.body.classList.add(this.styles.active.trim());
+    document.body.classList.add(this.classPrefix, 'shepherd-active');
   }
 
   /**
@@ -397,7 +395,7 @@ export class Tour extends Evented {
    */
   _removeBodyAttrs() {
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-    document.body.classList.remove(this.styles.active.trim());
+    document.body.classList.remove(this.classPrefix, 'shepherd-active');
   }
 
 }

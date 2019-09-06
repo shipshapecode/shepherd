@@ -1,3 +1,4 @@
+import '../styles/global.scss';
 import { Step } from './step.js';
 import { Shepherd, Tour } from './tour.js';
 

@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
+import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
@@ -17,9 +18,12 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   eslint(),
+  postcss({
+    plugins: []
+  }),
   svelte(),
   babel({
-    exclude: /node_modules\/(?!(nano-css)\/).*/
+    exclude: 'node_modules/**'
   }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
@@ -43,7 +47,6 @@ if (process.env.DEVELOPMENT) {
         baseDir: 'demo',
         routes: {
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
-          '/dist/shepherd.css': 'dist/shepherd.css',
           '/demo/js/prism.js': 'demo/js/prism.js',
           '/demo/js/welcome.js': 'demo/js/welcome.js',
           '/demo/css/prism.css': 'demo/css/prism.css',
@@ -100,9 +103,12 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
+        postcss({
+          plugins: []
+        }),
         svelte(),
         babel({
-          exclude: /node_modules\/(?!(nano-css)\/).*/
+          exclude: 'node_modules/**'
         }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
