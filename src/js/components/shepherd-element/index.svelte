@@ -9,7 +9,7 @@
   const RIGHT_ARROW = 39;
 
   export let classes, classPrefix, element, descriptionId, firstFocusableElement,
-    focusableElements, labelId, lastFocusableElement, step, styles;
+    focusableElements, labelId, lastFocusableElement, step;
   const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
 
   export const getElement = () => element;
@@ -70,11 +70,28 @@
   };
 </script>
 
+<style>
+  .shepherd-element {
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    outline: none;
+  }
+
+  .shepherd-element * {
+    box-sizing: border-box;
+  }
+
+  .shepherd-element *:after, .shepherd-element *:before {
+    box-sizing: border-box;
+  }
+</style>
+
 <div
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
-  class={classes + styles.element}
+  class="{`${classes} ${classPrefix} shepherd-element`}"
   {...dataStepId}
   on:keydown={handleKeyDown}
   role="dialog"
@@ -85,6 +102,5 @@
     {descriptionId}
     {labelId}
     {step}
-    {styles}
   />
 </div>

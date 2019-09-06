@@ -1,9 +1,10 @@
 <script>
-  export let labelId, styles, title;
+  export let classPrefix, labelId, title;
 </script>
 
 <style>
-  h3 {
+  .shepherd-title {
+    color: rgba(0, 0, 0, 0.75);
     display: flex;
     font-size: 1rem;
     font-weight: normal;
@@ -15,7 +16,7 @@
 
 <h3
   id="{labelId}"
-  class="{styles.title.trim()}"
+  class="{`${classPrefix} shepherd-title`}"
 >
     {title}
 </h3>

@@ -1,5 +1,5 @@
-const addHasTitleClass = (step) => {
-  return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
+const addHasTitleClass = () => {
+  return { addHasTitleClass: _createClassModifier('shepherd-has-title') };
 };
 
 /**
@@ -18,7 +18,7 @@ function _createClassModifier(className) {
   };
 }
 
-function _getCenteredStylePopperModifier(styles) {
+function _getCenteredStylePopperModifier(step) {
   return {
     computeStyle: {
       enabled: true,
@@ -32,7 +32,8 @@ function _getCenteredStylePopperModifier(styles) {
         return data;
       }
     },
-    addShepherdClass: _createClassModifier(styles.shepherd.trim())
+    addClassPrefix: _createClassModifier(step.classPrefix),
+    addShepherdClass: _createClassModifier('shepherd')
   };
 }
 
@@ -40,11 +41,12 @@ function _getCenteredStylePopperModifier(styles) {
  * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
  * @private
  */
-function _getDefaultPopperOptions(styles) {
+function _getDefaultPopperOptions(step) {
   return {
     positionFixed: true,
     modifiers: {
-      addShepherdClass: _createClassModifier(styles.shepherd.trim())
+      addClassPrefix: _createClassModifier(step.classPrefix),
+      addShepherdClass: _createClassModifier('shepherd')
     }
   };
 }
@@ -89,7 +91,7 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
  * @return {Object} The final tippy options object
  */
 export function makeCenteredTippy(step) {
-  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step.styles);
+  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
   let { popperOptions, tippyOptions } = _makeCommonTippyOptions(step);
 
   tippyOptions.placement = 'top';
@@ -112,7 +114,7 @@ export function makeCenteredTippy(step) {
 }
 
 function _makeCommonTippyOptions(step) {
-  const popperOptions = _getDefaultPopperOptions(step.styles);
+  const popperOptions = _getDefaultPopperOptions(step);
 
   const tippyOptions = {
     content: step.el,

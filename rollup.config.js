@@ -43,6 +43,7 @@ if (process.env.DEVELOPMENT) {
         baseDir: 'demo',
         routes: {
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
+          '/dist/shepherd.css': 'dist/shepherd.css',
           '/demo/js/prism.js': 'demo/js/prism.js',
           '/demo/js/welcome.js': 'demo/js/welcome.js',
           '/demo/css/prism.css': 'demo/css/prism.css',

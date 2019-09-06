@@ -4,23 +4,31 @@
   import ShepherdText from './shepherd-text/index.svelte';
   import { isUndefined } from '../../utils/type-check';
 
-  export let classPrefix, descriptionId, labelId, step, styles;
+  export let classPrefix, descriptionId, labelId, step;
 </script>
 
+<style>
+  .shepherd-content {
+    border-radius: 5px;
+    outline: none;
+    padding: 0;
+  }
+</style>
+
 <div
-  class="{styles.content.trim()}"
+  class="{`${classPrefix} shepherd-content`}"
 >
   <ShepherdHeader
+    {classPrefix}
     {labelId}
     {step}
-    {styles}
   />
 
     {#if !isUndefined(step.options.text)}
       <ShepherdText
+        {classPrefix}
         {descriptionId}
         {step}
-        {styles}
       />
     {/if}
 
@@ -28,7 +36,6 @@
       <ShepherdFooter
         {classPrefix}
         {step}
-        {styles}
       />
     {/if}
 </div>

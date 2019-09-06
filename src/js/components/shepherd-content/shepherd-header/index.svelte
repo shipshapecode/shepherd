@@ -1,25 +1,33 @@
 <script>
-  import ShepherdCancelIcon from './shepherd-cancel-icon/index.svelte';
-  import ShepherdTitle from './shepherd-title/index.svelte';
+  import ShepherdCancelIcon from './shepherd-cancel-icon.svelte';
+  import ShepherdTitle from './shepherd-title.svelte';
 
-  export let labelId, step, styles;
+  export let classPrefix, labelId, step;
   const { cancelIcon, title } = step.options;
 </script>
 
 <style>
-  header {
+  .shepherd-header {
     align-items: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     display: flex;
     justify-content: flex-end;
+    line-height: 2em;
     padding: 0.75rem 0.75rem 0;
+  }
+
+  :global(.shepherd-has-title .shepherd-content .shepherd-header) {
+    background: #e6e6e6;
+    padding: 1em;
   }
 </style>
 
-<header class="{styles.header.trim()}">
+<header class="{`${classPrefix} shepherd-header`}">
     {#if title}
       <ShepherdTitle
+        {classPrefix}
         {labelId}
-        {styles}
         {title}
       />
     {/if}
@@ -27,8 +35,8 @@
     {#if cancelIcon && cancelIcon.enabled}
       <ShepherdCancelIcon
         {cancelIcon}
+        {classPrefix}
         {step}
-        {styles}
       />
     {/if}
 </header>

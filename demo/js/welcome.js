@@ -59,12 +59,6 @@
           id: 'welcome'
         }
       ],
-      styleVariables: {
-        primaryButtonBgColor: '#00213b',
-        primaryButtonHoverBgColor: '#ececec',
-        primaryButtonHoverColor: '#00213b',
-        zIndex: 10
-      },
       useModalOverlay: true
     });
 
