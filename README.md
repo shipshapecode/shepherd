@@ -90,6 +90,12 @@ A React wrapper for the site tour library Shepherd
 
 A Vue wrapper for the site tour library Shepherd
 
+### Ruby Framework Wrappers
+
+### [intro](https://github.com/jinhucheung/intro)
+
+A Rails engine that it injects dynamically-generated Shepherd code into Rails application
+
 ### Websites and Apps
 
 ### [SimplePlanner](https://simpleplanner.io)
