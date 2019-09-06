@@ -21,7 +21,10 @@
    * Hide the modal overlay
    */
   export function hide() {
-    document.body.classList.remove(classPrefix, 'shepherd-modal-is-visible');
+    if (classPrefix) {
+      document.body.classList.remove(classPrefix);
+    }
+    document.body.classList.remove('shepherd-modal-is-visible');
     modalIsVisible = false;
 
     // Ensure we cleanup all event listeners when we hide the modal
@@ -67,7 +70,10 @@
    * Show the modal overlay
    */
   export function show() {
-    document.body.classList.add(classPrefix, 'shepherd-modal-is-visible');
+    if (classPrefix) {
+      document.body.classList.add(classPrefix);
+    }
+    document.body.classList.add('shepherd-modal-is-visible');
     modalIsVisible = true;
   }
 

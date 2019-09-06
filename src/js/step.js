@@ -4,7 +4,7 @@ import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
 import { toggleShepherdModalClass } from './utils/modal.js';
-import ShepherdElement from './components/shepherd-element';
+import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';

@@ -1,6 +1,6 @@
 <script>
-  import ShepherdCancelIcon from './shepherd-cancel-icon';
-  import ShepherdTitle from './shepherd-title';
+  import ShepherdCancelIcon from './shepherd-cancel-icon.svelte';
+  import ShepherdTitle from './shepherd-title.svelte';
 
   export let classPrefix, labelId, step;
   const { cancelIcon, title } = step.options;

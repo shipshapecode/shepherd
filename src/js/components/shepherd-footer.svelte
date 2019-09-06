@@ -1,5 +1,5 @@
 <script>
-  import ShepherdButton from './shepherd-button';
+  import ShepherdButton from './shepherd-button.svelte';
 
   export let classPrefix, step;
   const { buttons } = step.options;
