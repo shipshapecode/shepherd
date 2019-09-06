@@ -44,7 +44,6 @@ export class Tour extends Evented {
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
    * If not set, the modal will be appended to `document.body`.
    * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
-   * @param {object} options.styleVariables An object hash of style variables to override
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
    * whenever the tour becomes active.

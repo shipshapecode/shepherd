@@ -121,13 +121,6 @@ function _makeCommonTippyOptions(step) {
     ...step.options.tippyOptions
   };
 
-  if (step.tour &&
-    step.tour.options &&
-    step.tour.options.styleVariables &&
-    step.tour.options.styleVariables.zIndex) {
-    tippyOptions.zIndex = step.tour.options.styleVariables.zIndex;
-  }
-
   if (step.options.title) {
     popperOptions.modifiers = {
       ...popperOptions.modifiers,
