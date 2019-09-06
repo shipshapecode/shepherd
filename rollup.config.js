@@ -18,12 +18,9 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   eslint(),
-  postcss({
-    plugins: []
-  }),
   svelte(),
   babel({
-    exclude: 'node_modules/**'
+    extensions: ['.js', '.mjs', '.html', '.svelte']
   }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
@@ -31,6 +28,9 @@ const plugins = [
   commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  postcss({
+    plugins: []
   })
 ];
 
@@ -103,12 +103,9 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
-        postcss({
-          plugins: []
-        }),
         svelte(),
         babel({
-          exclude: 'node_modules/**'
+          extensions: ['.js', '.mjs', '.html', '.svelte']
         }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
@@ -116,6 +113,9 @@ if (!process.env.DEVELOPMENT) {
         commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
+        }),
+        postcss({
+          plugins: []
         }),
         terser(),
         license({
