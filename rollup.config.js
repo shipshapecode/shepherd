@@ -19,15 +19,15 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 const plugins = [
   eslint(),
   svelte(),
-  babel({
-    extensions: ['.js', '.mjs', '.html', '.svelte']
-  }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
   }),
   commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  babel({
+    extensions: ['.js', '.mjs', '.html', '.svelte']
   }),
   postcss({
     plugins: []
@@ -104,15 +104,15 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         svelte(),
-        babel({
-          extensions: ['.js', '.mjs', '.html', '.svelte']
-        }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
         }),
         commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
+        }),
+        babel({
+          extensions: ['.js', '.mjs', '.html', '.svelte']
         }),
         postcss({
           plugins: []
