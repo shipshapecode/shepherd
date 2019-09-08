@@ -15,14 +15,6 @@ export function isFunction(value) {
 }
 
 /**
- * Checks if `value` is classified as a `Number` object.
- * @param {*} value The param to check if it is a number
- */
-export function isNumber(value) {
-  return typeof value === 'number';
-}
-
-/**
  * Checks if `value` is classified as a `String` object.
  * @param {*} value The param to check if it is a string
  */
