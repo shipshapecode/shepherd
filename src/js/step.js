@@ -3,8 +3,7 @@ import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
-import { toggleShepherdModalClass } from './utils/modal.js';
-import ShepherdElement from './components/shepherd-element/index.svelte';
+import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';
@@ -345,8 +344,6 @@ export class Step extends Evented {
     if (!targetElement) {
       return;
     }
-
-    toggleShepherdModalClass(targetElement, step.classPrefix);
 
     if (step.options.highlightClass) {
       targetElement.classList.add(step.options.highlightClass);

@@ -1,5 +1,5 @@
 <script>
-  export let classPrefix, element, openingProperties, styles;
+  export let classPrefix, element, openingProperties;
   const guid = _uuid();
   let modalIsVisible = false;
   let rafId = undefined;
@@ -21,7 +21,10 @@
    * Hide the modal overlay
    */
   export function hide() {
-    document.body.classList.remove(`${classPrefix}shepherd-modal-is-visible`);
+    if (classPrefix) {
+      document.body.classList.remove(classPrefix);
+    }
+    document.body.classList.remove('shepherd-modal-is-visible');
     modalIsVisible = false;
 
     // Ensure we cleanup all event listeners when we hide the modal
@@ -67,7 +70,10 @@
    * Show the modal overlay
    */
   export function show() {
-    document.body.classList.add(`${classPrefix}shepherd-modal-is-visible`);
+    if (classPrefix) {
+      document.body.classList.add(classPrefix);
+    }
+    document.body.classList.add('shepherd-modal-is-visible');
     modalIsVisible = true;
   }
 
@@ -142,22 +148,49 @@
   /* eslint-enable prefer-template */
 </script>
 
+<style>
+  svg {
+    -ms-filter: progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);
+    filter: alpha(opacity=50);
+    height: 0;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
+    width: 100vw;
+    z-index: 9997;
+  }
+
+  svg.shepherd-modal-is-visible {
+    height: 100vh;
+    opacity: 0.5;
+    transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+  }
+
+  svg.shepherd-modal-is-visible .shepherd-modal-mask-rect {
+    height: 100vh;
+    width: 100vw;
+  }
+</style>
+
 <svg
   bind:this={element}
-  class="{(modalIsVisible ? 'modal-is-visible' : '') + styles['modal-overlay-container']}"
+  class="{`${(modalIsVisible ? 'shepherd-modal-is-visible' : '')} ${classPrefix} shepherd-modal-overlay-container`}"
   on:touchmove={_preventModalOverlayTouch}
 >
   <defs>
     <mask
-      class={`${classPrefix}shepherd-modal-mask`}
+      class="{`${classPrefix} shepherd-modal-mask`}"
       height='100%'
-      id={`${classPrefix}shepherd-modal-mask-${guid}`}
+      id={`shepherd-modal-mask-${guid}`}
       width='100%'
       x='0'
       y='0'
     >
       <rect
-        class={`${classPrefix}modal-mask-rect`}
+        class="{`${classPrefix} shepherd-modal-mask-rect`}"
         fill='#FFFFFF'
         height='100%'
         width='100%'
@@ -165,7 +198,7 @@
         y='0'
       />
       <rect
-        class={`${classPrefix}shepherd-modal-mask-opening`}
+        class="{`${classPrefix} shepherd-modal-mask-opening`}"
         fill='#000000'
         height={openingProperties.height}
         x={openingProperties.x}
@@ -179,6 +212,6 @@
     width='100%'
     x='0'
     y='0'
-    mask={`url(#${classPrefix}shepherd-modal-mask-${guid})`}
+    mask={`url(#shepherd-modal-mask-${guid})`}
   />
 </svg>

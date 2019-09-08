@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import { spy } from 'sinon';
-import ShepherdHeader from '../../../src/js/components/shepherd-content/shepherd-header/index.svelte';
+import ShepherdHeader from '../../../src/js/components/shepherd-header.svelte';
 import { Tour } from '../../../src/js/tour.js';
 import { Step } from '../../../src/js/step.js';
 

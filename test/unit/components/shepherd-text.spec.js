@@ -1,5 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
-import ShepherdText from '../../../src/js/components/shepherd-content/shepherd-text/index.svelte';
+import ShepherdText from '../../../src/js/components/shepherd-text.svelte';
 
 describe('components/ShepherdText', () => {
   beforeEach(cleanup);

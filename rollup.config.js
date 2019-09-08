@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
+import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
@@ -16,17 +17,22 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
-  eslint(),
-  svelte(),
-  babel({
-    exclude: /node_modules\/(?!(nano-css)\/).*/
+  eslint({
+    include: '**/*.js'
   }),
+  svelte(),
   resolve({
     extensions: ['.js', '.json', '.svelte']
   }),
   commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  babel({
+    extensions: ['.js', '.mjs', '.html', '.svelte']
+  }),
+  postcss({
+    plugins: []
   })
 ];
 
@@ -100,15 +106,18 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         svelte(),
-        babel({
-          exclude: /node_modules\/(?!(nano-css)\/).*/
-        }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
         }),
         commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)
+        }),
+        babel({
+          extensions: ['.js', '.mjs', '.html', '.svelte']
+        }),
+        postcss({
+          plugins: []
         }),
         terser(),
         license({

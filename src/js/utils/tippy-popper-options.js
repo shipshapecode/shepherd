@@ -1,5 +1,5 @@
-const addHasTitleClass = (step) => {
-  return { addHasTitleClass: _createClassModifier(`${step.classPrefix}shepherd-has-title`) };
+const addHasTitleClass = () => {
+  return { addHasTitleClass: _createClassModifier('shepherd-has-title') };
 };
 
 /**
@@ -18,8 +18,8 @@ function _createClassModifier(className) {
   };
 }
 
-function _getCenteredStylePopperModifier(styles) {
-  return {
+function _getCenteredStylePopperModifier(step) {
+  const config = {
     computeStyle: {
       enabled: true,
       fn(data) {
@@ -32,21 +32,33 @@ function _getCenteredStylePopperModifier(styles) {
         return data;
       }
     },
-    addShepherdClass: _createClassModifier(styles.shepherd.trim())
+    addShepherdClass: _createClassModifier('shepherd')
   };
+
+  if (step.classPrefix) {
+    config.addClassPrefix = _createClassModifier(step.classPrefix);
+  }
+
+  return config;
 }
 
 /**
  * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
  * @private
  */
-function _getDefaultPopperOptions(styles) {
-  return {
+function _getDefaultPopperOptions(step) {
+  const popperOptions = {
     positionFixed: true,
     modifiers: {
-      addShepherdClass: _createClassModifier(styles.shepherd.trim())
+      addShepherdClass: _createClassModifier('shepherd')
     }
   };
+
+  if (step.classPrefix) {
+    popperOptions.modifiers.addClassPrefix = _createClassModifier(step.classPrefix);
+  }
+
+  return popperOptions;
 }
 
 /**
@@ -89,7 +101,7 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
  * @return {Object} The final tippy options object
  */
 export function makeCenteredTippy(step) {
-  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step.styles);
+  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
   let { popperOptions, tippyOptions } = _makeCommonTippyOptions(step);
 
   tippyOptions.placement = 'top';
@@ -112,19 +124,12 @@ export function makeCenteredTippy(step) {
 }
 
 function _makeCommonTippyOptions(step) {
-  const popperOptions = _getDefaultPopperOptions(step.styles);
+  const popperOptions = _getDefaultPopperOptions(step);
 
   const tippyOptions = {
     content: step.el,
     ...step.options.tippyOptions
   };
-
-  if (step.tour &&
-    step.tour.options &&
-    step.tour.options.styleVariables &&
-    step.tour.options.styleVariables.zIndex) {
-    tippyOptions.zIndex = step.tour.options.styleVariables.zIndex;
-  }
 
   if (step.options.title) {
     popperOptions.modifiers = {

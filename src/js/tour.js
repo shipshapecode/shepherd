@@ -7,8 +7,7 @@ import { isElement, isFunction, isString } from './utils/type-check.js';
 import { defaults as tooltipDefaults } from './utils/tooltip-defaults.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix } from './utils/general.js';
-import { generateStyles } from './styles/generateStyles.js';
-import ShepherdModal from './components/shepherd-modal/index.svelte';
+import ShepherdModal from './components/shepherd-modal.svelte';
 
 /**
  * Creates incremented ID for each newly created tour
@@ -45,7 +44,6 @@ export class Tour extends Evented {
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
    * If not set, the modal will be appended to `document.body`.
    * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
-   * @param {object} options.styleVariables An object hash of style variables to override
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
    * whenever the tour becomes active.
@@ -66,8 +64,7 @@ export class Tour extends Evented {
     };
 
     this.options = Object.assign({}, defaultTourOptions, options);
-    this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
-    this.styles = generateStyles(this.options);
+    this.classPrefix = normalizePrefix(this.options.classPrefix);
     this.steps = [];
     this.addSteps(this.options.steps);
 
@@ -387,7 +384,10 @@ export class Tour extends Evented {
    */
   _addBodyAttrs() {
     document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
-    document.body.classList.add(this.styles.active.trim());
+    if (this.classPrefix) {
+      document.body.classList.add(this.classPrefix);
+    }
+    document.body.classList.add('shepherd-active');
   }
 
   /**
@@ -397,7 +397,10 @@ export class Tour extends Evented {
    */
   _removeBodyAttrs() {
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-    document.body.classList.remove(this.styles.active.trim());
+    if (this.classPrefix) {
+      document.body.classList.remove(this.classPrefix);
+    }
+    document.body.classList.remove('shepherd-active');
   }
 
 }
