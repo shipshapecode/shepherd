@@ -64,7 +64,7 @@ export class Tour extends Evented {
     };
 
     this.options = Object.assign({}, defaultTourOptions, options);
-    this.classPrefix = this.options ? normalizePrefix(this.options.classPrefix) : '';
+    this.classPrefix = normalizePrefix(this.options.classPrefix);
     this.steps = [];
     this.addSteps(this.options.steps);
 
