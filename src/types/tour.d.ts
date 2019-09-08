@@ -134,11 +134,6 @@ declare namespace Tour {
     steps?: Array<object> | Array<Step>;
 
     /**
-     * An object hash of style variables to override
-     */
-    styleVariables?: object;
-
-    /**
      * An optional "name" for the tour. This will be appended to the the tour's
      * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
      * whenever the tour becomes active.

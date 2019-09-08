@@ -47,6 +47,11 @@ Our demo app includes the polyfills using [Polyfill.io](https://polyfill.io/v3/)
 <script src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CSymbol%2CElement.prototype.matches"></script>
 ```
 
+You will also need a [Web Components polyfill](https://www.webcomponents.org/polyfills), which we include with:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script>
+```
 
 Documentation
 ----------------------------------------------------------
