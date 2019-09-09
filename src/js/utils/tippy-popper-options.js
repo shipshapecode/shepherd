@@ -18,8 +18,8 @@ function _createClassModifier(className) {
   };
 }
 
-function _getCenteredStylePopperModifier(step) {
-  const config = {
+function _getCenteredStylePopperModifier() {
+  return {
     computeStyle: {
       enabled: true,
       fn(data) {
@@ -31,34 +31,8 @@ function _getCenteredStylePopperModifier(step) {
 
         return data;
       }
-    },
-    addShepherdClass: _createClassModifier('shepherd')
-  };
-
-  if (step.classPrefix) {
-    config.addClassPrefix = _createClassModifier(step.classPrefix);
-  }
-
-  return config;
-}
-
-/**
- * Used to compose settings for popperOptions
- * @private
- */
-function _getDefaultPopperOptions(step) {
-  const popperOptions = {
-    positionFixed: true,
-    modifiers: {
-      addShepherdClass: _createClassModifier('shepherd')
     }
   };
-
-  if (step.classPrefix) {
-    popperOptions.modifiers.addClassPrefix = _createClassModifier(step.classPrefix);
-  }
-
-  return popperOptions;
 }
 
 /**
@@ -117,7 +91,10 @@ export function makeCenteredPopper(step) {
 }
 
 function _makeCommonPopperOptions(step) {
-  const popperOptions = _getDefaultPopperOptions(step);
+  const popperOptions = {
+    positionFixed: true,
+    modifiers: {}
+  };
 
   if (step.options.title) {
     popperOptions.modifiers = {

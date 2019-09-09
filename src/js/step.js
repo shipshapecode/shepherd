@@ -176,14 +176,14 @@ export class Step extends Evented {
 
     this.trigger('before-hide');
 
+    if (this.el) {
+      this.el.hidden = true;
+    }
+
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-step`);
 
     if (this.target) {
       this._updateStepTargetOnHide();
-    }
-
-    if (this.tooltip) {
-      this.tooltip.destroy();
     }
 
     this.trigger('hide');
@@ -316,6 +316,8 @@ export class Step extends Evented {
 
     this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
+
+    this.el.hidden = false;
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
