@@ -10,7 +10,7 @@
   };
 </script>
 
-<style type="text/scss">
+<style type="text/scss" global>
   .shepherd-cancel-icon {
     background: transparent;
     border: none;
@@ -25,13 +25,13 @@
     &:hover {
       color: rgba(0, 0, 0, 0.75);
     }
-  }
 
-  :global(.shepherd-has-title .shepherd-content .shepherd-cancel-icon) {
-    color: rgba(128, 128, 128, 0.75);
+    .shepherd-has-title .shepherd-content & {
+      color: rgba(128, 128, 128, 0.75);
 
-    &:hover {
-      color: rgba(0, 0, 0, 0.75);
+      &:hover {
+        color: rgba(0, 0, 0, 0.75);
+      }
     }
   }
 </style>

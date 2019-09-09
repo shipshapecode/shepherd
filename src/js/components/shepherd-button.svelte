@@ -3,7 +3,7 @@
   const { action, classes, secondary, text } = config;
 </script>
 
-<style type="text/scss">
+<style type="text/scss" global>
   .shepherd-button {
     background: rgb(50, 136, 230);
     border: 0;

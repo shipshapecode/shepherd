@@ -71,7 +71,7 @@
   };
 </script>
 
-<style type="text/scss">
+<style type="text/scss" global>
   .shepherd-element {
     background: #ffffff;
     border-radius: 5px;

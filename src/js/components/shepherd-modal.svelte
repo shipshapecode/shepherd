@@ -148,7 +148,7 @@
   /* eslint-enable prefer-template */
 </script>
 
-<style type="text/scss">
+<style type="text/scss" global>
   svg {
     -ms-filter: progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);
     filter: alpha(opacity=50);

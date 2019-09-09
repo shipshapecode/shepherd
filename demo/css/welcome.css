@@ -97,13 +97,13 @@ pre {
   line-height: 1.4em;
 }
 
-.class-1 button.shepherd-button {
+.class-1 .shepherd-button {
   background: #00213b;
   font-size: 0.7rem;
   text-transform: uppercase;
 }
 
-.class-1 button.shepherd-button:hover {
+.class-1 .shepherd-button:hover {
   background: #ececec;
   color: #00213b;
 }
