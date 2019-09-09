@@ -33,12 +33,6 @@ function _getCenteredStylePopperModifier() {
       }
     }
   };
-
-  if (step.classPrefix) {
-    popperOptions.modifiers.addClassPrefix = _createClassModifier(step.classPrefix);
-  }
-
-  return popperOptions;
 }
 
 /**
