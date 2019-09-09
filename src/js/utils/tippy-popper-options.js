@@ -1,23 +1,3 @@
-const addHasTitleClass = () => {
-  return { addHasTitleClass: _createClassModifier('shepherd-has-title') };
-};
-
-/**
- * Create a popper modifier for adding the passed className to the popper
- * @param {string} className The class to add to the popper
- * @return {{fn(*): *, enabled: boolean}|*}
- * @private
- */
-function _createClassModifier(className) {
-  return {
-    enabled: true,
-    fn(data) {
-      data.instance.popper.classList.add(className);
-      return data;
-    }
-  };
-}
-
 function _getCenteredStylePopperModifier() {
   return {
     computeStyle: {
@@ -90,18 +70,11 @@ export function makeCenteredPopper(step) {
   return popperOptions;
 }
 
-function _makeCommonPopperOptions(step) {
+function _makeCommonPopperOptions() {
   const popperOptions = {
     positionFixed: true,
     modifiers: {}
   };
-
-  if (step.options.title) {
-    popperOptions.modifiers = {
-      ...popperOptions.modifiers,
-      ...addHasTitleClass(step)
-    };
-  }
 
   return popperOptions;
 }
