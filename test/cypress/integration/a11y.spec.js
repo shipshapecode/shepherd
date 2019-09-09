@@ -1,12 +1,10 @@
 import setupTour from '../utils/setup-tour';
-import tippy from 'tippy.js';
 
 describe('a11y', () => {
   let Shepherd;
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {

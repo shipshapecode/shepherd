@@ -1,12 +1,10 @@
 import setupTour from '../utils/setup-tour';
-import tippy from 'tippy.js';
 
 describe('Attaching tooltips to target elements in the DOM on each step', () => {
   let Shepherd;
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {

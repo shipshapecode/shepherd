@@ -1,4 +1,4 @@
-import { makeAttachedPopperOptions, makeCenteredPopper } from './tippy-popper-options';
+import { makeAttachedPopperOptions, makeCenteredPopper } from './popper-options';
 import { isString } from './type-check';
 import Popper from 'popper.js';
 

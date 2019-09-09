@@ -1,4 +1,4 @@
-import { makeAttachedTippyOptions } from '../../../src/js/utils/tippy-popper-options.js';
+import { makeAttachedPopperOptions } from '../../../src/js/utils/popper-options.js';
 
 describe('Tippy/Popper Options Utils', function() {
   describe('makeAttachedTippyOptions()', function() {
@@ -26,9 +26,9 @@ describe('Tippy/Popper Options Utils', function() {
         on: 'top'
       };
 
-      const tippyOptions = makeAttachedTippyOptions(attachToOpts, stepOptions);
-      expect(tippyOptions.popperOptions.modifiers.foo).toBe('bar');
-      expect(tippyOptions.popperOptions.modifiers.preventOverflow.escapeWithReference).toBe(true);
+      const popperOptions = makeAttachedPopperOptions(attachToOpts, stepOptions);
+      expect(popperOptions.modifiers.foo).toBe('bar');
+      expect(popperOptions.modifiers.preventOverflow.escapeWithReference).toBe(true);
     });
   });
 });

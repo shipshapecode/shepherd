@@ -1,13 +1,11 @@
 import setupTour from '../utils/setup-tour';
 import { assert } from 'chai';
-import tippy from 'tippy.js';
 
 let Shepherd;
 
 describe('Shepherd Acceptance Tests', () => {
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
@@ -186,23 +184,6 @@ describe('Shepherd Acceptance Tests', () => {
       tour.start();
       cy.get('.shepherd-element').should('have.class', 'test-defaults');
       cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
-    });
-
-    it('Adds shepherd class when popperOptions.modifiers passed', () => {
-      const tour = setupTour(Shepherd, {
-        tippyOptions: {
-          popperOptions: {
-            modifiers: {
-              foo: 'bar',
-              preventOverflow: {
-                escapeWithReference: false
-              }
-            }
-          }
-        }
-      });
-      tour.start();
-      cy.get('.tippy-popper').should('have.class', 'shepherd');
     });
 
     describe('scrolling', () => {

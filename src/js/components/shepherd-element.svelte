@@ -71,20 +71,80 @@
   };
 </script>
 
-<style>
+<style type="text/scss">
   .shepherd-element {
+    background: #ffffff;
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
+    max-width: 400px;
     outline: none;
-  }
+    z-index: 9999;
 
-  .shepherd-element * {
-    box-sizing: border-box;
-  }
+    &, *, *:after, *:before {
+      box-sizing: border-box;
+    }
 
-  .shepherd-element *:after, .shepherd-element *:before {
-    box-sizing: border-box;
+    .popper__arrow {
+      border: 16px solid transparent;
+      content: '';
+      display: block;
+      height: 0;
+      pointer-events: none;
+      position: absolute;
+      width: 0;
+      z-index: 10000;
+    }
+
+    &[x-placement^='top'] {
+      margin-bottom: 16px;
+
+      .popper__arrow {
+        border-bottom: 0;
+        border-top-color: #ffffff;
+        bottom: -16px;
+        left: calc(50% - #{16px});
+      }
+    }
+
+    &[x-placement^='bottom'] {
+      margin-top: 16px;
+
+      .popper__arrow {
+        border-bottom-color: #ffffff;
+        border-top: 0;
+        left: calc(50% - #{16px});
+        top: -16px;
+      }
+
+      &.shepherd-has-title {
+        .popper__arrow {
+          border-bottom-color: #e6e6e6;
+        }
+      }
+    }
+
+    &[x-placement^='left'] {
+      margin-right: 16px;
+
+      .popper__arrow {
+        border-left-color: #ffffff;
+        border-right: 0;
+        margin-top: -16px;
+        right: -16px;
+        top: calc(50% - #{16px});
+      }
+    }
+
+    &[x-placement^='right'] {
+      margin-left: 16px;
+
+      .popper__arrow {
+        border-left: 0;
+        border-right-color: #ffffff;
+        left: -16px;
+        top: calc(50% - #{16px});
+      }
+    }
   }
 </style>
 
@@ -98,6 +158,9 @@
   role="dialog"
   tabindex="0"
 >
+    {#if step.options.attachTo && step.options.attachTo.element}
+      <div class="popper__arrow" x-arrow></div>
+    {/if}
   <ShepherdContent
     {classPrefix}
     {descriptionId}

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
-import tippy from 'tippy.js';
 import { spy } from 'sinon';
 
 // since importing non UMD, needs assignment
@@ -17,10 +16,6 @@ describe('Tour | Top-Level Class', function() {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true
   };
-
-  beforeEach(() => {
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
-  });
 
   afterEach(() => {
     instance.complete();

@@ -1,5 +1,4 @@
 import setupTour from '../utils/setup-tour';
-import tippy from 'tippy.js';
 import { assert } from 'chai';
 
 describe('Modal mode', () => {
@@ -8,7 +7,6 @@ describe('Modal mode', () => {
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {

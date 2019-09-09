@@ -168,7 +168,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Hide the step and destroy the tippy instance
+   * Hide the step and destroy the Popper instance
    */
   hide() {
     this.tour.modal.hide();
@@ -193,7 +193,6 @@ export class Step extends Evented {
    * @return {boolean} True if the step is open and visible
    */
   isOpen() {
-    debugger;
     return Boolean(
       this.tooltip &&
       this.tooltip.state &&
@@ -284,7 +283,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the tippy instance
+   * Create the element and set up the Popper instance
    * @private
    */
   _setupElements() {
@@ -303,7 +302,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a tippy instance for the tooltip, then triggers `show`.
+   * sets up a Popper instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {
@@ -317,6 +316,8 @@ export class Step extends Evented {
     this._styleTargetElementForStep(this);
 
     this.el.hidden = false;
+
+    this.tooltip.scheduleUpdate();
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);

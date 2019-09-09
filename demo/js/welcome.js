@@ -19,14 +19,11 @@
           behavior: 'smooth',
           block: 'center'
         },
-        tippyOptions: {
-          maxWidth: '400px',
-          popperOptions: {
-            modifiers: {
-              foo: 'bar',
-              preventOverflow: {
-                escapeWithReference: false
-              }
+        popperOptions: {
+          modifiers: {
+            foo: 'bar',
+            preventOverflow: {
+              escapeWithReference: false
             }
           }
         }

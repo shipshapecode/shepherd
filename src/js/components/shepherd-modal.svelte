@@ -148,7 +148,7 @@
   /* eslint-enable prefer-template */
 </script>
 
-<style>
+<style type="text/scss">
   svg {
     -ms-filter: progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);
     filter: alpha(opacity=50);
@@ -161,17 +161,17 @@
     transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
     width: 100vw;
     z-index: 9997;
-  }
 
-  svg.shepherd-modal-is-visible {
-    height: 100vh;
-    opacity: 0.5;
-    transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
-  }
+    &.shepherd-modal-is-visible {
+      height: 100vh;
+      opacity: 0.5;
+      transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
 
-  svg.shepherd-modal-is-visible .shepherd-modal-mask-rect {
-    height: 100vh;
-    width: 100vw;
+      .shepherd-modal-mask-rect {
+        height: 100vh;
+        width: 100vw;
+      }
+    }
   }
 </style>
 
