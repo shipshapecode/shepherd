@@ -2,7 +2,6 @@ import { Evented } from './evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isString } from './utils/type-check.js';
-import { defaults as tooltipDefaults } from './utils/tooltip-defaults.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';

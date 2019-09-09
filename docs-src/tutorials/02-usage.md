@@ -224,7 +224,6 @@ when: {
   }
 }
 ```
-- `tippyOptions`: Extra [options to pass to `Tippy.js`](https://atomiks.github.io/tippyjs/#all-options). Shepherd [sets a few defaults out of the box](./src/js/utils/tooltip-defaults.js), but anything you set here will override these.
 
 ##### Step Methods
 
