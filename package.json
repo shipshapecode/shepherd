@@ -47,8 +47,8 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "smoothscroll-polyfill": "^0.4.4",
-    "tippy.js": "^5.0.0-beta.2"
+    "popper.js": "^1.15.0",
+    "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

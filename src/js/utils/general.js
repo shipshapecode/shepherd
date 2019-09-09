@@ -1,6 +1,6 @@
-import { makeAttachedTippyOptions, makeCenteredTippy } from './tippy-popper-options';
-import { isString, isUndefined } from './type-check';
-import tippy from 'tippy.js';
+import { makeAttachedPopperOptions, makeCenteredPopper } from './tippy-popper-options';
+import { isString } from './type-check';
+import Popper from 'popper.js';
 
 /**
  * Ensure class prefix ends in `-`
@@ -44,43 +44,39 @@ export function parseAttachTo(step) {
 
 /**
  * Determines options for the tooltip and initializes
- * `step.tooltip` as a Tippy.js instance.
+ * `step.tooltip` as a Popper.js instance.
  * @param {Step} step The step instance
  */
 export function setupTooltip(step) {
-  if (isUndefined(tippy)) {
-    throw new Error('Using the attachment feature of Shepherd requires the Tippy.js library');
-  }
-
   if (step.tooltip) {
     step.tooltip.destroy();
   }
 
   const attachToOpts = parseAttachTo(step);
 
-  step.tooltip = _makeTippyInstance(attachToOpts, step);
+  step.tooltip = _makeTooltipInstance(attachToOpts, step);
 
   step.target = attachToOpts.element;
 }
 
 /**
- * Generates a `Tippy` instance from a set of base `attachTo` options
+ * Generates a `Popper` instance from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
- * @return {tippy|Instance | Instance[]} The final tippy instance
+ * @return {Popper}
  * @private
  */
-function _makeTippyInstance(attachToOptions, step) {
-  let tippyOptions = {};
+function _makeTooltipInstance(attachToOptions, step) {
+  let popperOptions = {};
   let element = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    tippyOptions = makeCenteredTippy(step);
+    popperOptions = makeCenteredPopper(step);
   } else {
-    tippyOptions = makeAttachedTippyOptions(attachToOptions, step);
+    popperOptions = makeAttachedPopperOptions(attachToOptions, step);
     element = attachToOptions.element;
   }
 
-  return tippy(element, tippyOptions);
+  return new Popper(element, step.el, popperOptions);
 }
 

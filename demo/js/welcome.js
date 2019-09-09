@@ -9,7 +9,6 @@
   }
 
   function setupShepherd() {
-    var prefix = 'demo-';
     var shepherd = new Shepherd.Tour({
       defaultStepOptions: {
         cancelIcon: {
@@ -32,7 +31,6 @@
           }
         }
       },
-      classPrefix: prefix,
       // This should add the first tour step
       steps: [
         {

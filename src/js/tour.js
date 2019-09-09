@@ -1,5 +1,3 @@
-import tippy from 'tippy.js';
-
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
@@ -89,7 +87,6 @@ export class Tour extends Evented {
         }
     });
 
-    this._setTooltipDefaults();
     this._setTourID();
 
     return this;
@@ -341,14 +338,6 @@ export class Tour extends Evented {
     const index = this.steps.indexOf(step);
     const nextIndex = forward ? index + 1 : index - 1;
     this.show(nextIndex, forward);
-  }
-
-  /**
-   * Set the tippy defaults
-   * @private
-   */
-  _setTooltipDefaults() {
-    tippy.setDefaultProps(tooltipDefaults);
   }
 
   /**

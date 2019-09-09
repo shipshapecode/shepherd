@@ -8530,13 +8530,6 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tippy.js@^5.0.0-beta.2:
-  version "5.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/tippy.js/-/tippy.js-5.0.0-beta.2.tgz#96527e56d24e8c5fafb51086d4d3c16b09914475"
-  integrity sha512-KZWJXPjwG3UU43+aBBjZRNspLdhg5E/jBe7dlgCo2KUe7YY6ASeYiPhPjqPhRXcnAAehhoGSO6BPLIpuXrW8+A==
-  dependencies:
-    popper.js "^1.15.0"
-
 tmp@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.1.0.tgz#ee434a4e22543082e294ba6201dcc6eafefa2877"

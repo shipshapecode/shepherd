@@ -97,28 +97,28 @@ pre {
   line-height: 1.4em;
 }
 
-button.demo-.shepherd-button {
+.class-1 button.shepherd-button {
   background: #00213b;
   font-size: 0.7rem;
   text-transform: uppercase;
 }
 
-button.demo-.shepherd-button:hover {
+.class-1 button.shepherd-button:hover {
   background: #ececec;
   color: #00213b;
 }
 
-.demo-.shepherd-text a,
-.demo-.shepherd-text a:visited,
-.demo-.shepherd-text a:active {
+.shepherd-text a,
+.shepherd-text a:visited,
+.shepherd-text a:active {
   border-bottom: 1px dotted;
   border-bottom-color: rgba(0, 0, 0, 0.75);
   color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
 }
 
-.demo-.shepherd-text a:hover,
-.demo-.shepherd-text a:visited:hover,
-.demo-.shepherd-text a:active:hover {
+.shepherd-text a:hover,
+.shepherd-text a:visited:hover,
+.shepherd-text a:active:hover {
   border-bottom-style: solid;
 }

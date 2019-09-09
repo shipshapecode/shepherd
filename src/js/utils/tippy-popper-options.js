@@ -43,7 +43,7 @@ function _getCenteredStylePopperModifier(step) {
 }
 
 /**
- * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
+ * Used to compose settings for popperOptions
  * @private
  */
 function _getDefaultPopperOptions(step) {
@@ -62,21 +62,20 @@ function _getDefaultPopperOptions(step) {
 }
 
 /**
- * Generates the hash of options that will be passed to `Tippy` instances
+ * Generates the hash of options that will be passed to `Popper` instances
  * target an element in the DOM.
  *
  * @param {Object} attachToOptions The local `attachTo` options
  * @param {Step} step The step instance
- * @return {Object} The final tippy options object
+ * @return {Object} The final popper options object
  */
-export function makeAttachedTippyOptions(attachToOptions, step) {
-  let { popperOptions, tippyOptions } = _makeCommonTippyOptions(step);
+export function makeAttachedPopperOptions(attachToOptions, step) {
+  let popperOptions = _makeCommonPopperOptions(step);
 
-  tippyOptions.flipOnUpdate = true;
-  tippyOptions.placement = attachToOptions.on || 'right';
+  popperOptions.placement = attachToOptions.on || 'right';
 
-  if (step.options && step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-    const stepPopperOptions = step.options.tippyOptions.popperOptions;
+  if (step.options && step.options.popperOptions) {
+    const stepPopperOptions = step.options.popperOptions;
     popperOptions = {
       ...popperOptions,
       ...stepPopperOptions,
@@ -87,9 +86,7 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
     };
   }
 
-  tippyOptions.popperOptions = popperOptions;
-
-  return tippyOptions;
+  return popperOptions;
 }
 
 /**
@@ -98,38 +95,29 @@ export function makeAttachedTippyOptions(attachToOptions, step) {
  * of the view
  *
  * @param {Step} step The step instance
- * @return {Object} The final tippy options object
+ * @return {Object} The final Popper options object
  */
-export function makeCenteredTippy(step) {
+export function makeCenteredPopper(step) {
   const centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
-  let { popperOptions, tippyOptions } = _makeCommonTippyOptions(step);
+  let popperOptions = _makeCommonPopperOptions(step);
 
-  tippyOptions.placement = 'top';
-  tippyOptions.arrow = false;
-  tippyOptions.popperOptions = tippyOptions.popperOptions || {};
+  popperOptions.placement = 'top';
+  // TODO arrow stuff
+  // tippyOptions.arrow = false;
 
   popperOptions = {
     ...popperOptions,
-    ...tippyOptions.popperOptions,
     modifiers: {
       ...popperOptions.modifiers,
-      ...centeredStylePopperModifier,
-      ...tippyOptions.popperOptions.modifiers
+      ...centeredStylePopperModifier
     }
   };
 
-  tippyOptions.popperOptions = popperOptions;
-
-  return tippyOptions;
+  return popperOptions;
 }
 
-function _makeCommonTippyOptions(step) {
+function _makeCommonPopperOptions(step) {
   const popperOptions = _getDefaultPopperOptions(step);
-
-  const tippyOptions = {
-    content: step.el,
-    ...step.options.tippyOptions
-  };
 
   if (step.options.title) {
     popperOptions.modifiers = {
@@ -138,5 +126,5 @@ function _makeCommonTippyOptions(step) {
     };
   }
 
-  return { popperOptions, tippyOptions };
+  return popperOptions;
 }

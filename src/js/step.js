@@ -183,7 +183,7 @@ export class Step extends Evented {
     }
 
     if (this.tooltip) {
-      this.tooltip.hide();
+      this.tooltip.destroy();
     }
 
     this.trigger('hide');
@@ -194,6 +194,7 @@ export class Step extends Evented {
    * @return {boolean} True if the step is open and visible
    */
   isOpen() {
+    debugger;
     return Boolean(
       this.tooltip &&
       this.tooltip.state &&
@@ -326,7 +327,6 @@ export class Step extends Evented {
       });
     }
 
-    this.tooltip.show();
     this.trigger('show');
     this.el.focus();
   }
