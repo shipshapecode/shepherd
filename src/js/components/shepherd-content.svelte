@@ -4,7 +4,7 @@
   import ShepherdText from './shepherd-text.svelte';
   import { isUndefined } from '../utils/type-check.js';
 
-  export let classPrefix, descriptionId, labelId, step;
+  export let descriptionId, labelId, step;
 </script>
 
 <style global>
@@ -16,17 +16,15 @@
 </style>
 
 <div
-  class="{`${classPrefix} shepherd-content`}"
+  class="shepherd-content"
 >
   <ShepherdHeader
-    {classPrefix}
     {labelId}
     {step}
   />
 
     {#if !isUndefined(step.options.text)}
       <ShepherdText
-        {classPrefix}
         {descriptionId}
         {step}
       />
@@ -34,7 +32,6 @@
 
     {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
       <ShepherdFooter
-        {classPrefix}
         {step}
       />
     {/if}

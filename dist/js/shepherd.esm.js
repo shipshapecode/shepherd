@@ -3524,12 +3524,12 @@ function () {
 }();
 
 function create_fragment(ctx) {
-  var button, t, button_class_value, dispose;
+  var button, t, dispose;
   return {
     c: function c() {
       button = element("button");
       t = text(ctx.text);
-      attr(button, "class", button_class_value = (ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
+      attr(button, "class", (ctx.classes || '') + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
       attr(button, "tabindex", "0");
       dispose = listen(button, "click", ctx.action ? ctx.action.bind(ctx.step.tour) : null);
     },
@@ -3537,11 +3537,7 @@ function create_fragment(ctx) {
       insert(target, button, anchor);
       append(button, t);
     },
-    p: function p(changed, ctx) {
-      if (changed.classPrefix && button_class_value !== (button_class_value = (ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''))) {
-        attr(button, "class", button_class_value);
-      }
-    },
+    p: noop,
     i: noop,
     o: noop,
     d: function d(detaching) {
@@ -3555,8 +3551,7 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      config = $$props.config,
+  var config = $$props.config,
       step = $$props.step;
   var _config = config,
       action = _config.action,
@@ -3565,13 +3560,11 @@ function instance($$self, $$props, $$invalidate) {
       text = _config.text;
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('config' in $$props) $$invalidate('config', config = $$props.config);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
-    classPrefix: classPrefix,
     config: config,
     step: step,
     action: action,
@@ -3590,7 +3583,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, ["classPrefix", "config", "step"]);
+    init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, ["config", "step"]);
     return _this;
   }
 
@@ -3636,7 +3629,7 @@ function create_if_block(ctx) {
       current = true;
     },
     p: function p(changed, ctx) {
-      if (changed.classPrefix || changed.buttons || changed.step) {
+      if (changed.buttons || changed.step) {
         each_value = ctx.buttons;
 
         var _i3;
@@ -3701,7 +3694,6 @@ function create_each_block(ctx) {
   var current;
   var shepherdbutton = new Shepherd_button({
     props: {
-      classPrefix: ctx.classPrefix,
       config: ctx.config,
       step: ctx.step
     }
@@ -3716,7 +3708,6 @@ function create_each_block(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdbutton_changes = {};
-      if (changed.classPrefix) shepherdbutton_changes.classPrefix = ctx.classPrefix;
       if (changed.step) shepherdbutton_changes.step = ctx.step;
       shepherdbutton.$set(shepherdbutton_changes);
     },
@@ -3736,13 +3727,13 @@ function create_each_block(ctx) {
 }
 
 function create_fragment$1(ctx) {
-  var footer, footer_class_value, current;
+  var footer, current;
   var if_block = ctx.buttons && create_if_block(ctx);
   return {
     c: function c() {
       footer = element("footer");
       if (if_block) if_block.c();
-      attr(footer, "class", footer_class_value = ctx.classPrefix + " shepherd-footer");
+      attr(footer, "class", "shepherd-footer");
     },
     m: function m(target, anchor) {
       insert(target, footer, anchor);
@@ -3751,10 +3742,6 @@ function create_fragment$1(ctx) {
     },
     p: function p(changed, ctx) {
       if (ctx.buttons) if_block.p(changed, ctx);
-
-      if ((!current || changed.classPrefix) && footer_class_value !== (footer_class_value = ctx.classPrefix + " shepherd-footer")) {
-        attr(footer, "class", footer_class_value);
-      }
     },
     i: function i(local) {
       if (current) return;
@@ -3776,17 +3763,14 @@ function create_fragment$1(ctx) {
 }
 
 function instance$1($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      step = $$props.step;
+  var step = $$props.step;
   var buttons = step.options.buttons;
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
-    classPrefix: classPrefix,
     step: step,
     buttons: buttons
   };
@@ -3801,7 +3785,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$1, create_fragment$1, safe_not_equal, ["classPrefix", "step"]);
+    init(_assertThisInitialized(_this), options, instance$1, create_fragment$1, safe_not_equal, ["step"]);
     return _this;
   }
 
@@ -3809,7 +3793,7 @@ function (_SvelteComponent) {
 }(SvelteComponent);
 
 function create_fragment$2(ctx) {
-  var button, span, button_aria_label_value, button_class_value, dispose;
+  var button, span, button_aria_label_value, dispose;
   return {
     c: function c() {
       button = element("button");
@@ -3817,7 +3801,7 @@ function create_fragment$2(ctx) {
       span.textContent = "×";
       attr(span, "aria-hidden", "true");
       attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour');
-      attr(button, "class", button_class_value = ctx.classPrefix + " shepherd-cancel-icon");
+      attr(button, "class", "shepherd-cancel-icon");
       attr(button, "type", "button");
       dispose = listen(button, "click", ctx.handleCancelClick);
     },
@@ -3828,10 +3812,6 @@ function create_fragment$2(ctx) {
     p: function p(changed, ctx) {
       if (changed.cancelIcon && button_aria_label_value !== (button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour')) {
         attr(button, "aria-label", button_aria_label_value);
-      }
-
-      if (changed.classPrefix && button_class_value !== (button_class_value = ctx.classPrefix + " shepherd-cancel-icon")) {
-        attr(button, "class", button_class_value);
       }
     },
     i: noop,
@@ -3848,7 +3828,6 @@ function create_fragment$2(ctx) {
 
 function instance$2($$self, $$props, $$invalidate) {
   var cancelIcon = $$props.cancelIcon,
-      classPrefix = $$props.classPrefix,
       step = $$props.step;
   /**
    * Add a click listener to the cancel link that cancels the tour
@@ -3861,13 +3840,11 @@ function instance$2($$self, $$props, $$invalidate) {
 
   $$self.$set = function ($$props) {
     if ('cancelIcon' in $$props) $$invalidate('cancelIcon', cancelIcon = $$props.cancelIcon);
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
     cancelIcon: cancelIcon,
-    classPrefix: classPrefix,
     step: step,
     handleCancelClick: handleCancelClick
   };
@@ -3882,7 +3859,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, ["cancelIcon", "classPrefix", "step"]);
+    init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, ["cancelIcon", "step"]);
     return _this;
   }
 
@@ -3890,13 +3867,13 @@ function (_SvelteComponent) {
 }(SvelteComponent);
 
 function create_fragment$3(ctx) {
-  var h3, t, h3_class_value;
+  var h3, t;
   return {
     c: function c() {
       h3 = element("h3");
       t = text(ctx.title);
       attr(h3, "id", ctx.labelId);
-      attr(h3, "class", h3_class_value = ctx.classPrefix + " shepherd-title");
+      attr(h3, "class", "shepherd-title");
     },
     m: function m(target, anchor) {
       insert(target, h3, anchor);
@@ -3910,10 +3887,6 @@ function create_fragment$3(ctx) {
       if (changed.labelId) {
         attr(h3, "id", ctx.labelId);
       }
-
-      if (changed.classPrefix && h3_class_value !== (h3_class_value = ctx.classPrefix + " shepherd-title")) {
-        attr(h3, "class", h3_class_value);
-      }
     },
     i: noop,
     o: noop,
@@ -3926,18 +3899,15 @@ function create_fragment$3(ctx) {
 }
 
 function instance$3($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      labelId = $$props.labelId,
+  var labelId = $$props.labelId,
       title = $$props.title;
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
     if ('title' in $$props) $$invalidate('title', title = $$props.title);
   };
 
   return {
-    classPrefix: classPrefix,
     labelId: labelId,
     title: title
   };
@@ -3952,7 +3922,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["classPrefix", "labelId", "title"]);
+    init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["labelId", "title"]);
     return _this;
   }
 
@@ -3963,7 +3933,6 @@ function create_if_block_1(ctx) {
   var current;
   var shepherdtitle = new Shepherd_title({
     props: {
-      classPrefix: ctx.classPrefix,
       labelId: ctx.labelId,
       title: ctx.title
     }
@@ -3978,7 +3947,6 @@ function create_if_block_1(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdtitle_changes = {};
-      if (changed.classPrefix) shepherdtitle_changes.classPrefix = ctx.classPrefix;
       if (changed.labelId) shepherdtitle_changes.labelId = ctx.labelId;
       shepherdtitle.$set(shepherdtitle_changes);
     },
@@ -3995,7 +3963,7 @@ function create_if_block_1(ctx) {
       destroy_component(shepherdtitle, detaching);
     }
   };
-} // (30:4) {#if cancelIcon && cancelIcon.enabled}
+} // (29:4) {#if cancelIcon && cancelIcon.enabled}
 
 
 function create_if_block$1(ctx) {
@@ -4003,7 +3971,6 @@ function create_if_block$1(ctx) {
   var shepherdcancelicon = new Shepherd_cancel_icon({
     props: {
       cancelIcon: ctx.cancelIcon,
-      classPrefix: ctx.classPrefix,
       step: ctx.step
     }
   });
@@ -4017,7 +3984,6 @@ function create_if_block$1(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdcancelicon_changes = {};
-      if (changed.classPrefix) shepherdcancelicon_changes.classPrefix = ctx.classPrefix;
       if (changed.step) shepherdcancelicon_changes.step = ctx.step;
       shepherdcancelicon.$set(shepherdcancelicon_changes);
     },
@@ -4037,7 +4003,7 @@ function create_if_block$1(ctx) {
 }
 
 function create_fragment$4(ctx) {
-  var header, t, header_class_value, current;
+  var header, t, current;
   var if_block0 = ctx.title && create_if_block_1(ctx);
   var if_block1 = ctx.cancelIcon && ctx.cancelIcon.enabled && create_if_block$1(ctx);
   return {
@@ -4046,7 +4012,7 @@ function create_fragment$4(ctx) {
       if (if_block0) if_block0.c();
       t = space();
       if (if_block1) if_block1.c();
-      attr(header, "class", header_class_value = ctx.classPrefix + " shepherd-header");
+      attr(header, "class", "shepherd-header");
     },
     m: function m(target, anchor) {
       insert(target, header, anchor);
@@ -4058,10 +4024,6 @@ function create_fragment$4(ctx) {
     p: function p(changed, ctx) {
       if (ctx.title) if_block0.p(changed, ctx);
       if (ctx.cancelIcon && ctx.cancelIcon.enabled) if_block1.p(changed, ctx);
-
-      if ((!current || changed.classPrefix) && header_class_value !== (header_class_value = ctx.classPrefix + " shepherd-header")) {
-        attr(header, "class", header_class_value);
-      }
     },
     i: function i(local) {
       if (current) return;
@@ -4086,21 +4048,18 @@ function create_fragment$4(ctx) {
 }
 
 function instance$4($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      labelId = $$props.labelId,
+  var labelId = $$props.labelId,
       step = $$props.step;
   var _step$options = step.options,
       cancelIcon = _step$options.cancelIcon,
       title = _step$options.title;
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
-    classPrefix: classPrefix,
     labelId: labelId,
     step: step,
     cancelIcon: cancelIcon,
@@ -4117,7 +4076,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, ["classPrefix", "labelId", "step"]);
+    init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, ["labelId", "step"]);
     return _this;
   }
 
@@ -4125,11 +4084,11 @@ function (_SvelteComponent) {
 }(SvelteComponent);
 
 function create_fragment$5(ctx) {
-  var div, div_class_value;
+  var div;
   return {
     c: function c() {
       div = element("div");
-      attr(div, "class", div_class_value = ctx.classPrefix + " shepherd-text");
+      attr(div, "class", "shepherd-text");
       attr(div, "id", ctx.descriptionId);
     },
     m: function m(target, anchor) {
@@ -4137,10 +4096,6 @@ function create_fragment$5(ctx) {
       ctx.div_binding(div);
     },
     p: function p(changed, ctx) {
-      if (changed.classPrefix && div_class_value !== (div_class_value = ctx.classPrefix + " shepherd-text")) {
-        attr(div, "class", div_class_value);
-      }
-
       if (changed.descriptionId) {
         attr(div, "id", ctx.descriptionId);
       }
@@ -4158,9 +4113,8 @@ function create_fragment$5(ctx) {
 }
 
 function instance$5($$self, $$props, $$invalidate) {
-  var base = $$props.base,
-      classPrefix = $$props.classPrefix,
-      descriptionId = $$props.descriptionId,
+  var descriptionId = $$props.descriptionId,
+      element = $$props.element,
       step = $$props.step;
   onMount(function () {
     var text = step.options.text;
@@ -4170,29 +4124,27 @@ function instance$5($$self, $$props, $$invalidate) {
     }
 
     if (isElement(text)) {
-      base.appendChild(text);
+      element.appendChild(text);
     } else {
-      $$invalidate('base', base.innerHTML = text, base);
+      $$invalidate('element', element.innerHTML = text, element);
     }
   });
 
   function div_binding($$value) {
     binding_callbacks[$$value ? 'unshift' : 'push'](function () {
-      $$invalidate('base', base = $$value);
+      $$invalidate('element', element = $$value);
     });
   }
 
   $$self.$set = function ($$props) {
-    if ('base' in $$props) $$invalidate('base', base = $$props.base);
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
+    if ('element' in $$props) $$invalidate('element', element = $$props.element);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
-    base: base,
-    classPrefix: classPrefix,
     descriptionId: descriptionId,
+    element: element,
     step: step,
     div_binding: div_binding
   };
@@ -4207,7 +4159,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$5, create_fragment$5, safe_not_equal, ["base", "classPrefix", "descriptionId", "step"]);
+    init(_assertThisInitialized(_this), options, instance$5, create_fragment$5, safe_not_equal, ["descriptionId", "element", "step"]);
     return _this;
   }
 
@@ -4218,7 +4170,6 @@ function create_if_block_1$1(ctx) {
   var current;
   var shepherdtext = new Shepherd_text({
     props: {
-      classPrefix: ctx.classPrefix,
       descriptionId: ctx.descriptionId,
       step: ctx.step
     }
@@ -4233,7 +4184,6 @@ function create_if_block_1$1(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdtext_changes = {};
-      if (changed.classPrefix) shepherdtext_changes.classPrefix = ctx.classPrefix;
       if (changed.descriptionId) shepherdtext_changes.descriptionId = ctx.descriptionId;
       if (changed.step) shepherdtext_changes.step = ctx.step;
       shepherdtext.$set(shepherdtext_changes);
@@ -4251,14 +4201,13 @@ function create_if_block_1$1(ctx) {
       destroy_component(shepherdtext, detaching);
     }
   };
-} // (35:4) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
+} // (33:4) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
 
 
 function create_if_block$2(ctx) {
   var current;
   var shepherdfooter = new Shepherd_footer({
     props: {
-      classPrefix: ctx.classPrefix,
       step: ctx.step
     }
   });
@@ -4272,7 +4221,6 @@ function create_if_block$2(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdfooter_changes = {};
-      if (changed.classPrefix) shepherdfooter_changes.classPrefix = ctx.classPrefix;
       if (changed.step) shepherdfooter_changes.step = ctx.step;
       shepherdfooter.$set(shepherdfooter_changes);
     },
@@ -4297,11 +4245,9 @@ function create_fragment$6(ctx) {
       show_if_1 = !isUndefined(ctx.step.options.text),
       t1,
       show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length,
-      div_class_value,
       current;
   var shepherdheader = new Shepherd_header({
     props: {
-      classPrefix: ctx.classPrefix,
       labelId: ctx.labelId,
       step: ctx.step
     }
@@ -4316,7 +4262,7 @@ function create_fragment$6(ctx) {
       if (if_block0) if_block0.c();
       t1 = space();
       if (if_block1) if_block1.c();
-      attr(div, "class", div_class_value = ctx.classPrefix + " shepherd-content");
+      attr(div, "class", "shepherd-content");
     },
     m: function m(target, anchor) {
       insert(target, div, anchor);
@@ -4329,7 +4275,6 @@ function create_fragment$6(ctx) {
     },
     p: function p(changed, ctx) {
       var shepherdheader_changes = {};
-      if (changed.classPrefix) shepherdheader_changes.classPrefix = ctx.classPrefix;
       if (changed.labelId) shepherdheader_changes.labelId = ctx.labelId;
       if (changed.step) shepherdheader_changes.step = ctx.step;
       shepherdheader.$set(shepherdheader_changes);
@@ -4372,10 +4317,6 @@ function create_fragment$6(ctx) {
         });
         check_outros();
       }
-
-      if ((!current || changed.classPrefix) && div_class_value !== (div_class_value = ctx.classPrefix + " shepherd-content")) {
-        attr(div, "class", div_class_value);
-      }
     },
     i: function i(local) {
       if (current) return;
@@ -4403,20 +4344,17 @@ function create_fragment$6(ctx) {
 }
 
 function instance$6($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      descriptionId = $$props.descriptionId,
+  var descriptionId = $$props.descriptionId,
       labelId = $$props.labelId,
       step = $$props.step;
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
     if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
   };
 
   return {
-    classPrefix: classPrefix,
     descriptionId: descriptionId,
     labelId: labelId,
     step: step
@@ -4432,7 +4370,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$6, create_fragment$6, safe_not_equal, ["classPrefix", "descriptionId", "labelId", "step"]);
+    init(_assertThisInitialized(_this), options, instance$6, create_fragment$6, safe_not_equal, ["descriptionId", "labelId", "step"]);
     return _this;
   }
 
@@ -4463,7 +4401,6 @@ function create_fragment$7(ctx) {
   var if_block = ctx.step.options.attachTo && ctx.step.options.attachTo.element && create_if_block$3();
   var shepherdcontent = new Shepherd_content({
     props: {
-      classPrefix: ctx.classPrefix,
       descriptionId: ctx.descriptionId,
       labelId: ctx.labelId,
       step: ctx.step
@@ -4474,7 +4411,7 @@ function create_fragment$7(ctx) {
   }, {
     "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
   }, {
-    class: ctx.classes + " " + ctx.classPrefix + " shepherd-element " + (ctx.hasTitle ? 'shepherd-has-title' : '')
+    class: ctx.classes + " shepherd-element " + (ctx.hasCancelIcon ? 'shepherd-has-cancel-icon' : '') + " " + (ctx.hasTitle ? 'shepherd-has-title' : '')
   }, ctx.dataStepId, {
     role: "dialog"
   }, {
@@ -4516,7 +4453,6 @@ function create_fragment$7(ctx) {
       }
 
       var shepherdcontent_changes = {};
-      if (changed.classPrefix) shepherdcontent_changes.classPrefix = ctx.classPrefix;
       if (changed.descriptionId) shepherdcontent_changes.descriptionId = ctx.descriptionId;
       if (changed.labelId) shepherdcontent_changes.labelId = ctx.labelId;
       if (changed.step) shepherdcontent_changes.step = ctx.step;
@@ -4525,8 +4461,8 @@ function create_fragment$7(ctx) {
         "aria-describedby": !isUndefined(ctx.step.options.text) ? ctx.descriptionId : null
       }, (changed.step || changed.labelId) && {
         "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
-      }, (changed.classes || changed.classPrefix || changed.hasTitle) && {
-        class: ctx.classes + " " + ctx.classPrefix + " shepherd-element " + (ctx.hasTitle ? 'shepherd-has-title' : '')
+      }, (changed.classes || changed.hasCancelIcon || changed.hasTitle) && {
+        class: ctx.classes + " shepherd-element " + (ctx.hasCancelIcon ? 'shepherd-has-cancel-icon' : '') + " " + (ctx.hasTitle ? 'shepherd-has-title' : '')
       }, changed.dataStepId && ctx.dataStepId, {
         role: "dialog"
       }, {
@@ -4573,7 +4509,8 @@ function instance$7($$self, $$props, $$invalidate) {
       lastFocusableElement = $$props.lastFocusableElement,
       step = $$props.step;
   var dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId);
-  var hasTitle = step.options.title;
+  var hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled;
+  var hasTitle = step.options && step.options.title;
 
   var getElement = function getElement() {
     return element;
@@ -4674,6 +4611,7 @@ function instance$7($$self, $$props, $$invalidate) {
     lastFocusableElement: lastFocusableElement,
     step: step,
     dataStepId: dataStepId,
+    hasCancelIcon: hasCancelIcon,
     hasTitle: hasTitle,
     getElement: getElement,
     handleKeyDown: handleKeyDown,
@@ -5275,11 +5213,6 @@ function (_Evented) {
     var classes = this.options.classes || '';
     var descriptionId = this.id + "-description";
     var labelId = this.id + "-label";
-
-    if (this.options && this.options.cancelIcon && this.options.cancelIcon.enabled) {
-      classes += " " + this.classPrefix + "shepherd-has-cancel-icon";
-    }
-
     var ShepherdElementComponent = new Shepherd_element({
       target: document.body,
       props: {
@@ -5454,80 +5387,26 @@ function cleanupSteps(tour) {
 }
 
 function create_fragment$8(ctx) {
-  var svg, defs, mask, rect0, rect0_class_value, rect1, rect1_class_value, rect1_height_value, rect1_x_value, rect1_y_value, rect1_width_value, mask_class_value, rect2, svg_class_value, dispose;
+  var svg, path, path_d_value, svg_class_value, dispose;
   return {
     c: function c() {
       svg = svg_element("svg");
-      defs = svg_element("defs");
-      mask = svg_element("mask");
-      rect0 = svg_element("rect");
-      rect1 = svg_element("rect");
-      rect2 = svg_element("rect");
-      attr(rect0, "class", rect0_class_value = ctx.classPrefix + " shepherd-modal-mask-rect");
-      attr(rect0, "fill", "#FFFFFF");
-      attr(rect0, "height", "100%");
-      attr(rect0, "width", "100%");
-      attr(rect0, "x", "0");
-      attr(rect0, "y", "0");
-      attr(rect1, "class", rect1_class_value = ctx.classPrefix + " shepherd-modal-mask-opening");
-      attr(rect1, "fill", "#000000");
-      attr(rect1, "height", rect1_height_value = ctx.openingProperties.height);
-      attr(rect1, "x", rect1_x_value = ctx.openingProperties.x);
-      attr(rect1, "y", rect1_y_value = ctx.openingProperties.y);
-      attr(rect1, "width", rect1_width_value = ctx.openingProperties.width);
-      attr(mask, "class", mask_class_value = ctx.classPrefix + " shepherd-modal-mask");
-      attr(mask, "height", "100%");
-      attr(mask, "id", "shepherd-modal-mask-" + ctx.guid);
-      attr(mask, "width", "100%");
-      attr(mask, "x", "0");
-      attr(mask, "y", "0");
-      attr(rect2, "height", "100%");
-      attr(rect2, "width", "100%");
-      attr(rect2, "x", "0");
-      attr(rect2, "y", "0");
-      attr(rect2, "mask", "url(#shepherd-modal-mask-" + ctx.guid + ")");
-      attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container");
+      path = svg_element("path");
+      attr(path, "d", path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + ctx.window.innerWidth + " V " + ctx.window.innerHeight + " H 0 L 0 0 Z");
+      attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " shepherd-modal-overlay-container");
       dispose = listen(svg, "touchmove", ctx._preventModalOverlayTouch);
     },
     m: function m(target, anchor) {
       insert(target, svg, anchor);
-      append(svg, defs);
-      append(defs, mask);
-      append(mask, rect0);
-      append(mask, rect1);
-      append(svg, rect2);
+      append(svg, path);
       ctx.svg_binding(svg);
     },
     p: function p(changed, ctx) {
-      if (changed.classPrefix && rect0_class_value !== (rect0_class_value = ctx.classPrefix + " shepherd-modal-mask-rect")) {
-        attr(rect0, "class", rect0_class_value);
+      if (changed.openingProperties && path_d_value !== (path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + ctx.window.innerWidth + " V " + ctx.window.innerHeight + " H 0 L 0 0 Z")) {
+        attr(path, "d", path_d_value);
       }
 
-      if (changed.classPrefix && rect1_class_value !== (rect1_class_value = ctx.classPrefix + " shepherd-modal-mask-opening")) {
-        attr(rect1, "class", rect1_class_value);
-      }
-
-      if (changed.openingProperties && rect1_height_value !== (rect1_height_value = ctx.openingProperties.height)) {
-        attr(rect1, "height", rect1_height_value);
-      }
-
-      if (changed.openingProperties && rect1_x_value !== (rect1_x_value = ctx.openingProperties.x)) {
-        attr(rect1, "x", rect1_x_value);
-      }
-
-      if (changed.openingProperties && rect1_y_value !== (rect1_y_value = ctx.openingProperties.y)) {
-        attr(rect1, "y", rect1_y_value);
-      }
-
-      if (changed.openingProperties && rect1_width_value !== (rect1_width_value = ctx.openingProperties.width)) {
-        attr(rect1, "width", rect1_width_value);
-      }
-
-      if (changed.classPrefix && mask_class_value !== (mask_class_value = ctx.classPrefix + " shepherd-modal-mask")) {
-        attr(mask, "class", mask_class_value);
-      }
-
-      if ((changed.modalIsVisible || changed.classPrefix) && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container")) {
+      if (changed.modalIsVisible && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " shepherd-modal-overlay-container")) {
         attr(svg, "class", svg_class_value);
       }
     },
@@ -5545,8 +5424,7 @@ function create_fragment$8(ctx) {
 }
 
 function instance$8($$self, $$props, $$invalidate) {
-  var classPrefix = $$props.classPrefix,
-      element = $$props.element,
+  var element = $$props.element,
       openingProperties = $$props.openingProperties;
   var guid = uuid();
   var modalIsVisible = false;
@@ -5571,11 +5449,6 @@ function instance$8($$self, $$props, $$invalidate) {
 
 
   function hide() {
-    if (classPrefix) {
-      document.body.classList.remove(classPrefix);
-    }
-
-    document.body.classList.remove('shepherd-modal-is-visible');
     $$invalidate('modalIsVisible', modalIsVisible = false); // Ensure we cleanup all event listeners when we hide the modal
 
     _cleanupStepEventListeners();
@@ -5634,11 +5507,6 @@ function instance$8($$self, $$props, $$invalidate) {
 
 
   function show() {
-    if (classPrefix) {
-      document.body.classList.add(classPrefix);
-    }
-
-    document.body.classList.add('shepherd-modal-is-visible');
     $$invalidate('modalIsVisible', modalIsVisible = true);
   }
 
@@ -5710,16 +5578,13 @@ function instance$8($$self, $$props, $$invalidate) {
   }
 
   $$self.$set = function ($$props) {
-    if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('element' in $$props) $$invalidate('element', element = $$props.element);
     if ('openingProperties' in $$props) $$invalidate('openingProperties', openingProperties = $$props.openingProperties);
   };
 
   return {
-    classPrefix: classPrefix,
     element: element,
     openingProperties: openingProperties,
-    guid: guid,
     modalIsVisible: modalIsVisible,
     getElement: getElement,
     closeModalOpening: closeModalOpening,
@@ -5728,6 +5593,7 @@ function instance$8($$self, $$props, $$invalidate) {
     setupForStep: setupForStep,
     show: show,
     _preventModalOverlayTouch: _preventModalOverlayTouch,
+    window: window,
     svg_binding: svg_binding
   };
 }
@@ -5741,7 +5607,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, ["classPrefix", "element", "openingProperties", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
+    init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, ["element", "openingProperties", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
     return _this;
   }
 
@@ -6172,12 +6038,6 @@ function (_Evented) {
 
   _proto._addBodyAttrs = function _addBodyAttrs() {
     document.body.setAttribute("data-" + this.classPrefix + "shepherd-active-tour", this.id);
-
-    if (this.classPrefix) {
-      document.body.classList.add(this.classPrefix);
-    }
-
-    document.body.classList.add('shepherd-active');
   }
   /**
    * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
@@ -6188,12 +6048,6 @@ function (_Evented) {
 
   _proto._removeBodyAttrs = function _removeBodyAttrs() {
     document.body.removeAttribute("data-" + this.classPrefix + "shepherd-active-tour");
-
-    if (this.classPrefix) {
-      document.body.classList.remove(this.classPrefix);
-    }
-
-    document.body.classList.remove('shepherd-active');
   };
 
   return Tour;

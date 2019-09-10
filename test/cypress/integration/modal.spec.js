@@ -32,7 +32,7 @@ describe('Modal mode', () => {
       tour.start();
 
       cy.get('.shepherd-modal-overlay-container').should('have.css', 'opacity', '0.5');
-      cy.get('body').should('have.class', 'shepherd-modal-is-visible');
+      cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
     });
   });
 
@@ -47,7 +47,7 @@ describe('Modal mode', () => {
       tour.start();
 
       cy.get('.shepherd-modal-overlay-container').should('have.css', 'opacity', '0');
-      cy.get('body').should('not.have.class', 'shepherd-modal-is-visible');
+      cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
 
@@ -56,14 +56,15 @@ describe('Modal mode', () => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
     });
 
-    it('removes shepherd-modal-is-visible class from the BODY', () => {
+    it('removes shepherd-modal-is-visible class from the overlay', () => {
       tour.start();
-      cy.get('body').should('have.class', 'shepherd-modal-is-visible');
 
       setTimeout(() => {
+        cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
         tour.hide();
-        cy.get('body').should('not.have.class', 'shepherd-modal-is-visible');
       }, 0);
+
+      cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
 
