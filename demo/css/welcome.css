@@ -3,7 +3,6 @@ html, body {
 }
 
 body {
-
   background-color: rgba(236, 243, 246, 50);
   color: #5F6976;
   height: 100%;
@@ -97,13 +96,13 @@ pre {
   line-height: 1.4em;
 }
 
-.class-1 .shepherd-button {
+.shepherd-button {
   background: #00213b;
   font-size: 0.7rem;
   text-transform: uppercase;
 }
 
-.class-1 .shepherd-button:hover {
+.shepherd-button:hover {
   background: #ececec;
   color: #00213b;
 }
