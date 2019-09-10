@@ -4993,9 +4993,9 @@ jest-transform-css@^2.0.0:
     postcss-modules "1.3.2"
     style-inject "0.3.0"
 
-jest-transform-svelte@will-wow/jest-transform-svelte#631f92696ebe33b03b83af882822b738fd4c31c8:
+jest-transform-svelte@will-wow/jest-transform-svelte#75466a226e5fd09e28c991cd1a29cf3338966b19:
   version "2.0.2"
-  resolved "https://codeload.github.com/will-wow/jest-transform-svelte/tar.gz/631f92696ebe33b03b83af882822b738fd4c31c8"
+  resolved "https://codeload.github.com/will-wow/jest-transform-svelte/tar.gz/75466a226e5fd09e28c991cd1a29cf3338966b19"
   dependencies:
     deasync "^0.1.15"
 

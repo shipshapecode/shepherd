@@ -72,7 +72,7 @@
     "jest": "^24.9.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
-    "jest-transform-svelte": "will-wow/jest-transform-svelte#631f92696ebe33b03b83af882822b738fd4c31c8",
+    "jest-transform-svelte": "will-wow/jest-transform-svelte#75466a226e5fd09e28c991cd1a29cf3338966b19",
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.3",

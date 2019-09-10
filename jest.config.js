@@ -37,7 +37,12 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.svelte$': ['jest-transform-svelte', {
-      preprocess: sveltePreprocess()
+      preprocess: sveltePreprocess(),
+      debug: false,
+      noStyles: true,
+      compilerOptions: {
+        dev: false
+      }
     }],
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css'
   }

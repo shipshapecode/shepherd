@@ -193,11 +193,7 @@ export class Step extends Evented {
    * @return {boolean} True if the step is open and visible
    */
   isOpen() {
-    return Boolean(
-      this.tooltip &&
-      this.tooltip.state &&
-      this.tooltip.state.isVisible
-    );
+    return Boolean(this.el && !this.el.hidden);
   }
 
   /**
