@@ -140,22 +140,22 @@ describe('Shepherd Acceptance Tests', () => {
       it('Cancel link cancels the tour', () => {
         const tour = setupTour(Shepherd);
         tour.start();
-        cy.get('body').should('have.class', 'shepherd-active');
+        cy.get('body').should('have.attr', 'data-shepherd-active-tour');
         cy.get('.shepherd-cancel-icon').click();
-        cy.get('body').should('not.have.class', 'shepherd-active');
+        cy.get('body').should('not.have.attr', 'data-shepherd-active-tour');
       });
 
       it('Cancel link cancels the tour from another step', () => {
         const tour = setupTour(Shepherd);
         tour.start();
-        cy.get('body').should('have.class', 'shepherd-active');
+        cy.get('body').should('have.attr', 'data-shepherd-active-tour');
         // Click next
         cy.contains('Next').click();
         // Step two text should be visible
         cy.get('.shepherd-text')
           .contains('Including Shepherd is easy!').should('be.visible');
         cy.get('.shepherd-cancel-icon:nth-child(2)').click();
-        cy.get('body').should('not.have.class', 'shepherd-active');
+        cy.get('body').should('not.have.attr', 'data-shepherd-active-tour');
       });
 
       it('Hides cancel link', () => {
