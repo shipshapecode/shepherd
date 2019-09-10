@@ -2,26 +2,13 @@ import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
-import { setupTooltip, parseAttachTo, normalizePrefix } from './utils/general.js';
+import { setupTooltip, parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';
 
 smoothscroll.polyfill();
-
-/**
- * Creates incremented ID for each newly created step
- *
- * @return {Function} A function that returns the unique id for the step
- * @private
- */
-const uniqueId = (function() {
-  let id = 0;
-  return function() {
-    return ++id;
-  };
-})();
 
 /**
  * A class representing steps to be added to a tour.
@@ -269,7 +256,7 @@ export class Step extends Evented {
     const { when } = this.options;
 
     this.destroy();
-    this.id = this.options.id || `step-${uniqueId()}`;
+    this.id = this.options.id || `step-${uuid()}`;
 
     if (when) {
       Object.keys(when).forEach((event) => {

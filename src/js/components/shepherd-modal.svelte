@@ -1,6 +1,8 @@
 <script>
+  import { uuid } from '../utils/general.js';
+
   export let classPrefix, element, openingProperties;
-  const guid = _uuid();
+  const guid = uuid();
   let modalIsVisible = false;
   let rafId = undefined;
 
@@ -134,18 +136,6 @@
       closeModalOpening();
     }
   }
-
-  /* eslint-disable prefer-template */
-  function _uuid() {
-    let d = Date.now();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-  }
-
-  /* eslint-enable prefer-template */
 </script>
 
 <style type="text/scss" global>
