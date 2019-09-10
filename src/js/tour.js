@@ -3,21 +3,8 @@ import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isString } from './utils/type-check.js';
 import { cleanupSteps } from './utils/cleanup.js';
-import { normalizePrefix } from './utils/general.js';
+import { normalizePrefix, uuid } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';
-
-/**
- * Creates incremented ID for each newly created tour
- *
- * @return {Function} A function that returns the unique id for the tour
- * @private
- */
-const uniqueId = (function() {
-  let id = 0;
-  return function() {
-    return ++id;
-  };
-})();
 
 const Shepherd = new Evented();
 
@@ -357,9 +344,8 @@ export class Tour extends Evented {
    */
   _setTourID() {
     const tourName = this.options.tourName || 'tour';
-    const uuid = uniqueId();
 
-    this.id = `${tourName}--${uuid}`;
+    this.id = `${tourName}--${uuid()}`;
   }
 
   /**
