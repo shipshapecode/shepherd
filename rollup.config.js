@@ -7,7 +7,7 @@ import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
-import { globalStyle, scss } from 'svelte-preprocess';
+import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
@@ -22,10 +22,7 @@ const plugins = [
     include: '**/*.js'
   }),
   svelte({
-    preprocess: [
-      scss(),
-      globalStyle()
-    ]
+    preprocess: sveltePreprocess()
   }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
@@ -112,10 +109,7 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         svelte({
-          preprocess: [
-            scss(),
-            globalStyle()
-          ]
+          preprocess: sveltePreprocess()
         }),
         resolve({
           extensions: ['.js', '.json', '.svelte']

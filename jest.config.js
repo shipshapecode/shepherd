@@ -1,7 +1,7 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
-const { globalStyle, scss } = require('svelte-preprocess');
+const sveltePreprocess = require('svelte-preprocess');
 
 module.exports = {
   // Automatically clear mock calls and instances between every test
@@ -37,10 +37,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.svelte$': ['jest-transform-svelte', {
-      preprocess: [
-        scss(),
-        globalStyle()
-      ]
+      preprocess: sveltePreprocess()
     }],
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css'
   }
