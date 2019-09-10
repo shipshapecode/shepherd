@@ -1,0 +1,9 @@
+.shepherd-active.shepherd-modal-is-visible :not(.shepherd-target) {
+  pointer-events: none;
+}
+.shepherd-active.shepherd-modal-is-visible .shepherd-button, .shepherd-active.shepherd-modal-is-visible .shepherd-cancel-icon, .shepherd-active.shepherd-modal-is-visible .shepherd-element, .shepherd-active.shepherd-modal-is-visible .shepherd-target {
+  pointer-events: auto;
+}
+.shepherd-active.shepherd-modal-is-visible .shepherd-button *, .shepherd-active.shepherd-modal-is-visible .shepherd-cancel-icon *, .shepherd-active.shepherd-modal-is-visible .shepherd-element *, .shepherd-active.shepherd-modal-is-visible .shepherd-target * {
+  pointer-events: auto;
+}

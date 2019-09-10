@@ -1,10 +1,7 @@
-import tippy from 'tippy.js';
-
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isString } from './utils/type-check.js';
-import { defaults as tooltipDefaults } from './utils/tooltip-defaults.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';
@@ -37,8 +34,6 @@ export class Tour extends Evented {
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
-   * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
-   * You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
    * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
    * unless this is explicitly set to false.
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
@@ -59,7 +54,6 @@ export class Tour extends Evented {
 
     const defaultTourOptions = {
       exitOnEsc: true,
-      includeStyles: true,
       keyboardNavigation: true
     };
 
@@ -89,7 +83,6 @@ export class Tour extends Evented {
         }
     });
 
-    this._setTooltipDefaults();
     this._setTourID();
 
     return this;
@@ -341,14 +334,6 @@ export class Tour extends Evented {
     const index = this.steps.indexOf(step);
     const nextIndex = forward ? index + 1 : index - 1;
     this.show(nextIndex, forward);
-  }
-
-  /**
-   * Set the tippy defaults
-   * @private
-   */
-  _setTooltipDefaults() {
-    tippy.setDefaultProps(tooltipDefaults);
   }
 
   /**

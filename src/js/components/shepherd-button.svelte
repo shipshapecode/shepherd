@@ -3,7 +3,7 @@
   const { action, classes, secondary, text } = config;
 </script>
 
-<style>
+<style type="text/scss" global>
   .shepherd-button {
     background: rgb(50, 136, 230);
     border: 0;
@@ -13,21 +13,21 @@
     margin-right: 0.5rem;
     padding: 0.5rem 1.5rem;
     transition: all 0.5s ease;
-  }
 
-  .shepherd-button:hover {
-    background: rgb(25, 111, 204);
-    color: rgba(255, 255, 255, 0.75);
-  }
+    &:hover {
+      background: rgb(25, 111, 204);
+      color: rgba(255, 255, 255, 0.75);
+    }
 
-  .shepherd-button.shepherd-button-secondary {
-    background: rgb(241, 242, 243);
-    color: rgba(0, 0, 0, 0.75);
-  }
+    &.shepherd-button-secondary {
+      background: rgb(241, 242, 243);
+      color: rgba(0, 0, 0, 0.75);
 
-  .shepherd-button.shepherd-button-secondary:hover {
-    background: rgb(214, 217, 219);
-    color: rgba(0, 0, 0, 0.75);
+      &:hover {
+        background: rgb(214, 217, 219);
+        color: rgba(0, 0, 0, 0.75);
+      }
+    }
   }
 </style>
 

@@ -2,8 +2,6 @@ import _ from 'lodash';
 import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
-import tippy from 'tippy.js';
-import { defaults as tooltipDefaults } from '../../src/js/utils/tooltip-defaults';
 import { spy } from 'sinon';
 
 // since importing non UMD, needs assignment
@@ -18,10 +16,6 @@ describe('Tour | Top-Level Class', function() {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true
   };
-
-  beforeEach(() => {
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
-  });
 
   afterEach(() => {
     instance.complete();
@@ -51,20 +45,6 @@ describe('Tour | Top-Level Class', function() {
       // Check that all bindings are included
       const difference = _.difference(tourEvents, bindings);
       expect(difference.length, 'all tour events bound').toBe(0);
-    });
-
-    it('sets defaults for tippy', function() {
-      const tourSpy = spy(Shepherd.Tour.prototype, '_setTooltipDefaults');
-      const tippySpy = spy(tippy, 'setDefaultProps');
-
-      expect(tourSpy.callCount).toBe(0);
-      expect(tippySpy.callCount).toBe(0);
-
-      instance = new Shepherd.Tour({ defaultStepOptions });
-
-      expect(tourSpy.callCount).toBe(1);
-      expect(tippySpy.callCount).toBe(1);
-      expect(tippySpy.calledWith(tooltipDefaults)).toBe(true);
     });
 
     it('generates a unique `id` property, optionally based upon the `tourName` option', function() {
