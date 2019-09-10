@@ -34,8 +34,6 @@ export class Tour extends Evented {
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
-   * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
-   * You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
    * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
    * unless this is explicitly set to false.
    * @param {HTMLElement} options.modalContainer An optional container element for the modal.
@@ -56,7 +54,6 @@ export class Tour extends Evented {
 
     const defaultTourOptions = {
       exitOnEsc: true,
-      includeStyles: true,
       keyboardNavigation: true
     };
 
