@@ -62,7 +62,7 @@ describe('a11y', () => {
       cy.get('body').should('not.have.attr', 'data-shepherd-active-tour');
     });
 
-    it('Tab is focus trapped inside the modal', () => {
+    it.skip('Tab is focus trapped inside the modal', () => {
       tour.start();
 
       cy.document().then(() => {
