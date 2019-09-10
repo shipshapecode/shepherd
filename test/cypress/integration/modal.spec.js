@@ -58,12 +58,13 @@ describe('Modal mode', () => {
 
     it('removes shepherd-modal-is-visible class from the overlay', () => {
       tour.start();
-      cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
 
       setTimeout(() => {
+        cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
         tour.hide();
-        cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
       }, 0);
+
+      cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
 
