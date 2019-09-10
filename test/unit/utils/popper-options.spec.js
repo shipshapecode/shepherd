@@ -1,18 +1,16 @@
 import { makeAttachedPopperOptions } from '../../../src/js/utils/popper-options.js';
 
-describe('Tippy/Popper Options Utils', function() {
+describe('Popper Options Utils', function() {
   describe('makeAttachedTippyOptions()', function() {
     it('passing tippyOptions.popperOptions sets nested values', function() {
       const stepOptions =
         {
           options: {
-            tippyOptions: {
-              popperOptions: {
-                modifiers: {
-                  foo: 'bar',
-                  preventOverflow: {
-                    escapeWithReference: true
-                  }
+            popperOptions: {
+              modifiers: {
+                foo: 'bar',
+                preventOverflow: {
+                  escapeWithReference: true
                 }
               }
             }
