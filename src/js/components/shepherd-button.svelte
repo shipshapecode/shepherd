@@ -1,5 +1,5 @@
 <script>
-  export let classPrefix, config, step;
+  export let config, step;
   const { action, classes, secondary, text } = config;
 </script>
 
@@ -33,7 +33,7 @@
 
 
 <button
-  class="{`${(classes || '')} ${classPrefix} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
+  class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
   on:click={action ? action.bind(step.tour) : null}
   tabindex='0'
 >

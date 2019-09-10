@@ -1,5 +1,5 @@
 <script>
-  export let cancelIcon, classPrefix, step;
+  export let cancelIcon, step;
 
   /**
    * Add a click listener to the cancel link that cancels the tour
@@ -38,7 +38,7 @@
 
 <button
   aria-label="{cancelIcon.label ? cancelIcon.label : 'Close Tour'}"
-  class="{`${classPrefix} shepherd-cancel-icon`}"
+  class="shepherd-cancel-icon"
   on:click={handleCancelClick}
   type="button"
 >

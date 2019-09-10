@@ -152,7 +152,7 @@
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
-  class="{`${classes} ${classPrefix} shepherd-element ${hasTitle ? 'shepherd-has-title' : ''}`}"
+  class="{`${classes} shepherd-element ${hasTitle ? 'shepherd-has-title' : ''}`}"
   {...dataStepId}
   on:keydown={handleKeyDown}
   role="dialog"
@@ -162,7 +162,6 @@
       <div class="popper__arrow" x-arrow></div>
     {/if}
   <ShepherdContent
-    {classPrefix}
     {descriptionId}
     {labelId}
     {step}

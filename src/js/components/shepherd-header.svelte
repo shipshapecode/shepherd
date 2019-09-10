@@ -2,7 +2,7 @@
   import ShepherdCancelIcon from './shepherd-cancel-icon.svelte';
   import ShepherdTitle from './shepherd-title.svelte';
 
-  export let classPrefix, labelId, step;
+  export let labelId, step;
   const { cancelIcon, title } = step.options;
 </script>
 
@@ -23,10 +23,9 @@
   }
 </style>
 
-<header class="{`${classPrefix} shepherd-header`}">
+<header class="shepherd-header">
     {#if title}
       <ShepherdTitle
-        {classPrefix}
         {labelId}
         {title}
       />
@@ -35,7 +34,6 @@
     {#if cancelIcon && cancelIcon.enabled}
       <ShepherdCancelIcon
         {cancelIcon}
-        {classPrefix}
         {step}
       />
     {/if}

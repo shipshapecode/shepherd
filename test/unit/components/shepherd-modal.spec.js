@@ -31,21 +31,15 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      let modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
-
-      expect(modalMaskOpening).toHaveAttribute('height', '250');
-      expect(modalMaskOpening).toHaveAttribute('x', '20');
-      expect(modalMaskOpening).toHaveAttribute('y', '20');
-      expect(modalMaskOpening).toHaveAttribute('width', '500');
+      let modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M 20 20 H 520 V 270 H 20 L 20 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       await modalComponent.closeModalOpening();
 
-      modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
-
-      expect(modalMaskOpening).toHaveAttribute('height', '0');
-      expect(modalMaskOpening).toHaveAttribute('x', '0');
-      expect(modalMaskOpening).toHaveAttribute('y', '0');
-      expect(modalMaskOpening).toHaveAttribute('width', '0');
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       modalComponent.$destroy();
     });
@@ -62,12 +56,14 @@ describe('components/ShepherdModal', () => {
           }
       });
 
-      let modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
+      let modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
-      expect(modalMaskOpening).toHaveAttribute('height', '0');
-      expect(modalMaskOpening).toHaveAttribute('x', '0');
-      expect(modalMaskOpening).toHaveAttribute('y', '0');
-      expect(modalMaskOpening).toHaveAttribute('width', '0');
+      await modalComponent.closeModalOpening();
+
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       await modalComponent.positionModalOpening({
         getBoundingClientRect() {
@@ -80,12 +76,9 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
-
-      expect(modalMaskOpening).toHaveAttribute('height', '250');
-      expect(modalMaskOpening).toHaveAttribute('x', '20');
-      expect(modalMaskOpening).toHaveAttribute('y', '20');
-      expect(modalMaskOpening).toHaveAttribute('width', '500');
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M 20 20 H 520 V 270 H 20 L 20 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       modalComponent.$destroy();
     });
@@ -100,12 +93,8 @@ describe('components/ShepherdModal', () => {
           }
       });
 
-      let modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
-
-      expect(modalMaskOpening).toHaveAttribute('height', '0');
-      expect(modalMaskOpening).toHaveAttribute('x', '0');
-      expect(modalMaskOpening).toHaveAttribute('y', '0');
-      expect(modalMaskOpening).toHaveAttribute('width', '0');
+      let modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       await modalComponent.positionModalOpening({
         getBoundingClientRect() {
@@ -118,12 +107,9 @@ describe('components/ShepherdModal', () => {
         }
       }, 10);
 
-      modalMaskOpening = modalComponent.getElement().querySelector('.shepherd-modal-mask-opening');
-
-      expect(modalMaskOpening).toHaveAttribute('height', '270');
-      expect(modalMaskOpening).toHaveAttribute('x', '10');
-      expect(modalMaskOpening).toHaveAttribute('y', '10');
-      expect(modalMaskOpening).toHaveAttribute('width', '520');
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M 10 10 H 530 V 280 H 10 L 10 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
 
       modalComponent.$destroy();
     });
@@ -207,13 +193,13 @@ describe('components/ShepherdModal', () => {
     it('show adds classes', async () => {
       await modalComponent.show();
 
-      expect(document.body).toHaveClass('shepherd-modal-is-visible');
+      expect(modalComponent.getElement()).toHaveClass('shepherd-modal-is-visible');
     });
 
     it('hide removes classes', async () => {
       await modalComponent.hide();
 
-      expect(document.body).not.toHaveClass('shepherd-modal-is-visible');
+      expect(modalComponent.getElement()).not.toHaveClass('shepherd-modal-is-visible');
 
       modalComponent.$destroy();
     });
