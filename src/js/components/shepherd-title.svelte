@@ -1,5 +1,5 @@
 <script>
-  export let classPrefix, labelId, title;
+  export let labelId, title;
 </script>
 
 <style global>
@@ -16,7 +16,7 @@
 
 <h3
   id="{labelId}"
-  class="{`${classPrefix} shepherd-title`}"
+  class="shepherd-title"
 >
     {title}
 </h3>

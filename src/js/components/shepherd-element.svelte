@@ -11,7 +11,8 @@
   export let classes, classPrefix, element, descriptionId, firstFocusableElement,
     focusableElements, labelId, lastFocusableElement, step;
   const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
-  const hasTitle = step.options.title;
+  const hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled;
+  const hasTitle = step.options && step.options.title;
 
   export const getElement = () => element;
 
@@ -152,7 +153,7 @@
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
-  class="{`${classes} ${classPrefix} shepherd-element ${hasTitle ? 'shepherd-has-title' : ''}`}"
+  class="{`${classes} shepherd-element ${hasCancelIcon ? 'shepherd-has-cancel-icon' : ''} ${hasTitle ? 'shepherd-has-title' : ''}`}"
   {...dataStepId}
   on:keydown={handleKeyDown}
   role="dialog"
@@ -162,7 +163,6 @@
       <div class="popper__arrow" x-arrow></div>
     {/if}
   <ShepherdContent
-    {classPrefix}
     {descriptionId}
     {labelId}
     {step}

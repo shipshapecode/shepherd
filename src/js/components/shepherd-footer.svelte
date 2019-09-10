@@ -1,7 +1,7 @@
 <script>
   import ShepherdButton from './shepherd-button.svelte';
 
-  export let classPrefix, step;
+  export let step;
   const { buttons } = step.options;
 </script>
 
@@ -19,11 +19,10 @@
   }
 </style>
 
-<footer class="{`${classPrefix} shepherd-footer`}">
+<footer class="shepherd-footer">
     {#if buttons}
         {#each buttons as config}
           <ShepherdButton
-            {classPrefix}
             {config}
             {step}
           />

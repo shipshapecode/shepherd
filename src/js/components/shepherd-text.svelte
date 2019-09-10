@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { isElement, isFunction } from '../utils/type-check';
 
-  export let base, classPrefix, descriptionId, step;
+  export let descriptionId, element, step;
 
   onMount(() => {
     let { text } = step.options;
@@ -12,9 +12,9 @@
     }
 
     if (isElement(text)) {
-      base.appendChild(text);
+      element.appendChild(text);
     } else {
-      base.innerHTML = text;
+      element.innerHTML = text;
     }
   });
 </script>
@@ -37,8 +37,8 @@
 </style>
 
 <div
-  bind:this={base}
-  class="{`${classPrefix} shepherd-text`}"
+  bind:this={element}
+  class="shepherd-text"
   id="{descriptionId}"
 >
 </div>

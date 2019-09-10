@@ -355,10 +355,6 @@ export class Tour extends Evented {
    */
   _addBodyAttrs() {
     document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
-    if (this.classPrefix) {
-      document.body.classList.add(this.classPrefix);
-    }
-    document.body.classList.add('shepherd-active');
   }
 
   /**
@@ -368,10 +364,6 @@ export class Tour extends Evented {
    */
   _removeBodyAttrs() {
     document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-    if (this.classPrefix) {
-      document.body.classList.remove(this.classPrefix);
-    }
-    document.body.classList.remove('shepherd-active');
   }
 
 }
