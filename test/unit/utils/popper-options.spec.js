@@ -1,8 +1,8 @@
 import { makeAttachedPopperOptions } from '../../../src/js/utils/popper-options.js';
 
 describe('Popper Options Utils', function() {
-  describe('makeAttachedTippyOptions()', function() {
-    it('passing tippyOptions.popperOptions sets nested values', function() {
+  describe('makeAttachedPopperOptions()', function() {
+    it('passing popperOptions sets nested values', function() {
       const stepOptions =
         {
           options: {

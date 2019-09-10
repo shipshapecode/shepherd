@@ -56,8 +56,6 @@ export function makeCenteredPopper(step) {
   let popperOptions = _makeCommonPopperOptions(step);
 
   popperOptions.placement = 'top';
-  // TODO arrow stuff
-  // tippyOptions.arrow = false;
 
   popperOptions = {
     ...popperOptions,

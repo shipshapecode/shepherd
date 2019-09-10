@@ -168,7 +168,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Hide the step and destroy the Popper instance
+   * Hide the step
    */
   hide() {
     this.tour.modal.hide();

@@ -27,7 +27,7 @@ declare class Step extends Evented {
   complete(): void;
 
   /**
-   * Remove the step, delete the step's element, and destroy the tippy instance for the step
+   * Remove the step, delete the step's element, and destroy the Popper instance for the step
    * Triggers `destroy` event
    */
   destroy(): void;
@@ -39,7 +39,7 @@ declare class Step extends Evented {
   getTour(): Tour;
 
   /**
-   * Hide the step and destroy the tippy instance
+   * Hide the step
    */
   hide(): void;
 
