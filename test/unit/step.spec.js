@@ -98,7 +98,8 @@ describe('Tour | Step', () => {
 
       expect(testStep.id, 'passed name set as id').toBe('test');
       expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');
-      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed').toBe('step-1');
+      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed')
+        .toMatch(/^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
     });
 
     describe('.hide()', () => {

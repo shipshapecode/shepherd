@@ -3045,6 +3045,19 @@
     step.target = attachToOpts.element;
   }
   /**
+   * Create a unique id for steps, tours, modals, etc
+   * @return {string}
+   */
+
+  function uuid() {
+    var d = Date.now();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+    });
+  }
+  /**
    * Generates a `Popper` instance from a set of base `attachTo` options
    * @param attachToOptions
    * @param {Step} step The step instance
@@ -5047,23 +5060,9 @@
 
   smoothscroll.polyfill();
   /**
-   * Creates incremented ID for each newly created step
-   *
-   * @return {Function} A function that returns the unique id for the step
-   * @private
-   */
-
-  var uniqueId = function () {
-    var id = 0;
-    return function () {
-      return ++id;
-    };
-  }();
-  /**
    * A class representing steps to be added to a tour.
    * @extends {Evented}
    */
-
 
   var Step =
   /*#__PURE__*/
@@ -5337,7 +5336,7 @@
       this.options = options;
       var when = this.options.when;
       this.destroy();
-      this.id = this.options.id || "step-" + uniqueId();
+      this.id = this.options.id || "step-" + uuid();
 
       if (when) {
         Object.keys(when).forEach(function (event) {
@@ -5551,22 +5550,11 @@
     };
   }
 
-  function _uuid() {
-    var d = Date.now();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
-    });
-  }
-
   function instance$8($$self, $$props, $$invalidate) {
     var classPrefix = $$props.classPrefix,
         element = $$props.element,
         openingProperties = $$props.openingProperties;
-
-    var guid = _uuid();
-
+    var guid = uuid();
     var modalIsVisible = false;
     var rafId = undefined;
     closeModalOpening();
@@ -5720,8 +5708,6 @@
         closeModalOpening();
       }
     }
-    /* eslint-enable prefer-template */
-
 
     function svg_binding($$value) {
       binding_callbacks[$$value ? 'unshift' : 'push'](function () {
@@ -5799,20 +5785,6 @@
 
     return Shepherd_modal;
   }(SvelteComponent);
-
-  /**
-   * Creates incremented ID for each newly created tour
-   *
-   * @return {Function} A function that returns the unique id for the tour
-   * @private
-   */
-
-  var uniqueId$1 = function () {
-    var id = 0;
-    return function () {
-      return ++id;
-    };
-  }();
 
   var Shepherd = new Evented();
   /**
@@ -6195,8 +6167,7 @@
 
     _proto._setTourID = function _setTourID() {
       var tourName = this.options.tourName || 'tour';
-      var uuid = uniqueId$1();
-      this.id = tourName + "--" + uuid;
+      this.id = tourName + "--" + uuid();
     }
     /**
      * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
