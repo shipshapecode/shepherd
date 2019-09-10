@@ -10,7 +10,7 @@
   };
 </script>
 
-<style>
+<style type="text/scss" global>
   .shepherd-cancel-icon {
     background: transparent;
     border: none;
@@ -21,18 +21,18 @@
     margin: 0;
     padding: 0;
     transition: color 0.5s ease;
-  }
 
-  .shepherd-cancel-icon:hover {
-    color: rgba(0, 0, 0, 0.75);
-  }
+    &:hover {
+      color: rgba(0, 0, 0, 0.75);
+    }
 
-  :global(.shepherd-has-title .shepherd-content .shepherd-cancel-icon) {
-    color: rgba(128, 128, 128, 0.75);
-  }
+    .shepherd-has-title .shepherd-content & {
+      color: rgba(128, 128, 128, 0.75);
 
-  :global(.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover) {
-    color: rgba(0, 0, 0, 0.75);
+      &:hover {
+        color: rgba(0, 0, 0, 0.75);
+      }
+    }
   }
 </style>
 

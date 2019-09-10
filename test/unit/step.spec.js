@@ -1,7 +1,6 @@
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
-import tippy from 'tippy.js';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -87,10 +86,6 @@ describe('Tour | Step', () => {
       beforeShowPromise() {
         return beforeShowPromise;
       }
-    });
-
-    beforeEach(() => {
-      tippy.setDefaultProps({ duration: 0, delay: 0 });
     });
 
     afterEach(() => {

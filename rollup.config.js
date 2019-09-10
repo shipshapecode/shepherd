@@ -7,6 +7,7 @@ import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
+import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
@@ -20,7 +21,10 @@ const plugins = [
   eslint({
     include: '**/*.js'
   }),
-  svelte(),
+  svelte({
+    preprocess: sveltePreprocess(),
+    emitCss: true
+  }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
   }),
@@ -32,7 +36,8 @@ const plugins = [
     extensions: ['.js', '.mjs', '.html', '.svelte']
   }),
   postcss({
-    plugins: []
+    plugins: [],
+    extract: 'dist/css/shepherd.css'
   })
 ];
 
@@ -48,6 +53,7 @@ if (process.env.DEVELOPMENT) {
       server: {
         baseDir: 'demo',
         routes: {
+          '/dist/css/shepherd.css': 'dist/css/shepherd.css',
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
           '/demo/js/prism.js': 'demo/js/prism.js',
           '/demo/js/welcome.js': 'demo/js/welcome.js',
@@ -105,7 +111,10 @@ if (!process.env.DEVELOPMENT) {
         }
       ],
       plugins: [
-        svelte(),
+        svelte({
+          preprocess: sveltePreprocess(),
+          emitCss: true
+        }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
         }),
@@ -117,7 +126,8 @@ if (!process.env.DEVELOPMENT) {
           extensions: ['.js', '.mjs', '.html', '.svelte']
         }),
         postcss({
-          plugins: []
+          plugins: [],
+          extract: 'dist/css/shepherd.css'
         }),
         terser(),
         license({

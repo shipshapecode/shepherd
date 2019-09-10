@@ -7,7 +7,7 @@
   export let classPrefix, descriptionId, labelId, step;
 </script>
 
-<style>
+<style global>
   .shepherd-content {
     border-radius: 5px;
     outline: none;

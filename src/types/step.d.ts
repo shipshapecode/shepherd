@@ -27,7 +27,7 @@ declare class Step extends Evented {
   complete(): void;
 
   /**
-   * Remove the step, delete the step's element, and destroy the tippy instance for the step
+   * Remove the step, delete the step's element, and destroy the Popper instance for the step
    * Triggers `destroy` event
    */
   destroy(): void;
@@ -39,7 +39,7 @@ declare class Step extends Evented {
   getTour(): Tour;
 
   /**
-   * Hide the step and destroy the tippy instance
+   * Hide the step
    */
   hide(): void;
 
@@ -143,12 +143,7 @@ declare namespace Step {
      * - `Function` to be executed when the step is built. It must return one of the three options above.
      * ```
      */
-    text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement)
-
-    /**
-     * Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
-     */
-    tippyOptions?: object;
+    text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement);
 
     /**
      * The step's title. It becomes an `h3` at the top of the step.

@@ -6,38 +6,6 @@
   (global = global || self, global.Shepherd = factory());
 }(this, function () { 'use strict';
 
-  function styleInject(css, ref) {
-    if (ref === void 0) ref = {};
-    var insertAt = ref.insertAt;
-
-    if (!css || typeof document === 'undefined') {
-      return;
-    }
-
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
-
-    if (insertAt === 'top') {
-      if (head.firstChild) {
-        head.insertBefore(style, head.firstChild);
-      } else {
-        head.appendChild(style);
-      }
-    } else {
-      head.appendChild(style);
-    }
-
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-  }
-
-  var css = ".shepherd-active.shepherd-modal-is-visible :not(.shepherd-target) {\n  pointer-events: none; }\n\n.shepherd-active.shepherd-modal-is-visible .shepherd-button, .shepherd-active.shepherd-modal-is-visible .shepherd-cancel-icon, .shepherd-active.shepherd-modal-is-visible .shepherd-element, .shepherd-active.shepherd-modal-is-visible .shepherd-target {\n  pointer-events: auto; }\n  .shepherd-active.shepherd-modal-is-visible .shepherd-button *, .shepherd-active.shepherd-modal-is-visible .shepherd-cancel-icon *, .shepherd-active.shepherd-modal-is-visible .shepherd-element *, .shepherd-active.shepherd-modal-is-visible .shepherd-target * {\n    pointer-events: auto; }\n\n.shepherd.tippy-popper {\n  z-index: 9999; }\n  .shepherd.tippy-popper .tippy-tooltip {\n    background-color: #ffffff;\n    border-radius: 5px; }\n    .shepherd.tippy-popper .tippy-tooltip .tippy-arrow {\n      transform: scale(2.1);\n      z-index: 1000; }\n    .shepherd.tippy-popper .tippy-tooltip .tippy-content {\n      border-radius: 5px;\n      padding: 0;\n      text-align: center; }\n  .shepherd.tippy-popper[x-placement^=\"top\"] {\n    margin-bottom: 16px; }\n    .shepherd.tippy-popper[x-placement^=\"top\"] .tippy-arrow {\n      border-top-color: #ffffff; }\n  .shepherd.tippy-popper[x-placement^=\"bottom\"] {\n    margin-top: 16px; }\n    .shepherd.tippy-popper[x-placement^=\"bottom\"] .tippy-arrow {\n      border-bottom-color: #ffffff; }\n    .shepherd.tippy-popper[x-placement^=\"bottom\"].shepherd-has-title .tippy-arrow {\n      border-bottom-color: #e6e6e6; }\n  .shepherd.tippy-popper[x-placement^=\"left\"] {\n    margin-right: 16px; }\n    .shepherd.tippy-popper[x-placement^=\"left\"] .tippy-arrow {\n      border-left-color: #ffffff; }\n  .shepherd.tippy-popper[x-placement^=\"right\"] {\n    margin-left: 16px; }\n    .shepherd.tippy-popper[x-placement^=\"right\"] .tippy-arrow {\n      border-right-color: #ffffff; }\n";
-  styleInject(css);
-
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
@@ -353,31 +321,8 @@
     }
   }
 
-  var addHasTitleClass = function addHasTitleClass() {
+  function _getCenteredStylePopperModifier() {
     return {
-      addHasTitleClass: _createClassModifier('shepherd-has-title')
-    };
-  };
-  /**
-   * Create a popper modifier for adding the passed className to the popper
-   * @param {string} className The class to add to the popper
-   * @return {{fn(*): *, enabled: boolean}|*}
-   * @private
-   */
-
-
-  function _createClassModifier(className) {
-    return {
-      enabled: true,
-      fn: function fn(data) {
-        data.instance.popper.classList.add(className);
-        return data;
-      }
-    };
-  }
-
-  function _getCenteredStylePopperModifier(step) {
-    var config = {
       computeStyle: {
         enabled: true,
         fn: function fn(data) {
@@ -388,63 +333,32 @@
           });
           return data;
         }
-      },
-      addShepherdClass: _createClassModifier('shepherd')
-    };
-
-    if (step.classPrefix) {
-      config.addClassPrefix = _createClassModifier(step.classPrefix);
-    }
-
-    return config;
-  }
-  /**
-   * Used to compose settings for tippyOptions.popperOptions (https://atomiks.github.io/tippyjs/#popper-options-option)
-   * @private
-   */
-
-
-  function _getDefaultPopperOptions(step) {
-    var popperOptions = {
-      positionFixed: true,
-      modifiers: {
-        addShepherdClass: _createClassModifier('shepherd')
       }
     };
-
-    if (step.classPrefix) {
-      popperOptions.modifiers.addClassPrefix = _createClassModifier(step.classPrefix);
-    }
-
-    return popperOptions;
   }
   /**
-   * Generates the hash of options that will be passed to `Tippy` instances
+   * Generates the hash of options that will be passed to `Popper` instances
    * target an element in the DOM.
    *
    * @param {Object} attachToOptions The local `attachTo` options
    * @param {Step} step The step instance
-   * @return {Object} The final tippy options object
+   * @return {Object} The final popper options object
    */
 
 
-  function makeAttachedTippyOptions(attachToOptions, step) {
-    var _makeCommonTippyOptio = _makeCommonTippyOptions(step),
-        popperOptions = _makeCommonTippyOptio.popperOptions,
-        tippyOptions = _makeCommonTippyOptio.tippyOptions;
+  function makeAttachedPopperOptions(attachToOptions, step) {
+    var popperOptions = _makeCommonPopperOptions();
 
-    tippyOptions.flipOnUpdate = true;
-    tippyOptions.placement = attachToOptions.on || 'right';
+    popperOptions.placement = attachToOptions.on || 'right';
 
-    if (step.options && step.options.tippyOptions && step.options.tippyOptions.popperOptions) {
-      var stepPopperOptions = step.options.tippyOptions.popperOptions;
+    if (step.options && step.options.popperOptions) {
+      var stepPopperOptions = step.options.popperOptions;
       popperOptions = _extends({}, popperOptions, {}, stepPopperOptions, {
         modifiers: _extends({}, popperOptions.modifiers, {}, stepPopperOptions.modifiers)
       });
     }
 
-    tippyOptions.popperOptions = popperOptions;
-    return tippyOptions;
+    return popperOptions;
   }
   /**
    * Generates the hash of options for a tooltip that doesn't have a
@@ -452,737 +366,27 @@
    * of the view
    *
    * @param {Step} step The step instance
-   * @return {Object} The final tippy options object
+   * @return {Object} The final Popper options object
    */
 
-  function makeCenteredTippy(step) {
-    var centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
+  function makeCenteredPopper(step) {
+    var centeredStylePopperModifier = _getCenteredStylePopperModifier();
 
-    var _makeCommonTippyOptio2 = _makeCommonTippyOptions(step),
-        popperOptions = _makeCommonTippyOptio2.popperOptions,
-        tippyOptions = _makeCommonTippyOptio2.tippyOptions;
+    var popperOptions = _makeCommonPopperOptions();
 
-    tippyOptions.placement = 'top';
-    tippyOptions.arrow = false;
-    tippyOptions.popperOptions = tippyOptions.popperOptions || {};
-    popperOptions = _extends({}, popperOptions, {}, tippyOptions.popperOptions, {
-      modifiers: _extends({}, popperOptions.modifiers, {}, centeredStylePopperModifier, {}, tippyOptions.popperOptions.modifiers)
+    popperOptions.placement = 'top';
+    popperOptions = _extends({}, popperOptions, {
+      modifiers: _extends({}, popperOptions.modifiers, {}, centeredStylePopperModifier)
     });
-    tippyOptions.popperOptions = popperOptions;
-    return tippyOptions;
+    return popperOptions;
   }
 
-  function _makeCommonTippyOptions(step) {
-    var popperOptions = _getDefaultPopperOptions(step);
-
-    var tippyOptions = _extends({
-      content: step.el
-    }, step.options.tippyOptions);
-
-    if (step.options.title) {
-      popperOptions.modifiers = _extends({}, popperOptions.modifiers, {}, addHasTitleClass());
-    }
-
-    return {
-      popperOptions: popperOptions,
-      tippyOptions: tippyOptions
+  function _makeCommonPopperOptions() {
+    var popperOptions = {
+      positionFixed: true,
+      modifiers: {}
     };
-  }
-
-  /**!
-  * tippy.js v5.0.0-beta.2
-  * (c) 2017-2019 atomiks
-  * MIT License
-  */
-  function _extends$1() {
-    _extends$1 = Object.assign || function (target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
-      }
-
-      return target;
-    };
-
-    return _extends$1.apply(this, arguments);
-  }
-
-  var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-  var ua = isBrowser ? navigator.userAgent : '';
-  var isIE = /MSIE |Trident\//.test(ua);
-  var isUCBrowser = /UCBrowser\//.test(ua);
-  var isIOS = isBrowser && /iPhone|iPad|iPod/.test(navigator.platform);
-  var defaultProps = {
-    allowHTML: true,
-    animateFill: false,
-    animation: 'fade',
-    appendTo: function appendTo() {
-      return document.body;
-    },
-    aria: 'describedby',
-    arrow: true,
-    boundary: 'scrollParent',
-    content: '',
-    delay: 0,
-    distance: 10,
-    duration: [300, 250],
-    flip: true,
-    flipBehavior: 'flip',
-    flipOnUpdate: false,
-    followCursor: false,
-    hideOnClick: true,
-    ignoreAttributes: false,
-    inertia: false,
-    interactive: false,
-    interactiveBorder: 2,
-    interactiveDebounce: 0,
-    lazy: true,
-    maxWidth: 350,
-    multiple: false,
-    offset: 0,
-    onCreate: function onCreate() {},
-    onHidden: function onHidden() {},
-    onHide: function onHide() {},
-    onMount: function onMount() {},
-    onShow: function onShow() {},
-    onShown: function onShown() {},
-    onTrigger: function onTrigger() {},
-    onUntrigger: function onUntrigger() {},
-    placement: 'top',
-    popperOptions: {},
-    role: 'tooltip',
-    showOnCreate: false,
-    sticky: false,
-    theme: '',
-    touch: true,
-    trigger: 'mouseenter focus',
-    triggerTarget: null,
-    updateDuration: 0,
-    zIndex: 9999
-    /**
-     * If the setProps() method encounters one of these, the popperInstance must be
-     * recreated
-     */
-
-  };
-  var POPPER_INSTANCE_DEPENDENCIES = ['arrow', 'boundary', 'distance', 'flip', 'flipBehavior', 'flipOnUpdate', 'offset', 'placement', 'popperOptions'];
-  var PASSIVE = {
-    passive: true
-  };
-  var PREVENT_OVERFLOW_PADDING = 5;
-  var ROUND_ARROW_INNER_HTML = '<svg viewBox="0 0 18 7" xmlns="http://www.w3.org/2000/svg"><path d="M0 7s2.021-.015 5.253-4.218C6.584 1.051 7.797.007 9 0c1.203-.007 2.416 1.035 3.761 2.782C16.012 7.005 18 7 18 7H0z"/></svg>';
-  var IOS_CLASS = "tippy-iOS";
-  var POPPER_CLASS = "tippy-popper";
-  var TOOLTIP_CLASS = "tippy-tooltip";
-  var CONTENT_CLASS = "tippy-content";
-  var BACKDROP_CLASS = "tippy-backdrop";
-  var ARROW_CLASS = "tippy-arrow";
-  var SVG_ARROW_CLASS = "tippy-svg-arrow";
-  var POPPER_SELECTOR = "." + POPPER_CLASS;
-  var TOOLTIP_SELECTOR = "." + TOOLTIP_CLASS;
-  var CONTENT_SELECTOR = "." + CONTENT_CLASS;
-  var BACKDROP_SELECTOR = "." + BACKDROP_CLASS;
-  var ARROW_SELECTOR = "." + ARROW_CLASS;
-  var SVG_ARROW_SELECTOR = "." + SVG_ARROW_CLASS;
-  var currentInput = {
-    isTouch: false
-  };
-  var lastMouseMoveTime = 0;
-  /**
-   * When a `touchstart` event is fired, it's assumed the user is using touch
-   * input. We'll bind a `mousemove` event listener to listen for mouse input in
-   * the future. This way, the `isTouch` property is fully dynamic and will handle
-   * hybrid devices that use a mix of touch + mouse input.
-   */
-
-  function onDocumentTouchStart() {
-    if (currentInput.isTouch) {
-      return;
-    }
-
-    currentInput.isTouch = true;
-
-    if (isIOS) {
-      document.body.classList.add(IOS_CLASS);
-    }
-
-    if (window.performance) {
-      document.addEventListener('mousemove', onDocumentMouseMove);
-    }
-  }
-  /**
-   * When two `mousemove` event are fired consecutively within 20ms, it's assumed
-   * the user is using mouse input again. `mousemove` can fire on touch devices as
-   * well, but very rarely that quickly.
-   */
-
-
-  function onDocumentMouseMove() {
-    var now = performance.now();
-
-    if (now - lastMouseMoveTime < 20) {
-      currentInput.isTouch = false;
-      document.removeEventListener('mousemove', onDocumentMouseMove);
-
-      if (!isIOS) {
-        document.body.classList.remove(IOS_CLASS);
-      }
-    }
-
-    lastMouseMoveTime = now;
-  }
-  /**
-   * When an element is in focus and has a tippy, leaving the tab/window and
-   * returning causes it to show again. For mouse users this is unexpected, but
-   * for keyboard use it makes sense.
-   * TODO: find a better technique to solve this problem
-   */
-
-
-  function onWindowBlur() {
-    var _document = document,
-        activeElement = _document.activeElement;
-    var instance = activeElement._tippy;
-
-    if (activeElement && activeElement.blur && instance && !instance.state.isVisible) {
-      activeElement.blur();
-    }
-  }
-  /**
-   * Adds the needed global event listeners
-   */
-
-
-  function bindGlobalEventListeners() {
-    document.addEventListener('touchstart', onDocumentTouchStart, _extends$1({}, PASSIVE, {
-      capture: true
-    }));
-    window.addEventListener('blur', onWindowBlur);
-  }
-
-  var keys = Object.keys(defaultProps);
-  /**
-   * Returns an object of optional props from data-tippy-* attributes
-   */
-
-  function getDataAttributeProps(reference) {
-    var props = keys.reduce(function (acc, key) {
-      var valueAsString = (reference.getAttribute("data-tippy-" + key) || '').trim();
-
-      if (!valueAsString) {
-        return acc;
-      }
-
-      if (key === 'content') {
-        acc[key] = valueAsString;
-      } else {
-        try {
-          acc[key] = JSON.parse(valueAsString);
-        } catch (e) {
-          acc[key] = valueAsString;
-        }
-      }
-
-      return acc;
-    }, {});
-    return props;
-  }
-  /**
-   * Determines if the value is a reference element
-   */
-
-
-  function isReferenceElement(value) {
-    return !!(value && value._tippy && !value.classList.contains(POPPER_CLASS));
-  }
-  /**
-   * Safe .hasOwnProperty check, for prototype-less objects
-   */
-
-
-  function hasOwnProperty(obj, key) {
-    return {}.hasOwnProperty.call(obj, key);
-  }
-  /**
-   * Returns an array of elements based on the value
-   */
-
-
-  function getArrayOfElements(value) {
-    if (isRealElement(value)) {
-      return [value];
-    }
-
-    if (value instanceof NodeList) {
-      return arrayFrom(value);
-    }
-
-    if (Array.isArray(value)) {
-      return value;
-    }
-
-    return arrayFrom(document.querySelectorAll(value));
-  }
-  /**
-   * Returns a value at a given index depending on if it's an array or number
-   */
-
-
-  function getValueAtIndexOrReturn(value, index, defaultValue) {
-    if (Array.isArray(value)) {
-      var v = value[index];
-      return v == null ? Array.isArray(defaultValue) ? defaultValue[index] : defaultValue : v;
-    }
-
-    return value;
-  }
-  /**
-   * Prevents errors from being thrown while accessing nested modifier objects
-   * in `popperOptions`
-   */
-
-
-  function getModifier(obj, key) {
-    return obj && obj.modifiers && obj.modifiers[key];
-  }
-  /**
-   * Determines if the value is a real element
-   */
-
-
-  function isRealElement(value) {
-    return value instanceof Element;
-  }
-  /**
-   * Firefox extensions don't allow setting .innerHTML directly, this will trick
-   * it
-   */
-
-
-  function innerHTML() {
-    return 'innerHTML';
-  }
-  /**
-   * Evaluates a function if one, or returns the value
-   */
-
-
-  function invokeWithArgsOrReturn(value, args) {
-    return typeof value === 'function' ? value.apply(void 0, args) : value;
-  }
-  /**
-   * Sets a popperInstance `flip` modifier's enabled state
-   */
-
-
-  function setFlipModifierEnabled(modifiers, value) {
-    modifiers.filter(function (m) {
-      return m.name === 'flip';
-    })[0].enabled = value;
-  }
-  /**
-   * Returns a new `div` element
-   */
-
-
-  function div() {
-    return document.createElement('div');
-  }
-  /**
-   * Applies a transition duration to a list of elements
-   */
-
-
-  function setTransitionDuration(els, value) {
-    els.forEach(function (el) {
-      if (el) {
-        el.style.transitionDuration = value + "ms";
-      }
-    });
-  }
-  /**
-   * Sets the visibility state to elements so they can begin to transition
-   */
-
-
-  function setVisibilityState(els, state) {
-    els.forEach(function (el) {
-      if (el) {
-        el.setAttribute('data-state', state);
-      }
-    });
-  }
-  /**
-   * Evaluates the props object by merging data attributes and disabling
-   * conflicting props where necessary
-   */
-
-
-  function evaluateProps(reference, props) {
-    var out = _extends$1({}, props, {
-      content: invokeWithArgsOrReturn(props.content, [reference])
-    }, props.ignoreAttributes ? {} : getDataAttributeProps(reference));
-
-    if (out.animateFill) {
-      out.arrow = false;
-    }
-
-    if (out.arrow || isUCBrowser) {
-      out.animateFill = false;
-    }
-
-    if (out.interactive) {
-      out.aria = null;
-    }
-
-    return out;
-  }
-  /**
-   * Debounce utility. To avoid bloating bundle size, we're only passing 1
-   * argument here, a more generic function would pass all arguments. Only
-   * `onMouseMove` uses this which takes the event object for now.
-   */
-
-
-  function debounce(fn, ms) {
-    // Avoid wrapping in `setTimeout` if ms is 0 anyway
-    if (ms === 0) {
-      return fn;
-    }
-
-    var timeout;
-    return function (arg) {
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        fn(arg);
-      }, ms);
-    };
-  }
-  /**
-   * Preserves the original function invocation when another function replaces it
-   */
-
-
-  function preserveInvocation(originalFn, currentFn, args) {
-    if (originalFn && originalFn !== currentFn) {
-      originalFn.apply(void 0, args);
-    }
-  }
-  /**
-   * Ponyfill for Array.from - converts iterable values to an array
-   */
-
-
-  function arrayFrom(value) {
-    return [].slice.call(value);
-  }
-  /**
-   * Works like Element.prototype.closest, but uses a callback instead
-   */
-
-
-  function closestCallback(element, callback) {
-    while (element) {
-      if (callback(element)) {
-        return element;
-      }
-
-      element = element.parentElement;
-    }
-
-    return null;
-  }
-  /**
-   * Determines if an array or string includes a string
-   */
-
-
-  function includes(a, b) {
-    return a.indexOf(b) > -1;
-  }
-  /**
-   * Creates an array from string of values separated by whitespace
-   */
-
-
-  function splitBySpaces(value) {
-    return value.split(/\s+/).filter(Boolean);
-  }
-  /**
-   * Sets the innerHTML of an element
-   */
-
-
-  function setInnerHTML(element, html) {
-    element[innerHTML()] = isRealElement(html) ? html[innerHTML()] : html;
-  }
-  /**
-   * Sets the content of a tooltip
-   */
-
-
-  function setContent(contentEl, props) {
-    if (isRealElement(props.content)) {
-      setInnerHTML(contentEl, '');
-      contentEl.appendChild(props.content);
-    } else if (typeof props.content !== 'function') {
-      var key = props.allowHTML ? 'innerHTML' : 'textContent';
-      contentEl[key] = props.content;
-    }
-  }
-  /**
-   * Returns the child elements of a popper element
-   */
-
-
-  function getChildren(popper) {
-    return {
-      tooltip: popper.querySelector(TOOLTIP_SELECTOR),
-      backdrop: popper.querySelector(BACKDROP_SELECTOR),
-      content: popper.querySelector(CONTENT_SELECTOR),
-      arrow: popper.querySelector(ARROW_SELECTOR) || popper.querySelector(SVG_ARROW_SELECTOR)
-    };
-  }
-  /**
-   * Adds `data-inertia` attribute
-   */
-
-
-  function addInertia(tooltip) {
-    tooltip.setAttribute('data-inertia', '');
-  }
-  /**
-   * Removes `data-inertia` attribute
-   */
-
-
-  function removeInertia(tooltip) {
-    tooltip.removeAttribute('data-inertia');
-  }
-  /**
-   * Creates an arrow element and returns it
-   */
-
-
-  function createArrowElement(arrow) {
-    var arrowElement = div();
-
-    if (arrow === true) {
-      arrowElement.className = ARROW_CLASS;
-    } else {
-      arrowElement.className = SVG_ARROW_CLASS;
-
-      if (isRealElement(arrow)) {
-        arrowElement.appendChild(arrow);
-      } else {
-        setInnerHTML(arrowElement, arrow === 'round' ? ROUND_ARROW_INNER_HTML : arrow);
-      }
-    }
-
-    return arrowElement;
-  }
-  /**
-   * Creates a backdrop element and returns it
-   */
-
-
-  function createBackdropElement(isVisible) {
-    var backdrop = div();
-    backdrop.className = BACKDROP_CLASS;
-    backdrop.setAttribute('data-state', isVisible ? 'visible' : 'hidden');
-    return backdrop;
-  }
-  /**
-   * Adds interactive-related attributes
-   */
-
-
-  function addInteractive(tooltip) {
-    tooltip.setAttribute('data-interactive', '');
-  }
-  /**
-   * Removes interactive-related attributes
-   */
-
-
-  function removeInteractive(tooltip) {
-    tooltip.removeAttribute('data-interactive');
-  }
-  /**
-   * Add/remove transitionend listener from tooltip
-   */
-
-
-  function updateTransitionEndListener(tooltip, action, listener) {
-    var eventName = isUCBrowser && document.body.style.webkitTransition !== undefined ? 'webkitTransitionEnd' : 'transitionend';
-    tooltip[action + 'EventListener'](eventName, listener);
-  }
-  /**
-   * Returns the popper's placement, ignoring shifting (top-start, etc)
-   */
-
-
-  function getBasePlacement(placement) {
-    return placement.split('-')[0];
-  }
-  /**
-   * Triggers reflow
-   */
-
-
-  function reflow(popper) {
-    void popper.offsetHeight;
-  }
-  /**
-   * Adds/removes theme from tooltip's classList
-   */
-
-
-  function updateTheme(tooltip, action, theme) {
-    splitBySpaces(theme).forEach(function (name) {
-      tooltip.classList[action](name + "-theme");
-    });
-  }
-  /**
-   * Constructs the popper element and returns it
-   */
-
-
-  function createPopperElement(id, props) {
-    var popper = div();
-    popper.className = POPPER_CLASS;
-    popper.style.position = 'absolute';
-    popper.style.top = '0';
-    popper.style.left = '0';
-    var tooltip = div();
-    tooltip.className = TOOLTIP_CLASS;
-    tooltip.id = "tippy-" + id;
-    tooltip.setAttribute('data-state', 'hidden');
-    tooltip.setAttribute('tabindex', '-1');
-    updateTheme(tooltip, 'add', props.theme);
-    var content = div();
-    content.className = CONTENT_CLASS;
-    content.setAttribute('data-state', 'hidden');
-
-    if (props.interactive) {
-      addInteractive(tooltip);
-    }
-
-    if (props.arrow) {
-      tooltip.setAttribute('data-arrow', '');
-      tooltip.appendChild(createArrowElement(props.arrow));
-    }
-
-    if (props.animateFill) {
-      tooltip.appendChild(createBackdropElement(false));
-      tooltip.setAttribute('data-animatefill', '');
-    }
-
-    if (props.inertia) {
-      addInertia(tooltip);
-    }
-
-    setContent(content, props);
-    tooltip.appendChild(content);
-    popper.appendChild(tooltip);
-    updatePopperElement(popper, props, props, false);
-    return popper;
-  }
-  /**
-   * Updates the popper element based on the new props
-   */
-
-
-  function updatePopperElement(popper, prevProps, nextProps, isVisible) {
-    var _getChildren = getChildren(popper),
-        tooltip = _getChildren.tooltip,
-        content = _getChildren.content,
-        backdrop = _getChildren.backdrop,
-        arrow = _getChildren.arrow;
-
-    popper.style.zIndex = '' + nextProps.zIndex;
-    tooltip.setAttribute('data-animation', nextProps.animation);
-    tooltip.style.maxWidth = nextProps.maxWidth + (typeof nextProps.maxWidth === 'number' ? 'px' : '');
-
-    if (nextProps.role) {
-      tooltip.setAttribute('role', nextProps.role);
-    } else {
-      tooltip.removeAttribute('role');
-    }
-
-    if (prevProps.content !== nextProps.content) {
-      setContent(content, nextProps);
-    } // animateFill
-
-
-    if (!prevProps.animateFill && nextProps.animateFill) {
-      tooltip.appendChild(createBackdropElement(isVisible));
-      tooltip.setAttribute('data-animatefill', '');
-    } else if (prevProps.animateFill && !nextProps.animateFill) {
-      tooltip.removeChild(backdrop);
-      tooltip.removeAttribute('data-animatefill');
-    } // arrow
-
-
-    if (!prevProps.arrow && nextProps.arrow) {
-      // false to true
-      tooltip.appendChild(createArrowElement(nextProps.arrow));
-      tooltip.setAttribute('data-arrow', '');
-    } else if (prevProps.arrow && !nextProps.arrow) {
-      // true to false
-      tooltip.removeChild(arrow);
-      tooltip.removeAttribute('data-arrow');
-    } else if (prevProps.arrow !== nextProps.arrow) {
-      // true to 'round' or vice-versa
-      tooltip.removeChild(arrow);
-      tooltip.appendChild(createArrowElement(nextProps.arrow));
-    } // interactive
-
-
-    if (!prevProps.interactive && nextProps.interactive) {
-      addInteractive(tooltip);
-    } else if (prevProps.interactive && !nextProps.interactive) {
-      removeInteractive(tooltip);
-    } // inertia
-
-
-    if (!prevProps.inertia && nextProps.inertia) {
-      addInertia(tooltip);
-    } else if (prevProps.inertia && !nextProps.inertia) {
-      removeInertia(tooltip);
-    } // theme
-
-
-    if (prevProps.theme !== nextProps.theme) {
-      updateTheme(tooltip, 'remove', prevProps.theme);
-      updateTheme(tooltip, 'add', nextProps.theme);
-    }
-  }
-  /**
-   * Determines if the mouse cursor is outside of the popper's interactive border
-   * region
-   */
-
-
-  function isCursorOutsideInteractiveBorder(popperPlacement, popperRect, event, props) {
-    if (!popperPlacement) {
-      return true;
-    }
-
-    var x = event.clientX,
-        y = event.clientY;
-    var interactiveBorder = props.interactiveBorder,
-        distance = props.distance;
-    var exceedsTop = popperRect.top - y > (popperPlacement === 'top' ? interactiveBorder + distance : interactiveBorder);
-    var exceedsBottom = y - popperRect.bottom > (popperPlacement === 'bottom' ? interactiveBorder + distance : interactiveBorder);
-    var exceedsLeft = popperRect.left - x > (popperPlacement === 'left' ? interactiveBorder + distance : interactiveBorder);
-    var exceedsRight = x - popperRect.right > (popperPlacement === 'right' ? interactiveBorder + distance : interactiveBorder);
-    return exceedsTop || exceedsBottom || exceedsLeft || exceedsRight;
+    return popperOptions;
   }
 
   /**!
@@ -1209,12 +413,12 @@
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    * SOFTWARE.
    */
-  var isBrowser$1 = typeof window !== 'undefined' && typeof document !== 'undefined';
+  var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
   var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
   var timeoutDuration = 0;
 
   for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
-    if (isBrowser$1 && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
+    if (isBrowser && navigator.userAgent.indexOf(longerTimeoutBrowsers[i]) >= 0) {
       timeoutDuration = 1;
       break;
     }
@@ -1248,7 +452,7 @@
     };
   }
 
-  var supportsMicroTasks = isBrowser$1 && window.Promise;
+  var supportsMicroTasks = isBrowser && window.Promise;
   /**
   * Create a debounced version of a method, that's asynchronously deferred
   * but called in the minimum time possible.
@@ -1259,7 +463,7 @@
   * @returns {Function}
   */
 
-  var debounce$1 = supportsMicroTasks ? microtaskDebounce : taskDebounce;
+  var debounce = supportsMicroTasks ? microtaskDebounce : taskDebounce;
   /**
    * Check if the given variable is a function
    * @method
@@ -1344,8 +548,8 @@
     return getScrollParent(getParentNode(element));
   }
 
-  var isIE11 = isBrowser$1 && !!(window.MSInputMethodContext && document.documentMode);
-  var isIE10 = isBrowser$1 && /MSIE 10/.test(navigator.userAgent);
+  var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
+  var isIE10 = isBrowser && /MSIE 10/.test(navigator.userAgent);
   /**
    * Determines if the browser is Internet Explorer
    * @method
@@ -1354,7 +558,7 @@
    * @returns {Boolean} isIE
    */
 
-  function isIE$1(version) {
+  function isIE(version) {
     if (version === 11) {
       return isIE11;
     }
@@ -1379,7 +583,7 @@
       return document.documentElement;
     }
 
-    var noOffsetParent = isIE$1(10) ? document.body : null; // NOTE: 1 DOM access here
+    var noOffsetParent = isIE(10) ? document.body : null; // NOTE: 1 DOM access here
 
     var offsetParent = element.offsetParent || null; // Skip hidden elements which don't have an offsetParent
 
@@ -1533,13 +737,13 @@
   }
 
   function getSize(axis, body, html, computedStyle) {
-    return Math.max(body['offset' + axis], body['scroll' + axis], html['client' + axis], html['offset' + axis], html['scroll' + axis], isIE$1(10) ? parseInt(html['offset' + axis]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Top' : 'Left')]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Bottom' : 'Right')]) : 0);
+    return Math.max(body['offset' + axis], body['scroll' + axis], html['client' + axis], html['offset' + axis], html['scroll' + axis], isIE(10) ? parseInt(html['offset' + axis]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Top' : 'Left')]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Bottom' : 'Right')]) : 0);
   }
 
   function getWindowSizes(document) {
     var body = document.body;
     var html = document.documentElement;
-    var computedStyle = isIE$1(10) && getComputedStyle(html);
+    var computedStyle = isIE(10) && getComputedStyle(html);
     return {
       height: getSize('Height', body, html, computedStyle),
       width: getSize('Width', body, html, computedStyle)
@@ -1585,7 +789,7 @@
     return obj;
   };
 
-  var _extends$2 = Object.assign || function (target) {
+  var _extends$1 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -1608,7 +812,7 @@
 
 
   function getClientRect(offsets) {
-    return _extends$2({}, offsets, {
+    return _extends$1({}, offsets, {
       right: offsets.left + offsets.width,
       bottom: offsets.top + offsets.height
     });
@@ -1628,7 +832,7 @@
     // This isn't reproducible in IE10 compatibility mode of IE11
 
     try {
-      if (isIE$1(10)) {
+      if (isIE(10)) {
         rect = element.getBoundingClientRect();
         var scrollTop = getScroll(element, 'top');
         var scrollLeft = getScroll(element, 'left');
@@ -1668,7 +872,7 @@
 
   function getOffsetRectRelativeToArbitraryNode(children, parent) {
     var fixedPosition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-    var isIE10 = isIE$1(10);
+    var isIE10 = isIE(10);
     var isHTML = parent.nodeName === 'HTML';
     var childrenRect = getBoundingClientRect(children);
     var parentRect = getBoundingClientRect(parent);
@@ -1769,7 +973,7 @@
 
   function getFixedPositionOffsetParent(element) {
     // This check is needed to avoid errors in case one of the elements isn't defined for any reason
-    if (!element || !element.parentElement || isIE$1()) {
+    if (!element || !element.parentElement || isIE()) {
       return document.documentElement;
     }
 
@@ -1891,7 +1095,7 @@
       }
     };
     var sortedAreas = Object.keys(rects).map(function (key) {
-      return _extends$2({
+      return _extends$1({
         key: key
       }, rects[key], {
         area: getArea(rects[key])
@@ -2447,7 +1651,7 @@
     };
   }
 
-  var isFirefox = isBrowser$1 && /Firefox/i.test(navigator.userAgent);
+  var isFirefox = isBrowser && /Firefox/i.test(navigator.userAgent);
   /**
    * @function
    * @memberof Modifiers
@@ -2536,9 +1740,9 @@
       'x-placement': data.placement
     }; // Update `data` attributes, styles and arrowStyles
 
-    data.attributes = _extends$2({}, attributes, data.attributes);
-    data.styles = _extends$2({}, styles, data.styles);
-    data.arrowStyles = _extends$2({}, data.offsets.arrow, data.arrowStyles);
+    data.attributes = _extends$1({}, attributes, data.attributes);
+    data.styles = _extends$1({}, styles, data.styles);
+    data.arrowStyles = _extends$1({}, data.offsets.arrow, data.arrowStyles);
     return data;
   }
   /**
@@ -2804,7 +2008,7 @@
         data.placement = placement + (variation ? '-' + variation : ''); // this object contains `position`, we want to preserve it along with
         // any additional property we may add in the future
 
-        data.offsets.popper = _extends$2({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
+        data.offsets.popper = _extends$1({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
         data = runModifiers(data.instance.modifiers, data, 'flip');
       }
     });
@@ -3074,7 +2278,7 @@
     };
     order.forEach(function (placement) {
       var side = ['left', 'top'].indexOf(placement) !== -1 ? 'primary' : 'secondary';
-      popper = _extends$2({}, popper, check[side](placement));
+      popper = _extends$1({}, popper, check[side](placement));
     });
     data.offsets.popper = popper;
     return data;
@@ -3104,7 +2308,7 @@
         start: defineProperty({}, side, reference[side]),
         end: defineProperty({}, side, reference[side] + reference[measurement] - popper[measurement])
       };
-      data.offsets.popper = _extends$2({}, popper, shiftOffsets[shiftvariation]);
+      data.offsets.popper = _extends$1({}, popper, shiftOffsets[shiftvariation]);
     }
 
     return data;
@@ -3665,9 +2869,9 @@
       }; // make update() debounced, so that it only runs at most once-per-tick
 
 
-      this.update = debounce$1(this.update.bind(this)); // with {} we create a new object with the options inside it
+      this.update = debounce(this.update.bind(this)); // with {} we create a new object with the options inside it
 
-      this.options = _extends$2({}, Popper.Defaults, options); // init state
+      this.options = _extends$1({}, Popper.Defaults, options); // init state
 
       this.state = {
         isDestroyed: false,
@@ -3679,12 +2883,12 @@
       this.popper = popper && popper.jquery ? popper[0] : popper; // Deep merge modifiers options
 
       this.options.modifiers = {};
-      Object.keys(_extends$2({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
-        _this.options.modifiers[name] = _extends$2({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
+      Object.keys(_extends$1({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
+        _this.options.modifiers[name] = _extends$1({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
       }); // Refactoring modifiers' list (Object => Array)
 
       this.modifiers = Object.keys(this.options.modifiers).map(function (name) {
-        return _extends$2({
+        return _extends$1({
           name: name
         }, _this.options.modifiers[name]);
       }) // sort the modifiers by order
@@ -3785,924 +2989,6 @@
   Popper.placements = placements;
   Popper.Defaults = Defaults;
 
-  /**!
-  * tippy.js v5.0.0-beta.2
-  * (c) 2017-2019 atomiks
-  * MIT License
-  */
-  var version = "5.0.0-beta.2";
-
-  var idCounter = 1; // Workaround for IE11's lack of new MouseEvent constructor
-
-  var mouseMoveListeners = [];
-  /**
-   * Creates and returns a Tippy object. We're using a closure pattern instead of
-   * a class so that the exposed object API is clean without private members
-   * prefixed with `_`.
-   */
-
-  function createTippy(reference, collectionProps) {
-    var props = evaluateProps(reference, collectionProps); // If the reference shouldn't have multiple tippys, return null early
-
-    if (!props.multiple && reference._tippy) {
-      return null;
-    }
-    /* ======================= 🔒 Private members 🔒 ======================= */
-
-
-    var showTimeout;
-    var hideTimeout;
-    var scheduleHideAnimationFrame;
-    var isBeingDestroyed = false;
-    var didHideDueToDocumentMouseDown = false;
-    var popperUpdates = 0;
-    var currentMountCallback;
-    var currentTransitionEndListener;
-    var listeners = [];
-    var debouncedOnMouseMove = debounce(onMouseMove, props.interactiveDebounce);
-    /* ======================= 🔑 Public members 🔑 ======================= */
-
-    var id = idCounter++;
-    var popper = createPopperElement(id, props);
-    var popperChildren = getChildren(popper);
-    var popperInstance = null; // These two elements are static
-
-    var tooltip = popperChildren.tooltip,
-        content = popperChildren.content;
-    var state = {
-      // The current real placement (`data-placement` attribute)
-      currentPlacement: props.placement,
-      // Does the instance have a pending timeout for show()?
-      isScheduledToShow: false,
-      // Is the instance currently enabled?
-      isEnabled: true,
-      // Is the tippy currently showing and not transitioning out?
-      isVisible: false,
-      // Has the instance been destroyed?
-      isDestroyed: false,
-      // Is the tippy currently mounted to the DOM?
-      isMounted: false,
-      // Has the tippy finished transitioning in?
-      isShown: false
-    };
-    var instance = {
-      // properties
-      id: id,
-      reference: reference,
-      popper: popper,
-      popperChildren: popperChildren,
-      popperInstance: popperInstance,
-      props: props,
-      state: state,
-      // methods
-      clearDelayTimeouts: clearDelayTimeouts,
-      setProps: setProps,
-      setContent: setContent,
-      show: show,
-      hide: hide,
-      enable: enable,
-      disable: disable,
-      destroy: destroy
-    };
-    /* ==================== Initial instance mutations =================== */
-
-
-    reference._tippy = instance;
-    popper._tippy = instance;
-    addListenersToTriggerTarget();
-    handleAriaExpandedAttribute();
-
-    if (!props.lazy) {
-      createPopperInstance();
-    }
-
-    if (props.showOnCreate) {
-      scheduleShow();
-    } // Prevent a tippy with a delay from hiding if the cursor left then returned
-    // before it started hiding
-
-
-    popper.addEventListener('mouseenter', function () {
-      if (instance.props.interactive && instance.state.isVisible) {
-        instance.clearDelayTimeouts();
-      }
-    });
-    popper.addEventListener('mouseleave', function () {
-      if (instance.props.interactive && includes(instance.props.trigger, 'mouseenter')) {
-        document.addEventListener('mousemove', debouncedOnMouseMove);
-      }
-    });
-    props.onCreate(instance);
-    return instance;
-    /* ======================= 🔒 Private methods 🔒 ======================= */
-
-    function getNormalizedTouchSettings() {
-      var touch = instance.props.touch;
-      return Array.isArray(touch) ? touch : [touch, 0];
-    }
-
-    function getIsCustomTouchBehavior() {
-      return getNormalizedTouchSettings()[0] === 'hold';
-    }
-
-    function getTransitionableElements() {
-      return [tooltip, content, instance.popperChildren.backdrop];
-    }
-
-    function getTriggerTarget() {
-      return instance.props.triggerTarget || reference;
-    }
-
-    function handleAriaDescribedByAttribute() {
-      var aria = instance.props.aria;
-
-      if (!aria) {
-        return;
-      }
-
-      var attr = "aria-" + aria;
-      var node = getTriggerTarget();
-      var id = tooltip.id;
-      var currentValue = node.getAttribute(attr);
-
-      if (instance.state.isVisible) {
-        node.setAttribute(attr, currentValue ? currentValue + " " + id : id);
-      } else {
-        var nextValue = currentValue && currentValue.replace(id, '').trim();
-
-        if (nextValue) {
-          node.setAttribute(attr, nextValue);
-        } else {
-          node.removeAttribute(attr);
-        }
-      }
-    }
-
-    function handleAriaExpandedAttribute() {
-      var attr = 'aria-expanded';
-      var node = getTriggerTarget();
-
-      if (instance.props.interactive) {
-        node.setAttribute(attr, instance.state.isVisible ? 'true' : 'false');
-      } else {
-        node.removeAttribute(attr);
-      }
-    }
-
-    function cleanupInteractiveMouseListeners() {
-      document.body.removeEventListener('mouseleave', scheduleHide);
-      document.removeEventListener('mousemove', debouncedOnMouseMove);
-      mouseMoveListeners = mouseMoveListeners.filter(function (listener) {
-        return listener !== debouncedOnMouseMove;
-      });
-    }
-
-    function onDocumentMouseDown(event) {
-      // Clicked on interactive popper
-      if (instance.props.interactive && popper.contains(event.target)) {
-        return;
-      } // Clicked on the event listeners target
-
-
-      if (getTriggerTarget().contains(event.target)) {
-        if (currentInput.isTouch) {
-          return;
-        }
-
-        if (instance.state.isVisible && includes(instance.props.trigger, 'click')) {
-          return;
-        }
-      }
-
-      if (instance.props.hideOnClick === true) {
-        instance.clearDelayTimeouts();
-        instance.hide(); // `mousedown` event is fired right before `focus`. This lets a tippy with
-        // `focus` trigger know that it should not show
-
-        didHideDueToDocumentMouseDown = true;
-        setTimeout(function () {
-          didHideDueToDocumentMouseDown = false;
-        }); // The listener gets added in `scheduleShow()`, but this may be hiding it
-        // before it shows, and hide()'s early bail-out behavior can prevent it
-        // from being cleaned up
-
-        if (!instance.state.isMounted) {
-          removeDocumentMouseDownListener();
-        }
-      }
-    }
-
-    function addDocumentMouseDownListener() {
-      document.addEventListener('mousedown', onDocumentMouseDown, true);
-    }
-
-    function removeDocumentMouseDownListener() {
-      document.removeEventListener('mousedown', onDocumentMouseDown, true);
-    }
-
-    function onTransitionedOut(duration, callback) {
-      onTransitionEnd(duration, function () {
-        if (!instance.state.isVisible && popper.parentNode && popper.parentNode.contains(popper)) {
-          callback();
-        }
-      });
-    }
-
-    function onTransitionedIn(duration, callback) {
-      onTransitionEnd(duration, callback);
-    }
-
-    function onTransitionEnd(duration, callback) {
-      /**
-       * Listener added as the `transitionend` handler
-       */
-      function listener(event) {
-        if (event.target === tooltip) {
-          updateTransitionEndListener(tooltip, 'remove', listener);
-          callback();
-        }
-      } // Make callback synchronous if duration is 0
-      // `transitionend` won't fire otherwise
-
-
-      if (duration === 0) {
-        return callback();
-      }
-
-      updateTransitionEndListener(tooltip, 'remove', currentTransitionEndListener);
-      updateTransitionEndListener(tooltip, 'add', listener);
-      currentTransitionEndListener = listener;
-    }
-
-    function on(eventType, handler, options) {
-      if (options === void 0) {
-        options = false;
-      }
-
-      getTriggerTarget().addEventListener(eventType, handler, options);
-      listeners.push({
-        eventType: eventType,
-        handler: handler,
-        options: options
-      });
-    }
-
-    function addListenersToTriggerTarget() {
-      if (getIsCustomTouchBehavior()) {
-        on('touchstart', onTrigger, PASSIVE);
-        on('touchend', onMouseLeave, PASSIVE);
-      } // `click` for keyboard. Mouse uses `mousedown` (onDocumentMouseDown)
-
-
-      if (!includes(instance.props.trigger, 'click')) {
-        on('click', function () {
-          if (!currentInput.isTouch && instance.props.hideOnClick === true) {
-            instance.hide();
-          }
-        });
-      }
-
-      splitBySpaces(instance.props.trigger).forEach(function (eventType) {
-        if (eventType === 'manual') {
-          return;
-        }
-
-        on(eventType, onTrigger);
-
-        switch (eventType) {
-          case 'mouseenter':
-            on('mouseleave', onMouseLeave);
-            break;
-
-          case 'focus':
-            on(isIE ? 'focusout' : 'blur', onBlur);
-            break;
-        }
-      });
-    }
-
-    function removeListenersFromTriggerTarget() {
-      listeners.forEach(function (_ref) {
-        var eventType = _ref.eventType,
-            handler = _ref.handler,
-            options = _ref.options;
-        getTriggerTarget().removeEventListener(eventType, handler, options);
-      });
-      listeners = [];
-    }
-
-    function onTrigger(event) {
-      if (didHideDueToDocumentMouseDown || !instance.state.isEnabled || isEventListenerStopped(event)) {
-        return;
-      }
-
-      if (!instance.state.isVisible && event instanceof MouseEvent) {
-        // If scrolling, `mouseenter` events can be fired if the cursor lands
-        // over a new target, but `mousemove` events don't get fired. This
-        // causes interactive tooltips to get stuck open until the cursor is
-        // moved
-        mouseMoveListeners.forEach(function (listener) {
-          return listener(event);
-        });
-      } // Toggle show/hide when clicking click-triggered tooltips
-
-
-      if (event.type === 'click' && instance.props.hideOnClick !== false && instance.state.isVisible) {
-        scheduleHide(event);
-      } else {
-        var _getNormalizedTouchSe = getNormalizedTouchSettings(),
-            value = _getNormalizedTouchSe[0],
-            duration = _getNormalizedTouchSe[1];
-
-        if (currentInput.isTouch && value === 'hold' && duration) {
-          // We can hijack the show timeout here, it will be cleared by
-          // `scheduleHide()` when necessary
-          showTimeout = setTimeout(function () {
-            scheduleShow(event);
-          }, duration);
-        } else {
-          scheduleShow(event);
-        }
-      }
-    }
-
-    function onMouseMove(event) {
-      var isCursorOverReferenceOrPopper = closestCallback(event.target, function (el) {
-        return el === reference || el === popper;
-      });
-
-      if (isCursorOverReferenceOrPopper) {
-        return;
-      }
-
-      if (isCursorOutsideInteractiveBorder(getBasePlacement(instance.state.currentPlacement), popper.getBoundingClientRect(), event, instance.props)) {
-        cleanupInteractiveMouseListeners();
-        scheduleHide(event);
-      }
-    }
-
-    function onMouseLeave(event) {
-      if (isEventListenerStopped(event)) {
-        return;
-      }
-
-      if (instance.props.interactive) {
-        document.body.addEventListener('mouseleave', scheduleHide);
-        document.addEventListener('mousemove', debouncedOnMouseMove);
-        mouseMoveListeners.push(debouncedOnMouseMove);
-        return;
-      }
-
-      scheduleHide(event);
-    }
-
-    function onBlur(event) {
-      if (event.target !== getTriggerTarget()) {
-        return;
-      } // If focus was moved to within the popper
-
-
-      if (instance.props.interactive && event.relatedTarget && popper.contains(event.relatedTarget)) {
-        return;
-      }
-
-      scheduleHide(event);
-    }
-
-    function isEventListenerStopped(event) {
-      var supportsTouch = 'ontouchstart' in window;
-      var isTouchEvent = includes(event.type, 'touch');
-      var isCustomTouch = getIsCustomTouchBehavior();
-      return supportsTouch && currentInput.isTouch && isCustomTouch && !isTouchEvent || currentInput.isTouch && !isCustomTouch && isTouchEvent;
-    }
-
-    function createPopperInstance() {
-      var popperOptions = instance.props.popperOptions;
-      var arrow = instance.popperChildren.arrow;
-      var preventOverflowModifier = getModifier(popperOptions, 'preventOverflow');
-
-      function applyMutations(data) {
-        instance.state.currentPlacement = data.placement;
-
-        if (instance.props.flip && !instance.props.flipOnUpdate) {
-          if (data.flipped) {
-            instance.popperInstance.options.placement = data.placement;
-          }
-
-          setFlipModifierEnabled(instance.popperInstance.modifiers, false);
-        }
-
-        tooltip.setAttribute('data-placement', data.placement);
-
-        if (data.attributes['x-out-of-boundaries'] !== false) {
-          tooltip.setAttribute('data-out-of-boundaries', '');
-        } else {
-          tooltip.removeAttribute('data-out-of-boundaries');
-        }
-
-        var basePlacement = getBasePlacement(data.placement);
-        var isVerticalPlacement = includes(['top', 'bottom'], basePlacement);
-        var isSecondaryPlacement = includes(['bottom', 'right'], basePlacement); // Apply `distance` prop
-
-        var tooltipStyles = tooltip.style;
-        tooltipStyles.top = '0';
-        tooltipStyles.left = '0';
-        tooltipStyles[isVerticalPlacement ? 'top' : 'left'] = (isSecondaryPlacement ? 1 : -1) * instance.props.distance + "px";
-      }
-
-      var config = _extends$1({
-        eventsEnabled: false,
-        placement: instance.props.placement
-      }, popperOptions, {
-        modifiers: _extends$1({}, popperOptions && popperOptions.modifiers, {
-          preventOverflow: _extends$1({
-            boundariesElement: instance.props.boundary,
-            padding: PREVENT_OVERFLOW_PADDING
-          }, preventOverflowModifier),
-          // Adds the `distance` calculation to preventOverflow padding
-          tippySetPreventOverflowPadding: {
-            enabled: true,
-            order: 299,
-            fn: function fn(data) {
-              var basePlacement = getBasePlacement(data.placement);
-              var padding = preventOverflowModifier && preventOverflowModifier.padding !== undefined ? preventOverflowModifier.padding : PREVENT_OVERFLOW_PADDING;
-              var isPaddingNumber = typeof padding === 'number';
-              var paddingObject = {
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0
-              };
-              var computedPadding = Object.keys(paddingObject).reduce(function (obj, key) {
-                obj[key] = isPaddingNumber ? padding : padding[key];
-
-                if (basePlacement === key) {
-                  obj[key] = isPaddingNumber ? padding + instance.props.distance : (padding[basePlacement] || 0) + instance.props.distance;
-                }
-
-                return obj;
-              }, paddingObject);
-              instance.popperInstance.modifiers.filter(function (m) {
-                return m.name === 'preventOverflow';
-              })[0].padding = computedPadding;
-              return data;
-            }
-          },
-          arrow: _extends$1({
-            element: arrow,
-            enabled: !!arrow
-          }, getModifier(popperOptions, 'arrow')),
-          flip: _extends$1({
-            enabled: instance.props.flip,
-            padding: instance.props.distance + PREVENT_OVERFLOW_PADDING,
-            behavior: instance.props.flipBehavior
-          }, getModifier(popperOptions, 'flip')),
-          offset: _extends$1({
-            offset: instance.props.offset
-          }, getModifier(popperOptions, 'offset'))
-        }),
-        onCreate: function onCreate(data) {
-          applyMutations(data);
-          preserveInvocation(popperOptions && popperOptions.onCreate, config.onCreate, [data]);
-          runMountCallback();
-        },
-        onUpdate: function onUpdate(data) {
-          applyMutations(data);
-          preserveInvocation(popperOptions && popperOptions.onUpdate, config.onUpdate, [data]);
-          runMountCallback();
-        }
-      });
-
-      instance.popperInstance = new Popper(reference, popper, config);
-    }
-
-    function runMountCallback() {
-      // Only invoke currentMountCallback after 2 updates
-      // This fixes some bugs in Popper.js (TODO: aim for only 1 update)
-      if (popperUpdates === 0) {
-        popperUpdates++; // 1
-
-        instance.popperInstance.update();
-      } else if (currentMountCallback && popperUpdates === 1) {
-        popperUpdates++; // 2
-
-        reflow(popper);
-        currentMountCallback();
-      }
-    }
-
-    function mount() {
-      // The mounting callback (`currentMountCallback`) is only run due to a
-      // popperInstance update/create
-      popperUpdates = 0;
-      var appendTo = instance.props.appendTo;
-      var parentNode; // By default, we'll append the popper to the triggerTargets's parentNode so
-      // it's directly after the reference element so the elements inside the
-      // tippy can be tabbed to
-      // If there are clipping issues, the user can specify a different appendTo
-      // and ensure focus management is handled correctly manually
-
-      if (instance.props.interactive && appendTo === defaultProps.appendTo || appendTo === 'parent') {
-        parentNode = getTriggerTarget().parentNode;
-      } else {
-        parentNode = invokeWithArgsOrReturn(appendTo, [reference]);
-      } // The popper element needs to exist on the DOM before its position can be
-      // updated as Popper.js needs to read its dimensions
-
-
-      if (!parentNode.contains(popper)) {
-        parentNode.appendChild(popper);
-      }
-
-      if (instance.popperInstance) {
-        setFlipModifierEnabled(instance.popperInstance.modifiers, instance.props.flip);
-        instance.popperInstance.enableEventListeners(); // Mounting callback invoked in `onUpdate`
-
-        instance.popperInstance.update();
-      } else {
-        // Mounting callback invoked in `onCreate`
-        createPopperInstance();
-        instance.popperInstance.enableEventListeners();
-      }
-    }
-
-    function scheduleShow(event) {
-      instance.clearDelayTimeouts();
-      instance.state.isScheduledToShow = true;
-
-      if (!instance.popperInstance) {
-        createPopperInstance();
-      }
-
-      if (event) {
-        instance.props.onTrigger(instance, event);
-      }
-
-      addDocumentMouseDownListener();
-      var delay = getValueAtIndexOrReturn(instance.props.delay, 0, defaultProps.delay);
-
-      if (delay) {
-        showTimeout = setTimeout(function () {
-          instance.show();
-        }, delay);
-      } else {
-        instance.show();
-      }
-    }
-
-    function scheduleHide(event) {
-      instance.clearDelayTimeouts();
-      instance.props.onUntrigger(instance, event);
-
-      if (!instance.state.isVisible) {
-        removeDocumentMouseDownListener();
-        return;
-      }
-
-      instance.state.isScheduledToShow = false;
-      var delay = getValueAtIndexOrReturn(instance.props.delay, 1, defaultProps.delay);
-
-      if (delay) {
-        hideTimeout = setTimeout(function () {
-          if (instance.state.isVisible) {
-            instance.hide();
-          }
-        }, delay);
-      } else {
-        // Fixes a `transitionend` problem when it fires 1 frame too
-        // late sometimes, we don't want hide() to be called.
-        scheduleHideAnimationFrame = requestAnimationFrame(function () {
-          instance.hide();
-        });
-      }
-    }
-    /* ======================= 🔑 Public methods 🔑 ======================= */
-
-
-    function enable() {
-      instance.state.isEnabled = true;
-    }
-
-    function disable() {
-      // Disabling the instance should also hide it
-      // https://github.com/atomiks/tippy.js-react/issues/106
-      instance.hide();
-      instance.state.isEnabled = false;
-    }
-
-    function clearDelayTimeouts() {
-      clearTimeout(showTimeout);
-      clearTimeout(hideTimeout);
-      cancelAnimationFrame(scheduleHideAnimationFrame);
-    }
-
-    function setProps(partialProps) {
-
-      if (instance.state.isDestroyed) {
-        return;
-      }
-
-      removeListenersFromTriggerTarget();
-      var prevProps = instance.props;
-      var nextProps = evaluateProps(reference, _extends$1({}, instance.props, {}, partialProps, {
-        ignoreAttributes: true
-      }));
-      nextProps.ignoreAttributes = hasOwnProperty(partialProps, 'ignoreAttributes') ? partialProps.ignoreAttributes || false : prevProps.ignoreAttributes;
-      instance.props = nextProps;
-      addListenersToTriggerTarget();
-      cleanupInteractiveMouseListeners();
-      debouncedOnMouseMove = debounce(onMouseMove, nextProps.interactiveDebounce);
-      updatePopperElement(popper, prevProps, nextProps, instance.state.isVisible);
-      instance.popperChildren = getChildren(popper);
-      handleAriaExpandedAttribute();
-
-      if (instance.popperInstance) {
-        if (POPPER_INSTANCE_DEPENDENCIES.some(function (prop) {
-          return hasOwnProperty(partialProps, prop) && partialProps[prop] !== prevProps[prop];
-        })) {
-          instance.popperInstance.destroy();
-          createPopperInstance();
-
-          if (instance.state.isVisible) {
-            instance.popperInstance.enableEventListeners();
-          }
-        } else {
-          instance.popperInstance.update();
-        }
-      }
-    }
-
-    function setContent(content) {
-      instance.setProps({
-        content: content
-      });
-    }
-
-    function show(duration, shouldPreventPopperTransition) {
-      if (duration === void 0) {
-        duration = getValueAtIndexOrReturn(instance.props.duration, 0, defaultProps.duration);
-      }
-
-      if (shouldPreventPopperTransition === void 0) {
-        shouldPreventPopperTransition = true;
-      }
-
-
-      var isAlreadyVisible = instance.state.isVisible;
-      var isDestroyed = instance.state.isDestroyed;
-      var isDisabled = !instance.state.isEnabled;
-      var isTouchAndTouchDisabled = currentInput.isTouch && !instance.props.touch;
-
-      if (isAlreadyVisible || isDestroyed || isDisabled || isTouchAndTouchDisabled) {
-        return;
-      } // Normalize `disabled` behavior across browsers.
-      // Firefox allows events on disabled elements, but Chrome doesn't.
-      // Using a wrapper element (i.e. <span>) is recommended.
-
-
-      if (getTriggerTarget().hasAttribute('disabled')) {
-        return;
-      }
-
-      if (instance.props.onShow(instance) === false) {
-        return;
-      }
-
-      addDocumentMouseDownListener();
-      popper.style.visibility = 'visible';
-      instance.state.isVisible = true; // Prevent a transition of the popper from its previous position and of the
-      // elements at a different placement.
-
-      var transitionableElements = getTransitionableElements();
-      setTransitionDuration(shouldPreventPopperTransition ? transitionableElements.concat(popper) : transitionableElements, 0);
-
-      currentMountCallback = function currentMountCallback() {
-        if (!instance.state.isVisible) {
-          return;
-        }
-
-        instance.props.onMount(instance);
-        instance.state.isMounted = true; // The content should fade in after the backdrop has mostly filled the
-        // tooltip element. `clip-path` is the other alternative but is not well-
-        // supported and is buggy on some devices.
-
-        content.style.transitionDelay = instance.popperChildren.backdrop ? Math.round(duration / 12) + "ms" : '';
-
-        if (instance.props.sticky) {
-          makeSticky(instance);
-        }
-
-        setTransitionDuration([popper], instance.props.updateDuration);
-        setTransitionDuration(transitionableElements, duration);
-        setVisibilityState(transitionableElements, 'visible');
-        handleAriaDescribedByAttribute();
-        handleAriaExpandedAttribute();
-        onTransitionedIn(duration, function () {
-          instance.props.onShown(instance);
-          instance.state.isShown = true;
-        });
-      };
-
-      mount();
-    }
-
-    function hide(duration) {
-      if (duration === void 0) {
-        duration = getValueAtIndexOrReturn(instance.props.duration, 1, defaultProps.duration);
-      }
-
-
-      var isAlreadyHidden = !instance.state.isVisible && !isBeingDestroyed;
-      var isDestroyed = instance.state.isDestroyed;
-      var isDisabled = !instance.state.isEnabled && !isBeingDestroyed;
-
-      if (isAlreadyHidden || isDestroyed || isDisabled) {
-        return;
-      }
-
-      if (instance.props.onHide(instance) === false && !isBeingDestroyed) {
-        return;
-      }
-
-      removeDocumentMouseDownListener();
-      popper.style.visibility = 'hidden';
-      instance.state.isVisible = false;
-      instance.state.isShown = false;
-      var transitionableElements = getTransitionableElements();
-      setTransitionDuration(transitionableElements, duration);
-      setVisibilityState(transitionableElements, 'hidden');
-      handleAriaDescribedByAttribute();
-      handleAriaExpandedAttribute();
-      onTransitionedOut(duration, function () {
-        instance.popperInstance.disableEventListeners();
-        instance.popperInstance.options.placement = instance.props.placement;
-        popper.parentNode.removeChild(popper);
-        instance.props.onHidden(instance);
-        instance.state.isMounted = false;
-      });
-    }
-
-    function destroy() {
-
-      if (instance.state.isDestroyed) {
-        return;
-      }
-
-      isBeingDestroyed = true;
-      instance.hide(0);
-      removeListenersFromTriggerTarget();
-      delete reference._tippy;
-
-      if (instance.popperInstance) {
-        instance.popperInstance.destroy();
-      }
-
-      isBeingDestroyed = false;
-      instance.state.isDestroyed = true;
-    }
-  }
-  /**
-   * Updates the position of the tippy on every animation frame to ensure it stays
-   * stuck to the reference element.
-   * Optimized by ensuring the reference's clientRect has actually changed before
-   * scheduling an update.
-   */
-
-
-  function makeSticky(instance) {
-    var prevRefRect = instance.reference.getBoundingClientRect();
-
-    function updatePosition() {
-      var currentRefRect = instance.reference.getBoundingClientRect(); // Only schedule an update if the reference rect has changed
-
-      if (prevRefRect.top !== currentRefRect.top || prevRefRect.right !== currentRefRect.right || prevRefRect.bottom !== currentRefRect.bottom || prevRefRect.left !== currentRefRect.left) {
-        instance.popperInstance.scheduleUpdate();
-      }
-
-      prevRefRect = currentRefRect;
-
-      if (instance.state.isMounted) {
-        requestAnimationFrame(updatePosition);
-      }
-    }
-
-    updatePosition();
-  }
-  /**
-   * Exported module
-   */
-
-
-  function tippy(targets, optionalProps) {
-
-    bindGlobalEventListeners();
-
-    var props = _extends$1({}, defaultProps, {}, optionalProps);
-
-    var elements = getArrayOfElements(targets);
-
-    var instances = elements.reduce(function (acc, reference) {
-      var instance = reference && createTippy(reference, props);
-
-      if (instance) {
-
-        acc.push(instance);
-      }
-
-      return acc;
-    }, []);
-    return isRealElement(targets) ? instances[0] : instances;
-  }
-
-  tippy.version = version;
-  tippy.defaultProps = defaultProps;
-  tippy.currentInput = currentInput;
-  /**
-   * Mutates the defaultProps object by setting the props specified
-   */
-
-  tippy.setDefaultProps = function (partialProps) {
-
-    Object.keys(partialProps).forEach(function (key) {
-      // @ts-ignore
-      defaultProps[key] = partialProps[key];
-    });
-  };
-  /**
-   * Hides all visible poppers on the document
-   */
-
-
-  tippy.hideAll = function (_temp) {
-    var _ref = _temp === void 0 ? {} : _temp,
-        excludedReferenceOrInstance = _ref.exclude,
-        duration = _ref.duration;
-
-    arrayFrom(document.querySelectorAll(POPPER_SELECTOR)).forEach(function (popper) {
-      var instance = popper._tippy;
-
-      if (instance) {
-        var isExcluded = false;
-
-        if (excludedReferenceOrInstance) {
-          isExcluded = isReferenceElement(excludedReferenceOrInstance) ? instance.reference === excludedReferenceOrInstance : popper === excludedReferenceOrInstance.popper;
-        }
-
-        if (!isExcluded) {
-          instance.hide(duration);
-        }
-      }
-    });
-  };
-  /**
-   * Auto-init tooltips for elements with a `data-tippy="..."` attribute
-   */
-
-
-  function autoInit() {
-    arrayFrom(document.querySelectorAll('[data-tippy]')).forEach(function (el) {
-      var content = el.getAttribute('data-tippy');
-
-      if (content) {
-        tippy(el, {
-          content: content
-        });
-      }
-    });
-  }
-
-  if (isBrowser) {
-    setTimeout(autoInit);
-  }
-
-  /**!
-  * tippy.js v5.0.0-beta.2
-  * (c) 2017-2019 atomiks
-  * MIT License
-  */
-  var css$1 = ".tippy-tooltip[data-animation=fade][data-state=hidden]{opacity:0}.tippy-iOS{cursor:pointer!important;-webkit-tap-highlight-color:transparent}.tippy-popper{pointer-events:none;max-width:calc(100% - 10px);transition-timing-function:cubic-bezier(.165,.84,.44,1)}.tippy-tooltip{position:relative;color:#fff;border-radius:.25rem;font-size:.875rem;line-height:1.4;background-color:#333;overflow:hidden;transition-property:visibility,opacity,transform;outline:0}.tippy-tooltip[data-placement^=top] .tippy-arrow{border-width:8px 8px 0;border-top-color:#333;margin:0 3px;transform-origin:50% 0;bottom:-7px}.tippy-tooltip[data-placement^=bottom] .tippy-arrow{border-width:0 8px 8px;border-bottom-color:#333;margin:0 3px;transform-origin:50% 7px;top:-7px}.tippy-tooltip[data-placement^=left] .tippy-arrow{border-width:8px 0 8px 8px;border-left-color:#333;margin:3px 0;transform-origin:0 50%;right:-7px}.tippy-tooltip[data-placement^=right] .tippy-arrow{border-width:8px 8px 8px 0;border-right-color:#333;margin:3px 0;transform-origin:7px 50%;left:-7px}.tippy-tooltip[data-arrow]{overflow:visible}.tippy-tooltip[data-animatefill]{background-color:transparent!important}.tippy-tooltip[data-interactive]{pointer-events:auto}.tippy-tooltip[data-inertia][data-state=visible]{transition-timing-function:cubic-bezier(.54,1.5,.38,1.11)}.tippy-tooltip[data-inertia][data-state=hidden]{transition-timing-function:ease}.tippy-arrow{border-color:transparent;border-style:solid;position:absolute}.tippy-arrow[data-state=hidden]{opacity:0}.tippy-content{padding:.3125rem .5625rem}";
-  /**
-   * Injects a string of CSS styles to a style node in <head>
-   */
-
-  function injectCSS(css) {
-    var style = document.createElement('style');
-    style.textContent = css;
-    style.setAttribute('data-tippy-stylesheet', '');
-    var head = document.head;
-    var firstStyleOrLinkTag = head.querySelector('style,link');
-
-    if (firstStyleOrLinkTag) {
-      head.insertBefore(style, firstStyleOrLinkTag);
-    } else {
-      head.appendChild(style);
-    }
-  }
-
-  if (isBrowser) {
-    injectCSS(css$1);
-  }
-
   /**
    * Ensure class prefix ends in `-`
    * @param {string} prefix The prefix to prepend to the class names generated by nano-css
@@ -4745,43 +3031,39 @@
   }
   /**
    * Determines options for the tooltip and initializes
-   * `step.tooltip` as a Tippy.js instance.
+   * `step.tooltip` as a Popper.js instance.
    * @param {Step} step The step instance
    */
 
   function setupTooltip(step) {
-    if (isUndefined(tippy)) {
-      throw new Error('Using the attachment feature of Shepherd requires the Tippy.js library');
-    }
-
     if (step.tooltip) {
       step.tooltip.destroy();
     }
 
     var attachToOpts = parseAttachTo(step);
-    step.tooltip = _makeTippyInstance(attachToOpts, step);
+    step.tooltip = _makeTooltipInstance(attachToOpts, step);
     step.target = attachToOpts.element;
   }
   /**
-   * Generates a `Tippy` instance from a set of base `attachTo` options
+   * Generates a `Popper` instance from a set of base `attachTo` options
    * @param attachToOptions
    * @param {Step} step The step instance
-   * @return {tippy|Instance | Instance[]} The final tippy instance
+   * @return {Popper}
    * @private
    */
 
-  function _makeTippyInstance(attachToOptions, step) {
-    var tippyOptions = {};
+  function _makeTooltipInstance(attachToOptions, step) {
+    var popperOptions = {};
     var element = document.body;
 
     if (!attachToOptions.element || !attachToOptions.on) {
-      tippyOptions = makeCenteredTippy(step);
+      popperOptions = makeCenteredPopper();
     } else {
-      tippyOptions = makeAttachedTippyOptions(attachToOptions, step);
+      popperOptions = makeAttachedPopperOptions(attachToOptions, step);
       element = attachToOptions.element;
     }
 
-    return tippy(element, tippyOptions);
+    return new Popper(element, step.el, popperOptions);
   }
 
   function noop() {}
@@ -4813,10 +3095,6 @@
 
   function safe_not_equal(a, b) {
     return a != a ? b == b : a !== b || a && typeof a === 'object' || typeof a === 'function';
-  }
-
-  function null_to_empty(value) {
-    return value == null ? '' : value;
   }
 
   function append(target, node) {
@@ -5014,8 +3292,6 @@
     }
   }
 
-  var globals = typeof window !== 'undefined' ? window : global;
-
   function get_spread_update(levels, updates) {
     var update = {};
     var to_null_out = {};
@@ -5123,11 +3399,17 @@
       dirty: null
     };
     var ready = false;
-    $$.ctx = instance ? instance(component, props, function (key, value) {
+    $$.ctx = instance ? instance(component, props, function (key, ret, value) {
+      if (value === void 0) {
+        value = ret;
+      }
+
       if ($$.ctx && not_equal($$.ctx[key], $$.ctx[key] = value)) {
         if ($$.bound[key]) $$.bound[key](value);
         if (ready) make_dirty(component, key);
       }
+
+      return ret;
     }) : props;
     $$.update();
     ready = true;
@@ -5234,20 +3516,13 @@
     return SvelteComponent;
   }();
 
-  function add_css() {
-    var style = element("style");
-    style.id = 'svelte-1hx5lrr-style';
-    style.textContent = ".shepherd-button.svelte-1hx5lrr{background:rgb(50, 136, 230);border:0;border-radius:3px;color:rgba(255, 255, 255, 0.75);cursor:pointer;margin-right:0.5rem;padding:0.5rem 1.5rem;transition:all 0.5s ease}.shepherd-button.svelte-1hx5lrr:hover{background:rgb(25, 111, 204);color:rgba(255, 255, 255, 0.75)}.shepherd-button.shepherd-button-secondary.svelte-1hx5lrr{background:rgb(241, 242, 243);color:rgba(0, 0, 0, 0.75)}.shepherd-button.shepherd-button-secondary.svelte-1hx5lrr:hover{background:rgb(214, 217, 219);color:rgba(0, 0, 0, 0.75)}";
-    append(document.head, style);
-  }
-
   function create_fragment(ctx) {
     var button, t, button_class_value, dispose;
     return {
       c: function c() {
         button = element("button");
         t = text(ctx.text);
-        attr(button, "class", button_class_value = "" + null_to_empty((ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : '')) + " svelte-1hx5lrr");
+        attr(button, "class", button_class_value = (ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
         attr(button, "tabindex", "0");
         dispose = listen(button, "click", ctx.action ? ctx.action.bind(ctx.step.tour) : null);
       },
@@ -5256,7 +3531,7 @@
         append(button, t);
       },
       p: function p(changed, ctx) {
-        if (changed.classPrefix && button_class_value !== (button_class_value = "" + null_to_empty((ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : '')) + " svelte-1hx5lrr")) {
+        if (changed.classPrefix && button_class_value !== (button_class_value = (ctx.classes || '') + " " + ctx.classPrefix + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''))) {
           attr(button, "class", button_class_value);
         }
       },
@@ -5308,7 +3583,6 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-1hx5lrr-style")) add_css();
       init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, ["classPrefix", "config", "step"]);
       return _this;
     }
@@ -5316,18 +3590,11 @@
     return Shepherd_button;
   }(SvelteComponent);
 
-  function add_css$1() {
-    var style = element("style");
-    style.id = 'svelte-1ksy2pn-style';
-    style.textContent = ".shepherd-footer.svelte-1ksy2pn{border-bottom-left-radius:5px;border-bottom-right-radius:5px;display:flex;justify-content:flex-end;padding:0 0.75rem 0.75rem}.shepherd-footer.svelte-1ksy2pn .shepherd-button:last-child{margin-right:0}";
-    append(document.head, style);
-  }
-
   function get_each_context(ctx, list, i) {
     var child_ctx = Object.create(ctx);
     child_ctx.config = list[i];
     return child_ctx;
-  } // (23:4) {#if buttons}
+  } // (18:4) {#if buttons}
 
 
   function create_if_block(ctx) {
@@ -5347,15 +3614,15 @@
 
     return {
       c: function c() {
-        for (var i = 0; i < each_blocks.length; i += 1) {
-          each_blocks[i].c();
+        for (var _i = 0; _i < each_blocks.length; _i += 1) {
+          each_blocks[_i].c();
         }
 
         each_1_anchor = empty();
       },
       m: function m(target, anchor) {
-        for (var i = 0; i < each_blocks.length; i += 1) {
-          each_blocks[i].m(target, anchor);
+        for (var _i2 = 0; _i2 < each_blocks.length; _i2 += 1) {
+          each_blocks[_i2].m(target, anchor);
         }
 
         insert(target, each_1_anchor, anchor);
@@ -5365,24 +3632,30 @@
         if (changed.classPrefix || changed.buttons || changed.step) {
           each_value = ctx.buttons;
 
-          for (var i = 0; i < each_value.length; i += 1) {
-            var child_ctx = get_each_context(ctx, each_value, i);
+          var _i3;
 
-            if (each_blocks[i]) {
-              each_blocks[i].p(changed, child_ctx);
-              transition_in(each_blocks[i], 1);
+          for (_i3 = 0; _i3 < each_value.length; _i3 += 1) {
+            var child_ctx = get_each_context(ctx, each_value, _i3);
+
+            if (each_blocks[_i3]) {
+              each_blocks[_i3].p(changed, child_ctx);
+
+              transition_in(each_blocks[_i3], 1);
             } else {
-              each_blocks[i] = create_each_block(child_ctx);
-              each_blocks[i].c();
-              transition_in(each_blocks[i], 1);
-              each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+              each_blocks[_i3] = create_each_block(child_ctx);
+
+              each_blocks[_i3].c();
+
+              transition_in(each_blocks[_i3], 1);
+
+              each_blocks[_i3].m(each_1_anchor.parentNode, each_1_anchor);
             }
           }
 
           group_outros();
 
-          for (i = each_value.length; i < each_blocks.length; i += 1) {
-            out(i);
+          for (_i3 = each_value.length; _i3 < each_blocks.length; _i3 += 1) {
+            out(_i3);
           }
 
           check_outros();
@@ -5391,8 +3664,8 @@
       i: function i(local) {
         if (current) return;
 
-        for (var i = 0; i < each_value.length; i += 1) {
-          transition_in(each_blocks[i]);
+        for (var _i4 = 0; _i4 < each_value.length; _i4 += 1) {
+          transition_in(each_blocks[_i4]);
         }
 
         current = true;
@@ -5400,8 +3673,8 @@
       o: function o(local) {
         each_blocks = each_blocks.filter(Boolean);
 
-        for (var _i = 0; _i < each_blocks.length; _i += 1) {
-          transition_out(each_blocks[_i]);
+        for (var _i5 = 0; _i5 < each_blocks.length; _i5 += 1) {
+          transition_out(each_blocks[_i5]);
         }
 
         current = false;
@@ -5414,7 +3687,7 @@
         }
       }
     };
-  } // (24:8) {#each buttons as config}
+  } // (19:8) {#each buttons as config}
 
 
   function create_each_block(ctx) {
@@ -5437,7 +3710,6 @@
       p: function p(changed, ctx) {
         var shepherdbutton_changes = {};
         if (changed.classPrefix) shepherdbutton_changes.classPrefix = ctx.classPrefix;
-        if (changed.buttons) shepherdbutton_changes.config = ctx.config;
         if (changed.step) shepherdbutton_changes.step = ctx.step;
         shepherdbutton.$set(shepherdbutton_changes);
       },
@@ -5463,7 +3735,7 @@
       c: function c() {
         footer = element("footer");
         if (if_block) if_block.c();
-        attr(footer, "class", footer_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-footer") + " svelte-1ksy2pn");
+        attr(footer, "class", footer_class_value = ctx.classPrefix + " shepherd-footer");
       },
       m: function m(target, anchor) {
         insert(target, footer, anchor);
@@ -5473,7 +3745,7 @@
       p: function p(changed, ctx) {
         if (ctx.buttons) if_block.p(changed, ctx);
 
-        if ((!current || changed.classPrefix) && footer_class_value !== (footer_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-footer") + " svelte-1ksy2pn")) {
+        if ((!current || changed.classPrefix) && footer_class_value !== (footer_class_value = ctx.classPrefix + " shepherd-footer")) {
           attr(footer, "class", footer_class_value);
         }
       },
@@ -5522,20 +3794,12 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-1ksy2pn-style")) add_css$1();
       init(_assertThisInitialized(_this), options, instance$1, create_fragment$1, safe_not_equal, ["classPrefix", "step"]);
       return _this;
     }
 
     return Shepherd_footer;
   }(SvelteComponent);
-
-  function add_css$2() {
-    var style = element("style");
-    style.id = 'svelte-1re70pl-style';
-    style.textContent = ".shepherd-cancel-icon.svelte-1re70pl{background:transparent;border:none;color:rgba(128, 128, 128, 0.75);font-size:2em;cursor:pointer;font-weight:normal;margin:0;padding:0;transition:color 0.5s ease}.shepherd-cancel-icon.svelte-1re70pl:hover{color:rgba(0, 0, 0, 0.75)}.shepherd-has-title .shepherd-content .shepherd-cancel-icon{color:rgba(128, 128, 128, 0.75)}.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover{color:rgba(0, 0, 0, 0.75)}";
-    append(document.head, style);
-  }
 
   function create_fragment$2(ctx) {
     var button, span, button_aria_label_value, button_class_value, dispose;
@@ -5546,7 +3810,7 @@
         span.textContent = "×";
         attr(span, "aria-hidden", "true");
         attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour');
-        attr(button, "class", button_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-cancel-icon") + " svelte-1re70pl");
+        attr(button, "class", button_class_value = ctx.classPrefix + " shepherd-cancel-icon");
         attr(button, "type", "button");
         dispose = listen(button, "click", ctx.handleCancelClick);
       },
@@ -5559,7 +3823,7 @@
           attr(button, "aria-label", button_aria_label_value);
         }
 
-        if (changed.classPrefix && button_class_value !== (button_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-cancel-icon") + " svelte-1re70pl")) {
+        if (changed.classPrefix && button_class_value !== (button_class_value = ctx.classPrefix + " shepherd-cancel-icon")) {
           attr(button, "class", button_class_value);
         }
       },
@@ -5611,20 +3875,12 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-1re70pl-style")) add_css$2();
       init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, ["cancelIcon", "classPrefix", "step"]);
       return _this;
     }
 
     return Shepherd_cancel_icon;
   }(SvelteComponent);
-
-  function add_css$3() {
-    var style = element("style");
-    style.id = 'svelte-1dwhvls-style';
-    style.textContent = ".shepherd-title.svelte-1dwhvls{color:rgba(0, 0, 0, 0.75);display:flex;font-size:1rem;font-weight:normal;flex:1 0 auto;margin:0;padding:0}";
-    append(document.head, style);
-  }
 
   function create_fragment$3(ctx) {
     var h3, t, h3_class_value;
@@ -5633,7 +3889,7 @@
         h3 = element("h3");
         t = text(ctx.title);
         attr(h3, "id", ctx.labelId);
-        attr(h3, "class", h3_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-title") + " svelte-1dwhvls");
+        attr(h3, "class", h3_class_value = ctx.classPrefix + " shepherd-title");
       },
       m: function m(target, anchor) {
         insert(target, h3, anchor);
@@ -5648,7 +3904,7 @@
           attr(h3, "id", ctx.labelId);
         }
 
-        if (changed.classPrefix && h3_class_value !== (h3_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-title") + " svelte-1dwhvls")) {
+        if (changed.classPrefix && h3_class_value !== (h3_class_value = ctx.classPrefix + " shepherd-title")) {
           attr(h3, "class", h3_class_value);
         }
       },
@@ -5689,21 +3945,12 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-1dwhvls-style")) add_css$3();
       init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["classPrefix", "labelId", "title"]);
       return _this;
     }
 
     return Shepherd_title;
   }(SvelteComponent);
-
-  function add_css$4() {
-    var style = element("style");
-    style.id = 'svelte-a09dff-style';
-    style.textContent = ".shepherd-header.svelte-a09dff{align-items:center;border-top-left-radius:5px;border-top-right-radius:5px;display:flex;justify-content:flex-end;line-height:2em;padding:0.75rem 0.75rem 0}.shepherd-has-title .shepherd-content .shepherd-header{background:#e6e6e6;padding:1em}";
-    append(document.head, style);
-  } // (27:4) {#if title}
-
 
   function create_if_block_1(ctx) {
     var current;
@@ -5726,7 +3973,6 @@
         var shepherdtitle_changes = {};
         if (changed.classPrefix) shepherdtitle_changes.classPrefix = ctx.classPrefix;
         if (changed.labelId) shepherdtitle_changes.labelId = ctx.labelId;
-        if (changed.title) shepherdtitle_changes.title = ctx.title;
         shepherdtitle.$set(shepherdtitle_changes);
       },
       i: function i(local) {
@@ -5742,7 +3988,7 @@
         destroy_component(shepherdtitle, detaching);
       }
     };
-  } // (35:4) {#if cancelIcon && cancelIcon.enabled}
+  } // (30:4) {#if cancelIcon && cancelIcon.enabled}
 
 
   function create_if_block$1(ctx) {
@@ -5764,7 +4010,6 @@
       },
       p: function p(changed, ctx) {
         var shepherdcancelicon_changes = {};
-        if (changed.cancelIcon) shepherdcancelicon_changes.cancelIcon = ctx.cancelIcon;
         if (changed.classPrefix) shepherdcancelicon_changes.classPrefix = ctx.classPrefix;
         if (changed.step) shepherdcancelicon_changes.step = ctx.step;
         shepherdcancelicon.$set(shepherdcancelicon_changes);
@@ -5794,7 +4039,7 @@
         if (if_block0) if_block0.c();
         t = space();
         if (if_block1) if_block1.c();
-        attr(header, "class", header_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-header") + " svelte-a09dff");
+        attr(header, "class", header_class_value = ctx.classPrefix + " shepherd-header");
       },
       m: function m(target, anchor) {
         insert(target, header, anchor);
@@ -5807,7 +4052,7 @@
         if (ctx.title) if_block0.p(changed, ctx);
         if (ctx.cancelIcon && ctx.cancelIcon.enabled) if_block1.p(changed, ctx);
 
-        if ((!current || changed.classPrefix) && header_class_value !== (header_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-header") + " svelte-a09dff")) {
+        if ((!current || changed.classPrefix) && header_class_value !== (header_class_value = ctx.classPrefix + " shepherd-header")) {
           attr(header, "class", header_class_value);
         }
       },
@@ -5865,7 +4110,6 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-a09dff-style")) add_css$4();
       init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, ["classPrefix", "labelId", "step"]);
       return _this;
     }
@@ -5873,19 +4117,12 @@
     return Shepherd_header;
   }(SvelteComponent);
 
-  function add_css$5() {
-    var style = element("style");
-    style.id = 'svelte-qpjzew-style';
-    style.textContent = ".shepherd-text.svelte-qpjzew{color:rgba(0, 0, 0, 0.75);font-size:1rem;line-height:1.3em;padding:0.75em}.shepherd-text.svelte-qpjzew p{margin-top:0}.shepherd-text.svelte-qpjzew p:last-child{margin-bottom:0}";
-    append(document.head, style);
-  }
-
   function create_fragment$5(ctx) {
     var div, div_class_value;
     return {
       c: function c() {
         div = element("div");
-        attr(div, "class", div_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-text") + " svelte-qpjzew");
+        attr(div, "class", div_class_value = ctx.classPrefix + " shepherd-text");
         attr(div, "id", ctx.descriptionId);
       },
       m: function m(target, anchor) {
@@ -5893,7 +4130,7 @@
         ctx.div_binding(div);
       },
       p: function p(changed, ctx) {
-        if (changed.classPrefix && div_class_value !== (div_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-text") + " svelte-qpjzew")) {
+        if (changed.classPrefix && div_class_value !== (div_class_value = ctx.classPrefix + " shepherd-text")) {
           attr(div, "class", div_class_value);
         }
 
@@ -5928,8 +4165,7 @@
       if (isElement(text)) {
         base.appendChild(text);
       } else {
-        base.innerHTML = text;
-        $$invalidate('base', base);
+        $$invalidate('base', base.innerHTML = text, base);
       }
     });
 
@@ -5964,21 +4200,12 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-qpjzew-style")) add_css$5();
       init(_assertThisInitialized(_this), options, instance$5, create_fragment$5, safe_not_equal, ["base", "classPrefix", "descriptionId", "step"]);
       return _this;
     }
 
     return Shepherd_text;
   }(SvelteComponent);
-
-  function add_css$6() {
-    var style = element("style");
-    style.id = 'svelte-3npgha-style';
-    style.textContent = ".shepherd-content.svelte-3npgha{border-radius:5px;outline:none;padding:0}";
-    append(document.head, style);
-  } // (27:4) {#if !isUndefined(step.options.text)}
-
 
   function create_if_block_1$1(ctx) {
     var current;
@@ -6082,7 +4309,7 @@
         if (if_block0) if_block0.c();
         t1 = space();
         if (if_block1) if_block1.c();
-        attr(div, "class", div_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-content") + " svelte-3npgha");
+        attr(div, "class", div_class_value = ctx.classPrefix + " shepherd-content");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -6139,7 +4366,7 @@
           check_outros();
         }
 
-        if ((!current || changed.classPrefix) && div_class_value !== (div_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-content") + " svelte-3npgha")) {
+        if ((!current || changed.classPrefix) && div_class_value !== (div_class_value = ctx.classPrefix + " shepherd-content")) {
           attr(div, "class", div_class_value);
         }
       },
@@ -6198,7 +4425,6 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document.getElementById("svelte-3npgha-style")) add_css$6();
       init(_assertThisInitialized(_this), options, instance$6, create_fragment$6, safe_not_equal, ["classPrefix", "descriptionId", "labelId", "step"]);
       return _this;
     }
@@ -6206,17 +4432,28 @@
     return Shepherd_content;
   }(SvelteComponent);
 
-  var document_1 = globals.document;
-
-  function add_css$7() {
-    var style = element("style");
-    style.id = 'svelte-yrh4e0-style';
-    style.textContent = ".shepherd-element.svelte-yrh4e0{border-radius:5px;box-shadow:0 1px 4px rgba(0, 0, 0, 0.2);box-sizing:border-box;outline:none}";
-    append(document_1.head, style);
+  function create_if_block$3(ctx) {
+    var div;
+    return {
+      c: function c() {
+        div = element("div");
+        attr(div, "class", "popper__arrow");
+        attr(div, "x-arrow", "");
+      },
+      m: function m(target, anchor) {
+        insert(target, div, anchor);
+      },
+      d: function d(detaching) {
+        if (detaching) {
+          detach(div);
+        }
+      }
+    };
   }
 
   function create_fragment$7(ctx) {
-    var div, current, dispose;
+    var div, t, current, dispose;
+    var if_block = ctx.step.options.attachTo && ctx.step.options.attachTo.element && create_if_block$3();
     var shepherdcontent = new Shepherd_content({
       props: {
         classPrefix: ctx.classPrefix,
@@ -6230,7 +4467,7 @@
     }, {
       "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
     }, {
-      class: "" + (ctx.classes + " " + ctx.classPrefix + " shepherd-element") + " svelte-yrh4e0"
+      class: ctx.classes + " " + ctx.classPrefix + " shepherd-element " + (ctx.hasTitle ? 'shepherd-has-title' : '')
     }, ctx.dataStepId, {
       role: "dialog"
     }, {
@@ -6245,17 +4482,32 @@
     return {
       c: function c() {
         div = element("div");
+        if (if_block) if_block.c();
+        t = space();
         shepherdcontent.$$.fragment.c();
         set_attributes(div, div_data);
         dispose = listen(div, "keydown", ctx.handleKeyDown);
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
+        if (if_block) if_block.m(div, null);
+        append(div, t);
         mount_component(shepherdcontent, div, null);
         ctx.div_binding(div);
         current = true;
       },
       p: function p(changed, ctx) {
+        if (ctx.step.options.attachTo && ctx.step.options.attachTo.element) {
+          if (!if_block) {
+            if_block = create_if_block$3();
+            if_block.c();
+            if_block.m(div, t);
+          }
+        } else if (if_block) {
+          if_block.d(1);
+          if_block = null;
+        }
+
         var shepherdcontent_changes = {};
         if (changed.classPrefix) shepherdcontent_changes.classPrefix = ctx.classPrefix;
         if (changed.descriptionId) shepherdcontent_changes.descriptionId = ctx.descriptionId;
@@ -6266,8 +4518,8 @@
           "aria-describedby": !isUndefined(ctx.step.options.text) ? ctx.descriptionId : null
         }, (changed.step || changed.labelId) && {
           "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
-        }, (changed.classes || changed.classPrefix) && {
-          class: "" + (ctx.classes + " " + ctx.classPrefix + " shepherd-element") + " svelte-yrh4e0"
+        }, (changed.classes || changed.classPrefix || changed.hasTitle) && {
+          class: ctx.classes + " " + ctx.classPrefix + " shepherd-element " + (ctx.hasTitle ? 'shepherd-has-title' : '')
         }, changed.dataStepId && ctx.dataStepId, {
           role: "dialog"
         }, {
@@ -6288,6 +4540,7 @@
           detach(div);
         }
 
+        if (if_block) if_block.d();
         destroy_component(shepherdcontent);
         ctx.div_binding(null);
         dispose();
@@ -6313,6 +4566,7 @@
         lastFocusableElement = $$props.lastFocusableElement,
         step = $$props.step;
     var dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId);
+    var hasTitle = step.options.title;
 
     var getElement = function getElement() {
       return element;
@@ -6413,6 +4667,7 @@
       lastFocusableElement: lastFocusableElement,
       step: step,
       dataStepId: dataStepId,
+      hasTitle: hasTitle,
       getElement: getElement,
       handleKeyDown: handleKeyDown,
       div_binding: div_binding
@@ -6428,7 +4683,6 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document_1.getElementById("svelte-yrh4e0-style")) add_css$7();
       init(_assertThisInitialized(_this), options, instance$7, create_fragment$7, safe_not_equal, ["classes", "classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "getElement"]);
       return _this;
     }
@@ -6870,7 +5124,6 @@
      * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
      * highlighted (that is, when its step is active). You can then target that selector in your CSS.
      * @param {string} options.id The string to use as the `id` for the step.
-     * @param {Object} options.tippyOptions Extra [options to pass to tippy.js]{@link https://atomiks.github.io/tippyjs/#all-options}
      * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
      * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
      * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
@@ -6967,21 +5220,22 @@
       return this.tour;
     }
     /**
-     * Hide the step and destroy the tippy instance
+     * Hide the step
      */
     ;
 
     _proto.hide = function hide() {
       this.tour.modal.hide();
       this.trigger('before-hide');
+
+      if (this.el) {
+        this.el.hidden = true;
+      }
+
       document.body.removeAttribute("data-" + this.classPrefix + "shepherd-step");
 
       if (this.target) {
         this._updateStepTargetOnHide();
-      }
-
-      if (this.tooltip) {
-        this.tooltip.hide();
       }
 
       this.trigger('hide');
@@ -6993,7 +5247,7 @@
     ;
 
     _proto.isOpen = function isOpen() {
-      return Boolean(this.tooltip && this.tooltip.state && this.tooltip.state.isVisible);
+      return Boolean(this.el && !this.el.hidden);
     }
     /**
      * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
@@ -7092,7 +5346,7 @@
       }
     }
     /**
-     * Create the element and set up the tippy instance
+     * Create the element and set up the Popper instance
      * @private
      */
     ;
@@ -7112,7 +5366,7 @@
     }
     /**
      * Triggers `before-show`, generates the tooltip DOM content,
-     * sets up a tippy instance for the tooltip, then triggers `show`.
+     * sets up a Popper instance for the tooltip, then triggers `show`.
      * @private
      */
     ;
@@ -7130,6 +5384,8 @@
 
       this._styleTargetElementForStep(this);
 
+      this.el.hidden = false;
+      this.tooltip.scheduleUpdate();
       var target = this.target || document.body;
       target.classList.add(this.classPrefix + "shepherd-enabled", this.classPrefix + "shepherd-target");
       document.body.setAttribute("data-" + this.classPrefix + "shepherd-step", this.id);
@@ -7140,7 +5396,6 @@
         });
       }
 
-      this.tooltip.show();
       this.trigger('show');
       this.el.focus();
     }
@@ -7186,22 +5441,6 @@
     return Step;
   }(Evented);
 
-  var defaults = {
-    trigger: 'manual',
-    arrow: true,
-    animation: 'fade',
-    duration: 420,
-    flip: true,
-    animateFill: false,
-    // https://atomiks.github.io/tippyjs/#animate-fill-option
-    interactive: true,
-    // https://atomiks.github.io/tippyjs/#interactive-option
-    hideOnClick: 'toggle',
-    // https://atomiks.github.io/tippyjs/#hide-on-click-option
-    multiple: true // https://atomiks.github.io/tippyjs/#multiple-option
-
-  };
-
   /**
    * Cleanup the steps and set pointerEvents back to 'auto'
    * @param tour The tour object
@@ -7221,17 +5460,8 @@
     }
   }
 
-  var document_1$1 = globals.document;
-
-  function add_css$8() {
-    var style = element("style");
-    style.id = 'svelte-1iiad75-style';
-    style.textContent = "svg.svelte-1iiad75{-ms-filter:progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);filter:alpha(opacity=50);height:0;left:0;opacity:0;overflow:hidden;position:fixed;top:0;transition:all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;width:100vw;z-index:9997}svg.shepherd-modal-is-visible.svelte-1iiad75{height:100vh;opacity:0.5;transition:all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s}svg.shepherd-modal-is-visible.svelte-1iiad75 .shepherd-modal-mask-rect.svelte-1iiad75{height:100vh;width:100vw}";
-    append(document_1$1.head, style);
-  }
-
   function create_fragment$8(ctx) {
-    var svg, defs, mask, rect0, rect0_class_value, rect1, rect1_class_value, rect1_height_value, rect1_x_value, rect1_y_value, rect1_width_value, mask_class_value, mask_id_value, rect2, rect2_mask_value, svg_class_value, dispose;
+    var svg, defs, mask, rect0, rect0_class_value, rect1, rect1_class_value, rect1_height_value, rect1_x_value, rect1_y_value, rect1_width_value, mask_class_value, rect2, svg_class_value, dispose;
     return {
       c: function c() {
         svg = svg_element("svg");
@@ -7240,21 +5470,21 @@
         rect0 = svg_element("rect");
         rect1 = svg_element("rect");
         rect2 = svg_element("rect");
-        attr(rect0, "class", rect0_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask-rect") + " svelte-1iiad75");
+        attr(rect0, "class", rect0_class_value = ctx.classPrefix + " shepherd-modal-mask-rect");
         attr(rect0, "fill", "#FFFFFF");
         attr(rect0, "height", "100%");
         attr(rect0, "width", "100%");
         attr(rect0, "x", "0");
         attr(rect0, "y", "0");
-        attr(rect1, "class", rect1_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask-opening") + " svelte-1iiad75");
+        attr(rect1, "class", rect1_class_value = ctx.classPrefix + " shepherd-modal-mask-opening");
         attr(rect1, "fill", "#000000");
         attr(rect1, "height", rect1_height_value = ctx.openingProperties.height);
         attr(rect1, "x", rect1_x_value = ctx.openingProperties.x);
         attr(rect1, "y", rect1_y_value = ctx.openingProperties.y);
         attr(rect1, "width", rect1_width_value = ctx.openingProperties.width);
-        attr(mask, "class", mask_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask") + " svelte-1iiad75");
+        attr(mask, "class", mask_class_value = ctx.classPrefix + " shepherd-modal-mask");
         attr(mask, "height", "100%");
-        attr(mask, "id", mask_id_value = "shepherd-modal-mask-" + ctx.guid);
+        attr(mask, "id", "shepherd-modal-mask-" + ctx.guid);
         attr(mask, "width", "100%");
         attr(mask, "x", "0");
         attr(mask, "y", "0");
@@ -7262,8 +5492,8 @@
         attr(rect2, "width", "100%");
         attr(rect2, "x", "0");
         attr(rect2, "y", "0");
-        attr(rect2, "mask", rect2_mask_value = "url(#shepherd-modal-mask-" + ctx.guid + ")");
-        attr(svg, "class", svg_class_value = "" + null_to_empty((ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container") + " svelte-1iiad75");
+        attr(rect2, "mask", "url(#shepherd-modal-mask-" + ctx.guid + ")");
+        attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container");
         dispose = listen(svg, "touchmove", ctx._preventModalOverlayTouch);
       },
       m: function m(target, anchor) {
@@ -7276,11 +5506,11 @@
         ctx.svg_binding(svg);
       },
       p: function p(changed, ctx) {
-        if (changed.classPrefix && rect0_class_value !== (rect0_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask-rect") + " svelte-1iiad75")) {
+        if (changed.classPrefix && rect0_class_value !== (rect0_class_value = ctx.classPrefix + " shepherd-modal-mask-rect")) {
           attr(rect0, "class", rect0_class_value);
         }
 
-        if (changed.classPrefix && rect1_class_value !== (rect1_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask-opening") + " svelte-1iiad75")) {
+        if (changed.classPrefix && rect1_class_value !== (rect1_class_value = ctx.classPrefix + " shepherd-modal-mask-opening")) {
           attr(rect1, "class", rect1_class_value);
         }
 
@@ -7300,11 +5530,11 @@
           attr(rect1, "width", rect1_width_value);
         }
 
-        if (changed.classPrefix && mask_class_value !== (mask_class_value = "" + null_to_empty(ctx.classPrefix + " shepherd-modal-mask") + " svelte-1iiad75")) {
+        if (changed.classPrefix && mask_class_value !== (mask_class_value = ctx.classPrefix + " shepherd-modal-mask")) {
           attr(mask, "class", mask_class_value);
         }
 
-        if ((changed.modalIsVisible || changed.classPrefix) && svg_class_value !== (svg_class_value = "" + null_to_empty((ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container") + " svelte-1iiad75")) {
+        if ((changed.modalIsVisible || changed.classPrefix) && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " " + ctx.classPrefix + " shepherd-modal-overlay-container")) {
           attr(svg, "class", svg_class_value);
         }
       },
@@ -7531,7 +5761,6 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      if (!document_1$1.getElementById("svelte-1iiad75-style")) add_css$8();
       init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, ["classPrefix", "element", "openingProperties", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
       return _this;
     }
@@ -7604,8 +5833,6 @@
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
      * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
      * set to false.
-     * @param {boolean} options.includeStyles If false, the majority of the Shepherd styles will not be included.
-     * You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
      * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
      * unless this is explicitly set to false.
      * @param {HTMLElement} options.modalContainer An optional container element for the modal.
@@ -7630,7 +5857,6 @@
       autoBind(_assertThisInitialized(_this));
       var defaultTourOptions = {
         exitOnEsc: true,
-        includeStyles: true,
         keyboardNavigation: true
       };
       _this.options = Object.assign({}, defaultTourOptions, options);
@@ -7657,8 +5883,6 @@
           styles: _this.styles
         }
       });
-
-      _this._setTooltipDefaults();
 
       _this._setTourID();
 
@@ -7946,15 +6170,6 @@
       var index = this.steps.indexOf(step);
       var nextIndex = forward ? index + 1 : index - 1;
       this.show(nextIndex, forward);
-    }
-    /**
-     * Set the tippy defaults
-     * @private
-     */
-    ;
-
-    _proto._setTooltipDefaults = function _setTooltipDefaults() {
-      tippy.setDefaultProps(defaults);
     }
     /**
      * Before showing, hide the current step and if the tour is not

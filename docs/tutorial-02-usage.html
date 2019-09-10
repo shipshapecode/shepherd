@@ -188,8 +188,6 @@ event handlers a <code>tour</code> key pointing to the instance which fired the 
 <li><code>confirmCancelMessage</code>: The message to display in the confirm dialog</li>
 <li><code>defaultStepOptions</code>: Default options for Steps created through <code>addStep</code></li>
 <li><code>exitOnEsc</code>: Exiting the tour with the escape key will be enabled unless this is explicitly set to <code>false</code>.</li>
-<li><code>includeStyles</code>: If false, the majority of the Shepherd styles will not be included.
-You may want to use this option if you find yourself overriding a lot of the Shepherd styles.</li>
 <li><code>keyboardNavigation</code>: Navigating the tour via left and right arrow keys will be enabled unless this is explicitly set to <code>false</code>.</li>
 <li><code>modalContainer</code> An optional container element for the modal. If not set, the modal will be appended to <code>document.body</code>.</li>
 <li><code>steps</code>: An array of step options objects or Step instances to initialize the tour with.</li>
@@ -309,9 +307,6 @@ and possibly other logic.</li>
   }
 }
 </code></pre>
-<ul>
-<li><code>tippyOptions</code>: Extra <a href="https://atomiks.github.io/tippyjs/#all-options">options to pass to <code>Tippy.js</code></a>. Shepherd <a href="./src/js/utils/tooltip-defaults.js">sets a few defaults out of the box</a>, but anything you set here will override these.</li>
-</ul>
 <h5>Step Methods</h5>
 <ul>
 <li><code>show()</code>: Show this step</li>

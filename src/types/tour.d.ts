@@ -117,12 +117,6 @@ declare namespace Tour {
     exitOnEsc?: boolean;
 
     /**
-     * If false, the majority of the Shepherd styles will not be included.
-     * You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
-     */
-    includeStyles?: boolean;
-
-    /**
      * Navigating the tour via left and right arrow keys will be enabled
      * unless this is explicitly set to false.
      */

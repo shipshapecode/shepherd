@@ -6,7 +6,7 @@
   const { cancelIcon, title } = step.options;
 </script>
 
-<style>
+<style type="text/scss" global>
   .shepherd-header {
     align-items: center;
     border-top-left-radius: 5px;
@@ -15,11 +15,11 @@
     justify-content: flex-end;
     line-height: 2em;
     padding: 0.75rem 0.75rem 0;
-  }
 
-  :global(.shepherd-has-title .shepherd-content .shepherd-header) {
-    background: #e6e6e6;
-    padding: 1em;
+    .shepherd-has-title .shepherd-content & {
+      background: #e6e6e6;
+      padding: 1em;
+    }
   }
 </style>
 

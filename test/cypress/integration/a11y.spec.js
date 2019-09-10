@@ -1,12 +1,10 @@
 import setupTour from '../utils/setup-tour';
-import tippy from 'tippy.js';
 
 describe('a11y', () => {
   let Shepherd;
 
   beforeEach(() => {
     Shepherd = null;
-    tippy.setDefaultProps({ duration: 0, delay: 0 });
 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
@@ -69,7 +67,7 @@ describe('a11y', () => {
 
       cy.document().then(() => {
         cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
-        cy.get('[data-test-tippy-link]').should('have.focus');
+        cy.get('[data-test-popper-link]').should('have.focus');
       });
     });
   });

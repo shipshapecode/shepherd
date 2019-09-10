@@ -2,7 +2,7 @@
   export let classPrefix, labelId, title;
 </script>
 
-<style>
+<style global>
   .shepherd-title {
     color: rgba(0, 0, 0, 0.75);
     display: flex;

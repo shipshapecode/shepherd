@@ -32,7 +32,8 @@ module.exports = {
       files: [
         'babel.config.js',
         'jest.config.js',
-        'rollup.config.js'
+        'rollup.config.js',
+        'svelte.config.js'
       ],
       parserOptions: {
         sourceType: 'module',

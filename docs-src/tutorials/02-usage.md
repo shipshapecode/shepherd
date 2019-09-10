@@ -108,8 +108,6 @@ const myTour = new Shepherd.Tour(options);
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `exitOnEsc`: Exiting the tour with the escape key will be enabled unless this is explicitly set to `false`.
-- `includeStyles`: If false, the majority of the Shepherd styles will not be included.
-You may want to use this option if you find yourself overriding a lot of the Shepherd styles.
 - `keyboardNavigation`: Navigating the tour via left and right arrow keys will be enabled unless this is explicitly set to `false`.
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
 - `steps`: An array of step options objects or Step instances to initialize the tour with.
@@ -224,7 +222,6 @@ when: {
   }
 }
 ```
-- `tippyOptions`: Extra [options to pass to `Tippy.js`](https://atomiks.github.io/tippyjs/#all-options). Shepherd [sets a few defaults out of the box](./src/js/utils/tooltip-defaults.js), but anything you set here will override these.
 
 ##### Step Methods
 
