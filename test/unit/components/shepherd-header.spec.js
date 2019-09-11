@@ -7,11 +7,6 @@ import { Step } from '../../../src/js/step.js';
 describe('components/ShepherdHeader', () => {
   beforeEach(cleanup);
 
-  const styles = {
-    'cancel-icon': ' shepherd-cancel-icon',
-    header: ' shepherd-header'
-  };
-
   it('cancel icon is added when cancelIcon.enabled === true', () => {
     const step = {
       options: {
@@ -23,8 +18,7 @@ describe('components/ShepherdHeader', () => {
 
     const { container } = render(ShepherdHeader, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -45,8 +39,7 @@ describe('components/ShepherdHeader', () => {
 
     const { container } = render(ShepherdHeader, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -67,8 +60,7 @@ describe('components/ShepherdHeader', () => {
 
     const { container } = render(ShepherdHeader, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -86,8 +78,7 @@ describe('components/ShepherdHeader', () => {
 
     const { container } = render(ShepherdHeader, {
       props: {
-        step,
-        styles
+        step
       }
     });
 

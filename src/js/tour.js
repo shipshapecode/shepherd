@@ -84,7 +84,7 @@ export class Tour extends Evented {
     let step = options;
 
     if (!(step instanceof Step)) {
-      step = this._setupStep(step);
+      step = new Step(this, step);
     } else {
       step.tour = this;
     }
@@ -297,18 +297,6 @@ export class Tour extends Evented {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
-  }
-
-  /**
-   * Setup a new step object
-   * @param {Object} stepOptions The object describing the options for the step
-   * @return {Step} The step instance
-   * @private
-   */
-  _setupStep(stepOptions) {
-    stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
-
-    return new Step(this, stepOptions);
   }
 
   /**

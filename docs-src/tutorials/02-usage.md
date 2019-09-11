@@ -273,15 +273,13 @@ By default, tour steps will append their elements to the `body` element of the D
 ### 🔼 Displaying Arrows
 
 By default, Shepherd will generate and position an "arrow" element that points to the target
-of a step. This is done by setting [Tippy's `arrow` option](https://atomiks.github.io/tippyjs/#arrow-option) to `true` on each ``Step.options.tippyOptions` &mdash; but you can disable the arrow manually by setting it to false:
+of a step. This is done by setting the `arrow` option to `true` on each ``Step.options` &mdash; but you can disable the arrow manually by setting it to false:
 
 ```js
 myTour.addStep({
   id: 'Step 1', 
-  tippyOptions: {
-    arrow: false
-  }
+  arrow: false
 });
 ```
 
-Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting [the markup that's genereated by Tippy](https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure).
+Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the `.popper__arrow` element.

@@ -80,6 +80,11 @@ declare namespace Step {
     advanceOn?: StepOptionsAdvanceOn | string;
 
     /**
+     * Whether to display the arrow for the tooltip or not
+     */
+    arrow?: boolean;
+
+    /**
      * A function that returns a promise.
      * When the promise resolves, the rest of the `show` code for the step will execute.
      */
