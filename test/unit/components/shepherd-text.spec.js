@@ -4,10 +4,6 @@ import ShepherdText from '../../../src/js/components/shepherd-text.svelte';
 describe('components/ShepherdText', () => {
   beforeEach(cleanup);
 
-  const styles = {
-    text: ' shepherd-text'
-  };
-
   it('adds plain text to the content', () => {
     const step = {
       options: {
@@ -17,8 +13,7 @@ describe('components/ShepherdText', () => {
 
     const { container } = render(ShepherdText, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -34,8 +29,7 @@ describe('components/ShepherdText', () => {
 
     const { container } = render(ShepherdText, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -51,8 +45,7 @@ describe('components/ShepherdText', () => {
 
     const { container } = render(ShepherdText, {
       props: {
-        step,
-        styles
+        step
       }
     });
 

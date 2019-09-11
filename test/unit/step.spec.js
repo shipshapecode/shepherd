@@ -93,7 +93,7 @@ describe('Tour | Step', () => {
     });
 
     it('has all the correct properties', () => {
-      const values = ['classes', 'scrollTo', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
+      const values = ['arrow', 'classes', 'scrollTo', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
       expect(values).toEqual(Object.keys(testStep.options));
 
       expect(testStep.id, 'passed name set as id').toBe('test');

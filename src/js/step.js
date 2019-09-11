@@ -19,6 +19,7 @@ export class Step extends Evented {
    * Create a step
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
+   * @param {Object} options.arrow Whether to display the arrow for the tooltip or not.
    * @param {Object} options.attachTo What element the step should be attached to on the page.
    * It should be an object with the properties `element` and `on`, where `element` is an element selector string
    * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
@@ -248,7 +249,13 @@ export class Step extends Evented {
    * @private
    */
   _setOptions(options = {}) {
-    this.options = options;
+    this.options = Object.assign(
+      {
+        arrow: true
+      },
+      this.tour && this.tour.options && this.tour.options.defaultStepOptions,
+      options);
+
     const { when } = this.options;
 
     this.destroy();

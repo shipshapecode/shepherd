@@ -5,11 +5,6 @@ import defaultButtons from '../../cypress/utils/default-buttons.js';
 describe('components/ShepherdFooter', () => {
   beforeEach(cleanup);
 
-  const styles = {
-    button: ' shepherd-button',
-    footer: ' shepherd-footer'
-  };
-
   it('renders no buttons if an empty array is passed to `options.buttons`', () => {
     const step = {
       options: {
@@ -19,8 +14,7 @@ describe('components/ShepherdFooter', () => {
 
     const { container } = render(ShepherdFooter, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -33,8 +27,7 @@ describe('components/ShepherdFooter', () => {
 
     const { container } = render(ShepherdFooter, {
       props: {
-        step,
-        styles
+        step
       }
     });
 
@@ -54,8 +47,7 @@ describe('components/ShepherdFooter', () => {
 
     const { container } = render(ShepherdFooter, {
       props: {
-        step,
-        styles
+        step
       }
     });
 

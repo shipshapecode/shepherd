@@ -5,12 +5,42 @@ import { spy, stub } from 'sinon';
 import { Tour } from '../../../src/js/tour.js';
 
 describe('components/ShepherdElement', () => {
-  const styles = {
-    content: ' shepherd-content',
-    element: ' shepherd-element',
-    header: ' shepherd-header',
-    text: ' shepherd-text'
-  };
+  describe('arrow', () => {
+    beforeEach(cleanup);
+
+    it('arrows shown by default', async () => {
+      const testElement = document.createElement('div');
+      const tour = new Tour();
+      const step = new Step(tour, {
+        attachTo: { element: testElement, on: 'top' }
+      });
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step
+        }
+      });
+
+      expect(container.querySelectorAll('.shepherd-element .popper__arrow').length).toBe(1);
+    });
+
+    it('arrow: false hides arrows', async () => {
+      const testElement = document.createElement('div');
+      const tour = new Tour();
+      const step = new Step(tour, {
+        arrow: false,
+        attachTo: { element: testElement, on: 'top' }
+      });
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step
+        }
+      });
+
+      expect(container.querySelectorAll('.shepherd-element .popper__arrow').length).toBe(0);
+    });
+  });
 
   describe('handleKeyDown', () => {
     beforeEach(cleanup);
@@ -22,8 +52,7 @@ describe('components/ShepherdElement', () => {
 
       const { container } = render(ShepherdElement, {
         props: {
-          step,
-          styles
+          step
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
@@ -37,8 +66,7 @@ describe('components/ShepherdElement', () => {
 
       const { container } = render(ShepherdElement, {
         props: {
-          step,
-          styles
+          step
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 27 });
@@ -57,8 +85,7 @@ describe('components/ShepherdElement', () => {
 
       const { container } = render(ShepherdElement, {
         props: {
-          step,
-          styles
+          step
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
@@ -83,8 +110,7 @@ describe('components/ShepherdElement', () => {
 
       const { container } = render(ShepherdElement, {
         props: {
-          step,
-          styles
+          step
         }
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
