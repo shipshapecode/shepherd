@@ -3,10 +3,6 @@ import { Tour } from '../../../src/js/tour.js';
 import { stub } from 'sinon';
 
 const classPrefix = '';
-const styles = {
-  'modal-mask-rect': ' shepherd-modal-mask-rect',
-  'modal-overlay-container': ' shepherd-modal-overlay-container'
-};
 
 describe('components/ShepherdModal', () => {
   describe('closeModalOpening()', function() {
@@ -15,8 +11,7 @@ describe('components/ShepherdModal', () => {
         target: document.body,
         props:
           {
-            classPrefix,
-            styles
+            classPrefix
           }
       });
 
@@ -51,8 +46,7 @@ describe('components/ShepherdModal', () => {
         target: document.body,
         props:
           {
-            classPrefix,
-            styles
+            classPrefix
           }
       });
 
@@ -88,8 +82,7 @@ describe('components/ShepherdModal', () => {
         target: document.body,
         props:
           {
-            classPrefix,
-            styles
+            classPrefix
           }
       });
 
@@ -128,8 +121,7 @@ describe('components/ShepherdModal', () => {
         target: document.body,
         props:
           {
-            classPrefix,
-            styles
+            classPrefix
           }
       });
 
@@ -156,8 +148,7 @@ describe('components/ShepherdModal', () => {
         target: document.body,
         props:
           {
-            classPrefix,
-            styles
+            classPrefix
           }
       });
 
@@ -185,8 +176,7 @@ describe('components/ShepherdModal', () => {
       target: document.body,
       props:
         {
-          classPrefix,
-          styles
+          classPrefix
         }
     });
 

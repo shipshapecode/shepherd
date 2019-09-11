@@ -348,15 +348,13 @@ yourApp.on('some-event', () => {
 <code>tippyOptions</code> hash inside of each Step's options hash.</p>
 <h3>🔼 Displaying Arrows</h3>
 <p>By default, Shepherd will generate and position an &quot;arrow&quot; element that points to the target
-of a step. This is done by setting <a href="https://atomiks.github.io/tippyjs/#arrow-option">Tippy's <code>arrow</code> option</a> to <code>true</code> on each ``Step.options.tippyOptions` — but you can disable the arrow manually by setting it to false:</p>
+of a step. This is done by setting the <code>arrow</code> option to <code>true</code> on each ``Step.options` — but you can disable the arrow manually by setting it to false:</p>
 <pre class="prettyprint source lang-js"><code>myTour.addStep({
   id: 'Step 1', 
-  tippyOptions: {
-    arrow: false
-  }
+  arrow: false
 });
 </code></pre>
-<p>Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting <a href="https://atomiks.github.io/tippyjs/#creating-custom-themes-tippy-element-structure">the markup that's genereated by Tippy</a>.</p>
+<p>Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the <code>.popper__arrow</code> element.</p>
   </article>
 </section>
 

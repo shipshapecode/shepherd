@@ -4404,7 +4404,7 @@
 
   function create_fragment$7(ctx) {
     var div, t, current, dispose;
-    var if_block = ctx.step.options.attachTo && ctx.step.options.attachTo.element && create_if_block$3();
+    var if_block = ctx.step.options.arrow && ctx.step.options.attachTo && ctx.step.options.attachTo.element && create_if_block$3();
     var shepherdcontent = new Shepherd_content({
       props: {
         descriptionId: ctx.descriptionId,
@@ -4447,7 +4447,7 @@
         current = true;
       },
       p: function p(changed, ctx) {
-        if (ctx.step.options.attachTo && ctx.step.options.attachTo.element) {
+        if (ctx.step.options.arrow && ctx.step.options.attachTo && ctx.step.options.attachTo.element) {
           if (!if_block) {
             if_block = create_if_block$3();
             if_block.c();
@@ -5011,6 +5011,7 @@
      * Create a step
      * @param {Tour} tour The tour for the step
      * @param {Object} options The options for the step
+     * @param {Object} options.arrow Whether to display the arrow for the tooltip or not.
      * @param {Object} options.attachTo What element the step should be attached to on the page.
      * It should be an object with the properties `element` and `on`, where `element` is an element selector string
      * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
@@ -5266,7 +5267,9 @@
         options = {};
       }
 
-      this.options = options;
+      this.options = Object.assign({
+        arrow: true
+      }, this.tour && this.tour.options && this.tour.options.defaultStepOptions, options);
       var when = this.options.when;
       this.destroy();
       this.id = this.options.id || "step-" + uuid();
@@ -5739,7 +5742,7 @@
       var step = options;
 
       if (!(step instanceof Step)) {
-        step = this._setupStep(step);
+        step = new Step(this, step);
       } else {
         step.tour = this;
       }
@@ -5983,18 +5986,6 @@
         tour: this
       });
       Shepherd.activeTour = this;
-    }
-    /**
-     * Setup a new step object
-     * @param {Object} stepOptions The object describing the options for the step
-     * @return {Step} The step instance
-     * @private
-     */
-    ;
-
-    _proto._setupStep = function _setupStep(stepOptions) {
-      stepOptions = Object.assign({}, this.options.defaultStepOptions, stepOptions);
-      return new Step(this, stepOptions);
     }
     /**
      * Called when `showOn` evaluates to false, to skip the step
