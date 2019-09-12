@@ -394,4 +394,17 @@ describe('Tour | Top-Level Class', function() {
       });
     });
   });
+
+  describe('multiple Tours', function() {
+    it('only creates one SVG overlay', function() {
+      instance = new Shepherd.Tour({
+        tourName: 'firstTour'
+      });
+      new Shepherd.Tour({
+        tourName: 'secondTour'
+      });
+
+      expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toEqual(1);
+    });
+  });
 });
