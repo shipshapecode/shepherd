@@ -19,20 +19,20 @@
   });
 </script>
 
-<style type="text/scss" global>
+<style global>
   .shepherd-text {
     color: rgba(0, 0, 0, 0.75);
     font-size: 1rem;
     line-height: 1.3em;
     padding: 0.75em;
+  }
 
-    p {
-      margin-top: 0;
+  .shepherd-text p {
+    margin-top: 0;
+  }
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
+  .shepherd-text p:last-child {
+    margin-bottom: 0;
   }
 </style>
 

@@ -5,17 +5,17 @@
   const { buttons } = step.options;
 </script>
 
-<style type="text/scss" global>
+<style global>
   .shepherd-footer {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     display: flex;
     justify-content: flex-end;
     padding: 0 0.75rem 0.75rem;
+  }
 
-    .shepherd-button:last-child {
-      margin-right: 0;
-    }
+  .shepherd-footer .shepherd-button:last-child {
+    margin-right: 0;
   }
 </style>
 

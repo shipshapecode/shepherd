@@ -3594,7 +3594,7 @@ function get_each_context(ctx, list, i) {
   var child_ctx = Object.create(ctx);
   child_ctx.config = list[i];
   return child_ctx;
-} // (18:4) {#if buttons}
+} // (23:4) {#if buttons}
 
 
 function create_if_block(ctx) {
@@ -3687,7 +3687,7 @@ function create_if_block(ctx) {
       }
     }
   };
-} // (19:8) {#each buttons as config}
+} // (24:8) {#each buttons as config}
 
 
 function create_each_block(ctx) {
@@ -3963,7 +3963,7 @@ function create_if_block_1(ctx) {
       destroy_component(shepherdtitle, detaching);
     }
   };
-} // (29:4) {#if cancelIcon && cancelIcon.enabled}
+} // (34:4) {#if cancelIcon && cancelIcon.enabled}
 
 
 function create_if_block$1(ctx) {
