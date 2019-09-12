@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
+import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
@@ -22,10 +23,7 @@ const plugins = [
   }),
   svelte({
     preprocess: sveltePreprocess(),
-    emitCss: false,
-    css(css) {
-      css.write('dist/css/shepherd.css');
-    }
+    emitCss: true
   }),
   resolve({
     extensions: ['.js', '.json', '.svelte']
@@ -36,6 +34,13 @@ const plugins = [
   }),
   babel({
     extensions: ['.js', '.mjs', '.html', '.svelte']
+  }),
+  postcss({
+    plugins: [
+      require('autoprefixer'),
+      require('cssnano')
+    ],
+    extract: 'dist/css/shepherd.css'
   })
 ];
 
@@ -111,10 +116,7 @@ if (!process.env.DEVELOPMENT) {
       plugins: [
         svelte({
           preprocess: sveltePreprocess(),
-          emitCss: false,
-          css(css) {
-            css.write('dist/css/shepherd.css');
-          }
+          emitCss: true
         }),
         resolve({
           extensions: ['.js', '.json', '.svelte']
@@ -125,6 +127,13 @@ if (!process.env.DEVELOPMENT) {
         }),
         babel({
           extensions: ['.js', '.mjs', '.html', '.svelte']
+        }),
+        postcss({
+          plugins: [
+            require('autoprefixer'),
+            require('cssnano')
+          ],
+          extract: 'dist/css/shepherd.css'
         }),
         terser(),
         license({
