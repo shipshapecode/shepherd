@@ -1,5 +1,5 @@
 import setupTour from '../utils/setup-tour';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 
 describe('Modal mode', () => {
   let Shepherd;
@@ -93,6 +93,35 @@ describe('Modal mode', () => {
       tour.start();
 
       assert.isOk(tour.getCurrentStep().target.classList.contains('highlight'));
+    });
+  });
+
+  describe('Modal with multiple Tours', function () {
+    it('only activates one SVG overall', async function () {
+      const steps = [
+        {
+          id: 'test',
+          title: 'This is a test step for our tour'
+        },
+        {
+          id: 'test-2',
+          title: 'This is a second test step for our tour'
+        }
+      ];
+      tour = setupTour(Shepherd, {}, steps, {
+        tourName: 'firstTour',
+        useModalOverlay: true
+      });
+      // setup a second tour with a unique name
+      setupTour(Shepherd, {}, null, {
+        tourName: 'secondTour'
+      });
+      tour.start();
+
+      setTimeout(() => {
+        expect(cy.get('.shepherd-modal-overlay-container')).to.have.lengthOf(2);
+        expect(cy.get('.shepherd-modal-is-visible')).to.have.lengthOf(1);
+      }, 0);
     });
   });
 });
