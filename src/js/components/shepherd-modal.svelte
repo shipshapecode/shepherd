@@ -55,7 +55,7 @@
   export function setupForStep(step) {
     // Ensure we move listeners from the previous step, before we setup new ones
     _cleanupStepEventListeners();
-
+    
     if (step.tour.options.useModalOverlay) {
       _styleForStep(step);
       show();

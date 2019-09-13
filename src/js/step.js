@@ -199,13 +199,24 @@ export class Step extends Evented {
   }
 
   /**
+   * _concatClasses concatonates default step classes to step specific classes
+   * @param {String} classString The string of classes for the step
+   * @private
+   */
+  _concatClasses(classString) {
+    const tourOptions = this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+
+    return tourOptions.classes.concat(` ${classString}`);
+  }
+
+  /**
    * Creates Shepherd element for step based on options
    *
    * @return {Element} The DOM element for the step tooltip
    * @private
    */
   _createTooltipContent() {
-    let classes = this.options.classes || '';
+    const classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
@@ -249,14 +260,19 @@ export class Step extends Evented {
    * @private
    */
   _setOptions(options = {}) {
+    const tourOptions = this.tour && this.tour.options && this.tour.options.defaultStepOptions;
     this.options = Object.assign(
       {
         arrow: true
       },
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions,
+      tourOptions,
       options);
 
     const { when } = this.options;
+
+    if (tourOptions.classes) {
+      this.options.classes = this._concatClasses(this.options.classes);
+    }
 
     this.destroy();
     this.id = this.options.id || `step-${uuid()}`;

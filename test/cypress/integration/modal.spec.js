@@ -1,5 +1,5 @@
 import setupTour from '../utils/setup-tour';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 
 describe('Modal mode', () => {
   let Shepherd;
@@ -56,14 +56,11 @@ describe('Modal mode', () => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
     });
 
-    it('removes shepherd-modal-is-visible class from the overlay', () => {
+    it('removes shepherd-modal-is-visible class from the overlay', async () => {
       tour.start();
-
-      setTimeout(() => {
-        cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
-        tour.hide();
-      }, 0);
-
+      await cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
+        
+      tour.hide();
       cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
     });
   });
@@ -92,7 +89,7 @@ describe('Modal mode', () => {
     it('applying highlight classes to the target element', () => {
       tour.start();
 
-      assert.isOk(tour.getCurrentStep().target.classList.contains('highlight'));
+      expect(tour.getCurrentStep().target.classList.contains('highlight')).to.be.true;
     });
   });
 
@@ -118,10 +115,13 @@ describe('Modal mode', () => {
       });
       tour.start();
 
-      setTimeout(() => {
-        expect(cy.get('.shepherd-modal-overlay-container')).to.have.lengthOf(2);
-        expect(cy.get('.shepherd-modal-is-visible')).to.have.lengthOf(1);
-      }, 0);
+      cy.get('.shepherd-modal-overlay-container').and((result) => {
+        expect(result).to.have.lengthOf(2)
+      });
+
+      cy.get('.shepherd-modal-is-visible').and((result) => {
+        expect(result).to.have.lengthOf(1);
+      });
     });
   });
 });

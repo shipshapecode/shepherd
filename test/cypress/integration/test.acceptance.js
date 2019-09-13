@@ -177,13 +177,16 @@ describe('Shepherd Acceptance Tests', () => {
       });
     });
 
-    it.skip('Default classes applied', () => {
+    it('Default classes applied', () => {
       const tour = setupTour(Shepherd, {
         classes: 'test-defaults test-more-defaults'
       });
       tour.start();
-      cy.get('.shepherd-element').should('have.class', 'test-defaults');
-      cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
+      
+      cy.get('.shepherd-element').and((dialog) => {
+        expect(dialog[0].classList.contains('test-defaults')).to.be.ok;
+        expect(dialog[0].classList.contains('test-more-defaults')).to.be.ok;
+      });
     });
 
     describe('scrolling', () => {
