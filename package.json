@@ -18,7 +18,7 @@
   ],
   "maintainers": [
     "Robert Wagner <rwwagner90@gmail.com>",
-    "Chuck Carpenter <charleswcarpenter3@gmail.com>"
+    "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",

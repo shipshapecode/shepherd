@@ -260,7 +260,7 @@ export class Step extends Evented {
     const { when } = this.options;
 
     const defaultStepOptionsClasses = (tourOptions && tourOptions.classes) || '';
-    this.options.classes = `${defaultStepOptionsClasses} ${this.options.classes || ''}`;
+    this.options.classes = `${defaultStepOptionsClasses}${ this.tour.options.classes || ''}`;
 
     this.destroy();
     this.id = this.options.id || `step-${uuid()}`;
