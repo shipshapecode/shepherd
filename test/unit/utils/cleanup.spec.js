@@ -43,8 +43,8 @@ describe('Cleanup Utils', function() {
     it('cleans up steps and sets pointer-events to auto', () => {
       cleanupSteps(mockedTour);
 
-      expect(firstAttachElement).toHaveStyle('pointer-events: auto');
-      expect(secondAttachElement).toHaveStyle('pointer-events: auto');
+      expect(firstAttachElement).toHaveStyle('');
+      expect(secondAttachElement).toHaveStyle('');
     });
   });
 });

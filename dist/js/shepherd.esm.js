@@ -5379,10 +5379,8 @@ function cleanupSteps(tour) {
     var steps = tour.steps;
     steps.forEach(function (step) {
       if (step.options && step.options.canClickTarget === false && step.options.attachTo) {
-        var stepElement = step.target;
-
-        if (stepElement instanceof HTMLElement) {
-          stepElement.style.pointerEvents = 'auto';
+        if (step.target instanceof HTMLElement) {
+          step.target.style.pointerEvents = '';
         }
       }
     });
