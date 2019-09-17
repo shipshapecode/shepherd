@@ -8,10 +8,8 @@ export function cleanupSteps(tour) {
 
     steps.forEach((step) => {
       if (step.options && step.options.canClickTarget === false && step.options.attachTo) {
-        const stepElement = step.target;
-
-        if (stepElement instanceof HTMLElement) {
-          stepElement.style.pointerEvents = 'auto';
+        if (step.target instanceof HTMLElement) {
+          step.target.style.pointerEvents = '';
         }
       }
     });
