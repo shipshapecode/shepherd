@@ -17,10 +17,7 @@ From an administrative command window:
 2. Clone your forked project by running `git clone git@github.com:{
    YOUR_USERNAME }/shepherd.git`
 3. Run `yarn` to install node modules
-4. Test that you can build the source by moving/renaming the existing `dist`
-   directory and running `yarn build`
-5. Assuming everything went well, you should now have a `dist` directory that
-   matches the one you moved in step 4
+4. Test that you can build the source by running `yarn build` and ensure the `dist` directory appears.
 
 ## Writing code!
 
