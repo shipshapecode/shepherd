@@ -1113,10 +1113,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*", "@types/node@^12.7.4":
-  version "12.7.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.4.tgz#64db61e0359eb5a8d99b55e05c729f130a678b04"
-  integrity sha512-W0+n1Y+gK/8G2P/piTkBBN38Qc5Q1ZSO6B5H3QmPCUewaiXOo2GCAWZ4ElZCcNhjJuBSUSLGFUJnmlCn5+nxOQ==
+"@types/node@*", "@types/node@^12.7.5":
+  version "12.7.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
+  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
 
 "@types/q@^1.5.1":
   version "1.5.2"
@@ -5007,9 +5007,9 @@ jest-transform-css@^2.0.0:
     style-inject "0.3.0"
 
 jest-transform-svelte@^2.1.0-beta.1:
-  version "2.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/jest-transform-svelte/-/jest-transform-svelte-2.1.0-beta.1.tgz#14b6f907b76444a76b6a40ae8da6a0c7ce21394d"
-  integrity sha512-aFnn3D6jXCrdrzHEHCNO4I0o6VwNcC18zcEkVY5j7G9PNZSfohrXtfqNh8lIWh9SjR0s6mmylxLjO8A7+OxGVw==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/jest-transform-svelte/-/jest-transform-svelte-2.1.0.tgz#d0aa59c41c6d2014543d7e249404841668e73ff8"
+  integrity sha512-XeQQaEoxH9HVG5LDWJKTSBwodmRj3Rcpt498vhOT81mkhZk6sW6sofzsQtZ3K2xREIGIlffpKfA2UuuN0NAw0w==
   dependencies:
     deasync "^0.1.15"
 
@@ -7637,12 +7637,12 @@ rollup-pluginutils@2, rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.3, roll
     estree-walker "^0.6.1"
 
 rollup@^1.21.2:
-  version "1.21.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.21.2.tgz#eaabd07d0bd309587ad8bebf731fca6fcb96f4d0"
-  integrity sha512-sCAHlcQ/PExU5t/kRwkEWHdhGmQrZ2IgdQzbjPVNfhWbKHMMZGYqkASVTpQqRPLtQKg15xzEscc+BnIK/TE7/Q==
+  version "1.21.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.21.4.tgz#00a41a30f90095db890301b226cbe2918e4cf54d"
+  integrity sha512-Pl512XVCmVzgcBz5h/3Li4oTaoDcmpuFZ+kdhS/wLreALz//WuDAMfomD3QEYl84NkDu6Z6wV9twlcREb4qQsw==
   dependencies:
     "@types/estree" "0.0.39"
-    "@types/node" "^12.7.4"
+    "@types/node" "^12.7.5"
     acorn "^7.0.0"
 
 rsvp@^4.8.4:
@@ -8402,9 +8402,9 @@ svelte-preprocess@^3.1.0:
     strip-indent "^2.0.0"
 
 svelte@^3.12.0:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.12.0.tgz#a30ec57c2d0e73638d6e8c28a3ac0f19f8ba1115"
-  integrity sha512-9/broj3bjShrsk3FuVDH0Bho2BchPKT8ubAqRcTqwkqrO9npOS3Vi98Yb5mBaa4bYV+ELTuvPvaQZbCJYMFRdg==
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.12.1.tgz#ddfacd43272ac3255907c682b74ee7d3d8b06b0c"
+  integrity sha512-t29WJNjHIqfrdMcVXqIyRfgLEaNz7MihKXTpb8qHlbzvf0WyOOIhIlwIGvl6ahJ9+9CLJwz0sjhFNAmPgo8BHg==
 
 svgo@^1.0.0:
   version "1.3.0"
