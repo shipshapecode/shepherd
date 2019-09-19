@@ -5007,9 +5007,9 @@ jest-transform-css@^2.0.0:
     style-inject "0.3.0"
 
 jest-transform-svelte@^2.1.0-beta.1:
-  version "2.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/jest-transform-svelte/-/jest-transform-svelte-2.1.0-beta.1.tgz#14b6f907b76444a76b6a40ae8da6a0c7ce21394d"
-  integrity sha512-aFnn3D6jXCrdrzHEHCNO4I0o6VwNcC18zcEkVY5j7G9PNZSfohrXtfqNh8lIWh9SjR0s6mmylxLjO8A7+OxGVw==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/jest-transform-svelte/-/jest-transform-svelte-2.1.0.tgz#d0aa59c41c6d2014543d7e249404841668e73ff8"
+  integrity sha512-XeQQaEoxH9HVG5LDWJKTSBwodmRj3Rcpt498vhOT81mkhZk6sW6sofzsQtZ3K2xREIGIlffpKfA2UuuN0NAw0w==
   dependencies:
     deasync "^0.1.15"
 
