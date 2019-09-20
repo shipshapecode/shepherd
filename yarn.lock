@@ -8394,9 +8394,9 @@ supports-color@^6.1.0:
     has-flag "^3.0.0"
 
 svelte-preprocess@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.1.0.tgz#770ca72d423d79a8452b019b47625e2e93a93c04"
-  integrity sha512-hhJoUC+8cKQs5WirOQB2yauFLcHPdTUuMGGJthEuE8G+btruKaQk1tmyRonbcbBseQPI84HN7a9ZKIROG+HJ7Q==
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.1.1.tgz#f03959798498ded1a5d6c4e2b8dbc03c50443c5b"
+  integrity sha512-upBPVnzsGJt6dIms84U9Gbgy9IIVZvbnAJV5slPwDdr1aPjE4c9slyC2xexO8z/mgad5wz/qP2Av+vRe3Yd6hw==
   dependencies:
     detect-indent "^6.0.0"
     strip-indent "^2.0.0"
