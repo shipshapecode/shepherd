@@ -27,9 +27,11 @@ body {
 
 .header-logo {
   background-image: url("../shepherd-head.svg");
+  height: 177px;
   left: 50%;
   top: 0;
   transform: translateX(-50%);
+  width: 217px;
 }
 
 .header-logo:hover {
@@ -71,14 +73,64 @@ pre {
 }
 
 .shepherd-button {
-  background: #00213b;
-  font-size: 0.7rem;
+  background: #ffffff;
+  border-top: solid 4px #16202D;
+  border-radius: 0;
+  color: #16202D;
+  display: flex;
+  flex-grow: 1;
+  font-family: "GT Pressura", sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
   text-transform: uppercase;
 }
 
 .shepherd-button:hover {
-  background: #ececec;
-  color: #00213b;
+  background: #ffffff;
+  color: #16202D;
+}
+
+.shepherd-button.shepherd-button-secondary,
+.shepherd-button.shepherd-button-secondary:hover {
+  background: #CAD5D5;
+}
+
+.shepherd-element {
+  border: solid 4px #16202D;
+}
+
+.shepherd-element,
+.shepherd-header,
+.shepherd-footer {
+  border-radius: 0;
+}
+
+.shepherd-footer {
+  padding: 0;
+}
+
+.shepherd-footer button:not(:last-of-type) {
+  border-right: solid 4px #16202D;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+  background: transparent;
+  font-family: "GT Pressura", sans-serif;
+  padding-bottom: 0;
+  padding-left: 2rem;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header .shepherd-title {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.shepherd-text {
+  font-size: 1.2rem;
+  padding: 2rem;
 }
 
 .shepherd-text a,
