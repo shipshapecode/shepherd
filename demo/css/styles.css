@@ -1,0 +1,97 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+html, body {
+  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.button {
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.25s ease-in-out;
+}
+
+.button:hover {
+  transform: translateX(10px) translateY(-10px);
+}
+
+.header-logo {
+  background-image: url("../shepherd-head.svg");
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.header-logo:hover {
+  background-image: url("../shepherd-head-wink.svg");
+}
+
+.footer-logo {
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.demo-heading {
+  color: #00213B;
+}
+
+h1.demo-heading {
+  font-size: 3rem;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+h3.demo-heading {
+  font-size: 1.3em;
+  padding-top: 13px;
+}
+
+h2.demo-heading,
+h3.demo-heading {
+  font-weight: normal;
+}
+
+.hero-outer .hero-followup {
+  padding-top: 20px;
+}
+
+pre {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  line-height: 1.4em;
+}
+
+.shepherd-button {
+  background: #00213b;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.shepherd-button:hover {
+  background: #ececec;
+  color: #00213b;
+}
+
+.shepherd-text a,
+.shepherd-text a:visited,
+.shepherd-text a:active {
+  border-bottom: 1px dotted;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+}
+
+.shepherd-text a:hover,
+.shepherd-text a:visited:hover,
+.shepherd-text a:active:hover {
+  border-bottom-style: solid;
+}
