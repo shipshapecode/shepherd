@@ -81,58 +81,44 @@
     outline: none;
     z-index: 9999;
   }
+
   .shepherd-element, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
     box-sizing: border-box;
   }
+
   .shepherd-element .popper__arrow {
     border: 16px solid transparent;
     content: '';
     display: block;
-    height: 0;
+    height: 16px;
     pointer-events: none;
     position: absolute;
-    width: 0;
+    width: 16px;
     z-index: 10000;
   }
-  .shepherd-element[x-placement^='top'] {
-    margin-bottom: 16px;
-  }
+
   .shepherd-element[x-placement^='top'] .popper__arrow {
-    border-bottom: 0;
+    bottom: -32px;
     border-top-color: #fff;
-    bottom: -16px;
-    left: calc(50% - 16px);
   }
-  .shepherd-element[x-placement^='bottom'] {
-    margin-top: 16px;
-  }
+
   .shepherd-element[x-placement^='bottom'] .popper__arrow {
     border-bottom-color: #fff;
-    border-top: 0;
-    left: calc(50% - 16px);
-    top: -16px;
+    top: -32px;
   }
+
   .shepherd-element[x-placement^='bottom'].shepherd-has-title .popper__arrow {
     border-bottom-color: #e6e6e6;
   }
-  .shepherd-element[x-placement^='left'] {
-    margin-right: 16px;
-  }
+
   .shepherd-element[x-placement^='left'] .popper__arrow {
     border-left-color: #fff;
-    border-right: 0;
-    margin-top: -16px;
-    right: -16px;
-    top: calc(50% - 16px);
+    right: -32px;
   }
-  .shepherd-element[x-placement^='right'] {
-    margin-left: 16px;
-  }
+
   .shepherd-element[x-placement^='right'] .popper__arrow {
-    border-left: 0;
     border-right-color: #fff;
-    left: -16px;
-    top: calc(50% - 16px);
+    left: -32px;
   }
 </style>
 

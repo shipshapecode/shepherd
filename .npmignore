@@ -3,9 +3,11 @@
 
 coverage/
 cypress/
+demo/
 docs/
 esdoc/
 jsdoc-template/
+landing/
 test/
 tests/
 

@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",
+    "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v5.0.0 --max-issues 100",
@@ -100,7 +101,8 @@
     "sinon": "^7.4.2",
     "start-server-and-test": "^1.10.0",
     "svelte": "^3.12.0",
-    "svelte-preprocess": "^3.1.0"
+    "svelte-preprocess": "^3.1.0",
+    "tailwindcss": "^1.1.2"
   },
   "engines": {
     "node": "8.* || >= 10.*"
