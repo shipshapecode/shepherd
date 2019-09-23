@@ -26,6 +26,7 @@ a {
 }
 
 .button:hover {
+  background: #F3F5F5;
   transform: translateX(10px) translateY(-10px);
 }
 
