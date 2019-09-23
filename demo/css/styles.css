@@ -29,18 +29,40 @@ a {
   transform: translateX(10px) translateY(-10px);
 }
 
-.header-logo {
-  background-image: url("../shepherd-head.svg");
-  height: 177px;
+.shepherd-logo {
+  height: auto;
   left: 50%;
   top: 0;
   transform: translateX(-50%);
-  transition: 0.1s ease-in-out;
   width: 217px;
 }
 
-.header-logo:hover {
-  background-image: url("../shepherd-head-wink.svg");
+.shepherd-logo .lines,
+.shepherd-logo .open-eye,
+.shepherd-logo .wink {
+  transition: visibility 0s, opacity 0.25s ease-in-out;
+}
+
+.shepherd-logo .open-eye {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-logo .lines,
+.shepherd-logo .wink {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shepherd-logo:hover .lines,
+.shepherd-logo:hover .wink {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-logo:hover .open-eye {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .footer-icon path {

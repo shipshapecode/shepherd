@@ -37,8 +37,11 @@
 
 <body class="bg-white font-body p-4 text-navy">
 <header class="flex justify-center mt-4 w-full">
-  <div class="header-logo absolute bg-contain bg-no-repeat">
-  </div>
+  <img
+    class="shepherd-logo absolute ml-2"
+    src="./assets/img/shepherd-head.svg"
+    onload="SVGInject(this)"
+  />
 
   <div class="bg-grey-light flex flex-col font-heading max-w-8xl justify-center items-center w-full">
     <nav class="flex justify-center p-4 mt-40 text-xl w-full lg:justify-between lg:mt-0">
@@ -70,9 +73,10 @@
     </nav>
 
     <img
-      class="hero-welcome"
+      class="hero-welcome p-4 w-full lg:mt-4 lg:p-0 lg:w-auto"
       src="shepherd-header.svg"
       alt="Shepherd"
+      onload="SVGInject(this)"
     />
 
     <h2 class="font-body p-2 text-xl">Guide your users through a tour of your app.</h2>
@@ -91,6 +95,7 @@
         <script type="text/plain" class="language-markup" id="hero-including-code">
           <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
           <script src="shepherd.js/dist/js/shepherd.min.js">&lt;/script>
+
 
 
         </script>
@@ -167,13 +172,13 @@
 <footer class="flex justify-center mt-10 w-full">
   <img
     class="footer-logo absolute w-48"
-    src="./shepherd-head-wink.svg"
+    src="./assets/img/shepherd-head-wink.svg"
     alt=""
     role="presentation"
     onload="SVGInject(this)"
   />
 
-  <div class="bg-grey border-4 border-navy flex items-center justify-between max-w-8xl p-8 pt-20 w-full lg:pt-8">
+  <div class="bg-grey border-4 border-navy flex items-center justify-between max-w-8xl p-8 pt-20 w-full md:pt-8">
     <div class="flex items-center justify-between">
       <img
         class="inline mr-2 w-8"
