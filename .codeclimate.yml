@@ -14,6 +14,7 @@ exclude_patterns:
   - "dist/"
   - "docs/"
   - "jsdoc-template/"
+  - "landing/"
   - "**/node_modules/"
   - "**/test/"
   - "**/tests/"

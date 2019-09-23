@@ -27,7 +27,7 @@ module.exports = {
     // Do not collapse, show all methods
     collapse: false,
     resources: {
-      Demo: 'https://shepherdjs.dev/demo/'
+      Demo: 'https://shepherdjs.dev/'
     }
   },
   opts: {
