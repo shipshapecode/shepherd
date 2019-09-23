@@ -21,7 +21,7 @@
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
-<a href="https://shepherdjs.dev/demo/">
+<a href="https://shepherdjs.dev/">
   <img 
     src="/demo/assets/img/demo.png" 
     alt="Guide your users through a tour of your app" 
