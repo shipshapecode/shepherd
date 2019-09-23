@@ -4825,23 +4825,21 @@ pre {
 
 .shepherd-element[x-placement^=top] .popper__arrow {
   bottom: -35px;
-  left: calc(50% - 12px);
   transform: rotate(270deg);
 }
 
 .shepherd-element[x-placement^=bottom] .popper__arrow {
-  left: calc(50% + 12px);
   top: -35px;
   transform: rotate(90deg);
 }
 
 .shepherd-element[x-placement^=left] .popper__arrow {
-  margin-right: -25px;
+  right: -35px;
   transform: rotate(180deg);
 }
 
 .shepherd-element[x-placement^=right] .popper__arrow {
-  margin-left: -25px;
+  left: -35px;
 }
 
 .shepherd-footer {
