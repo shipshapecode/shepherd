@@ -147,7 +147,7 @@
   tabindex="0"
 >
     {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element}
-      <div class="popper__arrow" x-arrow></div>
+      <div class="popper__arrow"></div>
     {/if}
   <ShepherdContent
     {descriptionId}

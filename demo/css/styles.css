@@ -105,13 +105,17 @@ pre {
 }
 
 .shepherd-button:hover {
-  background: #ffffff;
-  color: #16202D;
+  background: #16202D;
+  color: #ffffff;
 }
 
-.shepherd-button.shepherd-button-secondary,
-.shepherd-button.shepherd-button-secondary:hover {
+.shepherd-button.shepherd-button-secondary {
   background: #CAD5D5;
+}
+
+.shepherd-button.shepherd-button-secondary:hover {
+  color: #CAD5D5;
+  background: #16202D;
 }
 
 .shepherd-element {
@@ -122,6 +126,35 @@ pre {
 .shepherd-header,
 .shepherd-footer {
   border-radius: 0;
+}
+
+.shepherd-element .popper__arrow {
+  border-width: 0;
+}
+
+.shepherd-element .popper__arrow:after {
+  content: url('../assets/img/arrow.svg');
+}
+
+.shepherd-element[x-placement^=top] .popper__arrow {
+  bottom: -35px;
+  left: calc(50% - 12px);
+  transform: rotate(270deg);
+}
+
+.shepherd-element[x-placement^=bottom] .popper__arrow {
+  left: calc(50% + 12px);
+  top: -35px;
+  transform: rotate(90deg);
+}
+
+.shepherd-element[x-placement^=left] .popper__arrow {
+  margin-right: -25px;
+  transform: rotate(180deg);
+}
+
+.shepherd-element[x-placement^=right] .popper__arrow {
+  margin-left: -25px;
 }
 
 .shepherd-footer {
