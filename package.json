@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",
-    "build:demo": "npx tailwind build ./demo/css/styles.css -o ./demo/css/welcome.css",
+    "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v5.0.0 --max-issues 100",
