@@ -4805,6 +4805,10 @@ pre {
   background: #16202D;
 }
 
+.shepherd-cancel-icon {
+  font-family: "GT Pressura", sans-serif;
+}
+
 .shepherd-element {
   border: solid 4px #16202D;
 }
@@ -4848,6 +4852,10 @@ pre {
 
 .shepherd-footer button:not(:last-of-type) {
   border-right: solid 4px #16202D;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  margin-top: -7px;
 }
 
 .shepherd-has-title .shepherd-content .shepherd-header {
