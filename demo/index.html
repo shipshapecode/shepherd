@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="./css/fonts.css"/>
   <link rel="stylesheet" href="./css/prism.css"/>
   <link rel="stylesheet" href="./css/welcome.css"/>
+
+  <script src="./js/svg-inject.min.js"></script>
 </head>
 
 <body class="bg-white font-body p-4 text-navy">
@@ -42,12 +44,12 @@
     <nav class="flex justify-center p-4 mt-40 text-xl w-full lg:justify-between lg:mt-0">
       <div class="lg:p-12">
         <a
-          class="pr-10 uppercase"
+          class="pr-10 uppercase hover:text-navy-light"
           href="https://shepherdjs.dev/demo/">
           Demo
         </a>
         <a
-          class="pr-10 uppercase lg:pr-0"
+          class="pr-10 uppercase lg:pr-0 hover:text-navy-light"
           href="https://shepherdjs.dev/docs/">
           View Docs
         </a>
@@ -55,12 +57,12 @@
 
       <div class="lg:p-12">
         <a
-          class="pr-10 uppercase"
+          class="pr-10 uppercase hover:text-navy-light"
           href="https://github.com/shipshapecode/shepherd">
           GitHub
         </a>
         <a
-          class="uppercase"
+          class="uppercase hover:text-navy-light"
           href="https://shipshape.io/contact/">
           Contact
         </a>
@@ -84,16 +86,18 @@
   <div class="flex justify-center w-full">
     <div class="max-w-3xl text-center w-full">
       <div class="hero-including mt-8">
-        <h3 class="demo-heading font-heading uppercase">01. How to Include</h3>
+        <h3 class="demo-heading font-heading text-xl uppercase">01. How to Include</h3>
 
         <script type="text/plain" class="language-markup" id="hero-including-code">
           <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
           <script src="shepherd.js/dist/js/shepherd.min.js">&lt;/script>
+
+
         </script>
       </div>
 
       <div class="hero-example mt-8">
-        <h3 class="demo-heading font-heading uppercase">02. Example</h3>
+        <h3 class="demo-heading font-heading text-xl uppercase">02. Example</h3>
 
         <pre id="hero-example-code">
           <code class="language-javascript">
@@ -138,7 +142,7 @@
         </pre>
       </div>
 
-      <div class="hero-followup font-heading p-24">
+      <div class="hero-followup font-heading m-24">
         <div class="bg-navy inline-block mb-4 w-56 lg:mr-4">
           <a
             class="button star bg-white border-2 border-navy p-6 text-navy whitespace-no-wrap w-full"
@@ -166,22 +170,51 @@
     src="./shepherd-head-wink.svg"
     alt=""
     role="presentation"
+    onload="SVGInject(this)"
   />
 
-  <div class="bg-grey border-4 border-navy flex items-center justify-between max-w-8xl p-8 w-full">
+  <div class="bg-grey border-4 border-navy flex items-center justify-between max-w-8xl p-8 pt-20 w-full lg:pt-8">
     <div class="flex items-center justify-between">
       <img
         class="inline mr-2 w-8"
         src="./assets/img/ship-shape-logo.svg"
         alt="Ship Shape Logo"
+        onload="SVGInject(this)"
       />
 
       <span class="font-heading text-xl uppercase">
-        Library by <a class="underline" href="https://shipshape.io">Ship Shape</a>
+        Library by <a class="underline hover:text-navy-light" href="https://shipshape.io">Ship Shape</a>
       </span>
     </div>
 
-    <div></div>
+    <div class="flex items-center">
+      <a href="https://github.com/shipshapecode">
+        <img
+          class="footer-icon mr-4 w-6"
+          src="./assets/img/github.svg"
+          alt="GitHub Logo"
+          onload="SVGInject(this)"
+        />
+      </a>
+
+      <a href="https://twitter.com/shipshapecode">
+        <img
+          class="footer-icon mr-4 w-6"
+          src="./assets/img/twitter.svg"
+          alt="Twitter Logo"
+          onload="SVGInject(this)"
+        />
+      </a>
+
+      <a href="https://www.linkedin.com/company/ship-shape/">
+        <img
+          class="footer-icon mr-4 w-6"
+          src="./assets/img/linkedin.svg"
+          alt="LinkedIn Logo"
+          onload="SVGInject(this)"
+        />
+      </a>
+    </div>
   </div>
 </footer>
 

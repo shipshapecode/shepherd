@@ -13,6 +13,10 @@ body {
   margin: 0;
 }
 
+a {
+  transition: 0.25s ease-in-out;
+}
+
 .button {
   cursor: pointer;
   display: inline-block;
@@ -31,6 +35,7 @@ body {
   left: 50%;
   top: 0;
   transform: translateX(-50%);
+  transition: 0.1s ease-in-out;
   width: 217px;
 }
 
@@ -38,29 +43,18 @@ body {
   background-image: url("../shepherd-head-wink.svg");
 }
 
+.footer-icon path {
+  fill: #16202D;
+  transition: 0.25s ease-in-out;
+}
+
+.footer-icon:hover path {
+  fill: #959FAC;
+}
+
 .footer-logo {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-}
-
-.demo-heading {
-  color: #00213B;
-}
-
-h1.demo-heading {
-  font-size: 3rem;
-  font-weight: bold;
-  padding-top: 10px;
-}
-
-h3.demo-heading {
-  font-size: 1.3em;
-  padding-top: 13px;
-}
-
-h2.demo-heading,
-h3.demo-heading {
-  font-weight: normal;
 }
 
 .hero-outer .hero-followup {
