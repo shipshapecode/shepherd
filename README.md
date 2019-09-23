@@ -1,7 +1,8 @@
-<img 
-  alt="Shepherd.js Logo"
-  style="height: auto; max-width: 800px; width: 100%;" 
-  src="https://i.imgur.com/E76xkHa.png"/>
+<p align="center">
+  <img 
+    alt="Shepherd.js Logo"
+    src="https://i.imgur.com/cowwtSX.png"/>
+</p>
 
 <div>
   <a href="https://shipshape.io">
