@@ -33,7 +33,8 @@ module.exports = {
         'babel.config.js',
         'jest.config.js',
         'rollup.config.js',
-        'svelte.config.js'
+        'svelte.config.js',
+        'tailwind.config.js'
       ],
       parserOptions: {
         sourceType: 'module',
