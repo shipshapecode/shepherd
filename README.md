@@ -62,7 +62,7 @@ Documentation
 Demo
 ----------------------------------------------------------
 
-[Demo](https://shepherdjs.dev/demo/)
+[Demo](https://shepherdjs.dev/)
 
 Contributing
 ----------------------------------------------------------
