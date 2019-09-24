@@ -248,6 +248,31 @@ export class Step extends Evented {
   }
 
   /**
+   * _getClassOptions gets all possible classes for the step
+   * @param {Object} stepOptions The step specific options
+   * @returns {String} unique string from array of classes
+   * @private
+   */
+  _getClassOptions(stepOptions) {
+    const defaultStepOptions =
+      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    const stepClasses = stepOptions.classes ? stepOptions.classes : '';
+    const defaultStepOptionsClasses =
+      defaultStepOptions && defaultStepOptions.classes
+        ? defaultStepOptions.classes
+        : '';
+    const allClasses = [
+      ...stepClasses.split(' '),
+      ...defaultStepOptionsClasses.split(' ')
+    ];
+    const uniqClasses = new Set(allClasses);
+
+    return Array.from(uniqClasses)
+      .join(' ')
+      .trim();
+  }
+
+  /**
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param {Object} options The options for the step
    * @private
@@ -266,10 +291,7 @@ export class Step extends Evented {
 
     const { when } = this.options;
 
-    const defaultStepOptionsClasses =
-      (tourOptions && tourOptions.classes) || '';
-    this.options.classes = `${defaultStepOptionsClasses} ${this.options
-      .classes || ''}`;
+    this.options.classes = this._getClassOptions(options);
 
     this.destroy();
     this.id = this.options.id || `step-${uuid()}`;
