@@ -9,7 +9,7 @@ describe('a11y', () => {
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
-          return (Shepherd = contentWindow.Shepherd);
+          return Shepherd = contentWindow.Shepherd;
         }
       }
     });
@@ -66,13 +66,7 @@ describe('a11y', () => {
       tour.start();
 
       cy.document().then(() => {
-        cy.get('.shepherd-element')
-          .tab()
-          .tab()
-          .tab()
-          .tab()
-          .tab()
-          .tab();
+        cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
         cy.get('[data-test-popper-link]').should('have.focus');
       });
     });

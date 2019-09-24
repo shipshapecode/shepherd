@@ -9,7 +9,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
-          return (Shepherd = contentWindow.Shepherd);
+          return Shepherd = contentWindow.Shepherd;
         }
       }
     });
@@ -44,7 +44,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
     });
   });
 
-  describe.only('Unique selectors with multiple Tours', function() {
+  describe('Unique selectors with multiple Tours', function () {
     let firstTour;
     let secondTour;
 
@@ -68,21 +68,13 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
       firstTour.complete();
       secondTour.complete();
     });
-    it('applies default classes only on each individual tour', async function() {
+    it('applies default classes only on each individual tour', async function () {
       firstTour.start();
       secondTour.start();
 
-      cy.get('.shepherd-element').and(result => {
-        expect(result).to.have.lengthOf(2);
-      });
-
-      cy.get('.test-tour-1.shepherd-element').and(result => {
-        expect(result).to.have.lengthOf(1);
-      });
-
-      cy.get('.test-tour-2.shepherd-element').and(result => {
-        expect(result).to.have.lengthOf(1);
-      });
+      cy.get('.shepherd-element').should('have.length', 2);
+      cy.get('.test-tour-1.shepherd-element').should('have.length', 1);
+      cy.get('.test-tour-2.shepherd-element').should('have.length', 1);
     });
   });
 });

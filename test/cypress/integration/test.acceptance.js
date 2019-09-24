@@ -10,7 +10,7 @@ describe('Shepherd Acceptance Tests', () => {
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
-          return (Shepherd = contentWindow.Shepherd);
+          return Shepherd = contentWindow.Shepherd;
         }
       }
     });
@@ -33,37 +33,25 @@ describe('Shepherd Acceptance Tests', () => {
           ];
         };
 
-        const tour = setupTour(
-          Shepherd,
-          {
-            cancelIcon: {
-              enabled: false
-            }
-          },
-          steps
-        );
+        const tour = setupTour(Shepherd, {
+          cancelIcon: {
+            enabled: false
+          }
+        }, steps);
 
         tour.start();
 
         // Step text should be visible
-        cy.get('.shepherd-text')
-          .contains('Shepherd is a JavaScript library')
-          .should('be.visible');
+        cy.get('.shepherd-text').contains('Shepherd is a JavaScript library').should('be.visible');
 
         cy.document().then(document => {
-          assert.deepEqual(
-            document.querySelector('[data-test-hero-welcome]'),
-            tour.getCurrentStep().target,
-            'hero welcome is the target'
-          );
+          assert.deepEqual(document.querySelector('[data-test-hero-welcome]'), tour.getCurrentStep().target, 'hero welcome is the target');
         });
       });
 
       it('works with DOM elements', () => {
         cy.document().then(document => {
-          const heroIncludingElement = document.querySelector(
-            '[data-test-hero-including]'
-          );
+          const heroIncludingElement = document.querySelector('[data-test-hero-including]');
 
           const steps = () => {
             return [
@@ -78,25 +66,17 @@ describe('Shepherd Acceptance Tests', () => {
               }
             ];
           };
-          const tour = setupTour(
-            Shepherd,
-            {
-              cancelIcon: {
-                enabled: false
-              }
-            },
-            steps
-          );
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
           tour.start();
           // Step text should be visible
           cy.get('.shepherd-text')
             .contains('Including Shepherd is easy!')
             .should('be.visible');
-          assert.deepEqual(
-            heroIncludingElement,
-            tour.getCurrentStep().target,
-            'heroIncludingElement is the target'
-          );
+          assert.deepEqual(heroIncludingElement, tour.getCurrentStep().target, 'heroIncludingElement is the target');
         });
       });
 
@@ -110,26 +90,16 @@ describe('Shepherd Acceptance Tests', () => {
             }
           ];
         };
-        const tour = setupTour(
-          Shepherd,
-          {
-            cancelIcon: {
-              enabled: false
-            }
-          },
-          steps
-        );
+        const tour = setupTour(Shepherd, {
+          cancelIcon: {
+            enabled: false
+          }
+        }, steps);
         tour.start();
         // Step text should be visible
-        cy.get('.shepherd-text')
-          .contains('When attachTo is undefined, the step is centered.')
-          .should('be.visible');
+        cy.get('.shepherd-text').contains('When attachTo is undefined, the step is centered.').should('be.visible');
         cy.document().then(() => {
-          assert.deepEqual(
-            undefined,
-            tour.getCurrentStep().target,
-            'target is undefined'
-          );
+          assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
         });
       });
     });
@@ -187,9 +157,7 @@ describe('Shepherd Acceptance Tests', () => {
         // Click next
         cy.contains('Next').click();
         // Step two text should be visible
-        cy.get('.shepherd-text')
-          .contains('Including Shepherd is easy!')
-          .should('be.visible');
+        cy.get('.shepherd-text').contains('Including Shepherd is easy!').should('be.visible');
         cy.get('.shepherd-cancel-icon:nth-child(2)').click();
         cy.get('.shepherd-element').should('not.exist');
       });
@@ -229,15 +197,9 @@ describe('Shepherd Acceptance Tests', () => {
           scrollTo: true
         });
         tour.start();
-        cy.document()
-          .get('body')
-          .should('have.prop', 'scrollTop')
-          .and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.document()
-          .get('body')
-          .should('have.prop', 'scrollTop')
-          .and('gt', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('gt', 0);
       });
 
       it('scrollTo:false does not scroll', () => {
@@ -245,15 +207,9 @@ describe('Shepherd Acceptance Tests', () => {
           scrollTo: false
         });
         tour.start();
-        cy.document()
-          .get('body')
-          .should('have.prop', 'scrollTop')
-          .and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
         cy.contains('Next').click();
-        cy.document()
-          .get('body')
-          .should('have.prop', 'scrollTop')
-          .and('eq', 0);
+        cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
       });
     });
   });
