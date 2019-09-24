@@ -285,7 +285,6 @@ export class Tour extends Evented {
     this.trigger(event, { index });
 
     Shepherd.activeTour = null;
-    // this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
 
     this.modal.hide();
@@ -301,7 +300,6 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    // this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
