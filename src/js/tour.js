@@ -27,8 +27,7 @@ export class Tour extends Evented {
    * If not set, the modal will be appended to `document.body`.
    * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
-   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
-   * whenever the tour becomes active.
+   * dynamically generated `id` property.
    * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
    * can remain interactive
@@ -50,7 +49,14 @@ export class Tour extends Evented {
     this.addSteps(this.options.steps);
 
     // Pass these events onto the global Shepherd object
-    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
+    const events = [
+      'active',
+      'cancel',
+      'complete',
+      'inactive',
+      'show',
+      'start'
+    ];
     events.map((event) => {
       ((e) => {
         this.on(e, (opts) => {
@@ -63,11 +69,10 @@ export class Tour extends Evented {
 
     this.modal = new ShepherdModal({
       target: options.modalContainer || document.body,
-      props:
-        {
-          classPrefix: this.classPrefix,
-          styles: this.styles
-        }
+      props: {
+        classPrefix: this.classPrefix,
+        styles: this.styles
+      }
     });
 
     this._setTourID();
@@ -121,7 +126,9 @@ export class Tour extends Evented {
    */
   cancel() {
     if (this.options.confirmCancel) {
-      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
+      const cancelMessage =
+        this.options.confirmCancelMessage ||
+        'Are you sure you want to stop the tour?';
       const stopTour = window.confirm(cancelMessage);
       if (stopTour) {
         this._done('cancel');
@@ -230,7 +237,8 @@ export class Tour extends Evented {
     if (step) {
       this._updateStateBeforeShow();
 
-      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
+      const shouldSkipStep =
+        isFunction(step.options.showOn) && !step.options.showOn();
 
       // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
       if (shouldSkipStep) {
@@ -277,7 +285,7 @@ export class Tour extends Evented {
     this.trigger(event, { index });
 
     Shepherd.activeTour = null;
-    this._removeBodyAttrs();
+    // this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
 
     this.modal.hide();
@@ -293,7 +301,7 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    this._addBodyAttrs();
+    // this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -335,25 +343,6 @@ export class Tour extends Evented {
 
     this.id = `${tourName}--${uuid()}`;
   }
-
-  /**
-   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class to the body.
-   * @private
-   */
-  _addBodyAttrs() {
-    document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
-  }
-
-  /**
-   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class from the body.
-   * @private
-   */
-  _removeBodyAttrs() {
-    document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-  }
-
 }
 
 export { Shepherd };

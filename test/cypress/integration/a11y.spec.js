@@ -9,7 +9,7 @@ describe('a11y', () => {
     cy.visit('/test/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
-          return Shepherd = contentWindow.Shepherd;
+          return (Shepherd = contentWindow.Shepherd);
         }
       }
     });
@@ -57,16 +57,22 @@ describe('a11y', () => {
     it('ESC cancels the tour', () => {
       tour.start();
 
-      cy.get('body').should('have.attr', 'data-shepherd-active-tour');
+      cy.get('.shepherd-element').should('have.attr', 'data-shepherd-step-id');
       cy.get('.shepherd-element').trigger('keydown', { keyCode: 27 });
-      cy.get('body').should('not.have.attr', 'data-shepherd-active-tour');
+      cy.get('.shepherd-element').should('not.exist');
     });
 
     it.skip('Tab is focus trapped inside the modal', () => {
       tour.start();
 
       cy.document().then(() => {
-        cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
+        cy.get('.shepherd-element')
+          .tab()
+          .tab()
+          .tab()
+          .tab()
+          .tab()
+          .tab();
         cy.get('[data-test-popper-link]').should('have.focus');
       });
     });
