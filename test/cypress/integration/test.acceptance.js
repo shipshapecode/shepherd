@@ -42,7 +42,8 @@ describe('Shepherd Acceptance Tests', () => {
         tour.start();
 
         // Step text should be visible
-        cy.get('.shepherd-text').contains('Shepherd is a JavaScript library').should('be.visible');
+        cy.get('.shepherd-text')
+          .contains('Shepherd is a JavaScript library').should('be.visible');
 
         cy.document().then(document => {
           assert.deepEqual(document.querySelector('[data-test-hero-welcome]'), tour.getCurrentStep().target, 'hero welcome is the target');
@@ -74,8 +75,7 @@ describe('Shepherd Acceptance Tests', () => {
           tour.start();
           // Step text should be visible
           cy.get('.shepherd-text')
-            .contains('Including Shepherd is easy!')
-            .should('be.visible');
+            .contains('Including Shepherd is easy!').should('be.visible');
           assert.deepEqual(heroIncludingElement, tour.getCurrentStep().target, 'heroIncludingElement is the target');
         });
       });
@@ -97,7 +97,8 @@ describe('Shepherd Acceptance Tests', () => {
         }, steps);
         tour.start();
         // Step text should be visible
-        cy.get('.shepherd-text').contains('When attachTo is undefined, the step is centered.').should('be.visible');
+        cy.get('.shepherd-text')
+          .contains('When attachTo is undefined, the step is centered.').should('be.visible');
         cy.document().then(() => {
           assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
         });
@@ -169,13 +170,15 @@ describe('Shepherd Acceptance Tests', () => {
           }
         });
         tour.start();
-        cy.get('.shepherd-cancel-icon').should('not.be.visible');
+        cy.get('.shepherd-cancel-icon')
+          .should('not.be.visible');
       });
 
       it('Shows cancel link', () => {
         const tour = setupTour(Shepherd);
         tour.start();
-        cy.get('.shepherd-cancel-icon').should('be.visible');
+        cy.get('.shepherd-cancel-icon')
+          .should('be.visible');
       });
     });
 

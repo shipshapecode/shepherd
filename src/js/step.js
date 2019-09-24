@@ -2,12 +2,7 @@ import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
-import {
-  setupTooltip,
-  parseAttachTo,
-  normalizePrefix,
-  uuid
-} from './utils/general.js';
+import { setupTooltip, parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
@@ -102,9 +97,7 @@ export class Step extends Evented {
   constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
-    this.classPrefix = this.tour.options
-      ? normalizePrefix(this.tour.options.classPrefix)
-      : '';
+    this.classPrefix = this.tour.options ? normalizePrefix(this.tour.options.classPrefix) : '';
     this.styles = tour.styles;
 
     autoBind(this);
@@ -216,7 +209,8 @@ export class Step extends Evented {
 
     const ShepherdElementComponent = new ShepherdElement({
       target: document.body,
-      props: {
+      props:
+      {
         classPrefix: this.classPrefix,
         classes,
         descriptionId,
@@ -341,10 +335,7 @@ export class Step extends Evented {
     this.tooltip.scheduleUpdate();
 
     const target = this.target || document.body;
-    target.classList.add(
-      `${this.classPrefix}shepherd-enabled`,
-      `${this.classPrefix}shepherd-target`
-    );
+    target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
 
     if (this.options.scrollTo) {
       setTimeout(() => {
@@ -389,9 +380,6 @@ export class Step extends Evented {
       this.target.classList.remove(this.options.highlightClass);
     }
 
-    this.target.classList.remove(
-      `${this.classPrefix}shepherd-enabled`,
-      `${this.classPrefix}shepherd-target`
-    );
+    this.target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
   }
 }
