@@ -115,13 +115,8 @@ describe('Modal mode', () => {
       });
       tour.start();
 
-      cy.get('.shepherd-modal-overlay-container').and((result) => {
-        expect(result).to.have.lengthOf(2);
-      });
-
-      cy.get('.shepherd-modal-is-visible').and((result) => {
-        expect(result).to.have.lengthOf(1);
-      });
+      cy.get('.shepherd-modal-overlay-container').should('have.length', 2);
+      cy.get('.shepherd-modal-is-visible').should('have.length', 1);
     });
   });
 });

@@ -188,10 +188,8 @@ describe('Shepherd Acceptance Tests', () => {
       });
       tour.start();
 
-      cy.get('.shepherd-element').and(dialog => {
-        expect(dialog[0].classList.contains('test-defaults')).to.be.ok;
-        expect(dialog[0].classList.contains('test-more-defaults')).to.be.ok;
-      });
+      cy.get('.shepherd-element').should('have.class', 'test-defaults');
+      cy.get('.shepherd-element').should('have.class', 'test-more-defaults');
     });
 
     describe('scrolling', () => {
