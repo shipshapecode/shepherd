@@ -5164,8 +5164,6 @@ function (_Evented) {
       this.el.hidden = true;
     }
 
-    document.body.removeAttribute("data-" + this.classPrefix + "shepherd-step");
-
     if (this.target) {
       this._updateStepTargetOnHide();
     }
@@ -5248,6 +5246,22 @@ function (_Evented) {
     }
   }
   /**
+   * _getClassOptions gets all possible classes for the step
+   * @param {Object} stepOptions The step specific options
+   * @returns {String} unique string from array of classes
+   * @private
+   */
+  ;
+
+  _proto._getClassOptions = function _getClassOptions(stepOptions) {
+    var defaultStepOptions = this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    var stepClasses = stepOptions.classes ? stepOptions.classes : '';
+    var defaultStepOptionsClasses = defaultStepOptions && defaultStepOptions.classes ? defaultStepOptions.classes : '';
+    var allClasses = [].concat(stepClasses.split(' '), defaultStepOptionsClasses.split(' '));
+    var uniqClasses = new Set(allClasses);
+    return Array.from(uniqClasses).join(' ').trim();
+  }
+  /**
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param {Object} options The options for the step
    * @private
@@ -5261,10 +5275,12 @@ function (_Evented) {
       options = {};
     }
 
+    var tourOptions = this.tour && this.tour.options && this.tour.options.defaultStepOptions;
     this.options = Object.assign({
       arrow: true
-    }, this.tour && this.tour.options && this.tour.options.defaultStepOptions, options);
+    }, tourOptions, options);
     var when = this.options.when;
+    this.options.classes = this._getClassOptions(options);
     this.destroy();
     this.id = this.options.id || "step-" + uuid();
 
@@ -5317,7 +5333,6 @@ function (_Evented) {
     this.tooltip.scheduleUpdate();
     var target = this.target || document.body;
     target.classList.add(this.classPrefix + "shepherd-enabled", this.classPrefix + "shepherd-target");
-    document.body.setAttribute("data-" + this.classPrefix + "shepherd-step", this.id);
 
     if (this.options.scrollTo) {
       setTimeout(function () {
@@ -5953,9 +5968,6 @@ function (_Evented) {
       index: index
     });
     Shepherd.activeTour = null;
-
-    this._removeBodyAttrs();
-
     this.trigger('inactive', {
       tour: this
     });
@@ -5972,8 +5984,6 @@ function (_Evented) {
   ;
 
   _proto._setupActiveTour = function _setupActiveTour() {
-    this._addBodyAttrs();
-
     this.trigger('active', {
       tour: this
     });
@@ -6017,26 +6027,6 @@ function (_Evented) {
   _proto._setTourID = function _setTourID() {
     var tourName = this.options.tourName || 'tour';
     this.id = tourName + "--" + uuid();
-  }
-  /**
-   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class to the body.
-   * @private
-   */
-  ;
-
-  _proto._addBodyAttrs = function _addBodyAttrs() {
-    document.body.setAttribute("data-" + this.classPrefix + "shepherd-active-tour", this.id);
-  }
-  /**
-   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class from the body.
-   * @private
-   */
-  ;
-
-  _proto._removeBodyAttrs = function _removeBodyAttrs() {
-    document.body.removeAttribute("data-" + this.classPrefix + "shepherd-active-tour");
   };
 
   return Tour;

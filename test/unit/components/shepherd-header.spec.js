@@ -67,7 +67,7 @@ describe('components/ShepherdHeader', () => {
     expect(container.querySelector('.shepherd-cancel-icon')).toHaveAttribute('aria-label', 'Test');
   });
 
-  it('cancel icon cancels the tour', async () => {
+  it('cancel icon cancels the tour', async() => {
     const tour = new Tour();
     const step = new Step(tour, {
       cancelIcon: {

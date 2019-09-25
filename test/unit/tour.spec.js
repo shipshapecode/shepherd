@@ -54,7 +54,7 @@ describe('Tour | Top-Level Class', function() {
       expect(instance1.id.startsWith('tour--')).toBe(true);
       expect(instance2.id.startsWith('select-avatar--')).toBe(true);
 
-      const uniqueId1 = instance1.id.split('--')[1];
+      const [uniqueId1] = instance1.id.split('--')[1];
       const uniqueId2 = instance2.id.split('--')[1];
 
       expect(uniqueId1).not.toBe(uniqueId2);
@@ -133,14 +133,6 @@ describe('Tour | Top-Level Class', function() {
 
         expect(instance).toBe(Shepherd.activeTour);
       });
-
-      it('adds the current tour\'s "id" property to the body as a data attribute', function() {
-        instance.id = 'test-id';
-        instance.start();
-
-        expect(document.body.hasAttribute('data-shepherd-active-tour')).toBe(true);
-        expect(document.body.getAttribute('data-shepherd-active-tour')).toBe('test-id');
-      });
     });
 
     describe('.getCurrentStep()', function() {
@@ -152,7 +144,7 @@ describe('Tour | Top-Level Class', function() {
 
     describe('.hide()', function() {
       it('hides the current step', () => {
-        const firstStep = instance.steps[0];
+        const [firstStep] = instance.steps;
         const hideStepSpy = spy(firstStep, 'hide');
 
         expect(firstStep.isOpen()).toBe(false);
@@ -308,13 +300,13 @@ describe('Tour | Top-Level Class', function() {
         instance.start();
         instance.show('element-removal-test');
 
-        expect(document.querySelector(`.element-removal-test`),
+        expect(document.querySelector('.element-removal-test'),
           'a step is rendered in the DOM after the tour starts')
           .toBeInTheDocument();
 
         instance.complete();
 
-        expect(document.querySelector(`.element-removal-test`),
+        expect(document.querySelector('.element-removal-test'),
           'steps are removed from the DOM after the tour completes')
           .not.toBeInTheDocument();
       });
@@ -381,7 +373,7 @@ describe('Tour | Top-Level Class', function() {
         expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');
       });
 
-      it(`sets the instance on \`Shepherd.activeTour\` if it's not already set`, function() {
+      it('sets the instance on `Shepherd.activeTour` if it\'s not already set', function() {
         const setupFuncSpy = spy(instance, '_setupActiveTour');
         Shepherd.activeTour = null;
 

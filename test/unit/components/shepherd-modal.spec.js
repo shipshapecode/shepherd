@@ -6,7 +6,7 @@ const classPrefix = '';
 
 describe('components/ShepherdModal', () => {
   describe('closeModalOpening()', function() {
-    it('sets values back to 0', async () => {
+    it('sets values back to 0', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
@@ -41,7 +41,7 @@ describe('components/ShepherdModal', () => {
   });
 
   describe('positionModalOpening()', function() {
-    it('sets the correct attributes when positioning modal opening', async () => {
+    it('sets the correct attributes when positioning modal opening', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
@@ -77,7 +77,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes with padding', async () => {
+    it('sets the correct attributes with padding', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
@@ -116,7 +116,7 @@ describe('components/ShepherdModal', () => {
       showStub.restore();
     });
 
-    it.skip('useModalOverlay: false, hides modal', async () => {
+    it.skip('useModalOverlay: false, hides modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
@@ -143,7 +143,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it.skip('useModalOverlay: true, shows modal', async () => {
+    it.skip('useModalOverlay: true, shows modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
@@ -180,13 +180,13 @@ describe('components/ShepherdModal', () => {
         }
     });
 
-    it('show adds classes', async () => {
+    it('show adds classes', async() => {
       await modalComponent.show();
 
       expect(modalComponent.getElement()).toHaveClass('shepherd-modal-is-visible');
     });
 
-    it('hide removes classes', async () => {
+    it('hide removes classes', async() => {
       await modalComponent.hide();
 
       expect(modalComponent.getElement()).not.toHaveClass('shepherd-modal-is-visible');

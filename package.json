@@ -18,7 +18,7 @@
   ],
   "maintainers": [
     "Robert Wagner <rwwagner90@gmail.com>",
-    "Chuck Carpenter <charleswcarpenter3@gmail.com>"
+    "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
     "build": "yarn clean && rollup -c",
@@ -68,7 +68,7 @@
     "del": "^5.1.0",
     "eslint": "^6.3.0",
     "eslint-plugin-jest": "^22.17.0",
-    "eslint-plugin-ship-shape": "^0.6.0",
+    "eslint-plugin-ship-shape": "^0.7.1",
     "eslint-plugin-svelte3": "^2.7.3",
     "glob": "^7.1.3",
     "http-server": "^0.11.1",

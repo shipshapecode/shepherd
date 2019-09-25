@@ -4,14 +4,16 @@ import { spy } from 'sinon';
 
 describe('Bind Utils', function() {
   describe('bindAdvance()', () => {
-    let event;
-    let link;
+    let event,
+      link;
     let hasAdvanced = false;
 
     const advanceOnSelector = 'test-selector';
     const advanceOnEventName = 'test-event';
     const tourProto = {
-      next() { hasAdvanced = true; }
+      next() {
+        hasAdvanced = true;
+      }
     };
 
     beforeEach(() => {
