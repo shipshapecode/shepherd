@@ -45,13 +45,13 @@ describe('Shepherd Acceptance Tests', () => {
         cy.get('.shepherd-text')
           .contains('Shepherd is a JavaScript library').should('be.visible');
 
-        cy.document().then(document => {
+        cy.document().then((document) => {
           assert.deepEqual(document.querySelector('[data-test-hero-welcome]'), tour.getCurrentStep().target, 'hero welcome is the target');
         });
       });
 
       it('works with DOM elements', () => {
-        cy.document().then(document => {
+        cy.document().then((document) => {
           const heroIncludingElement = document.querySelector('[data-test-hero-including]');
 
           const steps = () => {

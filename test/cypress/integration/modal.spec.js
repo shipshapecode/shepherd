@@ -2,8 +2,7 @@ import setupTour from '../utils/setup-tour';
 import { expect } from 'chai';
 
 describe('Modal mode', () => {
-  let Shepherd;
-  let tour;
+  let Shepherd, tour;
 
   beforeEach(() => {
     Shepherd = null;
@@ -56,7 +55,7 @@ describe('Modal mode', () => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
     });
 
-    it('removes shepherd-modal-is-visible class from the overlay', async () => {
+    it('removes shepherd-modal-is-visible class from the overlay', async() => {
       tour.start();
       await cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
 

@@ -45,8 +45,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
   });
 
   describe('Unique selectors with multiple Tours', function() {
-    let firstTour;
-    let secondTour;
+    let firstTour, secondTour;
 
     beforeEach(() => {
       firstTour = setupTour(Shepherd, {}, null, {
