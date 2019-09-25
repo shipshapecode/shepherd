@@ -32,22 +32,22 @@
 
   <div class="bg-grey-light flex flex-col font-heading max-w-8xl justify-center items-center w-full">
     <nav class="flex justify-center p-4 mt-40 text-xl w-full lg:justify-between lg:mt-0">
-      <div class="lg:p-12">
+      <div class="flex lg:p-12">
         <a
-          class="pr-10 uppercase hover:text-navy-light"
+          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
           href="/">
           Demo
         </a>
         <a
-          class="pr-10 uppercase lg:pr-0 hover:text-navy-light"
+          class="pr-6 uppercase lg:pr-0 hover:text-navy-light lg:pr-10"
           href="https://shepherdjs.dev/docs/">
-          View Docs
+          Docs
         </a>
       </div>
 
-      <div class="lg:p-12">
+      <div class="flex lg:p-12">
         <a
-          class="pr-10 uppercase hover:text-navy-light"
+          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
           href="https://github.com/shipshapecode/shepherd">
           GitHub
         </a>
@@ -67,6 +67,76 @@
     />
 
     <h2 class="font-body p-2 text-xl">Guide your users through a tour of your app.</h2>
+
+    <div class="flex justify-center w-full">
+      <div class="flex flex-wrap max-w-6xl p-4 w-full lg:flex-no-wrap">
+        <div class="m-4 relative w-full lg:w-1/3">
+          <div class="border-4 border-navy w-full">
+            <div class="bg-grey-light border-b-4 border-navy h-32 relative w-full z-10">
+
+            </div>
+
+            <div class="bg-white h-72 p-6 relative z-10">
+              <h3 class="p-2 text-2xl text-center uppercase w-full">
+                Customizable
+              </h3>
+
+              <p class="font-body p-2 text-xl">
+                Shepherd's styles are kept minimal, allowing you to easily
+                customize the look and feel.
+              </p>
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+        </div>
+
+        <div class="m-4 relative w-full lg:w-1/3">
+          <div class="border-4 border-navy w-full">
+            <div class="bg-grey-light border-b-4 border-navy h-32 relative w-full z-10">
+
+            </div>
+
+            <div class="bg-white h-72 p-6 relative z-10">
+              <h3 class="p-2 text-2xl text-center uppercase w-full">
+                Accessibility
+              </h3>
+
+              <p class="font-body p-2 text-xl">
+                Shepherd has full keyboard navigation support, focus trapping,
+                and a11y compliance via aria attributes.
+              </p>
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+        </div>
+
+        <div class="m-4 relative w-full lg:w-1/3">
+          <div class="border-4 border-navy w-full">
+            <div class="bg-grey-light border-b-4 border-navy h-32 relative w-full z-10">
+
+            </div>
+
+            <div class="bg-white h-72 p-6 relative z-10">
+              <h3 class="p-2 text-2xl text-center uppercase w-full">
+                SVG Overlay
+              </h3>
+
+              <p class="font-body p-2 text-xl">
+                Our modal overlay uses SVG to ensure your element is always highlighted,
+                regardless of stacking context.
+              </p>
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -77,20 +147,17 @@
   <div class="flex justify-center w-full">
     <div class="max-w-3xl text-center w-full">
       <div class="hero-including mt-8">
-        <h3 class="demo-heading font-heading text-xl uppercase">01. How to Include</h3>
+        <h3 class="demo-heading font-heading text-2xl uppercase">01. How to Include</h3>
 
         <script type="text/plain" class="language-markup" id="hero-including-code">
           <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
           <script src="shepherd.js/dist/js/shepherd.min.js">&lt;/script>
 
-
-
-
         </script>
       </div>
 
       <div class="hero-example mt-8">
-        <h3 class="demo-heading font-heading text-xl uppercase">02. Example</h3>
+        <h3 class="demo-heading font-heading text-2xl uppercase">02. Example</h3>
 
         <pre id="hero-example-code">
           <code class="language-javascript">
@@ -135,7 +202,7 @@
         </pre>
       </div>
 
-      <div class="hero-followup font-heading m-24">
+      <div class="hero-followup font-heading mb-12 mt-12 lg:mb-24 lg:mt-24">
         <div class="bg-navy inline-block mb-4 w-56 lg:mr-4">
           <a
             class="button star bg-white border-2 border-navy p-6 text-navy whitespace-no-wrap w-full"
@@ -166,7 +233,7 @@
     onload="SVGInject(this)"
   />
 
-  <div class="bg-grey border-4 border-navy flex items-center justify-between max-w-8xl p-8 pt-20 w-full md:pt-8">
+  <div class="bg-grey border-4 border-navy flex flex-wrap items-center justify-center lg:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8">
     <div class="flex items-center justify-between">
       <img
         class="inline mr-2 w-8"
