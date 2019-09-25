@@ -44,7 +44,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
     });
   });
 
-  describe('Unique selectors with multiple Tours', function () {
+  describe('Unique selectors with multiple Tours', function() {
     let firstTour;
     let secondTour;
 
@@ -68,7 +68,7 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
       firstTour.complete();
       secondTour.complete();
     });
-    it('applies default classes only on each individual tour', async function () {
+    it('applies default classes only on each individual tour', async function() {
       firstTour.start();
       secondTour.start();
 

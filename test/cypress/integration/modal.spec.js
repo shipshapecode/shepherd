@@ -59,7 +59,7 @@ describe('Modal mode', () => {
     it('removes shepherd-modal-is-visible class from the overlay', async () => {
       tour.start();
       await cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
-        
+
       tour.hide();
       cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
     });
@@ -93,8 +93,8 @@ describe('Modal mode', () => {
     });
   });
 
-  describe('Modal with multiple Tours', function () {
-    it('only activates one SVG overall', async function () {
+  describe('Modal with multiple Tours', function() {
+    it('only activates one SVG overall', async function() {
       const steps = [
         {
           id: 'test',
@@ -116,7 +116,7 @@ describe('Modal mode', () => {
       tour.start();
 
       cy.get('.shepherd-modal-overlay-container').and((result) => {
-        expect(result).to.have.lengthOf(2)
+        expect(result).to.have.lengthOf(2);
       });
 
       cy.get('.shepherd-modal-is-visible').and((result) => {

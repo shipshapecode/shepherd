@@ -210,14 +210,14 @@ export class Step extends Evented {
     const ShepherdElementComponent = new ShepherdElement({
       target: document.body,
       props:
-      {
-        classPrefix: this.classPrefix,
-        classes,
-        descriptionId,
-        labelId,
-        step: this,
-        styles: this.styles
-      }
+        {
+          classPrefix: this.classPrefix,
+          classes,
+          descriptionId,
+          labelId,
+          step: this,
+          styles: this.styles
+        }
     });
 
     return ShepherdElementComponent.getElement();

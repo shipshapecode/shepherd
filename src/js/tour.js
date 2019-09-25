@@ -64,10 +64,10 @@ export class Tour extends Evented {
     this.modal = new ShepherdModal({
       target: options.modalContainer || document.body,
       props:
-      {
-        classPrefix: this.classPrefix,
-        styles: this.styles
-      }
+        {
+          classPrefix: this.classPrefix,
+          styles: this.styles
+        }
     });
 
     this._setTourID();
