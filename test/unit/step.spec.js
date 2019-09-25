@@ -215,7 +215,9 @@ describe('Tour | Step', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;
       step.tooltip = {
-        destroy() { destroyCalled = true; }
+        destroy() {
+          destroyCalled = true;
+        }
       };
       step._setupElements();
       expect(destroyCalled, '_setupElements method called destroy on the existing tooltip').toBe(true);

@@ -167,8 +167,6 @@ export class Step extends Evented {
       this.el.hidden = true;
     }
 
-    document.body.removeAttribute(`data-${this.classPrefix}shepherd-step`);
-
     if (this.target) {
       this._updateStepTargetOnHide();
     }
@@ -205,7 +203,7 @@ export class Step extends Evented {
    * @private
    */
   _createTooltipContent() {
-    let classes = this.options.classes || '';
+    const classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
@@ -244,19 +242,50 @@ export class Step extends Evented {
   }
 
   /**
+   * _getClassOptions gets all possible classes for the step
+   * @param {Object} stepOptions The step specific options
+   * @returns {String} unique string from array of classes
+   * @private
+   */
+  _getClassOptions(stepOptions) {
+    const defaultStepOptions =
+      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    const stepClasses = stepOptions.classes ? stepOptions.classes : '';
+    const defaultStepOptionsClasses =
+      defaultStepOptions && defaultStepOptions.classes
+        ? defaultStepOptions.classes
+        : '';
+    const allClasses = [
+      ...stepClasses.split(' '),
+      ...defaultStepOptionsClasses.split(' ')
+    ];
+    const uniqClasses = new Set(allClasses);
+
+    return Array.from(uniqClasses)
+      .join(' ')
+      .trim();
+  }
+
+  /**
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param {Object} options The options for the step
    * @private
    */
   _setOptions(options = {}) {
+    const tourOptions =
+      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+
     this.options = Object.assign(
       {
         arrow: true
       },
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions,
-      options);
+      tourOptions,
+      options
+    );
 
     const { when } = this.options;
+
+    this.options.classes = this._getClassOptions(options);
 
     this.destroy();
     this.id = this.options.id || `step-${uuid()}`;
@@ -307,7 +336,6 @@ export class Step extends Evented {
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
-    document.body.setAttribute(`data-${this.classPrefix}shepherd-step`, this.id);
 
     if (this.options.scrollTo) {
       setTimeout(() => {

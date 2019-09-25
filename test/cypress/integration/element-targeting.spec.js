@@ -43,4 +43,37 @@ describe('Attaching tooltips to target elements in the DOM on each step', () => 
         .and('not.have.class', 'shepherd-enabled');
     });
   });
+
+  describe('Unique selectors with multiple Tours', function() {
+    let firstTour, secondTour;
+
+    beforeEach(() => {
+      firstTour = setupTour(Shepherd, {}, null, {
+        tourName: 'firstTour',
+        defaultStepOptions: {
+          classes: 'tour-test-1'
+        }
+      });
+      // setup a second tour with a unique name
+      secondTour = setupTour(Shepherd, {}, null, {
+        tourName: 'secondTour',
+        defaultStepOptions: {
+          classes: 'tour-test-2'
+        }
+      });
+    });
+
+    afterEach(() => {
+      firstTour.complete();
+      secondTour.complete();
+    });
+    it('applies default classes only on each individual tour', async function() {
+      firstTour.start();
+      secondTour.start();
+
+      cy.get('.shepherd-element').should('have.length', 2);
+      cy.get('.test-tour-1.shepherd-element').should('have.length', 1);
+      cy.get('.test-tour-2.shepherd-element').should('have.length', 1);
+    });
+  });
 });

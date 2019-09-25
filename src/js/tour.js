@@ -277,7 +277,6 @@ export class Tour extends Evented {
     this.trigger(event, { index });
 
     Shepherd.activeTour = null;
-    this._removeBodyAttrs();
     this.trigger('inactive', { tour: this });
 
     this.modal.hide();
@@ -293,7 +292,6 @@ export class Tour extends Evented {
    * @private
    */
   _setupActiveTour() {
-    this._addBodyAttrs();
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -335,25 +333,6 @@ export class Tour extends Evented {
 
     this.id = `${tourName}--${uuid()}`;
   }
-
-  /**
-   * Adds the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class to the body.
-   * @private
-   */
-  _addBodyAttrs() {
-    document.body.setAttribute(`data-${this.classPrefix}shepherd-active-tour`, this.id);
-  }
-
-  /**
-   * Removes the data-shepherd-active-tour attribute and the 'shepherd-active'
-   * class from the body.
-   * @private
-   */
-  _removeBodyAttrs() {
-    document.body.removeAttribute(`data-${this.classPrefix}shepherd-active-tour`);
-  }
-
 }
 
 export { Shepherd };

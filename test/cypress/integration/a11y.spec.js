@@ -57,9 +57,9 @@ describe('a11y', () => {
     it('ESC cancels the tour', () => {
       tour.start();
 
-      cy.get('body').should('have.attr', 'data-shepherd-active-tour');
+      cy.get('.shepherd-element').should('have.attr', 'data-shepherd-step-id');
       cy.get('.shepherd-element').trigger('keydown', { keyCode: 27 });
-      cy.get('body').should('not.have.attr', 'data-shepherd-active-tour');
+      cy.get('.shepherd-element').should('not.exist');
     });
 
     it.skip('Tab is focus trapped inside the modal', () => {

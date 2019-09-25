@@ -8,7 +8,7 @@ describe('components/ShepherdElement', () => {
   describe('arrow', () => {
     beforeEach(cleanup);
 
-    it('arrows shown by default', async () => {
+    it('arrows shown by default', async() => {
       const testElement = document.createElement('div');
       const tour = new Tour();
       const step = new Step(tour, {
@@ -24,7 +24,7 @@ describe('components/ShepherdElement', () => {
       expect(container.querySelectorAll('.shepherd-element .popper__arrow').length).toBe(1);
     });
 
-    it('arrow: false hides arrows', async () => {
+    it('arrow: false hides arrows', async() => {
       const testElement = document.createElement('div');
       const tour = new Tour();
       const step = new Step(tour, {
@@ -45,7 +45,7 @@ describe('components/ShepherdElement', () => {
   describe('handleKeyDown', () => {
     beforeEach(cleanup);
 
-    it('exitOnEsc: true - ESC cancels the tour', async () => {
+    it('exitOnEsc: true - ESC cancels the tour', async() => {
       const tour = new Tour();
       const step = new Step(tour, {});
       const stepCancelSpy = spy(step, 'cancel');
@@ -59,7 +59,7 @@ describe('components/ShepherdElement', () => {
       expect(stepCancelSpy.called).toBe(true);
     });
 
-    it('exitOnEsc: false - ESC does not cancel the tour', async () => {
+    it('exitOnEsc: false - ESC does not cancel the tour', async() => {
       const tour = new Tour({ exitOnEsc: false });
       const step = new Step(tour, {});
       const stepCancelSpy = spy(step, 'cancel');
@@ -73,7 +73,7 @@ describe('components/ShepherdElement', () => {
       expect(stepCancelSpy.called).toBe(false);
     });
 
-    it('keyboardNavigation: true - arrow keys move between steps', async () => {
+    it('keyboardNavigation: true - arrow keys move between steps', async() => {
       const tour = new Tour();
       const step = new Step(tour, {});
 
@@ -98,7 +98,7 @@ describe('components/ShepherdElement', () => {
       tourNextStub.restore();
     });
 
-    it('keyboardNavigation: false - arrow keys do not move between steps', async () => {
+    it('keyboardNavigation: false - arrow keys do not move between steps', async() => {
       const tour = new Tour({ keyboardNavigation: false });
       const step = new Step(tour, {});
 
