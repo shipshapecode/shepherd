@@ -201,6 +201,52 @@ describe('Tour | Step', () => {
     });
   });
 
+  describe('updateStepOptions', () => {
+    it('should update passed in properties', () => {
+      const step = new Step(tour, {
+        id: 'test-id',
+        text: 'Lorem Ipsum',
+        title: 'Test',
+        cancelIcon: true
+      });
+
+      step.updateStepOptions({ text: 'updated', title: 'New title' });
+      expect(step.options.text).toBe('updated');
+      expect(step.options.title).toBe('New title');
+    });
+
+    it('should not affect other properties', () => {
+      const step = new Step(tour, {
+        id: 'test-id',
+        text: 'Lorem Ipsum',
+        title: 'Test',
+        cancelIcon: true
+      });
+
+      step.updateStepOptions({ text: 'updated', title: 'New title' });
+      expect(step.options.id).toEqual('test-id');
+      expect(step.options.cancelIcon).toBeTruthy();
+    });
+
+    it('should update tooltip content', () => {
+      const step = new Step(tour, {
+        id: 'test-id',
+        text: 'Lorem Ipsum',
+        title: 'Test',
+        cancelIcon: true
+      });
+
+      let called = false;
+
+      step._createTooltipContent();
+      step.shepherdElementComponent.$set = () => called = true;
+
+      step.updateStepOptions({ text: 'updated', title: 'New title' });
+
+      expect(called).toBeTruthy();
+    });
+  });
+
   describe('_setupElements()', () => {
     it('calls destroy on the step if the content element is already set', () => {
       const step = new Step(tour, {});

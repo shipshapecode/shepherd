@@ -197,6 +197,19 @@ export class Step extends Evented {
   }
 
   /**
+   * Updates the options of the step.
+   *
+   * @param {Object} options The options for the step
+   */
+  updateStepOptions(options) {
+    this.options = Object.assign(this.options, options);
+
+    if (this.shepherdElementComponent) {
+      this.shepherdElementComponent.$set({ step: this });
+    }
+  }
+
+  /**
    * Creates Shepherd element for step based on options
    *
    * @return {Element} The DOM element for the step tooltip
@@ -207,7 +220,7 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    const ShepherdElementComponent = new ShepherdElement({
+    this.shepherdElementComponent = new ShepherdElement({
       target: document.body,
       props:
         {
@@ -220,7 +233,7 @@ export class Step extends Evented {
         }
     });
 
-    return ShepherdElementComponent.getElement();
+    return this.shepherdElementComponent.getElement();
   }
 
   /**
