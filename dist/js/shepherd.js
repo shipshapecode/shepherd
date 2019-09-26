@@ -3196,6 +3196,10 @@
     get_current_component().$$.on_mount.push(fn);
   }
 
+  function afterUpdate(fn) {
+    get_current_component().$$.after_update.push(fn);
+  }
+
   var dirty_components = [];
   var binding_callbacks = [];
   var render_callbacks = [];
@@ -4123,7 +4127,7 @@
     var descriptionId = $$props.descriptionId,
         element = $$props.element,
         step = $$props.step;
-    onMount(function () {
+    afterUpdate(function () {
       var text = step.options.text;
 
       if (isFunction(text)) {
@@ -5208,6 +5212,22 @@
       this._show();
     }
     /**
+     * Updates the options of the step.
+     *
+     * @param {Object} options The options for the step
+     */
+    ;
+
+    _proto.updateStepOptions = function updateStepOptions(options) {
+      this.options = Object.assign(this.options, options);
+
+      if (this.shepherdElementComponent) {
+        this.shepherdElementComponent.$set({
+          step: this
+        });
+      }
+    }
+    /**
      * Creates Shepherd element for step based on options
      *
      * @return {Element} The DOM element for the step tooltip
@@ -5219,7 +5239,7 @@
       var classes = this.options.classes || '';
       var descriptionId = this.id + "-description";
       var labelId = this.id + "-label";
-      var ShepherdElementComponent = new Shepherd_element({
+      this.shepherdElementComponent = new Shepherd_element({
         target: document.body,
         props: {
           classPrefix: this.classPrefix,
@@ -5230,7 +5250,7 @@
           styles: this.styles
         }
       });
-      return ShepherdElementComponent.getElement();
+      return this.shepherdElementComponent.getElement();
     }
     /**
      * If a custom scrollToHandler is defined, call that, otherwise do the generic
