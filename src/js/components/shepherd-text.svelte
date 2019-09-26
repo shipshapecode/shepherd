@@ -1,10 +1,10 @@
 <script>
-  import { onMount } from 'svelte';
+  import { afterUpdate } from 'svelte';
   import { isElement, isFunction } from '../utils/type-check';
 
   export let descriptionId, element, step;
 
-  onMount(() => {
+  afterUpdate(() => {
     let { text } = step.options;
 
     if (isFunction(text)) {
