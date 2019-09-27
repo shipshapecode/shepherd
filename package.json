@@ -28,7 +28,7 @@
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v5.0.0 --max-issues 100",
     "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
-    "cy:run": "./node_modules/.bin/cypress run --browser chrome",
+    "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",

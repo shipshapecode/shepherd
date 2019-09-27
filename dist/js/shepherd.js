@@ -5348,9 +5348,7 @@
 
       this.trigger('before-show');
 
-      if (!this.el) {
-        this._setupElements();
-      }
+      this._setupElements();
 
       this.tour.modal.setupForStep(this);
 

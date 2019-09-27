@@ -443,9 +443,7 @@ export class Step extends Evented {
   _show() {
     this.trigger('before-show');
 
-    if (!this.el) {
-      this._setupElements();
-    }
+    this._setupElements();
 
     this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
