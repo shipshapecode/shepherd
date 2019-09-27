@@ -41,6 +41,8 @@ describe('destroying-elements', () => {
 
     tour.start();
 
+    cy.wait(250);
+
     cy.get('[data-shepherd-step-id="first"]').then((stepElement) => {
       const initialFirstStepTransform = stepElement[0].style.transform;
 
@@ -52,7 +54,7 @@ describe('destroying-elements', () => {
 
         tour.back();
 
-        cy.wait(500);
+        cy.wait(250);
 
         cy.get('[data-shepherd-step-id="first"]').then((stepElement2) => {
           const secondFirstStepTransform = stepElement2[0].style.transform;
@@ -70,7 +72,7 @@ describe('destroying-elements', () => {
 
           tour.back();
 
-          cy.wait(500);
+          cy.wait(250);
 
           cy.get('[data-shepherd-step-id="first"]').then((stepElement3) => {
             const finalFirstStepTransform = stepElement3[0].style.transform;
