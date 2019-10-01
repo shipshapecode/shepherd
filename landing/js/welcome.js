@@ -18,14 +18,6 @@
         scrollTo: {
           behavior: 'smooth',
           block: 'center'
-        },
-        popperOptions: {
-          modifiers: {
-            foo: 'bar',
-            preventOverflow: {
-              escapeWithReference: false
-            }
-          }
         }
       },
       // This should add the first tour step
