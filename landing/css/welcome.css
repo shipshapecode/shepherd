@@ -5016,30 +5016,42 @@ pre {
   border-radius: 0;
 }
 
-.shepherd-element .popper__arrow {
+.shepherd-element .shepherd-arrow {
   border-width: 0;
+  height: auto;
+  width: auto;
 }
 
-.shepherd-element .popper__arrow:after {
+.shepherd-element .shepherd-arrow:after {
   content: url('../assets/img/arrow.svg');
+  display: inline-block;
 }
 
-.shepherd-element[x-placement^=top] .popper__arrow {
+.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow {
   bottom: -35px;
+}
+
+.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow:after {
   transform: rotate(270deg);
 }
 
-.shepherd-element[x-placement^=bottom] .popper__arrow {
+.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow {
   top: -35px;
+}
+
+.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow:after {
   transform: rotate(90deg);
 }
 
-.shepherd-element[x-placement^=left] .popper__arrow {
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow {
   right: -35px;
+}
+
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow:after {
   transform: rotate(180deg);
 }
 
-.shepherd-element[x-placement^=right] .popper__arrow {
+.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow {
   left: -35px;
 }
 

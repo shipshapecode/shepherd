@@ -34,7 +34,7 @@
           text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://popper.js.org/" data-test-popper-link>Popper.js</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Popper makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n',
           attachTo: {
             element: '.hero-welcome',
-            on: 'top center'
+            on: 'bottom'
           },
           buttons: [
             {
@@ -67,7 +67,7 @@
         text: element,
         attachTo: {
           element: '.hero-including',
-          on: 'top center'
+          on: 'bottom'
         },
         buttons: [
           {
@@ -91,7 +91,7 @@
         text: 'Creating a Shepherd tour is easy. too! ' + 'Just create a \`Tour\` instance, and add as many steps as you want.',
         attachTo: {
           element: '.hero-example',
-          on: 'middle left'
+          on: 'right'
         },
         buttons: [
           {
@@ -115,7 +115,7 @@
         text: 'Your tour steps can target and attach to elements in DOM (like this step).',
         attachTo: {
           element: '.hero-example',
-          on: 'middle right'
+          on: 'left'
         },
         buttons: [
           {
@@ -165,7 +165,7 @@
       text: 'Star Shepherd on Github so you remember it for your next project',
       attachTo: {
         element: '.hero-followup',
-        on: 'bottom center'
+        on: 'top'
       },
       buttons: [
         {
