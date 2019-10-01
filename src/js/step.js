@@ -311,7 +311,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the Popper instance
+   * Create the element and set up the Tether instance
    * @private
    */
   _setupElements() {
@@ -330,7 +330,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a Popper instance for the tooltip, then triggers `show`.
+   * sets up a Tether instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {

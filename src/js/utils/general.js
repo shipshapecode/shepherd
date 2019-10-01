@@ -61,7 +61,7 @@ export function parseAttachTo(step) {
 
 /**
  * Determines options for the tooltip and initializes
- * `step.tooltip` as a Popper.js instance.
+ * `step.tooltip` as a Tether instance.
  * @param {Step} step The step instance
  */
 export function setupTooltip(step) {

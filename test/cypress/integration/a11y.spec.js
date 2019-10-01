@@ -67,7 +67,7 @@ describe('a11y', () => {
 
       cy.document().then(() => {
         cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
-        cy.get('[data-test-popper-link]').should('have.focus');
+        cy.get('[data-test-tether-link]').should('have.focus');
       });
     });
   });
