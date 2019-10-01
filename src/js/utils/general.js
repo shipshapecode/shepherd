@@ -1,6 +1,5 @@
-import { makeAttachedPopperOptions, makeCenteredPopper } from './popper-options';
 import { isString } from './type-check';
-import Popper from 'popper.js';
+import Tether from 'tether';
 
 /**
  * Ensure class prefix ends in `-`
@@ -73,23 +72,27 @@ export function uuid() {
 }
 
 /**
- * Generates a `Popper` instance from a set of base `attachTo` options
+ * Generates a `Tether` instance from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
- * @return {Popper}
+ * @return {Tether}
  * @private
  */
 function _makeTooltipInstance(attachToOptions, step) {
-  let popperOptions = {};
-  let element = document.body;
+  let tetherOptions = {};
+  let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    popperOptions = makeCenteredPopper(step);
+    tetherOptions.attachment = 'middle center';
+    tetherOptions.targetModifier = 'visible';
   } else {
-    popperOptions = makeAttachedPopperOptions(attachToOptions, step);
-    element = attachToOptions.element;
+    tetherOptions.attachment = attachToOptions.on || 'middle right';
+    target = attachToOptions.element;
   }
 
-  return new Popper(element, step.el, popperOptions);
+  tetherOptions.element = step.el;
+  tetherOptions.target = target;
+
+  return new Tether(tetherOptions);
 }
 

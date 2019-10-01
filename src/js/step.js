@@ -343,7 +343,7 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
-    this.tooltip.scheduleUpdate();
+    this.tooltip.position();
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
