@@ -5464,6 +5464,39 @@
     };
   }
 
+  function _getScrollParent(element) {
+    var isHtmlElement = element instanceof HTMLElement;
+    var overflowY = isHtmlElement && window.getComputedStyle(element).overflowY;
+    var isScrollable = overflowY !== 'hidden' && overflowY !== 'visible';
+
+    if (!element) {
+      return document.body;
+    }
+
+    if (isScrollable && element.scrollHeight >= element.clientHeight) {
+      return element;
+    }
+
+    return _getScrollParent(element.parentElement);
+  }
+
+  function _getVisibleHeight(element, scrollParent) {
+    var elementRect = element.getBoundingClientRect();
+    var elementTop = elementRect.y || elementRect.top;
+    var elementBottom = elementRect.bottom || elementTop + elementRect.height;
+    var scrollRect = scrollParent.getBoundingClientRect();
+    var scrollTop = scrollRect.y || scrollRect.top;
+    var scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
+    var y = Math.max(elementTop, scrollTop);
+    var bottom = Math.min(elementBottom, scrollBottom);
+    var height = Math.max(bottom - y, 0); // Default to 0 if height is negative
+
+    return {
+      y: y,
+      height: height
+    };
+  }
+
   function instance$8($$self, $$props, $$invalidate) {
     var element = $$props.element,
         openingProperties = $$props.openingProperties;
@@ -5497,28 +5530,30 @@
     /**
      * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
      * @param {HTMLElement} targetElement The element the opening will expose
+     * @param {HTMLElement} scrollParent The scrollable parent of the target element
      * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
      */
 
 
-    function positionModalOpening(targetElement, modalOverlayOpeningPadding) {
+    function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding) {
       if (modalOverlayOpeningPadding === void 0) {
         modalOverlayOpeningPadding = 0;
       }
 
       if (targetElement.getBoundingClientRect) {
+        var _getVisibleHeight2 = _getVisibleHeight(targetElement, scrollParent),
+            y = _getVisibleHeight2.y,
+            height = _getVisibleHeight2.height;
+
         var _targetElement$getBou = targetElement.getBoundingClientRect(),
             x = _targetElement$getBou.x,
-            y = _targetElement$getBou.y,
             width = _targetElement$getBou.width,
-            height = _targetElement$getBou.height,
-            left = _targetElement$getBou.left,
-            top = _targetElement$getBou.top; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+            left = _targetElement$getBou.left; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
 
 
         $$invalidate('openingProperties', openingProperties = {
           x: (x || left) - modalOverlayOpeningPadding,
-          y: (y || top) - modalOverlayOpeningPadding,
+          y: y - modalOverlayOpeningPadding,
           width: width + modalOverlayOpeningPadding * 2,
           height: height + modalOverlayOpeningPadding * 2
         });
@@ -5597,10 +5632,12 @@
       var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
 
       if (step.target) {
-        // Setup recursive function to call requestAnimationFrame to update the modal opening position
+        var scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
+
+
         var rafLoop = function rafLoop() {
           rafId = undefined;
-          positionModalOpening(step.target, modalOverlayOpeningPadding);
+          positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding);
           rafId = requestAnimationFrame(rafLoop);
         };
 
