@@ -32,18 +32,16 @@
   /**
    * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
    * @param {HTMLElement} targetElement The element the opening will expose
-   * @param {HTMLElement} scrollParent The scrollable parent of the target element
    * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    */
-  export function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding = 0) {
+  export function positionModalOpening(targetElement, modalOverlayOpeningPadding = 0) {
     if (targetElement.getBoundingClientRect) {
-      const { y, height } = _getVisibleHeight(targetElement, scrollParent);
-      const { x, width, left } = targetElement.getBoundingClientRect();
+      const { x, y, width, height, left, top } = targetElement.getBoundingClientRect();
 
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
         x: (x || left) - modalOverlayOpeningPadding,
-        y: y - modalOverlayOpeningPadding,
+        y: (y || top) - modalOverlayOpeningPadding,
         width: (width + (modalOverlayOpeningPadding * 2)),
         height: (height + (modalOverlayOpeningPadding * 2))
       };
@@ -116,12 +114,10 @@
     const { modalOverlayOpeningPadding } = step.options;
 
     if (step.target) {
-      const scrollParent = _getScrollParent(step.target);
-
       // Setup recursive function to call requestAnimationFrame to update the modal opening position
       const rafLoop = () => {
         rafId = undefined;
-        positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding);
+        positionModalOpening(step.target, modalOverlayOpeningPadding);
         rafId = requestAnimationFrame(rafLoop);
       };
 
@@ -131,50 +127,6 @@
     } else {
       closeModalOpening();
     }
-  }
-
-  /**
-  * Find the closest scrollable parent element
-  * @param {HTMLElement} element The target element
-  * @returns {HTMLElement}
-  * @private
-  */
-  function _getScrollParent(element) {
-    const isHtmlElement = element instanceof HTMLElement;
-    const overflowY = isHtmlElement && window.getComputedStyle(element).overflowY;
-    const isScrollable = overflowY !== 'hidden' && overflowY !== 'visible';
-
-
-    if (!element) {
-       return document.body;
-    } if (isScrollable && element.scrollHeight >= element.clientHeight) {
-       return element;
-    }
-
-    return _getScrollParent(element.parentElement);
-  }
-
-  /**
-  * Get the visible height of the target element relative to its scrollParent
-  * @param {HTMLElement} element The target element
-  * @param {HTMLElement} scrollParent The scrollable parent element
-  * @returns {{y: number, height: number}}
-  * @private
-  */
-  function _getVisibleHeight(element, scrollParent) {
-    const elementRect = element.getBoundingClientRect();
-    const elementTop = elementRect.y || elementRect.top;
-    const elementBottom = elementRect.bottom || elementTop + elementRect.height;
-
-    const scrollRect = scrollParent.getBoundingClientRect();
-    const scrollTop = scrollRect.y || scrollRect.top;
-    const scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
-
-    const y = Math.max(elementTop, scrollTop);
-    const bottom = Math.min(elementBottom, scrollBottom);
-    const height = Math.max(bottom - y, 0); // Default to 0 if height is negative
-
-    return {y, height};
   }
 </script>
 
