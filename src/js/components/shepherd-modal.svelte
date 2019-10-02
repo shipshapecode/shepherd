@@ -140,14 +140,16 @@
   * @private
   */
   function _getScrollParent(element) {
+    if (!element) {
+      return null;
+    }
+
     const isHtmlElement = element instanceof HTMLElement;
     const overflowY = isHtmlElement && window.getComputedStyle(element).overflowY;
     const isScrollable = overflowY !== 'hidden' && overflowY !== 'visible';
 
 
-    if (!element) {
-       return document.body;
-    } if (isScrollable && element.scrollHeight >= element.clientHeight) {
+    if (isScrollable && element.scrollHeight >= element.clientHeight) {
        return element;
     }
 
@@ -155,26 +157,31 @@
   }
 
   /**
-  * Get the visible height of the target element relative to its scrollParent
+  * Get the visible height of the target element relative to its scrollParent.
+  * If there is no scroll parent, the height of the element is returned.
+  *
   * @param {HTMLElement} element The target element
-  * @param {HTMLElement} scrollParent The scrollable parent element
+  * @param {HTMLElement} [scrollParent] The scrollable parent element
   * @returns {{y: number, height: number}}
   * @private
   */
   function _getVisibleHeight(element, scrollParent) {
     const elementRect = element.getBoundingClientRect();
-    const elementTop = elementRect.y || elementRect.top;
-    const elementBottom = elementRect.bottom || elementTop + elementRect.height;
+    let top = elementRect.y || elementRect.top;
+    let bottom = elementRect.bottom || top + elementRect.height;
 
-    const scrollRect = scrollParent.getBoundingClientRect();
-    const scrollTop = scrollRect.y || scrollRect.top;
-    const scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
+    if (scrollParent) {
+      const scrollRect = scrollParent.getBoundingClientRect();
+      const scrollTop = scrollRect.y || scrollRect.top;
+      const scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
 
-    const y = Math.max(elementTop, scrollTop);
-    const bottom = Math.min(elementBottom, scrollBottom);
-    const height = Math.max(bottom - y, 0); // Default to 0 if height is negative
+      top = Math.max(top, scrollTop);
+      bottom = Math.min(bottom, scrollBottom);
+    }
 
-    return {y, height};
+    const height = Math.max(bottom - top, 0); // Default to 0 if height is negative
+
+    return {y: top, height};
   }
 </script>
 

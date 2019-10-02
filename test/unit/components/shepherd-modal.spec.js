@@ -24,16 +24,7 @@ describe('components/ShepherdModal', () => {
             width: 500
           };
         }
-      }, {
-        getBoundingClientRect() {
-          return {
-            height: 250,
-            x: 20,
-            y: 20,
-            width: 500
-          };
-        }
-      });
+      }, null);
 
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
@@ -77,16 +68,7 @@ describe('components/ShepherdModal', () => {
             width: 500
           };
         }
-      }, {
-        getBoundingClientRect() {
-          return {
-            height: 250,
-            x: 20,
-            y: 20,
-            width: 500
-          };
-        }
-      });
+      }, null);
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
@@ -116,16 +98,7 @@ describe('components/ShepherdModal', () => {
             width: 500
           };
         }
-      }, {
-        getBoundingClientRect() {
-          return {
-            height: 250,
-            x: 20,
-            y: 20,
-            width: 500
-          };
-        }
-      }, 10);
+      }, null, 10);
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
@@ -134,7 +107,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when target is overflowing from scroll parent', async () => {
+    it('sets the correct attributes when target is overflowing from scroll parent', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
