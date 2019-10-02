@@ -110,10 +110,9 @@ describe('components/ShepherdModal', () => {
     it('sets the correct attributes when target is overflowing from scroll parent', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
-        props:
-            {
-              classPrefix
-            }
+        props: {
+          classPrefix
+        }
       });
 
       await modalComponent.positionModalOpening({
@@ -141,6 +140,40 @@ describe('components/ShepherdModal', () => {
 
       modalComponent.$destroy();
     });
+
+    it('sets the correct attributes when target fits inside scroll parent', async() => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      await modalComponent.positionModalOpening({
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 100,
+            width: 500
+          };
+        }
+      }, {
+        getBoundingClientRect() {
+          return {
+            height: 500,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }
+      }, 0);
+
+      const modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute('d', 'M 10 100 H 510 V 350 H 10 L 10 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+
+      modalComponent.$destroy();
+    });
   });
 
   describe('setupForStep()', function() {
@@ -155,9 +188,9 @@ describe('components/ShepherdModal', () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
-          {
-            classPrefix
-          }
+                    {
+                      classPrefix
+                    }
       });
 
       const step = {
@@ -182,9 +215,9 @@ describe('components/ShepherdModal', () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props:
-          {
-            classPrefix
-          }
+                    {
+                      classPrefix
+                    }
       });
 
       const step = {
