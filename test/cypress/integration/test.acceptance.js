@@ -194,22 +194,24 @@ describe('Shepherd Acceptance Tests', () => {
 
     describe('scrolling', () => {
       it('scrollTo:true scrolls', () => {
+        cy.scrollTo(0, 0);
         const tour = setupTour(Shepherd, {
           scrollTo: true
         });
         tour.start();
         cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
-        cy.contains('Next').click();
+        tour.next();
         cy.document().get('body').should('have.prop', 'scrollTop').and('gt', 0);
       });
 
       it('scrollTo:false does not scroll', () => {
+        cy.scrollTo(0, 0);
         const tour = setupTour(Shepherd, {
           scrollTo: false
         });
         tour.start();
         cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
-        cy.contains('Next').click();
+        tour.next();
         cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
       });
     });
