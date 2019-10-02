@@ -86,7 +86,7 @@
     box-sizing: border-box;
   }
 
-  .shepherd-element .popper__arrow {
+  .shepherd-element .shepherd-arrow {
     border: 16px solid transparent;
     content: '';
     display: block;
@@ -97,28 +97,54 @@
     z-index: 10000;
   }
 
-  .shepherd-element[x-placement^='top'] .popper__arrow {
-    bottom: -32px;
+  /**
+   * Arrow on bottom of tooltip centered horizontally
+   */
+  .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow,
+  .shepherd-element.shepherd-pinned-top .shepherd-arrow {
+    bottom: 0;
     border-top-color: #fff;
+    left: 50%;
+    transform: translate(-50%, 100%);
   }
 
-  .shepherd-element[x-placement^='bottom'] .popper__arrow {
+  /**
+   * Arrow on top of tooltip centered horizontally
+   */
+  .shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow {
     border-bottom-color: #fff;
-    top: -32px;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -100%);
   }
 
-  .shepherd-element[x-placement^='bottom'].shepherd-has-title .popper__arrow {
+  /**
+  * Arrow on top of tooltip centered horizontally, with title color
+  */
+  .shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-arrow {
     border-bottom-color: #e6e6e6;
   }
 
-  .shepherd-element[x-placement^='left'] .popper__arrow {
-    border-left-color: #fff;
-    right: -32px;
+  /**
+   * Arrow on left of tooltip, centered vertically
+   */
+  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow,
+  .shepherd-element.shepherd-pinned-right .shepherd-arrow {
+    border-right-color: #fff;
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
   }
 
-  .shepherd-element[x-placement^='right'] .popper__arrow {
-    border-right-color: #fff;
-    left: -32px;
+  /**
+   * Arrow on right of tooltip, centered vertically
+   */
+  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow,
+  .shepherd-element.shepherd-pinned-left .shepherd-arrow {
+    border-left-color: #fff;
+    right: 0;
+    top: 50%;
+    transform: translate(100%, -50%);
   }
 </style>
 
@@ -133,7 +159,7 @@
   tabindex="0"
 >
     {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element}
-      <div class="popper__arrow" x-arrow></div>
+      <div class="shepherd-arrow"></div>
     {/if}
   <ShepherdContent
     {descriptionId}

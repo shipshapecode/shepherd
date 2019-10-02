@@ -1,6 +1,23 @@
-import { makeAttachedPopperOptions, makeCenteredPopper } from './popper-options';
 import { isString } from './type-check';
-import Popper from 'popper.js';
+import Tether from 'tether';
+
+const ATTACHMENT = {
+  'bottom': 'top center',
+  'bottom center': 'top center',
+  'bottom left': 'top right',
+  'bottom right': 'top left',
+  'center': 'middle center',
+  'left': 'middle right',
+  'middle': 'middle center',
+  'middle center': 'middle center',
+  'middle left': 'middle right',
+  'middle right': 'middle left',
+  'right': 'middle left',
+  'top': 'bottom center',
+  'top center': 'bottom center',
+  'top left': 'bottom right',
+  'top right': 'bottom left'
+};
 
 /**
  * Ensure class prefix ends in `-`
@@ -44,7 +61,7 @@ export function parseAttachTo(step) {
 
 /**
  * Determines options for the tooltip and initializes
- * `step.tooltip` as a Popper.js instance.
+ * `step.tooltip` as a Tether instance.
  * @param {Step} step The step instance
  */
 export function setupTooltip(step) {
@@ -73,23 +90,40 @@ export function uuid() {
 }
 
 /**
- * Generates a `Popper` instance from a set of base `attachTo` options
+ * Generates a `Tether` instance from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
- * @return {Popper}
+ * @return {Tether}
  * @private
  */
 function _makeTooltipInstance(attachToOptions, step) {
-  let popperOptions = {};
-  let element = document.body;
+  let tetherOptions = {
+    classPrefix: 'shepherd',
+    constraints: [
+      {
+        to: 'scrollParent',
+        attachment: 'together',
+        pin: ['left', 'right', 'top']
+      },
+      {
+        to: 'window',
+        attachment: 'together'
+      }
+    ]
+  };
+  let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    popperOptions = makeCenteredPopper(step);
+    tetherOptions.attachment = 'middle center';
+    tetherOptions.targetModifier = 'visible';
   } else {
-    popperOptions = makeAttachedPopperOptions(attachToOptions, step);
-    element = attachToOptions.element;
+    tetherOptions.attachment = ATTACHMENT[attachToOptions.on] || ATTACHMENT.right;
+    target = attachToOptions.element;
   }
 
-  return new Popper(element, step.el, popperOptions);
+  tetherOptions.element = step.el;
+  tetherOptions.target = target;
+
+  return new Tether(tetherOptions);
 }
 

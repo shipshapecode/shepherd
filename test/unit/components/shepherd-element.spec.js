@@ -21,7 +21,7 @@ describe('components/ShepherdElement', () => {
         }
       });
 
-      expect(container.querySelectorAll('.shepherd-element .popper__arrow').length).toBe(1);
+      expect(container.querySelectorAll('.shepherd-element .shepherd-arrow').length).toBe(1);
     });
 
     it('arrow: false hides arrows', async() => {
@@ -38,7 +38,7 @@ describe('components/ShepherdElement', () => {
         }
       });
 
-      expect(container.querySelectorAll('.shepherd-element .popper__arrow').length).toBe(0);
+      expect(container.querySelectorAll('.shepherd-element .shepherd-arrow').length).toBe(0);
     });
   });
 
