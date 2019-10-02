@@ -1,4 +1,4 @@
-import { Evented } from './evented.js';
+import { Evented } from '../../node_modules/tether/src/js/evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isString } from './utils/type-check.js';
