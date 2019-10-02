@@ -1,4 +1,4 @@
-import { Evented } from './evented.js';
+import { Evented } from '../../node_modules/tether/src/js/evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
@@ -312,7 +312,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the Popper instance
+   * Create the element and set up the Tether instance
    * @private
    */
   _setupElements() {
@@ -331,7 +331,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a Popper instance for the tooltip, then triggers `show`.
+   * sets up a Tether instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {
@@ -344,7 +344,7 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
-    this.tooltip.scheduleUpdate();
+    this.tooltip.position();
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
