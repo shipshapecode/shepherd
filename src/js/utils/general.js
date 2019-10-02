@@ -98,7 +98,18 @@ export function uuid() {
  */
 function _makeTooltipInstance(attachToOptions, step) {
   let tetherOptions = {
-    classPrefix: 'shepherd'
+    classPrefix: 'shepherd',
+    constraints: [
+      {
+        to: 'scrollParent',
+        attachment: 'together',
+        pin: ['left', 'right', 'top']
+      },
+      {
+        to: 'window',
+        attachment: 'together'
+      }
+    ]
   };
   let target = document.body;
 
