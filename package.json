@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "5.0.1",
+  "version": "6.0.0-beta.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
