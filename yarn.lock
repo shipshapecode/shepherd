@@ -3352,10 +3352,10 @@ execa@0.10.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-execa@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/execa/-/execa-2.0.4.tgz#2f5cc589c81db316628627004ea4e37b93391d8e"
-  integrity sha512-VcQfhuGD51vQUQtKIq2fjGDLDbL6N1DTQVpYzxZ7LPIXw3HqTuIz6uxRmpV1qf8i31LHf2kjiaGI+GdHwRgbnQ==
+execa@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-2.0.5.tgz#5be3e2ea7e61bd038da5a0e11dc6ab2097357f2f"
+  integrity sha512-SwmwZZyJjflcqLSgllk4EQlMLst2p9muyzwNugKGFlpAz6rZ7M+s2nBR97GAq4Vzjwx2y9rcMcmqzojwN+xwNA==
   dependencies:
     cross-spawn "^6.0.5"
     get-stream "^5.0.0"
@@ -8260,14 +8260,14 @@ stack-utils@^1.0.1:
   integrity sha512-MTX+MeG5U994cazkjd/9KNAapsHnibjMLnfXodlkXw76JEea0UiNzrqidzo1emMwk7w5Qhc9jd4Bn9TBb1MFwA==
 
 start-server-and-test@^1.10.0:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-1.10.3.tgz#bb8eef85cb2a7dd76e259bc8161de8dba1813879"
-  integrity sha512-9XF9ezFrrz8+c3I2+PNeON2egbucjIzwcCDqldaUQbEkf6IZEf+CdXJEVCh/zkn7hgqIl3md0CtyRYT1yUI9rw==
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-1.10.4.tgz#f6cc79e129bd578f6745037d5b5207584f5592c1"
+  integrity sha512-Oi1YzmHzDSRMA4cwVrewZbVYoAcWeXdB73H5kutQex3cVhS8Thlwj8d4lXTp7hq1nXarIC91kCNMI17/78u/sQ==
   dependencies:
     bluebird "3.7.0"
     check-more-types "2.24.0"
     debug "4.1.1"
-    execa "2.0.4"
+    execa "2.0.5"
     lazy-ass "1.6.0"
     ps-tree "1.2.0"
     wait-on "3.3.0"
