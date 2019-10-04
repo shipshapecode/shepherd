@@ -186,7 +186,7 @@ the step will execute. For example:
   - `text`: The HTML text of the button
   - `classes`: Extra classes to apply to the `<a>`
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary` class to the button
-  - `action`: A function executed when the button is clicked on
+  - `action`: A function executed when the button is clicked on.
    It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
    work inside the action. You can use action to skip steps or navigate to specific steps, with something like:
    ```javascript
