@@ -144,10 +144,34 @@ describe('Shepherd Acceptance Tests', () => {
                 classes: 'disabled-button',
                 text: 'disabled',
                 disabled: true
-              },
-              {
+              },              {
                 classes: 'enabled-button',
                 text: 'enabled'
+              }
+            ]
+          }
+        ]);
+        tour.start();
+        tour.show('test-step');
+        cy.get('.shepherd-button.disabled-button')
+          .should('be.disabled');
+        cy.get('.shepherd-button.enabled-button')
+          .should('not.be.disabled');
+      });
+
+      it('can be disabled with function', () => {
+        const tour = setupTour(Shepherd, {}, () => [
+          {
+            id: 'test-step',
+            buttons: [
+              {
+                classes: 'disabled-button',
+                text: 'disabled',
+                disabled: () => true
+              },              {
+                classes: 'enabled-button',
+                text: 'enabled',
+                disabled: () => false
               }
             ]
           }
