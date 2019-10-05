@@ -63,6 +63,7 @@ export class Step extends Evented {
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
+   * @param {boolean} options.buttons.button.disabled
    * @param {object} options.cancelIcon Options for the cancel icon
    * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
    * @param {string} options.cancelIcon.label The label to add for `aria-label`
