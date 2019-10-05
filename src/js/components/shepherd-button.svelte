@@ -4,12 +4,15 @@
 
   export let config, step;
   const { action, classes, secondary, text } = config;
+  let disabled = false;
 
   afterUpdate(() => {
-    let { disabled } = config || false;
+    if (config.disabled) {
+      disabled = config.disabled;
 
-    if (isFunction(disabled)) {
-      disabled = disabled.call(step);
+      if (isFunction(disabled)) {
+        disabled = disabled.call(step);
+      }
     }
   });
 </script>
