@@ -5,7 +5,6 @@
   export let labelId, element, title;
   
   afterUpdate(() => {
-    
     if (isFunction(title)) {
       title = title();
     }
