@@ -2386,11 +2386,6 @@
     return Array.from(element.childNodes);
   }
 
-  function set_data(text, data) {
-    data = '' + data;
-    if (text.data !== data) text.data = data;
-  }
-
   var current_component;
 
   function set_current_component(component) {
@@ -3088,23 +3083,18 @@
   }(SvelteComponent);
 
   function create_fragment$3(ctx) {
-    var h3, t;
+    var h3;
     return {
       c: function c() {
         h3 = element("h3");
-        t = text(ctx.title);
         attr(h3, "id", ctx.labelId);
         attr(h3, "class", "shepherd-title");
       },
       m: function m(target, anchor) {
         insert(target, h3, anchor);
-        append(h3, t);
+        ctx.h3_binding(h3);
       },
       p: function p(changed, ctx) {
-        if (changed.title) {
-          set_data(t, ctx.title);
-        }
-
         if (changed.labelId) {
           attr(h3, "id", ctx.labelId);
         }
@@ -3115,22 +3105,41 @@
         if (detaching) {
           detach(h3);
         }
+
+        ctx.h3_binding(null);
       }
     };
   }
 
   function instance$3($$self, $$props, $$invalidate) {
     var labelId = $$props.labelId,
+        element = $$props.element,
         title = $$props.title;
+    afterUpdate(function () {
+      if (isFunction(title)) {
+        $$invalidate('title', title = title());
+      }
+
+      $$invalidate('element', element.innerHTML = title, element);
+    });
+
+    function h3_binding($$value) {
+      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
+        $$invalidate('element', element = $$value);
+      });
+    }
 
     $$self.$set = function ($$props) {
       if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
+      if ('element' in $$props) $$invalidate('element', element = $$props.element);
       if ('title' in $$props) $$invalidate('title', title = $$props.title);
     };
 
     return {
       labelId: labelId,
-      title: title
+      element: element,
+      title: title,
+      h3_binding: h3_binding
     };
   }
 
@@ -3143,7 +3152,7 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["labelId", "title"]);
+      init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["labelId", "element", "title"]);
       return _this;
     }
 
@@ -4288,7 +4297,11 @@
      * - `HTMLElement` object
      * - `Function` to be executed when the step is built. It must return one the two options above.
      * ```
-     * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
+     * @param {string} options.title The step's title. It becomes an `h3` at the top of the step. It can be one of two types:
+     * ```
+     * - HTML string
+     * - `Function` to be executed when the step is built. It must return HTML string.
+     * ```
      * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
      * ```js
      * when: {
