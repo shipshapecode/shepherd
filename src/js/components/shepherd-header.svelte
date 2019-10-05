@@ -3,7 +3,7 @@
   import ShepherdTitle from './shepherd-title.svelte';
 
   export let labelId, step;
-  const { cancelIcon, title } = step.options;
+  const { cancelIcon } = step.options;
 </script>
 
 <style global>
@@ -24,10 +24,10 @@
 </style>
 
 <header class="shepherd-header">
-    {#if title}
+    {#if step.options.title}
       <ShepherdTitle
         {labelId}
-        {title}
+        {step}
       />
     {/if}
 

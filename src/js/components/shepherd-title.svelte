@@ -1,5 +1,18 @@
 <script>
-  export let labelId, title;
+  import { afterUpdate } from 'svelte';
+  import { isFunction } from '../utils/type-check';
+  
+  export let labelId, element, step;
+  
+  afterUpdate(() => {
+    let { title } = step.options;
+    
+    if (isFunction(title)) {
+      title = title();
+    }
+    
+    element.innerHTML = title;
+  });
 </script>
 
 <style global>
@@ -15,8 +28,8 @@
 </style>
 
 <h3
+  bind:this={element}
   id="{labelId}"
   class="shepherd-title"
 >
-    {title}
 </h3>
