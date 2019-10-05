@@ -2,7 +2,7 @@
   import { afterUpdate } from 'svelte';
   import { isFunction } from '../utils/type-check';
 
-  export let config, step, element;
+  export let config, step;
   const { action, classes, secondary, text } = config;
 
   afterUpdate(() => {
@@ -11,8 +11,6 @@
     if (isFunction(disabled)) {
       disabled = disabled.call(step);
     }
-
-    element.disabled = disabled;
   });
 </script>
 
@@ -49,8 +47,8 @@
 </style>
 
 <button
-  bind:this={element}
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
+  disabled={disabled}
   on:click={action ? action.bind(step.tour) : null}
   tabindex="0"
 >
