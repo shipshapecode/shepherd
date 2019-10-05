@@ -5,15 +5,9 @@ describe('components/ShepherdTitle', () => {
   beforeEach(cleanup);
 
   it('adds plain title to the content', () => {
-    const step = {
-      options: {
-        title: 'I am some test title.'
-      }
-    };
-
     const { container } = render(ShepherdTitle, {
       props: {
-        step
+        title: 'I am some test title.'
       }
     });
 
@@ -21,15 +15,9 @@ describe('components/ShepherdTitle', () => {
   });
 
   it('applies the title from a function', () => {
-    const step = {
-      options: {
-        title: () => 'I am some test title.'
-      }
-    };
-
     const { container } = render(ShepherdTitle, {
       props: {
-        step
+        title: () => 'I am some test title.'
       }
     });
 
