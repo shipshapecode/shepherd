@@ -1,5 +1,6 @@
 import Evented from './evented';
 import Step from './step';
+import { ITetherOptions } from './types'; // TODO
 
 /**
  * Class representing the site tour
@@ -109,6 +110,11 @@ declare namespace Tour {
      * Default options for Steps created through `addStep`
      */
     defaultStepOptions?: Step.StepOptions;
+    
+    /**
+     * Options for Tether
+     */
+    tetherOptions?: ITetherOptions;
 
     /**
      * Exiting the tour with the escape key will be enabled unless this is explicitly

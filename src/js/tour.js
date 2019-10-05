@@ -19,6 +19,7 @@ export class Tour extends Evented {
    * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
    * @param {string} options.classPrefix The prefix to add to all the `shepherd-*` class names.
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
+   * @param {Object} options.tetherOptions Options for Tether
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
    * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled

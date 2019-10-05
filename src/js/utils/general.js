@@ -97,7 +97,7 @@ export function uuid() {
  * @private
  */
 function _makeTooltipInstance(attachToOptions, step) {
-  let tetherOptions = {
+  let tetherOptions = Object.assign({}, {
     classPrefix: 'shepherd',
     constraints: [
       {
@@ -110,7 +110,8 @@ function _makeTooltipInstance(attachToOptions, step) {
         attachment: 'together'
       }
     ]
-  };
+  }, step.tour.options.tetherOptions);
+
   let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
