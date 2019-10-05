@@ -164,7 +164,12 @@
 
 <main>
   <div class="font-heading mt-8 text-6xl text-center uppercase w-full">
-    Demo
+    <img
+      class="inline p-4 w-full lg:mt-4 lg:p-0 lg:w-auto"
+      src="landing/assets/img/demo.svg"
+      alt="Demo"
+      onload="SVGInject(this)"
+    />
   </div>
   <div class="flex justify-center w-full">
     <div class="max-w-3xl text-center w-full">
@@ -174,6 +179,10 @@
         <script type="text/plain" class="language-markup" id="hero-including-code">
           <link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
           <script src="shepherd.js/dist/js/shepherd.min.js">&lt;/script>
+
+
+
+
         </script>
       </div>
 
@@ -241,6 +250,58 @@
           </a>
         </div>
       </div>
+
+      <div class="mb-12 mt-8">
+        <h3 class="font-heading text-2xl uppercase">
+          Brands that use Shepherd
+        </h3>
+
+        <div class="flex flex-wrap justify-center w-full">
+          <div class="bg-grey-light flex items-center justify-center m-4 h-32 relative w-32 md:h-48 md:w-48 lg:h-56 lg:w-56">
+            <div class="bg-grey-light flex items-center justify-center h-full p-6 w-full z-10 md:p-12">
+              <img
+                class="h-auto w-full"
+                src="landing/assets/users/ally.svg"
+                alt=""
+                role="presentation"
+                onload="SVGInject(this)"
+              />
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+
+          <div class="bg-grey-light flex items-center justify-center m-4 h-32 relative w-32 md:h-48 md:w-48 lg:h-56 lg:w-56">
+            <div class="bg-grey-light flex items-center justify-center h-full p-4 w-full z-10 md:p-8">
+              <img
+                class="h-auto w-full"
+                src="landing/assets/users/google.svg"
+                alt=""
+                role="presentation"
+                onload="SVGInject(this)"
+              />
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+
+          <div class="bg-grey-light flex items-center justify-center m-4 h-32 relative w-32 md:h-48 md:w-48 lg:h-56 lg:w-56">
+            <div class="bg-grey-light flex items-center justify-center h-full p-4 w-full z-10 md:p-8">
+              <img
+                class="h-auto w-full"
+                src="landing/assets/users/bonsai.png"
+                alt=""
+                role="presentation"
+              />
+            </div>
+
+            <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
@@ -254,8 +315,8 @@
     onload="SVGInject(this)"
   />
 
-  <div class="bg-grey border-4 border-navy flex flex-wrap items-center justify-center lg:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8">
-    <div class="flex items-center justify-between">
+  <div class="bg-grey border-4 border-navy flex flex-wrap items-center justify-center md:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8">
+    <div class="flex items-center justify-center w-full md:justify-between md:w-auto">
       <img
         class="inline mr-2 w-8"
         src="landing/assets/img/ship-shape-logo.svg"
