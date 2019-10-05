@@ -6,7 +6,7 @@
   const { action, classes, secondary, text } = config;
 
   afterUpdate(() => {
-    let { disabled } = config.disabled || false;
+    let { disabled } = config || false;
 
     if (isFunction(disabled)) {
       disabled = disabled.call(step);
