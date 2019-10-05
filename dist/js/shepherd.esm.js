@@ -2740,6 +2740,7 @@ function create_fragment(ctx) {
       button = element("button");
       t = text(ctx.text);
       attr(button, "class", (ctx.classes || '') + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
+      button.disabled = ctx.disabled;
       attr(button, "tabindex", "0");
       dispose = listen(button, "click", ctx.action ? ctx.action.bind(ctx.step.tour) : null);
     },
@@ -2747,7 +2748,11 @@ function create_fragment(ctx) {
       insert(target, button, anchor);
       append(button, t);
     },
-    p: noop,
+    p: function p(changed, ctx) {
+      if (changed.disabled) {
+        button.disabled = ctx.disabled;
+      }
+    },
     i: noop,
     o: noop,
     d: function d(detaching) {
@@ -2768,6 +2773,16 @@ function instance($$self, $$props, $$invalidate) {
       classes = _config.classes,
       secondary = _config.secondary,
       text = _config.text;
+  var disabled = false;
+  afterUpdate(function () {
+    if (config.disabled) {
+      $$invalidate('disabled', disabled = config.disabled);
+
+      if (isFunction(disabled)) {
+        $$invalidate('disabled', disabled = disabled.call(step));
+      }
+    }
+  });
 
   $$self.$set = function ($$props) {
     if ('config' in $$props) $$invalidate('config', config = $$props.config);
@@ -2780,7 +2795,8 @@ function instance($$self, $$props, $$invalidate) {
     action: action,
     classes: classes,
     secondary: secondary,
-    text: text
+    text: text,
+    disabled: disabled
   };
 }
 
@@ -4271,6 +4287,7 @@ function (_Evented) {
    * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
+   * @param {boolean} options.buttons.button.disabled Should the button be disabled?
    * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
    * @param {object} options.cancelIcon Options for the cancel icon
    * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
