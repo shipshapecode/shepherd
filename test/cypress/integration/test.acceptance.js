@@ -144,7 +144,8 @@ describe('Shepherd Acceptance Tests', () => {
                 classes: 'disabled-button',
                 text: 'disabled',
                 disabled: true
-              },              {
+              },
+              {
                 classes: 'enabled-button',
                 text: 'enabled'
               }
