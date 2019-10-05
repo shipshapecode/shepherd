@@ -1,6 +1,6 @@
 <script>
   export let config, step;
-  const { action, classes, secondary, text } = config;
+  const { action, classes, secondary, text, label = '' } = config;
 </script>
 
 <style global>
@@ -32,6 +32,7 @@
 </style>
 
 <button
+  aria-label="{label ? label : null}"
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
   on:click={action ? action.bind(step.tour) : null}
   tabindex="0"
