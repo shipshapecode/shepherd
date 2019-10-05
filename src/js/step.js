@@ -82,7 +82,7 @@ export class Step extends Evented {
    * - `HTMLElement` object
    * - `Function` to be executed when the step is built. It must return one the two options above.
    * ```
-   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step. It can be one of three types:
+   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step. It can be one of two types:
    * ```
    * - HTML string
    * - `Function` to be executed when the step is built. It must return HTML string.

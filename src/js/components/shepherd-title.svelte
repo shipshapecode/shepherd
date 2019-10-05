@@ -2,10 +2,9 @@
   import { afterUpdate } from 'svelte';
   import { isFunction } from '../utils/type-check';
   
-  export let labelId, element, step;
+  export let labelId, element, title;
   
   afterUpdate(() => {
-    let { title } = step.options;
     
     if (isFunction(title)) {
       title = title();
