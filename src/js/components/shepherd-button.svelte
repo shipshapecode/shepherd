@@ -4,10 +4,9 @@
 
   export let config, step;
   const { action, classes, secondary, text } = config;
+  let { disabled } = config || false;
 
   afterUpdate(() => {
-    let { disabled } = config || false;
-
     if (isFunction(disabled)) {
       disabled = disabled.call(step);
     }
