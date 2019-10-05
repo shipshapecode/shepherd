@@ -62,7 +62,7 @@ export class Step extends Evented {
    * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
-   * @param {Object} options.buttons.button.label The aria-label text of the button
+   * @param {string} options.buttons.button.label The aria-label text of the button
    * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
    * @param {object} options.cancelIcon Options for the cancel icon
    * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
@@ -83,7 +83,11 @@ export class Step extends Evented {
    * - `HTMLElement` object
    * - `Function` to be executed when the step is built. It must return one the two options above.
    * ```
-   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step.
+   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step. It can be one of two types:
+   * ```
+   * - HTML string
+   * - `Function` to be executed when the step is built. It must return HTML string.
+   * ```
    * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
    * ```js
    * when: {

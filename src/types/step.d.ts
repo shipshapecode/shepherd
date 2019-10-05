@@ -152,8 +152,12 @@ declare namespace Step {
 
     /**
      * The step's title. It becomes an `h3` at the top of the step.
+     * ```
+     * - HTML string
+     * - `Function` to be executed when the step is built. It must return HTML string.
+     * ```
      */
-    title?: string;
+    title?: string | (() => string);
 
     /**
      * You can define `show`, `hide`, etc events inside `when`. For example:

@@ -1,6 +1,6 @@
 <script>
   export let config, step;
-  const { action, classes, secondary, text, label = '' } = config;
+  const { action, classes, secondary, text, label } = config;
 </script>
 
 <style global>
