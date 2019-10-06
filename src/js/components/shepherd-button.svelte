@@ -1,6 +1,20 @@
 <script>
+  import { afterUpdate } from 'svelte';
+  import { isFunction } from '../utils/type-check';
+
   export let config, step;
   const { action, classes, secondary, text, label } = config;
+  let disabled = false;
+
+  afterUpdate(() => {
+    if (config.disabled) {
+      disabled = config.disabled;
+
+      if (isFunction(disabled)) {
+        disabled = disabled.call(step);
+      }
+    }
+  });
 </script>
 
 <style global>
@@ -15,7 +29,7 @@
     transition: all 0.5s ease;
   }
 
-  .shepherd-button:hover {
+  .shepherd-button:not(:disabled):hover {
     background: rgb(25, 111, 204);
     color: rgba(255, 255, 255, 0.75);
   }
@@ -25,15 +39,20 @@
     color: rgba(0, 0, 0, 0.75);
   }
 
-  .shepherd-button.shepherd-button-secondary:hover {
+  .shepherd-button.shepherd-button-secondary:not(:disabled):hover {
     background: rgb(214, 217, 219);
     color: rgba(0, 0, 0, 0.75);
+  }
+
+  .shepherd-button:disabled {
+    cursor: not-allowed;
   }
 </style>
 
 <button
   aria-label="{label ? label : null}"
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
+  disabled={disabled}
   on:click={action ? action.bind(step.tour) : null}
   tabindex="0"
 >
