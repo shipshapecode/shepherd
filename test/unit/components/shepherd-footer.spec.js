@@ -58,10 +58,12 @@ describe('components/ShepherdFooter', () => {
     expect(cancelButton).toHaveAttribute('tabindex', '0');
     expect(cancelButton).toHaveClass('shepherd-button-secondary cancel-button shepherd-button');
     expect(cancelButton).toHaveTextContent('Exit');
+    expect(cancelButton).toHaveAttribute('aria-label', 'Exit');
 
     const nextButton = container.querySelector('footer .next-button');
     expect(nextButton).toHaveAttribute('tabindex', '0');
     expect(nextButton).toHaveClass('shepherd-button-primary next-button shepherd-button');
     expect(nextButton).toHaveTextContent('Next');
+    expect(nextButton).toHaveAttribute('aria-label', 'Next');
   });
 });
