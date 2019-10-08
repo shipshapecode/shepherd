@@ -70,7 +70,7 @@ jobs:
         email: rwwagner90@gmail.com
         skip_cleanup: true
         api_key:
-          secure: "qmXLSbGcujfLg8h+cJFjJtrEBeWGqd1CdhOex3TOCz93BrJUQf7he66HCBJaJ178qEYTnw4WKjjlcfbYO29H88Z+jnrS5KJydmRg0D3rkPSxcD8TMK3d8vRUTDl+UubuqPnN8jG4IqGfpM1z7WPSN1WSTjFK648S261bK7w88JY="
+          secure: "IAnW1q6hsBbeLb+LmjwqXGAb1f+ujfZHQETxkEvOwt9m9SuEu7f+nWMAr2Y8a+5KJ5raMuuER5LCwbRNf4Ygm/wvh+TVVmyOqylVKU5SlTQbWazJSgCaNNNe5fvFSxtleQUqLSeOW1PWxD67KFAlczucmLsNBvdFBn9JxsF4Mrg="
         on:
           branch: master
           tags: true
