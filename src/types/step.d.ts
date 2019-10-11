@@ -54,6 +54,13 @@ declare class Step extends Evented {
    * @return Promise
    */
   show(): Promise<void> | void;
+  
+  /**
+   * Updates the options of the step.
+   *
+   * @param {Step.StepOptions} options to be updated
+   */
+  updateStepOptions(options: Step.StepOptions): void;
 }
 
 declare namespace Step {
