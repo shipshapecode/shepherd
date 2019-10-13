@@ -2739,6 +2739,7 @@ function create_fragment(ctx) {
     c: function c() {
       button = element("button");
       t = text(ctx.text);
+      attr(button, "aria-label", ctx.label ? ctx.label : null);
       attr(button, "class", (ctx.classes || '') + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
       button.disabled = ctx.disabled;
       attr(button, "tabindex", "0");
@@ -2772,7 +2773,8 @@ function instance($$self, $$props, $$invalidate) {
       action = _config.action,
       classes = _config.classes,
       secondary = _config.secondary,
-      text = _config.text;
+      text = _config.text,
+      label = _config.label;
   var disabled = false;
   afterUpdate(function () {
     if (config.disabled) {
@@ -2796,6 +2798,7 @@ function instance($$self, $$props, $$invalidate) {
     classes: classes,
     secondary: secondary,
     text: text,
+    label: label,
     disabled: disabled
   };
 }
@@ -4288,6 +4291,7 @@ function (_Evented) {
    * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
    * @param {string} options.buttons.button.text The HTML text of the button
    * @param {boolean} options.buttons.button.disabled Should the button be disabled?
+   * @param {string} options.buttons.button.label The aria-label text of the button
    * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
    * @param {object} options.cancelIcon Options for the cancel icon
    * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?

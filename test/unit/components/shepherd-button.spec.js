@@ -62,5 +62,63 @@ describe('component/ShepherdButton', () => {
       const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeTruthy();
     });
+
+    it('label - string', () => {
+      const config = {
+        label: 'Test'
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveAttribute('aria-label', 'Test');
+    });
+
+    it('label - number', () => {
+      const config = {
+        label: 5
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveAttribute('aria-label', '5');
+    });
+
+    it('label - null', () => {
+      const config = {
+        label: null
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).not.toHaveAttribute('aria-label');
+    });
+
+    it('label - undefined', () => {
+      const config = {};
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).not.toHaveAttribute('aria-label');
+    });
   });
 });
