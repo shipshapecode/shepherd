@@ -3,7 +3,7 @@
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
-  const { action, classes, secondary, text } = config;
+  const { action, classes, secondary, text, label } = config;
   let disabled = false;
 
   afterUpdate(() => {
@@ -50,6 +50,7 @@
 </style>
 
 <button
+  aria-label="{label ? label : null}"
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
   disabled={disabled}
   on:click={action ? action.bind(step.tour) : null}
