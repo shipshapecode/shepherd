@@ -70,9 +70,9 @@ export function setupTooltip(step) {
   }
 
   const attachToOpts = parseAttachTo(step);
+  const tetherOptions = getTetherOptions(attachToOpts, step);
 
-  step.tooltip = _makeTooltipInstance(attachToOpts, step);
-
+  step.tooltip = new Tether(tetherOptions);
   step.target = attachToOpts.element;
 }
 
@@ -90,13 +90,13 @@ export function uuid() {
 }
 
 /**
- * Generates a `Tether` instance from a set of base `attachTo` options
+ * Gets the `Tether` options from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
- * @return {Tether}
+ * @return {Object}
  * @private
  */
-function _makeTooltipInstance(attachToOptions, step) {
+export function getTetherOptions(attachToOptions, step) {
   let tetherOptions = {
     classPrefix: 'shepherd',
     constraints: [
@@ -124,6 +124,24 @@ function _makeTooltipInstance(attachToOptions, step) {
   tetherOptions.element = step.el;
   tetherOptions.target = target;
 
-  return new Tether(tetherOptions);
-}
+  if (step.options.tetherOptions.constraints) {
+    tetherOptions.constraints = step.options.tetherOptions.constraints;
+  }
 
+  tetherOptions.classes = {
+    ...tetherOptions.classes,
+    ...step.options.tetherOptions.classes
+  };
+
+  tetherOptions.optimizations = {
+    ...tetherOptions.optimizations,
+    ...step.options.tetherOptions.optimizations
+  };
+
+  tetherOptions = {
+    ...tetherOptions,
+    ...step.options.tetherOptions
+  };
+
+  return tetherOptions;
+}
