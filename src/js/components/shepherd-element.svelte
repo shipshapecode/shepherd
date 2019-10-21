@@ -146,6 +146,11 @@
     top: 50%;
     transform: translate(100%, -50%);
   }
+
+  .shepherd-target-click-disabled.shepherd-enabled.shepherd-target,
+  .shepherd-target-click-disabled.shepherd-enabled.shepherd-target * {
+    pointer-events: none;
+  }
 </style>
 
 <div
