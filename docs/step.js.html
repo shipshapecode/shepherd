@@ -185,6 +185,7 @@ export class Step extends Evented {
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
+   * @param {string} options.tetherOptions Extra options to pass to tether
    * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
@@ -315,7 +316,7 @@ export class Step extends Evented {
    * @param {Object} options The options for the step
    */
   updateStepOptions(options) {
-    this.options = Object.assign(this.options, options);
+    Object.assign(this.options, options);
 
     if (this.shepherdElementComponent) {
       this.shepherdElementComponent.$set({ step: this });

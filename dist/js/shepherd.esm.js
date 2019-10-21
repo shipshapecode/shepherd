@@ -16,6 +16,24 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
@@ -2233,7 +2251,8 @@ function setupTooltip(step) {
   }
 
   var attachToOpts = parseAttachTo(step);
-  step.tooltip = _makeTooltipInstance(attachToOpts, step);
+  var tetherOptions = getTetherOptions(attachToOpts, step);
+  step.tooltip = new Tether(tetherOptions);
   step.target = attachToOpts.element;
 }
 /**
@@ -2250,14 +2269,14 @@ function uuid() {
   });
 }
 /**
- * Generates a `Tether` instance from a set of base `attachTo` options
+ * Gets the `Tether` options from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
- * @return {Tether}
+ * @return {Object}
  * @private
  */
 
-function _makeTooltipInstance(attachToOptions, step) {
+function getTetherOptions(attachToOptions, step) {
   var tetherOptions = {
     classPrefix: 'shepherd',
     constraints: [{
@@ -2281,7 +2300,18 @@ function _makeTooltipInstance(attachToOptions, step) {
 
   tetherOptions.element = step.el;
   tetherOptions.target = target;
-  return new Tether(tetherOptions);
+
+  if (step.options.tetherOptions) {
+    if (step.options.tetherOptions.constraints) {
+      tetherOptions.constraints = step.options.tetherOptions.constraints;
+    }
+
+    tetherOptions.classes = _extends({}, tetherOptions.classes, {}, step.options.tetherOptions.classes);
+    tetherOptions.optimizations = _extends({}, tetherOptions.optimizations, {}, step.options.tetherOptions.optimizations);
+    tetherOptions = _extends({}, tetherOptions, {}, step.options.tetherOptions);
+  }
+
+  return tetherOptions;
 }
 
 function noop() {}
@@ -4303,6 +4333,7 @@ function (_Evented) {
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
+   * @param {string} options.tetherOptions Extra options to pass to tether
    * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
@@ -4453,7 +4484,7 @@ function (_Evented) {
   ;
 
   _proto.updateStepOptions = function updateStepOptions(options) {
-    this.options = Object.assign(this.options, options);
+    Object.assign(this.options, options);
 
     if (this.shepherdElementComponent) {
       this.shepherdElementComponent.$set({
