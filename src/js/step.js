@@ -384,7 +384,7 @@ export class Step extends Evented {
     }
 
     if (step.options.canClickTarget === false) {
-      targetElement.style.pointerEvents = 'none';
+      targetElement.classList.add('shepherd-target-click-disabled');
     }
   }
 
