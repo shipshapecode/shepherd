@@ -3824,9 +3824,6 @@
           }
 
           break;
-
-        default:
-          break;
       }
     };
 

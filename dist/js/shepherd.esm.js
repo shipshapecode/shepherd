@@ -3818,9 +3818,6 @@ function instance$7($$self, $$props, $$invalidate) {
         }
 
         break;
-
-      default:
-        break;
     }
   };
 
