@@ -124,24 +124,26 @@ export function getTetherOptions(attachToOptions, step) {
   tetherOptions.element = step.el;
   tetherOptions.target = target;
 
-  if (step.options.tetherOptions.constraints) {
-    tetherOptions.constraints = step.options.tetherOptions.constraints;
+  if (step.options.tetherOptions) {
+    if (step.options.tetherOptions.constraints) {
+      tetherOptions.constraints = step.options.tetherOptions.constraints;
+    }
+
+    tetherOptions.classes = {
+      ...tetherOptions.classes,
+      ...step.options.tetherOptions.classes
+    };
+
+    tetherOptions.optimizations = {
+      ...tetherOptions.optimizations,
+      ...step.options.tetherOptions.optimizations
+    };
+
+    tetherOptions = {
+      ...tetherOptions,
+      ...step.options.tetherOptions
+    };
   }
-
-  tetherOptions.classes = {
-    ...tetherOptions.classes,
-    ...step.options.tetherOptions.classes
-  };
-
-  tetherOptions.optimizations = {
-    ...tetherOptions.optimizations,
-    ...step.options.tetherOptions.optimizations
-  };
-
-  tetherOptions = {
-    ...tetherOptions,
-    ...step.options.tetherOptions
-  };
 
   return tetherOptions;
 }
