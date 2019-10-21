@@ -4654,7 +4654,7 @@ function (_Evented) {
     }
 
     if (step.options.canClickTarget === false) {
-      targetElement.style.pointerEvents = 'none';
+      targetElement.classList.add('shepherd-target-click-disabled');
     }
   }
   /**
@@ -4685,7 +4685,7 @@ function cleanupSteps(tour) {
     steps.forEach(function (step) {
       if (step.options && step.options.canClickTarget === false && step.options.attachTo) {
         if (step.target instanceof HTMLElement) {
-          step.target.style.pointerEvents = '';
+          step.target.classList.remove('shepherd-target-click-disabled');
         }
       }
     });

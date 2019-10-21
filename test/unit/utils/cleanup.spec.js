@@ -4,12 +4,12 @@ describe('Cleanup Utils', function() {
   // Create some elements to use to attach to
   const firstAttachElement = document.createElement('div');
   firstAttachElement.classList.add('first-attach-to');
-  firstAttachElement.style.pointerEvents = 'none';
+  firstAttachElement.classList.add('shepherd-target-click-disabled');
   document.body.appendChild(firstAttachElement);
 
   const secondAttachElement = document.createElement('div');
   secondAttachElement.classList.add('second-attach-to');
-  secondAttachElement.style.pointerEvents = 'none';
+  secondAttachElement.classList.add('shepherd-target-click-disabled');
   document.body.appendChild(secondAttachElement);
 
   const mockedTour = {
@@ -40,11 +40,14 @@ describe('Cleanup Utils', function() {
   };
 
   describe('cleanupSteps', function() {
-    it('cleans up steps and sets pointer-events to auto', () => {
+    it('cleans up steps and removes shepherd-target-click-disabled class', () => {
+      expect(firstAttachElement).toHaveClass('shepherd-target-click-disabled');
+      expect(secondAttachElement).toHaveClass('shepherd-target-click-disabled');
+
       cleanupSteps(mockedTour);
 
-      expect(firstAttachElement).toHaveStyle('');
-      expect(secondAttachElement).toHaveStyle('');
+      expect(firstAttachElement).not.toHaveClass('shepherd-target-click-disabled');
+      expect(secondAttachElement).not.toHaveClass('shepherd-target-click-disabled');
     });
   });
 });
