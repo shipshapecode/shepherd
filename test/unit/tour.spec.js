@@ -100,6 +100,16 @@ describe('Tour | Top-Level Class', function() {
         expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);
       });
 
+      it('adds tour steps at specified index', function() {
+        expect(instance.steps[2].options.id, 'original step at index 2').toBe('test2');
+        instance.addStep({
+          id: 'index-test',
+          title: 'Test index insertion'
+        }, 2);
+        expect(instance.steps.length).toBe(5);
+        expect(instance.steps[2].options.id, 'step inserted at index 2').toBe('index-test');
+      });
+
       it('adds steps with only one arg', function() {
         const step = instance.addStep({
           id: 'one-arg'

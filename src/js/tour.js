@@ -1,7 +1,7 @@
 import { Evented } from '../../node_modules/tether/src/js/evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
-import { isElement, isFunction, isString } from './utils/type-check.js';
+import { isElement, isFunction, isString, isUndefined } from './utils/type-check.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix, uuid } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';
@@ -78,9 +78,10 @@ export class Tour extends Evented {
   /**
    * Adds a new step to the tour
    * @param {Object|Step} options An object containing step options or a Step instance
+   * @param {number} index The optional index to insert the step at
    * @return {Step} The newly added step
    */
-  addStep(options) {
+  addStep(options, index) {
     let step = options;
 
     if (!(step instanceof Step)) {
@@ -89,7 +90,12 @@ export class Tour extends Evented {
       step.tour = this;
     }
 
-    this.steps.push(step);
+    if (!isUndefined(index)) {
+      this.steps.splice(index, 0, step);
+    } else {
+      this.steps.push(step);
+    }
+
     return step;
   }
 
