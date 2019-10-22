@@ -15,9 +15,11 @@ declare class Tour extends Evented {
   /**
    * Adds a new step to the tour
    * @param options An object containing step options or a Step instance
+   * @param index The optional index to insert the step at. If undefined, the step
+   * is added to the end of the array.
    * @return The newly added step
    */
-  addStep(options: Step | Step.StepOptions): Step;
+  addStep(options: Step | Step.StepOptions, index?: number): Step;
 
   /**
    * Add multiple steps to the tour

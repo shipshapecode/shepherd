@@ -5076,13 +5076,15 @@
     /**
      * Adds a new step to the tour
      * @param {Object|Step} options An object containing step options or a Step instance
+     * @param {number} index The optional index to insert the step at. If undefined, the step
+     * is added to the end of the array.
      * @return {Step} The newly added step
      */
 
 
     var _proto = Tour.prototype;
 
-    _proto.addStep = function addStep(options) {
+    _proto.addStep = function addStep(options, index) {
       var step = options;
 
       if (!(step instanceof Step)) {
@@ -5091,7 +5093,12 @@
         step.tour = this;
       }
 
-      this.steps.push(step);
+      if (!isUndefined$1(index)) {
+        this.steps.splice(index, 0, step);
+      } else {
+        this.steps.push(step);
+      }
+
       return step;
     }
     /**
