@@ -78,7 +78,8 @@ export class Tour extends Evented {
   /**
    * Adds a new step to the tour
    * @param {Object|Step} options An object containing step options or a Step instance
-   * @param {number} index The optional index to insert the step at
+   * @param {number} index The optional index to insert the step at. If undefined, the step
+   * is added to the end of the array.
    * @return {Step} The newly added step
    */
   addStep(options, index) {
