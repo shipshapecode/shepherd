@@ -4,7 +4,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.Shepherd = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -5383,5 +5383,5 @@
 
   return Shepherd;
 
-}));
+})));
 //# sourceMappingURL=shepherd.js.map
