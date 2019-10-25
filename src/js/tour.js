@@ -91,10 +91,10 @@ export class Tour extends Evented {
       step.tour = this;
     }
 
-    if (!isUndefined(index)) {
-      this.steps.splice(index, 0, step);
-    } else {
+    if (isUndefined(index)) {
       this.steps.push(step);
+    } else {
+      this.steps.splice(index, 0, step);
     }
 
     return step;
