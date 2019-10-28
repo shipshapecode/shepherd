@@ -66,7 +66,7 @@
     "cypress": "^3.4.1",
     "cypress-plugin-tab": "^1.0.1",
     "del": "^5.1.0",
-    "eslint": "^6.3.0",
+    "eslint": "^6.6.0",
     "eslint-plugin-jest": "^22.17.0",
     "eslint-plugin-ship-shape": "^0.7.1",
     "eslint-plugin-svelte3": "^2.7.3",
