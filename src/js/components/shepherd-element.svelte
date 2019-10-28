@@ -84,7 +84,7 @@
     z-index: 9999;
   }
 
-  .shepherd-modal-is-visible ~ .shepherd-element {
+  .shepherd-enabled.shepherd-element {
     opacity: 1;
   }
 
