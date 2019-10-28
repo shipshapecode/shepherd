@@ -100,8 +100,7 @@
   /**
    * Arrow on bottom of tooltip centered horizontally
    */
-  .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow,
-  .shepherd-element.shepherd-pinned-top .shepherd-arrow {
+  .shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow {
     bottom: 0;
     border-top-color: #fff;
     left: 50%;
@@ -128,8 +127,7 @@
   /**
    * Arrow on left of tooltip, centered vertically
    */
-  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow,
-  .shepherd-element.shepherd-pinned-right .shepherd-arrow {
+  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow {
     border-right-color: #fff;
     left: 0;
     top: 50%;
@@ -139,8 +137,7 @@
   /**
    * Arrow on right of tooltip, centered vertically
    */
-  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow,
-  .shepherd-element.shepherd-pinned-left .shepherd-arrow {
+  .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow {
     border-left-color: #fff;
     right: 0;
     top: 50%;
