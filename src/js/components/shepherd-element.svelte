@@ -78,8 +78,14 @@
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     max-width: 400px;
+    opacity: 0;
     outline: none;
+    transition: opacity 0.3s;
     z-index: 9999;
+  }
+
+  .shepherd-modal-is-visible ~ .shepherd-element {
+    opacity: 1;
   }
 
   .shepherd-element, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
