@@ -42,7 +42,7 @@ to contribute, we ask that you take the following steps:
 
 ## Testing
 
-All PRs, that change code functionality, are required to have accompanying tests.
+All PRs that change code functionality are required to have accompanying tests.
 
 ### Acceptance Tests
 
