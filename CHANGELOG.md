@@ -1,13 +1,109 @@
 # Changelog
 
-## [v5.0.1](https://github.com/shipshapecode/shepherd/tree/v5.0.1) (2019-08-28)
+## [v6.0.0](https://github.com/shipshapecode/shepherd/tree/v6.0.0) (2019-10-29)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0...v5.0.1)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0-beta.2...v6.0.0)
+
+**Implemented enhancements:**
+
+- Dynamically update text while in tour [\#563](https://github.com/shipshapecode/shepherd/issues/563)
+- Add fade in animation to tether [\#556](https://github.com/shipshapecode/shepherd/issues/556)
 
 **Fixed bugs:**
 
-- Can't get shepherdElementZIndex to work [\#528](https://github.com/shipshapecode/shepherd/issues/528)
-- Pass shepherdElementZIndex to tippy as zIndex [\#529](https://github.com/shipshapecode/shepherd/pull/529) ([rwwagner90](https://github.com/rwwagner90))
+- Step arrow not attaching correctly. [\#634](https://github.com/shipshapecode/shepherd/issues/634)
+
+**Merged pull requests:**
+
+- Remove pinned arrows [\#652](https://github.com/shipshapecode/shepherd/pull/652) ([rwwagner90](https://github.com/rwwagner90))
+- Update transitions on shepherd element [\#651](https://github.com/shipshapecode/shepherd/pull/651) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Removed unnecessary parenthetical commas [\#644](https://github.com/shipshapecode/shepherd/pull/644) ([sector-f](https://github.com/sector-f))
+
+## [v6.0.0-beta.2](https://github.com/shipshapecode/shepherd/tree/v6.0.0-beta.2) (2019-10-22)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0-beta.1...v6.0.0-beta.2)
+
+**Implemented enhancements:**
+
+- Add step.tetherOptions [\#594](https://github.com/shipshapecode/shepherd/issues/594)
+- Allow passing index to `addStep` [\#631](https://github.com/shipshapecode/shepherd/pull/631) ([rwwagner90](https://github.com/rwwagner90))
+- Disable pointer events for children with canClickTarget [\#630](https://github.com/shipshapecode/shepherd/pull/630) ([rwwagner90](https://github.com/rwwagner90))
+- Allow passing tetherOptions [\#628](https://github.com/shipshapecode/shepherd/pull/628) ([rwwagner90](https://github.com/rwwagner90))
+- Add option to set aria-label on step buttons [\#604](https://github.com/shipshapecode/shepherd/pull/604) ([lex111](https://github.com/lex111))
+
+**Fixed bugs:**
+
+- Use of `const` in bundles breaking things on iOS version 9 and below. [\#569](https://github.com/shipshapecode/shepherd/issues/569)
+
+**Closed issues:**
+
+- Specify index for addStep/addSteps [\#617](https://github.com/shipshapecode/shepherd/issues/617)
+- canClickTarget can not disable taget's children nodes events [\#561](https://github.com/shipshapecode/shepherd/issues/561)
+
+**Merged pull requests:**
+
+- Add abraham project to README [\#625](https://github.com/shipshapecode/shepherd/pull/625) ([jabbett](https://github.com/jabbett))
+- Added updateStepOptions to step.d.ts [\#614](https://github.com/shipshapecode/shepherd/pull/614) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+
+## [v6.0.0-beta.1](https://github.com/shipshapecode/shepherd/tree/v6.0.0-beta.1) (2019-10-08)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0-beta.0...v6.0.0-beta.1)
+
+**Implemented enhancements:**
+
+- Allow title to specify callback [\#602](https://github.com/shipshapecode/shepherd/pull/602) ([lex111](https://github.com/lex111))
+- Feature/buttons disabled option [\#596](https://github.com/shipshapecode/shepherd/pull/596) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+
+**Closed issues:**
+
+- Disabled option for buttons [\#582](https://github.com/shipshapecode/shepherd/issues/582)
+- Allow title to specify callback [\#562](https://github.com/shipshapecode/shepherd/issues/562)
+
+**Merged pull requests:**
+
+- Add a missing period in the docs [\#598](https://github.com/shipshapecode/shepherd/pull/598) ([JonasPardon](https://github.com/JonasPardon))
+
+## [v6.0.0-beta.0](https://github.com/shipshapecode/shepherd/tree/v6.0.0-beta.0) (2019-10-03)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.1...v6.0.0-beta.0)
+
+**Breaking changes:**
+
+- Add back tether support, remove popper [\#592](https://github.com/shipshapecode/shepherd/pull/592) ([rwwagner90](https://github.com/rwwagner90))
+- Remove classPrefix from several elements, use path for overlay [\#555](https://github.com/shipshapecode/shepherd/pull/555) ([rwwagner90](https://github.com/rwwagner90))
+- Remove tippy.js, add back popper.js [\#551](https://github.com/shipshapecode/shepherd/pull/551) ([rwwagner90](https://github.com/rwwagner90))
+
+**Implemented enhancements:**
+
+- Add `arrow` option [\#553](https://github.com/shipshapecode/shepherd/issues/553)
+- Implement ability to update step options [\#581](https://github.com/shipshapecode/shepherd/pull/581) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+- Add tests for multiple tours [\#560](https://github.com/shipshapecode/shepherd/pull/560) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Add arrow option [\#557](https://github.com/shipshapecode/shepherd/pull/557) ([rwwagner90](https://github.com/rwwagner90))
+- Replace uniqueId with uuid [\#554](https://github.com/shipshapecode/shepherd/pull/554) ([rwwagner90](https://github.com/rwwagner90))
+
+**Fixed bugs:**
+
+- Modal opening overflow when target is in a scrollable area [\#585](https://github.com/shipshapecode/shepherd/issues/585)
+- Popover position at \(0, 0\) when target is rerendered [\#580](https://github.com/shipshapecode/shepherd/issues/580)
+- Fix `isOpen` [\#552](https://github.com/shipshapecode/shepherd/issues/552)
+- Handle modal opening for targets inside scrollable area [\#595](https://github.com/shipshapecode/shepherd/pull/595) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+- Adjust modal opening according to scrollParent [\#589](https://github.com/shipshapecode/shepherd/pull/589) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+
+**Closed issues:**
+
+- Receiving "Cannot read property 'setAttribute' of null" error when calling tour.start\(\) [\#590](https://github.com/shipshapecode/shepherd/issues/590)
+
+**Merged pull requests:**
+
+- Revert "Adjust modal opening according to scrollParent" [\#591](https://github.com/shipshapecode/shepherd/pull/591) ([rwwagner90](https://github.com/rwwagner90))
+- Update and reorder the benefits blocks [\#584](https://github.com/shipshapecode/shepherd/pull/584) ([chuckcarpenter](https://github.com/chuckcarpenter))
+- Recreate elements each time on show [\#583](https://github.com/shipshapecode/shepherd/pull/583) ([rwwagner90](https://github.com/rwwagner90))
+- Add new landing page styles [\#574](https://github.com/shipshapecode/shepherd/pull/574) ([rwwagner90](https://github.com/rwwagner90))
+- Remove styleVariables docs [\#559](https://github.com/shipshapecode/shepherd/pull/559) ([rwwagner90](https://github.com/rwwagner90))
+
+## [v5.0.1](https://github.com/shipshapecode/shepherd/tree/v5.0.1) (2019-08-28)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v5.0.0...v5.0.1)
 
 ## [v5.0.0](https://github.com/shipshapecode/shepherd/tree/v5.0.0) (2019-08-25)
 
