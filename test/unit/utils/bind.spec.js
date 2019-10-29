@@ -76,21 +76,23 @@ describe('Bind Utils', function() {
       expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();
     });
 
-    it('calls `removeEventListener` when destroyed', function(done) {
-      const bodySpy = spy(document.body, 'removeEventListener');
-      const step = new Step(tourProto, {
-        advanceOn: { event: advanceOnEventName }
+    it('calls `removeEventListener` when destroyed', () => {
+      return new Promise((done) => {
+        const bodySpy = spy(document.body, 'removeEventListener');
+        const step = new Step(tourProto, {
+          advanceOn: { event: advanceOnEventName }
+        });
+
+        step.isOpen = () => true;
+
+        bindAdvance(step);
+        step.trigger('destroy');
+
+        expect(bodySpy.called).toBe(true);
+        bodySpy.restore();
+
+        done();
       });
-
-      step.isOpen = () => true;
-
-      bindAdvance(step);
-      step.trigger('destroy');
-
-      expect(bodySpy.called).toBe(true);
-      bodySpy.restore();
-
-      done();
     });
   });
 });

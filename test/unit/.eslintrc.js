@@ -9,7 +9,8 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:ship-shape/recommended'
+    'plugin:ship-shape/recommended',
+    'plugin:jest/recommended'
   ],
   globals: {
     Cypress: false,
@@ -29,6 +30,8 @@ module.exports = {
     node: true
   },
   rules: {
+    'jest/valid-expect': 'off',
+    'jest/valid-expect-in-promise': 'off',
     'no-console': 'off'
   }
 };
