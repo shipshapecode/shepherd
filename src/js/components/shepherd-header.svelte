@@ -4,8 +4,7 @@
 
   export let labelId, step;
 
-  $: title = step.options.title;
-  $: cancelIcon = step.options.cancelIcon;
+  $: ({title, cancelIcon} = step.options);
 </script>
 
 <style global>

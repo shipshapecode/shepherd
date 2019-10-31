@@ -4,11 +4,7 @@
 
   export let config, step;
 
-  $: action = config.action;
-  $: classes = config.classes;
-  $: secondary = config.secondary;
-  $: text = config.text;
-  $: label = config.label;
+  $: ({ action, classes, secondary, text, label } = config);
 
   let disabled = false;
 
