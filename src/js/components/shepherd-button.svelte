@@ -3,7 +3,13 @@
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
-  const { action, classes, secondary, text, label } = config;
+
+  $: action = config.action;
+  $: classes = config.classes;
+  $: secondary = config.secondary;
+  $: text = config.text;
+  $: label = config.label;
+
   let disabled = false;
 
   afterUpdate(() => {
@@ -13,6 +19,8 @@
       if (isFunction(disabled)) {
         disabled = disabled.call(step);
       }
+    } else {
+      disabled = false;
     }
   });
 </script>
