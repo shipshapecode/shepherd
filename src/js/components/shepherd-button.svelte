@@ -3,8 +3,12 @@
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
+  let action, classes, secondary, text, label;
 
-  $: ({ action, classes, secondary, text, label } = config);
+  $: {
+    action = config.action ? config.action.bind(step.tour) : null;
+    ({ classes, secondary, text, label } = config);
+  }
 
   let disabled = false;
 
@@ -57,7 +61,7 @@
   aria-label="{label ? label : null}"
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
   disabled={disabled}
-  on:click={action ? action.bind(step.tour) : null}
+  on:click={action}
   tabindex="0"
 >
     {text}

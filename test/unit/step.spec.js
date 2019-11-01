@@ -202,48 +202,74 @@ describe('Tour | Step', () => {
   });
 
   describe('updateStepOptions', () => {
-    it('should update passed in properties', () => {
-      const step = new Step(tour, {
+    let step;
+
+    beforeEach(() => {
+      step = new Step(tour, {
         id: 'test-id',
         text: 'Lorem Ipsum',
         title: 'Test',
-        cancelIcon: true
+        scrollTo: false,
+        buttons: [
+          { text: 'button one', disabled: false, classes: 'button1' },
+          { text: 'button two', disabled: true, classes: 'button2' }
+        ]
       });
+      step.show();
+    });
 
+    afterEach(() => {
+      step.destroy();
+    });
+
+    it('should update passed in properties', (done) => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
+
       expect(step.options.text).toBe('updated');
       expect(step.options.title).toBe('New title');
+
+      requestAnimationFrame(() => {
+        expect(document.querySelector('.shepherd-text').textContent).toBe('updated');
+        expect(document.querySelector('.shepherd-title').textContent).toBe('New title');
+        done();
+      });
     });
 
-    it('should not affect other properties', () => {
-      const step = new Step(tour, {
-        id: 'test-id',
-        text: 'Lorem Ipsum',
-        title: 'Test',
-        cancelIcon: true
-      });
-
+    it('should not affect other properties', (done) => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
       expect(step.options.id).toEqual('test-id');
-      expect(step.options.cancelIcon).toBeTruthy();
+      expect(step.options.buttons).toEqual([
+        { text: 'button one', disabled: false, classes: 'button1' },
+        { text: 'button two', disabled: true, classes: 'button2' }
+      ]);
+
+      requestAnimationFrame(() => {
+        expect(document.querySelector('.button1').textContent).toBe('button one');
+        expect(document.querySelector('.button2').textContent).toBe('button two');
+        done();
+      });
     });
 
-    it('should update tooltip content', () => {
-      const step = new Step(tour, {
-        id: 'test-id',
-        text: 'Lorem Ipsum',
-        title: 'Test',
-        cancelIcon: true
+    it('should update buttons', (done) => {
+      step.show();
+      const buttons = [
+        { text: 'button one updated', disabled: true, classes: 'button1' },
+        { text: 'button two updated', disabled: false, classes: 'button2' }
+      ];
+
+      step.updateStepOptions({ buttons });
+      expect(step.options.buttons).toEqual(buttons);
+
+      requestAnimationFrame(() => {
+        const buttonOne = document.querySelector('.button1');
+        expect(buttonOne.textContent).toBe('button one updated');
+        expect(buttonOne.disabled).toBe(true);
+
+        const buttonTwo = document.querySelector('.button2');
+        expect(buttonTwo.textContent).toBe('button two updated');
+        expect(buttonTwo.disabled).toBe(false);
+        done();
       });
-
-      let called = false;
-
-      step._createTooltipContent();
-      step.shepherdElementComponent.$set = () => called = true;
-
-      step.updateStepOptions({ text: 'updated', title: 'New title' });
-
-      expect(called).toBeTruthy();
     });
   });
 
