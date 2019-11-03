@@ -1,28 +1,25 @@
 <script>
-  import { afterUpdate } from 'svelte';
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
-  let action, classes, secondary, text, label;
+  let action, classes, secondary, text, label, disabled;
 
   $: {
     action = config.action ? config.action.bind(step.tour) : null;
-    ({ classes, secondary, text, label } = config);
+    classes = config.classes;
+    secondary = config.secondary;
+    text = config.text;
+    label = config.label;
+    disabled = config.disabled ? getDisabled(config.disabled) : false;
   }
 
-  let disabled = false;
-
-  afterUpdate(() => {
-    if (config.disabled) {
-      disabled = config.disabled;
-
+  function getDisabled(disabled) {
       if (isFunction(disabled)) {
-        disabled = disabled.call(step);
+          return disabled = disabled.call(step);
       }
-    } else {
-      disabled = false;
-    }
-  });
+      return disabled
+  }
+
 </script>
 
 <style global>

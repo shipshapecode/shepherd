@@ -3,8 +3,12 @@
   import ShepherdTitle from './shepherd-title.svelte';
 
   export let labelId, step;
+  let title, cancelIcon;
 
-  $: ({title, cancelIcon} = step.options);
+  $: {
+      title = step.options.title;
+      cancelIcon = step.options.cancelIcon;
+  }
 </script>
 
 <style global>
