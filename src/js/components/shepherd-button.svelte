@@ -1,20 +1,25 @@
 <script>
-  import { afterUpdate } from 'svelte';
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
-  const { action, classes, secondary, text, label } = config;
-  let disabled = false;
+  let action, classes, secondary, text, label, disabled;
 
-  afterUpdate(() => {
-    if (config.disabled) {
-      disabled = config.disabled;
+  $: {
+    action = config.action ? config.action.bind(step.tour) : null;
+    classes = config.classes;
+    secondary = config.secondary;
+    text = config.text;
+    label = config.label;
+    disabled = config.disabled ? getDisabled(config.disabled) : false;
+  }
 
+  function getDisabled(disabled) {
       if (isFunction(disabled)) {
-        disabled = disabled.call(step);
+          return disabled = disabled.call(step);
       }
-    }
-  });
+      return disabled
+  }
+
 </script>
 
 <style global>
@@ -53,7 +58,7 @@
   aria-label="{label ? label : null}"
   class="{`${(classes || '')} shepherd-button ${(secondary ? 'shepherd-button-secondary' : '')}`}"
   disabled={disabled}
-  on:click={action ? action.bind(step.tour) : null}
+  on:click={action}
   tabindex="0"
 >
     {text}

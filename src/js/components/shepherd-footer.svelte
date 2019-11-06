@@ -2,7 +2,8 @@
   import ShepherdButton from './shepherd-button.svelte';
 
   export let step;
-  const { buttons } = step.options;
+
+  $: buttons = step.options.buttons;
 </script>
 
 <style global>
