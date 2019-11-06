@@ -10,9 +10,14 @@
 
   export let classes, classPrefix, element, descriptionId, firstFocusableElement,
     focusableElements, labelId, lastFocusableElement, step;
-  const dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
-  const hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled;
-  const hasTitle = step.options && step.options.title;
+
+  let dataStepId, hasCancelIcon, hasTitle;
+
+  $: {
+    dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
+    hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled;
+    hasTitle = step.options && step.options.title;
+  }
 
   export const getElement = () => element;
 
