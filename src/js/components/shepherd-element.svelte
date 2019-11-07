@@ -165,7 +165,9 @@
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
-  class="{`${classes} shepherd-element ${hasCancelIcon ? 'shepherd-has-cancel-icon' : ''} ${hasTitle ? 'shepherd-has-title' : ''}`}"
+  class:shepherd-has-cancel-icon="{hasCancelIcon}"
+  class:shepherd-has-title="{hasTitle}"
+  class="{`${classes} shepherd-element`}"
   {...dataStepId}
   on:keydown={handleKeyDown}
   role="dialog"
