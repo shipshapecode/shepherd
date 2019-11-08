@@ -42,7 +42,7 @@
 
   function removeClasses(classes) {
     if (isString(classes)) {
-      const oldClasses = classes.split(' ');
+      const oldClasses = getClassesArray(classes);
       if (oldClasses.length) {
         element.classList.remove(...oldClasses);
       }
@@ -51,11 +51,15 @@
 
   function addClasses(classes) {
     if(isString(classes)) {
-      const newClasses = classes.split(' ').filter(className => !!className.length);
+      const newClasses = getClassesArray(classes);
       if (newClasses.length) {
         element.classList.add(...newClasses);
       }
     }
+  }
+
+  function getClassesArray(classes) {
+     return classes.split(' ').filter(className => !!className.length);
   }
 
   /**
