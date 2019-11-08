@@ -207,7 +207,9 @@ describe('Tour | Step', () => {
     beforeEach(() => {
       step = new Step(tour, {
         id: 'test-id',
+        attachTo: { element: 'body', on: 'top' },
         text: 'Lorem Ipsum',
+        classes: 'classes-test',
         title: 'Test',
         scrollTo: false,
         buttons: [
@@ -251,7 +253,6 @@ describe('Tour | Step', () => {
     });
 
     it('should update buttons', (done) => {
-      step.show();
       const buttons = [
         { text: 'button one updated', disabled: true, classes: 'button1' },
         { text: 'button two updated', disabled: false, classes: 'button2' }
@@ -268,6 +269,44 @@ describe('Tour | Step', () => {
         const buttonTwo = document.querySelector('.button2');
         expect(buttonTwo.textContent).toBe('button two updated');
         expect(buttonTwo.disabled).toBe(false);
+        done();
+      });
+    });
+
+    it('removing title should remove class', (done) => {
+      step.updateStepOptions({ title: '' });
+      expect(step.options.title).toEqual('');
+
+      requestAnimationFrame(() => {
+        const element = document.querySelector('.shepherd-element');
+        expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
+        done();
+      });
+    });
+
+    it('updating classes should update element classes', (done) => {
+      step.updateStepOptions({ classes: 'test-1 test-2' });
+      expect(step.options.classes).toEqual('test-1 test-2');
+
+      requestAnimationFrame(() => {
+        const element = document.querySelector('.shepherd-element');
+        expect(element.classList.contains('test-1')).toBeTruthy();
+        expect(element.classList.contains('test-2')).toBeTruthy();
+        expect(element.classList.contains('classes-test')).toBeFalsy();
+        done();
+      });
+    });
+
+    it('updating classes should not overwrite tether classes', (done) => {
+      step.updateStepOptions({ classes: 'test-1 test-2' });
+      expect(step.options.classes).toEqual('test-1 test-2');
+
+      requestAnimationFrame(() => {
+        const element = document.querySelector('.shepherd-element');
+        expect(element.classList.contains('shepherd-element-attached-bottom')).toBeTruthy();
+        expect(element.classList.contains('shepherd-element-attached-center')).toBeTruthy();
+        expect(element.classList.contains('shepherd-target-attached-top')).toBeTruthy();
+        expect(element.classList.contains('shepherd-target-attached-center')).toBeTruthy();
         done();
       });
     });
