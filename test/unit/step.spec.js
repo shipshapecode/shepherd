@@ -303,7 +303,6 @@ describe('Tour | Step', () => {
 
       requestAnimationFrame(() => {
         const element = document.querySelector('.shepherd-element');
-        console.log(element.classList);
         expect(element.classList.contains('shepherd-element-attached-bottom')).toBeTruthy();
         expect(element.classList.contains('shepherd-element-attached-center')).toBeTruthy();
         expect(element.classList.contains('shepherd-target-attached-top')).toBeTruthy();
