@@ -2553,6 +2553,10 @@ function set_data(text, data) {
   if (text.data !== data) text.data = data;
 }
 
+function toggle_class(element, name, toggle) {
+  element.classList[toggle ? 'add' : 'remove'](name);
+}
+
 var current_component;
 
 function set_current_component(component) {
@@ -3928,8 +3932,6 @@ function create_fragment$7(ctx) {
     "aria-describedby": !isUndefined$1(ctx.step.options.text) ? ctx.descriptionId : null
   }, {
     "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
-  }, {
-    class: ctx.classes + " shepherd-element " + (ctx.hasCancelIcon ? 'shepherd-has-cancel-icon' : '') + " " + (ctx.hasTitle ? 'shepherd-has-title' : '')
   }, ctx.dataStepId, {
     role: "dialog"
   }, {
@@ -3948,6 +3950,9 @@ function create_fragment$7(ctx) {
       t = space();
       shepherdcontent.$$.fragment.c();
       set_attributes(div, div_data);
+      toggle_class(div, "shepherd-has-cancel-icon", ctx.hasCancelIcon);
+      toggle_class(div, "shepherd-has-title", ctx.hasTitle);
+      toggle_class(div, "shepherd-element", true);
       dispose = listen(div, "keydown", ctx.handleKeyDown);
     },
     m: function m(target, anchor) {
@@ -3979,13 +3984,19 @@ function create_fragment$7(ctx) {
         "aria-describedby": !isUndefined$1(ctx.step.options.text) ? ctx.descriptionId : null
       }, (changed.step || changed.labelId) && {
         "aria-labelledby": ctx.step.options.title ? ctx.labelId : null
-      }, (changed.classes || changed.hasCancelIcon || changed.hasTitle) && {
-        class: ctx.classes + " shepherd-element " + (ctx.hasCancelIcon ? 'shepherd-has-cancel-icon' : '') + " " + (ctx.hasTitle ? 'shepherd-has-title' : '')
       }, changed.dataStepId && ctx.dataStepId, {
         role: "dialog"
       }, {
         tabindex: "0"
       }]));
+
+      if (changed.hasCancelIcon) {
+        toggle_class(div, "shepherd-has-cancel-icon", ctx.hasCancelIcon);
+      }
+
+      if (changed.hasTitle) {
+        toggle_class(div, "shepherd-has-title", ctx.hasTitle);
+      }
     },
     i: function i(local) {
       if (current) return;
@@ -4014,28 +4025,72 @@ var KEY_ESC = 27;
 var LEFT_ARROW = 37;
 var RIGHT_ARROW = 39;
 
+function getClassesArray(classes) {
+  return classes.split(' ').filter(function (className) {
+    return !!className.length;
+  });
+}
+
 function instance$7($$self, $$props, $$invalidate) {
-  var classes = $$props.classes,
-      classPrefix = $$props.classPrefix,
+  var classPrefix = $$props.classPrefix,
       element = $$props.element,
       descriptionId = $$props.descriptionId,
       firstFocusableElement = $$props.firstFocusableElement,
       focusableElements = $$props.focusableElements,
       labelId = $$props.labelId,
       lastFocusableElement = $$props.lastFocusableElement,
-      step = $$props.step;
-  var dataStepId, hasCancelIcon, hasTitle;
+      step = $$props.step,
+      dataStepId = $$props.dataStepId;
+  var hasCancelIcon, hasTitle, classes;
 
   var getElement = function getElement() {
     return element;
   };
 
   onMount(function () {
+    var _dataStepId;
+
     // Get all elements that are focusable
+    $$invalidate('dataStepId', dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId));
     $$invalidate('focusableElements', focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
     $$invalidate('firstFocusableElement', firstFocusableElement = focusableElements[0]);
     $$invalidate('lastFocusableElement', lastFocusableElement = focusableElements[focusableElements.length - 1]);
   });
+  afterUpdate(function () {
+    if (classes !== step.options.classes) {
+      updateDynamicClasses();
+    }
+  });
+
+  function updateDynamicClasses() {
+    removeClasses(classes);
+    classes = step.options.classes;
+    addClasses(classes);
+  }
+
+  function removeClasses(classes) {
+    if (isString(classes)) {
+      var oldClasses = getClassesArray(classes);
+
+      if (oldClasses.length) {
+        var _element$classList;
+
+        (_element$classList = element.classList).remove.apply(_element$classList, oldClasses);
+      }
+    }
+  }
+
+  function addClasses(classes) {
+    if (isString(classes)) {
+      var newClasses = getClassesArray(classes);
+
+      if (newClasses.length) {
+        var _element$classList2;
+
+        (_element$classList2 = element.classList).add.apply(_element$classList2, newClasses);
+      }
+    }
+  }
   /**
    * Setup keydown events to allow closing the modal with ESC
    *
@@ -4043,6 +4098,7 @@ function instance$7($$self, $$props, $$invalidate) {
    *
    * @private
    */
+
 
   var handleKeyDown = function handleKeyDown(e) {
     var _step = step,
@@ -4100,7 +4156,6 @@ function instance$7($$self, $$props, $$invalidate) {
   }
 
   $$self.$set = function ($$props) {
-    if ('classes' in $$props) $$invalidate('classes', classes = $$props.classes);
     if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
     if ('element' in $$props) $$invalidate('element', element = $$props.element);
     if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
@@ -4109,21 +4164,18 @@ function instance$7($$self, $$props, $$invalidate) {
     if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
     if ('lastFocusableElement' in $$props) $$invalidate('lastFocusableElement', lastFocusableElement = $$props.lastFocusableElement);
     if ('step' in $$props) $$invalidate('step', step = $$props.step);
+    if ('dataStepId' in $$props) $$invalidate('dataStepId', dataStepId = $$props.dataStepId);
   };
 
   $$self.$$.update = function ($$dirty) {
     if ($$dirty === void 0) {
       $$dirty = {
-        classPrefix: 1,
         step: 1
       };
     }
 
-    if ($$dirty.classPrefix || $$dirty.step) {
+    if ($$dirty.step) {
       {
-        var _dataStepId;
-
-        $$invalidate('dataStepId', dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId));
         $$invalidate('hasCancelIcon', hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled);
         $$invalidate('hasTitle', hasTitle = step.options && step.options.title);
       }
@@ -4131,7 +4183,6 @@ function instance$7($$self, $$props, $$invalidate) {
   };
 
   return {
-    classes: classes,
     classPrefix: classPrefix,
     element: element,
     descriptionId: descriptionId,
@@ -4158,7 +4209,7 @@ function (_SvelteComponent) {
     var _this;
 
     _this = _SvelteComponent.call(this) || this;
-    init(_assertThisInitialized(_this), options, instance$7, create_fragment$7, safe_not_equal, ["classes", "classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "getElement"]);
+    init(_assertThisInitialized(_this), options, instance$7, create_fragment$7, safe_not_equal, ["classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "dataStepId", "getElement"]);
     return _this;
   }
 
@@ -4762,14 +4813,12 @@ function (_Evented) {
   ;
 
   _proto._createTooltipContent = function _createTooltipContent() {
-    var classes = this.options.classes || '';
     var descriptionId = this.id + "-description";
     var labelId = this.id + "-label";
     this.shepherdElementComponent = new Shepherd_element({
       target: document.body,
       props: {
         classPrefix: this.classPrefix,
-        classes: classes,
         descriptionId: descriptionId,
         labelId: labelId,
         step: this,

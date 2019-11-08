@@ -223,7 +223,6 @@ export class Step extends Evented {
    * @private
    */
   _createTooltipContent() {
-    const classes = this.options.classes || '';
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
@@ -232,7 +231,6 @@ export class Step extends Evented {
       props:
         {
           classPrefix: this.classPrefix,
-          classes,
           descriptionId,
           labelId,
           step: this,
