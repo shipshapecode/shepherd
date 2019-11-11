@@ -82,7 +82,7 @@
     "postcss": "^7.0.21",
     "replace": "^1.1.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.26.0",
+    "rollup": "^1.26.5",
     "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-browsersync": "^1.0.0",
