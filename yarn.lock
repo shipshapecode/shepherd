@@ -3323,10 +3323,10 @@ eslint-plugin-ember@^6.10.1:
     ember-rfc176-data "^0.3.11"
     snake-case "^2.1.0"
 
-eslint-plugin-jest@^23.0.1:
-  version "23.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.1.tgz#79a93708733665495020063aabbe30224ce3144d"
-  integrity sha512-dcsf8z2gil+E5kqqdoIKqgLxUXNwC+V8uAij9y4c7byAbBuQE6hYfbFLKM0RYHPmc6oqmrpri6zrwpfWnMX3vg==
+eslint-plugin-jest@^23.0.3:
+  version "23.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-23.0.3.tgz#d3f157f7791f97713372c13259ba1dfc436eb4c1"
+  integrity sha512-9cNxr66zeOyz1S9AkQL4/ouilR6QHpYj8vKOQZ60fu9hAt5PJWS4KqWqfr1aqN5NFEZSPjFOla2Azn+KTWiGwg==
   dependencies:
     "@typescript-eslint/experimental-utils" "^2.5.0"
 
