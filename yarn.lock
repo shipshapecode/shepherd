@@ -7910,10 +7910,10 @@ rollup-pluginutils@2, rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.3, roll
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^1.26.0:
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.26.0.tgz#cf40fd5e1edc4d7f3d4235a0a43f1c2be1cf294b"
-  integrity sha512-5HljNYn9icFvXX+Oe97qY5TWvnWhKqgGT0HGeWWqFPx7w7+Anzg7dfHMtUif7YYy6QxAgynDSwK6uxbgcrVUxw==
+rollup@^1.26.5:
+  version "1.26.5"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.26.5.tgz#c492c8bb88b661e7952a864e40bdec209aa1aa03"
+  integrity sha512-c6Pv0yWzjYNpy2DIhLFUnyP6e1UTGownr4IfpJcPY/k186RJjpaGGPRwKQ62KCauctG6dgtHt88pw1EGrPRkuA==
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
@@ -8679,10 +8679,10 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelte-preprocess@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.2.0.tgz#0a12092c1516ea8586b528a0ded4f37b0123822d"
-  integrity sha512-2ij0PgPspOjQXWRvRGxyNxkrzNxCMWooHpr6pOI/nnjCRf/kFGq5Hhn7rH6lNfYTlWDLrXObn38Ns0lCAJ5hsA==
+svelte-preprocess@^3.2.6:
+  version "3.2.6"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.2.6.tgz#b95ab38bc35fb536589e0f99faea0268dd89bf2b"
+  integrity sha512-gtZJBW1i8HuXPqI3Qdgwln4CX62L/2mbKiHZEeVNpV/oSYkF4uXWQKYSv1txivbB2pVJIBzp2VmDUxviHd6pxA==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
