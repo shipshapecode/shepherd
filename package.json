@@ -54,7 +54,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
-    "@testing-library/jest-dom": "^4.2.0",
+    "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/svelte": "^1.8.0",
     "autoprefixer": "^9.7.0",
     "babel-core": "^7.0.0-bridge.0",
