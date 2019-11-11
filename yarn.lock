@@ -7755,10 +7755,10 @@ rimraf@^3.0.0:
   dependencies:
     glob "^7.1.3"
 
-rollup-plugin-analyzer@^3.1.2:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-analyzer/-/rollup-plugin-analyzer-3.2.1.tgz#1a97241ea6f77b7bb973aa1487e02bebea03cff3"
-  integrity sha512-J5dKAcbYLa31rNj0pA5Osp1zbv765ENPCBzKtDTE9lKlkm94XuE99qKVS+nPIujhdvaxPJsCQQP4SX5SCp6jIw==
+rollup-plugin-analyzer@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-analyzer/-/rollup-plugin-analyzer-3.2.2.tgz#1ea109d164ac8cdbfeaacf1cf271bb66ca643d94"
+  integrity sha512-rRNOaykvnniNmByeaYuhrnMSwAmYduvGy1q2rBchRjGL/bEtEVr2WogKMQ0po8QbnwcsYaiQacYFxsvGTnw6Iw==
 
 rollup-plugin-babel@^4.3.3:
   version "4.3.3"
