@@ -2535,14 +2535,19 @@
   }
 
   function attr(node, attribute, value) {
-    if (value == null) node.removeAttribute(attribute);else node.setAttribute(attribute, value);
+    if (value == null) node.removeAttribute(attribute);else if (node.getAttribute(attribute) !== value) node.setAttribute(attribute, value);
   }
 
   function set_attributes(node, attributes) {
+    // @ts-ignore
+    var descriptors = Object.getOwnPropertyDescriptors(node.__proto__);
+
     for (var key in attributes) {
-      if (key === 'style') {
+      if (attributes[key] == null) {
+        node.removeAttribute(key);
+      } else if (key === 'style') {
         node.style.cssText = attributes[key];
-      } else if (key in node) {
+      } else if (descriptors[key] && descriptors[key].set) {
         node[key] = attributes[key];
       } else {
         attr(node, key, attributes[key]);
@@ -2640,10 +2645,10 @@
   }
 
   function update($$) {
-    if ($$.fragment) {
+    if ($$.fragment !== null) {
       $$.update($$.dirty);
       run_all($$.before_update);
-      $$.fragment.p($$.dirty, $$.ctx);
+      $$.fragment && $$.fragment.p($$.dirty, $$.ctx);
       $$.dirty = null;
       $$.after_update.forEach(add_render_callback);
     }
@@ -2731,13 +2736,17 @@
     return update;
   }
 
+  function create_component(block) {
+    block && block.c();
+  }
+
   function mount_component(component, target, anchor) {
     var _component$$$ = component.$$,
         fragment = _component$$$.fragment,
         on_mount = _component$$$.on_mount,
         on_destroy = _component$$$.on_destroy,
         after_update = _component$$$.after_update;
-    fragment.m(target, anchor); // onMount happens before the initial afterUpdate
+    fragment && fragment.m(target, anchor); // onMount happens before the initial afterUpdate
 
     add_render_callback(function () {
       var new_on_destroy = on_mount.map(run).filter(is_function);
@@ -2756,13 +2765,15 @@
   }
 
   function destroy_component(component, detaching) {
-    if (component.$$.fragment) {
-      run_all(component.$$.on_destroy);
-      component.$$.fragment.d(detaching); // TODO null out other refs, including component.$$ (but need to
+    var $$ = component.$$;
+
+    if ($$.fragment !== null) {
+      run_all($$.on_destroy);
+      $$.fragment && $$.fragment.d(detaching); // TODO null out other refs, including component.$$ (but need to
       // preserve final state?)
 
-      component.$$.on_destroy = component.$$.fragment = null;
-      component.$$.ctx = {};
+      $$.on_destroy = $$.fragment = null;
+      $$.ctx = {};
     }
   }
 
@@ -2776,15 +2787,15 @@
     component.$$.dirty[key] = true;
   }
 
-  function init(component, options, instance, create_fragment, not_equal, prop_names) {
+  function init(component, options, instance, create_fragment, not_equal, props) {
     var parent_component = current_component;
     set_current_component(component);
-    var props = options.props || {};
+    var prop_values = options.props || {};
     var $$ = component.$$ = {
       fragment: null,
       ctx: null,
       // state
-      props: prop_names,
+      props: props,
       update: noop,
       not_equal: not_equal,
       bound: blank_object(),
@@ -2799,7 +2810,7 @@
       dirty: null
     };
     var ready = false;
-    $$.ctx = instance ? instance(component, props, function (key, ret, value) {
+    $$.ctx = instance ? instance(component, prop_values, function (key, ret, value) {
       if (value === void 0) {
         value = ret;
       }
@@ -2810,19 +2821,20 @@
       }
 
       return ret;
-    }) : props;
+    }) : prop_values;
     $$.update();
     ready = true;
-    run_all($$.before_update);
-    $$.fragment = create_fragment($$.ctx);
+    run_all($$.before_update); // `false` as a special case of no DOM component
+
+    $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
 
     if (options.target) {
       if (options.hydrate) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        $$.fragment.l(children(options.target));
+        $$.fragment && $$.fragment.l(children(options.target));
       } else {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        $$.fragment.c();
+        $$.fragment && $$.fragment.c();
       }
 
       if (options.intro) transition_in(component.$$.fragment);
@@ -2835,7 +2847,7 @@
 
   var SvelteElement;
 
-  if (typeof HTMLElement !== 'undefined') {
+  if (typeof HTMLElement === 'function') {
     SvelteElement =
     /*#__PURE__*/
     function (_HTMLElement) {
@@ -2917,31 +2929,36 @@
   }();
 
   function create_fragment(ctx) {
-    var button, t, button_aria_label_value, button_class_value, dispose;
+    var button;
+    var t;
+    var button_aria_label_value;
+    var button_class_value;
+    var dispose;
     return {
       c: function c() {
         button = element("button");
         t = text(ctx.text);
         attr(button, "aria-label", button_aria_label_value = ctx.label ? ctx.label : null);
-        attr(button, "class", button_class_value = (ctx.classes || '') + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''));
+        attr(button, "class", button_class_value = (ctx.classes || "") + " shepherd-button " + (ctx.secondary ? "shepherd-button-secondary" : ""));
         button.disabled = ctx.disabled;
         attr(button, "tabindex", "0");
-        dispose = listen(button, "click", ctx.action);
+        dispose = listen(button, "click", function () {
+          ctx.action.apply(this, arguments);
+        });
       },
       m: function m(target, anchor) {
         insert(target, button, anchor);
         append(button, t);
       },
-      p: function p(changed, ctx) {
-        if (changed.text) {
-          set_data(t, ctx.text);
-        }
+      p: function p(changed, new_ctx) {
+        ctx = new_ctx;
+        if (changed.text) set_data(t, ctx.text);
 
         if (changed.label && button_aria_label_value !== (button_aria_label_value = ctx.label ? ctx.label : null)) {
           attr(button, "aria-label", button_aria_label_value);
         }
 
-        if ((changed.classes || changed.secondary) && button_class_value !== (button_class_value = (ctx.classes || '') + " shepherd-button " + (ctx.secondary ? 'shepherd-button-secondary' : ''))) {
+        if ((changed.classes || changed.secondary) && button_class_value !== (button_class_value = (ctx.classes || "") + " shepherd-button " + (ctx.secondary ? "shepherd-button-secondary" : ""))) {
           attr(button, "class", button_class_value);
         }
 
@@ -2952,10 +2969,7 @@
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) {
-          detach(button);
-        }
-
+        if (detaching) detach(button);
         dispose();
       }
     };
@@ -2975,26 +2989,26 @@
     }
 
     $$self.$set = function ($$props) {
-      if ('config' in $$props) $$invalidate('config', config = $$props.config);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("config" in $$props) $$invalidate("config", config = $$props.config);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
-    $$self.$$.update = function ($$dirty) {
-      if ($$dirty === void 0) {
-        $$dirty = {
+    $$self.$$.update = function (changed) {
+      if (changed === void 0) {
+        changed = {
           config: 1,
           step: 1
         };
       }
 
-      if ($$dirty.config || $$dirty.step) {
-        {
-          $$invalidate('action', action = config.action ? config.action.bind(step.tour) : null);
-          $$invalidate('classes', classes = config.classes);
-          $$invalidate('secondary', secondary = config.secondary);
-          $$invalidate('text', text = config.text);
-          $$invalidate('label', label = config.label);
-          $$invalidate('disabled', disabled = config.disabled ? getDisabled(config.disabled) : false);
+      if (changed.config || changed.step) {
+         {
+          $$invalidate("action", action = config.action ? config.action.bind(step.tour) : null);
+          $$invalidate("classes", classes = config.classes);
+          $$invalidate("secondary", secondary = config.secondary);
+          $$invalidate("text", text = config.text);
+          $$invalidate("label", label = config.label);
+          $$invalidate("disabled", disabled = config.disabled ? getDisabled(config.disabled) : false);
         }
       }
     };
@@ -3020,7 +3034,10 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, ["config", "step"]);
+      init(_assertThisInitialized(_this), options, instance, create_fragment, safe_not_equal, {
+        config: 0,
+        step: 0
+      });
       return _this;
     }
 
@@ -3035,7 +3052,8 @@
 
 
   function create_if_block(ctx) {
-    var each_1_anchor, current;
+    var each_1_anchor;
+    var current;
     var each_value = ctx.buttons;
     var each_blocks = [];
 
@@ -3118,10 +3136,7 @@
       },
       d: function d(detaching) {
         destroy_each(each_blocks, detaching);
-
-        if (detaching) {
-          detach(each_1_anchor);
-        }
+        if (detaching) detach(each_1_anchor);
       }
     };
   } // (26:8) {#each buttons as config}
@@ -3137,7 +3152,7 @@
     });
     return {
       c: function c() {
-        shepherdbutton.$$.fragment.c();
+        create_component(shepherdbutton.$$.fragment);
       },
       m: function m(target, anchor) {
         mount_component(shepherdbutton, target, anchor);
@@ -3165,7 +3180,8 @@
   }
 
   function create_fragment$1(ctx) {
-    var footer, current;
+    var footer;
+    var current;
     var if_block = ctx.buttons && create_if_block(ctx);
     return {
       c: function c() {
@@ -3207,10 +3223,7 @@
         current = false;
       },
       d: function d(detaching) {
-        if (detaching) {
-          detach(footer);
-        }
-
+        if (detaching) detach(footer);
         if (if_block) if_block.d();
       }
     };
@@ -3220,20 +3233,20 @@
     var step = $$props.step;
 
     $$self.$set = function ($$props) {
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
     var buttons;
 
-    $$self.$$.update = function ($$dirty) {
-      if ($$dirty === void 0) {
-        $$dirty = {
+    $$self.$$.update = function (changed) {
+      if (changed === void 0) {
+        changed = {
           step: 1
         };
       }
 
-      if ($$dirty.step) {
-        $$invalidate('buttons', buttons = step.options.buttons);
+      if (changed.step) {
+         $$invalidate("buttons", buttons = step.options.buttons);
       }
     };
 
@@ -3252,7 +3265,9 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$1, create_fragment$1, safe_not_equal, ["step"]);
+      init(_assertThisInitialized(_this), options, instance$1, create_fragment$1, safe_not_equal, {
+        step: 0
+      });
       return _this;
     }
 
@@ -3260,14 +3275,17 @@
   }(SvelteComponent);
 
   function create_fragment$2(ctx) {
-    var button, span, button_aria_label_value, dispose;
+    var button;
+    var span;
+    var button_aria_label_value;
+    var dispose;
     return {
       c: function c() {
         button = element("button");
         span = element("span");
         span.textContent = "×";
         attr(span, "aria-hidden", "true");
-        attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour');
+        attr(button, "aria-label", button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : "Close Tour");
         attr(button, "class", "shepherd-cancel-icon");
         attr(button, "type", "button");
         dispose = listen(button, "click", ctx.handleCancelClick);
@@ -3277,17 +3295,14 @@
         append(button, span);
       },
       p: function p(changed, ctx) {
-        if (changed.cancelIcon && button_aria_label_value !== (button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : 'Close Tour')) {
+        if (changed.cancelIcon && button_aria_label_value !== (button_aria_label_value = ctx.cancelIcon.label ? ctx.cancelIcon.label : "Close Tour")) {
           attr(button, "aria-label", button_aria_label_value);
         }
       },
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) {
-          detach(button);
-        }
-
+        if (detaching) detach(button);
         dispose();
       }
     };
@@ -3296,9 +3311,6 @@
   function instance$2($$self, $$props, $$invalidate) {
     var cancelIcon = $$props.cancelIcon,
         step = $$props.step;
-    /**
-     * Add a click listener to the cancel link that cancels the tour
-     */
 
     var handleCancelClick = function handleCancelClick(e) {
       e.preventDefault();
@@ -3306,8 +3318,8 @@
     };
 
     $$self.$set = function ($$props) {
-      if ('cancelIcon' in $$props) $$invalidate('cancelIcon', cancelIcon = $$props.cancelIcon);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("cancelIcon" in $$props) $$invalidate("cancelIcon", cancelIcon = $$props.cancelIcon);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
     return {
@@ -3326,7 +3338,10 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, ["cancelIcon", "step"]);
+      init(_assertThisInitialized(_this), options, instance$2, create_fragment$2, safe_not_equal, {
+        cancelIcon: 0,
+        step: 0
+      });
       return _this;
     }
 
@@ -3353,10 +3368,7 @@
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) {
-          detach(h3);
-        }
-
+        if (detaching) detach(h3);
         ctx.h3_binding(null);
       }
     };
@@ -3368,22 +3380,22 @@
         title = $$props.title;
     afterUpdate(function () {
       if (isFunction(title)) {
-        $$invalidate('title', title = title());
+        $$invalidate("title", title = title());
       }
 
-      $$invalidate('element', element.innerHTML = title, element);
+      $$invalidate("element", element.innerHTML = title, element);
     });
 
     function h3_binding($$value) {
-      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
-        $$invalidate('element', element = $$value);
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate("element", element = $$value);
       });
     }
 
     $$self.$set = function ($$props) {
-      if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
-      if ('element' in $$props) $$invalidate('element', element = $$props.element);
-      if ('title' in $$props) $$invalidate('title', title = $$props.title);
+      if ("labelId" in $$props) $$invalidate("labelId", labelId = $$props.labelId);
+      if ("element" in $$props) $$invalidate("element", element = $$props.element);
+      if ("title" in $$props) $$invalidate("title", title = $$props.title);
     };
 
     return {
@@ -3403,7 +3415,11 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, ["labelId", "element", "title"]);
+      init(_assertThisInitialized(_this), options, instance$3, create_fragment$3, safe_not_equal, {
+        labelId: 0,
+        element: 0,
+        title: 0
+      });
       return _this;
     }
 
@@ -3420,7 +3436,7 @@
     });
     return {
       c: function c() {
-        shepherdtitle.$$.fragment.c();
+        create_component(shepherdtitle.$$.fragment);
       },
       m: function m(target, anchor) {
         mount_component(shepherdtitle, target, anchor);
@@ -3458,7 +3474,7 @@
     });
     return {
       c: function c() {
-        shepherdcancelicon.$$.fragment.c();
+        create_component(shepherdcancelicon.$$.fragment);
       },
       m: function m(target, anchor) {
         mount_component(shepherdcancelicon, target, anchor);
@@ -3486,7 +3502,9 @@
   }
 
   function create_fragment$4(ctx) {
-    var header, t, current;
+    var header;
+    var t;
+    var current;
     var if_block0 = ctx.title && create_if_block_1(ctx);
     var if_block1 = ctx.cancelIcon && ctx.cancelIcon.enabled && create_if_block$1(ctx);
     return {
@@ -3553,10 +3571,7 @@
         current = false;
       },
       d: function d(detaching) {
-        if (detaching) {
-          detach(header);
-        }
-
+        if (detaching) detach(header);
         if (if_block0) if_block0.d();
         if (if_block1) if_block1.d();
       }
@@ -3569,21 +3584,21 @@
     var title, cancelIcon;
 
     $$self.$set = function ($$props) {
-      if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("labelId" in $$props) $$invalidate("labelId", labelId = $$props.labelId);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
-    $$self.$$.update = function ($$dirty) {
-      if ($$dirty === void 0) {
-        $$dirty = {
+    $$self.$$.update = function (changed) {
+      if (changed === void 0) {
+        changed = {
           step: 1
         };
       }
 
-      if ($$dirty.step) {
-        {
-          $$invalidate('title', title = step.options.title);
-          $$invalidate('cancelIcon', cancelIcon = step.options.cancelIcon);
+      if (changed.step) {
+         {
+          $$invalidate("title", title = step.options.title);
+          $$invalidate("cancelIcon", cancelIcon = step.options.cancelIcon);
         }
       }
     };
@@ -3605,7 +3620,10 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, ["labelId", "step"]);
+      init(_assertThisInitialized(_this), options, instance$4, create_fragment$4, safe_not_equal, {
+        labelId: 0,
+        step: 0
+      });
       return _this;
     }
 
@@ -3632,10 +3650,7 @@
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) {
-          detach(div);
-        }
-
+        if (detaching) detach(div);
         ctx.div_binding(null);
       }
     };
@@ -3655,20 +3670,20 @@
       if (isElement(text)) {
         element.appendChild(text);
       } else {
-        $$invalidate('element', element.innerHTML = text, element);
+        $$invalidate("element", element.innerHTML = text, element);
       }
     });
 
     function div_binding($$value) {
-      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
-        $$invalidate('element', element = $$value);
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate("element", element = $$value);
       });
     }
 
     $$self.$set = function ($$props) {
-      if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
-      if ('element' in $$props) $$invalidate('element', element = $$props.element);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("descriptionId" in $$props) $$invalidate("descriptionId", descriptionId = $$props.descriptionId);
+      if ("element" in $$props) $$invalidate("element", element = $$props.element);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
     return {
@@ -3688,7 +3703,11 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$5, create_fragment$5, safe_not_equal, ["descriptionId", "element", "step"]);
+      init(_assertThisInitialized(_this), options, instance$5, create_fragment$5, safe_not_equal, {
+        descriptionId: 0,
+        element: 0,
+        step: 0
+      });
       return _this;
     }
 
@@ -3705,7 +3724,7 @@
     });
     return {
       c: function c() {
-        shepherdtext.$$.fragment.c();
+        create_component(shepherdtext.$$.fragment);
       },
       m: function m(target, anchor) {
         mount_component(shepherdtext, target, anchor);
@@ -3742,7 +3761,7 @@
     });
     return {
       c: function c() {
-        shepherdfooter.$$.fragment.c();
+        create_component(shepherdfooter.$$.fragment);
       },
       m: function m(target, anchor) {
         mount_component(shepherdfooter, target, anchor);
@@ -3769,12 +3788,12 @@
   }
 
   function create_fragment$6(ctx) {
-    var div,
-        t0,
-        show_if_1 = !isUndefined$1(ctx.step.options.text),
-        t1,
-        show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length,
-        current;
+    var div;
+    var t0;
+    var show_if_1 = !isUndefined$1(ctx.step.options.text);
+    var t1;
+    var show_if = Array.isArray(ctx.step.options.buttons) && ctx.step.options.buttons.length;
+    var current;
     var shepherdheader = new Shepherd_header({
       props: {
         labelId: ctx.labelId,
@@ -3786,7 +3805,7 @@
     return {
       c: function c() {
         div = element("div");
-        shepherdheader.$$.fragment.c();
+        create_component(shepherdheader.$$.fragment);
         t0 = space();
         if (if_block0) if_block0.c();
         t1 = space();
@@ -3861,10 +3880,7 @@
         current = false;
       },
       d: function d(detaching) {
-        if (detaching) {
-          detach(div);
-        }
-
+        if (detaching) detach(div);
         destroy_component(shepherdheader);
         if (if_block0) if_block0.d();
         if (if_block1) if_block1.d();
@@ -3878,9 +3894,9 @@
         step = $$props.step;
 
     $$self.$set = function ($$props) {
-      if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
-      if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
+      if ("descriptionId" in $$props) $$invalidate("descriptionId", descriptionId = $$props.descriptionId);
+      if ("labelId" in $$props) $$invalidate("labelId", labelId = $$props.labelId);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
     };
 
     return {
@@ -3899,7 +3915,11 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$6, create_fragment$6, safe_not_equal, ["descriptionId", "labelId", "step"]);
+      init(_assertThisInitialized(_this), options, instance$6, create_fragment$6, safe_not_equal, {
+        descriptionId: 0,
+        labelId: 0,
+        step: 0
+      });
       return _this;
     }
 
@@ -3917,15 +3937,16 @@
         insert(target, div, anchor);
       },
       d: function d(detaching) {
-        if (detaching) {
-          detach(div);
-        }
+        if (detaching) detach(div);
       }
     };
   }
 
   function create_fragment$7(ctx) {
-    var div, t, current, dispose;
+    var div;
+    var t;
+    var current;
+    var dispose;
     var if_block = ctx.step.options.arrow && ctx.step.options.attachTo && ctx.step.options.attachTo.element && create_if_block$3();
     var shepherdcontent = new Shepherd_content({
       props: {
@@ -3954,7 +3975,7 @@
         div = element("div");
         if (if_block) if_block.c();
         t = space();
-        shepherdcontent.$$.fragment.c();
+        create_component(shepherdcontent.$$.fragment);
         set_attributes(div, div_data);
         toggle_class(div, "shepherd-has-cancel-icon", ctx.hasCancelIcon);
         toggle_class(div, "shepherd-has-title", ctx.hasTitle);
@@ -3995,14 +4016,9 @@
         }, {
           tabindex: "0"
         }]));
-
-        if (changed.hasCancelIcon) {
-          toggle_class(div, "shepherd-has-cancel-icon", ctx.hasCancelIcon);
-        }
-
-        if (changed.hasTitle) {
-          toggle_class(div, "shepherd-has-title", ctx.hasTitle);
-        }
+        toggle_class(div, "shepherd-has-cancel-icon", ctx.hasCancelIcon);
+        toggle_class(div, "shepherd-has-title", ctx.hasTitle);
+        toggle_class(div, "shepherd-element", true);
       },
       i: function i(local) {
         if (current) return;
@@ -4014,10 +4030,7 @@
         current = false;
       },
       d: function d(detaching) {
-        if (detaching) {
-          detach(div);
-        }
-
+        if (detaching) detach(div);
         if (if_block) if_block.d();
         destroy_component(shepherdcontent);
         ctx.div_binding(null);
@@ -4032,7 +4045,7 @@
   var RIGHT_ARROW = 39;
 
   function getClassesArray(classes) {
-    return classes.split(' ').filter(function (className) {
+    return classes.split(" ").filter(function (className) {
       return !!className.length;
     });
   }
@@ -4056,11 +4069,10 @@
     onMount(function () {
       var _dataStepId;
 
-      // Get all elements that are focusable
-      $$invalidate('dataStepId', dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId));
-      $$invalidate('focusableElements', focusableElements = element.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'));
-      $$invalidate('firstFocusableElement', firstFocusableElement = focusableElements[0]);
-      $$invalidate('lastFocusableElement', lastFocusableElement = focusableElements[focusableElements.length - 1]);
+      $$invalidate("dataStepId", dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId));
+      $$invalidate("focusableElements", focusableElements = element.querySelectorAll("a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]"));
+      $$invalidate("firstFocusableElement", firstFocusableElement = focusableElements[0]);
+      $$invalidate("lastFocusableElement", lastFocusableElement = focusableElements[focusableElements.length - 1]);
     });
     afterUpdate(function () {
       if (classes !== step.options.classes) {
@@ -4097,14 +4109,6 @@
         }
       }
     }
-    /**
-     * Setup keydown events to allow closing the modal with ESC
-     *
-     * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
-     *
-     * @private
-     */
-
 
     var handleKeyDown = function handleKeyDown(e) {
       var _step = step,
@@ -4115,8 +4119,7 @@
           if (focusableElements.length === 0) {
             e.preventDefault();
             break;
-          } // Backward tab
-
+          }
 
           if (e.shiftKey) {
             if (document.activeElement === firstFocusableElement) {
@@ -4156,34 +4159,34 @@
     };
 
     function div_binding($$value) {
-      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
-        $$invalidate('element', element = $$value);
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate("element", element = $$value);
       });
     }
 
     $$self.$set = function ($$props) {
-      if ('classPrefix' in $$props) $$invalidate('classPrefix', classPrefix = $$props.classPrefix);
-      if ('element' in $$props) $$invalidate('element', element = $$props.element);
-      if ('descriptionId' in $$props) $$invalidate('descriptionId', descriptionId = $$props.descriptionId);
-      if ('firstFocusableElement' in $$props) $$invalidate('firstFocusableElement', firstFocusableElement = $$props.firstFocusableElement);
-      if ('focusableElements' in $$props) $$invalidate('focusableElements', focusableElements = $$props.focusableElements);
-      if ('labelId' in $$props) $$invalidate('labelId', labelId = $$props.labelId);
-      if ('lastFocusableElement' in $$props) $$invalidate('lastFocusableElement', lastFocusableElement = $$props.lastFocusableElement);
-      if ('step' in $$props) $$invalidate('step', step = $$props.step);
-      if ('dataStepId' in $$props) $$invalidate('dataStepId', dataStepId = $$props.dataStepId);
+      if ("classPrefix" in $$props) $$invalidate("classPrefix", classPrefix = $$props.classPrefix);
+      if ("element" in $$props) $$invalidate("element", element = $$props.element);
+      if ("descriptionId" in $$props) $$invalidate("descriptionId", descriptionId = $$props.descriptionId);
+      if ("firstFocusableElement" in $$props) $$invalidate("firstFocusableElement", firstFocusableElement = $$props.firstFocusableElement);
+      if ("focusableElements" in $$props) $$invalidate("focusableElements", focusableElements = $$props.focusableElements);
+      if ("labelId" in $$props) $$invalidate("labelId", labelId = $$props.labelId);
+      if ("lastFocusableElement" in $$props) $$invalidate("lastFocusableElement", lastFocusableElement = $$props.lastFocusableElement);
+      if ("step" in $$props) $$invalidate("step", step = $$props.step);
+      if ("dataStepId" in $$props) $$invalidate("dataStepId", dataStepId = $$props.dataStepId);
     };
 
-    $$self.$$.update = function ($$dirty) {
-      if ($$dirty === void 0) {
-        $$dirty = {
+    $$self.$$.update = function (changed) {
+      if (changed === void 0) {
+        changed = {
           step: 1
         };
       }
 
-      if ($$dirty.step) {
-        {
-          $$invalidate('hasCancelIcon', hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled);
-          $$invalidate('hasTitle', hasTitle = step.options && step.options.title);
+      if (changed.step) {
+         {
+          $$invalidate("hasCancelIcon", hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled);
+          $$invalidate("hasTitle", hasTitle = step.options && step.options.title);
         }
       }
     };
@@ -4215,7 +4218,18 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$7, create_fragment$7, safe_not_equal, ["classPrefix", "element", "descriptionId", "firstFocusableElement", "focusableElements", "labelId", "lastFocusableElement", "step", "dataStepId", "getElement"]);
+      init(_assertThisInitialized(_this), options, instance$7, create_fragment$7, safe_not_equal, {
+        classPrefix: 0,
+        element: 0,
+        descriptionId: 0,
+        firstFocusableElement: 0,
+        focusableElements: 0,
+        labelId: 0,
+        lastFocusableElement: 0,
+        step: 0,
+        dataStepId: 0,
+        getElement: 0
+      });
       return _this;
     }
 
@@ -5009,13 +5023,17 @@
   }
 
   function create_fragment$8(ctx) {
-    var svg, path, path_d_value, svg_class_value, dispose;
+    var svg;
+    var path;
+    var path_d_value;
+    var svg_class_value;
+    var dispose;
     return {
       c: function c() {
         svg = svg_element("svg");
         path = svg_element("path");
-        attr(path, "d", path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + ctx.window.innerWidth + " V " + ctx.window.innerHeight + " H 0 L 0 0 Z");
-        attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " shepherd-modal-overlay-container");
+        attr(path, "d", path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + window.innerWidth + " V " + window.innerHeight + " H 0 L 0 0 Z");
+        attr(svg, "class", svg_class_value = (ctx.modalIsVisible ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
         dispose = listen(svg, "touchmove", ctx._preventModalOverlayTouch);
       },
       m: function m(target, anchor) {
@@ -5024,21 +5042,18 @@
         ctx.svg_binding(svg);
       },
       p: function p(changed, ctx) {
-        if (changed.openingProperties && path_d_value !== (path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + ctx.window.innerWidth + " V " + ctx.window.innerHeight + " H 0 L 0 0 Z")) {
+        if (changed.openingProperties && path_d_value !== (path_d_value = "M " + ctx.openingProperties.x + " " + ctx.openingProperties.y + " H " + (ctx.openingProperties.width + ctx.openingProperties.x) + " V " + (ctx.openingProperties.height + ctx.openingProperties.y) + " H " + ctx.openingProperties.x + " L " + ctx.openingProperties.x + " 0 Z M 0 0 H " + window.innerWidth + " V " + window.innerHeight + " H 0 L 0 0 Z")) {
           attr(path, "d", path_d_value);
         }
 
-        if (changed.modalIsVisible && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? 'shepherd-modal-is-visible' : '') + " shepherd-modal-overlay-container")) {
+        if (changed.modalIsVisible && svg_class_value !== (svg_class_value = (ctx.modalIsVisible ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container")) {
           attr(svg, "class", svg_class_value);
         }
       },
       i: noop,
       o: noop,
       d: function d(detaching) {
-        if (detaching) {
-          detach(svg);
-        }
-
+        if (detaching) detach(svg);
         ctx.svg_binding(null);
         dispose();
       }
@@ -5052,7 +5067,7 @@
 
     var isHtmlElement = element instanceof HTMLElement;
     var overflowY = isHtmlElement && window.getComputedStyle(element).overflowY;
-    var isScrollable = overflowY !== 'hidden' && overflowY !== 'visible';
+    var isScrollable = overflowY !== "hidden" && overflowY !== "visible";
 
     if (isScrollable && element.scrollHeight >= element.clientHeight) {
       return element;
@@ -5074,8 +5089,7 @@
       bottom = Math.min(bottom, scrollBottom);
     }
 
-    var height = Math.max(bottom - top, 0); // Default to 0 if height is negative
-
+    var height = Math.max(bottom - top, 0);
     return {
       y: top,
       height: height
@@ -5095,30 +5109,19 @@
     };
 
     function closeModalOpening() {
-      $$invalidate('openingProperties', openingProperties = {
+      $$invalidate("openingProperties", openingProperties = {
         height: 0,
         x: 0,
         y: 0,
         width: 0
       });
     }
-    /**
-     * Hide the modal overlay
-     */
-
 
     function hide() {
-      $$invalidate('modalIsVisible', modalIsVisible = false); // Ensure we cleanup all event listeners when we hide the modal
+      $$invalidate("modalIsVisible", modalIsVisible = false);
 
       _cleanupStepEventListeners();
     }
-    /**
-     * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
-     * @param {HTMLElement} targetElement The element the opening will expose
-     * @param {HTMLElement} scrollParent The scrollable parent of the target element
-     * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-     */
-
 
     function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding) {
       if (modalOverlayOpeningPadding === void 0) {
@@ -5133,10 +5136,9 @@
         var _targetElement$getBou = targetElement.getBoundingClientRect(),
             x = _targetElement$getBou.x,
             width = _targetElement$getBou.width,
-            left = _targetElement$getBou.left; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+            left = _targetElement$getBou.left;
 
-
-        $$invalidate('openingProperties', openingProperties = {
+        $$invalidate("openingProperties", openingProperties = {
           x: (x || left) - modalOverlayOpeningPadding,
           y: y - modalOverlayOpeningPadding,
           width: width + modalOverlayOpeningPadding * 2,
@@ -5144,14 +5146,8 @@
         });
       }
     }
-    /**
-     * If modal is enabled, setup the svg mask opening and modal overlay for the step
-     * @param {Step} step The step instance
-     */
-
 
     function setupForStep(step) {
-      // Ensure we move listeners from the previous step, before we setup new ones
       _cleanupStepEventListeners();
 
       if (step.tour.options.useModalOverlay) {
@@ -5162,13 +5158,9 @@
         hide();
       }
     }
-    /**
-     * Show the modal overlay
-     */
-
 
     function show() {
-      $$invalidate('modalIsVisible', modalIsVisible = true);
+      $$invalidate("modalIsVisible", modalIsVisible = true);
     }
 
     var _preventModalBodyTouch = function _preventModalBodyTouch(e) {
@@ -5178,23 +5170,12 @@
     var _preventModalOverlayTouch = function _preventModalOverlayTouch(e) {
       e.stopPropagation();
     };
-    /**
-     * Add touchmove event listener
-     * @private
-     */
-
 
     function _addStepEventListeners() {
-      // Prevents window from moving on touch.
-      window.addEventListener('touchmove', _preventModalBodyTouch, {
+      window.addEventListener("touchmove", _preventModalBodyTouch, {
         passive: false
       });
     }
-    /**
-     * Cancel the requestAnimationFrame loop and remove touchmove event listeners
-     * @private
-     */
-
 
     function _cleanupStepEventListeners() {
       if (rafId) {
@@ -5202,23 +5183,16 @@
         rafId = undefined;
       }
 
-      window.removeEventListener('touchmove', _preventModalBodyTouch, {
+      window.removeEventListener("touchmove", _preventModalBodyTouch, {
         passive: false
       });
     }
-    /**
-     * Style the modal for the step
-     * @param {Step} step The step to style the opening for
-     * @private
-     */
-
 
     function _styleForStep(step) {
       var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
 
       if (step.target) {
-        var scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
-
+        var scrollParent = _getScrollParent(step.target);
 
         var rafLoop = function rafLoop() {
           rafId = undefined;
@@ -5235,14 +5209,14 @@
     }
 
     function svg_binding($$value) {
-      binding_callbacks[$$value ? 'unshift' : 'push'](function () {
-        $$invalidate('element', element = $$value);
+      binding_callbacks[$$value ? "unshift" : "push"](function () {
+        $$invalidate("element", element = $$value);
       });
     }
 
     $$self.$set = function ($$props) {
-      if ('element' in $$props) $$invalidate('element', element = $$props.element);
-      if ('openingProperties' in $$props) $$invalidate('openingProperties', openingProperties = $$props.openingProperties);
+      if ("element" in $$props) $$invalidate("element", element = $$props.element);
+      if ("openingProperties" in $$props) $$invalidate("openingProperties", openingProperties = $$props.openingProperties);
     };
 
     return {
@@ -5256,7 +5230,6 @@
       setupForStep: setupForStep,
       show: show,
       _preventModalOverlayTouch: _preventModalOverlayTouch,
-      window: window,
       svg_binding: svg_binding
     };
   }
@@ -5270,7 +5243,16 @@
       var _this;
 
       _this = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, ["element", "openingProperties", "getElement", "closeModalOpening", "hide", "positionModalOpening", "setupForStep", "show"]);
+      init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, {
+        element: 0,
+        openingProperties: 0,
+        getElement: 0,
+        closeModalOpening: 0,
+        hide: 0,
+        positionModalOpening: 0,
+        setupForStep: 0,
+        show: 0
+      });
       return _this;
     }
 
