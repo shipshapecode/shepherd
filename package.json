@@ -95,7 +95,7 @@
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-scss": "^1.0.2",
-    "rollup-plugin-svelte": "^5.1.0",
+    "rollup-plugin-svelte": "^5.1.1",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^2.5.4",
     "sinon": "^7.4.2",
