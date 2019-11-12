@@ -1,13 +1,24 @@
 # Changelog
 
-## [v6.0.0](https://github.com/shipshapecode/shepherd/tree/v6.0.0) (2019-10-29)
+## [v6.0.2](https://github.com/shipshapecode/shepherd/tree/v6.0.2) (2019-11-08)
 
-[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0-beta.2...v6.0.0)
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.1...v6.0.2)
+
+**Fixed bugs:**
+
+- Fix dynamic shepherd classes interfering with tether classes [\#665](https://github.com/shipshapecode/shepherd/pull/665) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+
+## [v6.0.1](https://github.com/shipshapecode/shepherd/tree/v6.0.1) (2019-11-06)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0...v6.0.1)
 
 **Implemented enhancements:**
 
-- Dynamically update text while in tour [\#563](https://github.com/shipshapecode/shepherd/issues/563)
-- Add fade in animation to tether [\#556](https://github.com/shipshapecode/shepherd/issues/556)
+- Reactively update title and buttons [\#655](https://github.com/shipshapecode/shepherd/pull/655) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
+
+## [v6.0.0](https://github.com/shipshapecode/shepherd/tree/v6.0.0) (2019-10-29)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.0-beta.2...v6.0.0)
 
 **Fixed bugs:**
 
@@ -38,7 +49,6 @@
 **Closed issues:**
 
 - Specify index for addStep/addSteps [\#617](https://github.com/shipshapecode/shepherd/issues/617)
-- canClickTarget can not disable taget's children nodes events [\#561](https://github.com/shipshapecode/shepherd/issues/561)
 
 **Merged pull requests:**
 
@@ -57,7 +67,6 @@
 **Closed issues:**
 
 - Disabled option for buttons [\#582](https://github.com/shipshapecode/shepherd/issues/582)
-- Allow title to specify callback [\#562](https://github.com/shipshapecode/shepherd/issues/562)
 
 **Merged pull requests:**
 
@@ -70,22 +79,15 @@
 **Breaking changes:**
 
 - Add back tether support, remove popper [\#592](https://github.com/shipshapecode/shepherd/pull/592) ([rwwagner90](https://github.com/rwwagner90))
-- Remove classPrefix from several elements, use path for overlay [\#555](https://github.com/shipshapecode/shepherd/pull/555) ([rwwagner90](https://github.com/rwwagner90))
-- Remove tippy.js, add back popper.js [\#551](https://github.com/shipshapecode/shepherd/pull/551) ([rwwagner90](https://github.com/rwwagner90))
 
 **Implemented enhancements:**
 
-- Add `arrow` option [\#553](https://github.com/shipshapecode/shepherd/issues/553)
 - Implement ability to update step options [\#581](https://github.com/shipshapecode/shepherd/pull/581) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
-- Add tests for multiple tours [\#560](https://github.com/shipshapecode/shepherd/pull/560) ([chuckcarpenter](https://github.com/chuckcarpenter))
-- Add arrow option [\#557](https://github.com/shipshapecode/shepherd/pull/557) ([rwwagner90](https://github.com/rwwagner90))
-- Replace uniqueId with uuid [\#554](https://github.com/shipshapecode/shepherd/pull/554) ([rwwagner90](https://github.com/rwwagner90))
 
 **Fixed bugs:**
 
 - Modal opening overflow when target is in a scrollable area [\#585](https://github.com/shipshapecode/shepherd/issues/585)
 - Popover position at \(0, 0\) when target is rerendered [\#580](https://github.com/shipshapecode/shepherd/issues/580)
-- Fix `isOpen` [\#552](https://github.com/shipshapecode/shepherd/issues/552)
 - Handle modal opening for targets inside scrollable area [\#595](https://github.com/shipshapecode/shepherd/pull/595) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
 - Adjust modal opening according to scrollParent [\#589](https://github.com/shipshapecode/shepherd/pull/589) ([VladimirAnaniev](https://github.com/VladimirAnaniev))
 
@@ -99,7 +101,6 @@
 - Update and reorder the benefits blocks [\#584](https://github.com/shipshapecode/shepherd/pull/584) ([chuckcarpenter](https://github.com/chuckcarpenter))
 - Recreate elements each time on show [\#583](https://github.com/shipshapecode/shepherd/pull/583) ([rwwagner90](https://github.com/rwwagner90))
 - Add new landing page styles [\#574](https://github.com/shipshapecode/shepherd/pull/574) ([rwwagner90](https://github.com/rwwagner90))
-- Remove styleVariables docs [\#559](https://github.com/shipshapecode/shepherd/pull/559) ([rwwagner90](https://github.com/rwwagner90))
 
 ## [v5.0.1](https://github.com/shipshapecode/shepherd/tree/v5.0.1) (2019-08-28)
 
