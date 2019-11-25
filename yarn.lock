@@ -1130,10 +1130,10 @@
     pretty-format "^24.0.0"
     redent "^3.0.0"
 
-"@testing-library/svelte@^1.8.0":
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/@testing-library/svelte/-/svelte-1.9.0.tgz#0face4a9799a2b21f245dc255ee0cb2b370a18ee"
-  integrity sha512-mfmexaQS2ZzQg/d0yuap4qPMZRh7b6wZEvA2mios30eXzEckGokZpBP0MKt0D6xY6ZKcdBifce3hNGRW1n0/Fw==
+"@testing-library/svelte@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@testing-library/svelte/-/svelte-1.9.1.tgz#307e614e64cfbd0beaa1fd85a311283610e6a93e"
+  integrity sha512-sCDJNxW2Tjl5fzymalvKI9ibYMrjZDxn85hVWzJz4JvvcEzG6V72eJ1kHObmElbVSZiNef9IlTrMkTONJgCuKg==
   dependencies:
     "@testing-library/dom" "^6.5.0"
 
