@@ -63,7 +63,7 @@
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^4.1.10",
-    "cypress": "^3.6.1",
+    "cypress": "^3.7.0",
     "cypress-plugin-tab": "^1.0.1",
     "del": "^5.1.0",
     "eslint": "^6.7.2",
@@ -100,7 +100,7 @@
     "rollup-plugin-visualizer": "^3.3.0",
     "sinon": "^7.4.2",
     "start-server-and-test": "^1.10.0",
-    "svelte": "^3.15.0",
+    "svelte": "^3.16.0",
     "svelte-preprocess": "^3.2.6",
     "tailwindcss": "^1.1.4"
   },
