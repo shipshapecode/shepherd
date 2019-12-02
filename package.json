@@ -85,7 +85,7 @@
     "rollup": "^1.27.5",
     "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-browsersync": "^1.0.0",
+    "rollup-plugin-browsersync": "^1.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-filesize": "^6.2.0",
