@@ -1889,7 +1889,7 @@ browser-sync-ui@^2.26.4:
     socket.io-client "^2.0.4"
     stream-throttle "^0.1.3"
 
-browser-sync@^2.18.13:
+browser-sync@^2.26.7:
   version "2.26.7"
   resolved "https://registry.yarnpkg.com/browser-sync/-/browser-sync-2.26.7.tgz#120287716eb405651a76cc74fe851c31350557f9"
   integrity sha512-lY3emme0OyvA2ujEMpRmyRy9LY6gHLuTr2/ABxhIm3lADOiRXzP4dgekvnDrQqZ/Ec2Fz19lEjm6kglSG5766w==
@@ -7721,12 +7721,12 @@ rollup-plugin-babel@^4.3.3:
     "@babel/helper-module-imports" "^7.0.0"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-browsersync@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-browsersync/-/rollup-plugin-browsersync-1.0.0.tgz#efab872039ea50fcb9bd001efc8eb729ae35d3b8"
-  integrity sha512-0oiy2Wq4GKzBqMF/e6iB5ZnhfQL/2aNRVIkqtx0Hkf+EJ056BgiKHCuI8+sQiCIi9Ql6GktxQKYOXMUF9qhtjQ==
+rollup-plugin-browsersync@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-browsersync/-/rollup-plugin-browsersync-1.1.0.tgz#f0febe15ccbbacab45f832ec36730aedda79464e"
+  integrity sha512-TRFUfRHKrHXYRljvoBp7FtolKQWEAsCOdh1krkNNrz98A7bvT1/cnOlnZyqLzdHc2cOtnNn8+DD3TUPT1RfPrA==
   dependencies:
-    browser-sync "^2.18.13"
+    browser-sync "^2.26.7"
 
 rollup-plugin-commonjs@^10.1.0:
   version "10.1.0"
@@ -7846,10 +7846,10 @@ rollup-plugin-terser@^5.1.1:
     serialize-javascript "^1.7.0"
     terser "^4.1.0"
 
-rollup-plugin-visualizer@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-3.2.2.tgz#a175ffae34226fda249e2bbc44acb812853d8709"
-  integrity sha512-PTXnuVh/WBGDOW7Mnk24q9VvclmbH0A6cbXynO1nPytru+RJ2IgTjKMhrpjuiQmevwi6JUcb9bEhhCauYQTmig==
+rollup-plugin-visualizer@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-3.3.0.tgz#3ad4602b32b3d6526b1aa464ebfb37e82568eb83"
+  integrity sha512-pf/Xp7NYdcHHzQcSNwxb7HqpLXlaVFlj2TlKJNSRrO+z9zp0T6vlW1vGufUj7nNgqLcpiAhX4q98yzKjT2Hr7Q==
   dependencies:
     mkdirp "^0.5.1"
     nanoid "^2.1.6"
@@ -8714,10 +8714,10 @@ taffydb@^2.7.3:
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.3.tgz#2ad37169629498fca5bc84243096d3cde0ec3a34"
   integrity sha1-KtNxaWKUmPylvIQkMJbTzeDsOjQ=
 
-tailwindcss@^1.1.2:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.1.3.tgz#ad154f78e1e44060e32e3ed44b27287c2be126a6"
-  integrity sha512-8sa/QO+blnu3WXUylsgvYZlUbBpVH36QeGuZxgSGqp1dF3g4AGe1azt8FsO8i8Hfe9Oyvwhx3iSjRDak3nngeQ==
+tailwindcss@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.1.4.tgz#786bd5faaf485c9eddcb821dd55666c56baa814e"
+  integrity sha512-p4AxVa4CKpX7IbNxImwNMGG9MHuLgratOaOE/iGriNd4AsRQRM2xMisoQ3KQHqShunrWuObga7rI7xbNsVoWGA==
   dependencies:
     autoprefixer "^9.4.5"
     bytes "^3.0.0"
