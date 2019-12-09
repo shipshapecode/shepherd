@@ -52,7 +52,7 @@
     "tether": "^2.0.0-beta.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
+    "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/svelte": "^1.9.1",
@@ -67,7 +67,7 @@
     "cypress-plugin-tab": "^1.0.1",
     "del": "^5.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-jest": "^23.0.4",
+    "eslint-plugin-jest": "^23.1.1",
     "eslint-plugin-ship-shape": "^0.7.1",
     "eslint-plugin-svelte3": "^2.7.3",
     "glob": "^7.1.6",
@@ -79,7 +79,7 @@
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.3",
-    "postcss": "^7.0.21",
+    "postcss": "^7.0.24",
     "replace": "^1.1.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.27.8",
@@ -100,7 +100,7 @@
     "rollup-plugin-visualizer": "^3.3.0",
     "sinon": "^7.4.2",
     "start-server-and-test": "^1.10.0",
-    "svelte": "^3.15.0",
+    "svelte": "^3.16.0",
     "svelte-preprocess": "^3.2.6",
     "tailwindcss": "^1.1.4"
   },
