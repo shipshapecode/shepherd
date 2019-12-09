@@ -1047,10 +1047,10 @@
     pretty-format "^24.0.0"
     redent "^3.0.0"
 
-"@testing-library/svelte@^1.9.1":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/svelte/-/svelte-1.9.1.tgz#307e614e64cfbd0beaa1fd85a311283610e6a93e"
-  integrity sha512-sCDJNxW2Tjl5fzymalvKI9ibYMrjZDxn85hVWzJz4JvvcEzG6V72eJ1kHObmElbVSZiNef9IlTrMkTONJgCuKg==
+"@testing-library/svelte@^1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@testing-library/svelte/-/svelte-1.11.0.tgz#e1653ee6a421b654e6ce8d4ae818e04f726ad9b2"
+  integrity sha512-dvhl/QXHp143QChL3vTvnyxKN1xJ15DWyWM8PfYWrPGr+ny96Z/3bSlttODxgGvoGEyhZDk94DqDg6EL2P3EXg==
   dependencies:
     "@testing-library/dom" "^6.5.0"
 
@@ -2754,10 +2754,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cypress-plugin-tab@^1.0.1:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/cypress-plugin-tab/-/cypress-plugin-tab-1.0.3.tgz#8a64a4c189c5d180dc0a97175097c0cc937c1213"
-  integrity sha512-uiadGT+IzoGxKCqYxQXyc5OhHkv4JAT5LWwNTs8R6pBJkBUUC/uZR2ys4jqhqX6mD/ZucAt5p+U9KMr8Ae4fQA==
+cypress-plugin-tab@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cypress-plugin-tab/-/cypress-plugin-tab-1.0.4.tgz#4fb895df3bea78db9a2cbe128ef109dc25c91ab9"
+  integrity sha512-ZmXO+Z/0gMkkBaxQfVreGa1GVbpf1UQrcBDgkDgCW8eCVCkHmhCYVMTU00RhP+LeoD9vK6BFF+xNn3toM0LYfg==
   dependencies:
     ally.js "^1.4.1"
 
