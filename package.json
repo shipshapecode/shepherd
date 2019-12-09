@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/svelte": "^1.9.1",
     "autoprefixer": "^9.7.3",
@@ -82,7 +82,7 @@
     "postcss": "^7.0.24",
     "replace": "^1.1.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.27.8",
+    "rollup": "^1.27.9",
     "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-browsersync": "^1.1.0",
