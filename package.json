@@ -49,7 +49,7 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "smoothscroll-polyfill": "^0.4.4",
-    "tether": "^2.0.0-beta.4"
+    "tether": "^2.0.0-beta.5"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
