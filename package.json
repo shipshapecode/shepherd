@@ -64,7 +64,7 @@
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^4.1.10",
     "cypress": "^3.7.0",
-    "cypress-plugin-tab": "^1.0.1",
+    "cypress-plugin-tab": "^1.0.4",
     "del": "^5.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-jest": "^23.1.1",
