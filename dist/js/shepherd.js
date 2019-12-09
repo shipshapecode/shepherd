@@ -344,7 +344,7 @@
     }
   }
 
-  /*! tether 2.0.0-beta.4 */
+  /*! tether 2.0.0-beta.5 */
   function _inheritsLoose$1(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
     subClass.prototype.constructor = subClass;
@@ -543,7 +543,7 @@
   var zeroPosCache = {};
   var zeroElement = null;
 
-  function getBounds(el) {
+  function getBounds(body, el) {
     var doc;
 
     if (el === document) {
@@ -557,7 +557,7 @@
 
     var box = _getActualBoundingClientRect(el);
 
-    var origin = _getOrigin();
+    var origin = _getOrigin(body);
 
     box.top -= origin.top;
     box.left -= origin.left;
@@ -583,7 +583,7 @@
    */
 
 
-  function getScrollHandleBounds(target) {
+  function getScrollHandleBounds(body, target) {
     var bounds; // We have to do the check for the scrollTop and if target === document.body here and set to variables
     // because we may reset target below.
 
@@ -599,7 +599,7 @@
         width: innerWidth
       };
     } else {
-      bounds = getBounds(target);
+      bounds = getBounds(body, target);
     }
 
     var style = getComputedStyle(target);
@@ -642,7 +642,7 @@
    */
 
 
-  function getVisibleBounds(target) {
+  function getVisibleBounds(body, target) {
     if (target === document.body) {
       return {
         top: pageYOffset,
@@ -651,7 +651,7 @@
         width: innerWidth
       };
     } else {
-      var bounds = getBounds(target);
+      var bounds = getBounds(body, target);
       var out = {
         height: bounds.height,
         width: bounds.width,
@@ -679,9 +679,9 @@
     }
   }
 
-  function removeUtilElements() {
+  function removeUtilElements(body) {
     if (zeroElement) {
-      document.body.removeChild(zeroElement);
+      body.removeChild(zeroElement);
     }
 
     zeroElement = null;
@@ -722,14 +722,14 @@
     return rect;
   }
 
-  function _getOrigin() {
+  function _getOrigin(body) {
     // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
     // jitter as the user scrolls that messes with our ability to detect if two positions
     // are equivilant or not.  We place an element at the top left of the page that will
     // get the same jitter, so we can cancel the two out.
     var node = zeroElement;
 
-    if (!node || !document.body.contains(node)) {
+    if (!node || !body.contains(node)) {
       node = document.createElement('div');
       node.setAttribute('data-tether-id', uniqueId());
       extend(node.style, {
@@ -737,7 +737,7 @@
         left: 0,
         position: 'absolute'
       });
-      document.body.appendChild(node);
+      body.appendChild(node);
       zeroElement = node;
     }
 
@@ -826,7 +826,12 @@
    * @return {*[]|HTMLElement|ActiveX.IXMLDOMElement}
    */
 
-  function getBoundingRect(tether, to) {
+  function getBoundingRect(body, tether, to) {
+    // arg to is required
+    if (!to) {
+      return null;
+    }
+
     if (to === 'scrollParent') {
       to = tether.scrollParents[0];
     } else if (to === 'window') {
@@ -839,7 +844,7 @@
 
     if (!isUndefined$2(to.nodeType)) {
       var node = to;
-      var size = getBounds(to);
+      var size = getBounds(body, to);
       var pos = size;
       var style = getComputedStyle(to);
       to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top]; // Account any parent Frames scroll offset
@@ -1107,7 +1112,7 @@
       }
 
       var _this$cache = this.cache('element-bounds', function () {
-        return getBounds(_this.element);
+        return getBounds(_this.bodyElement, _this.element);
       }),
           height = _this$cache.height,
           width = _this$cache.width;
@@ -1154,7 +1159,7 @@
           changeAttachX = changeAttachY = attachment;
         }
 
-        var bounds = getBoundingRect(_this, to);
+        var bounds = getBoundingRect(_this.bodyElement, _this, to);
 
         if (changeAttachY === 'target' || changeAttachY === 'both') {
           if (top < bounds[1] && tAttachment.top === 'top') {
@@ -1685,16 +1690,24 @@
         offset: '0 0',
         targetOffset: '0 0',
         targetAttachment: 'auto auto',
-        classPrefix: 'tether'
+        classPrefix: 'tether',
+        bodyElement: document.body
       };
       this.options = extend(defaults, options);
       var _this$options = this.options,
           element = _this$options.element,
           target = _this$options.target,
-          targetModifier = _this$options.targetModifier;
+          targetModifier = _this$options.targetModifier,
+          bodyElement = _this$options.bodyElement;
       this.element = element;
       this.target = target;
       this.targetModifier = targetModifier;
+
+      if (typeof bodyElement === 'string') {
+        bodyElement = document.querySelector(bodyElement);
+      }
+
+      this.bodyElement = bodyElement;
 
       if (this.target === 'viewport') {
         this.target = document.body;
@@ -1745,12 +1758,12 @@
     _proto.getTargetBounds = function getTargetBounds() {
       if (!isUndefined$2(this.targetModifier)) {
         if (this.targetModifier === 'visible') {
-          return getVisibleBounds(this.target);
+          return getVisibleBounds(this.bodyElement, this.target);
         } else if (this.targetModifier === 'scroll-handle') {
-          return getScrollHandleBounds(this.target);
+          return getScrollHandleBounds(this.bodyElement, this.target);
         }
       } else {
-        return getBounds(this.target);
+        return getBounds(this.bodyElement, this.target);
       }
     };
 
@@ -1831,7 +1844,7 @@
       }); // Remove any elements we were using for convenience from the DOM
 
       if (tethers.length === 0) {
-        removeUtilElements();
+        removeUtilElements(this.bodyElement);
       }
     };
 
@@ -1913,7 +1926,7 @@
       var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
       this.updateAttachClasses(this.attachment, targetAttachment);
       var elementPos = this.cache('element-bounds', function () {
-        return getBounds(_this7.element);
+        return getBounds(_this7.bodyElement, _this7.element);
       });
       var width = elementPos.width,
           height = elementPos.height;
@@ -2022,7 +2035,7 @@
           return getOffsetParent(_this7.target);
         });
         var offsetPosition = this.cache('target-offsetparent-bounds', function () {
-          return getBounds(offsetParent);
+          return getBounds(_this7.bodyElement, offsetParent);
         });
         var offsetParentStyle = getComputedStyle(offsetParent);
         var offsetParentSize = offsetPosition;
