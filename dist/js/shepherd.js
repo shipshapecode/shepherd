@@ -2980,16 +2980,15 @@
         insert(target, button, anchor);
         append(button, t);
       },
-      p: function p(new_ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(new_ctx, dirty) {
         ctx = new_ctx;
-        if (dirty &
+        if (dirty[0] &
         /*text*/
         8) set_data(t,
         /*text*/
         ctx[3]);
 
-        if (dirty &
+        if (dirty[0] &
         /*label*/
         16 && button_aria_label_value !== (button_aria_label_value =
         /*label*/
@@ -2999,7 +2998,7 @@
           attr(button, "aria-label", button_aria_label_value);
         }
 
-        if (dirty &
+        if (dirty[0] &
         /*classes, secondary*/
         6 && button_class_value !== (button_class_value = (
         /*classes*/
@@ -3009,7 +3008,7 @@
           attr(button, "class", button_class_value);
         }
 
-        if (dirty &
+        if (dirty[0] &
         /*disabled*/
         32) {
           button.disabled =
@@ -3045,7 +3044,7 @@
     };
 
     $$self.$$.update = function () {
-      if ($$self.$$.dirty &
+      if ($$self.$$.dirty[0] &
       /*config, step*/
       192) {
          {
@@ -3123,7 +3122,7 @@
         current = true;
       },
       p: function p(ctx, dirty) {
-        if (dirty &
+        if (dirty[0] &
         /*buttons, step*/
         3) {
           each_value =
@@ -3207,12 +3206,12 @@
       },
       p: function p(ctx, dirty) {
         var shepherdbutton_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*buttons*/
         2) shepherdbutton_changes.config =
         /*config*/
         ctx[2];
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         1) shepherdbutton_changes.step =
         /*step*/
@@ -3251,9 +3250,7 @@
         if (if_block) if_block.m(footer, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
+      p: function p(ctx, dirty) {
         if (
         /*buttons*/
         ctx[1]) {
@@ -3300,7 +3297,7 @@
     var buttons;
 
     $$self.$$.update = function () {
-      if ($$self.$$.dirty &
+      if ($$self.$$.dirty[0] &
       /*step*/
       1) {
          $$invalidate(1, buttons = step.options.buttons);
@@ -3354,10 +3351,8 @@
         insert(target, button, anchor);
         append(button, span);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
-        if (dirty &
+      p: function p(ctx, dirty) {
+        if (dirty[0] &
         /*cancelIcon*/
         1 && button_aria_label_value !== (button_aria_label_value =
         /*cancelIcon*/
@@ -3428,10 +3423,8 @@
 
         ctx[3](h3);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
-        if (dirty &
+      p: function p(ctx, dirty) {
+        if (dirty[0] &
         /*labelId*/
         2) {
           attr(h3, "id",
@@ -3519,12 +3512,12 @@
       },
       p: function p(ctx, dirty) {
         var shepherdtitle_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*labelId*/
         1) shepherdtitle_changes.labelId =
         /*labelId*/
         ctx[0];
-        if (dirty &
+        if (dirty[0] &
         /*title*/
         4) shepherdtitle_changes.title =
         /*title*/
@@ -3569,12 +3562,12 @@
       },
       p: function p(ctx, dirty) {
         var shepherdcancelicon_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*cancelIcon*/
         8) shepherdcancelicon_changes.cancelIcon =
         /*cancelIcon*/
         ctx[3];
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         2) shepherdcancelicon_changes.step =
         /*step*/
@@ -3623,9 +3616,7 @@
         if (if_block1) if_block1.m(header, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
+      p: function p(ctx, dirty) {
         if (
         /*title*/
         ctx[2]) {
@@ -3698,7 +3689,7 @@
     };
 
     $$self.$$.update = function () {
-      if ($$self.$$.dirty &
+      if ($$self.$$.dirty[0] &
       /*step*/
       2) {
          {
@@ -3746,10 +3737,8 @@
 
         ctx[3](div);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
-        if (dirty &
+      p: function p(ctx, dirty) {
+        if (dirty[0] &
         /*descriptionId*/
         2) {
           attr(div, "id",
@@ -3843,12 +3832,12 @@
       },
       p: function p(ctx, dirty) {
         var shepherdtext_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*descriptionId*/
         1) shepherdtext_changes.descriptionId =
         /*descriptionId*/
         ctx[0];
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         4) shepherdtext_changes.step =
         /*step*/
@@ -3890,7 +3879,7 @@
       },
       p: function p(ctx, dirty) {
         var shepherdfooter_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         4) shepherdfooter_changes.step =
         /*step*/
@@ -3956,21 +3945,20 @@
         if (if_block1) if_block1.m(div, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, dirty) {
         var shepherdheader_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*labelId*/
         2) shepherdheader_changes.labelId =
         /*labelId*/
         ctx[1];
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         4) shepherdheader_changes.step =
         /*step*/
         ctx[2];
         shepherdheader.$set(shepherdheader_changes);
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         4) show_if_1 = !isUndefined$1(
         /*step*/
@@ -3994,7 +3982,7 @@
           check_outros();
         }
 
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         4) show_if = Array.isArray(
         /*step*/
@@ -4170,9 +4158,7 @@
         ctx[17](div);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
+      p: function p(ctx, dirty) {
         if (
         /*step*/
         ctx[4].options.arrow &&
@@ -4191,31 +4177,31 @@
         }
 
         var shepherdcontent_changes = {};
-        if (dirty &
+        if (dirty[0] &
         /*descriptionId*/
         4) shepherdcontent_changes.descriptionId =
         /*descriptionId*/
         ctx[2];
-        if (dirty &
+        if (dirty[0] &
         /*labelId*/
         8) shepherdcontent_changes.labelId =
         /*labelId*/
         ctx[3];
-        if (dirty &
+        if (dirty[0] &
         /*step*/
         16) shepherdcontent_changes.step =
         /*step*/
         ctx[4];
         shepherdcontent.$set(shepherdcontent_changes);
-        set_attributes(div, get_spread_update(div_levels, [dirty &
-        /*isUndefined, step, descriptionId*/
+        set_attributes(div, get_spread_update(div_levels, [dirty[0] &
+        /*step, descriptionId*/
         20 && {
           "aria-describedby": !isUndefined$1(
           /*step*/
           ctx[4].options.text) ?
           /*descriptionId*/
           ctx[2] : null
-        }, dirty &
+        }, dirty[0] &
         /*step, labelId*/
         24 && {
           "aria-labelledby":
@@ -4223,7 +4209,7 @@
           ctx[4].options.title ?
           /*labelId*/
           ctx[3] : null
-        }, dirty &
+        }, dirty[0] &
         /*dataStepId*/
         2 &&
         /*dataStepId*/
@@ -4399,7 +4385,7 @@
     };
 
     $$self.$$.update = function () {
-      if ($$self.$$.dirty &
+      if ($$self.$$.dirty[0] &
       /*step*/
       16) {
          {
@@ -5266,10 +5252,8 @@
 
         ctx[16](svg);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
-
-        if (dirty &
+      p: function p(ctx, dirty) {
+        if (dirty[0] &
         /*openingProperties*/
         2 && path_d_value !== (path_d_value = "M " +
         /*openingProperties*/
@@ -5291,7 +5275,7 @@
           attr(path, "d", path_d_value);
         }
 
-        if (dirty &
+        if (dirty[0] &
         /*modalIsVisible*/
         4 && svg_class_value !== (svg_class_value = (
         /*modalIsVisible*/
