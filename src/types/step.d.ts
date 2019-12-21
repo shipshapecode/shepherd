@@ -98,6 +98,11 @@ declare namespace Step {
     beforeShowPromise?: (() => Promise<any>);
 
     /**
+     * An amount of border radius to add around the modal overlay opening
+     */
+    borderRadius?: number;
+
+    /**
      * An array of buttons to add to the step. These will be rendered in a
      * footer below the main body text.
      */

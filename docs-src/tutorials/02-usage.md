@@ -182,6 +182,7 @@ the step will execute. For example:
   - `enabled` Should a cancel “✕” be shown in the header of the step?
   - `label` The label to add for `aria-label`
 - `classes`: A string of extra classes to add to the step's content element.
+- `borderRadius`: An amount of border radius to add around the modal overlay opening
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
   - `text`: The HTML text of the button
   - `classes`: Extra classes to apply to the `<a>`

@@ -46,6 +46,7 @@ export class Step extends Evented {
    * ```
    * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
    * You can also always manually advance the Tour by calling `myTour.next()`.
+   * @param {Number} options.borderRadius Extra border radius to be applied for the overlay element
    * @param {function} options.beforeShowPromise A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
    * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
