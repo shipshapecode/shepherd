@@ -8667,10 +8667,10 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelte-preprocess@^3.2.6:
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.2.6.tgz#b95ab38bc35fb536589e0f99faea0268dd89bf2b"
-  integrity sha512-gtZJBW1i8HuXPqI3Qdgwln4CX62L/2mbKiHZEeVNpV/oSYkF4uXWQKYSv1txivbB2pVJIBzp2VmDUxviHd6pxA==
+svelte-preprocess@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.3.0.tgz#7732b0b25f02e40b518c6a3818e625f9b8ec4d14"
+  integrity sha512-/N7VUebaU1U8Zpv1rsmfmOPERowOwSbJVkYl/6OKYqVRAyWW76t3U9M/2Ri1FzgTghadh+XpTfLngDm5iZMSYQ==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
