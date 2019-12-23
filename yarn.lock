@@ -2754,10 +2754,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
-cypress-plugin-tab@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cypress-plugin-tab/-/cypress-plugin-tab-1.0.4.tgz#4fb895df3bea78db9a2cbe128ef109dc25c91ab9"
-  integrity sha512-ZmXO+Z/0gMkkBaxQfVreGa1GVbpf1UQrcBDgkDgCW8eCVCkHmhCYVMTU00RhP+LeoD9vK6BFF+xNn3toM0LYfg==
+cypress-plugin-tab@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/cypress-plugin-tab/-/cypress-plugin-tab-1.0.5.tgz#a40714148104004bb05ed62b1bf46bb544f8eb4a"
+  integrity sha512-QtTJcifOVwwbeMP3hsOzQOKf3EqKsLyjtg9ZAGlYDntrCRXrsQhe4ZQGIthRMRLKpnP6/tTk6G0gJ2sZUfRliQ==
   dependencies:
     ally.js "^1.4.1"
 
