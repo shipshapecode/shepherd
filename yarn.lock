@@ -7835,10 +7835,10 @@ rollup-plugin-replace@^2.2.0:
     magic-string "^0.25.2"
     rollup-pluginutils "^2.6.0"
 
-rollup-plugin-scss@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-scss/-/rollup-plugin-scss-1.0.2.tgz#ebc1f32518ba9b213b3d98ad6ed2674f8e34bb29"
-  integrity sha512-5KWIomRCMOY1w1U+Kaa69k2L0EuYcctrO/ma42tD67eOPrZ6v1KTco/fWGNttPRnNNdvczytiZFL8u78xEyt9A==
+rollup-plugin-scss@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-scss/-/rollup-plugin-scss-2.1.0.tgz#7aecb1750d8ab48c9eacd8fbd849ecb7d75e4b27"
+  integrity sha512-Caj1QU16dw8BYZ/q/4tTgeI42pI3xKHJJDy+LmPSStRMjM7F/0Uh/9gER5JicE2FTaWoz/RMi96xiOuDsd3/eg==
   dependencies:
     node-sass "4"
     rollup-pluginutils "2"
