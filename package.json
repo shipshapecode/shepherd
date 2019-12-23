@@ -52,7 +52,7 @@
     "tether": "^2.0.0-beta.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
+    "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.7",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/svelte": "^1.11.0",
@@ -100,7 +100,7 @@
     "rollup-plugin-visualizer": "^3.3.1",
     "sinon": "^7.4.2",
     "start-server-and-test": "^1.10.0",
-    "svelte": "^3.16.5",
+    "svelte": "^3.16.4",
     "svelte-preprocess": "^3.3.0",
     "tailwindcss": "^1.1.4"
   },
