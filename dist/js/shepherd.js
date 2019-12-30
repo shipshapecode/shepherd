@@ -2973,8 +2973,11 @@
         ctx[5];
         attr(button, "tabindex", "0");
         dispose = listen(button, "click", function () {
+          if (is_function(
           /*action*/
-          ctx[0].apply(this, arguments);
+          ctx[0]))
+            /*action*/
+            ctx[0].apply(this, arguments);
         });
       },
       m: function m(target, anchor) {
