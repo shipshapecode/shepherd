@@ -1,23 +1,5 @@
 import { isString } from './type-check';
-import Tether from 'tether';
-
-const ATTACHMENT = {
-  'bottom': 'top center',
-  'bottom center': 'top center',
-  'bottom left': 'top right',
-  'bottom right': 'top left',
-  'center': 'middle center',
-  'left': 'middle right',
-  'middle': 'middle center',
-  'middle center': 'middle center',
-  'middle left': 'middle right',
-  'middle right': 'middle left',
-  'right': 'middle left',
-  'top': 'bottom center',
-  'top center': 'bottom center',
-  'top left': 'bottom right',
-  'top right': 'bottom left'
-};
+import { createPopper } from '@popperjs/core';
 
 /**
  * Ensure class prefix ends in `-`
@@ -48,11 +30,13 @@ export function parseAttachTo(step) {
     // guarantee that the element will exist in the future.
     try {
       returnOpts.element = document.querySelector(options.element);
-    } catch(e) {
+    } catch (e) {
       // TODO
     }
     if (!returnOpts.element) {
-      console.error(`The element for this Shepherd step was not found ${options.element}`);
+      console.error(
+        `The element for this Shepherd step was not found ${options.element}`
+      );
     }
   }
 
@@ -70,9 +54,9 @@ export function setupTooltip(step) {
   }
 
   const attachToOpts = parseAttachTo(step);
-  const tetherOptions = getTetherOptions(attachToOpts, step);
+  const { element, popperOptions, target } = getPopperOptions(attachToOpts, step);
 
-  step.tooltip = new Tether(tetherOptions);
+  step.tooltip = createPopper(target, element, popperOptions);
   step.target = attachToOpts.element;
 }
 
@@ -85,65 +69,37 @@ export function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (d + Math.random() * 16) % 16 | 0;
     d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
 }
 
 /**
- * Gets the `Tether` options from a set of base `attachTo` options
+ * Gets the `Popper` options from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
  * @return {Object}
  * @private
  */
-export function getTetherOptions(attachToOptions, step) {
-  let tetherOptions = {
-    classPrefix: 'shepherd',
-    constraints: [
-      {
-        to: 'scrollParent',
-        attachment: 'together',
-        pin: ['left', 'right', 'top']
-      },
-      {
-        to: 'window',
-        attachment: 'together'
-      }
-    ]
-  };
+export function getPopperOptions(attachToOptions, step) {
+  let popperOptions = {};
   let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    tetherOptions.attachment = 'middle center';
-    tetherOptions.targetModifier = 'visible';
+    // TODO add back centered popper hacks
+    // tetherOptions.attachment = 'middle center';
   } else {
-    tetherOptions.attachment = ATTACHMENT[attachToOptions.on] || ATTACHMENT.right;
+    popperOptions.placement = attachToOptions.on || 'right';
     target = attachToOptions.element;
   }
 
-  tetherOptions.element = step.el;
-  tetherOptions.target = target;
+  if (step.options.popperOptions) {
+    // TODO add popper modifiers support etc
 
-  if (step.options.tetherOptions) {
-    if (step.options.tetherOptions.constraints) {
-      tetherOptions.constraints = step.options.tetherOptions.constraints;
-    }
-
-    tetherOptions.classes = {
-      ...tetherOptions.classes,
-      ...step.options.tetherOptions.classes
-    };
-
-    tetherOptions.optimizations = {
-      ...tetherOptions.optimizations,
-      ...step.options.tetherOptions.optimizations
-    };
-
-    tetherOptions = {
-      ...tetherOptions,
-      ...step.options.tetherOptions
+    popperOptions = {
+      ...popperOptions,
+      ...step.options.popperOptions
     };
   }
 
-  return tetherOptions;
+  return { element: step.el, popperOptions, target };
 }

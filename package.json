@@ -48,6 +48,7 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
+    "@popperjs/core": "^2.0.0-alpha.3",
     "smoothscroll-polyfill": "^0.4.4",
     "tether": "^2.0.0-beta.5"
   },

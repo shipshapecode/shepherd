@@ -1085,6 +1085,11 @@
     "@nodelib/fs.scandir" "2.1.2"
     fastq "^1.6.0"
 
+"@popperjs/core@^2.0.0-alpha.3":
+  version "2.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.0.0-alpha.3.tgz#4c68d07f69571b56d0d6ad6a30dcaf15a2dd3afb"
+  integrity sha512-k7Ih4vVPI3sxO9QMsYSPABbSDiSCcP3lnPH8svpyO87LHPNWaDvLtApwLJ4kEMhbWL6LHEzRtNpYfjPvQt+r9w==
+
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@sheerun/mutationobserver-shim/-/mutationobserver-shim-0.3.2.tgz#8013f2af54a2b7d735f71560ff360d3a8176a87b"

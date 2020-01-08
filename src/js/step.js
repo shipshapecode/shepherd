@@ -72,13 +72,13 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {string} options.id The string to use as the `id` for the step.
+   * @param {string} options.popperOptions Extra options to pass to Popper
    * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
-   * @param {string} options.tetherOptions Extra options to pass to tether
    * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
@@ -348,7 +348,8 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
-    this.tooltip.position();
+    // TODO figure out what the Popper v2 method is to force position recalculation
+    // this.tooltip.scheduleUpdate();
 
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
