@@ -1,7 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
 import commonjs from 'rollup-plugin-commonjs';
-import { eslint } from 'rollup-plugin-eslint';
+// import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -18,9 +18,10 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
-  eslint({
-    include: '**/*.js'
-  }),
+  // TODO get ESLint to play nicely with Popper
+  // eslint({
+  //   include: '**/*.js'
+  // }),
   svelte({
     preprocess: sveltePreprocess(),
     emitCss: true
