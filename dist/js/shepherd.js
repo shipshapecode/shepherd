@@ -2828,10 +2828,8 @@
       dirty: dirty
     };
     var ready = false;
-    $$.ctx = instance ? instance(component, prop_values, function (i, ret, value) {
-      if (value === void 0) {
-        value = ret;
-      }
+    $$.ctx = instance ? instance(component, prop_values, function (i, ret) {
+      var value = (arguments.length <= 2 ? 0 : arguments.length - 2) ? arguments.length <= 2 ? undefined : arguments[2] : ret;
 
       if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
         if ($$.bound[i]) $$.bound[i](value);
@@ -2972,6 +2970,10 @@
         /*disabled*/
         ctx[5];
         attr(button, "tabindex", "0");
+      },
+      m: function m(target, anchor) {
+        insert(target, button, anchor);
+        append(button, t);
         dispose = listen(button, "click", function () {
           if (is_function(
           /*action*/
@@ -2979,10 +2981,6 @@
             /*action*/
             ctx[0].apply(this, arguments);
         });
-      },
-      m: function m(target, anchor) {
-        insert(target, button, anchor);
-        append(button, t);
       },
       p: function p(new_ctx, _ref) {
         var dirty = _ref[0];
@@ -3350,13 +3348,13 @@
         ctx[0].label : "Close Tour");
         attr(button, "class", "shepherd-cancel-icon");
         attr(button, "type", "button");
-        dispose = listen(button, "click",
-        /*handleCancelClick*/
-        ctx[1]);
       },
       m: function m(target, anchor) {
         insert(target, button, anchor);
         append(button, span);
+        dispose = listen(button, "click",
+        /*handleCancelClick*/
+        ctx[1]);
       },
       p: function p(ctx, _ref) {
         var dirty = _ref[0];
@@ -4160,9 +4158,6 @@
         /*hasTitle*/
         ctx[6]);
         toggle_class(div, "shepherd-element", true);
-        dispose = listen(div, "keydown",
-        /*handleKeyDown*/
-        ctx[7]);
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
@@ -4173,6 +4168,9 @@
 
         ctx[17](div);
         current = true;
+        dispose = listen(div, "keydown",
+        /*handleKeyDown*/
+        ctx[7]);
       },
       p: function p(ctx, _ref) {
         var dirty = _ref[0];
@@ -5259,9 +5257,6 @@
         attr(svg, "class", svg_class_value = (
         /*modalIsVisible*/
         ctx[2] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
-        dispose = listen(svg, "touchmove",
-        /*_preventModalOverlayTouch*/
-        ctx[3]);
       },
       m: function m(target, anchor) {
         insert(target, svg, anchor);
@@ -5269,6 +5264,9 @@
         /*svg_binding*/
 
         ctx[16](svg);
+        dispose = listen(svg, "touchmove",
+        /*_preventModalOverlayTouch*/
+        ctx[3]);
       },
       p: function p(ctx, _ref) {
         var dirty = _ref[0];

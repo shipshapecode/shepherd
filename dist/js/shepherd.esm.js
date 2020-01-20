@@ -2822,10 +2822,8 @@ function init(component, options, instance, create_fragment, not_equal, props, d
     dirty: dirty
   };
   var ready = false;
-  $$.ctx = instance ? instance(component, prop_values, function (i, ret, value) {
-    if (value === void 0) {
-      value = ret;
-    }
+  $$.ctx = instance ? instance(component, prop_values, function (i, ret) {
+    var value = (arguments.length <= 2 ? 0 : arguments.length - 2) ? arguments.length <= 2 ? undefined : arguments[2] : ret;
 
     if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
       if ($$.bound[i]) $$.bound[i](value);
@@ -2966,6 +2964,10 @@ function create_fragment(ctx) {
       /*disabled*/
       ctx[5];
       attr(button, "tabindex", "0");
+    },
+    m: function m(target, anchor) {
+      insert(target, button, anchor);
+      append(button, t);
       dispose = listen(button, "click", function () {
         if (is_function(
         /*action*/
@@ -2973,10 +2975,6 @@ function create_fragment(ctx) {
           /*action*/
           ctx[0].apply(this, arguments);
       });
-    },
-    m: function m(target, anchor) {
-      insert(target, button, anchor);
-      append(button, t);
     },
     p: function p(new_ctx, _ref) {
       var dirty = _ref[0];
@@ -3344,13 +3342,13 @@ function create_fragment$2(ctx) {
       ctx[0].label : "Close Tour");
       attr(button, "class", "shepherd-cancel-icon");
       attr(button, "type", "button");
-      dispose = listen(button, "click",
-      /*handleCancelClick*/
-      ctx[1]);
     },
     m: function m(target, anchor) {
       insert(target, button, anchor);
       append(button, span);
+      dispose = listen(button, "click",
+      /*handleCancelClick*/
+      ctx[1]);
     },
     p: function p(ctx, _ref) {
       var dirty = _ref[0];
@@ -4154,9 +4152,6 @@ function create_fragment$7(ctx) {
       /*hasTitle*/
       ctx[6]);
       toggle_class(div, "shepherd-element", true);
-      dispose = listen(div, "keydown",
-      /*handleKeyDown*/
-      ctx[7]);
     },
     m: function m(target, anchor) {
       insert(target, div, anchor);
@@ -4167,6 +4162,9 @@ function create_fragment$7(ctx) {
 
       ctx[17](div);
       current = true;
+      dispose = listen(div, "keydown",
+      /*handleKeyDown*/
+      ctx[7]);
     },
     p: function p(ctx, _ref) {
       var dirty = _ref[0];
@@ -5253,9 +5251,6 @@ function create_fragment$8(ctx) {
       attr(svg, "class", svg_class_value = (
       /*modalIsVisible*/
       ctx[2] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
-      dispose = listen(svg, "touchmove",
-      /*_preventModalOverlayTouch*/
-      ctx[3]);
     },
     m: function m(target, anchor) {
       insert(target, svg, anchor);
@@ -5263,6 +5258,9 @@ function create_fragment$8(ctx) {
       /*svg_binding*/
 
       ctx[16](svg);
+      dispose = listen(svg, "touchmove",
+      /*_preventModalOverlayTouch*/
+      ctx[3]);
     },
     p: function p(ctx, _ref) {
       var dirty = _ref[0];
