@@ -75,7 +75,7 @@
     "jest": "^24.9.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^2.0.0",
-    "jest-transform-svelte": "^2.1.0-beta.1",
+    "jest-transform-svelte": "^2.1.1",
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.3",
