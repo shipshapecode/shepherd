@@ -2612,9 +2612,9 @@ function add_render_callback(fn) {
   render_callbacks.push(fn);
 }
 
-function flush$1() {
-  var seen_callbacks = new Set();
+var seen_callbacks = new Set();
 
+function flush$1() {
   do {
     // first, call beforeUpdate functions
     // and update components
@@ -2635,9 +2635,9 @@ function flush$1() {
       var callback = render_callbacks[i];
 
       if (!seen_callbacks.has(callback)) {
-        callback(); // ...so guard against infinite loops
-
+        // ...so guard against infinite loops
         seen_callbacks.add(callback);
+        callback();
       }
     }
 
@@ -2649,6 +2649,7 @@ function flush$1() {
   }
 
   update_scheduled = false;
+  seen_callbacks.clear();
 }
 
 function update($$) {
@@ -2722,23 +2723,23 @@ function get_spread_update(levels, updates) {
         if (!(key in n)) to_null_out[key] = 1;
       }
 
-      for (var _key2 in n) {
-        if (!accounted_for[_key2]) {
-          update[_key2] = n[_key2];
-          accounted_for[_key2] = 1;
+      for (var _key3 in n) {
+        if (!accounted_for[_key3]) {
+          update[_key3] = n[_key3];
+          accounted_for[_key3] = 1;
         }
       }
 
       levels[i] = n;
     } else {
-      for (var _key3 in o) {
-        accounted_for[_key3] = 1;
+      for (var _key4 in o) {
+        accounted_for[_key4] = 1;
       }
     }
   }
 
-  for (var _key4 in to_null_out) {
-    if (!(_key4 in update)) update[_key4] = undefined;
+  for (var _key5 in to_null_out) {
+    if (!(_key5 in update)) update[_key5] = undefined;
   }
 
   return update;
@@ -3375,6 +3376,9 @@ function create_fragment$2(ctx) {
 function instance$2($$self, $$props, $$invalidate) {
   var cancelIcon = $$props.cancelIcon,
       step = $$props.step;
+  /**
+  * Add a click listener to the cancel link that cancels the tour
+  */
 
   var handleCancelClick = function handleCancelClick(e) {
     e.preventDefault();
@@ -4287,6 +4291,7 @@ function instance$7($$self, $$props, $$invalidate) {
   onMount(function () {
     var _dataStepId;
 
+    // Get all elements that are focusable
     $$invalidate(1, dataStepId = (_dataStepId = {}, _dataStepId["data-" + classPrefix + "shepherd-step-id"] = step.id, _dataStepId));
     $$invalidate(9, focusableElements = element.querySelectorAll("a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex=\"0\"]"));
     $$invalidate(8, firstFocusableElement = focusableElements[0]);
@@ -4327,6 +4332,14 @@ function instance$7($$self, $$props, $$invalidate) {
       }
     }
   }
+  /**
+  * Setup keydown events to allow closing the modal with ESC
+  *
+  * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
+  *
+  * @private
+  */
+
 
   var handleKeyDown = function handleKeyDown(e) {
     var _step = step,
@@ -4337,7 +4350,8 @@ function instance$7($$self, $$props, $$invalidate) {
         if (focusableElements.length === 0) {
           e.preventDefault();
           break;
-        }
+        } // Backward tab
+
 
         if (e.shiftKey) {
           if (document.activeElement === firstFocusableElement) {
@@ -5322,6 +5336,16 @@ function _getScrollParent(element) {
 
   return _getScrollParent(element.parentElement);
 }
+/**
+* Get the visible height of the target element relative to its scrollParent.
+* If there is no scroll parent, the height of the element is returned.
+*
+* @param {HTMLElement} element The target element
+* @param {HTMLElement} [scrollParent] The scrollable parent element
+* @returns {{y: number, height: number}}
+* @private
+*/
+
 
 function _getVisibleHeight(element, scrollParent) {
   var elementRect = element.getBoundingClientRect();
@@ -5336,7 +5360,8 @@ function _getVisibleHeight(element, scrollParent) {
     bottom = Math.min(bottom, scrollBottom);
   }
 
-  var height = Math.max(bottom - top, 0);
+  var height = Math.max(bottom - top, 0); // Default to 0 if height is negative
+
   return {
     y: top,
     height: height
@@ -5365,7 +5390,7 @@ function instance$8($$self, $$props, $$invalidate) {
   }
 
   function hide() {
-    $$invalidate(2, modalIsVisible = false);
+    $$invalidate(2, modalIsVisible = false); // Ensure we cleanup all event listeners when we hide the modal
 
     _cleanupStepEventListeners();
   }
@@ -5383,7 +5408,8 @@ function instance$8($$self, $$props, $$invalidate) {
       var _targetElement$getBou = targetElement.getBoundingClientRect(),
           x = _targetElement$getBou.x,
           width = _targetElement$getBou.width,
-          left = _targetElement$getBou.left;
+          left = _targetElement$getBou.left; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+
 
       $$invalidate(1, openingProperties = {
         x: (x || left) - modalOverlayOpeningPadding,
@@ -5395,6 +5421,7 @@ function instance$8($$self, $$props, $$invalidate) {
   }
 
   function setupForStep(step) {
+    // Ensure we move listeners from the previous step, before we setup new ones
     _cleanupStepEventListeners();
 
     if (step.tour.options.useModalOverlay) {
@@ -5417,12 +5444,23 @@ function instance$8($$self, $$props, $$invalidate) {
   var _preventModalOverlayTouch = function _preventModalOverlayTouch(e) {
     e.stopPropagation();
   };
+  /**
+  * Add touchmove event listener
+  * @private
+  */
+
 
   function _addStepEventListeners() {
+    // Prevents window from moving on touch.
     window.addEventListener("touchmove", _preventModalBodyTouch, {
       passive: false
     });
   }
+  /**
+  * Cancel the requestAnimationFrame loop and remove touchmove event listeners
+  * @private
+  */
+
 
   function _cleanupStepEventListeners() {
     if (rafId) {
@@ -5434,12 +5472,19 @@ function instance$8($$self, $$props, $$invalidate) {
       passive: false
     });
   }
+  /**
+  * Style the modal for the step
+  * @param {Step} step The step to style the opening for
+  * @private
+  */
+
 
   function _styleForStep(step) {
     var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
 
     if (step.target) {
-      var scrollParent = _getScrollParent(step.target);
+      var scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
+
 
       var rafLoop = function rafLoop() {
         rafId = undefined;
