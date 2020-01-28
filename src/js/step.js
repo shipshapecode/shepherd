@@ -348,11 +348,12 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
-    // TODO figure out what the Popper v2 method is to force position recalculation
-    // this.tooltip.scheduleUpdate();
+    this.tooltip.update();
 
+    const content = this.shepherdElementComponent.getElement();
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    content.classList.add('shepherd-enabled');
 
     if (this.options.scrollTo) {
       setTimeout(() => {
