@@ -58,7 +58,7 @@
     "@testing-library/svelte": "^1.11.0",
     "autoprefixer": "^9.7.4",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^24.9.0",
+    "babel-jest": "^25.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
