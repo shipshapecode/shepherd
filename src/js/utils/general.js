@@ -30,7 +30,7 @@ export function parseAttachTo(step) {
     // guarantee that the element will exist in the future.
     try {
       returnOpts.element = document.querySelector(options.element);
-    } catch (e) {
+    } catch(e) {
       // TODO
     }
     if (!returnOpts.element) {
