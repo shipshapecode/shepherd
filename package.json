@@ -81,7 +81,7 @@
     "mutationobserver-shim": "^0.3.3",
     "postcss": "^7.0.26",
     "replace": "^1.1.5",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
     "rollup-plugin-analyzer": "^3.2.2",
     "rollup-plugin-babel": "^4.3.3",
