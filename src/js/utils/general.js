@@ -1,5 +1,6 @@
-import { isString } from './type-check';
 import { createPopper } from '@popperjs/core';
+import { isString } from './type-check';
+import { makeCenteredPopper } from './popper-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -55,6 +56,7 @@ export function setupTooltip(step) {
 
   const attachToOpts = parseAttachTo(step);
   const { element, popperOptions, target } = getPopperOptions(attachToOpts, step);
+  // console.log(popperOptions.modifiers);
 
   step.tooltip = createPopper(target, element, popperOptions);
   step.target = attachToOpts.element;
@@ -85,20 +87,29 @@ export function getPopperOptions(attachToOptions, step) {
   let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    // TODO add back centered popper hacks
-    // tetherOptions.attachment = 'middle center';
+    popperOptions = makeCenteredPopper(step);
+    console.log(popperOptions);
+
   } else {
     popperOptions.placement = attachToOptions.on || 'right';
     target = attachToOptions.element;
   }
 
   if (step.options.popperOptions) {
-    // TODO add popper modifiers support etc
-
     popperOptions = {
       ...popperOptions,
       ...step.options.popperOptions
     };
+
+    if (popperOptions.modifiers.length > 0) {
+      console.log(popperOptions.modifiers);
+
+      popperOptions.modifiers = [
+        ...new Set([
+          ...popperOptions.modifiers,
+          ...step.options.popperOptions.modifiers
+        ])];
+    }
   }
 
   return { element: step.el, popperOptions, target };
