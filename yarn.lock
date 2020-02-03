@@ -8931,10 +8931,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte-preprocess@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.3.0.tgz#7732b0b25f02e40b518c6a3818e625f9b8ec4d14"
-  integrity sha512-/N7VUebaU1U8Zpv1rsmfmOPERowOwSbJVkYl/6OKYqVRAyWW76t3U9M/2Ri1FzgTghadh+XpTfLngDm5iZMSYQ==
+svelte-preprocess@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.3.1.tgz#2729e83ec90cfe28ced721d2f61e09e8b7af30a7"
+  integrity sha512-nHfkZ9eNcke1OhXJb+wX8ShYw2/kMNM/Bj/URgkGxURfkycgH/gaLDYLctp2rmpKf92+JO1848KMBQG1DbX/Zg==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
