@@ -104,6 +104,7 @@ const myTour = new Shepherd.Tour(options);
 
 ##### Tour Options
 
+- `classPrefix`: The prefix to add to all the `shepherd-*` class names.
 - `confirmCancel`: If true, will issue a `window.confirm` before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
@@ -117,10 +118,11 @@ dynamically generated `id` property -- which is also set on the `body` element a
 
 ##### Tour Methods
 
-- `addStep(options)`: Creates a new Step object with options, and returns the `Step` instance it created.
-If the options hash doesn't include an `id`, one will be generated.
+- `addStep(options)`: Creates a new Step object with options, and returns the `Step` instance it created. If the options hash doesn't include an `id`, one will be generated.
 You can also pass an existing `Step` instance rather than `options`, but note that Shepherd does not support a Step being attached to multiple Tours.
+- `addSteps([Steps])`: Add multiple steps to the tour
 - `getById(id)`: Return a step with a specific id
+- `isActive()`: Check if the tour is active
 - `next()`: Advance to the next step, in the order they were added
 - `back()`: Show the previous step, in the order they were added
 - `cancel()`: Trigger cancel on the current step, hiding it without advancing
@@ -128,6 +130,7 @@ You can also pass an existing `Step` instance rather than `options`, but note th
 - `show([id])`: Show the step specified by id (if it's a string), or index (if it's a number) provided.  Defaults to the first step.
 - `start()`: Show the first step and begin the tour
 - `getCurrentStep()`: Returns the currently shown step
+- `removeStep(id)`: Removes the step from the tour
 - `on(eventName, handler, [context])`: Bind an event
 - `off(eventName, [handler])`: Unbind an event
 - `once(eventName, handler, [context])`: Bind just the next instance of an event
@@ -265,9 +268,9 @@ yourApp.on('some-event', () => {
 
 ### Rendering Tours in Specific Locations
 
-By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
-[`appendTo` option](https://atomiks.github.io/tippyjs/#append-to-option) by defining it on the
-`tippyOptions` hash inside of each Step's options hash.
+By default, tour steps will append their elements to the `body` element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Popper's
+[options](https://popper.js.org/docs/v2/constructors/#options) by defining it on the
+`popperOptions` hash inside of each Step's options hash, by passing modifiers.
 
 
 ### 🔼 Displaying Arrows
@@ -282,4 +285,4 @@ myTour.addStep({
 });
 ```
 
-Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the `.popper__arrow` element.
+Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the `.shepherd-arrow` element.
