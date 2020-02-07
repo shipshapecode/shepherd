@@ -28,6 +28,7 @@ cache:
     - ~/.cache
 
 before_install:
+  - npm install -g yarn
   - yarn global add greenkeeper-lockfile@1
 
 install:
