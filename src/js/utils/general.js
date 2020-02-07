@@ -56,7 +56,6 @@ export function setupTooltip(step) {
 
   const attachToOpts = parseAttachTo(step);
   const { element, popperOptions, target } = getPopperOptions(attachToOpts, step);
-  // console.log(popperOptions.modifiers);
 
   step.tooltip = createPopper(target, element, popperOptions);
   step.target = attachToOpts.element;
@@ -71,7 +70,7 @@ export function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = (d + Math.random() * 16) % 16 | 0;
     d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
 }
 

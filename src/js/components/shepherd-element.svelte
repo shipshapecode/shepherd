@@ -127,7 +127,9 @@
     opacity: 1;
   }
 
-  .shepherd-element, .shepherd-element *, .shepherd-element *:after, .shepherd-element *:before {
+  .shepherd-element, .shepherd-element *,
+  .shepherd-element *:after,
+  .shepherd-element *:before {
     box-sizing: border-box;
   }
 
@@ -139,7 +141,7 @@
     z-index: -1;
   }
 
-  .shepherd-arrow::before {
+  .shepherd-arrow:before {
     content: '';
     transform: rotate(45deg);
     background: #fff  ;
