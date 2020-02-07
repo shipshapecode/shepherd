@@ -88,8 +88,6 @@ export function getPopperOptions(attachToOptions, step) {
 
   if (!attachToOptions.element || !attachToOptions.on) {
     popperOptions = makeCenteredPopper(step);
-    console.log(popperOptions);
-
   } else {
     popperOptions.placement = attachToOptions.on || 'right';
     target = attachToOptions.element;
@@ -102,8 +100,6 @@ export function getPopperOptions(attachToOptions, step) {
     };
 
     if (popperOptions.modifiers.length > 0) {
-      console.log(popperOptions.modifiers);
-
       popperOptions.modifiers = [
         ...new Set([
           ...popperOptions.modifiers,

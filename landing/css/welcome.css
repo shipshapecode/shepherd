@@ -85,8 +85,7 @@ a {
 abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted; /* 2 */
+  text-decoration: underline dotted; /* 2 */
 }
 
 /**
@@ -484,13 +483,11 @@ textarea {
   resize: vertical;
 }
 
-input:-ms-input-placeholder,
-textarea:-ms-input-placeholder {
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #a0aec0;
 }
 
-input::-ms-input-placeholder,
-textarea::-ms-input-placeholder {
+input::-ms-input-placeholder, textarea::-ms-input-placeholder {
   color: #a0aec0;
 }
 
@@ -4558,28 +4555,24 @@ video {
 
 .select-none {
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
 
 .select-text {
   -webkit-user-select: text;
-     -moz-user-select: text;
       -ms-user-select: text;
           user-select: text;
 }
 
 .select-all {
   -webkit-user-select: all;
-     -moz-user-select: all;
       -ms-user-select: all;
           user-select: all;
 }
 
 .select-auto {
   -webkit-user-select: auto;
-     -moz-user-select: auto;
       -ms-user-select: auto;
           user-select: auto;
 }
@@ -4936,9 +4929,7 @@ a {
   width: 217px;
 }
 
-.shepherd-logo .lines,
-.shepherd-logo .open-eye,
-.shepherd-logo .wink {
+.shepherd-logo .lines, .shepherd-logo .open-eye, .shepherd-logo .wink {
   transition: visibility 0s, opacity 0.25s ease-in-out;
 }
 
@@ -4947,14 +4938,12 @@ a {
   visibility: visible;
 }
 
-.shepherd-logo .lines,
-.shepherd-logo .wink {
+.shepherd-logo .lines, .shepherd-logo .wink {
   opacity: 0;
   visibility: hidden;
 }
 
-.shepherd-logo:hover .lines,
-.shepherd-logo:hover .wink {
+.shepherd-logo:hover .lines, .shepherd-logo:hover .wink {
   opacity: 1;
   visibility: visible;
 }
@@ -5025,9 +5014,7 @@ pre {
   border: solid 4px #16202D;
 }
 
-.shepherd-element,
-.shepherd-header,
-.shepherd-footer {
+.shepherd-element, .shepherd-header, .shepherd-footer {
   border-radius: 0;
 }
 
@@ -5037,41 +5024,40 @@ pre {
   width: auto;
 }
 
+.shepherd-arrow::before {
+  display: none;
+}
+
 .shepherd-element .shepherd-arrow:after {
   content: url('../assets/img/arrow.svg');
   display: inline-block;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow,
-.shepherd-element.shepherd-pinned-top .shepherd-arrow {
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow, .shepherd-element.shepherd-pinned-top .shepherd-arrow {
   bottom: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow:after,
-.shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow:after, .shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
   transform: rotate(270deg);
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
   top: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow:after {
   transform: rotate(90deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow,
-.shepherd-element.shepherd-pinned-left .shepherd-arrow {
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow, .shepherd-element.shepherd-pinned-left .shepherd-arrow {
   right: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow:after,
-.shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow:after, .shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
   transform: rotate(180deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow,
-.shepherd-element.shepherd-pinned-right .shepherd-arrow {
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow, .shepherd-element.shepherd-pinned-right .shepherd-arrow {
   left: -35px;
 }
 
@@ -5104,18 +5090,14 @@ pre {
   padding: 2rem;
 }
 
-.shepherd-text a,
-.shepherd-text a:visited,
-.shepherd-text a:active {
+.shepherd-text a, .shepherd-text a:visited, .shepherd-text a:active {
   border-bottom: 1px dotted;
   border-bottom-color: rgba(0, 0, 0, 0.75);
   color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
 }
 
-.shepherd-text a:hover,
-.shepherd-text a:visited:hover,
-.shepherd-text a:active:hover {
+.shepherd-text a:hover, .shepherd-text a:visited:hover, .shepherd-text a:active:hover {
   border-bottom-style: solid;
 }
 
@@ -9085,28 +9067,24 @@ pre {
 
   .sm\:select-none {
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
   }
 
   .sm\:select-text {
     -webkit-user-select: text;
-       -moz-user-select: text;
         -ms-user-select: text;
             user-select: text;
   }
 
   .sm\:select-all {
     -webkit-user-select: all;
-       -moz-user-select: all;
         -ms-user-select: all;
             user-select: all;
   }
 
   .sm\:select-auto {
     -webkit-user-select: auto;
-       -moz-user-select: auto;
         -ms-user-select: auto;
             user-select: auto;
   }
@@ -13381,28 +13359,24 @@ pre {
 
   .md\:select-none {
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
   }
 
   .md\:select-text {
     -webkit-user-select: text;
-       -moz-user-select: text;
         -ms-user-select: text;
             user-select: text;
   }
 
   .md\:select-all {
     -webkit-user-select: all;
-       -moz-user-select: all;
         -ms-user-select: all;
             user-select: all;
   }
 
   .md\:select-auto {
     -webkit-user-select: auto;
-       -moz-user-select: auto;
         -ms-user-select: auto;
             user-select: auto;
   }
@@ -17677,28 +17651,24 @@ pre {
 
   .lg\:select-none {
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
   }
 
   .lg\:select-text {
     -webkit-user-select: text;
-       -moz-user-select: text;
         -ms-user-select: text;
             user-select: text;
   }
 
   .lg\:select-all {
     -webkit-user-select: all;
-       -moz-user-select: all;
         -ms-user-select: all;
             user-select: all;
   }
 
   .lg\:select-auto {
     -webkit-user-select: auto;
-       -moz-user-select: auto;
         -ms-user-select: auto;
             user-select: auto;
   }
@@ -21973,28 +21943,24 @@ pre {
 
   .xl\:select-none {
     -webkit-user-select: none;
-       -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
   }
 
   .xl\:select-text {
     -webkit-user-select: text;
-       -moz-user-select: text;
         -ms-user-select: text;
             user-select: text;
   }
 
   .xl\:select-all {
     -webkit-user-select: all;
-       -moz-user-select: all;
         -ms-user-select: all;
             user-select: all;
   }
 
   .xl\:select-auto {
     -webkit-user-select: auto;
-       -moz-user-select: auto;
         -ms-user-select: auto;
             user-select: auto;
   }
