@@ -2612,17 +2612,23 @@ function add_render_callback(fn) {
   render_callbacks.push(fn);
 }
 
+var flushing = false;
 var seen_callbacks = new Set();
 
 function flush$1() {
+  if (flushing) return;
+  flushing = true;
+
   do {
     // first, call beforeUpdate functions
     // and update components
-    while (dirty_components.length) {
-      var component = dirty_components.shift();
+    for (var i = 0; i < dirty_components.length; i += 1) {
+      var component = dirty_components[i];
       set_current_component(component);
       update(component.$$);
     }
+
+    dirty_components.length = 0;
 
     while (binding_callbacks.length) {
       binding_callbacks.pop()();
@@ -2631,8 +2637,8 @@ function flush$1() {
     // subsequent updates...
 
 
-    for (var i = 0; i < render_callbacks.length; i += 1) {
-      var callback = render_callbacks[i];
+    for (var _i = 0; _i < render_callbacks.length; _i += 1) {
+      var callback = render_callbacks[_i];
 
       if (!seen_callbacks.has(callback)) {
         // ...so guard against infinite loops
@@ -2649,6 +2655,7 @@ function flush$1() {
   }
 
   update_scheduled = false;
+  flushing = false;
   seen_callbacks.clear();
 }
 
