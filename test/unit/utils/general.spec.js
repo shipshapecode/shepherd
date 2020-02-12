@@ -1,5 +1,5 @@
 import { Step } from '../../../src/js/step.js';
-import { parseAttachTo } from '../../../src/js/utils/general.js';
+import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   describe('parseAttachTo()', function() {
@@ -10,6 +10,41 @@ describe('General Utils', function() {
 
       const { element } = parseAttachTo(step);
       expect(element).toBeFalsy();
+    });
+  });
+
+  describe.only('getPopperOptions', function() {
+    it('modifiers can be overridden', function() {
+      const step = new Step({}, {
+        attachTo: { element: '.scroll-test', on: 'center' },
+        popperOptions: {
+          modifiers: [
+            {
+              name: 'preventOverflow',
+              options: {
+                altAxis: false
+              }
+            }
+          ]
+        }
+      });
+
+      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      expect(popperOptions.modifiers[0].options.altAxis).toBe(false);
+    });
+
+    it('positioning strategy is explicitly set', function() {
+      const step = new Step({}, {
+        attachTo: { element: '.scroll-test', on: 'center' },
+        options: {
+          popperOptions: {
+            strategy: 'absolute'
+          }
+        }
+      });
+
+      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      expect(popperOptions.strategy).toBe('absolute');
     });
   });
 });

@@ -56,6 +56,7 @@ export function setupTooltip(step) {
 
   const attachToOpts = parseAttachTo(step);
   const { element, popperOptions, target } = getPopperOptions(attachToOpts, step);
+  console.log(popperOptions);
 
   step.tooltip = createPopper(target, element, popperOptions);
   step.target = attachToOpts.element;
@@ -82,7 +83,18 @@ export function uuid() {
  * @private
  */
 export function getPopperOptions(attachToOptions, step) {
-  let popperOptions = {};
+  let popperOptions = {
+    // required to keep the Step in the viewport
+    modifiers: [
+      {
+        name: 'preventOverflow',
+        options: {
+          altAxis: true,
+          rootBoundary: 'document'
+        }
+      }
+    ]
+  };
   let target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
@@ -93,18 +105,22 @@ export function getPopperOptions(attachToOptions, step) {
   }
 
   if (step.options.popperOptions) {
+    if (step.options.popperOptions.modifiers.length > 0) {
+      const names = step.options.popperOptions.modifiers.map((mod) => mod.name);
+      const filteredModifiers = popperOptions.modifiers.filter((mod) => !names.includes(mod.name));
+
+      popperOptions.modifiers = [
+        ...step.options.popperOptions.modifiers,
+        ...filteredModifiers
+      ];
+
+      delete step.options.popperOptions.modifiers;
+    }
+
     popperOptions = {
       ...popperOptions,
       ...step.options.popperOptions
     };
-
-    if (popperOptions.modifiers.length > 0) {
-      popperOptions.modifiers = [
-        ...new Set([
-          ...popperOptions.modifiers,
-          ...step.options.popperOptions.modifiers
-        ])];
-    }
   }
 
   return { element: step.el, popperOptions, target };
