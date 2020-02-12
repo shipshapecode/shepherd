@@ -56,7 +56,6 @@ export function setupTooltip(step) {
 
   const attachToOpts = parseAttachTo(step);
   const { element, popperOptions, target } = getPopperOptions(attachToOpts, step);
-  console.log(popperOptions);
 
   step.tooltip = createPopper(target, element, popperOptions);
   step.target = attachToOpts.element;
