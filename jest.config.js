@@ -44,9 +44,5 @@ module.exports = {
       }
     }],
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css'
-  },
-
-  transformIgnorePatterns: [
-    '/node_modules/(?!tether).+\\.js$'
-  ]
+  }
 };

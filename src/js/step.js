@@ -1,4 +1,4 @@
-import { Evented } from '../../node_modules/tether/src/js/evented.js';
+import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
@@ -72,13 +72,13 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {string} options.id The string to use as the `id` for the step.
+   * @param {string} options.popperOptions Extra options to pass to Popper
    * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
    * define a custom action to do the scrolling, and possibly other logic.
    * @param {function} options.showOn A function that, when it returns `true`, will show the step.
    * If it returns false, the step will be skipped.
-   * @param {string} options.tetherOptions Extra options to pass to tether
    * @param {string} options.text The text in the body of the step. It can be one of three types:
    * ```
    * - HTML string
@@ -316,7 +316,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the Tether instance
+   * Create the element and set up the Popper instance
    * @private
    */
   _setupElements() {
@@ -335,7 +335,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a Tether instance for the tooltip, then triggers `show`.
+   * sets up a Popper instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {
@@ -348,10 +348,12 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
-    this.tooltip.position();
+    this.tooltip.update();
 
+    const content = this.shepherdElementComponent.getElement();
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    content.classList.add('shepherd-enabled');
 
     if (this.options.scrollTo) {
       setTimeout(() => {

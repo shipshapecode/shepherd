@@ -5037,41 +5037,40 @@ pre {
   width: auto;
 }
 
+.shepherd-arrow::before {
+  display: none;
+}
+
 .shepherd-element .shepherd-arrow:after {
   content: url('../assets/img/arrow.svg');
   display: inline-block;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow,
-.shepherd-element.shepherd-pinned-top .shepherd-arrow {
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow, .shepherd-element.shepherd-pinned-top .shepherd-arrow {
   bottom: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow:after,
-.shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow:after, .shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
   transform: rotate(270deg);
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
   top: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow:after {
   transform: rotate(90deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow,
-.shepherd-element.shepherd-pinned-left .shepherd-arrow {
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow, .shepherd-element.shepherd-pinned-left .shepherd-arrow {
   right: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow:after,
-.shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow:after, .shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
   transform: rotate(180deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow,
-.shepherd-element.shepherd-pinned-right .shepherd-arrow {
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow, .shepherd-element.shepherd-pinned-right .shepherd-arrow {
   left: -35px;
 }
 

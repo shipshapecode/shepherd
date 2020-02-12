@@ -158,11 +158,6 @@ declare namespace Step {
     text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement);
 
     /**
-     * Extra [options to pass to tether]{@link http://tether.io/}
-     */
-    tetherOptions?: object;
-
-    /**
      * The step's title. It becomes an `h3` at the top of the step.
      * ```
      * - HTML string
