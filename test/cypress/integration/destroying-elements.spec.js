@@ -60,6 +60,7 @@ describe('destroying-elements', () => {
           const secondFirstStepTransform = stepElement2[0].style.transform;
 
           expect(initialFirstStepTransform).to.not.equal(secondFirstStepTransform);
+          expect(secondFirstStepTransform).to.equal('translate(-50%, -50%)');
 
           tour.next();
 
@@ -76,6 +77,7 @@ describe('destroying-elements', () => {
           cy.get('[data-shepherd-step-id="first"]').then((stepElement3) => {
             const finalFirstStepTransform = stepElement3[0].style.transform;
             expect(finalFirstStepTransform).to.equal(initialFirstStepTransform);
+            expect(finalFirstStepTransform).to.not.equal('translate(-50%, -50%)');
           });
         });
       });

@@ -1,5 +1,5 @@
 import { Step } from '../../../src/js/step.js';
-import { getTetherOptions, parseAttachTo } from '../../../src/js/utils/general.js';
+import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   describe('parseAttachTo()', function() {
@@ -13,49 +13,38 @@ describe('General Utils', function() {
     });
   });
 
-  describe('getTetherOptions', function() {
-    it('classes set correctly', function() {
+  describe.only('getPopperOptions', function() {
+    it('modifiers can be overridden', function() {
       const step = new Step({}, {
         attachTo: { element: '.scroll-test', on: 'center' },
-        tetherOptions: {
-          classes: {
-            element: 'bar'
-          }
-        }
-      });
-
-      const tetherOptions = getTetherOptions(parseAttachTo(step), step);
-      expect(tetherOptions.classes.element).toBe('bar');
-    });
-
-    it('constraints can be overridden', function() {
-      const step = new Step({}, {
-        attachTo: { element: '.scroll-test', on: 'center' },
-        tetherOptions: {
-          constraints: [
+        popperOptions: {
+          modifiers: [
             {
-              foo: 'bar'
+              name: 'preventOverflow',
+              options: {
+                altAxis: false
+              }
             }
           ]
         }
       });
 
-      const tetherOptions = getTetherOptions(parseAttachTo(step), step);
-      expect(tetherOptions.constraints[0].foo).toBe('bar');
+      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      expect(popperOptions.modifiers[0].options.altAxis).toBe(false);
     });
 
-    it('optimizations set correctly', function() {
+    it('positioning strategy is explicitly set', function() {
       const step = new Step({}, {
         attachTo: { element: '.scroll-test', on: 'center' },
-        tetherOptions: {
-          optimizations: {
-            foo: 'bar'
+        options: {
+          popperOptions: {
+            strategy: 'absolute'
           }
         }
       });
 
-      const tetherOptions = getTetherOptions(parseAttachTo(step), step);
-      expect(tetherOptions.optimizations.foo).toBe('bar');
+      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      expect(popperOptions.strategy).toBe('absolute');
     });
   });
 });

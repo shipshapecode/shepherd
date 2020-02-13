@@ -30,6 +30,7 @@
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
+    "postinstall": "patch-package",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
@@ -48,8 +49,8 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "smoothscroll-polyfill": "^0.4.4",
-    "tether": "^2.0.0-beta.5"
+    "@popperjs/core": "^2.0.3",
+    "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -79,7 +80,9 @@
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.3",
+    "patch-package": "^6.2.0",
     "postcss": "^7.0.26",
+    "postinstall-postinstall": "^2.0.0",
     "replace": "^1.1.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.31.0",

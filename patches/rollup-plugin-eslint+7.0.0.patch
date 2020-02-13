@@ -1,0 +1,13 @@
+diff --git a/node_modules/rollup-plugin-eslint/index.js b/node_modules/rollup-plugin-eslint/index.js
+index 620bb21..3e703a6 100644
+--- a/node_modules/rollup-plugin-eslint/index.js
++++ b/node_modules/rollup-plugin-eslint/index.js
+@@ -33,7 +33,7 @@ function eslint(options = {}) {
+ 
+     transform(code, id) {
+       const file = normalizePath(id);
+-      if (cli.isPathIgnored(file) || !filter(id)) {
++      if (!filter(id) || cli.isPathIgnored(file)) {
+         return null;
+       }
+ 

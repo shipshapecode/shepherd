@@ -224,20 +224,21 @@ describe('Tour | Step', () => {
       step.destroy();
     });
 
-    it('should update passed in properties', (done) => {
+    it('should update passed in properties', async() => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
 
       expect(step.options.text).toBe('updated');
       expect(step.options.title).toBe('New title');
 
-      requestAnimationFrame(() => {
-        expect(document.querySelector('.shepherd-text').textContent).toBe('updated');
-        expect(document.querySelector('.shepherd-title').textContent).toBe('New title');
-        done();
-      });
+      await requestAnimationFrame(() => new Promise((resolve) => {
+        return resolve();
+      }));
+
+      expect(document.querySelector('.shepherd-text').textContent).toBe('updated');
+      expect(document.querySelector('.shepherd-title').textContent).toBe('New title');
     });
 
-    it('should not affect other properties', (done) => {
+    it('should not affect other properties', async() => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
       expect(step.options.id).toEqual('test-id');
       expect(step.options.buttons).toEqual([
@@ -245,14 +246,15 @@ describe('Tour | Step', () => {
         { text: 'button two', disabled: true, classes: 'button2' }
       ]);
 
-      requestAnimationFrame(() => {
-        expect(document.querySelector('.button1').textContent).toBe('button one');
-        expect(document.querySelector('.button2').textContent).toBe('button two');
-        done();
-      });
+      await requestAnimationFrame(() => new Promise((resolve) => {
+        return resolve();
+      }));
+
+      expect(document.querySelector('.button1').textContent).toBe('button one');
+      expect(document.querySelector('.button2').textContent).toBe('button two');
     });
 
-    it('should update buttons', (done) => {
+    it('should update buttons', async() => {
       const buttons = [
         { text: 'button one updated', disabled: true, classes: 'button1' },
         { text: 'button two updated', disabled: false, classes: 'button2' }
@@ -261,54 +263,43 @@ describe('Tour | Step', () => {
       step.updateStepOptions({ buttons });
       expect(step.options.buttons).toEqual(buttons);
 
-      requestAnimationFrame(() => {
-        const buttonOne = document.querySelector('.button1');
-        expect(buttonOne.textContent).toBe('button one updated');
-        expect(buttonOne.disabled).toBe(true);
+      await requestAnimationFrame(() => new Promise((resolve) => {
+        return resolve();
+      }));
 
-        const buttonTwo = document.querySelector('.button2');
-        expect(buttonTwo.textContent).toBe('button two updated');
-        expect(buttonTwo.disabled).toBe(false);
-        done();
-      });
+      const buttonOne = document.querySelector('.button1');
+      expect(buttonOne.textContent).toBe('button one updated');
+      expect(buttonOne.disabled).toBe(true);
+
+      const buttonTwo = document.querySelector('.button2');
+      expect(buttonTwo.textContent).toBe('button two updated');
+      expect(buttonTwo.disabled).toBe(false);
     });
 
-    it('removing title should remove class', (done) => {
+    it('removing title should remove class', async() => {
       step.updateStepOptions({ title: '' });
       expect(step.options.title).toEqual('');
 
-      requestAnimationFrame(() => {
-        const element = document.querySelector('.shepherd-element');
-        expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
-        done();
-      });
+      await requestAnimationFrame(() => new Promise((resolve) => {
+        return resolve();
+      }));
+
+      const element = document.querySelector('.shepherd-element');
+      expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
     });
 
-    it('updating classes should update element classes', (done) => {
+    it('updating classes should update element classes', async() => {
       step.updateStepOptions({ classes: 'test-1 test-2' });
       expect(step.options.classes).toEqual('test-1 test-2');
 
-      requestAnimationFrame(() => {
-        const element = document.querySelector('.shepherd-element');
-        expect(element.classList.contains('test-1')).toBeTruthy();
-        expect(element.classList.contains('test-2')).toBeTruthy();
-        expect(element.classList.contains('classes-test')).toBeFalsy();
-        done();
-      });
-    });
+      await requestAnimationFrame(() => new Promise((resolve) => {
+        return resolve();
+      }));
 
-    it('updating classes should not overwrite tether classes', (done) => {
-      step.updateStepOptions({ classes: 'test-1 test-2' });
-      expect(step.options.classes).toEqual('test-1 test-2');
-
-      requestAnimationFrame(() => {
-        const element = document.querySelector('.shepherd-element');
-        expect(element.classList.contains('shepherd-element-attached-bottom')).toBeTruthy();
-        expect(element.classList.contains('shepherd-element-attached-center')).toBeTruthy();
-        expect(element.classList.contains('shepherd-target-attached-top')).toBeTruthy();
-        expect(element.classList.contains('shepherd-target-attached-center')).toBeTruthy();
-        done();
-      });
+      const element = document.querySelector('.shepherd-element');
+      expect(element.classList.contains('test-1')).toBeTruthy();
+      expect(element.classList.contains('test-2')).toBeTruthy();
+      expect(element.classList.contains('classes-test')).toBeFalsy();
     });
   });
 

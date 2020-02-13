@@ -1,7 +1,5 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
 html, body {
@@ -154,40 +152,44 @@ pre {
   width: auto;
 }
 
+.shepherd-arrow::before {
+  display: none;
+}
+
 .shepherd-element .shepherd-arrow:after {
   content: url('../assets/img/arrow.svg');
   display: inline-block;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow,
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow,
 .shepherd-element.shepherd-pinned-top .shepherd-arrow {
   bottom: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-arrow:after,
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow:after,
 .shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
   transform: rotate(270deg);
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
   top: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-top.shepherd-element-attached-center .shepherd-arrow:after {
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow:after {
   transform: rotate(90deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow,
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow,
 .shepherd-element.shepherd-pinned-left .shepherd-arrow {
   right: -35px;
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow:after,
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow:after,
 .shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
   transform: rotate(180deg);
 }
 
-.shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-left .shepherd-arrow,
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow,
 .shepherd-element.shepherd-pinned-right .shepherd-arrow {
   left: -35px;
 }
@@ -221,8 +223,7 @@ pre {
   padding: 2rem;
 }
 
-.shepherd-text a,
-.shepherd-text a:visited,
+.shepherd-text a, .shepherd-text a:visited,
 .shepherd-text a:active {
   border-bottom: 1px dotted;
   border-bottom-color: rgba(0, 0, 0, 0.75);
@@ -230,8 +231,7 @@ pre {
   text-decoration: none;
 }
 
-.shepherd-text a:hover,
-.shepherd-text a:visited:hover,
+.shepherd-text a:hover, .shepherd-text a:visited:hover,
 .shepherd-text a:active:hover {
   border-bottom-style: solid;
 }

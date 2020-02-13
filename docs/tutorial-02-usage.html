@@ -184,6 +184,7 @@ event handlers a <code>tour</code> key pointing to the instance which fired the 
 </code></pre>
 <h5>Tour Options</h5>
 <ul>
+<li><code>classPrefix</code>: The prefix to add to all the <code>shepherd-*</code> class names.</li>
 <li><code>confirmCancel</code>: If true, will issue a <code>window.confirm</code> before cancelling</li>
 <li><code>confirmCancelMessage</code>: The message to display in the confirm dialog</li>
 <li><code>defaultStepOptions</code>: Default options for Steps created through <code>addStep</code></li>
@@ -197,10 +198,11 @@ dynamically generated <code>id</code> property -- which is also set on the <code
 </ul>
 <h5>Tour Methods</h5>
 <ul>
-<li><code>addStep(options)</code>: Creates a new Step object with options, and returns the <code>Step</code> instance it created.
-If the options hash doesn't include an <code>id</code>, one will be generated.
+<li><code>addStep(options)</code>: Creates a new Step object with options, and returns the <code>Step</code> instance it created. If the options hash doesn't include an <code>id</code>, one will be generated.
 You can also pass an existing <code>Step</code> instance rather than <code>options</code>, but note that Shepherd does not support a Step being attached to multiple Tours.</li>
+<li><code>addSteps([Steps])</code>: Add multiple steps to the tour</li>
 <li><code>getById(id)</code>: Return a step with a specific id</li>
+<li><code>isActive()</code>: Check if the tour is active</li>
 <li><code>next()</code>: Advance to the next step, in the order they were added</li>
 <li><code>back()</code>: Show the previous step, in the order they were added</li>
 <li><code>cancel()</code>: Trigger cancel on the current step, hiding it without advancing</li>
@@ -208,6 +210,7 @@ You can also pass an existing <code>Step</code> instance rather than <code>optio
 <li><code>show([id])</code>: Show the step specified by id (if it's a string), or index (if it's a number) provided.  Defaults to the first step.</li>
 <li><code>start()</code>: Show the first step and begin the tour</li>
 <li><code>getCurrentStep()</code>: Returns the currently shown step</li>
+<li><code>removeStep(id)</code>: Removes the step from the tour</li>
 <li><code>on(eventName, handler, [context])</code>: Bind an event</li>
 <li><code>off(eventName, [handler])</code>: Unbind an event</li>
 <li><code>once(eventName, handler, [context])</code>: Bind just the next instance of an event</li>
@@ -295,6 +298,7 @@ You can also always manually advance the Tour by calling <code>myTour.next()</co
 <li><code>highlightClass</code>: An extra class to apply to the <code>attachTo</code> element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.</li>
 <li><code>id</code>: The string to use as the <code>id</code> for the step. If an id is not passed one will be generated.</li>
 <li><code>modalOverlayOpeningPadding</code>: An amount of padding to add around the modal overlay opening</li>
+<li><code>popperOptions</code>: Extra options to pass to <a href="https://popper.js.org/docs/v2/constructors/#options">Popper</a></li>
 <li><code>showOn</code>: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.</li>
 <li><code>scrollTo</code>: Should the element be scrolled to when this step is shown?</li>
 <li><code>scrollToHandler</code>: A function that lets you override the default <code>scrollTo</code> behavior and define a custom action to do the scrolling,
@@ -342,10 +346,6 @@ yourApp.on('some-event', () => {
   }
 });
 </code></pre>
-<h3>Rendering Tours in Specific Locations</h3>
-<p>By default, tour steps will append their elements to the <code>body</code> element of the DOM. This is perfect for most use cases, but not always. If you need to have steps appended elsewhere you can take advantage of Tippy's
-<a href="https://atomiks.github.io/tippyjs/#append-to-option"><code>appendTo</code> option</a> by defining it on the
-<code>tippyOptions</code> hash inside of each Step's options hash.</p>
 <h3>🔼 Displaying Arrows</h3>
 <p>By default, Shepherd will generate and position an &quot;arrow&quot; element that points to the target
 of a step. This is done by setting the <code>arrow</code> option to <code>true</code> on each ``Step.options` — but you can disable the arrow manually by setting it to false:</p>
@@ -354,7 +354,7 @@ of a step. This is done by setting the <code>arrow</code> option to <code>true</
   arrow: false
 });
 </code></pre>
-<p>Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the <code>.popper__arrow</code> element.</p>
+<p>Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the <code>.shepherd-arrow</code> element.</p>
   </article>
 </section>
 
