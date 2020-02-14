@@ -2005,8 +2005,7 @@ function getPopperOptions(attachToOptions, step) {
     modifiers: [{
       name: 'preventOverflow',
       options: {
-        altAxis: true,
-        rootBoundary: 'document'
+        altAxis: true
       }
     }]
   };

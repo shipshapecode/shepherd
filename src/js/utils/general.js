@@ -88,8 +88,7 @@ export function getPopperOptions(attachToOptions, step) {
       {
         name: 'preventOverflow',
         options: {
-          altAxis: true,
-          rootBoundary: 'document'
+          altAxis: true
         }
       }
     ]
