@@ -1,6 +1,57 @@
 import { createPopper } from '@popperjs/core';
 import { isString } from './type-check';
 import { makeCenteredPopper } from './popper-options';
+import getNodeName from '@popperjs/core/lib/dom-utils/getNodeName.js';
+import { isHTMLElement } from '@popperjs/core/lib/dom-utils/instanceOf.js';
+import applyStylesModifier from '@popperjs/core/lib/modifiers/applyStyles';
+
+function effectFixed({ state }) {
+  const initialStyles = {
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    margin: '0'
+  };
+
+  Object.assign(state.elements.popper.style, initialStyles);
+
+  return () => {
+    Object.keys(state.elements).forEach((name) => {
+      const element = state.elements[name];
+      const styleProperties = Object.keys(
+        Object.prototype.hasOwnProperty.call(state.styles, name)
+          ? { ...state.styles[name] }
+          : initialStyles
+      );
+      const attributes = state.attributes[name] || {};
+
+      // Set all values to an empty string to unset them
+      const style = styleProperties.reduce(
+        (style, property) => ({
+          ...style,
+          [String(property)]: ''
+        }),
+        {}
+      );
+
+      // arrow is optional + virtual elements
+      if (!isHTMLElement(element) || !getNodeName(element)) {
+        return;
+      }
+
+      // Flow doesn't support to extend this property, but it's the most
+      // effective way to apply styles to an HTMLElement
+      // $FlowFixMe
+      Object.assign(element.style, style);
+
+      Object.keys(attributes).forEach((attribute) =>
+        element.removeAttribute(attribute)
+      );
+    });
+  };
+}
+// work around for default state values
+applyStylesModifier.effect = effectFixed;
 
 /**
  * Ensure class prefix ends in `-`
@@ -83,8 +134,9 @@ export function uuid() {
  */
 export function getPopperOptions(attachToOptions, step) {
   let popperOptions = {
-    // required to keep the Step in the viewport
     modifiers: [
+      applyStylesModifier,
+      // required to keep the Step in the viewport
       {
         name: 'preventOverflow',
         options: {
