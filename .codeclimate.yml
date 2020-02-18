@@ -10,7 +10,6 @@ checks:
     config:
       threshold: 30
 exclude_patterns:
-  - "demo/"
   - "dist/"
   - "docs/"
   - "jsdoc-template/"

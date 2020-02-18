@@ -54,15 +54,14 @@ if (process.env.DEVELOPMENT) {
       notify: false,
       open: true,
       server: {
-        baseDir: 'demo',
         routes: {
           '/dist/css/shepherd.css': 'dist/css/shepherd.css',
           '/dist/js/shepherd.js': 'dist/js/shepherd.js',
-          '/demo/js/prism.js': 'demo/js/prism.js',
-          '/demo/js/welcome.js': 'demo/js/welcome.js',
-          '/demo/css/prism.css': 'demo/css/prism.css',
-          '/demo/css/welcome.css': 'demo/css/welcome.css',
-          '/demo/sheep.svg': 'demo/sheep.svg'
+          '/landing/js/prism.js': 'landing/js/prism.js',
+          '/landing/js/welcome.js': 'landing/js/welcome.js',
+          '/landing/css/prism.css': 'landing/css/prism.css',
+          '/landing/css/welcome.css': 'landing/css/welcome.css',
+          '/landing/sheep.svg': 'landing/sheep.svg'
         }
       }
     })
