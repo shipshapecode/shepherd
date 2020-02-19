@@ -117,8 +117,6 @@ export function getPopperOptions(attachToOptions, step) {
 
       delete step.options.popperOptions.modifiers;
     }
-    console.log(popperOptions);
-    console.log(step.options);
 
     popperOptions = Object.assign(popperOptions, step.options.popperOptions);
   }
