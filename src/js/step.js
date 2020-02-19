@@ -360,7 +360,6 @@ export class Step extends Evented {
     content.classList.add('shepherd-enabled');
 
     this.trigger('show');
-    this.el.focus();
   }
 
   /**

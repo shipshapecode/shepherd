@@ -8,6 +8,7 @@ function _getCenteredStylePopperModifier() {
             return;
           }
           const style = {
+            position: 'fixed',
             left: '50%',
             top: '50%',
             transform: 'translate(-50%, -50%)'
@@ -59,11 +60,14 @@ export function makeCenteredPopper(step) {
   return popperOptions;
 }
 
-function _makeCommonPopperOptions() {
+function _makeCommonPopperOptions(step) {
   const popperOptions = {
     placement: 'top',
     strategy: 'fixed',
-    modifiers: []
+    modifiers: [],
+    onFirstUpdate() {
+      step.el.focus();
+    }
   };
 
   return popperOptions;

@@ -13,10 +13,10 @@ describe('General Utils', function() {
     });
   });
 
-  describe.only('getPopperOptions', function() {
+  describe('getPopperOptions', function() {
     it('modifiers can be overridden', function() {
       const step = new Step({}, {
-        attachTo: { element: '.scroll-test', on: 'center' },
+        attachTo: { element: '.scroll-test', on: 'right' },
         popperOptions: {
           modifiers: [
             {
@@ -29,7 +29,7 @@ describe('General Utils', function() {
         }
       });
 
-      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      const { popperOptions } = getPopperOptions(step.options.attachTo, step);
       expect(popperOptions.modifiers[0].options.altAxis).toBe(false);
     });
 
@@ -43,7 +43,7 @@ describe('General Utils', function() {
         }
       });
 
-      const { popperOptions } = getPopperOptions(parseAttachTo(step), step);
+      const { popperOptions } = getPopperOptions(step.options.attachTo, step);
       expect(popperOptions.strategy).toBe('absolute');
     });
   });
