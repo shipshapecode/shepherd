@@ -37,6 +37,7 @@ const plugins = [
   }),
   postcss({
     plugins: [
+      require('tailwindcss'),
       require('autoprefixer'),
       require('cssnano')
     ],
