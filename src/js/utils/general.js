@@ -83,7 +83,6 @@ export function uuid() {
  */
 export function getPopperOptions(attachToOptions, step) {
   let popperOptions = {
-    // required to keep the Step in the viewport
     modifiers: [
       {
         name: 'preventOverflow',
@@ -91,7 +90,11 @@ export function getPopperOptions(attachToOptions, step) {
           altAxis: true
         }
       }
-    ]
+    ],
+    strategy: 'absolute',
+    onFirstUpdate() {
+      step.el.focus();
+    }
   };
   let target = document.body;
 
@@ -115,10 +118,7 @@ export function getPopperOptions(attachToOptions, step) {
       delete step.options.popperOptions.modifiers;
     }
 
-    popperOptions = {
-      ...popperOptions,
-      ...step.options.popperOptions
-    };
+    popperOptions = Object.assign(popperOptions, step.options.popperOptions);
   }
 
   return { element: step.el, popperOptions, target };
