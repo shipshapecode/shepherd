@@ -49,7 +49,7 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "@popperjs/core": "^2.0.3",
+    "@popperjs/core": "^2.0.6",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^4.1.10",
-    "cypress": "^3.8.3",
+    "cypress": "^4.0.2",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^5.1.0",
     "eslint": "^6.8.0",
