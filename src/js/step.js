@@ -7,7 +7,6 @@ import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
 import smoothscroll from 'smoothscroll-polyfill';
-
 smoothscroll.polyfill();
 
 /**
@@ -329,7 +328,6 @@ export class Step extends Evented {
     if (this.options.advanceOn) {
       bindAdvance(this);
     }
-
     setupTooltip(this);
   }
 
@@ -345,24 +343,23 @@ export class Step extends Evented {
 
     this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
-
     this.el.hidden = false;
 
-    this.tooltip.update();
-
-    const content = this.shepherdElementComponent.getElement();
-    const target = this.target || document.body;
-    target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
-    content.classList.add('shepherd-enabled');
-
+    // start scrolling to target before showing the step
     if (this.options.scrollTo) {
       setTimeout(() => {
         this._scrollTo(this.options.scrollTo);
       });
     }
 
+    this.el.hidden = false;
+
+    const content = this.shepherdElementComponent.getElement();
+    const target = this.target || document.body;
+    target.classList.add(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    content.classList.add('shepherd-enabled');
+
     this.trigger('show');
-    this.el.focus();
   }
 
   /**

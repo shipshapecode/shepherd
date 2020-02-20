@@ -1861,6 +1861,7 @@ function _getCenteredStylePopperModifier() {
         }
 
         var style = {
+          position: 'fixed',
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)'
@@ -1899,20 +1900,25 @@ function _getCenteredStylePopperModifier() {
 function makeCenteredPopper(step) {
   var centeredStylePopperModifier = _getCenteredStylePopperModifier();
 
-  var popperOptions = _makeCommonPopperOptions();
+  var content = step.shepherdElementComponent.getElement();
 
-  popperOptions.placement = 'top';
-  popperOptions.strategy = 'absolute';
+  var popperOptions = _makeCommonPopperOptions(step);
+
+  content.classList.add('shepherd-centered');
   popperOptions = _extends({}, popperOptions, {
     modifiers: Array.from(new Set([].concat(popperOptions.modifiers, centeredStylePopperModifier)))
   });
   return popperOptions;
 }
 
-function _makeCommonPopperOptions() {
+function _makeCommonPopperOptions(step) {
   var popperOptions = {
+    placement: 'top',
     strategy: 'fixed',
-    modifiers: []
+    modifiers: [],
+    onFirstUpdate: function onFirstUpdate() {
+      step.el.focus();
+    }
   };
   return popperOptions;
 }
@@ -2001,18 +2007,21 @@ function uuid() {
 
 function getPopperOptions(attachToOptions, step) {
   var popperOptions = {
-    // required to keep the Step in the viewport
     modifiers: [{
       name: 'preventOverflow',
       options: {
         altAxis: true
       }
-    }]
+    }],
+    strategy: 'absolute',
+    onFirstUpdate: function onFirstUpdate() {
+      step.el.focus();
+    }
   };
   var target = document.body;
 
   if (!attachToOptions.element || !attachToOptions.on) {
-    popperOptions = makeCenteredPopper();
+    popperOptions = makeCenteredPopper(step);
   } else {
     popperOptions.placement = attachToOptions.on || 'right';
     target = attachToOptions.element;
@@ -2030,7 +2039,7 @@ function getPopperOptions(attachToOptions, step) {
       delete step.options.popperOptions.modifiers;
     }
 
-    popperOptions = _extends({}, popperOptions, {}, step.options.popperOptions);
+    popperOptions = Object.assign(popperOptions, step.options.popperOptions);
   }
 
   return {
@@ -4745,12 +4754,7 @@ function (_Evented) {
 
     this._styleTargetElementForStep(this);
 
-    this.el.hidden = false;
-    this.tooltip.update();
-    var content = this.shepherdElementComponent.getElement();
-    var target = this.target || document.body;
-    target.classList.add(this.classPrefix + "shepherd-enabled", this.classPrefix + "shepherd-target");
-    content.classList.add('shepherd-enabled');
+    this.el.hidden = false; // start scrolling to target before showing the step
 
     if (this.options.scrollTo) {
       setTimeout(function () {
@@ -4758,8 +4762,12 @@ function (_Evented) {
       });
     }
 
+    this.el.hidden = false;
+    var content = this.shepherdElementComponent.getElement();
+    var target = this.target || document.body;
+    target.classList.add(this.classPrefix + "shepherd-enabled", this.classPrefix + "shepherd-target");
+    content.classList.add('shepherd-enabled');
     this.trigger('show');
-    this.el.focus();
   }
   /**
    * Modulates the styles of the passed step's target element, based on the step's options and

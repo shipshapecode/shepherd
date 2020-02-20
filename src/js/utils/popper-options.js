@@ -8,6 +8,7 @@ function _getCenteredStylePopperModifier() {
             return;
           }
           const style = {
+            position: 'fixed',
             left: '50%',
             top: '50%',
             transform: 'translate(-50%, -50%)'
@@ -47,11 +48,10 @@ function _getCenteredStylePopperModifier() {
  */
 export function makeCenteredPopper(step) {
   const centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
+  const content = step.shepherdElementComponent.getElement();
   let popperOptions = _makeCommonPopperOptions(step);
 
-  popperOptions.placement = 'top';
-  popperOptions.strategy = 'absolute';
-
+  content.classList.add('shepherd-centered');
   popperOptions = {
     ...popperOptions,
     modifiers: Array.from(new Set([...popperOptions.modifiers, ...centeredStylePopperModifier]))
@@ -60,10 +60,14 @@ export function makeCenteredPopper(step) {
   return popperOptions;
 }
 
-function _makeCommonPopperOptions() {
+function _makeCommonPopperOptions(step) {
   const popperOptions = {
+    placement: 'top',
     strategy: 'fixed',
-    modifiers: []
+    modifiers: [],
+    onFirstUpdate() {
+      step.el.focus();
+    }
   };
 
   return popperOptions;
