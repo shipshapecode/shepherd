@@ -3,7 +3,6 @@
 
 coverage/
 cypress/
-demo/
 docs/
 esdoc/
 jsdoc-template/

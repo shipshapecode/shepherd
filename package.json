@@ -23,6 +23,7 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
+    "postbuild": "yarn build:landing",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v5.0.0 --max-issues 100 --exclude-labels dependencies,duplicate,question,invalid,wontfix",
@@ -43,7 +44,7 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "homepage": "https://shepherdjs.dev/demo/",
+  "homepage": "https://shepherdjs.dev",
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "types": "src/types/shepherd.d.ts",
