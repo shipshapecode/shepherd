@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -23,6 +23,7 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
+    "prebuild": "./node_modules/.bin/patch-package",
     "postbuild": "yarn build:landing",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
@@ -31,7 +32,6 @@
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
     "lint:js": "eslint . --ext js",
-    "postinstall": "patch-package",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
