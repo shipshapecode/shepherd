@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "7.0.0",
+  "version": "6.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -26,7 +26,7 @@
     "postbuild": "yarn build:landing",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
-    "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v5.0.0 --max-issues 100 --exclude-labels dependencies,duplicate,question,invalid,wontfix",
+    "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v6.0.0 --max-issues 100 --exclude-labels dependencies,duplicate,question,invalid,wontfix",
     "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run": "./node_modules/.bin/cypress run",
