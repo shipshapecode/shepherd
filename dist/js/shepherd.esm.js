@@ -2167,7 +2167,7 @@ function set_attributes(node, attributes) {
       node.removeAttribute(key);
     } else if (key === 'style') {
       node.style.cssText = attributes[key];
-    } else if (descriptors[key] && descriptors[key].set) {
+    } else if (key === '__value' || descriptors[key] && descriptors[key].set) {
       node[key] = attributes[key];
     } else {
       attr(node, key, attributes[key]);
