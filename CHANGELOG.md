@@ -1,5 +1,21 @@
 # Changelog
 
+## [v7.0.2](https://github.com/shipshapecode/shepherd/tree/v7.0.2) (2020-02-25)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v7.0.1...v7.0.2)
+
+**Fixed bugs:**
+
+- Fix bug when modifiers was not defined [\#811](https://github.com/shipshapecode/shepherd/pull/811) ([rwwagner90](https://github.com/rwwagner90))
+
+**Closed issues:**
+
+- Installing v7.0.0 fails  [\#810](https://github.com/shipshapecode/shepherd/issues/810)
+
+## [v7.0.1](https://github.com/shipshapecode/shepherd/tree/v7.0.1) (2020-02-24)
+
+[Full Changelog](https://github.com/shipshapecode/shepherd/compare/v7.0.0...v7.0.1)
+
 ## [v7.0.0](https://github.com/shipshapecode/shepherd/tree/v7.0.0) (2020-02-24)
 
 [Full Changelog](https://github.com/shipshapecode/shepherd/compare/v6.0.2...v7.0.0)

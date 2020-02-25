@@ -1,4 +1,4 @@
-/*! shepherd.js 7.0.1 */
+/*! shepherd.js 7.0.2 */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -2063,7 +2063,7 @@
     }
 
     if (step.options.popperOptions) {
-      if (step.options.popperOptions.modifiers.length > 0) {
+      if (step.options.popperOptions.modifiers && step.options.popperOptions.modifiers.length > 0) {
         var names = step.options.popperOptions.modifiers.map(function (mod) {
           return mod.name;
         });
