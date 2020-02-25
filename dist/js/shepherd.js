@@ -2000,7 +2000,7 @@
   }
   /**
    * Determines options for the tooltip and initializes
-   * `step.tooltip` as a Tether instance.
+   * `step.tooltip` as a Popper instance.
    * @param {Step} step The step instance
    */
 

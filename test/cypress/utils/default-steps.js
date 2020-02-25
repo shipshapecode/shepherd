@@ -9,7 +9,7 @@ export default function(shepherd) {
          </p>
         
          <p>
-           Among many things, Tether makes sure your steps never end up off screen or cropped by an overflow.
+           Among many things, Popper makes sure your steps never end up off screen or cropped by an overflow.
            (Try resizing your browser to see what we mean.)
          </p>`,
       attachTo: {
