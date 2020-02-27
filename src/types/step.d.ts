@@ -130,6 +130,11 @@ declare namespace Step {
     modalOverlayOpeningPadding?: number;
 
     /**
+     * Extra [options to pass to Popper]{@link https://popper.js.org/docs/v2/}
+     */
+    popperOptions?: object;
+
+    /**
      * Should the element be scrolled to when this step is shown?
      */
     scrollTo?: boolean | ScrollIntoViewOptions;
