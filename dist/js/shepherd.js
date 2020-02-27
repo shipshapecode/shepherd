@@ -4499,7 +4499,7 @@
      * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
      * highlighted (that is, when its step is active). You can then target that selector in your CSS.
      * @param {string} options.id The string to use as the `id` for the step.
-     * @param {string} options.popperOptions Extra options to pass to Popper
+     * @param {object} options.popperOptions Extra options to pass to Popper
      * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
      * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
      * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
