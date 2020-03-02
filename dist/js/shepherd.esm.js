@@ -80,9 +80,7 @@ function isUndefined(value) {
   return value === undefined;
 }
 
-var Evented =
-/*#__PURE__*/
-function () {
+var Evented = /*#__PURE__*/function () {
   function Evented() {}
 
   var _proto = Evented.prototype;
@@ -476,14 +474,10 @@ var clippingParents = 'clippingParents';
 var viewport = 'viewport';
 var popper = 'popper';
 var reference = 'reference';
-var variationPlacements =
-/*#__PURE__*/
-basePlacements.reduce(function (acc, placement) {
+var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
   return acc.concat([placement + "-" + start, placement + "-" + end]);
 }, []);
-var placements =
-/*#__PURE__*/
-[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
   return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
 }, []); // modifiers that need to read the DOM
 
@@ -1789,9 +1783,7 @@ var hide$1 = {
 };
 
 var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
-var createPopper =
-/*#__PURE__*/
-popperGenerator({
+var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
@@ -2392,9 +2384,7 @@ function init(component, options, instance, create_fragment, not_equal, props, d
   set_current_component(parent_component);
 }
 
-var SvelteComponent =
-/*#__PURE__*/
-function () {
+var SvelteComponent = /*#__PURE__*/function () {
   function SvelteComponent() {}
 
   var _proto3 = SvelteComponent.prototype;
@@ -2539,9 +2529,7 @@ function instance($$self, $$props, $$invalidate) {
   return [action, classes, secondary, text, label, disabled, config, step];
 }
 
-var Shepherd_button =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_button = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_button, _SvelteComponent);
 
   function Shepherd_button(options) {
@@ -2787,9 +2775,7 @@ function instance$1($$self, $$props, $$invalidate) {
   return [step, buttons];
 }
 
-var Shepherd_footer =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_footer = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_footer, _SvelteComponent);
 
   function Shepherd_footer(options) {
@@ -2873,9 +2859,7 @@ function instance$2($$self, $$props, $$invalidate) {
   return [cancelIcon, handleCancelClick, step];
 }
 
-var Shepherd_cancel_icon =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_cancel_icon = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_cancel_icon, _SvelteComponent);
 
   function Shepherd_cancel_icon(options) {
@@ -2957,9 +2941,7 @@ function instance$3($$self, $$props, $$invalidate) {
   return [element, labelId, title, h3_binding];
 }
 
-var Shepherd_title =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_title = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_title, _SvelteComponent);
 
   function Shepherd_title(options) {
@@ -3191,9 +3173,7 @@ function instance$4($$self, $$props, $$invalidate) {
   return [labelId, step, title, cancelIcon];
 }
 
-var Shepherd_header =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_header = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_header, _SvelteComponent);
 
   function Shepherd_header(options) {
@@ -3281,9 +3261,7 @@ function instance$5($$self, $$props, $$invalidate) {
   return [element, descriptionId, step, div_binding];
 }
 
-var Shepherd_text =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_text = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_text, _SvelteComponent);
 
   function Shepherd_text(options) {
@@ -3536,9 +3514,7 @@ function instance$6($$self, $$props, $$invalidate) {
   return [descriptionId, labelId, step];
 }
 
-var Shepherd_content =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_content = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_content, _SvelteComponent);
 
   function Shepherd_content(options) {
@@ -3903,9 +3879,7 @@ function instance$7($$self, $$props, $$invalidate) {
   return [element, dataStepId, descriptionId, labelId, step, hasCancelIcon, hasTitle, handleKeyDown, firstFocusableElement, focusableElements, lastFocusableElement, classPrefix, getElement, classes, updateDynamicClasses, removeClasses, addClasses, div_binding];
 }
 
-var Shepherd_element =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_element = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_element, _SvelteComponent);
 
   function Shepherd_element(options) {
@@ -4291,9 +4265,7 @@ smoothscroll.polyfill();
  * @extends {Evented}
  */
 
-var Step =
-/*#__PURE__*/
-function (_Evented) {
+var Step = /*#__PURE__*/function (_Evented) {
   _inheritsLoose(Step, _Evented);
 
   /**
@@ -4996,9 +4968,7 @@ function instance$8($$self, $$props, $$invalidate) {
   return [element, openingProperties, modalIsVisible, _preventModalOverlayTouch, getElement, closeModalOpening, hide, positionModalOpening, setupForStep, show, rafId, guid, _preventModalBodyTouch, _addStepEventListeners, _cleanupStepEventListeners, _styleForStep, svg_binding];
 }
 
-var Shepherd_modal =
-/*#__PURE__*/
-function (_SvelteComponent) {
+var Shepherd_modal = /*#__PURE__*/function (_SvelteComponent) {
   _inheritsLoose(Shepherd_modal, _SvelteComponent);
 
   function Shepherd_modal(options) {
@@ -5059,9 +5029,7 @@ var Shepherd = new Evented();
  * @extends {Evented}
  */
 
-var Tour =
-/*#__PURE__*/
-function (_Evented) {
+var Tour = /*#__PURE__*/function (_Evented) {
   _inheritsLoose(Tour, _Evented);
 
   /**
