@@ -81,7 +81,7 @@
     "jsdoc": "^3.6.3",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.3",
-    "patch-package": "^6.2.0",
+    "patch-package": "^6.2.1",
     "postcss": "^7.0.27",
     "postinstall-postinstall": "^2.0.0",
     "replace": "^1.1.5",
