@@ -79,7 +79,10 @@ describe('Tour | Step', () => {
           text: 'Next',
           action: instance.next
         }
-      ]
+      ],
+      popperOptions: {
+        modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
+      }
     });
 
     const beforeShowPromise = new Promise((resolve) => {
@@ -99,7 +102,7 @@ describe('Tour | Step', () => {
     });
 
     it('has all the correct properties', () => {
-      const values = ['arrow', 'classes', 'scrollTo', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
+      const values = ['arrow', 'classes', 'scrollTo', 'popperOptions', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
       expect(values).toEqual(Object.keys(testStep.options));
 
       expect(testStep.id, 'passed name set as id').toBe('test');
@@ -116,6 +119,19 @@ describe('Tour | Step', () => {
       // this will add the default `preventOverflow` modifier before showing
       testStep.show();
       expect(testStep.options.popperOptions.modifiers.length).toBe(3);
+    });
+
+    it('allows the step to override a previously defined modifier', () => {
+      stepWithoutNameWithoutId.show();
+      const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce((prev, next) => {
+        if (next.name === 'offset') {
+          return `${next.options.offset}`;
+        }
+
+        return '';
+      }, '');
+
+      expect(offsetValues).toBe('0,0');
     });
 
     describe('.hide()', () => {
