@@ -18,6 +18,9 @@
         scrollTo: {
           behavior: 'smooth',
           block: 'center'
+        },
+        popperOptions: {
+          modifiers: [{ name: "offset", options: { offset: [0, 32] } }]
         }
       },
       // This should add the first tour step

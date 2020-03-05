@@ -18,7 +18,10 @@ describe('Tour | Step', () => {
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
-        scrollTo: true
+        scrollTo: true,
+        popperOptions: {
+          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        }
       }
     });
 
@@ -32,7 +35,10 @@ describe('Tour | Step', () => {
           action: instance.next
         }
       ],
-      id: 'test'
+      id: 'test',
+      popperOptions: {
+        modifiers: [{ name: 'foo', options: 'bar' }]
+      }
     });
 
     const showTestStep = instance.addStep({
@@ -100,6 +106,16 @@ describe('Tour | Step', () => {
       expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');
       expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed')
         .toMatch(/^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
+    });
+
+    it('applies the default modifiers from defaultStepOptions', () => {
+      instance.steps.forEach((step) => expect(step.options.popperOptions.modifiers.length).toBe(1));
+    });
+
+    it('adds a step modifer to default modifiers', () => {
+      // this will add the default `preventOverflow` modifier before showing
+      testStep.show();
+      expect(testStep.options.popperOptions.modifiers.length).toBe(3);
     });
 
     describe('.hide()', () => {
