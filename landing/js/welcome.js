@@ -46,7 +46,17 @@
               text: 'Next'
             }
           ],
-          id: 'welcome'
+          id: 'welcome',
+          popperOptions: {
+            modifiers: [
+              {
+                name: 'preventOverflow',
+                options: {
+                  altAxis: false
+                }
+              }
+            ]
+          }
         }
       ],
       useModalOverlay: true
