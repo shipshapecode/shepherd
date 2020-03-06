@@ -289,7 +289,6 @@ export class Step extends Evented {
    * @private
    */
   _setOptions(options = {}) {
-
     const tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 

@@ -18,9 +18,6 @@
         scrollTo: {
           behavior: 'smooth',
           block: 'center'
-        },
-        popperOptions: {
-          modifiers: [{ name: "offset", options: { offset: [0, 32] } }]
         }
       },
       // This should add the first tour step
@@ -46,17 +43,7 @@
               text: 'Next'
             }
           ],
-          id: 'welcome',
-          popperOptions: {
-            modifiers: [
-              {
-                name: 'preventOverflow',
-                options: {
-                  altAxis: false
-                }
-              }
-            ]
-          }
+          id: 'welcome'
         }
       ],
       useModalOverlay: true
