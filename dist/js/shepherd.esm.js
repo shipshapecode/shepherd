@@ -1972,11 +1972,10 @@ function getPopperOptions(attachToOptions, step) {
       var filteredModifiers = popperOptions.modifiers.filter(function (mod) {
         return !names.includes(mod.name);
       });
-      popperOptions.modifiers = [].concat(step.options.popperOptions.modifiers, filteredModifiers);
-      delete step.options.popperOptions.modifiers;
+      popperOptions.modifiers = Array.from(new Set([].concat(filteredModifiers, step.options.popperOptions.modifiers)));
     }
 
-    popperOptions = Object.assign(popperOptions, step.options.popperOptions);
+    popperOptions = Object.assign(step.options.popperOptions, popperOptions);
   }
 
   return {

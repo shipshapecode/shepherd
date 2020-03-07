@@ -118,15 +118,10 @@ export function getPopperOptions(attachToOptions, step) {
         (mod) => !names.includes(mod.name)
       );
 
-      popperOptions.modifiers = [
-        ...step.options.popperOptions.modifiers,
-        ...filteredModifiers
-      ];
-
-      delete step.options.popperOptions.modifiers;
+      popperOptions.modifiers = Array.from(new Set([...filteredModifiers, ...step.options.popperOptions.modifiers]));
     }
 
-    popperOptions = Object.assign(popperOptions, step.options.popperOptions);
+    popperOptions = Object.assign(step.options.popperOptions, popperOptions);
   }
 
   return { element: step.el, popperOptions, target };
