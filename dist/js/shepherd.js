@@ -4631,7 +4631,8 @@
       this.el.hidden = false;
       var content = this.shepherdElementComponent.getElement();
       var target = this.target || document.body;
-      target.classList.add(this.classPrefix + "shepherd-enabled", this.classPrefix + "shepherd-target");
+      target.classList.add(this.classPrefix + "shepherd-enabled");
+      target.classList.add(this.classPrefix + "shepherd-target");
       content.classList.add('shepherd-enabled');
       this.trigger('show');
     }
