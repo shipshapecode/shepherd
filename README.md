@@ -54,6 +54,8 @@ You will also need a [Web Components polyfill](https://www.webcomponents.org/pol
 <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js"></script>
 ```
 
+**Note:** This library is constantly evolving, and we do not regularly test in IE, so it is possible other polyfills or workarounds are also necessary.
+
 Documentation
 ----------------------------------------------------------
 
