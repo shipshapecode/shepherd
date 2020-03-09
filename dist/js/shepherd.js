@@ -286,7 +286,7 @@
 
   function isElement$1(node) {
     var OwnElement = getWindow(node).Element;
-    return node instanceof OwnElement;
+    return node instanceof OwnElement || node instanceof Element;
   }
   /*:: declare function isHTMLElement(node: mixed): boolean %checks(node instanceof
     HTMLElement); */
@@ -294,7 +294,7 @@
 
   function isHTMLElement(node) {
     var OwnElement = getWindow(node).HTMLElement;
-    return node instanceof OwnElement;
+    return node instanceof OwnElement || node instanceof HTMLElement;
   }
 
   function getHTMLElementScroll(element) {
@@ -1452,6 +1452,7 @@
         padding = options.padding,
         boundary = options.boundary,
         rootBoundary = options.rootBoundary,
+        altBoundary = options.altBoundary,
         _options$flipVariatio = options.flipVariations,
         flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio;
     var preferredPlacement = state.options.placement;
@@ -1485,6 +1486,7 @@
         placement: placement,
         boundary: boundary,
         rootBoundary: rootBoundary,
+        altBoundary: altBoundary,
         padding: padding
       });
       var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
@@ -1571,6 +1573,7 @@
         checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
         boundary = options.boundary,
         rootBoundary = options.rootBoundary,
+        altBoundary = options.altBoundary,
         padding = options.padding,
         _options$tether = options.tether,
         tether = _options$tether === void 0 ? true : _options$tether,
@@ -1579,7 +1582,8 @@
     var overflow = detectOverflow(state, {
       boundary: boundary,
       rootBoundary: rootBoundary,
-      padding: padding
+      padding: padding,
+      altBoundary: altBoundary
     });
     var basePlacement = getBasePlacement(state.placement);
     var variation = getVariation(state.placement);
@@ -1625,8 +1629,9 @@
       var arrowLen = within(0, referenceRect[len], arrowRect[len]);
       var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - tetherOffsetValue : minLen - arrowLen - arrowPaddingMin - tetherOffsetValue;
       var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
+      var clientOffset = arrowElement ? mainAxis === 'y' ? state.elements.popper.clientTop : state.elements.popper.clientLeft : 0;
       var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
-      var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue;
+      var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
       var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
       var preventedOffset = within(tether ? Math.min(min, tetherMin) : min, offset, tether ? Math.max(max, tetherMax) : max);
       popperOffsets[mainAxis] = preventedOffset;
@@ -1683,7 +1688,8 @@
     var maxProp = axis === 'y' ? bottom : right;
     var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
     var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-    var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
+    var clientOffset = axis === 'y' ? state.elements.popper.clientLeft : state.elements.popper.clientTop;
+    var centerToReference = endDiff / 2 - startDiff / 2 - clientOffset; // Make sure the arrow doesn't overflow the popper if the center point is
     // outside of the popper bounds
 
     var center = within(paddingObject[minProp], state.rects.popper[len] / 2 - arrowRect[len] / 2 + centerToReference, state.rects.popper[len] - arrowRect[len] - paddingObject[maxProp]); // Prevents breaking syntax highlighting...
