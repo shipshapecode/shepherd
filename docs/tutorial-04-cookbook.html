@@ -114,6 +114,24 @@ and bulky, so we opted to remove <a href="https://github.com/willmcpo/body-scrol
 as a dependency, in favor of users installing it directly in their apps. To disable scrolling,
 you can install <code>body-scroll-lock</code> and run <code>bodyScrollLock.disableBodyScroll();</code> before
 starting the tour, then <code>bodyScrollLock.clearAllBodyScrollLocks();</code> after stopping the tour.</p>
+<h3>Progress Indicator</h3>
+<p>Using the already exposed API, you could add a progress indicator of your chosing
+for each step to let your users know how far into a tour they may be.</p>
+<p>The example below uses the <a href="https://shepherdjs.dev/docs/Step.html">Step</a> <code>options</code>
+object and adds to <code>when</code> on the <code>show</code> event. Within that, we create an element
+to render in the header with text of what step out of all potential steps is now
+being show.</p>
+<pre class="prettyprint source lang-javascript"><code>when: {
+  show() {
+    const header = document.querySelector('.shepherd-header');
+    const progress = document.createElement('span');
+    progress.style['margin-right'] = '315px';
+
+    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
+    header.insertBefore(progress, document.querySelector('.shepherd-cancel-icon'));        
+  }
+}
+</code></pre>
   </article>
 </section>
 
