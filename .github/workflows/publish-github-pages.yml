@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build site
-        run: yarn build
+      - name: Install Deps and Build
+        run: |
+          yarn
+          yarn build
       - name: Build docs
         run: yarn docs
       - name: Publish site and docs
