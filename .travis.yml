@@ -99,18 +99,3 @@ jobs:
         prerelease: $(gh_prerelease)
         on:
           tags: true
-    - stage: gh-pages-release
-      script:
-        - yarn build
-        - yarn docs
-      before_deploy:
-        - git add -f --all dist/
-        - git add -f --all docs/
-      deploy:
-        provider: pages
-        skip-cleanup: true
-        github-token: $GH_TOKEN
-        fqdn: shepherdjs.dev
-        keep-history: true
-        on:
-          branch: master
