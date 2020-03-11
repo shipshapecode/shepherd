@@ -2,6 +2,8 @@ name: Publish Github Pages
 
 on:
   push:
+    branches:
+      - master
 
 jobs:
   delpoy:
@@ -11,9 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v1
-      - name: Build site
+      - name: Install Deps and Build
+        run: yarn
         run: yarn build
       - name: Build docs
         run: yarn docs
