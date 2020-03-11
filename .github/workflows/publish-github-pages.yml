@@ -14,8 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Deps and Build
-        run: yarn
-        run: yarn build
+        run: |
+          yarn
+          yarn build
       - name: Build docs
         run: yarn docs
       - name: Publish site and docs
