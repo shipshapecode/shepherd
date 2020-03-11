@@ -1,0 +1,26 @@
+name: Publish Github Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  delpoy:
+    # Job name is Greeting
+    name: Deploy Site
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build site
+        run: yarn build
+      - name: Build docs
+        run: yarn docs
+      - name: Publish site and docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          keep_files: true
+          cname: shepherdjs.dev
