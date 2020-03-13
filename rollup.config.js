@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
 import commonjs from 'rollup-plugin-commonjs';
+import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
@@ -9,7 +10,6 @@ import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
-import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 
 const pkg = require('./package.json');
@@ -135,7 +135,7 @@ if (!process.env.DEVELOPMENT) {
           ],
           extract: 'dist/css/shepherd.css'
         }),
-        terser(),
+        compiler(),
         license({
           banner
         }),
