@@ -36,7 +36,7 @@
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
-    "pretest": "yarn build",
+    "pretest:ci": "yarn build",
     "test": "yarn lint:js && yarn test:ci",
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci:chrome && yarn test:cy:ci:firefox",
     "test:cy:ci:chrome": "start-server-and-test start-test-server http://localhost:9002 cy:run:chrome",
