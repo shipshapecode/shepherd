@@ -2374,8 +2374,10 @@ function init(component, options, instance, create_fragment, not_equal, props, d
 
   if (options.target) {
     if (options.hydrate) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      $$.fragment && $$.fragment.l(children(options.target));
+      var nodes = children(options.target); // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
+      $$.fragment && $$.fragment.l(nodes);
+      nodes.forEach(detach);
     } else {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       $$.fragment && $$.fragment.c();
@@ -2441,9 +2443,10 @@ function create_fragment(ctx) {
       ctx[5];
       attr(button, "tabindex", "0");
     },
-    m: function m(target, anchor) {
+    m: function m(target, anchor, remount) {
       insert(target, button, anchor);
       append(button, t);
+      if (remount) dispose();
       dispose = listen(button, "click", function () {
         if (is_function(
         /*action*/
@@ -2815,9 +2818,10 @@ function create_fragment$2(ctx) {
       attr(button, "class", "shepherd-cancel-icon");
       attr(button, "type", "button");
     },
-    m: function m(target, anchor) {
+    m: function m(target, anchor, remount) {
       insert(target, button, anchor);
       append(button, span);
+      if (remount) dispose();
       dispose = listen(button, "click",
       /*handleCancelClick*/
       ctx[1]);
@@ -3619,7 +3623,7 @@ function create_fragment$7(ctx) {
       ctx[6]);
       toggle_class(div, "shepherd-element", true);
     },
-    m: function m(target, anchor) {
+    m: function m(target, anchor, remount) {
       insert(target, div, anchor);
       if (if_block) if_block.m(div, null);
       append(div, t);
@@ -3628,6 +3632,7 @@ function create_fragment$7(ctx) {
 
       ctx[17](div);
       current = true;
+      if (remount) dispose();
       dispose = listen(div, "keydown",
       /*handleKeyDown*/
       ctx[7]);
@@ -4726,12 +4731,13 @@ function create_fragment$8(ctx) {
       /*modalIsVisible*/
       ctx[2] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
     },
-    m: function m(target, anchor) {
+    m: function m(target, anchor, remount) {
       insert(target, svg, anchor);
       append(svg, path);
       /*svg_binding*/
 
       ctx[16](svg);
+      if (remount) dispose();
       dispose = listen(svg, "touchmove",
       /*_preventModalOverlayTouch*/
       ctx[3]);
