@@ -1623,7 +1623,8 @@ function preventOverflow(_ref) {
     var arrowLen = within(0, referenceRect[len], arrowRect[len]);
     var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - tetherOffsetValue : minLen - arrowLen - arrowPaddingMin - tetherOffsetValue;
     var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
-    var clientOffset = arrowElement ? mainAxis === 'y' ? state.elements.popper.clientTop : state.elements.popper.clientLeft : 0;
+    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
     var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
     var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
     var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
@@ -1682,7 +1683,8 @@ function arrow(_ref) {
   var maxProp = axis === 'y' ? bottom : right;
   var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
   var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-  var clientOffset = axis === 'y' ? state.elements.popper.clientLeft : state.elements.popper.clientTop;
+  var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+  var clientOffset = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientLeft || 0 : arrowOffsetParent.clientTop || 0 : 0;
   var centerToReference = endDiff / 2 - startDiff / 2 - clientOffset; // Make sure the arrow doesn't overflow the popper if the center point is
   // outside of the popper bounds
 
