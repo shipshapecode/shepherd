@@ -54,10 +54,10 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "@popperjs/core": "^2.1.1",
-    "@ampproject/rollup-plugin-closure-compiler": "^0.24.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
+    "@ampproject/rollup-plugin-closure-compiler": "^0.24.0",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "@testing-library/jest-dom": "^5.1.1",
