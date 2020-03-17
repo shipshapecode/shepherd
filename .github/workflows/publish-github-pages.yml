@@ -2,8 +2,6 @@ name: Publish Github Pages
 
 on:
   push:
-    branches:
-      - master
 
 jobs:
   delpoy:
@@ -20,9 +18,11 @@ jobs:
       - name: Build docs
         run: yarn docs
       - name: Publish site and docs
-        uses: peaceiris/actions-gh-pages@v3
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          keep_files: true
-          cname: shepherdjs.dev
+          build_dir: ./
+          keep_history: true
+          fqdn: shepherdjs.dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
