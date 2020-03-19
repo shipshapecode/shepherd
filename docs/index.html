@@ -127,7 +127,7 @@
 <a href="https://stackshare.io/shepherd-js"><img src="https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&amp;style=flat" alt="StackShare"></a></p>
 <a href="https://shepherdjs.dev/">
   <img 
-    src="/demo/assets/img/demo.png" 
+    src="https://shepherdjs.dev/landing/assets/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
@@ -135,7 +135,7 @@
 <table>
 <thead>
 <tr>
-<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></a></br>IE / Edge</th>
+<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></a></br>Edge</th>
 <th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></a></br>Firefox</th>
 <th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /></a></br>Chrome</th>
 <th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></a></br>Safari</th>
@@ -150,17 +150,6 @@
 </tr>
 </tbody>
 </table>
-<h2>IE 11</h2>
-<p>Shepherd v6.x no longer ships with the required polyfills to work with IE 11 out of the box,
-however, if you are supporting IE 11 already, you are probably shipping some polyfills.
-The only required polyfills are <code>Object.assign</code>, <code>Symbol</code>, and <code>element.matches</code> for things to work.
-Our demo app includes the polyfills using <a href="https://polyfill.io/v3/">Polyfill.io</a>, but Babel, core-js, etc would all work.</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CSymbol%2CElement.prototype.matches&quot;>&lt;/script>
-</code></pre>
-<p>You will also need a <a href="https://www.webcomponents.org/polyfills">Web Components polyfill</a>, which we include with:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.2.10/webcomponents-bundle.js&quot;>&lt;/script>
-</code></pre>
-<p><strong>Note:</strong> This library is constantly evolving, and we do not regularly test in IE, so it is possible other polyfills or workarounds are also necessary.</p>
 <h2>Documentation</h2>
 <p><a href="https://shepherdjs.dev/docs/">API documentation</a></p>
 <h2>Demo</h2>
