@@ -28,13 +28,13 @@ describe('components/ShepherdModal', () => {
 
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
-        .toHaveAttribute('d', 'M 20 20 H 520 V 270 H 20 L 20 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0Z');
 
       await modalComponent.closeModalOpening();
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
-        .toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
 
       modalComponent.$destroy();
     });
@@ -51,13 +51,13 @@ describe('components/ShepherdModal', () => {
       });
 
       let modalPath = modalComponent.getElement().querySelector('path');
-      expect(modalPath).toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
 
       await modalComponent.closeModalOpening();
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
-        .toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
 
       await modalComponent.positionModalOpening({
         getBoundingClientRect() {
@@ -72,7 +72,7 @@ describe('components/ShepherdModal', () => {
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
-        .toHaveAttribute('d', 'M 20 20 H 520 V 270 H 20 L 20 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0Z');
 
       modalComponent.$destroy();
     });
@@ -87,7 +87,7 @@ describe('components/ShepherdModal', () => {
       });
 
       let modalPath = modalComponent.getElement().querySelector('path');
-      expect(modalPath).toHaveAttribute('d', 'M 0 0 H 0 V 0 H 0 L 0 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
 
       await modalComponent.positionModalOpening({
         getBoundingClientRect() {
@@ -102,7 +102,43 @@ describe('components/ShepherdModal', () => {
 
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath)
-        .toHaveAttribute('d', 'M 10 10 H 530 V 280 H 10 L 10 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0-0,0V280a0,0,0,0,0,0,0H530a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z');
+
+      modalComponent.$destroy();
+    });
+
+    it('sets the correct attributes when positioning modal opening with border radius', async() => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props:
+            {
+              classPrefix
+            }
+      });
+
+      let modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
+
+      await modalComponent.closeModalOpening();
+
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z');
+
+      await modalComponent.positionModalOpening({
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 20,
+            y: 20,
+            width: 500
+          };
+        }
+      }, null, 0, 10);
+
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath)
+        .toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM30,20a10,10,0,0,0-10,10V260a10,10,0,0,0,10,10H510a10,10,0,0,0,10-10V30a10,10,0,0,0-10-10Z');
 
       modalComponent.$destroy();
     });
@@ -136,7 +172,7 @@ describe('components/ShepherdModal', () => {
       }, 0);
 
       const modalPath = modalComponent.getElement().querySelector('path');
-      expect(modalPath).toHaveAttribute('d', 'M 10 100 H 510 V 350 H 10 L 10 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V100a0,0,0,0,0-0-0Z');
 
       modalComponent.$destroy();
     });
@@ -170,7 +206,7 @@ describe('components/ShepherdModal', () => {
       }, 0);
 
       const modalPath = modalComponent.getElement().querySelector('path');
-      expect(modalPath).toHaveAttribute('d', 'M 10 100 H 510 V 350 H 10 L 10 0 Z M 0 0 H 1024 V 768 H 0 L 0 0 Z');
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V100a0,0,0,0,0-0-0Z');
 
       modalComponent.$destroy();
     });
