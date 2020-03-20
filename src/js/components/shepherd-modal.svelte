@@ -12,6 +12,7 @@
 
   export function closeModalOpening() {
     openingProperties = {
+      borderRadius: 0,
       height: 0,
       x: 0,
       y: 0,
@@ -34,14 +35,16 @@
    * @param {HTMLElement} targetElement The element the opening will expose
    * @param {HTMLElement} scrollParent The scrollable parent of the target element
    * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+   * @param {Number} modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    */
-  export function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding = 0) {
+  export function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding = 0, modalOverlayOpeningRadius = 0) {
     if (targetElement.getBoundingClientRect) {
       const { y, height } = _getVisibleHeight(targetElement, scrollParent);
       const { x, width, left } = targetElement.getBoundingClientRect();
 
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
+        borderRadius: modalOverlayOpeningRadius,
         x: (x || left) - modalOverlayOpeningPadding,
         y: y - modalOverlayOpeningPadding,
         width: (width + (modalOverlayOpeningPadding * 2)),
@@ -113,7 +116,7 @@
    * @private
    */
   function _styleForStep(step) {
-    const { modalOverlayOpeningPadding } = step.options;
+    const { modalOverlayOpeningPadding, modalOverlayOpeningRadius } = step.options;
 
     if (step.target) {
       const scrollParent = _getScrollParent(step.target);
@@ -121,7 +124,7 @@
       // Setup recursive function to call requestAnimationFrame to update the modal opening position
       const rafLoop = () => {
         rafId = undefined;
-        positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding);
+        positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding, modalOverlayOpeningRadius);
         rafId = requestAnimationFrame(rafLoop);
       };
 
@@ -189,7 +192,6 @@
   .shepherd-modal-overlay-container {
     -ms-filter: progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);
     filter: alpha(opacity=50);
-    fill-rule: evenodd;
     height: 0;
     left: 0;
     opacity: 0;
@@ -219,6 +221,6 @@
   on:touchmove={_preventModalOverlayTouch}
 >
   <path
-    d="{`M ${openingProperties.x} ${openingProperties.y} H ${openingProperties.width + openingProperties.x} V ${openingProperties.height + openingProperties.y} H ${openingProperties.x} L ${openingProperties.x} 0 Z M 0 0 H ${window.innerWidth} V ${window.innerHeight} H 0 L 0 0 Z`}">
+    d="{`M${window.innerWidth},${window.innerHeight}H0V0H${window.innerWidth}V${window.innerHeight}ZM${openingProperties.x + openingProperties.borderRadius},${openingProperties.y}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0-${openingProperties.borderRadius},${openingProperties.borderRadius}V${openingProperties.height + openingProperties.y - openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0,${openingProperties.borderRadius},${openingProperties.borderRadius}H${openingProperties.width + openingProperties.x - openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0,${openingProperties.borderRadius}-${openingProperties.borderRadius}V${openingProperties.y + openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0-${openingProperties.borderRadius}-${openingProperties.borderRadius}Z`}">
   </path>
 </svg>
