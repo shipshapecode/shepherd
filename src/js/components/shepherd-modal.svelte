@@ -1,10 +1,14 @@
 <script>
   import { uuid } from '../utils/general.js';
+  import { makeOverlayPath } from '../utils/overlay-path.js';
 
   export let element, openingProperties;
   const guid = uuid();
   let modalIsVisible = false;
   let rafId = undefined;
+  let pathDefinition;
+
+  $: pathDefinition = makeOverlayPath(openingProperties);
 
   closeModalOpening();
 
@@ -12,11 +16,11 @@
 
   export function closeModalOpening() {
     openingProperties = {
-      borderRadius: 0,
+      width: 0,
       height: 0,
       x: 0,
       y: 0,
-      width: 0
+      r: 0
     };
   }
 
@@ -44,11 +48,11 @@
 
       // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
       openingProperties = {
-        borderRadius: modalOverlayOpeningRadius,
+        width: (width + (modalOverlayOpeningPadding * 2)),
+        height: (height + (modalOverlayOpeningPadding * 2)),
         x: (x || left) - modalOverlayOpeningPadding,
         y: y - modalOverlayOpeningPadding,
-        width: (width + (modalOverlayOpeningPadding * 2)),
-        height: (height + (modalOverlayOpeningPadding * 2))
+        r: modalOverlayOpeningRadius
       };
     }
   }
@@ -220,7 +224,5 @@
   class="{`${(modalIsVisible ? 'shepherd-modal-is-visible' : '')} shepherd-modal-overlay-container`}"
   on:touchmove={_preventModalOverlayTouch}
 >
-  <path
-    d="{`M${window.innerWidth},${window.innerHeight}H0V0H${window.innerWidth}V${window.innerHeight}ZM${openingProperties.x + openingProperties.borderRadius},${openingProperties.y}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0-${openingProperties.borderRadius},${openingProperties.borderRadius}V${openingProperties.height + openingProperties.y - openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0,${openingProperties.borderRadius},${openingProperties.borderRadius}H${openingProperties.width + openingProperties.x - openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0,${openingProperties.borderRadius}-${openingProperties.borderRadius}V${openingProperties.y + openingProperties.borderRadius}a${openingProperties.borderRadius},${openingProperties.borderRadius},0,0,0-${openingProperties.borderRadius}-${openingProperties.borderRadius}Z`}">
-  </path>
+  <path d="{pathDefinition}"></path>
 </svg>
