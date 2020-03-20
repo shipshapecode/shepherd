@@ -4370,6 +4370,7 @@
      * }
      * ```
      * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+     * @param {Number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
      * @return {Step} The newly created Step instance
      */
     function Step(tour, options) {
@@ -4708,43 +4709,53 @@
     }
   }
 
+  /**
+   * Generates the svg path data for a rounded rectangle overlay
+   * @param {Object} dimension - Dimensions of rectangle.
+   * @param {number} width - Width.
+   * @param {number} height - Height.
+   * @param {number} [x=0] - Offset from top left corner in x axis. default 0.
+   * @param {number} [y=0] - Offset from top left corner in y axis. default 0.
+   * @param {number} [r=0] - Corner Radius. Keep this smaller than  half of width or height.
+   * @returns {string} - Rounded rectangle overlay path data.
+   */
+  function makeOverlayPath(_ref) {
+    var width = _ref.width,
+        height = _ref.height,
+        _ref$x = _ref.x,
+        x = _ref$x === void 0 ? 0 : _ref$x,
+        _ref$y = _ref.y,
+        y = _ref$y === void 0 ? 0 : _ref$y,
+        _ref$r = _ref.r,
+        r = _ref$r === void 0 ? 0 : _ref$r;
+    var _window = window,
+        w = _window.innerWidth,
+        h = _window.innerHeight;
+    return "M" + w + "," + h + "H0V0H" + w + "V" + h + "ZM" + (x + r) + "," + y + "a" + r + "," + r + ",0,0,0-" + r + "," + r + "V" + (height + y - r) + "a" + r + "," + r + ",0,0,0," + r + "," + r + "H" + (width + x - r) + "a" + r + "," + r + ",0,0,0," + r + "-" + r + "V" + (y + r) + "a" + r + "," + r + ",0,0,0-" + r + "-" + r + "Z";
+  }
+
   function create_fragment$8(ctx) {
     var svg;
     var path;
-    var path_d_value;
     var svg_class_value;
     var dispose;
     return {
       c: function c() {
         svg = svg_element("svg");
         path = svg_element("path");
-        attr(path, "d", path_d_value = "M " +
-        /*openingProperties*/
-        ctx[1].x + " " +
-        /*openingProperties*/
-        ctx[1].y + " H " + (
-        /*openingProperties*/
-        ctx[1].width +
-        /*openingProperties*/
-        ctx[1].x) + " V " + (
-        /*openingProperties*/
-        ctx[1].height +
-        /*openingProperties*/
-        ctx[1].y) + " H " +
-        /*openingProperties*/
-        ctx[1].x + " L " +
-        /*openingProperties*/
-        ctx[1].x + " 0 Z M 0 0 H " + window.innerWidth + " V " + window.innerHeight + " H 0 L 0 0 Z");
+        attr(path, "d",
+        /*pathDefinition*/
+        ctx[2]);
         attr(svg, "class", svg_class_value = (
         /*modalIsVisible*/
-        ctx[2] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
+        ctx[1] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container");
       },
       m: function m(target, anchor, remount) {
         insert(target, svg, anchor);
         append(svg, path);
         /*svg_binding*/
 
-        ctx[16](svg);
+        ctx[17](svg);
         if (remount) dispose();
         dispose = listen(svg, "touchmove",
         /*_preventModalOverlayTouch*/
@@ -4754,32 +4765,18 @@
         var dirty = _ref[0];
 
         if (dirty &
-        /*openingProperties*/
-        2 && path_d_value !== (path_d_value = "M " +
-        /*openingProperties*/
-        ctx[1].x + " " +
-        /*openingProperties*/
-        ctx[1].y + " H " + (
-        /*openingProperties*/
-        ctx[1].width +
-        /*openingProperties*/
-        ctx[1].x) + " V " + (
-        /*openingProperties*/
-        ctx[1].height +
-        /*openingProperties*/
-        ctx[1].y) + " H " +
-        /*openingProperties*/
-        ctx[1].x + " L " +
-        /*openingProperties*/
-        ctx[1].x + " 0 Z M 0 0 H " + window.innerWidth + " V " + window.innerHeight + " H 0 L 0 0 Z")) {
-          attr(path, "d", path_d_value);
+        /*pathDefinition*/
+        4) {
+          attr(path, "d",
+          /*pathDefinition*/
+          ctx[2]);
         }
 
         if (dirty &
         /*modalIsVisible*/
-        4 && svg_class_value !== (svg_class_value = (
+        2 && svg_class_value !== (svg_class_value = (
         /*modalIsVisible*/
-        ctx[2] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container")) {
+        ctx[1] ? "shepherd-modal-is-visible" : "") + " shepherd-modal-overlay-container")) {
           attr(svg, "class", svg_class_value);
         }
       },
@@ -4789,7 +4786,7 @@
         if (detaching) detach(svg);
         /*svg_binding*/
 
-        ctx[16](null);
+        ctx[17](null);
         dispose();
       }
     };
@@ -4848,6 +4845,7 @@
     var guid = uuid();
     var modalIsVisible = false;
     var rafId = undefined;
+    var pathDefinition;
     closeModalOpening();
 
     var getElement = function getElement() {
@@ -4855,23 +4853,28 @@
     };
 
     function closeModalOpening() {
-      $$invalidate(1, openingProperties = {
+      $$invalidate(4, openingProperties = {
+        width: 0,
         height: 0,
         x: 0,
         y: 0,
-        width: 0
+        r: 0
       });
     }
 
     function hide() {
-      $$invalidate(2, modalIsVisible = false); // Ensure we cleanup all event listeners when we hide the modal
+      $$invalidate(1, modalIsVisible = false); // Ensure we cleanup all event listeners when we hide the modal
 
       _cleanupStepEventListeners();
     }
 
-    function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding) {
+    function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding, modalOverlayOpeningRadius) {
       if (modalOverlayOpeningPadding === void 0) {
         modalOverlayOpeningPadding = 0;
+      }
+
+      if (modalOverlayOpeningRadius === void 0) {
+        modalOverlayOpeningRadius = 0;
       }
 
       if (targetElement.getBoundingClientRect) {
@@ -4885,11 +4888,12 @@
             left = _targetElement$getBou.left; // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
 
 
-        $$invalidate(1, openingProperties = {
+        $$invalidate(4, openingProperties = {
+          width: width + modalOverlayOpeningPadding * 2,
+          height: height + modalOverlayOpeningPadding * 2,
           x: (x || left) - modalOverlayOpeningPadding,
           y: y - modalOverlayOpeningPadding,
-          width: width + modalOverlayOpeningPadding * 2,
-          height: height + modalOverlayOpeningPadding * 2
+          r: modalOverlayOpeningRadius
         });
       }
     }
@@ -4908,7 +4912,7 @@
     }
 
     function show() {
-      $$invalidate(2, modalIsVisible = true);
+      $$invalidate(1, modalIsVisible = true);
     }
 
     var _preventModalBodyTouch = function _preventModalBodyTouch(e) {
@@ -4954,7 +4958,9 @@
 
 
     function _styleForStep(step) {
-      var modalOverlayOpeningPadding = step.options.modalOverlayOpeningPadding;
+      var _step$options = step.options,
+          modalOverlayOpeningPadding = _step$options.modalOverlayOpeningPadding,
+          modalOverlayOpeningRadius = _step$options.modalOverlayOpeningRadius;
 
       if (step.target) {
         var scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
@@ -4962,7 +4968,7 @@
 
         var rafLoop = function rafLoop() {
           rafId = undefined;
-          positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding);
+          positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding, modalOverlayOpeningRadius);
           rafId = requestAnimationFrame(rafLoop);
         };
 
@@ -4982,10 +4988,18 @@
 
     $$self.$set = function ($$props) {
       if ("element" in $$props) $$invalidate(0, element = $$props.element);
-      if ("openingProperties" in $$props) $$invalidate(1, openingProperties = $$props.openingProperties);
+      if ("openingProperties" in $$props) $$invalidate(4, openingProperties = $$props.openingProperties);
     };
 
-    return [element, openingProperties, modalIsVisible, _preventModalOverlayTouch, getElement, closeModalOpening, hide, positionModalOpening, setupForStep, show, rafId, guid, _preventModalBodyTouch, _addStepEventListeners, _cleanupStepEventListeners, _styleForStep, svg_binding];
+    $$self.$$.update = function () {
+      if ($$self.$$.dirty &
+      /*openingProperties*/
+      16) {
+         $$invalidate(2, pathDefinition = makeOverlayPath(openingProperties));
+      }
+    };
+
+    return [element, modalIsVisible, pathDefinition, _preventModalOverlayTouch, openingProperties, getElement, closeModalOpening, hide, positionModalOpening, setupForStep, show, rafId, guid, _preventModalBodyTouch, _addStepEventListeners, _cleanupStepEventListeners, _styleForStep, svg_binding];
   }
 
   var Shepherd_modal = /*#__PURE__*/function (_SvelteComponent) {
@@ -4997,13 +5011,13 @@
       _this = _SvelteComponent.call(this) || this;
       init(_assertThisInitialized(_this), options, instance$8, create_fragment$8, safe_not_equal, {
         element: 0,
-        openingProperties: 1,
-        getElement: 4,
-        closeModalOpening: 5,
-        hide: 6,
-        positionModalOpening: 7,
-        setupForStep: 8,
-        show: 9
+        openingProperties: 4,
+        getElement: 5,
+        closeModalOpening: 6,
+        hide: 7,
+        positionModalOpening: 8,
+        setupForStep: 9,
+        show: 10
       });
       return _this;
     }
@@ -5011,32 +5025,32 @@
     _createClass(Shepherd_modal, [{
       key: "getElement",
       get: function get() {
-        return this.$$.ctx[4];
+        return this.$$.ctx[5];
       }
     }, {
       key: "closeModalOpening",
       get: function get() {
-        return this.$$.ctx[5];
+        return this.$$.ctx[6];
       }
     }, {
       key: "hide",
       get: function get() {
-        return this.$$.ctx[6];
+        return this.$$.ctx[7];
       }
     }, {
       key: "positionModalOpening",
       get: function get() {
-        return this.$$.ctx[7];
+        return this.$$.ctx[8];
       }
     }, {
       key: "setupForStep",
       get: function get() {
-        return this.$$.ctx[8];
+        return this.$$.ctx[9];
       }
     }, {
       key: "show",
       get: function get() {
-        return this.$$.ctx[9];
+        return this.$$.ctx[10];
       }
     }]);
 
