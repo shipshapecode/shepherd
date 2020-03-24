@@ -5,49 +5,6 @@
     var shepherd = setupShepherd();
     setTimeout(function() {
       shepherd.start();
-
-      setTimeout(function () {
-        const other = new Shepherd.Tour({
-          defaultStepOptions: {
-            cancelIcon: {
-              enabled: true
-            },
-            classes: 'class-1 class-2',
-            scrollTo: {
-              behavior: 'smooth',
-              block: 'center'
-            }
-          },
-          // This should add the first tour step
-          steps: [
-            {
-              text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://popper.js.org/" data-test-popper-link>Popper.js</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Popper makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n',
-              attachTo: {
-                element: '.hero-welcome',
-                on: 'bottom'
-              },
-              buttons: [
-                {
-                  action: function () {
-                    return this.cancel();
-                  },
-                  secondary: true,
-                  text: 'Exit'
-                },
-                {
-                  action: function () {
-                    return this.next();
-                  },
-                  text: 'Next'
-                }
-              ],
-              id: 'welcome'
-            }
-          ],
-          useModalOverlay: true
-        });
-        other.start();
-      }, 400);
     }, 400);
   }
 
