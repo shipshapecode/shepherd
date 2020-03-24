@@ -286,7 +286,15 @@ export class Tour extends Evented {
     Shepherd.activeTour = null;
     this.trigger('inactive', { tour: this });
 
-    this.modal.hide();
+    if (this.modal) {
+      const modalContainer = document.querySelector('.shepherd-modal-overlay-container');
+
+      if (modalContainer) {
+        modalContainer.remove();
+      }
+
+      this.modal = null;
+    }
 
     // Focus the element that was focused before the tour started
     if (isElement(this.focusedElBeforeOpen)) {
