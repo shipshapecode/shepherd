@@ -4287,7 +4287,7 @@ var Step = /*#__PURE__*/function (_Evented) {
    * @param {Object} options.arrow Whether to display the arrow for the tooltip or not.
    * @param {Object} options.attachTo What element the step should be attached to on the page.
    * It should be an object with the properties `element` and `on`, where `element` is an element selector string
-   * or a DOM element and `on` is the optional direction to place the Tippy tooltip.
+   * or a DOM element and `on` is the optional direction to place the Popper tooltip.
    *
    * ```js
    * const new Step(tour, {
@@ -5365,7 +5365,17 @@ var Tour = /*#__PURE__*/function (_Evented) {
     this.trigger('inactive', {
       tour: this
     });
-    this.modal.hide(); // Focus the element that was focused before the tour started
+
+    if (this.modal) {
+      var modalContainer = document.querySelector('.shepherd-modal-overlay-container');
+
+      if (modalContainer) {
+        modalContainer.remove();
+      }
+
+      this.modal = null;
+    } // Focus the element that was focused before the tour started
+
 
     if (isElement(this.focusedElBeforeOpen)) {
       this.focusedElBeforeOpen.focus();

@@ -303,9 +303,21 @@ describe('components/ShepherdModal', () => {
     it('appends shepherdModalOverlayContainer to DOM when it does not exist', () => {
       expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(0);
 
-      new Tour({ useModalOverlay: true });
+      const tour = new Tour({ useModalOverlay: true });
 
       expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(1);
+
+      tour.complete();
+    });
+
+    it('removes shepherdModalOverlayContainer from DOM when it is complete', () => {
+      const tour = new Tour({ useModalOverlay: true });
+
+      expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(1);
+
+      tour.complete();
+
+      expect(document.querySelectorAll('.shepherd-modal-overlay-container').length).toBe(0);
     });
   });
 });
