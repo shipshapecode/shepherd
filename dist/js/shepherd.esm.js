@@ -5365,15 +5365,16 @@ var Tour = /*#__PURE__*/function (_Evented) {
     this.trigger('inactive', {
       tour: this
     });
+    this.modal.hide();
 
-    if (this.modal) {
-      var modalContainer = document.querySelector('.shepherd-modal-overlay-container');
+    if (event === 'cancel' || event === 'complete') {
+      if (this.modal) {
+        var modalContainer = document.querySelector('.shepherd-modal-overlay-container');
 
-      if (modalContainer) {
-        modalContainer.remove();
+        if (modalContainer) {
+          modalContainer.remove();
+        }
       }
-
-      this.modal = null;
     } // Focus the element that was focused before the tour started
 
 
