@@ -2094,11 +2094,6 @@ function children(element) {
   return Array.from(element.childNodes);
 }
 
-function set_data(text, data) {
-  data = '' + data;
-  if (text.data !== data) text.data = data;
-}
-
 function toggle_class(element, name, toggle) {
   element.classList[toggle ? 'add' : 'remove'](name);
 }
@@ -2420,16 +2415,12 @@ var SvelteComponent = /*#__PURE__*/function () {
 
 function create_fragment(ctx) {
   var button;
-  var t;
   var button_aria_label_value;
   var button_class_value;
   var dispose;
   return {
     c: function c() {
       button = element("button");
-      t = text(
-      /*text*/
-      ctx[3]);
       attr(button, "aria-label", button_aria_label_value =
       /*label*/
       ctx[4] ?
@@ -2447,7 +2438,9 @@ function create_fragment(ctx) {
     },
     m: function m(target, anchor, remount) {
       insert(target, button, anchor);
-      append(button, t);
+      button.innerHTML =
+      /*text*/
+      ctx[3];
       if (remount) dispose();
       dispose = listen(button, "click", function () {
         if (is_function(
@@ -2462,9 +2455,9 @@ function create_fragment(ctx) {
       ctx = new_ctx;
       if (dirty &
       /*text*/
-      8) set_data(t,
+      8) button.innerHTML =
       /*text*/
-      ctx[3]);
+      ctx[3];
 
       if (dirty &
       /*label*/

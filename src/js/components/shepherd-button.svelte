@@ -61,5 +61,5 @@
   on:click={action}
   tabindex="0"
 >
-    {text}
+    {@html text}
 </button>
