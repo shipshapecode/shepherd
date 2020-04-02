@@ -93,7 +93,7 @@ declare class Tour extends Evented {
 declare namespace Tour {
   interface TourOptions {
     /**
-     * The prefix to add to all the `shepherd-*` class names.
+     * The prefix to add to the `shepherd-*` class names assigned to the `document.body`.
      */
     classPrefix?: string;
 

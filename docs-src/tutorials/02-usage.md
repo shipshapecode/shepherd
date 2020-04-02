@@ -4,7 +4,7 @@ The latest versions of Rollup and Webpack support ES6 imports. We have an ES mod
 exported to `dist/js/shepherd.esm.js`. This is also specified as `"module"` in
 `package.json`, which should allow you to import using standard ES import syntax.
 
-i.e. 
+i.e.
 
 ```js
 import Shepherd from 'shepherd.js';
@@ -30,8 +30,8 @@ Next, add your steps:
 tour.addStep({
   id: 'example-step',
   text: 'This step is attached to the bottom of the <code>.example-css-selector</code> element.',
-  attachTo: { 
-    element: '.example-css-selector', 
+  attachTo: {
+    element: '.example-css-selector',
     on: 'bottom'
   },
   classes: 'example-step-extra-class',
@@ -104,7 +104,7 @@ const myTour = new Shepherd.Tour(options);
 
 ##### Tour Options
 
-- `classPrefix`: The prefix to add to all the `shepherd-*` class names.
+- `classPrefix`: The prefix to add to the `shepherd-*` class names assigned to the `document.body`.
 - `confirmCancel`: If true, will issue a `window.confirm` before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
@@ -158,14 +158,14 @@ created.
 - `attachTo`: What element the step should be attached to on the page.
 It should be an object with the properties `element` and `on`, where `element` is an element selector string
 or a DOM element and `on` is the optional direction to place the Tippy tooltip.
-              
+
 ```js
 const new Step(tour, {
   attachTo: { element: '.some .selector-path', on: 'left' },
   ...moreOptions
 });
 ```
-              
+
 If you don’t specify an attachTo the element will appear in the middle of the screen.
 If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
 in the middle of the screen, without an arrow pointing to the target.
@@ -275,7 +275,7 @@ of a step. This is done by setting the `arrow` option to `true` on each ``Step.o
 
 ```js
 myTour.addStep({
-  id: 'Step 1', 
+  id: 'Step 1',
   arrow: false
 });
 ```

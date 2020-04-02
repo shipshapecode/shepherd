@@ -17,7 +17,7 @@ export class Tour extends Evented {
    * @param {Object} options The options for the tour
    * @param {boolean} options.confirmCancel If true, will issue a `window.confirm` before cancelling
    * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
-   * @param {string} options.classPrefix The prefix to add to all the `shepherd-*` class names.
+   * @param {string} options.classPrefix The prefix to add to the `shepherd-*` class names assigned to the `document.body`.
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
