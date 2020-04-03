@@ -3289,6 +3289,56 @@
     return Shepherd_text;
   }(SvelteComponent);
 
+  function create_if_block_2(ctx) {
+    var current;
+    var shepherdheader = new Shepherd_header({
+      props: {
+        labelId:
+        /*labelId*/
+        ctx[1],
+        step:
+        /*step*/
+        ctx[2]
+      }
+    });
+    return {
+      c: function c() {
+        create_component(shepherdheader.$$.fragment);
+      },
+      m: function m(target, anchor) {
+        mount_component(shepherdheader, target, anchor);
+        current = true;
+      },
+      p: function p(ctx, dirty) {
+        var shepherdheader_changes = {};
+        if (dirty &
+        /*labelId*/
+        2) shepherdheader_changes.labelId =
+        /*labelId*/
+        ctx[1];
+        if (dirty &
+        /*step*/
+        4) shepherdheader_changes.step =
+        /*step*/
+        ctx[2];
+        shepherdheader.$set(shepherdheader_changes);
+      },
+      i: function i(local) {
+        if (current) return;
+        transition_in(shepherdheader.$$.fragment, local);
+        current = true;
+      },
+      o: function o(local) {
+        transition_out(shepherdheader.$$.fragment, local);
+        current = false;
+      },
+      d: function d(detaching) {
+        destroy_component(shepherdheader, detaching);
+      }
+    };
+  } // (29:2) {#if !isUndefined(step.options.text)}
+
+
   function create_if_block_1$1(ctx) {
     var current;
     var shepherdtext = new Shepherd_text({
@@ -3336,7 +3386,7 @@
         destroy_component(shepherdtext, detaching);
       }
     };
-  } // (34:4) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
+  } // (36:2) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
 
 
   function create_if_block$2(ctx) {
@@ -3382,6 +3432,13 @@
 
   function create_fragment$6(ctx) {
     var div;
+    var show_if_2 = !isUndefined(
+    /*step*/
+    ctx[2].options.title) ||
+    /*step*/
+    ctx[2].options.cancelIcon &&
+    /*step*/
+    ctx[2].options.cancelIcon.enabled;
     var t0;
     var show_if_1 = !isUndefined(
     /*step*/
@@ -3393,51 +3450,58 @@
     /*step*/
     ctx[2].options.buttons.length;
     var current;
-    var shepherdheader = new Shepherd_header({
-      props: {
-        labelId:
-        /*labelId*/
-        ctx[1],
-        step:
-        /*step*/
-        ctx[2]
-      }
-    });
-    var if_block0 = show_if_1 && create_if_block_1$1(ctx);
-    var if_block1 = show_if && create_if_block$2(ctx);
+    var if_block0 = show_if_2 && create_if_block_2(ctx);
+    var if_block1 = show_if_1 && create_if_block_1$1(ctx);
+    var if_block2 = show_if && create_if_block$2(ctx);
     return {
       c: function c() {
         div = element("div");
-        create_component(shepherdheader.$$.fragment);
-        t0 = space();
         if (if_block0) if_block0.c();
-        t1 = space();
+        t0 = space();
         if (if_block1) if_block1.c();
+        t1 = space();
+        if (if_block2) if_block2.c();
         attr(div, "class", "shepherd-content");
       },
       m: function m(target, anchor) {
         insert(target, div, anchor);
-        mount_component(shepherdheader, div, null);
-        append(div, t0);
         if (if_block0) if_block0.m(div, null);
-        append(div, t1);
+        append(div, t0);
         if (if_block1) if_block1.m(div, null);
+        append(div, t1);
+        if (if_block2) if_block2.m(div, null);
         current = true;
       },
       p: function p(ctx, _ref) {
         var dirty = _ref[0];
-        var shepherdheader_changes = {};
-        if (dirty &
-        /*labelId*/
-        2) shepherdheader_changes.labelId =
-        /*labelId*/
-        ctx[1];
         if (dirty &
         /*step*/
-        4) shepherdheader_changes.step =
+        4) show_if_2 = !isUndefined(
         /*step*/
-        ctx[2];
-        shepherdheader.$set(shepherdheader_changes);
+        ctx[2].options.title) ||
+        /*step*/
+        ctx[2].options.cancelIcon &&
+        /*step*/
+        ctx[2].options.cancelIcon.enabled;
+
+        if (show_if_2) {
+          if (if_block0) {
+            if_block0.p(ctx, dirty);
+            transition_in(if_block0, 1);
+          } else {
+            if_block0 = create_if_block_2(ctx);
+            if_block0.c();
+            transition_in(if_block0, 1);
+            if_block0.m(div, t0);
+          }
+        } else if (if_block0) {
+          group_outros();
+          transition_out(if_block0, 1, 1, function () {
+            if_block0 = null;
+          });
+          check_outros();
+        }
+
         if (dirty &
         /*step*/
         4) show_if_1 = !isUndefined(
@@ -3445,19 +3509,19 @@
         ctx[2].options.text);
 
         if (show_if_1) {
-          if (if_block0) {
-            if_block0.p(ctx, dirty);
-            transition_in(if_block0, 1);
+          if (if_block1) {
+            if_block1.p(ctx, dirty);
+            transition_in(if_block1, 1);
           } else {
-            if_block0 = create_if_block_1$1(ctx);
-            if_block0.c();
-            transition_in(if_block0, 1);
-            if_block0.m(div, t1);
+            if_block1 = create_if_block_1$1(ctx);
+            if_block1.c();
+            transition_in(if_block1, 1);
+            if_block1.m(div, t1);
           }
-        } else if (if_block0) {
+        } else if (if_block1) {
           group_outros();
-          transition_out(if_block0, 1, 1, function () {
-            if_block0 = null;
+          transition_out(if_block1, 1, 1, function () {
+            if_block1 = null;
           });
           check_outros();
         }
@@ -3471,41 +3535,41 @@
         ctx[2].options.buttons.length;
 
         if (show_if) {
-          if (if_block1) {
-            if_block1.p(ctx, dirty);
-            transition_in(if_block1, 1);
+          if (if_block2) {
+            if_block2.p(ctx, dirty);
+            transition_in(if_block2, 1);
           } else {
-            if_block1 = create_if_block$2(ctx);
-            if_block1.c();
-            transition_in(if_block1, 1);
-            if_block1.m(div, null);
+            if_block2 = create_if_block$2(ctx);
+            if_block2.c();
+            transition_in(if_block2, 1);
+            if_block2.m(div, null);
           }
-        } else if (if_block1) {
+        } else if (if_block2) {
           group_outros();
-          transition_out(if_block1, 1, 1, function () {
-            if_block1 = null;
+          transition_out(if_block2, 1, 1, function () {
+            if_block2 = null;
           });
           check_outros();
         }
       },
       i: function i(local) {
         if (current) return;
-        transition_in(shepherdheader.$$.fragment, local);
         transition_in(if_block0);
         transition_in(if_block1);
+        transition_in(if_block2);
         current = true;
       },
       o: function o(local) {
-        transition_out(shepherdheader.$$.fragment, local);
         transition_out(if_block0);
         transition_out(if_block1);
+        transition_out(if_block2);
         current = false;
       },
       d: function d(detaching) {
         if (detaching) detach(div);
-        destroy_component(shepherdheader);
         if (if_block0) if_block0.d();
         if (if_block1) if_block1.d();
+        if (if_block2) if_block2.d();
       }
     };
   }
