@@ -187,6 +187,11 @@ declare namespace Step {
      * ```
      */
     when?: StepOptionsWhen;
+
+    /**
+     * A boolean, that when set to false, will set `pointer-events: none` on the target.
+     */
+    canClickTarget?: boolean;
   }
 
   interface StepOptionsAttachTo {
