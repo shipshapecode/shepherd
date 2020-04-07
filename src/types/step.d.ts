@@ -109,6 +109,11 @@ declare namespace Step {
     cancelIcon?: StepOptionsCancelIcon;
 
     /**
+     * A boolean, that when set to false, will set `pointer-events: none` on the target.
+     */
+    canClickTarget?: boolean;
+
+    /**
      * A string of extra classes to add to the step's content element.
      */
     classes?: string;
@@ -187,11 +192,6 @@ declare namespace Step {
      * ```
      */
     when?: StepOptionsWhen;
-
-    /**
-     * A boolean, that when set to false, will set `pointer-events: none` on the target.
-     */
-    canClickTarget?: boolean;
   }
 
   interface StepOptionsAttachTo {
