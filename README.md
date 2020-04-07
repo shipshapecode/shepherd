@@ -16,7 +16,7 @@
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 [![npm](https://img.shields.io/npm/dm/shepherd.js.svg)]()
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
-[![Build Status](https://travis-ci.org/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.org/shipshapecode/shepherd)
+[![Build Status](https://travis-ci.com/shipshapecode/shepherd.svg?branch=master)](https://travis-ci.com/shipshapecode/shepherd)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
