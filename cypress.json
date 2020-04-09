@@ -5,4 +5,8 @@
   "pluginsFile": "test/cypress/plugins/index.js",
   "supportFile": "test/cypress/support/index.js",
   "video": false
+  "firefoxGcInterval": {
+    "runMode": null,
+    "openMode": null
+  }
 }
