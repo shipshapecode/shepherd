@@ -43,7 +43,7 @@
     "test:cy:ci:firefox": "start-server-and-test start-test-server http://localhost:9002 cy:run:firefox",
     "test:cy:watch": "start-server-and-test start-test-server http://localhost:9002 cy:open",
     "test:unit:ci": "jest --coverage",
-    "test:unit:watch": "jest --watch",
+    "test:unit:watch": "jest --watch -t 'shepherdModalOverlayContainer'",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
@@ -53,7 +53,7 @@
   "types": "src/types/shepherd.d.ts",
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
-    "@popperjs/core": "^2.1.1",
+    "@popperjs/core": "^2.2.1",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {

@@ -396,4 +396,31 @@ describe('Tour | Top-Level Class', function() {
       });
     });
   });
+
+  describe('shepherdModalOverlayContainer', function() {
+    beforeEach(() => {
+      instance = new Shepherd.Tour({ useModalOverlay: true });
+    });
+    it('appends shepherdModalOverlayContainer to DOM when it does not exist', async() => {
+      expect(document.querySelector('.shepherd-modal-overlay-container')).not.toBeInTheDocument();
+
+      instance.start();
+
+      setTimeout(() => {
+        expect(document.querySelector('.shepherd-modal-overlay-container')).toBeInTheDocument();
+      }, 200);
+    });
+
+    it('removes shepherdModalOverlayContainer from DOM when it is complete', () => {
+      instance.start();
+
+      setTimeout(() => {
+        expect(document.querySelector('.shepherd-modal-overlay-container')).toBeInTheDocument();
+      }, 200);
+
+      instance.complete();
+
+      expect(document.querySelector('.shepherd-modal-overlay-container')).not.toBeInTheDocument();
+    });
+  });
 });
