@@ -431,7 +431,8 @@
 
     var scrollParent = getScrollParent(element);
     var isBody = getNodeName(scrollParent) === 'body';
-    var target = isBody ? getWindow(scrollParent) : scrollParent;
+    var win = getWindow(scrollParent);
+    var target = isBody ? [win].concat(win.visualViewport || []) : scrollParent;
     var updatedList = list.concat(target);
     return isBody ? updatedList : // $FlowFixMe: isBody tells us target will be an HTMLElement here
     updatedList.concat(listScrollParents(getParentNode(target)));
@@ -1183,11 +1184,12 @@
 
   function getViewportRect(element) {
     var win = getWindow(element);
+    var visualViewport = win.visualViewport || {};
     return {
-      width: win.innerWidth,
-      height: win.innerHeight,
-      x: 0,
-      y: 0
+      width: visualViewport.width || win.innerWidth,
+      height: visualViewport.height || win.innerHeight,
+      x: visualViewport.offsetLeft || 0,
+      y: visualViewport.offsetTop || 0
     };
   }
 
@@ -1397,6 +1399,12 @@
     return overflowOffsets;
   }
 
+  /*::
+  type OverflowsMap = {
+    [ComputedPlacement]: number,
+  };
+  */
+
   function computeAutoPlacement(state, options) {
     if (options === void 0) {
       options = {};
@@ -1407,13 +1415,17 @@
         boundary = _options.boundary,
         rootBoundary = _options.rootBoundary,
         padding = _options.padding,
-        flipVariations = _options.flipVariations;
+        flipVariations = _options.flipVariations,
+        _options$allowedAutoP = _options.allowedAutoPlacements,
+        allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
     var variation = getVariation(placement);
-    var placements = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
+    var placements$1 = (variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
       return getVariation(placement) === variation;
-    }) : basePlacements; // $FlowFixMe: Flow seems to have problems with two array unions...
+    }) : basePlacements).filter(function (placement) {
+      return allowedAutoPlacements.indexOf(placement) >= 0;
+    }); // $FlowFixMe: Flow seems to have problems with two array unions...
 
-    var overflows = placements.reduce(function (acc, placement) {
+    var overflows = placements$1.reduce(function (acc, placement) {
       acc[placement] = detectOverflow(state, {
         placement: placement,
         boundary: boundary,
@@ -1451,7 +1463,8 @@
         rootBoundary = options.rootBoundary,
         altBoundary = options.altBoundary,
         _options$flipVariatio = options.flipVariations,
-        flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio;
+        flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+        allowedAutoPlacements = options.allowedAutoPlacements;
     var preferredPlacement = state.options.placement;
     var basePlacement = getBasePlacement(preferredPlacement);
     var isBasePlacement = basePlacement === preferredPlacement;
@@ -1462,7 +1475,8 @@
         boundary: boundary,
         rootBoundary: rootBoundary,
         padding: padding,
-        flipVariations: flipVariations
+        flipVariations: flipVariations,
+        allowedAutoPlacements: allowedAutoPlacements
       }) : placement);
     }, []);
     var referenceRect = state.rects.reference;

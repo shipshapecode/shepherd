@@ -1175,10 +1175,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@popperjs/core@^2.2.1":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.2.2.tgz#2e254f5eb31f3abc35470060fb7116937d837739"
-  integrity sha512-LaSssaO8QHSAnRI4ZZB+jTD/hmndqOzwabDwKuySS1ME0pj+La6pV77i5CIQ61kVtz3pE13DhmkaYFGtrrCMeg==
+"@popperjs/core@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.3.1.tgz#14cb0327e63cec733404022d6664179f969886c0"
+  integrity sha512-GpJkaYcxn0zViuD8NphJilCRImCXjoM0fgjq+m3NW2nf6Xa0Ig+eWdODb0j0kzYnirKq21zIsf35ihRI+fyY7g==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
