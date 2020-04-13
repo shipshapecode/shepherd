@@ -1,5 +1,4 @@
 import ShepherdModal from '../../../src/js/components/shepherd-modal.svelte';
-// import { Tour } from '../../../src/js/tour.js';
 import { stub } from 'sinon';
 
 const classPrefix = '';
