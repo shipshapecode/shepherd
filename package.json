@@ -97,7 +97,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-eslint": "^7.0.0",
     "rollup-plugin-filesize": "^6.2.0",
-    "rollup-plugin-license": "^0.13.0",
+    "rollup-plugin-license": "^2.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^2.5.0",
