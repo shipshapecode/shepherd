@@ -342,6 +342,10 @@ export class Step extends Evented {
 
     this._setupElements();
 
+    if (!this.tour.modal) {
+      this.tour._setupModal();
+    }
+
     this.tour.modal.setupForStep(this);
     this._styleTargetElementForStep(this);
     this.el.hidden = false;
