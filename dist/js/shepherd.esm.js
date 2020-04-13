@@ -382,12 +382,15 @@ function getParentNode(element) {
     return element;
   }
 
-  return element.parentNode || // DOM Element detected
-  // $FlowFixMe: need a better way to handle this...
-  element.host || // ShadowRoot detected
-  document.ownerDocument || // Fallback to ownerDocument if available
-  document.documentElement // Or to documentElement if everything else fails
-  ;
+  return (// $FlowFixMe: this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || // DOM Element detected
+    // $FlowFixMe: need a better way to handle this...
+    element.host || // ShadowRoot detected
+    // $FlowFixMe: HTMLElement is a Node
+    getDocumentElement(element) // fallback
+
+  );
 }
 
 function getComputedStyle(element) {
@@ -432,19 +435,13 @@ function isTableElement(element) {
   return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
 }
 
-var isFirefox = function isFirefox() {
-  return typeof window.InstallTrigger !== 'undefined';
-};
-
 function getTrueOffsetParent(element) {
-  var offsetParent;
-
-  if (!isHTMLElement(element) || !(offsetParent = element.offsetParent) || // https://github.com/popperjs/popper-core/issues/837
-  isFirefox() && getComputedStyle(offsetParent).position === 'fixed') {
+  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+  getComputedStyle(element).position === 'fixed') {
     return null;
   }
 
-  return offsetParent;
+  return element.offsetParent;
 }
 
 function getOffsetParent(element) {
@@ -623,7 +620,7 @@ function popperGenerator(generatorOptions) {
         cleanupModifierEffects();
         state.options = Object.assign({}, defaultOptions, {}, state.options, {}, options);
         state.scrollParents = {
-          reference: isElement$1(reference) ? listScrollParents(reference) : [],
+          reference: isElement$1(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
           popper: listScrollParents(popper)
         }; // Orders the modifiers based on their dependencies and `phase`
         // properties
@@ -1058,7 +1055,7 @@ function effect$1(_ref2) {
   var state = _ref2.state;
   var initialStyles = {
     popper: {
-      position: 'absolute',
+      position: state.options.strategy,
       left: '0',
       top: '0',
       margin: '0'
@@ -1362,7 +1359,7 @@ function detectOverflow(state, options) {
   var referenceElement = state.elements.reference;
   var popperRect = state.rects.popper;
   var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement$1(element) ? element : getDocumentElement(state.elements.popper), boundary, rootBoundary);
+  var clippingClientRect = getClippingRect(isElement$1(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
   var referenceClientRect = getBoundingClientRect(referenceElement);
   var popperOffsets = computeOffsets({
     reference: referenceClientRect,
@@ -1684,14 +1681,17 @@ function arrow(_ref) {
   var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
   var startDiff = popperOffsets[axis] - state.rects.reference[axis];
   var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
-  var clientOffset = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientLeft || 0 : arrowOffsetParent.clientTop || 0 : 0;
-  var centerToReference = endDiff / 2 - startDiff / 2 - clientOffset; // Make sure the arrow doesn't overflow the popper if the center point is
+  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
+  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
   // outside of the popper bounds
 
-  var center = within(paddingObject[minProp], state.rects.popper[len] / 2 - arrowRect[len] / 2 + centerToReference, state.rects.popper[len] - arrowRect[len] - paddingObject[maxProp]); // Prevents breaking syntax highlighting...
+  var min = paddingObject[minProp];
+  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
+  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
+  var offset = within(min, center, max); // Prevents breaking syntax highlighting...
 
   var axisProp = axis;
-  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = center, _state$modifiersData$);
+  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
 }
 
 function effect$2(_ref2) {
@@ -4681,6 +4681,10 @@ var Step = /*#__PURE__*/function (_Evented) {
 
     this._setupElements();
 
+    if (!this.tour.modal) {
+      this.tour._setupModal();
+    }
+
     this.tour.modal.setupForStep(this);
 
     this._styleTargetElementForStep(this);
@@ -5168,13 +5172,6 @@ var Tour = /*#__PURE__*/function (_Evented) {
         });
       })(event);
     });
-    _this.modal = new Shepherd_modal({
-      target: options.modalContainer || document.body,
-      props: {
-        classPrefix: _this.classPrefix,
-        styles: _this.styles
-      }
-    });
 
     _this._setTourID();
 
@@ -5394,6 +5391,8 @@ var Tour = /*#__PURE__*/function (_Evented) {
     this.focusedElBeforeOpen = document.activeElement;
     this.currentStep = null;
 
+    this._setupModal();
+
     this._setupActiveTour();
 
     this.next();
@@ -5422,7 +5421,10 @@ var Tour = /*#__PURE__*/function (_Evented) {
     this.trigger('inactive', {
       tour: this
     });
-    this.modal.hide();
+
+    if (this.modal) {
+      this.modal.hide();
+    }
 
     if (event === 'cancel' || event === 'complete') {
       if (this.modal) {
@@ -5450,6 +5452,21 @@ var Tour = /*#__PURE__*/function (_Evented) {
       tour: this
     });
     Shepherd.activeTour = this;
+  }
+  /**
+   * _setupModal create the modal container and instance
+   * @private
+   */
+  ;
+
+  _proto._setupModal = function _setupModal() {
+    this.modal = new Shepherd_modal({
+      target: this.options.modalContainer || document.body,
+      props: {
+        classPrefix: this.classPrefix,
+        styles: this.styles
+      }
+    });
   }
   /**
    * Called when `showOn` evaluates to false, to skip the step

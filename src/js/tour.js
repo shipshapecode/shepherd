@@ -61,15 +61,6 @@ export class Tour extends Evented {
       })(event);
     });
 
-    this.modal = new ShepherdModal({
-      target: options.modalContainer || document.body,
-      props:
-        {
-          classPrefix: this.classPrefix,
-          styles: this.styles
-        }
-    });
-
     this._setTourID();
 
     return this;
@@ -264,6 +255,9 @@ export class Tour extends Evented {
     this.focusedElBeforeOpen = document.activeElement;
 
     this.currentStep = null;
+
+    this._setupModal();
+
     this._setupActiveTour();
     this.next();
   }
@@ -286,7 +280,9 @@ export class Tour extends Evented {
     Shepherd.activeTour = null;
     this.trigger('inactive', { tour: this });
 
-    this.modal.hide();
+    if (this.modal) {
+      this.modal.hide();
+    }
 
     if (event === 'cancel' || event === 'complete') {
       if (this.modal) {
@@ -312,6 +308,21 @@ export class Tour extends Evented {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
+  }
+
+  /**
+   * _setupModal create the modal container and instance
+   * @private
+   */
+  _setupModal() {
+    this.modal = new ShepherdModal({
+      target: this.options.modalContainer || document.body,
+      props:
+      {
+        classPrefix: this.classPrefix,
+        styles: this.styles
+      }
+    });
   }
 
   /**
