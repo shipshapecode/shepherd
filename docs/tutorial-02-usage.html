@@ -129,8 +129,8 @@ to all this tour's steps by default.</p>
 <pre class="prettyprint source lang-javascript"><code>tour.addStep({
   id: 'example-step',
   text: 'This step is attached to the bottom of the &lt;code>.example-css-selector&lt;/code> element.',
-  attachTo: { 
-    element: '.example-css-selector', 
+  attachTo: {
+    element: '.example-css-selector',
     on: 'bottom'
   },
   classes: 'example-step-extra-class',
@@ -238,7 +238,7 @@ created.</p>
 <li><code>title</code>: The step's title. It becomes an <code>h3</code> at the top of the step.</li>
 <li><code>attachTo</code>: What element the step should be attached to on the page.
 It should be an object with the properties <code>element</code> and <code>on</code>, where <code>element</code> is an element selector string
-or a DOM element and <code>on</code> is the optional direction to place the Tippy tooltip.</li>
+or a DOM element and <code>on</code> is the optional direction to place the Popper tooltip.</li>
 </ul>
 <pre class="prettyprint source lang-js"><code>const new Step(tour, {
   attachTo: { element: '.some .selector-path', on: 'left' },
@@ -351,7 +351,7 @@ yourApp.on('some-event', () => {
 <p>By default, Shepherd will generate and position an &quot;arrow&quot; element that points to the target
 of a step. This is done by setting the <code>arrow</code> option to <code>true</code> on each ``Step.options` — but you can disable the arrow manually by setting it to false:</p>
 <pre class="prettyprint source lang-js"><code>myTour.addStep({
-  id: 'Step 1', 
+  id: 'Step 1',
   arrow: false
 });
 </code></pre>

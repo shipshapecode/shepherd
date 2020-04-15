@@ -259,7 +259,7 @@
           
             
     <span class="param-type">
-      Object
+      boolean
     </span>
 
     
@@ -273,7 +273,7 @@
         
 
         <td class="description last">
-          <p>Whether to display the arrow for the tooltip or not.</p>
+          <p>Whether to display the arrow for the tooltip or not. Defaults to <code>true</code>.</p>
           
         </td>
       </tr>
@@ -305,10 +305,10 @@
           <p>What element the step should be attached to on the page.
 It should be an object with the properties <code>element</code> and <code>on</code>, where <code>element</code> is an element selector string
 or a DOM element and <code>on</code> is the optional direction to place the Popper tooltip.</p>
-<pre class="prettyprint source lang-js"><code>const new Step(tour, {
+<pre class="prettyprint source lang-js"><code>const step = new Step(tour, {
   attachTo: { element: '.some .selector-path', on: 'left' },
   ...moreOptions
-})'
+});
 </code></pre>
 <p>If you don’t specify an attachTo the element will appear in the middle of the screen.
 If you omit the <code>on</code> portion of <code>attachTo</code>, the element will still be highlighted, but the tooltip will appear
@@ -433,10 +433,10 @@ in the middle of the screen, without an arrow pointing to the target.</p>
         <td class="description last">
           <p>An action on the page which should advance shepherd to the next step.
 It should be an object with a string <code>selector</code> and an <code>event</code> name</p>
-<pre class="prettyprint source lang-js"><code>const new Step(tour, {
+<pre class="prettyprint source lang-js"><code>const step = new Step(tour, {
   advanceOn: { selector: '.some .selector-path', event: 'click' },
   ...moreOptions
-})'
+});
 </code></pre>
 <p><code>event</code> doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
 You can also always manually advance the Tour by calling <code>myTour.next()</code>.</p>
@@ -1545,7 +1545,7 @@ Triggers the <code>complete</code> event</p>
 
 
   <div class="description">
-    <p>Remove the step, delete the step's element, and destroy the tippy instance for the step
+    <p>Remove the step, delete the step's element, and destroy the Popper instance for the step.
 Triggers <code>destroy</code> event</p>
   </div>
 

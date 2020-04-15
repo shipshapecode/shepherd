@@ -4355,16 +4355,16 @@ var Step = /*#__PURE__*/function (_Evented) {
    * Create a step
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
-   * @param {Object} options.arrow Whether to display the arrow for the tooltip or not.
+   * @param {boolean} options.arrow Whether to display the arrow for the tooltip or not. Defaults to `true`.
    * @param {Object} options.attachTo What element the step should be attached to on the page.
    * It should be an object with the properties `element` and `on`, where `element` is an element selector string
    * or a DOM element and `on` is the optional direction to place the Popper tooltip.
    *
    * ```js
-   * const new Step(tour, {
+   * const step = new Step(tour, {
    *   attachTo: { element: '.some .selector-path', on: 'left' },
    *   ...moreOptions
-   * })'
+   * });
    * ```
    *
    * If you don’t specify an attachTo the element will appear in the middle of the screen.
@@ -4375,10 +4375,10 @@ var Step = /*#__PURE__*/function (_Evented) {
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
    * It should be an object with a string `selector` and an `event` name
    * ```js
-   * const new Step(tour, {
+   * const step = new Step(tour, {
    *   advanceOn: { selector: '.some .selector-path', event: 'click' },
    *   ...moreOptions
-   * })'
+   * });
    * ```
    * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
    * You can also always manually advance the Tour by calling `myTour.next()`.
@@ -4478,7 +4478,7 @@ var Step = /*#__PURE__*/function (_Evented) {
     this.trigger('complete');
   }
   /**
-   * Remove the step, delete the step's element, and destroy the tippy instance for the step
+   * Remove the step, delete the step's element, and destroy the Popper instance for the step.
    * Triggers `destroy` event
    */
   ;
