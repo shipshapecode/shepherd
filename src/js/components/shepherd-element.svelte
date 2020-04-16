@@ -167,6 +167,10 @@
     left: -8px;
   }
 
+  .shepherd-element.shepherd-centered > .shepherd-arrow {
+    opacity: 0;
+  }
+
 
   /**
   * Arrow on top of tooltip centered horizontally, with title color
