@@ -797,7 +797,8 @@ function effect(_ref) {
       window.removeEventListener('resize', instance.update, passive);
     }
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var eventListeners = {
   name: 'eventListeners',
@@ -894,7 +895,8 @@ function popperOffsets(_ref) {
     strategy: 'absolute',
     placement: state.placement
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var popperOffsets$1 = {
   name: 'popperOffsets',
@@ -994,13 +996,15 @@ function computeStyles(_ref3) {
     popper: state.elements.popper,
     popperRect: state.rects.popper,
     gpuAcceleration: gpuAcceleration
-  }; // popper offsets are always available
+  };
 
-  state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
-    offsets: state.modifiersData.popperOffsets,
-    position: state.options.strategy,
-    adaptive: adaptive
-  }))); // arrow offsets may not be available
+  if (state.modifiersData.popperOffsets != null) {
+    state.styles.popper = Object.assign({}, state.styles.popper, {}, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.popperOffsets,
+      position: state.options.strategy,
+      adaptive: adaptive
+    })));
+  }
 
   if (state.modifiersData.arrow != null) {
     state.styles.arrow = Object.assign({}, state.styles.arrow, {}, mapToStyles(Object.assign({}, commonStyles, {
@@ -1013,7 +1017,8 @@ function computeStyles(_ref3) {
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
     'data-popper-placement': state.placement
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var computeStyles$1 = {
   name: 'computeStyles',
@@ -1096,7 +1101,8 @@ function effect$1(_ref2) {
       });
     });
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var applyStyles$1 = {
   name: 'applyStyles',
@@ -1141,10 +1147,15 @@ function offset(_ref2) {
   var _data$state$placement = data[state.placement],
       x = _data$state$placement.x,
       y = _data$state$placement.y;
-  state.modifiersData.popperOffsets.x += x;
-  state.modifiersData.popperOffsets.y += y;
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.modifiersData.popperOffsets.x += x;
+    state.modifiersData.popperOffsets.y += y;
+  }
+
   state.modifiersData[name] = data;
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var offset$1 = {
   name: 'offset',
@@ -1178,12 +1189,22 @@ function getOppositeVariationPlacement(placement) {
 
 function getViewportRect(element) {
   var win = getWindow(element);
-  var visualViewport = win.visualViewport || {};
+  var visualViewport = win.visualViewport;
+  var width = win.innerWidth;
+  var height = win.innerHeight; // We don't know which browsers have buggy or odd implementations of this, so
+  // for now we're only applying it to iOS to fix the keyboard issue.
+  // Investigation required
+
+  if (visualViewport && /iPhone|iPod|iPad/.test(navigator.platform)) {
+    width = visualViewport.width;
+    height = visualViewport.height;
+  }
+
   return {
-    width: visualViewport.width || win.innerWidth,
-    height: visualViewport.height || win.innerHeight,
-    x: visualViewport.offsetLeft || 0,
-    y: visualViewport.offsetTop || 0
+    width: width,
+    height: height,
+    x: 0,
+    y: 0
   };
 }
 
@@ -1393,11 +1414,9 @@ function detectOverflow(state, options) {
   return overflowOffsets;
 }
 
-/*::
-type OverflowsMap = {
-  [ComputedPlacement]: number,
-};
-*/
+/*:: type OverflowsMap = { [ComputedPlacement]: number }; */
+
+/*;; type OverflowsMap = { [key in ComputedPlacement]: number }; */
 
 function computeAutoPlacement(state, options) {
   if (options === void 0) {
@@ -1547,7 +1566,8 @@ function flip(_ref) {
     state.placement = firstFittingPlacement;
     state.reset = true;
   }
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var flip$1 = {
   name: 'flip',
@@ -1606,6 +1626,10 @@ function preventOverflow(_ref) {
     y: 0
   };
 
+  if (!popperOffsets) {
+    return;
+  }
+
   if (checkMainAxis) {
     var mainSide = mainAxis === 'y' ? top : left;
     var altSide = mainAxis === 'y' ? bottom : right;
@@ -1657,12 +1681,13 @@ function preventOverflow(_ref) {
 
     var _preventedOffset = within(_min, _offset, _max);
 
-    state.modifiersData.popperOffsets[altAxis] = _preventedOffset;
+    popperOffsets[altAxis] = _preventedOffset;
     data[altAxis] = _preventedOffset - _offset;
   }
 
   state.modifiersData[name] = data;
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var preventOverflow$1 = {
   name: 'preventOverflow',
@@ -1684,7 +1709,7 @@ function arrow(_ref) {
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
 
-  if (!arrowElement) {
+  if (!arrowElement || !popperOffsets) {
     return;
   }
 
@@ -1715,7 +1740,12 @@ function effect$2(_ref2) {
   var _options$element = options.element,
       arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element,
       _options$padding = options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding; // CSS selector
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+
+  if (arrowElement == null) {
+    return;
+  } // CSS selector
+
 
   if (typeof arrowElement === 'string') {
     arrowElement = state.elements.popper.querySelector(arrowElement);
@@ -1734,7 +1764,8 @@ function effect$2(_ref2) {
   state.modifiersData[name + "#persistent"] = {
     padding: mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements))
   };
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var arrow$1 = {
   name: 'arrow',
@@ -1794,7 +1825,8 @@ function hide(_ref) {
     'data-popper-reference-hidden': isReferenceHidden,
     'data-popper-escaped': hasPopperEscaped
   });
-}
+} // eslint-disable-next-line import/no-unused-modules
+
 
 var hide$1 = {
   name: 'hide',
