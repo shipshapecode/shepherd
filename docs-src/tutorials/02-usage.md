@@ -104,7 +104,7 @@ const myTour = new Shepherd.Tour(options);
 
 ##### Tour Options
 
-- `classPrefix`: The prefix to add to all the `shepherd-*` class names.
+- `classPrefix`: The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
 - `confirmCancel`: If true, will issue a `window.confirm` before cancelling
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
