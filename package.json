@@ -20,6 +20,10 @@
     "Robert Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
+  "funding": {
+    "type" : "individual",
+    "url" : "https://github.com/sponsors/rwwagner90"
+  },
   "scripts": {
     "build": "yarn clean && rollup -c",
     "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
