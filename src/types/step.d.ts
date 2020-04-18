@@ -239,15 +239,20 @@ declare namespace Step {
     events?: StepOptionsButtonEvent;
 
     /**
-     * The HTML text of the button
-     */
-    text?: string;
-
-    /**
      * Whether the button should be disabled
      * When the value is `true`, or the function returns `true` the button will be disabled
      */
     disabled?: boolean | (() => boolean);
+
+    /**
+     * The aria-label text of the button
+     */
+    label?: string;
+
+    /**
+     * The HTML text of the button
+     */
+    text?: string;
   }
 
   interface StepOptionsButtonEvent {
