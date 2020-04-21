@@ -297,7 +297,8 @@ export class Step extends Evented {
       {
         arrow: true
       },
-      tourOptions,
+      // make a deep copy in order to prevent mutation on the source
+      JSON.parse(JSON.stringify(tourOptions)),
       options
     );
 
