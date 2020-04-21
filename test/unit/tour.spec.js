@@ -14,7 +14,8 @@ describe('Tour | Top-Level Class', function() {
 
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
-    scrollTo: true
+    scrollTo: true,
+    popperOptions: {}
   };
 
   afterEach(() => {
@@ -29,11 +30,18 @@ describe('Tour | Top-Level Class', function() {
     });
 
     it('returns the default options on the instance', function() {
-      instance = new Shepherd.Tour({ defaultStepOptions });
+      instance = new Shepherd.Tour({
+        defaultStepOptions, steps: [{
+          scrollTo: false
+        }]
+      });
+
+      instance.start();
 
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
-        scrollTo: true
+        scrollTo: true,
+        popperOptions: {}
       });
     });
 
