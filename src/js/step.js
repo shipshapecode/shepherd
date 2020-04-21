@@ -292,13 +292,13 @@ export class Step extends Evented {
   _setOptions(options = {}) {
     const tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    const tourOptionsCopy = tourOptions ? JSON.parse(JSON.stringify(tourOptions)) : {};
 
     this.options = Object.assign(
       {
         arrow: true
       },
-      // make a deep copy in order to prevent mutation on the source
-      JSON.parse(JSON.stringify(tourOptions)),
+      tourOptionsCopy,
       options
     );
 
