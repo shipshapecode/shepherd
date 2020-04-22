@@ -118,7 +118,7 @@ describe('Tour | Step', () => {
     it('adds a step modifer to default modifiers', () => {
       // this will add the default `preventOverflow` modifier before showing
       testStep.show();
-      expect(testStep.options.popperOptions.modifiers.length).toBe(3);
+      expect(testStep.options.popperOptions.modifiers.length).toBe(4);
     });
 
     it('allows the step to override a previously defined modifier', () => {

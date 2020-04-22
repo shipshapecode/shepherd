@@ -108,21 +108,36 @@ export function getPopperOptions(attachToOptions, step) {
     target = attachToOptions.element;
   }
 
-  if (step.options.popperOptions) {
+  const defaultStepOptions =
+    step.tour && step.tour.options && step.tour.options.defaultStepOptions;
+
+  if (defaultStepOptions) {
+    popperOptions = _mergeModifiers(defaultStepOptions, popperOptions);
+  }
+
+  popperOptions = _mergeModifiers(step.options, popperOptions);
+
+  return { element: step.el, popperOptions, target };
+}
+
+function _mergeModifiers(stepOptions, popperOptions) {
+  if (stepOptions.popperOptions) {
     if (
-      step.options.popperOptions.modifiers &&
-      step.options.popperOptions.modifiers.length > 0
+      stepOptions.popperOptions.modifiers &&
+      stepOptions.popperOptions.modifiers.length > 0
     ) {
-      const names = step.options.popperOptions.modifiers.map((mod) => mod.name);
+      const names = stepOptions.popperOptions.modifiers.map((mod) => mod.name);
       const filteredModifiers = popperOptions.modifiers.filter(
         (mod) => !names.includes(mod.name)
       );
 
-      popperOptions.modifiers = Array.from(new Set([...filteredModifiers, ...step.options.popperOptions.modifiers]));
+      popperOptions.modifiers = Array.from(
+        new Set([...filteredModifiers, ...stepOptions.popperOptions.modifiers])
+      );
     }
 
-    popperOptions = Object.assign(step.options.popperOptions, popperOptions);
+    popperOptions = Object.assign(stepOptions.popperOptions, popperOptions);
   }
 
-  return { element: step.el, popperOptions, target };
+  return popperOptions;
 }
