@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "7.1.2",
+  "version": "7.1.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
@@ -21,8 +21,8 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "funding": {
-    "type" : "individual",
-    "url" : "https://github.com/sponsors/rwwagner90"
+    "type": "individual",
+    "url": "https://github.com/sponsors/rwwagner90"
   },
   "scripts": {
     "build": "yarn clean && rollup -c",
