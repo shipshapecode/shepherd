@@ -2018,25 +2018,36 @@ function getPopperOptions(attachToOptions, step) {
     target = attachToOptions.element;
   }
 
-  if (step.options.popperOptions) {
-    if (step.options.popperOptions.modifiers && step.options.popperOptions.modifiers.length > 0) {
-      var names = step.options.popperOptions.modifiers.map(function (mod) {
-        return mod.name;
-      });
-      var filteredModifiers = popperOptions.modifiers.filter(function (mod) {
-        return !names.includes(mod.name);
-      });
-      popperOptions.modifiers = Array.from(new Set([].concat(filteredModifiers, step.options.popperOptions.modifiers)));
-    }
+  var defaultStepOptions = step.tour && step.tour.options && step.tour.options.defaultStepOptions;
 
-    popperOptions = Object.assign(step.options.popperOptions, popperOptions);
+  if (defaultStepOptions) {
+    popperOptions = _mergeModifiers(defaultStepOptions, popperOptions);
   }
 
+  popperOptions = _mergeModifiers(step.options, popperOptions);
   return {
     element: step.el,
     popperOptions: popperOptions,
     target: target
   };
+}
+
+function _mergeModifiers(stepOptions, popperOptions) {
+  if (stepOptions.popperOptions) {
+    if (stepOptions.popperOptions.modifiers && stepOptions.popperOptions.modifiers.length > 0) {
+      var names = stepOptions.popperOptions.modifiers.map(function (mod) {
+        return mod.name;
+      });
+      var filteredModifiers = popperOptions.modifiers.filter(function (mod) {
+        return !names.includes(mod.name);
+      });
+      popperOptions.modifiers = Array.from(new Set([].concat(filteredModifiers, stepOptions.popperOptions.modifiers)));
+    }
+
+    popperOptions = Object.assign(stepOptions.popperOptions, popperOptions);
+  }
+
+  return popperOptions;
 }
 
 function noop() {}
