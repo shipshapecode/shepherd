@@ -290,8 +290,10 @@ export class Step extends Evented {
    * @private
    */
   _setOptions(options = {}) {
-    const tourOptions =
+    let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+
+    tourOptions = tourOptions ? JSON.parse(JSON.stringify(tourOptions)) : {};
 
     this.options = Object.assign(
       {
