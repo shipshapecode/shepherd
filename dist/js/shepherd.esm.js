@@ -4691,6 +4691,7 @@ var Step = /*#__PURE__*/function (_Evented) {
     }
 
     var tourOptions = this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    tourOptions = tourOptions ? JSON.parse(JSON.stringify(tourOptions)) : {};
     this.options = Object.assign({
       arrow: true
     }, tourOptions, options);
