@@ -6,6 +6,21 @@ as a dependency, in favor of users installing it directly in their apps. To disa
 you can install `body-scroll-lock` and run `bodyScrollLock.disableBodyScroll();` before
 starting the tour, then `bodyScrollLock.clearAllBodyScrollLocks();` after stopping the tour.
 
+### Offsets
+
+By default, Popper instances are placed directly next to their target. However, if you need to apply some margin 
+between them or if you need to fine tune the position according to some custom logic, you can use Popper's 
+[offset modifier](https://popper.js.org/docs/v2/modifiers/offset/) to do so.
+
+For example:
+
+```js
+popperOptions: {
+  modifiers: [{ name: 'offset', options: { offset: [0, 12] } }]
+}
+```
+
+
 ### Progress Indicator
 
 Using the already exposed API, you could add a progress indicator of your chosing 
