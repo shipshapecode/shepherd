@@ -114,6 +114,15 @@ and bulky, so we opted to remove <a href="https://github.com/willmcpo/body-scrol
 as a dependency, in favor of users installing it directly in their apps. To disable scrolling,
 you can install <code>body-scroll-lock</code> and run <code>bodyScrollLock.disableBodyScroll();</code> before
 starting the tour, then <code>bodyScrollLock.clearAllBodyScrollLocks();</code> after stopping the tour.</p>
+<h3>Offsets</h3>
+<p>By default, Popper instances are placed directly next to their target. However, if you need to apply some margin
+between them or if you need to fine tune the position according to some custom logic, you can use Popper's
+<a href="https://popper.js.org/docs/v2/modifiers/offset/">offset modifier</a> to do so.</p>
+<p>For example:</p>
+<pre class="prettyprint source lang-js"><code>popperOptions: {
+  modifiers: [{ name: 'offset', options: { offset: [0, 12] } }]
+}
+</code></pre>
 <h3>Progress Indicator</h3>
 <p>Using the already exposed API, you could add a progress indicator of your chosing
 for each step to let your users know how far into a tour they may be.</p>
