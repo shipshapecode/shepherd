@@ -26,7 +26,7 @@ describe('Tour | Step', () => {
     });
 
     const testStep = instance.addStep({
-      attachTo: { element: 'body' },
+      attachTo: { element: 'body', on: 'top' },
       highlightClass: 'highlight',
       text: 'This is a step for testing',
       buttons: [
@@ -112,13 +112,14 @@ describe('Tour | Step', () => {
     });
 
     it('applies the default modifiers from defaultStepOptions', () => {
-      instance.steps.forEach((step) => expect(step.options.popperOptions.modifiers.length).toBe(1));
+      expect(instance.steps[1].options.popperOptions.modifiers.length).toBe(3);
+      expect(instance.steps[2].options.popperOptions.modifiers.length).toBe(3);
+      expect(instance.steps[3].options.popperOptions.modifiers.length).toBe(3);
+      expect(instance.steps[4].options.popperOptions.modifiers.length).toBe(3);
     });
 
     it('adds a step modifer to default modifiers', () => {
-      // this will add the default `preventOverflow` modifier before showing
-      testStep.show();
-      expect(testStep.options.popperOptions.modifiers.length).toBe(4);
+      expect(testStep.options.popperOptions.modifiers.length).toBe(3);
     });
 
     it('allows the step to override a previously defined modifier', () => {

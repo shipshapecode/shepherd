@@ -29,7 +29,7 @@ describe('General Utils', function() {
         }
       });
 
-      const { popperOptions } = getPopperOptions(step.options.attachTo, step);
+      const popperOptions = getPopperOptions(step.options.attachTo, step);
       expect(popperOptions.modifiers[0].options.altAxis).toBe(false);
     });
 
@@ -43,7 +43,7 @@ describe('General Utils', function() {
         }
       });
 
-      const { popperOptions } = getPopperOptions(step.options.attachTo, step);
+      const popperOptions = getPopperOptions(step.options.attachTo, step);
       expect(popperOptions.strategy).toBe('absolute');
     });
   });
