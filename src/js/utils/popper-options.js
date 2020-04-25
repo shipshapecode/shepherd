@@ -46,13 +46,16 @@ function _getCenteredStylePopperModifier() {
  * @param {Step} step The step instance
  * @return {Object} The final Popper options object
  */
-export function makeCenteredPopper() {
+export function makeCenteredPopper(step) {
   const centeredStylePopperModifier = _getCenteredStylePopperModifier();
 
   let popperOptions = {
     placement: 'top',
     strategy: 'fixed',
-    modifiers: []
+    modifiers: [],
+    onFirstUpdate() {
+      step.el.focus();
+    }
   };
 
   popperOptions = {

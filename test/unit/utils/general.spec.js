@@ -2,10 +2,22 @@ import { Step } from '../../../src/js/step.js';
 import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
+  let optionsElement;
+
+  beforeEach(() => {
+    optionsElement = document.createElement('div');
+    optionsElement.classList.add('options-test');
+    document.body.appendChild(optionsElement);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(optionsElement);
+  });
+
   describe('parseAttachTo()', function() {
     it('fails if element does not exist', function() {
       const step = new Step({}, {
-        attachTo: { element: '.scroll-test', on: 'center' }
+        attachTo: { element: '.element-does-not-exist', on: 'center' }
       });
 
       const { element } = parseAttachTo(step);
@@ -16,7 +28,7 @@ describe('General Utils', function() {
   describe('getPopperOptions', function() {
     it('modifiers can be overridden', function() {
       const step = new Step({}, {
-        attachTo: { element: '.scroll-test', on: 'right' },
+        attachTo: { element: '.options-test', on: 'right' },
         popperOptions: {
           modifiers: [
             {
@@ -35,7 +47,7 @@ describe('General Utils', function() {
 
     it('positioning strategy is explicitly set', function() {
       const step = new Step({}, {
-        attachTo: { element: '.scroll-test', on: 'center' },
+        attachTo: { element: '.options-test', on: 'center' },
         options: {
           popperOptions: {
             strategy: 'absolute'

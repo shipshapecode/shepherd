@@ -98,11 +98,14 @@ export function getPopperOptions(attachToOptions, step) {
         }
       }
     ],
-    strategy: 'absolute'
+    strategy: 'absolute',
+    onFirstUpdate() {
+      step.el.focus();
+    }
   };
 
   if (step.isCentered()) {
-    popperOptions = makeCenteredPopper();
+    popperOptions = makeCenteredPopper(step);
   } else {
     popperOptions.placement = attachToOptions.on;
   }
@@ -121,6 +124,12 @@ export function getPopperOptions(attachToOptions, step) {
 
 function _mergeModifiers(stepOptions, popperOptions) {
   if (stepOptions.popperOptions) {
+    let mergedPopperOptions = Object.assign(
+      {},
+      popperOptions,
+      stepOptions.popperOptions
+    );
+
     if (
       stepOptions.popperOptions.modifiers &&
       stepOptions.popperOptions.modifiers.length > 0
@@ -130,12 +139,12 @@ function _mergeModifiers(stepOptions, popperOptions) {
         (mod) => !names.includes(mod.name)
       );
 
-      popperOptions.modifiers = Array.from(
+      mergedPopperOptions.modifiers = Array.from(
         new Set([...filteredModifiers, ...stepOptions.popperOptions.modifiers])
       );
     }
 
-    popperOptions = Object.assign({}, stepOptions.popperOptions, popperOptions);
+    return mergedPopperOptions;
   }
 
   return popperOptions;
