@@ -3,7 +3,6 @@ import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import {
-  getPopperOptions,
   setupTooltip,
   parseAttachTo,
   normalizePrefix,
@@ -319,10 +318,6 @@ export class Step extends Evented {
       tourOptions,
       options
     );
-
-    const attachToOptions = parseAttachTo(this);
-    const popperOptions = getPopperOptions(attachToOptions, this);
-    this.options.popperOptions = popperOptions;
 
     const { when } = this.options;
 

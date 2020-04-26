@@ -111,17 +111,6 @@ describe('Tour | Step', () => {
         .toMatch(/^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
     });
 
-    it('applies the default modifiers from defaultStepOptions', () => {
-      expect(instance.steps[1].options.popperOptions.modifiers.length).toBe(3);
-      expect(instance.steps[2].options.popperOptions.modifiers.length).toBe(3);
-      expect(instance.steps[3].options.popperOptions.modifiers.length).toBe(3);
-      expect(instance.steps[4].options.popperOptions.modifiers.length).toBe(3);
-    });
-
-    it('adds a step modifer to default modifiers', () => {
-      expect(testStep.options.popperOptions.modifiers.length).toBe(3);
-    });
-
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
       const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce((prev, next) => {

@@ -57,6 +57,7 @@ export function setupTooltip(step) {
   const attachToOptions = parseAttachTo(step);
 
   let target = attachToOptions.element;
+  const popperOptions = getPopperOptions(attachToOptions, step);
 
   if (step.isCentered()) {
     target = document.body;
@@ -64,8 +65,10 @@ export function setupTooltip(step) {
     content.classList.add('shepherd-centered');
   }
 
-  step.tooltip = createPopper(target, step.el, step.options.popperOptions);
+  step.tooltip = createPopper(target, step.el, popperOptions);
   step.target = attachToOptions.element;
+
+  return popperOptions;
 }
 
 /**
