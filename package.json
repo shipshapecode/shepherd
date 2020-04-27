@@ -92,7 +92,7 @@
     "patch-package": "^6.2.2",
     "postcss": "^7.0.27",
     "postinstall-postinstall": "^2.1.0",
-    "replace": "^1.1.5",
+    "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.6.1",
     "rollup-plugin-analyzer": "^3.2.2",
