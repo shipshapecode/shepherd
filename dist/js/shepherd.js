@@ -2790,7 +2790,12 @@
         ctx[1]) {
           if (if_block) {
             if_block.p(ctx, dirty);
-            transition_in(if_block, 1);
+
+            if (dirty &
+            /*buttons*/
+            2) {
+              transition_in(if_block, 1);
+            }
           } else {
             if_block = create_if_block(ctx);
             if_block.c();
@@ -3160,7 +3165,12 @@
         ctx[2]) {
           if (if_block0) {
             if_block0.p(ctx, dirty);
-            transition_in(if_block0, 1);
+
+            if (dirty &
+            /*title*/
+            4) {
+              transition_in(if_block0, 1);
+            }
           } else {
             if_block0 = create_if_block_1(ctx);
             if_block0.c();
@@ -3182,7 +3192,12 @@
         ctx[3].enabled) {
           if (if_block1) {
             if_block1.p(ctx, dirty);
-            transition_in(if_block1, 1);
+
+            if (dirty &
+            /*cancelIcon*/
+            8) {
+              transition_in(if_block1, 1);
+            }
           } else {
             if_block1 = create_if_block$1(ctx);
             if_block1.c();
@@ -3544,7 +3559,12 @@
         if (show_if_2) {
           if (if_block0) {
             if_block0.p(ctx, dirty);
-            transition_in(if_block0, 1);
+
+            if (dirty &
+            /*step*/
+            4) {
+              transition_in(if_block0, 1);
+            }
           } else {
             if_block0 = create_if_block_2(ctx);
             if_block0.c();
@@ -3568,7 +3588,12 @@
         if (show_if_1) {
           if (if_block1) {
             if_block1.p(ctx, dirty);
-            transition_in(if_block1, 1);
+
+            if (dirty &
+            /*step*/
+            4) {
+              transition_in(if_block1, 1);
+            }
           } else {
             if_block1 = create_if_block_1$1(ctx);
             if_block1.c();
@@ -3594,7 +3619,12 @@
         if (show_if) {
           if (if_block2) {
             if_block2.p(ctx, dirty);
-            transition_in(if_block2, 1);
+
+            if (dirty &
+            /*step*/
+            4) {
+              transition_in(if_block2, 1);
+            }
           } else {
             if_block2 = create_if_block$2(ctx);
             if_block2.c();
@@ -3769,7 +3799,7 @@
         ctx[4].options.attachTo &&
         /*step*/
         ctx[4].options.attachTo.element) {
-          if (!if_block) {
+          if (if_block) ; else {
             if_block = create_if_block$3();
             if_block.c();
             if_block.m(div, t);
