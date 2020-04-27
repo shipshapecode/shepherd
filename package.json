@@ -112,7 +112,7 @@
     "sinon": "^9.0.2",
     "start-server-and-test": "^1.11.0",
     "svelte": "^3.21.0",
-    "svelte-preprocess": "^3.7.1",
+    "svelte-preprocess": "^3.7.4",
     "tailwindcss": "^1.3.5"
   },
   "engines": {

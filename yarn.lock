@@ -9153,10 +9153,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte-preprocess@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.7.1.tgz#d368783221f9bd2896ba47d72c534dd43c4f1a24"
-  integrity sha512-7Padl2rCwQAakLGnNhk52NJw4eUJHs+q432rRvcCs/Ul7pKoSoZ69HCptXTH8ChjRFl1hqrVsLVYu7wGvYgR1A==
+svelte-preprocess@^3.7.4:
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.7.4.tgz#d10cf9b7c96c2b123da90438a3e9814737347e8d"
+  integrity sha512-0nW7TIjbav2nmw1Y7EAFRRkhNVwJ3zKN85/eITLQMkPuhqHO2i2IK0O3y4YXsSXlc0VGI5jQDVXkcXpga6zzew==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
