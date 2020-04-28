@@ -1,4 +1,4 @@
-/*! shepherd.js 7.1.4 */
+/*! shepherd.js 7.1.5 */
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
