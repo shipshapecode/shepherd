@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
+import { setupTooltip } from '../../src/js/utils/general.js';
 import { spy } from 'sinon';
 
 // since importing non UMD, needs assignment
@@ -15,7 +16,9 @@ describe('Tour | Top-Level Class', function() {
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true,
-    popperOptions: {}
+    popperOptions: {
+      modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+    }
   };
 
   afterEach(() => {
@@ -39,7 +42,9 @@ describe('Tour | Top-Level Class', function() {
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {}
+        popperOptions: {
+          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        }
       });
     });
 
@@ -400,6 +405,89 @@ describe('Tour | Top-Level Class', function() {
         expect(setupFuncSpy.callCount).toBe(1);
         expect(Shepherd.activeTour).toBe(instance);
       });
+    });
+  });
+
+  describe('popperOptions', () => {
+    it('applies the default modifiers from defaultStepOptions', function() {
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour'
+      });
+
+      instance.start();
+
+      const popperOptions = setupTooltip(step);
+
+      expect(popperOptions.modifiers.length).toBe(3);
+    });
+
+    it('adds a step modifer to default modifiers', function() {
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        popperOptions: {
+          modifiers: [{ name: 'foo', options: 'bar' }]
+        }
+      });
+
+      instance.start();
+
+      const popperOptions = setupTooltip(step);
+
+      expect(popperOptions.modifiers.length).toBe(4);
+    });
+
+    it('correctly changes modifiers when going from centered to attached', function() {
+      const div = document.createElement('div');
+      div.classList.add('modifiers-test');
+      document.body.appendChild(div);
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const centeredStep = instance.addStep({
+        id: 'centered',
+        title: 'This is a centered step for our tour',
+        popperOptions: {
+          modifiers: [{ name: 'foo', options: 'bar' }]
+        }
+      });
+
+      const attachedStep = instance.addStep({
+        attachTo: { element: '.modifiers-test', on: 'top' },
+        id: 'attached',
+        title: 'This is an attached step for our tour',
+        popperOptions: {
+          modifiers: [{ name: 'foo', options: 'bar' }]
+        }
+      });
+
+      instance.start();
+
+      let popperOptions = setupTooltip(centeredStep);
+      let modifierNames = popperOptions.modifiers.map((modifier)=> modifier.name);
+      expect(popperOptions.modifiers.length).toBe(4);
+      expect(modifierNames.includes('applyStyles')).toBe(true);
+      expect(modifierNames.includes('computeStyles')).toBe(true);
+      expect(modifierNames.includes('offset')).toBe(true);
+      expect(modifierNames.includes('foo')).toBe(true);
+      expect(modifierNames.includes('preventOverflow')).toBe(false);
+
+      instance.next();
+
+      popperOptions = setupTooltip(attachedStep);
+      modifierNames = popperOptions.modifiers.map((modifier)=> modifier.name);
+      expect(popperOptions.modifiers.length).toBe(3);
+      expect(modifierNames.includes('preventOverflow')).toBe(true);
+      expect(modifierNames.includes('offset')).toBe(true);
+      expect(modifierNames.includes('foo')).toBe(true);
+      expect(modifierNames.includes('applyStyles')).toBe(false);
+      expect(modifierNames.includes('computeStyles')).toBe(false);
+
+      document.body.removeChild(div);
     });
   });
 

@@ -1897,18 +1897,6 @@
   function makeCenteredPopper(step) {
     var centeredStylePopperModifier = _getCenteredStylePopperModifier();
 
-    var content = step.shepherdElementComponent.getElement();
-
-    var popperOptions = _makeCommonPopperOptions(step);
-
-    content.classList.add('shepherd-centered');
-    popperOptions = _extends({}, popperOptions, {
-      modifiers: Array.from(new Set([].concat(popperOptions.modifiers, centeredStylePopperModifier)))
-    });
-    return popperOptions;
-  }
-
-  function _makeCommonPopperOptions(step) {
     var popperOptions = {
       placement: 'top',
       strategy: 'fixed',
@@ -1917,6 +1905,9 @@
         step.el.focus();
       }
     };
+    popperOptions = _extends({}, popperOptions, {
+      modifiers: Array.from(new Set([].concat(popperOptions.modifiers, centeredStylePopperModifier)))
+    });
     return popperOptions;
   }
 
@@ -1971,15 +1962,19 @@
       step.tooltip.destroy();
     }
 
-    var attachToOpts = parseAttachTo(step);
+    var attachToOptions = parseAttachTo(step);
+    var target = attachToOptions.element;
+    var popperOptions = getPopperOptions(attachToOptions, step);
 
-    var _getPopperOptions = getPopperOptions(attachToOpts, step),
-        element = _getPopperOptions.element,
-        popperOptions = _getPopperOptions.popperOptions,
-        target = _getPopperOptions.target;
+    if (step.isCentered()) {
+      target = document.body;
+      var content = step.shepherdElementComponent.getElement();
+      content.classList.add('shepherd-centered');
+    }
 
-    step.tooltip = createPopper(target, element, popperOptions);
-    step.target = attachToOpts.element;
+    step.tooltip = createPopper(target, step.el, popperOptions);
+    step.target = attachToOptions.element;
+    return popperOptions;
   }
   /**
    * Create a unique id for steps, tours, modals, etc
@@ -2015,13 +2010,11 @@
         step.el.focus();
       }
     };
-    var target = document.body;
 
-    if (!attachToOptions.element || !attachToOptions.on) {
+    if (step.isCentered()) {
       popperOptions = makeCenteredPopper(step);
     } else {
-      popperOptions.placement = attachToOptions.on || 'right';
-      target = attachToOptions.element;
+      popperOptions.placement = attachToOptions.on;
     }
 
     var defaultStepOptions = step.tour && step.tour.options && step.tour.options.defaultStepOptions;
@@ -2031,15 +2024,13 @@
     }
 
     popperOptions = _mergeModifiers(step.options, popperOptions);
-    return {
-      element: step.el,
-      popperOptions: popperOptions,
-      target: target
-    };
+    return popperOptions;
   }
 
   function _mergeModifiers(stepOptions, popperOptions) {
     if (stepOptions.popperOptions) {
+      var mergedPopperOptions = Object.assign({}, popperOptions, stepOptions.popperOptions);
+
       if (stepOptions.popperOptions.modifiers && stepOptions.popperOptions.modifiers.length > 0) {
         var names = stepOptions.popperOptions.modifiers.map(function (mod) {
           return mod.name;
@@ -2047,10 +2038,10 @@
         var filteredModifiers = popperOptions.modifiers.filter(function (mod) {
           return !names.includes(mod.name);
         });
-        popperOptions.modifiers = Array.from(new Set([].concat(filteredModifiers, stepOptions.popperOptions.modifiers)));
+        mergedPopperOptions.modifiers = Array.from(new Set([].concat(filteredModifiers, stepOptions.popperOptions.modifiers)));
       }
 
-      popperOptions = Object.assign(stepOptions.popperOptions, popperOptions);
+      return mergedPopperOptions;
     }
 
     return popperOptions;
@@ -4606,6 +4597,16 @@
       }
 
       this.trigger('hide');
+    }
+    /**
+     * Checks if the step should be centered or not
+     * @return {boolean} True if the step is centered
+     */
+    ;
+
+    _proto.isCentered = function isCentered() {
+      var attachToOptions = parseAttachTo(this);
+      return !attachToOptions.element || !attachToOptions.on;
     }
     /**
      * Check if the step is open and visible

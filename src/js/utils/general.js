@@ -31,7 +31,7 @@ export function parseAttachTo(step) {
     // guarantee that the element will exist in the future.
     try {
       returnOpts.element = document.querySelector(options.element);
-    } catch(e) {
+    } catch (e) {
       // TODO
     }
     if (!returnOpts.element) {
@@ -54,14 +54,21 @@ export function setupTooltip(step) {
     step.tooltip.destroy();
   }
 
-  const attachToOpts = parseAttachTo(step);
-  const { element, popperOptions, target } = getPopperOptions(
-    attachToOpts,
-    step
-  );
+  const attachToOptions = parseAttachTo(step);
 
-  step.tooltip = createPopper(target, element, popperOptions);
-  step.target = attachToOpts.element;
+  let target = attachToOptions.element;
+  const popperOptions = getPopperOptions(attachToOptions, step);
+
+  if (step.isCentered()) {
+    target = document.body;
+    const content = step.shepherdElementComponent.getElement();
+    content.classList.add('shepherd-centered');
+  }
+
+  step.tooltip = createPopper(target, step.el, popperOptions);
+  step.target = attachToOptions.element;
+
+  return popperOptions;
 }
 
 /**
@@ -99,13 +106,11 @@ export function getPopperOptions(attachToOptions, step) {
       step.el.focus();
     }
   };
-  let target = document.body;
 
-  if (!attachToOptions.element || !attachToOptions.on) {
+  if (step.isCentered()) {
     popperOptions = makeCenteredPopper(step);
   } else {
-    popperOptions.placement = attachToOptions.on || 'right';
-    target = attachToOptions.element;
+    popperOptions.placement = attachToOptions.on;
   }
 
   const defaultStepOptions =
@@ -117,11 +122,17 @@ export function getPopperOptions(attachToOptions, step) {
 
   popperOptions = _mergeModifiers(step.options, popperOptions);
 
-  return { element: step.el, popperOptions, target };
+  return popperOptions;
 }
 
 function _mergeModifiers(stepOptions, popperOptions) {
   if (stepOptions.popperOptions) {
+    let mergedPopperOptions = Object.assign(
+      {},
+      popperOptions,
+      stepOptions.popperOptions
+    );
+
     if (
       stepOptions.popperOptions.modifiers &&
       stepOptions.popperOptions.modifiers.length > 0
@@ -131,12 +142,12 @@ function _mergeModifiers(stepOptions, popperOptions) {
         (mod) => !names.includes(mod.name)
       );
 
-      popperOptions.modifiers = Array.from(
+      mergedPopperOptions.modifiers = Array.from(
         new Set([...filteredModifiers, ...stepOptions.popperOptions.modifiers])
       );
     }
 
-    popperOptions = Object.assign(stepOptions.popperOptions, popperOptions);
+    return mergedPopperOptions;
   }
 
   return popperOptions;
