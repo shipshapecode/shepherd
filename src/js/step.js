@@ -2,7 +2,12 @@ import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
-import { setupTooltip, parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
+import {
+  setupTooltip,
+  parseAttachTo,
+  normalizePrefix,
+  uuid
+} from './utils/general.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
@@ -104,7 +109,9 @@ export class Step extends Evented {
   constructor(tour, options = {}) {
     super(tour, options);
     this.tour = tour;
-    this.classPrefix = this.tour.options ? normalizePrefix(this.tour.options.classPrefix) : '';
+    this.classPrefix = this.tour.options
+      ? normalizePrefix(this.tour.options.classPrefix)
+      : '';
     this.styles = tour.styles;
 
     autoBind(this);
@@ -182,6 +189,15 @@ export class Step extends Evented {
   }
 
   /**
+   * Checks if the step should be centered or not
+   * @return {boolean} True if the step is centered
+   */
+  isCentered() {
+    const attachToOptions = parseAttachTo(this);
+    return !attachToOptions.element || !attachToOptions.on;
+  }
+
+  /**
    * Check if the step is open and visible
    * @return {boolean} True if the step is open and visible
    */
@@ -228,14 +244,13 @@ export class Step extends Evented {
 
     this.shepherdElementComponent = new ShepherdElement({
       target: document.body,
-      props:
-        {
-          classPrefix: this.classPrefix,
-          descriptionId,
-          labelId,
-          step: this,
-          styles: this.styles
-        }
+      props: {
+        classPrefix: this.classPrefix,
+        descriptionId,
+        labelId,
+        step: this,
+        styles: this.styles
+      }
     });
 
     return this.shepherdElementComponent.getElement();
@@ -254,7 +269,10 @@ export class Step extends Evented {
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
-    } else if (isElement(element) && typeof element.scrollIntoView === 'function') {
+    } else if (
+      isElement(element) &&
+      typeof element.scrollIntoView === 'function'
+    ) {
       element.scrollIntoView(scrollToOptions);
     }
   }
@@ -279,9 +297,7 @@ export class Step extends Evented {
     ];
     const uniqClasses = new Set(allClasses);
 
-    return Array.from(uniqClasses)
-      .join(' ')
-      .trim();
+    return Array.from(uniqClasses).join(' ').trim();
   }
 
   /**
@@ -403,6 +419,9 @@ export class Step extends Evented {
       this.target.classList.remove(this.options.highlightClass);
     }
 
-    this.target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+    this.target.classList.remove(
+      `${this.classPrefix}shepherd-enabled`,
+      `${this.classPrefix}shepherd-target`
+    );
   }
 }

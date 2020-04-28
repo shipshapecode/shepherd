@@ -34,7 +34,7 @@ export function bindAdvance(step) {
     let el;
     try {
       el = document.querySelector(selector);
-    } catch(e) {
+    } catch (e) {
       // TODO
     }
     if (!isUndefined(selector) && !el) {

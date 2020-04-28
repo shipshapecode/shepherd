@@ -47,27 +47,22 @@ function _getCenteredStylePopperModifier() {
  * @return {Object} The final Popper options object
  */
 export function makeCenteredPopper(step) {
-  const centeredStylePopperModifier = _getCenteredStylePopperModifier(step);
-  const content = step.shepherdElementComponent.getElement();
-  let popperOptions = _makeCommonPopperOptions(step);
+  const centeredStylePopperModifier = _getCenteredStylePopperModifier();
 
-  content.classList.add('shepherd-centered');
-  popperOptions = {
-    ...popperOptions,
-    modifiers: Array.from(new Set([...popperOptions.modifiers, ...centeredStylePopperModifier]))
-  };
-
-  return popperOptions;
-}
-
-function _makeCommonPopperOptions(step) {
-  const popperOptions = {
+  let popperOptions = {
     placement: 'top',
     strategy: 'fixed',
     modifiers: [],
     onFirstUpdate() {
       step.el.focus();
     }
+  };
+
+  popperOptions = {
+    ...popperOptions,
+    modifiers: Array.from(
+      new Set([...popperOptions.modifiers, ...centeredStylePopperModifier])
+    )
   };
 
   return popperOptions;
