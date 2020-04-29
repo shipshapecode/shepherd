@@ -132,12 +132,12 @@ to render in the header with text of what step out of all potential steps is now
 being show.</p>
 <pre class="prettyprint source lang-javascript"><code>when: {
   show() {
-    const header = document.querySelector('.shepherd-header');
+    const currentStepElement = shepherd.currentStep.el;
+    const header = currentStepElement.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
-
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
-    header.insertBefore(progress, document.querySelector('.shepherd-cancel-icon'));        
+    header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
 </code></pre>
