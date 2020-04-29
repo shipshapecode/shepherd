@@ -34,12 +34,12 @@ being show.
 ```javascript
 when: {
   show() {
-    const header = document.querySelector('.shepherd-header');
+    const currentStepElement = shepherd.currentStep.el;
+    const header = currentStepElement.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
-
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
-    header.insertBefore(progress, document.querySelector('.shepherd-cancel-icon'));        
+    header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
 ```
