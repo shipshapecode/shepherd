@@ -326,6 +326,20 @@ function getWindowScrollBarX(element) {
   return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
 }
 
+function getComputedStyle(element) {
+  return getWindow(element).getComputedStyle(element);
+}
+
+function isScrollParent(element) {
+  // Firefox wants us to check `-x` and `-y` variations as well
+  var _getComputedStyle = getComputedStyle(element),
+      overflow = _getComputedStyle.overflow,
+      overflowX = _getComputedStyle.overflowX,
+      overflowY = _getComputedStyle.overflowY;
+
+  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}
+
 // Composite means it takes into account transforms as well as layout.
 
 function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
@@ -333,7 +347,7 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     isFixed = false;
   }
 
-  var documentElement;
+  var documentElement = getDocumentElement(offsetParent);
   var rect = getBoundingClientRect(elementOrVirtualElement);
   var scroll = {
     scrollLeft: 0,
@@ -345,7 +359,8 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
   };
 
   if (!isFixed) {
-    if (getNodeName(offsetParent) !== 'body') {
+    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    isScrollParent(documentElement)) {
       scroll = getNodeScroll(offsetParent);
     }
 
@@ -353,7 +368,7 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
       offsets = getBoundingClientRect(offsetParent);
       offsets.x += offsetParent.clientLeft;
       offsets.y += offsetParent.clientTop;
-    } else if (documentElement = getDocumentElement(offsetParent)) {
+    } else if (documentElement) {
       offsets.x = getWindowScrollBarX(documentElement);
     }
   }
@@ -393,26 +408,14 @@ function getParentNode(element) {
   );
 }
 
-function getComputedStyle(element) {
-  return getWindow(element).getComputedStyle(element);
-}
-
 function getScrollParent(node) {
   if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
     // $FlowFixMe: assume body is always available
     return node.ownerDocument.body;
   }
 
-  if (isHTMLElement(node)) {
-    // Firefox wants us to check `-x` and `-y` variations as well
-    var _getComputedStyle = getComputedStyle(node),
-        overflow = _getComputedStyle.overflow,
-        overflowX = _getComputedStyle.overflowX,
-        overflowY = _getComputedStyle.overflowY;
-
-    if (/auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX)) {
-      return node;
-    }
+  if (isHTMLElement(node) && isScrollParent(node)) {
+    return node;
   }
 
   return getScrollParent(getParentNode(node));
@@ -426,7 +429,7 @@ function listScrollParents(element, list) {
   var scrollParent = getScrollParent(element);
   var isBody = getNodeName(scrollParent) === 'body';
   var win = getWindow(scrollParent);
-  var target = isBody ? [win].concat(win.visualViewport || []) : scrollParent;
+  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
   var updatedList = list.concat(target);
   return isBody ? updatedList : // $FlowFixMe: isBody tells us target will be an HTMLElement here
   updatedList.concat(listScrollParents(getParentNode(target)));
@@ -1470,7 +1473,11 @@ function flip(_ref) {
     return;
   }
 
-  var specifiedFallbackPlacements = options.fallbackPlacements,
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+      specifiedFallbackPlacements = options.fallbackPlacements,
       padding = options.padding,
       boundary = options.boundary,
       rootBoundary = options.rootBoundary,
@@ -1520,7 +1527,15 @@ function flip(_ref) {
     }
 
     var altVariationSide = getOppositePlacement(mainVariationSide);
-    var checks = [overflow[_basePlacement] <= 0, overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0];
+    var checks = [];
+
+    if (checkMainAxis) {
+      checks.push(overflow[_basePlacement] <= 0);
+    }
+
+    if (checkAltAxis) {
+      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+    }
 
     if (checks.every(function (check) {
       return check;
@@ -1719,7 +1734,7 @@ function arrow(_ref) {
   var maxProp = axis === 'y' ? bottom : right;
   var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
   var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-  var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+  var arrowOffsetParent = getOffsetParent(arrowElement);
   var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
   var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
   // outside of the popper bounds
