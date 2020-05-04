@@ -1920,7 +1920,7 @@
         step.el.focus();
       }
     };
-    popperOptions = _extends({}, popperOptions, {
+    popperOptions = _extends(_extends({}, popperOptions), {}, {
       modifiers: Array.from(new Set([].concat(popperOptions.modifiers, centeredStylePopperModifier)))
     });
     return popperOptions;
