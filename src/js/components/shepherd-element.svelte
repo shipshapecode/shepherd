@@ -120,6 +120,7 @@
     opacity: 0;
     outline: none;
     transition: opacity 0.3s;
+    width: 100%;
     z-index: 9999;
   }
 

@@ -24,6 +24,8 @@
     color: rgba(0, 0, 0, 0.75);
     font-size: 1rem;
     line-height: 1.3em;
+    max-height: 30vh;
+    overflow: scroll;
     padding: 0.75em;
   }
 
