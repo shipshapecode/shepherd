@@ -90,7 +90,7 @@
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.5",
     "patch-package": "^6.2.2",
-    "postcss": "^7.0.27",
+    "postcss": "^7.0.28",
     "postinstall-postinstall": "^2.1.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
