@@ -119,7 +119,7 @@
     max-width: 400px;
     opacity: 0;
     outline: none;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
     visibility: hidden;
     width: 100%;
     z-index: 9999;
