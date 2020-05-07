@@ -119,17 +119,20 @@
     max-width: 400px;
     opacity: 0;
     outline: none;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
+    visibility: hidden;
     width: 100%;
     z-index: 9999;
   }
 
   .shepherd-enabled.shepherd-element {
     opacity: 1;
+    visibility: visible;
   }
 
   .shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
     opacity: 0;
+    visibility: hidden;
   }
 
   .shepherd-element, .shepherd-element *,
