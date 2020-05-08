@@ -103,6 +103,7 @@ export function getPopperOptions(attachToOptions, step) {
     ],
     strategy: 'absolute',
     onFirstUpdate() {
+      debugger;
       step.el.focus();
     }
   };
