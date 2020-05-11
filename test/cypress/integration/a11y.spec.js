@@ -38,6 +38,14 @@ describe('a11y', () => {
 
     beforeEach(() => {
       tour = setupTour(Shepherd);
+
+      // This is a hack removing the extra page elements so the page does not scroll. Cypress hates scrolling for some reason.
+      cy.document().then((document) => {
+        const heroFollowup = document.querySelector('.hero-followup');
+        heroFollowup.remove();
+        const img = document.querySelector('img');
+        img.remove();
+      });
     });
 
     afterEach(() => {
@@ -66,6 +74,7 @@ describe('a11y', () => {
       tour.start();
 
       cy.document().then(() => {
+        cy.wait(1000);
         cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
         cy.get('[data-test-popper-link]').should('have.focus');
       });

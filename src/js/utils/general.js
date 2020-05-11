@@ -99,13 +99,19 @@ export function getPopperOptions(attachToOptions, step) {
         options: {
           altAxis: true
         }
+      },
+      {
+        name: 'focusAfterRender',
+        enabled: true,
+        phase: 'afterWrite',
+        fn() {
+          setTimeout(() => {
+            step.el.focus();
+          }, 300);
+        }
       }
     ],
-    strategy: 'absolute',
-    onFirstUpdate() {
-      debugger;
-      step.el.focus();
-    }
+    strategy: 'absolute'
   };
 
   if (step.isCentered()) {
