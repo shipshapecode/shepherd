@@ -132,6 +132,7 @@
 
   .shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
     opacity: 0;
+    pointer-events: none;
     visibility: hidden;
   }
 

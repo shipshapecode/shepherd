@@ -106,6 +106,16 @@ describe('Shepherd Acceptance Tests', () => {
     });
 
     describe('buttons', () => {
+      beforeEach(() => {
+        // This is a hack removing the extra page elements so the page does not scroll. Cypress hates scrolling for some reason.
+        cy.document().then((document) => {
+          const heroFollowup = document.querySelector('.hero-followup');
+          heroFollowup.remove();
+          const img = document.querySelector('img');
+          img.remove();
+        });
+      });
+
       it('next/previous buttons work', () => {
         const tour = setupTour(Shepherd);
         tour.start();
@@ -137,6 +147,16 @@ describe('Shepherd Acceptance Tests', () => {
     });
 
     describe('Cancel Link', () => {
+      beforeEach(() => {
+        // This is a hack removing the extra page elements so the page does not scroll. Cypress hates scrolling for some reason.
+        cy.document().then((document) => {
+          const heroFollowup = document.querySelector('.hero-followup');
+          heroFollowup.remove();
+          const img = document.querySelector('img');
+          img.remove();
+        });
+      });
+
       it('Cancel link cancels the tour', () => {
         const tour = setupTour(Shepherd);
         tour.start();
