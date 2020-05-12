@@ -42,7 +42,7 @@ describe('General Utils', function() {
       });
 
       const popperOptions = getPopperOptions(step.options.attachTo, step);
-      expect(popperOptions.modifiers[0].options.altAxis).toBe(false);
+      expect(popperOptions.modifiers[1].options.altAxis).toBe(false);
     });
 
     it('positioning strategy is explicitly set', function() {

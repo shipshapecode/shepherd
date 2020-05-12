@@ -1915,10 +1915,16 @@
     var popperOptions = {
       placement: 'top',
       strategy: 'fixed',
-      modifiers: [],
-      onFirstUpdate: function onFirstUpdate() {
-        step.el.focus();
-      }
+      modifiers: [{
+        name: 'focusAfterRender',
+        enabled: true,
+        phase: 'afterWrite',
+        fn: function fn() {
+          setTimeout(function () {
+            step.el.focus();
+          }, 300);
+        }
+      }]
     };
     popperOptions = _extends(_extends({}, popperOptions), {}, {
       modifiers: Array.from(new Set([].concat(popperOptions.modifiers, centeredStylePopperModifier)))
@@ -2019,11 +2025,17 @@
         options: {
           altAxis: true
         }
+      }, {
+        name: 'focusAfterRender',
+        enabled: true,
+        phase: 'afterWrite',
+        fn: function fn() {
+          setTimeout(function () {
+            step.el.focus();
+          }, 300);
+        }
       }],
-      strategy: 'absolute',
-      onFirstUpdate: function onFirstUpdate() {
-        step.el.focus();
-      }
+      strategy: 'absolute'
     };
 
     if (step.isCentered()) {

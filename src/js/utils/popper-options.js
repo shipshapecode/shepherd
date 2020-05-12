@@ -52,10 +52,18 @@ export function makeCenteredPopper(step) {
   let popperOptions = {
     placement: 'top',
     strategy: 'fixed',
-    modifiers: [],
-    onFirstUpdate() {
-      step.el.focus();
-    }
+    modifiers: [
+      {
+        name: 'focusAfterRender',
+        enabled: true,
+        phase: 'afterWrite',
+        fn() {
+          setTimeout(() => {
+            step.el.focus();
+          }, 300);
+        }
+      }
+    ]
   };
 
   popperOptions = {

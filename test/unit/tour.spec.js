@@ -421,7 +421,7 @@ describe('Tour | Top-Level Class', function() {
 
       const popperOptions = setupTooltip(step);
 
-      expect(popperOptions.modifiers.length).toBe(3);
+      expect(popperOptions.modifiers.length).toBe(4);
     });
 
     it('adds a step modifer to default modifiers', function() {
@@ -439,7 +439,7 @@ describe('Tour | Top-Level Class', function() {
 
       const popperOptions = setupTooltip(step);
 
-      expect(popperOptions.modifiers.length).toBe(4);
+      expect(popperOptions.modifiers.length).toBe(5);
     });
 
     it('correctly changes modifiers when going from centered to attached', function() {
@@ -469,7 +469,7 @@ describe('Tour | Top-Level Class', function() {
 
       let popperOptions = setupTooltip(centeredStep);
       let modifierNames = popperOptions.modifiers.map((modifier)=> modifier.name);
-      expect(popperOptions.modifiers.length).toBe(4);
+      expect(popperOptions.modifiers.length).toBe(5);
       expect(modifierNames.includes('applyStyles')).toBe(true);
       expect(modifierNames.includes('computeStyles')).toBe(true);
       expect(modifierNames.includes('offset')).toBe(true);
@@ -480,7 +480,7 @@ describe('Tour | Top-Level Class', function() {
 
       popperOptions = setupTooltip(attachedStep);
       modifierNames = popperOptions.modifiers.map((modifier)=> modifier.name);
-      expect(popperOptions.modifiers.length).toBe(3);
+      expect(popperOptions.modifiers.length).toBe(4);
       expect(modifierNames.includes('preventOverflow')).toBe(true);
       expect(modifierNames.includes('offset')).toBe(true);
       expect(modifierNames.includes('foo')).toBe(true);
