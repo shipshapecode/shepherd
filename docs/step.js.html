@@ -105,7 +105,8 @@
 
 <section>
   <article>
-    <pre class="prettyprint source linenums"><code>import { Evented } from './evented.js';
+    <pre class="prettyprint source linenums"><code>import merge from 'deepmerge';
+import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
@@ -416,7 +417,7 @@ export class Step extends Evented {
     let tourOptions =
       this.tour &amp;&amp; this.tour.options &amp;&amp; this.tour.options.defaultStepOptions;
 
-    tourOptions = tourOptions ? JSON.parse(JSON.stringify(tourOptions)) : {};
+    tourOptions = merge({}, tourOptions || {});
 
     this.options = Object.assign(
       {
