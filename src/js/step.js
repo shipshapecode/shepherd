@@ -1,3 +1,4 @@
+import merge from 'deepmerge';
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
 import { isElement, isFunction, isUndefined } from './utils/type-check.js';
@@ -309,7 +310,7 @@ export class Step extends Evented {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
-    tourOptions = tourOptions ? JSON.parse(JSON.stringify(tourOptions)) : {};
+    tourOptions = merge({}, tourOptions || {});
 
     this.options = Object.assign(
       {

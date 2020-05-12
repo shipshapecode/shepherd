@@ -10,6 +10,14 @@ const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 describe('Tour | Step', () => {
   let tour;
 
+  const showOn = () => {
+    return true;
+  };
+
+  const when = {
+    show() {}
+  };
+
   beforeEach(() => {
     tour = new Tour();
   });
@@ -21,7 +29,9 @@ describe('Tour | Step', () => {
         scrollTo: true,
         popperOptions: {
           modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
-        }
+        },
+        showOn,
+        when
       }
     });
 
@@ -102,24 +112,68 @@ describe('Tour | Step', () => {
     });
 
     it('has all the correct properties', () => {
-      const values = ['arrow', 'classes', 'scrollTo', 'popperOptions', 'attachTo', 'highlightClass', 'text', 'buttons', 'id'];
+      const values = [
+        'arrow',
+        'classes',
+        'scrollTo',
+        'popperOptions',
+        'showOn',
+        'when',
+        'attachTo',
+        'highlightClass',
+        'text',
+        'buttons',
+        'id'
+      ];
       expect(values).toEqual(Object.keys(testStep.options));
 
       expect(testStep.id, 'passed name set as id').toBe('test');
-      expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe('no-name');
-      expect(stepWithoutNameWithoutId.id, 'id is generated when no name or id passed')
-        .toMatch(/^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
+      expect(stepWithoutNameWithId.id, 'no name, id passed is set').toBe(
+        'no-name'
+      );
+      expect(
+        stepWithoutNameWithoutId.id,
+        'id is generated when no name or id passed'
+      ).toMatch(
+        /^step-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
+      );
+    });
+
+    it('deep clones defaultStepOptions and copies functions', () => {
+      expect(testStep.options).toEqual({
+        arrow: true,
+        attachTo: { element: 'body', on: 'top' },
+        buttons: [
+          {
+            text: 'Next',
+            action: instance.next
+          }
+        ],
+        classes: DEFAULT_STEP_CLASS,
+        highlightClass: 'highlight',
+        id: 'test',
+        scrollTo: true,
+        text: 'This is a step for testing',
+        popperOptions: {
+          modifiers: [{ name: 'foo', options: 'bar' }]
+        },
+        showOn,
+        when
+      });
     });
 
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
-      const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce((prev, next) => {
-        if (next.name === 'offset') {
-          return `${next.options.offset}`;
-        }
+      const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce(
+        (prev, next) => {
+          if (next.name === 'offset') {
+            return `${next.options.offset}`;
+          }
 
-        return '';
-      }, '');
+          return '';
+        },
+        ''
+      );
 
       expect(offsetValues).toBe('0,0');
     });
@@ -143,14 +197,18 @@ describe('Tour | Step', () => {
         beforeShowPromiseTestStep.show();
 
         return beforeShowPromise.then((result) => {
-          expect(result, 'beforeShowPromise is called').toBe('beforeShowPromise worked!');
+          expect(result, 'beforeShowPromise is called').toBe(
+            'beforeShowPromise worked!'
+          );
         });
       });
 
       it('shows step evoking method, regardless of order', () => {
         showTestStep.show();
 
-        expect(document.querySelector('[data-shepherd-step-id=test2]')).toBeInTheDocument();
+        expect(
+          document.querySelector('[data-shepherd-step-id=test2]')
+        ).toBeInTheDocument();
       });
     });
   });
@@ -159,12 +217,15 @@ describe('Tour | Step', () => {
     it('triggers the cancel event and tour method', () => {
       let cancelCalled = false;
       let eventTriggered = false;
-      const step = new Step({
-        cancel() {
-          cancelCalled = true;
-        }
-      }, {});
-      step.on('cancel', () => eventTriggered = true);
+      const step = new Step(
+        {
+          cancel() {
+            cancelCalled = true;
+          }
+        },
+        {}
+      );
+      step.on('cancel', () => (eventTriggered = true));
       step.cancel();
 
       expect(cancelCalled, 'cancel method from tour called').toBeTruthy();
@@ -176,12 +237,15 @@ describe('Tour | Step', () => {
     it('triggers the complete event and tour method', () => {
       let completeCalled = false;
       let eventTriggered = false;
-      const step = new Step({
-        complete() {
-          completeCalled = true;
-        }
-      }, {});
-      step.on('complete', () => eventTriggered = true);
+      const step = new Step(
+        {
+          complete() {
+            completeCalled = true;
+          }
+        },
+        {}
+      );
+      step.on('complete', () => (eventTriggered = true));
       step.complete();
 
       expect(completeCalled, 'complete method from tour called').toBeTruthy();
@@ -193,7 +257,7 @@ describe('Tour | Step', () => {
     it('triggers the destroy event', () => {
       const step = new Step(tour, {});
       let eventTriggered = false;
-      step.on('destroy', () => eventTriggered = true);
+      step.on('destroy', () => (eventTriggered = true));
       step.destroy();
 
       expect(eventTriggered, 'destroy event was triggered').toBeTruthy();
@@ -203,19 +267,25 @@ describe('Tour | Step', () => {
   describe('hide()', () => {
     let beforeHideTriggered = false;
     let modalHideCalled = false;
-    const step = new Step({
-      modal: {
-        hide() {
-          modalHideCalled = true;
+    const step = new Step(
+      {
+        modal: {
+          hide() {
+            modalHideCalled = true;
+          }
         }
-      }
-    }, {});
+      },
+      {}
+    );
 
     it('triggers the before-hide event', () => {
-      step.on('before-hide', () => beforeHideTriggered = true);
+      step.on('before-hide', () => (beforeHideTriggered = true));
       step.hide();
 
-      expect(beforeHideTriggered, 'before-hide event was triggered').toBeTruthy();
+      expect(
+        beforeHideTriggered,
+        'before-hide event was triggered'
+      ).toBeTruthy();
     });
 
     it('calls tour.modal.hide', () => {
@@ -246,21 +316,28 @@ describe('Tour | Step', () => {
       step.destroy();
     });
 
-    it('should update passed in properties', async() => {
+    it('should update passed in properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
 
       expect(step.options.text).toBe('updated');
       expect(step.options.title).toBe('New title');
 
-      await requestAnimationFrame(() => new Promise((resolve) => {
-        return resolve();
-      }));
+      await requestAnimationFrame(
+        () =>
+          new Promise((resolve) => {
+            return resolve();
+          })
+      );
 
-      expect(document.querySelector('.shepherd-text').textContent).toBe('updated');
-      expect(document.querySelector('.shepherd-title').textContent).toBe('New title');
+      expect(document.querySelector('.shepherd-text').textContent).toBe(
+        'updated'
+      );
+      expect(document.querySelector('.shepherd-title').textContent).toBe(
+        'New title'
+      );
     });
 
-    it('should not affect other properties', async() => {
+    it('should not affect other properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
       expect(step.options.id).toEqual('test-id');
       expect(step.options.buttons).toEqual([
@@ -268,15 +345,18 @@ describe('Tour | Step', () => {
         { text: 'button two', disabled: true, classes: 'button2' }
       ]);
 
-      await requestAnimationFrame(() => new Promise((resolve) => {
-        return resolve();
-      }));
+      await requestAnimationFrame(
+        () =>
+          new Promise((resolve) => {
+            return resolve();
+          })
+      );
 
       expect(document.querySelector('.button1').textContent).toBe('button one');
       expect(document.querySelector('.button2').textContent).toBe('button two');
     });
 
-    it('should update buttons', async() => {
+    it('should update buttons', async () => {
       const buttons = [
         { text: 'button one updated', disabled: true, classes: 'button1' },
         { text: 'button two updated', disabled: false, classes: 'button2' }
@@ -285,9 +365,12 @@ describe('Tour | Step', () => {
       step.updateStepOptions({ buttons });
       expect(step.options.buttons).toEqual(buttons);
 
-      await requestAnimationFrame(() => new Promise((resolve) => {
-        return resolve();
-      }));
+      await requestAnimationFrame(
+        () =>
+          new Promise((resolve) => {
+            return resolve();
+          })
+      );
 
       const buttonOne = document.querySelector('.button1');
       expect(buttonOne.textContent).toBe('button one updated');
@@ -298,25 +381,31 @@ describe('Tour | Step', () => {
       expect(buttonTwo.disabled).toBe(false);
     });
 
-    it('removing title should remove class', async() => {
+    it('removing title should remove class', async () => {
       step.updateStepOptions({ title: '' });
       expect(step.options.title).toEqual('');
 
-      await requestAnimationFrame(() => new Promise((resolve) => {
-        return resolve();
-      }));
+      await requestAnimationFrame(
+        () =>
+          new Promise((resolve) => {
+            return resolve();
+          })
+      );
 
       const element = document.querySelector('.shepherd-element');
       expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
     });
 
-    it('updating classes should update element classes', async() => {
+    it('updating classes should update element classes', async () => {
       step.updateStepOptions({ classes: 'test-1 test-2' });
       expect(step.options.classes).toEqual('test-1 test-2');
 
-      await requestAnimationFrame(() => new Promise((resolve) => {
-        return resolve();
-      }));
+      await requestAnimationFrame(
+        () =>
+          new Promise((resolve) => {
+            return resolve();
+          })
+      );
 
       const element = document.querySelector('.shepherd-element');
       expect(element.classList.contains('test-1')).toBeTruthy();
@@ -330,9 +419,12 @@ describe('Tour | Step', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;
       step.el = document.createElement('a');
-      step.destroy = () => destroyCalled = true;
+      step.destroy = () => (destroyCalled = true);
       step._setupElements();
-      expect(destroyCalled, '_setupElements method called destroy with element set').toBeTruthy();
+      expect(
+        destroyCalled,
+        '_setupElements method called destroy with element set'
+      ).toBeTruthy();
     });
 
     it('calls destroy on the tooltip if it already exists', () => {
@@ -344,7 +436,10 @@ describe('Tour | Step', () => {
         }
       };
       step._setupElements();
-      expect(destroyCalled, '_setupElements method called destroy on the existing tooltip').toBe(true);
+      expect(
+        destroyCalled,
+        '_setupElements method called destroy on the existing tooltip'
+      ).toBe(true);
     });
   });
 
@@ -357,7 +452,7 @@ describe('Tour | Step', () => {
       const step = new Step('test', {
         attachTo: { element: '.scroll-test', on: 'center' }
       });
-      div.scrollIntoView = () => handlerCalled = true;
+      div.scrollIntoView = () => (handlerCalled = true);
 
       step._scrollTo();
       expect(handlerCalled).toBeTruthy();
@@ -366,7 +461,7 @@ describe('Tour | Step', () => {
     it('calls the custom handler', () => {
       let handlerAdded = false;
       const step = new Step('test', {
-        scrollToHandler: () => handlerAdded = true
+        scrollToHandler: () => (handlerAdded = true)
       });
 
       step._scrollTo();
@@ -379,7 +474,7 @@ describe('Tour | Step', () => {
       let whenCalled = false;
       const step = new Step('test', {
         when: {
-          destroy: () => whenCalled = true
+          destroy: () => (whenCalled = true)
         }
       });
 
@@ -407,10 +502,16 @@ describe('Tour | Step', () => {
       const element = step._createTooltipContent();
 
       expect(element.getAttribute('aria-labelledby')).toBe('test-step-label');
-      expect(element.querySelector('.shepherd-title').id).toBe('test-step-label');
+      expect(element.querySelector('.shepherd-title').id).toBe(
+        'test-step-label'
+      );
 
-      expect(element.getAttribute('aria-describedby')).toBe('test-step-description');
-      expect(element.querySelector('.shepherd-text').id).toBe('test-step-description');
+      expect(element.getAttribute('aria-describedby')).toBe(
+        'test-step-description'
+      );
+      expect(element.querySelector('.shepherd-text').id).toBe(
+        'test-step-description'
+      );
     });
   });
 });
