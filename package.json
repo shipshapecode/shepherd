@@ -58,6 +58,7 @@
   "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "@popperjs/core": "^2.4.0",
+    "deepmerge": "^4.2.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
@@ -92,6 +93,7 @@
     "patch-package": "^6.2.2",
     "postcss": "^7.0.30",
     "postinstall-postinstall": "^2.1.0",
+    "prettier": "^2.0.5",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.9.1",
