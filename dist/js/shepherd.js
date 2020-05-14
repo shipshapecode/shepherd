@@ -2046,7 +2046,9 @@
         phase: 'afterWrite',
         fn: function fn() {
           setTimeout(function () {
-            step.el.focus();
+            if (step.el) {
+              step.el.focus();
+            }
           }, 300);
         }
       }]
@@ -2156,7 +2158,9 @@
         phase: 'afterWrite',
         fn: function fn() {
           setTimeout(function () {
-            step.el.focus();
+            if (step.el) {
+              step.el.focus();
+            }
           }, 300);
         }
       }],
