@@ -59,7 +59,9 @@ export function makeCenteredPopper(step) {
         phase: 'afterWrite',
         fn() {
           setTimeout(() => {
-            step.el.focus();
+            if (step.el) {
+              step.el.focus();
+            }
           }, 300);
         }
       }
