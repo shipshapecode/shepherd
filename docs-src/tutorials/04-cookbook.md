@@ -6,6 +6,26 @@ as a dependency, in favor of users installing it directly in their apps. To disa
 you can install `body-scroll-lock` and run `bodyScrollLock.disableBodyScroll();` before
 starting the tour, then `bodyScrollLock.clearAllBodyScrollLocks();` after stopping the tour.
 
+### Highlighting multiple elements
+
+The most obvious use case for this, is around a group of elements, or more specifically the column in a TABLE. This can be achieved using CSS to absolutely position the element and give it the width and height you need. e.g., 
+
+```html
+<colgroup class="shepherd-step-highlight">
+```
+and setting your CSS to something like:
+
+```css
+colgroup.shepherd-step-highlight {
+  display: block;
+  height: 100px;
+  position: absolute;
+  width: 200px;
+}
+```
+
+Similar results could be had by adding elements purely for the purpose of exposing more than one element in the overlay and positioning the element absolutely.
+
 ### Offsets
 
 By default, Popper instances are placed directly next to their target. However, if you need to apply some margin 

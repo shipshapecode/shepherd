@@ -114,6 +114,19 @@ and bulky, so we opted to remove <a href="https://github.com/willmcpo/body-scrol
 as a dependency, in favor of users installing it directly in their apps. To disable scrolling,
 you can install <code>body-scroll-lock</code> and run <code>bodyScrollLock.disableBodyScroll();</code> before
 starting the tour, then <code>bodyScrollLock.clearAllBodyScrollLocks();</code> after stopping the tour.</p>
+<h3>Highlighting multiple elements</h3>
+<p>The most obvious use case for this, is around a group of elements, or more specifically the column in a TABLE. This can be achieved using CSS to absolutely position the element and give it the width and height you need. e.g.,</p>
+<pre class="prettyprint source lang-html"><code>&lt;colgroup class=&quot;shepherd-step-highlight&quot;>
+</code></pre>
+<p>and setting your CSS to something like:</p>
+<pre class="prettyprint source lang-css"><code>colgroup.shepherd-step-highlight {
+  display: block;
+  height: 100px;
+  position: absolute;
+  width: 200px;
+}
+</code></pre>
+<p>Similar results could be had by adding elements purely for the purpose of exposing more than one element in the overlay and positioning the element absolutely.</p>
 <h3>Offsets</h3>
 <p>By default, Popper instances are placed directly next to their target. However, if you need to apply some margin
 between them or if you need to fine tune the position according to some custom logic, you can use Popper's
