@@ -3870,7 +3870,9 @@
     /*step*/
     ctx[4].options.attachTo &&
     /*step*/
-    ctx[4].options.attachTo.element && create_if_block$3();
+    ctx[4].options.attachTo.element &&
+    /*step*/
+    ctx[4].options.attachTo.on && create_if_block$3();
     var shepherdcontent = new Shepherd_content({
       props: {
         descriptionId:
@@ -3947,7 +3949,9 @@
         /*step*/
         ctx[4].options.attachTo &&
         /*step*/
-        ctx[4].options.attachTo.element) {
+        ctx[4].options.attachTo.element &&
+        /*step*/
+        ctx[4].options.attachTo.on) {
           if (if_block) ; else {
             if_block = create_if_block$3();
             if_block.c();

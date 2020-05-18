@@ -202,7 +202,7 @@
   role="dialog"
   tabindex="0"
 >
-    {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element}
+    {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
       <div class="shepherd-arrow" data-popper-arrow></div>
     {/if}
   <ShepherdContent
