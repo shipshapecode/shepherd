@@ -8784,11 +8784,12 @@ rollup-plugin-eslint@^7.0.0:
     eslint "^6.0.0"
     rollup-pluginutils "^2.7.1"
 
-rollup-plugin-filesize@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-filesize/-/rollup-plugin-filesize-8.0.2.tgz#d120f0dbe591a2e665ed2e9453bd6ab149a393d0"
-  integrity sha512-PcOYHPvpRh2sYWLX/1XbaLcRZ//rqwihl9iBiJWWo39XiyQlWv5623XWoXM9PjYcxP1q+7L7hjmlqzNx4kptlw==
+rollup-plugin-filesize@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-filesize/-/rollup-plugin-filesize-9.0.0.tgz#aab722136f04aa9ea898cb7f3e65b1d60bbc56a0"
+  integrity sha512-m8hRJJpsxXfPeeOLND0UQMGcU103F11lcq4pdowzCwLko20z2pNBlnPUxQ8XwyE84NJmyllAj+auQsTBXA7Pug==
   dependencies:
+    "@babel/runtime" "^7.9.6"
     boxen "^4.2.0"
     brotli-size "4.0.0"
     colors "^1.4.0"
