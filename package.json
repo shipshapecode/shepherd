@@ -97,7 +97,7 @@
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.9.1",
-    "rollup-plugin-analyzer": "^3.2.2",
+    "rollup-plugin-analyzer": "^3.2.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-browsersync": "^1.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
