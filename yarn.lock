@@ -6753,6 +6753,11 @@ moment@2.24.0:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
+moment@2.25.1:
+  version "2.25.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.1.tgz#1cb546dca1eccdd607c9324747842200b683465d"
+  integrity sha512-nRKMf9wDS4Fkyd0C9LXh2FFXinD+iwbJ5p/lh3CHitW9kZbRbJ8hCruiadiIXZVbeAqKZzqcTvHnK3mRhFjb6w==
+
 move-file@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/move-file/-/move-file-2.0.0.tgz#83ffa309b5d7f69d518b28e1333e2ffadf331e3e"
@@ -8711,17 +8716,17 @@ rollup-plugin-filesize@^8.0.2:
     pacote "^11.1.6"
     terser "^4.6.12"
 
-rollup-plugin-license@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.0.0.tgz#970f42d99dec95d1f1436be16f37e323b5d4d2b3"
-  integrity sha512-xeCtHPluNFUJPuTdCFJrdNfCR/3yEX2M65s/i47SmEblmJxdxea2m9yodiIKtfVoWUMbosfHTcALgZk+utbrhA==
+rollup-plugin-license@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.0.1.tgz#ec471ea63e3f819a8e4169593185b59dc9f7ac56"
+  integrity sha512-w+9JIMj3rHKsI0rYDpFtzAyYZsMCDL5KLDyeb4LXGWtahcgcPbr/XwMD0yozWf4X50AbImYDTdmCHiZS3rUl0A==
   dependencies:
     commenting "1.1.0"
     glob "7.1.6"
     lodash "4.17.15"
     magic-string "0.25.7"
     mkdirp "1.0.4"
-    moment "2.24.0"
+    moment "2.25.1"
     spdx-expression-validate "2.0.0"
     spdx-satisfies "5.0.0"
 
