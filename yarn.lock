@@ -9754,10 +9754,10 @@ taffydb@^2.7.3:
   resolved "https://registry.yarnpkg.com/taffydb/-/taffydb-2.7.3.tgz#2ad37169629498fca5bc84243096d3cde0ec3a34"
   integrity sha1-KtNxaWKUmPylvIQkMJbTzeDsOjQ=
 
-tailwindcss@^1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.4.5.tgz#893ccddd226dc264f2bd53acd11e58077149e11d"
-  integrity sha512-MJW96Rz3G3RrFDbDuQCU893y4bf5hMWeVbMgcCqUfLNPbO9wRogDibCEvdKitD6aX9Y90SDT2FOKD17+WmIFLQ==
+tailwindcss@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.4.6.tgz#17b37166ccda08d7e7f9ca995ea48ce1e0089700"
+  integrity sha512-qV0qInUq1FWih39Bc5CWECdgObSzRrbjGD4ke4kAPSIq6WXrPhv0wwOcUWJgJ66ltT9j+XnSRYikG8WNRU/fTQ==
   dependencies:
     "@fullhuman/postcss-purgecss" "^2.1.2"
     autoprefixer "^9.4.5"
