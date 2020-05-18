@@ -115,7 +115,7 @@
     "start-server-and-test": "^1.11.0",
     "svelte": "^3.22.2",
     "svelte-preprocess": "^3.7.4",
-    "tailwindcss": "^1.4.5"
+    "tailwindcss": "^1.4.6"
   },
   "engines": {
     "node": "8.* || >= 10.*"
