@@ -29,6 +29,7 @@ module.exports = {
     // node files
     {
       files: [
+        '.eslintrc.js',
         'babel.config.js',
         'jest.config.js',
         'rollup.config.js',
