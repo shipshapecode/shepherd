@@ -10,7 +10,7 @@ window.Shepherd = Shepherd;
 
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 
-describe('Tour | Top-Level Class', function () {
+describe('Tour | Top-Level Class', function() {
   let instance, shouldShowStep;
 
   const showOn = () => {
@@ -36,14 +36,14 @@ describe('Tour | Top-Level Class', function () {
     instance.complete();
   });
 
-  describe('constructor', function () {
-    it('creates a new tour instance', function () {
+  describe('constructor', function() {
+    it('creates a new tour instance', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       expect(instance instanceof Shepherd.Tour).toBe(true);
     });
 
-    it('returns the default options on the instance', function () {
+    it('returns the default options on the instance', function() {
       instance = new Shepherd.Tour({
         defaultStepOptions, steps: [{
           scrollTo: false
@@ -61,7 +61,7 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    it('sets the correct bindings', function () {
+    it('sets the correct bindings', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const bindings = Object.keys(instance.bindings);
@@ -71,7 +71,7 @@ describe('Tour | Top-Level Class', function () {
       expect(difference.length, 'all tour events bound').toBe(0);
     });
 
-    it('generates a unique `id` property, optionally based upon the `tourName` option', function () {
+    it('generates a unique `id` property, optionally based upon the `tourName` option', function() {
       const instance1 = new Shepherd.Tour();
       const instance2 = new Shepherd.Tour({ tourName: 'select-avatar' });
 
@@ -118,13 +118,13 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.addStep()', function () {
-      it('adds tour steps', function () {
+    describe('.addStep()', function() {
+      it('adds tour steps', function() {
         expect(instance.steps.length).toBe(4);
         expect(instance.getById('test').options.classes, 'classes passed to step options').toBe(DEFAULT_STEP_CLASS);
       });
 
-      it('adds tour steps at specified index', function () {
+      it('adds tour steps at specified index', function() {
         expect(instance.steps[2].options.id, 'original step at index 2').toBe('test2');
         instance.addStep({
           id: 'index-test',
@@ -134,7 +134,7 @@ describe('Tour | Top-Level Class', function () {
         expect(instance.steps[2].options.id, 'step inserted at index 2').toBe('index-test');
       });
 
-      it('adds steps with only one arg', function () {
+      it('adds steps with only one arg', function() {
         const step = instance.addStep({
           id: 'one-arg'
         });
@@ -143,7 +143,7 @@ describe('Tour | Top-Level Class', function () {
         expect(step.id, 'id applied to step with just one arg').toBe('one-arg');
       });
 
-      it('adds steps that are already Step instances', function () {
+      it('adds steps that are already Step instances', function() {
         const step = instance.addStep(new Step(instance, {
           id: 'already-a-step'
         }));
@@ -154,29 +154,29 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.getById()', function () {
-      it('returns the step by ID with the right title', function () {
+    describe('.getById()', function() {
+      it('returns the step by ID with the right title', function() {
         expect(instance.steps.length).toBe(4);
         expect(instance.getById('test3').options.title).toBe('Yet, another test step');
       });
     });
 
-    describe('.start()', function () {
-      it('starts a tour that is the current active', function () {
+    describe('.start()', function() {
+      it('starts a tour that is the current active', function() {
         instance.start();
 
         expect(instance).toBe(Shepherd.activeTour);
       });
     });
 
-    describe('.getCurrentStep()', function () {
-      it('returns the currently shown step', function () {
+    describe('.getCurrentStep()', function() {
+      it('returns the currently shown step', function() {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');
       });
     });
 
-    describe('.hide()', function () {
+    describe('.hide()', function() {
       it('hides the current step', () => {
         const [firstStep] = instance.steps;
         const hideStepSpy = spy(firstStep, 'hide');
@@ -194,8 +194,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('isActive', function () {
-      it('computes whether or not `Shepherd.activeTour` equals the instance', function () {
+    describe('isActive', function() {
+      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {
         Shepherd.activeTour = '';
         expect(instance.isActive()).toBe(false);
 
@@ -207,8 +207,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.next()/.back()', function () {
-      it('goes to the next/previous steps', function () {
+    describe('.next()/.back()', function() {
+      it('goes to the next/previous steps', function() {
         instance.start();
         instance.next();
         expect(instance.getCurrentStep().id).toBe('test2');
@@ -216,7 +216,7 @@ describe('Tour | Top-Level Class', function () {
         expect(instance.getCurrentStep().id).toBe('test');
       });
 
-      it('next completes tour when on last step', function () {
+      it('next completes tour when on last step', function() {
         let completeFired = false;
         instance.on('complete', () => {
           completeFired = true;
@@ -230,8 +230,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.cancel()', function () {
-      it('shows confirm dialog when confirmCancel is true', function () {
+    describe('.cancel()', function() {
+      it('shows confirm dialog when confirmCancel is true', function() {
         instance = new Shepherd.Tour({
           defaultStepOptions,
           confirmCancel: true,
@@ -263,7 +263,7 @@ describe('Tour | Top-Level Class', function () {
         expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();
       });
 
-      it('tears down tour on cancel', function () {
+      it('tears down tour on cancel', function() {
         let inactiveFired = false;
         instance.on('inactive', () => {
           inactiveFired = true;
@@ -275,7 +275,7 @@ describe('Tour | Top-Level Class', function () {
         expect(inactiveFired, 'inactive event fired').toBeTruthy();
       });
 
-      it('triggers cancel event when cancel function is called', function () {
+      it('triggers cancel event when cancel function is called', function() {
         let cancelFired = false;
         instance.on('cancel', () => {
           cancelFired = true;
@@ -287,8 +287,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.complete()', function () {
-      it('triggers complete event when complete function is called', function () {
+    describe('.complete()', function() {
+      it('triggers complete event when complete function is called', function() {
         let completeFired = false;
 
         instance.on('complete', () => {
@@ -312,8 +312,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('._done()', function () {
-      it('tears down the active tour', function () {
+    describe('._done()', function() {
+      it('tears down the active tour', function() {
         instance.start();
 
         expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
@@ -323,7 +323,7 @@ describe('Tour | Top-Level Class', function () {
         expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);
       });
 
-      it('removes any of its `Step` tooltip elements from the DOM', function () {
+      it('removes any of its `Step` tooltip elements from the DOM', function() {
         const testStep = {
           id: 'element-removal-test',
           classes: 'element-removal-test',
@@ -335,17 +335,17 @@ describe('Tour | Top-Level Class', function () {
         instance.show('element-removal-test');
 
         expect(document.querySelector('.element-removal-test'),
-            'a step is rendered in the DOM after the tour starts')
-            .toBeInTheDocument();
+          'a step is rendered in the DOM after the tour starts')
+          .toBeInTheDocument();
 
         instance.complete();
 
         expect(document.querySelector('.element-removal-test'),
-            'steps are removed from the DOM after the tour completes')
-            .not.toBeInTheDocument();
+          'steps are removed from the DOM after the tour completes')
+          .not.toBeInTheDocument();
       });
 
-      it('fires the `inactive` event', function () {
+      it('fires the `inactive` event', function() {
         let inactiveFired = false;
 
         instance.on('inactive', () => {
@@ -362,15 +362,15 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.removeStep()', function () {
-      it('removes the step when passed the id', function () {
+    describe('.removeStep()', function() {
+      it('removes the step when passed the id', function() {
         instance.start();
         expect(instance.steps.length).toBe(4);
         instance.removeStep('test2');
         expect(instance.steps.length).toBe(3);
       });
 
-      it('hides the step before removing', function () {
+      it('hides the step before removing', function() {
         let hideFired = false;
         instance.start();
         expect(instance.steps.length).toBe(4);
@@ -384,8 +384,8 @@ describe('Tour | Top-Level Class', function () {
       });
     });
 
-    describe('.show()', function () {
-      it('show short-circuits if next is not found', function () {
+    describe('.show()', function() {
+      it('show short-circuits if next is not found', function() {
         let showFired = false;
         instance.start();
         instance.on('show', () => {
@@ -395,7 +395,7 @@ describe('Tour | Top-Level Class', function () {
         expect(showFired, 'showFired is false because show short circuits').toBeFalsy();
       });
 
-      it('showOn determines which steps to skip', function () {
+      it('showOn determines which steps to skip', function() {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');
         instance.next();
@@ -407,7 +407,7 @@ describe('Tour | Top-Level Class', function () {
         expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');
       });
 
-      it('sets the instance on `Shepherd.activeTour` if it\'s not already set', function () {
+      it('sets the instance on `Shepherd.activeTour` if it\'s not already set', function() {
         const setupFuncSpy = spy(instance, '_setupActiveTour');
         Shepherd.activeTour = null;
 
@@ -422,7 +422,7 @@ describe('Tour | Top-Level Class', function () {
   });
 
   describe('popperOptions', () => {
-    it('applies the default modifiers from defaultStepOptions', function () {
+    it('applies the default modifiers from defaultStepOptions', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const step = instance.addStep({
@@ -437,7 +437,7 @@ describe('Tour | Top-Level Class', function () {
       expect(popperOptions.modifiers.length).toBe(4);
     });
 
-    it('adds a step modifer to default modifiers', function () {
+    it('adds a step modifer to default modifiers', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const step = instance.addStep({
@@ -455,7 +455,7 @@ describe('Tour | Top-Level Class', function () {
       expect(popperOptions.modifiers.length).toBe(5);
     });
 
-    it('correctly changes modifiers when going from centered to attached', function () {
+    it('correctly changes modifiers when going from centered to attached', function() {
       const div = document.createElement('div');
       div.classList.add('modifiers-test');
       document.body.appendChild(div);
@@ -504,11 +504,11 @@ describe('Tour | Top-Level Class', function () {
     });
   });
 
-  describe('shepherdModalOverlayContainer', function () {
+  describe('shepherdModalOverlayContainer', function() {
     beforeEach(() => {
       instance = new Shepherd.Tour({ useModalOverlay: true });
     });
-    it('appends shepherdModalOverlayContainer to DOM when it does not exist', async () => {
+    it('appends shepherdModalOverlayContainer to DOM when it does not exist', async() => {
       expect(document.querySelector('.shepherd-modal-overlay-container')).not.toBeInTheDocument();
 
       instance.start();

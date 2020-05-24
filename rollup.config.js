@@ -2,7 +2,6 @@ import babel from 'rollup-plugin-babel';
 import browsersync from 'rollup-plugin-browsersync';
 import commonjs from 'rollup-plugin-commonjs';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
-import { eslint } from 'rollup-plugin-eslint';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -18,9 +17,6 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
-  eslint({
-    include: '**/*.js'
-  }),
   svelte({
     preprocess: sveltePreprocess(),
     emitCss: true
