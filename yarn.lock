@@ -7933,7 +7933,7 @@ postcss@^6.0.1, postcss@^6.0.9:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.18, postcss@^7.0.21, postcss@^7.0.26, postcss@^7.0.27, postcss@^7.0.30:
+postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.11, postcss@^7.0.18, postcss@^7.0.21, postcss@^7.0.27, postcss@^7.0.30:
   version "7.0.30"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.30.tgz#cc9378beffe46a02cbc4506a0477d05fcea9a8e2"
   integrity sha512-nu/0m+NtIzoubO+xdAlwZl/u5S5vi/y6BCsoL8D+8IxsD3XvBS8X4YEADNIVXKVuQvduiucnRv+vPIqj56EGMQ==
@@ -8075,7 +8075,7 @@ pupa@^2.0.0:
   dependencies:
     escape-goat "^2.0.0"
 
-purgecss@^2.0.6, purgecss@^2.2.0:
+purgecss@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/purgecss/-/purgecss-2.2.1.tgz#aa3bdf23370f7539df6154f5e25df2da311cd018"
   integrity sha512-wngRSLW1dpNr8kr3TL9nTJMyTFI5BiRiaUUEys5M1CA4zEHLF25fRHoshEeDqmhstaNTOddmpYM34zRrUtEGbQ==
@@ -8671,16 +8671,6 @@ rollup-plugin-svelte@^5.2.2:
     require-relative "^0.8.7"
     rollup-pluginutils "^2.8.2"
     sourcemap-codec "^1.4.8"
-
-rollup-plugin-tailwindcss@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-tailwindcss/-/rollup-plugin-tailwindcss-1.0.0.tgz#26b0a979722a776bf3ebf46f6ffc1aaa8da9c0ff"
-  integrity sha512-BtOZ+T31vBp0vO75MiyIq3VfP8RtVweT3i7dAWtnDQ7M7ncxVZrWIuwTTS39OprsoKbmMB14LDT/bYLKvzswRg==
-  dependencies:
-    postcss "^7.0.26"
-    postcss-load-config "^2.1.0"
-    purgecss "^2.0.6"
-    rollup-pluginutils "^2.8.2"
 
 rollup-plugin-visualizer@^4.0.4:
   version "4.0.4"
