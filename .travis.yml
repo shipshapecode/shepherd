@@ -32,11 +32,6 @@ install:
 
 stages:
   - test
-  - name: npm-release
-    if: (tag =~ ^v)
-  - name: github-releases
-    if: (tag =~ ^v)
-  - gh-pages release
 
 jobs:
   include:
@@ -46,53 +41,3 @@ jobs:
       after_script:
         - yarn rewrite-paths
         - codeclimate-test-reporter < coverage/lcov.info
-    - stage: npm-release
-      script:
-        - yarn build
-      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
-      before_deploy: |
-        function npm_dist_tag() {
-          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
-            echo "next"
-          else
-            echo "latest"
-          fi
-        }
-      deploy:
-        provider: npm
-        tag: $(npm_dist_tag)
-        email: rwwagner90@gmail.com
-        skip_cleanup: true
-        api_key:
-          secure: "IAnW1q6hsBbeLb+LmjwqXGAb1f+ujfZHQETxkEvOwt9m9SuEu7f+nWMAr2Y8a+5KJ5raMuuER5LCwbRNf4Ygm/wvh+TVVmyOqylVKU5SlTQbWazJSgCaNNNe5fvFSxtleQUqLSeOW1PWxD67KFAlczucmLsNBvdFBn9JxsF4Mrg="
-        on:
-          branch: master
-          tags: true
-          repo: shipshapecode/shepherd
-        after_deploy: |
-          if [ "$(npm_dist_tag)" == "latest" ]; then
-            npm dist-tag rm shepherd.js next || true
-          fi
-    - stage: github-releases
-      script:
-        - yarn build
-      # Identifies `a.b.c-xxx.n` tags as pre-releases, and `a.b.c` as stable releases
-      before_deploy: |
-        function gh_prerelease() {
-          if [[ "$TRAVIS_TAG" = *"-"* ]]; then
-            echo true
-          else
-            echo false
-          fi
-        }
-      deploy:
-        provider: releases
-        api_key: $GH_TOKEN
-        file_glob: true
-        file:
-          - dist/css/*
-          - dist/js/*
-        skip_cleanup: true
-        prerelease: $(gh_prerelease)
-        on:
-          tags: true

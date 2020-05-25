@@ -1,10 +1,6 @@
 {
   "name": "shepherd.js",
   "version": "7.2.1",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shipshapecode/shepherd.git"
-  },
   "description": "Guide your users through a tour of your app.",
   "keywords": [
     "site tour",
@@ -12,36 +8,36 @@
     "tutorial",
     "shepherd"
   ],
-  "authors": [
-    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
-    "Zack Bloom <zackbloom@gmail.com>"
-  ],
-  "maintainers": [
-    "Robert Wagner <rwwagner90@gmail.com>",
-    "Chuck Carpenter <chuck@shipshape.io>"
-  ],
+  "homepage": "https://shepherdjs.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
+  },
   "funding": {
     "type": "individual",
     "url": "https://github.com/sponsors/rwwagner90"
   },
+  "license": "MIT",
+  "main": "dist/js/shepherd.js",
+  "module": "dist/js/shepherd.esm.js",
+  "types": "src/types/shepherd.d.ts",
   "scripts": {
     "build": "yarn clean && rollup -c",
     "postbuild": "yarn build:landing",
     "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
-    "dev": "yarn watch",
-    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
-    "esdoc": "esdoc",
-    "changelog": "github_changelog_generator -u shipshapecode -p shepherd --since-tag v6.0.0 --max-issues 100 --exclude-labels dependencies,duplicate,question,invalid,wontfix",
     "clean": "rimraf dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
     "cy:run:firefox": "cypress run --browser firefox",
+    "dev": "yarn watch",
+    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
+    "esdoc": "esdoc",
     "lint:js": "eslint . --ext js",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "yarn watch",
     "start-test-server": "http-server -p 9002",
-    "pretest:ci": "yarn build",
     "test": "yarn lint:js && yarn test:ci",
+    "pretest:ci": "yarn build",
     "test:ci": "yarn test:unit:ci && yarn test:cy:ci:chrome && yarn test:cy:ci:firefox",
     "test:cy:ci:chrome": "start-server-and-test start-test-server http://localhost:9002 cy:run:chrome",
     "test:cy:ci:firefox": "start-server-and-test start-test-server http://localhost:9002 cy:run:firefox",
@@ -51,11 +47,6 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "homepage": "https://shepherdjs.dev",
-  "license": "MIT",
-  "main": "dist/js/shepherd.js",
-  "types": "src/types/shepherd.d.ts",
-  "module": "dist/js/shepherd.esm.js",
   "dependencies": {
     "@popperjs/core": "^2.4.0",
     "deepmerge": "^4.2.2",
@@ -93,6 +84,8 @@
     "postcss": "^7.0.30",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
+    "release-it": "^13.6.0",
+    "release-it-lerna-changelog": "^2.3.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.10.9",
@@ -117,5 +110,31 @@
   },
   "engines": {
     "node": "10.* || >= 12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "authors": [
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
+    "Zack Bloom <zackbloom@gmail.com>"
+  ],
+  "maintainers": [
+    "Robert Wagner <rwwagner90@gmail.com>",
+    "Chuck Carpenter <chuck@shipshape.io>"
+  ],
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   }
 }
