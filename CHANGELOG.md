@@ -1,3 +1,22 @@
+## v8.0.0 (2020-05-25)
+
+#### :boom: Breaking Change
+* [#982](https://github.com/shipshapecode/shepherd/pull/982) Officially drop IE 11 and remove from browserslist ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :bug: Bug Fix
+* [#979](https://github.com/shipshapecode/shepherd/pull/979) Require attachTo.on to show arrow ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :memo: Documentation
+* [#967](https://github.com/shipshapecode/shepherd/pull/967) 📝 Add cookbook item for multi item highlighting ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* [#981](https://github.com/shipshapecode/shepherd/pull/981) Remove eslint from rollup, tweak tailwind ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 3
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 # Changelog
 
 ## [v7.0.2](https://github.com/shipshapecode/shepherd/tree/v7.0.2) (2020-02-25)
