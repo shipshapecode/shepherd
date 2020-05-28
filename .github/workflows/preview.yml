@@ -1,0 +1,21 @@
+name: Preview
+
+on: pull_request
+
+jobs:
+  publish-previews:
+    name: Publish Previews
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Deps and Build
+        run: |
+          yarn
+          yarn build
+      - uses: thefrontside/actions/publish-pr-preview@v1.7.0
+        name: Publish PR Preview
+        with:
+          IGNORE: docs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
