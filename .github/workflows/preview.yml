@@ -12,7 +12,7 @@ jobs:
         run: |
           yarn
           yarn build
-      - uses: thefrontside/actions/publish-pr-preview@v1.7.0
+      - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
           IGNORE: docs
