@@ -8,13 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12'
+      - run: |
+        yarn install
+        yarn build
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
-          BEFORE_ALL: yarn build:ci
           IGNORE: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

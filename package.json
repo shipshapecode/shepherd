@@ -23,7 +23,6 @@
   "types": "src/types/shepherd.d.ts",
   "scripts": {
     "build": "yarn clean && rollup -c",
-    "build:ci": "rollup -c",
     "postbuild": "yarn build:landing",
     "build:landing": "npx tailwind build ./landing/css/styles.css -o ./landing/css/welcome.css",
     "clean": "rimraf dist",
