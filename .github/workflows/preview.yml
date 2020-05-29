@@ -8,13 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '11'
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
-          BEFORE_ALL: yarn build
           IGNORE: docs
           NPM_PUBLISH: npm publish --registry http://npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
         env:
