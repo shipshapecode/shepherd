@@ -11,6 +11,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v2
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
