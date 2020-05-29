@@ -8,15 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Deps and Build
-        run: |
-          yarn
-          yarn build
-      - uses: thefrontside/actions/publish-pr-preview@v1.7
+      - uses: thefrontside/actions/publish-pr-preview@master
         name: Publish PR Preview
         with:
-          BEFORE_ALL: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+          BEFORE_ALL: yarn build
           IGNORE: docs
+          NPM_PUBLISH: npm publish --registry //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
