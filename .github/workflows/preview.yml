@@ -11,8 +11,8 @@ jobs:
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
+          BEFORE_ALL: echo "//npm.pkg.github.com/:_authToken=${ secrets.GITHUB_TOKEN }" >> ~/.npmrc
           IGNORE: docs
-          NPM_PUBLISH: npm publish --registry http://npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
