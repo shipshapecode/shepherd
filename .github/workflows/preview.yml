@@ -9,8 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: |
-        yarn install
-        yarn build
+          yarn install
+          yarn build
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
