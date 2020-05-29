@@ -11,12 +11,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v2
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
-          BEFORE_ALL: yarn build
+          BEFORE_ALL: yarn build:ci
           IGNORE: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
