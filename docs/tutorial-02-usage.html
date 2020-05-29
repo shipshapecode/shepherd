@@ -236,9 +236,16 @@ created.</p>
 </ul>
 </li>
 <li><code>title</code>: The step's title. It becomes an <code>h3</code> at the top of the step.</li>
-<li><code>attachTo</code>: What element the step should be attached to on the page.
-It should be an object with the properties <code>element</code> and <code>on</code>, where <code>element</code> is an element selector string
-or a DOM element and <code>on</code> is the optional direction to place the Popper tooltip.</li>
+<li><code>attachTo</code>: The element the step should be attached to on the page. An object with properties <code>element</code> and <code>on</code>
+<ul>
+<li><code>element</code>: An element selector string or a DOM element</li>
+<li><code>on</code>: The optional direction to place the Popper tooltip relative to the element.
+<ul>
+<li>Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <pre class="prettyprint source lang-js"><code>const new Step(tour, {
   attachTo: { element: '.some .selector-path', on: 'left' },
