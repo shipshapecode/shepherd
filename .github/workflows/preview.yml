@@ -8,13 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
       - uses: thefrontside/actions/publish-pr-preview@v1.7
         name: Publish PR Preview
         with:
-          BEFORE_ALL: echo "registry=https://npm.pkg.github.com" >> ~/.npmrc && echo "//npm.pkg.github.com/:_authToken=${ secrets.GITHUB_TOKEN }" >> ~/.npmrc && cat ~/.npmrc
+          BEFORE_ALL: yarn build
           IGNORE: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v2
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
