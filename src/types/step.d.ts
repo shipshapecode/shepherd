@@ -69,22 +69,35 @@ declare namespace Step {
    */
   interface StepOptions {
     /**
-     * What element the step should be attached to on the page.
-     * It can either be a string of the form "element on", or an object with those properties.
-     * For example: ".some #element left", or {element: '.some #element', on: 'left'}.
-     * If you use the object syntax, element can also be a DOM element. If you don’t specify an attachTo the
-     * element will appear in the middle of the screen.
+     * The element the step should be attached to on the page.
+     * An object with properties `element` and `on`.
+     *
+     * ```js
+     * const step = new Step(tour, {
+     *   attachTo: { element: '.some .selector-path', on: 'left' },
+     *   ...moreOptions
+     * });
+     * ```
+     *
+     * If you don’t specify an attachTo the element will appear in the middle of the screen.
+     * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
+     * in the middle of the screen, without an arrow pointing to the target.
      */
-    attachTo?: StepOptionsAttachTo | string;
+    attachTo?: StepOptionsAttachTo;
 
     /**
      * An action on the page which should advance shepherd to the next step.
-     * It can be of the form `"selector event"`, or an object with those properties.
-     * For example: `".some-element click"`, or `{selector: '.some-element', event: 'click'}`.
-     * It doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
-     * You can also always manually advance the Tour by calling `myTour.next()`
+     * It should be an object with a string `selector` and an `event` name
+     * ```js
+     * const step = new Step(tour, {
+     *   advanceOn: { selector: '.some .selector-path', event: 'click' },
+     *   ...moreOptions
+     * });
+     * ```
+     * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
+     * You can also always manually advance the Tour by calling `myTour.next()`.
      */
-    advanceOn?: StepOptionsAdvanceOn | string;
+    advanceOn?: StepOptionsAdvanceOn;
 
     /**
      * Whether to display the arrow for the tooltip or not
@@ -194,10 +207,11 @@ declare namespace Step {
     when?: StepOptionsWhen;
   }
 
+  type PopperPlacement = 'auto'|'auto-start'|'auto-end'|'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'right'|'right-start'|'right-end'|'left'|'left-start'|'left-end';
+
   interface StepOptionsAttachTo {
     element?: HTMLElement | string;
-
-    on?: string;
+    on?: PopperPlacement;
   }
 
   interface StepOptionsAdvanceOn {

@@ -25,9 +25,8 @@ export class Step extends Evented {
    * @param {Tour} tour The tour for the step
    * @param {Object} options The options for the step
    * @param {boolean} options.arrow Whether to display the arrow for the tooltip or not. Defaults to `true`.
-   * @param {Object} options.attachTo What element the step should be attached to on the page.
-   * It should be an object with the properties `element` and `on`, where `element` is an element selector string
-   * or a DOM element and `on` is the optional direction to place the Popper tooltip.
+   * @param {Object} options.attachTo The element the step should be attached to on the page.
+   * An object with properties `element` and `on`.
    *
    * ```js
    * const step = new Step(tour, {
@@ -39,8 +38,9 @@ export class Step extends Evented {
    * If you don’t specify an attachTo the element will appear in the middle of the screen.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * @param {HTMLElement|string} options.attachTo.element
-   * @param {string} options.attachTo.on
+   * @param {HTMLElement|string} options.attachTo.element An element selector string or a DOM element.
+   * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
+   *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
    * It should be an object with a string `selector` and an `event` name
    * ```js

@@ -155,8 +155,8 @@ created.
   - `HTMLElement` object
   - `Function` to be executed when the step is built. It must return one the two options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
-- `attachTo`: The element the step should be attached to on the page. An object with properties `element` and `on`
-  - `element`: An element selector string or a DOM element
+- `attachTo`: The element the step should be attached to on the page. An object with properties `element` and `on`.
+  - `element`: An element selector string or a DOM element.
   - `on`: The optional direction to place the Popper tooltip relative to the element.
     - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
 

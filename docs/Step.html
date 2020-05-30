@@ -302,9 +302,8 @@
         
 
         <td class="description last">
-          <p>What element the step should be attached to on the page.
-It should be an object with the properties <code>element</code> and <code>on</code>, where <code>element</code> is an element selector string
-or a DOM element and <code>on</code> is the optional direction to place the Popper tooltip.</p>
+          <p>The element the step should be attached to on the page.
+An object with properties <code>element</code> and <code>on</code>.</p>
 <pre class="prettyprint source lang-js"><code>const step = new Step(tour, {
   attachTo: { element: '.some .selector-path', on: 'left' },
   ...moreOptions
@@ -365,7 +364,7 @@ in the middle of the screen, without an arrow pointing to the target.</p>
         
 
         <td class="description last">
-          
+          <p>An element selector string or a DOM element.</p>
           
         </td>
       </tr>
@@ -394,7 +393,10 @@ in the middle of the screen, without an arrow pointing to the target.</p>
         
 
         <td class="description last">
-          
+          <p>The optional direction to place the Popper tooltip relative to the element.</p>
+<ul>
+<li>Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'</li>
+</ul>
           
         </td>
       </tr>
