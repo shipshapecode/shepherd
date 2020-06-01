@@ -55,7 +55,7 @@
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.25.2",
     "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-env": "^7.10.2",
     "@testing-library/jest-dom": "^5.8.0",
     "@testing-library/svelte": "^3.0.0",
     "autoprefixer": "^9.8.0",
@@ -81,7 +81,7 @@
     "jsdoc": "^3.6.4",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.5",
-    "postcss": "^7.0.30",
+    "postcss": "^7.0.31",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
     "release-it": "^13.6.0",
