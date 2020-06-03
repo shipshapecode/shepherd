@@ -279,7 +279,7 @@ declare namespace Step {
   }
 
   interface StepOptionsWhen {
-    [key: string]: (() => void);
+    [key: string]: ((this: Step) => void);
   }
 }
 
