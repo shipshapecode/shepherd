@@ -4823,6 +4823,24 @@
 	    }
 	  }
 	  /**
+	   * Returns the element for the step
+	   * @return {HTMLElement|null|undefined} The element instance. undefined if it has never been shown, null if it has been destroyed
+	   */
+
+
+	  getElement() {
+	    return this.el;
+	  }
+	  /**
+	   * Returns the target for the step
+	   * @return {HTMLElement|null|undefined} The element instance. undefined if it has never been shown, null if query string has not been found
+	   */
+
+
+	  getTarget() {
+	    return this.target;
+	  }
+	  /**
 	   * Creates Shepherd element for step based on options
 	   *
 	   * @return {Element} The DOM element for the step tooltip
