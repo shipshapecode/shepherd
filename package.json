@@ -53,7 +53,7 @@
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
-    "@ampproject/rollup-plugin-closure-compiler": "^0.25.2",
+    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@testing-library/jest-dom": "^5.9.0",
