@@ -84,7 +84,7 @@
     "postcss": "^7.0.31",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
-    "release-it": "^13.6.0",
+    "release-it": "^13.6.2",
     "release-it-lerna-changelog": "^2.3.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
