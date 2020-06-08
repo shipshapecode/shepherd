@@ -2703,7 +2703,7 @@
 	  const child_ctx = ctx.slice();
 	  child_ctx[2] = list[i];
 	  return child_ctx;
-	} // (25:4) {#if buttons}
+	} // (24:4) {#if buttons}
 
 
 	function create_if_block(ctx) {
@@ -2799,7 +2799,7 @@
 	    }
 
 	  };
-	} // (26:8) {#each buttons as config}
+	} // (25:8) {#each buttons as config}
 
 
 	function create_each_block(ctx) {
@@ -3191,7 +3191,7 @@
 	    }
 
 	  };
-	} // (40:4) {#if cancelIcon && cancelIcon.enabled}
+	} // (39:4) {#if cancelIcon && cancelIcon.enabled}
 
 
 	function create_if_block$1(ctx) {
@@ -3544,7 +3544,7 @@
 	    }
 
 	  };
-	} // (29:2) {#if !isUndefined(step.options.text)}
+	} // (28:2) {#if !isUndefined(step.options.text)}
 
 
 	function create_if_block_1$1(ctx) {
@@ -3600,7 +3600,7 @@
 	    }
 
 	  };
-	} // (36:2) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
+	} // (35:2) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
 
 
 	function create_if_block$2(ctx) {
