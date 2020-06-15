@@ -79,7 +79,7 @@
     "jest-transform-css": "^2.0.0",
     "jsdoc": "^3.6.4",
     "jsdoc-template-ship-shape": "^0.1.1",
-    "mutationobserver-shim": "^0.3.5",
+    "mutationobserver-shim": "^0.3.7",
     "postcss": "^7.0.32",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
