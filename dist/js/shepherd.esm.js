@@ -524,16 +524,14 @@ function getTrueOffsetParent(element) {
 function getContainingBlock(element) {
   var currentNode = getParentNode(element);
 
-  while (getNodeName(currentNode) !== 'body') {
-    if (isHTMLElement(currentNode)) {
-      var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
-      // create a containing block.
+  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
+    var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+    // create a containing block.
 
-      if (css.transform !== 'none' || css.perspective !== 'none' || css.willChange !== 'auto') {
-        return currentNode;
-      } else {
-        currentNode = currentNode.parentNode;
-      }
+    if (css.transform !== 'none' || css.perspective !== 'none' || css.willChange !== 'auto') {
+      return currentNode;
+    } else {
+      currentNode = currentNode.parentNode;
     }
   }
 
