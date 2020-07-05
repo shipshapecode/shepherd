@@ -287,7 +287,7 @@ export class Step extends Evented {
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
     } else if (
-      isElement(element) &&
+      element instanceof Element &&
       typeof element.scrollIntoView === 'function'
     ) {
       element.scrollIntoView(scrollToOptions);
