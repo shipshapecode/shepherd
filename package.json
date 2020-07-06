@@ -58,7 +58,7 @@
     "@babel/preset-env": "^7.10.3",
     "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/svelte": "^3.0.0",
-    "autoprefixer": "^9.8.2",
+    "autoprefixer": "^9.8.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.0.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
