@@ -132,10 +132,18 @@
 	var cjs = deepmerge_1;
 
 	/**
+	 * Checks if `value` is classified as an `Element`.
+	 * @param {*} value The param to check if it is an Element
+	 */
+	function isElement(value) {
+	  return value instanceof Element;
+	}
+	/**
 	 * Checks if `value` is classified as an `HTMLElement`.
 	 * @param {*} value The param to check if it is an HTMLElement
 	 */
-	function isElement(value) {
+
+	function isHTMLElement(value) {
 	  return value instanceof HTMLElement;
 	}
 	/**
@@ -355,7 +363,7 @@
 	  HTMLElement); */
 
 
-	function isHTMLElement(node) {
+	function isHTMLElement$1(node) {
 	  var OwnElement = getWindow(node).HTMLElement;
 	  return node instanceof OwnElement || node instanceof HTMLElement;
 	}
@@ -368,7 +376,7 @@
 	}
 
 	function getNodeScroll(node) {
-	  if (node === getWindow(node) || !isHTMLElement(node)) {
+	  if (node === getWindow(node) || !isHTMLElement$1(node)) {
 	    return getWindowScroll(node);
 	  } else {
 	    return getHTMLElementScroll(node);
@@ -418,7 +426,7 @@
 
 	  var documentElement = getDocumentElement(offsetParent);
 	  var rect = getBoundingClientRect(elementOrVirtualElement);
-	  var isOffsetParentAnElement = isHTMLElement(offsetParent);
+	  var isOffsetParentAnElement = isHTMLElement$1(offsetParent);
 	  var scroll = {
 	    scrollLeft: 0,
 	    scrollTop: 0
@@ -434,7 +442,7 @@
 	      scroll = getNodeScroll(offsetParent);
 	    }
 
-	    if (isHTMLElement(offsetParent)) {
+	    if (isHTMLElement$1(offsetParent)) {
 	      offsets = getBoundingClientRect(offsetParent);
 	      offsets.x += offsetParent.clientLeft;
 	      offsets.y += offsetParent.clientTop;
@@ -484,7 +492,7 @@
 	    return node.ownerDocument.body;
 	  }
 
-	  if (isHTMLElement(node) && isScrollParent(node)) {
+	  if (isHTMLElement$1(node) && isScrollParent(node)) {
 	    return node;
 	  }
 
@@ -517,7 +525,7 @@
 	}
 
 	function getTrueOffsetParent(element) {
-	  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+	  if (!isHTMLElement$1(element) || // https://github.com/popperjs/popper-core/issues/837
 	  getComputedStyle(element).position === 'fixed') {
 	    return null;
 	  }
@@ -540,7 +548,7 @@
 	function getContainingBlock(element) {
 	  var currentNode = getParentNode(element);
 
-	  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
+	  while (isHTMLElement$1(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
 	    var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
 	    // create a containing block.
 
@@ -789,7 +797,7 @@
 	}
 
 	function getClientRectFromMixedType(element, clippingParent) {
-	  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+	  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
 	} // A "clipping parent" is an overflowable container with the characteristic of
 	// clipping (or hiding) overflowing elements with a position different from
 	// `initial`
@@ -798,7 +806,7 @@
 	function getClippingParents(element) {
 	  var clippingParents = listScrollParents(getParentNode(element));
 	  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle(element).position) >= 0;
-	  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
+	  var clipperElement = canEscapeClipping && isHTMLElement$1(element) ? getOffsetParent(element) : element;
 
 	  if (!isElement$1(clipperElement)) {
 	    return [];
@@ -1373,7 +1381,7 @@
 	    var attributes = state.attributes[name] || {};
 	    var element = state.elements[name]; // arrow is optional + virtual elements
 
-	    if (!isHTMLElement(element) || !getNodeName(element)) {
+	    if (!isHTMLElement$1(element) || !getNodeName(element)) {
 	      return;
 	    } // Flow doesn't support to extend this property, but it's the most
 	    // effective way to apply styles to an HTMLElement
@@ -1424,7 +1432,7 @@
 	        return style;
 	      }, {}); // arrow is optional + virtual elements
 
-	      if (!isHTMLElement(element) || !getNodeName(element)) {
+	      if (!isHTMLElement$1(element) || !getNodeName(element)) {
 	        return;
 	      } // Flow doesn't support to extend this property, but it's the most
 	      // effective way to apply styles to an HTMLElement
@@ -3521,7 +3529,7 @@
 	      text = text.call(step);
 	    }
 
-	    if (isElement(text)) {
+	    if (isHTMLElement(text)) {
 	      element.appendChild(text);
 	    } else {
 	      $$invalidate(0, element.innerHTML = text, element);
@@ -4803,7 +4811,7 @@
 	      this.tooltip = null;
 	    }
 
-	    if (isElement(this.el) && this.el.parentNode) {
+	    if (isHTMLElement(this.el) && this.el.parentNode) {
 	      this.el.parentNode.removeChild(this.el);
 	      this.el = null;
 	    }
@@ -5764,7 +5772,7 @@ Z`;
 	    } // Focus the element that was focused before the tour started
 
 
-	    if (isElement(this.focusedElBeforeOpen)) {
+	    if (isHTMLElement(this.focusedElBeforeOpen)) {
 	      this.focusedElBeforeOpen.focus();
 	    }
 	  }
