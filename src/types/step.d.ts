@@ -33,6 +33,18 @@ declare class Step extends Evented {
   destroy(): void;
 
   /**
+   * Returns the element for the step
+   * @return The element instance. undefined if it has never been shown, null if it has been destroyed
+   */
+  getElement(): HTMLElement | null | undefined
+
+  /**
+   * Returns the target for the step
+   * @returns The element instance. undefined if it has never been shown, null if query string has not been found
+   */
+  getTarget(): HTMLElement | null | undefined
+
+  /**
    * Returns the tour for the step
    * @return The tour instance
    */
@@ -61,18 +73,6 @@ declare class Step extends Evented {
    * @param {Step.StepOptions} options to be updated
    */
   updateStepOptions(options: Step.StepOptions): void;
-
-  /**
-   * Returns the element for the step
-   * @return The element instance. undefined if it has never been shown, null if it has been destroyed
-   */
-  getElement(): HTMLElement | null | undefined
-
-  /**
-   * Returns the target for the step
-   * @returns The element instance. undefined if it has never been shown, null if query string has not been found
-   */
-  getTarget(): HTMLElement | null | undefined
 }
 
 declare namespace Step {
