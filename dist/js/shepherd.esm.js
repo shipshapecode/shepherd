@@ -1,4 +1,4 @@
-/*! shepherd.js 8.0.1 */
+/*! shepherd.js 8.0.2 */
 
 var isMergeableObject = function isMergeableObject(value) {
   return isNonNullObject(value) && !isSpecial(value);
