@@ -249,6 +249,12 @@ declare namespace Step {
      * Extra classes to apply to the `<a>`
      */
     classes?: string;
+    
+    /**
+     * Whether the button should be disabled
+     * When the value is `true`, or the function returns `true` the button will be disabled
+     */
+    disabled?: boolean | (() => boolean);
 
     /**
      * A hash of events to bind onto the button, for example
@@ -265,15 +271,14 @@ declare namespace Step {
     events?: StepOptionsButtonEvent;
 
     /**
-     * Whether the button should be disabled
-     * When the value is `true`, or the function returns `true` the button will be disabled
-     */
-    disabled?: boolean | (() => boolean);
-
-    /**
      * The aria-label text of the button
      */
     label?: string;
+    
+    /**
+     * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
+     */
+    secondary?: boolean;
 
     /**
      * The HTML text of the button
