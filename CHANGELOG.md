@@ -1,3 +1,24 @@
+## v8.0.2 (2020-07-10)
+
+#### :rocket: Enhancement
+* [#1026](https://github.com/shipshapecode/shepherd/pull/1026) Add Edge 18 to browserslist ([@te1](https://github.com/te1))
+* [#996](https://github.com/shipshapecode/shepherd/pull/996) Step Element Target Action ([@WORMSS](https://github.com/WORMSS))
+* [#995](https://github.com/shipshapecode/shepherd/pull/995) Added the correct this context to StepOption 'when' functions ([@WORMSS](https://github.com/WORMSS))
+
+#### :bug: Bug Fix
+* [#1039](https://github.com/shipshapecode/shepherd/pull/1039) Use isElement fot svg scrollIntoView support ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :house: Internal
+* [#1040](https://github.com/shipshapecode/shepherd/pull/1040) Add secondary property on StepOptionsButton ([@linsolas](https://github.com/linsolas))
+* [#1006](https://github.com/shipshapecode/shepherd/pull/1006) Switch to svelte-jester, test with node 12 ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 5
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Romain Linsolas ([@linsolas](https://github.com/linsolas))
+- WORMSS ([@WORMSS](https://github.com/WORMSS))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+- te ([@te1](https://github.com/te1))
+
 ## v8.0.1 (2020-05-30)
 
 ## v8.0.0 (2020-05-25)
