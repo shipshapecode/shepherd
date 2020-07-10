@@ -257,20 +257,6 @@ declare namespace Step {
     disabled?: boolean | (() => boolean);
 
     /**
-     * A hash of events to bind onto the button, for example
-     * `{'mouseover': function(){}}`. Adding a `click` event to events when you already have an `action` specified is not supported.
-     * You can use events to skip steps or navigate to specific steps, with something like:
-     * ```js
-     * events: {
-     *   click: function() {
-     *     return Shepherd.activeTour.show('some_step_name');
-     *   }
-     * }
-     * ```
-     */
-    events?: StepOptionsButtonEvent;
-
-    /**
      * The aria-label text of the button
      */
     label?: string;
