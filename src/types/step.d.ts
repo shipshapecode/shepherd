@@ -279,6 +279,11 @@ declare namespace Step {
      * The HTML text of the button
      */
     text?: string;
+
+    /**
+     * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
+     */
+    secondary?: boolean;
   }
 
   interface StepOptionsButtonEvent {
