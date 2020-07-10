@@ -198,16 +198,6 @@ the step will execute. For example:
        return this.show('some_step_name');
      }
    ```
-  - `events`: A hash of events to bind onto the button, for example `{'mouseover': function(){}}`.  Adding a click event to `events` when you
-  already have an `action` specified is not supported.
-  You can use `events` to skip steps or navigate to specific steps, with something like:
-  ```javascript
-  events: {
-    click: function() {
-      return Shepherd.activeTour.show('some_step_name');
-    }
-  }
-  ```
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It should be an object with a string `selector` and an `event` name.
 For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.  
 You can also always manually advance the Tour by calling `myTour.next()`.

@@ -2,15 +2,15 @@
   import { isFunction } from '../utils/type-check';
 
   export let config, step;
-  let action, classes, secondary, text, label, disabled;
+  let action, classes, disabled, label, secondary, text;
 
   $: {
     action = config.action ? config.action.bind(step.tour) : null;
     classes = config.classes;
+    disabled = config.disabled ? getDisabled(config.disabled) : false;
+    label = config.label;
     secondary = config.secondary;
     text = config.text;
-    label = config.label;
-    disabled = config.disabled ? getDisabled(config.disabled) : false;
   }
 
   function getDisabled(disabled) {

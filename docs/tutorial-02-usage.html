@@ -287,17 +287,6 @@ work inside the action. You can use action to skip steps or navigate to specific
     return this.show('some_step_name');
   }
 </code></pre>
-<ul>
-<li><code>events</code>: A hash of events to bind onto the button, for example <code>{'mouseover': function(){}}</code>.  Adding a click event to <code>events</code> when you
-already have an <code>action</code> specified is not supported.
-You can use <code>events</code> to skip steps or navigate to specific steps, with something like:</li>
-</ul>
-<pre class="prettyprint source lang-javascript"><code>events: {
-  click: function() {
-    return Shepherd.activeTour.show('some_step_name');
-  }
-}
-</code></pre>
 </li>
 <li><code>advanceOn</code>: An action on the page which should advance shepherd to the next step.  It should be an object with a string <code>selector</code> and an <code>event</code> name.
 For example: <code>{selector: '.some-element', event: 'click'}</code>.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.<br>

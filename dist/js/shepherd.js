@@ -2635,17 +2635,17 @@
 	      button = element("button");
 	      attr(button, "aria-label", button_aria_label_value =
 	      /*label*/
-	      ctx[4] ?
+	      ctx[3] ?
 	      /*label*/
-	      ctx[4] : null);
+	      ctx[3] : null);
 	      attr(button, "class", button_class_value = `${
       /*classes*/
       ctx[1] || ""} shepherd-button ${
       /*secondary*/
-      ctx[2] ? "shepherd-button-secondary" : ""}`);
+      ctx[4] ? "shepherd-button-secondary" : ""}`);
 	      button.disabled =
 	      /*disabled*/
-	      ctx[5];
+	      ctx[2];
 	      attr(button, "tabindex", "0");
 	    },
 
@@ -2653,7 +2653,7 @@
 	      insert(target, button, anchor);
 	      button.innerHTML =
 	      /*text*/
-	      ctx[3];
+	      ctx[5];
 
 	      if (!mounted) {
 	        dispose = listen(button, "click", function () {
@@ -2671,36 +2671,36 @@
 	      ctx = new_ctx;
 	      if (dirty &
 	      /*text*/
-	      8) button.innerHTML =
+	      32) button.innerHTML =
 	      /*text*/
-	      ctx[3];
+	      ctx[5];
 
 	      if (dirty &
 	      /*label*/
-	      16 && button_aria_label_value !== (button_aria_label_value =
+	      8 && button_aria_label_value !== (button_aria_label_value =
 	      /*label*/
-	      ctx[4] ?
+	      ctx[3] ?
 	      /*label*/
-	      ctx[4] : null)) {
+	      ctx[3] : null)) {
 	        attr(button, "aria-label", button_aria_label_value);
 	      }
 
 	      if (dirty &
 	      /*classes, secondary*/
-	      6 && button_class_value !== (button_class_value = `${
+	      18 && button_class_value !== (button_class_value = `${
       /*classes*/
       ctx[1] || ""} shepherd-button ${
       /*secondary*/
-      ctx[2] ? "shepherd-button-secondary" : ""}`)) {
+      ctx[4] ? "shepherd-button-secondary" : ""}`)) {
 	        attr(button, "class", button_class_value);
 	      }
 
 	      if (dirty &
 	      /*disabled*/
-	      32) {
+	      4) {
 	        button.disabled =
 	        /*disabled*/
-	        ctx[5];
+	        ctx[2];
 	      }
 	    },
 
@@ -2723,7 +2723,7 @@
 	      {
 	    step
 	  } = $$props;
-	  let action, classes, secondary, text, label, disabled;
+	  let action, classes, disabled, label, secondary, text;
 
 	  function getDisabled(disabled) {
 	    if (isFunction(disabled)) {
@@ -2745,15 +2745,15 @@
 	       {
 	        $$invalidate(0, action = config.action ? config.action.bind(step.tour) : null);
 	        $$invalidate(1, classes = config.classes);
-	        $$invalidate(2, secondary = config.secondary);
-	        $$invalidate(3, text = config.text);
-	        $$invalidate(4, label = config.label);
-	        $$invalidate(5, disabled = config.disabled ? getDisabled(config.disabled) : false);
+	        $$invalidate(2, disabled = config.disabled ? getDisabled(config.disabled) : false);
+	        $$invalidate(3, label = config.label);
+	        $$invalidate(4, secondary = config.secondary);
+	        $$invalidate(5, text = config.text);
 	      }
 	    }
 	  };
 
-	  return [action, classes, secondary, text, label, disabled, config, step];
+	  return [action, classes, disabled, label, secondary, text, config, step];
 	}
 
 	class Shepherd_button extends SvelteComponent {
@@ -4684,9 +4684,9 @@
 	  /**
 	   * Create a step
 	   * @param {Tour} tour The tour for the step
-	   * @param {Object} options The options for the step
+	   * @param {object} options The options for the step
 	   * @param {boolean} options.arrow Whether to display the arrow for the tooltip or not. Defaults to `true`.
-	   * @param {Object} options.attachTo The element the step should be attached to on the page.
+	   * @param {object} options.attachTo The element the step should be attached to on the page.
 	   * An object with properties `element` and `on`.
 	   *
 	   * ```js
@@ -4726,10 +4726,10 @@
 	   * }
 	   * ```
 	   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
-	   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
-	   * @param {string} options.buttons.button.text The HTML text of the button
 	   * @param {boolean} options.buttons.button.disabled Should the button be disabled?
 	   * @param {string} options.buttons.button.label The aria-label text of the button
+	   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
+	   * @param {string} options.buttons.button.text The HTML text of the button
 	   * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
 	   * @param {object} options.cancelIcon Options for the cancel icon
 	   * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
@@ -4738,6 +4738,8 @@
 	   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
 	   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
 	   * @param {string} options.id The string to use as the `id` for the step.
+	   * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+	   * @param {number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
 	   * @param {object} options.popperOptions Extra options to pass to Popper
 	   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
 	   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
@@ -4756,7 +4758,7 @@
 	   * - HTML string
 	   * - `Function` to be executed when the step is built. It must return HTML string.
 	   * ```
-	   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
+	   * @param {object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
 	   * ```js
 	   * when: {
 	   *   show: function() {
@@ -4764,8 +4766,6 @@
 	   *   }
 	   * }
 	   * ```
-	   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-	   * @param {Number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
 	   * @return {Step} The newly created Step instance
 	   */
 	  constructor(tour, options = {}) {

@@ -130,9 +130,9 @@ export class Step extends Evented {
   /**
    * Create a step
    * @param {Tour} tour The tour for the step
-   * @param {Object} options The options for the step
+   * @param {object} options The options for the step
    * @param {boolean} options.arrow Whether to display the arrow for the tooltip or not. Defaults to `true`.
-   * @param {Object} options.attachTo The element the step should be attached to on the page.
+   * @param {object} options.attachTo The element the step should be attached to on the page.
    * An object with properties `element` and `on`.
    *
    * ```js
@@ -172,10 +172,10 @@ export class Step extends Evented {
    * }
    * ```
    * @param {string} options.buttons.button.classes Extra classes to apply to the `&lt;a>`
-   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
-   * @param {string} options.buttons.button.text The HTML text of the button
    * @param {boolean} options.buttons.button.disabled Should the button be disabled?
    * @param {string} options.buttons.button.label The aria-label text of the button
+   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
+   * @param {string} options.buttons.button.text The HTML text of the button
    * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
    * @param {object} options.cancelIcon Options for the cancel icon
    * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
@@ -184,6 +184,8 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {string} options.id The string to use as the `id` for the step.
+   * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
+   * @param {number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    * @param {object} options.popperOptions Extra options to pass to Popper
    * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
@@ -202,7 +204,7 @@ export class Step extends Evented {
    * - HTML string
    * - `Function` to be executed when the step is built. It must return HTML string.
    * ```
-   * @param {Object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
+   * @param {object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
    * ```js
    * when: {
    *   show: function() {
@@ -210,8 +212,6 @@ export class Step extends Evented {
    *   }
    * }
    * ```
-   * @param {Number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-   * @param {Number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    * @return {Step} The newly created Step instance
    */
   constructor(tour, options = {}) {
