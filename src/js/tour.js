@@ -1,7 +1,7 @@
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
-import { isElement, isFunction, isString, isUndefined } from './utils/type-check.js';
+import { isHTMLElement, isFunction, isString, isUndefined } from './utils/type-check.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix, uuid } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';
@@ -295,7 +295,7 @@ export class Tour extends Evented {
     }
 
     // Focus the element that was focused before the tour started
-    if (isElement(this.focusedElBeforeOpen)) {
+    if (isHTMLElement(this.focusedElBeforeOpen)) {
       this.focusedElBeforeOpen.focus();
     }
   }

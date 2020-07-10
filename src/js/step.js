@@ -1,7 +1,7 @@
 import merge from 'deepmerge';
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
-import { isElement, isFunction, isUndefined } from './utils/type-check.js';
+import { isElement, isHTMLElement, isFunction, isUndefined } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import {
   setupTooltip,
@@ -150,7 +150,7 @@ export class Step extends Evented {
       this.tooltip = null;
     }
 
-    if (isElement(this.el) && this.el.parentNode) {
+    if (isHTMLElement(this.el) && this.el.parentNode) {
       this.el.parentNode.removeChild(this.el);
       this.el = null;
     }

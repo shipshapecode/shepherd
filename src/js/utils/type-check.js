@@ -1,8 +1,16 @@
 /**
+ * Checks if `value` is classified as an `Element`.
+ * @param {*} value The param to check if it is an Element
+ */
+export function isElement(value) {
+  return value instanceof Element;
+}
+
+/**
  * Checks if `value` is classified as an `HTMLElement`.
  * @param {*} value The param to check if it is an HTMLElement
  */
-export function isElement(value) {
+export function isHTMLElement(value) {
   return value instanceof HTMLElement;
 }
 

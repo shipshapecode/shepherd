@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from 'svelte';
-  import { isElement, isFunction } from '../utils/type-check';
+  import { isHTMLElement, isFunction } from '../utils/type-check';
 
   export let descriptionId, element, step;
 
@@ -11,7 +11,7 @@
       text = text.call(step);
     }
 
-    if (isElement(text)) {
+    if (isHTMLElement(text)) {
       element.appendChild(text);
     } else {
       element.innerHTML = text;
