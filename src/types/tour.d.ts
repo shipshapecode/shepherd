@@ -45,9 +45,9 @@ declare class Tour extends Evented {
   /**
    * Gets the step from a given id
    * @param id The id of the step to retrieve
-   * @return The step corresponding to the `id`
+   * @return The step corresponding to the `id` or null if no step matches the `id`
    */
-  getById(id: number | string): Step;
+  getById(id: number | string): Step | null;
 
   /**
    * Gets the current step
