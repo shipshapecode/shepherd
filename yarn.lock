@@ -10559,10 +10559,10 @@ svelte-jester@^1.0.6:
   dependencies:
     cosmiconfig "^6.0.0"
 
-svelte-preprocess@^3.9.12:
-  version "3.9.12"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-3.9.12.tgz#21e8452e45c6a4d89df37a38714af4a0186df3a1"
-  integrity sha512-OX8a7drmlYcX/bLKbtRTvcc0lYu5Ub78D4B/GVxac2zeyrj1e5vEJU6BsxFbc/8kFDqI6BgsCLZAqsFDr/KrDQ==
+svelte-preprocess@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.0.7.tgz#e7624f72d0cc81c88ea81f80133522e7f921b1fb"
+  integrity sha512-6fH2c6nWM6n+a4M8b9Ut2NeViczirtfu2vh4R/P62F0bf2Lz9N2nRF2ZgLgaLbTNJW5HfYrDc5gAaEoR8dTBMA==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
