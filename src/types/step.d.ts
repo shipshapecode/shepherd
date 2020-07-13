@@ -13,6 +13,11 @@ declare class Step extends Evented {
    * @return The newly created Step instance
    */
   constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
+   
+  /**
+   * The string used as the `id` for the step.
+   */
+  id: string;
 
   /**
    * Cancel the tour
