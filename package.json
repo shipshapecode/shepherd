@@ -92,7 +92,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-browsersync": "^1.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-filesize": "^9.0.1",
+    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-license": "^2.1.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -105,7 +105,7 @@
     "start-server-and-test": "^1.11.2",
     "svelte": "^3.24.0",
     "svelte-jester": "^1.0.6",
-    "svelte-preprocess": "^4.0.7",
+    "svelte-preprocess": "^4.0.8",
     "tailwindcss": "^1.4.6"
   },
   "engines": {
