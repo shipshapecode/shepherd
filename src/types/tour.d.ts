@@ -88,6 +88,11 @@ declare class Tour extends Evented {
    * Start the tour
    */
   start(): void;
+
+  /**
+   * An array of Step instances
+   */
+  steps: Array<Step>;
 }
 
 declare namespace Tour {
