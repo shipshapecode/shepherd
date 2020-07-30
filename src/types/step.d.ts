@@ -67,6 +67,11 @@ declare class Step extends Evented {
   isOpen(): boolean;
 
   /**
+   * Options for the step
+   */
+  options: Step.StepOptions;
+
+  /**
    * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
    * @return Promise
    */
