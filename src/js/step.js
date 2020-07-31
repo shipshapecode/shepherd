@@ -260,7 +260,7 @@ export class Step extends Evented {
     const labelId = `${this.id}-label`;
 
     this.shepherdElementComponent = new ShepherdElement({
-      target: document.body,
+      target: this.tour.options.defaultStepOptions.elementContainer || document.body,
       props: {
         classPrefix: this.classPrefix,
         descriptionId,
