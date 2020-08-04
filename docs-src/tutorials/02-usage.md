@@ -84,6 +84,14 @@ event handlers a `tour` key pointing to the instance which fired the event:
 - `active`
 - `inactive`
 
+For multiple events, you can use something like:
+
+```javascript
+['close', 'cancel'].forEach(event => shepherd.on(event, () => {
+   // some code here
+}));
+```
+
 ##### Current Tour
 
 The global `Shepherd` includes a property which is always set to the currently active tour, or null if there is no active tour:
