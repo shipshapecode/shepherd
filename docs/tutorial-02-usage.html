@@ -171,6 +171,11 @@ event handlers a <code>tour</code> key pointing to the instance which fired the 
 <li><code>active</code></li>
 <li><code>inactive</code></li>
 </ul>
+<p>For multiple events, you can use something like:</p>
+<pre class="prettyprint source lang-javascript"><code>['close', 'cancel'].forEach(event => shepherd.on(event, () => {
+   // some code here
+}));
+</code></pre>
 <h5>Current Tour</h5>
 <p>The global <code>Shepherd</code> includes a property which is always set to the currently active tour, or null if there is no active tour:</p>
 <ul>
