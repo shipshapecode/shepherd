@@ -93,7 +93,7 @@
     "rollup-plugin-browsersync": "^1.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-license": "^2.1.0",
+    "rollup-plugin-license": "^2.2.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^2.6.4",
