@@ -83,7 +83,7 @@
     "postcss": "^7.0.32",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.0.5",
-    "release-it": "^13.6.7",
+    "release-it": "^13.6.9",
     "release-it-lerna-changelog": "^2.3.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
@@ -105,7 +105,7 @@
     "start-server-and-test": "^1.11.3",
     "svelte": "^3.24.1",
     "svelte-jester": "^1.1.2",
-    "svelte-preprocess": "^4.0.12",
+    "svelte-preprocess": "^4.1.1",
     "tailwindcss": "^1.6.2"
   },
   "engines": {
