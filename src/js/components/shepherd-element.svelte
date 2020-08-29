@@ -79,7 +79,7 @@
         }
         // Backward tab
         if (e.shiftKey) {
-          if (document.activeElement === firstFocusableElement || document.activeElement.hasAttribute("data-popper-placement")) {
+          if (document.activeElement === firstFocusableElement || document.activeElement.classList.contains('shepherd-element')) {
             e.preventDefault();
             lastFocusableElement.focus();
           }
