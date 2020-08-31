@@ -4246,7 +4246,7 @@
 
 
 	        if (e.shiftKey) {
-	          if (document.activeElement === firstFocusableElement) {
+	          if (document.activeElement === firstFocusableElement || document.activeElement.classList.contains("shepherd-element")) {
 	            e.preventDefault();
 	            lastFocusableElement.focus();
 	          }

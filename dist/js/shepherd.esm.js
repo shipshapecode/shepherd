@@ -4240,7 +4240,7 @@ function instance$7($$self, $$props, $$invalidate) {
 
 
         if (e.shiftKey) {
-          if (document.activeElement === firstFocusableElement) {
+          if (document.activeElement === firstFocusableElement || document.activeElement.classList.contains("shepherd-element")) {
             e.preventDefault();
             lastFocusableElement.focus();
           }
