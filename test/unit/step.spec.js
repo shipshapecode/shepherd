@@ -316,7 +316,7 @@ describe('Tour | Step', () => {
       step.destroy();
     });
 
-    it('should update passed in properties', async() => {
+    it('should update passed in properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
 
       expect(step.options.text).toBe('updated');
@@ -337,7 +337,7 @@ describe('Tour | Step', () => {
       );
     });
 
-    it('should not affect other properties', async() => {
+    it('should not affect other properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
       expect(step.options.id).toEqual('test-id');
       expect(step.options.buttons).toEqual([
@@ -356,7 +356,7 @@ describe('Tour | Step', () => {
       expect(document.querySelector('.button2').textContent).toBe('button two');
     });
 
-    it('should update buttons', async() => {
+    it('should update buttons', async () => {
       const buttons = [
         { text: 'button one updated', disabled: true, classes: 'button1' },
         { text: 'button two updated', disabled: false, classes: 'button2' }
@@ -381,7 +381,7 @@ describe('Tour | Step', () => {
       expect(buttonTwo.disabled).toBe(false);
     });
 
-    it('removing title should remove class', async() => {
+    it('removing title should remove class', async () => {
       step.updateStepOptions({ title: '' });
       expect(step.options.title).toEqual('');
 
@@ -396,7 +396,7 @@ describe('Tour | Step', () => {
       expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
     });
 
-    it('updating classes should update element classes', async() => {
+    it('updating classes should update element classes', async () => {
       step.updateStepOptions({ classes: 'test-1 test-2' });
       expect(step.options.classes).toEqual('test-1 test-2');
 
@@ -512,6 +512,67 @@ describe('Tour | Step', () => {
       expect(element.querySelector('.shepherd-text').id).toBe(
         'test-step-description'
       );
+    });
+  });
+
+  describe('correct operation of classes on body element when step not attached to an element', () => {
+    const instance = new Shepherd.Tour({
+      defaultStepOptions: {
+        classes: DEFAULT_STEP_CLASS,
+        scrollTo: true,
+        popperOptions: {
+          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        },
+        showOn,
+        when
+      }
+    });
+
+    const stepWithoutAttachment = instance.addStep({
+      highlightClass: 'highlight',
+      text: 'This is a step for testing',
+      buttons: [
+        {
+          text: 'Next',
+          action: instance.next
+        }
+      ],
+      id: 'test',
+      popperOptions: {
+        modifiers: [{ name: 'foo', options: 'bar' }]
+      }
+    });
+
+    afterEach(() => {
+      instance.complete();
+    });
+
+    describe('.hide()', () => {
+      it('detaches from the step target', () => {
+        instance.start();
+
+        const targetElem = document.body;
+
+        expect(targetElem.classList.contains('shepherd-enabled')).toBe(true);
+
+        stepWithoutAttachment.hide();
+
+        expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);
+      });
+    });
+
+    describe('.destroy()', () => {
+      it('detaches from the step target', () => {
+        instance.start();
+
+        const targetElem = document.body;
+
+        expect(targetElem.classList.contains('shepherd-enabled')).toBe(true);
+
+        stepWithoutAttachment.destroy();
+
+        expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);
+      });
     });
   });
 });
