@@ -155,9 +155,7 @@ export class Step extends Evented {
       this.el = null;
     }
 
-    if (this.target) {
-      this._updateStepTargetOnHide();
-    }
+    this._updateStepTargetOnHide();
 
     this.trigger('destroy');
   }
@@ -182,9 +180,7 @@ export class Step extends Evented {
       this.el.hidden = true;
     }
 
-    if (this.target) {
-      this._updateStepTargetOnHide();
-    }
+    this._updateStepTargetOnHide();
 
     this.trigger('hide');
   }
@@ -432,11 +428,13 @@ export class Step extends Evented {
    * @private
    */
   _updateStepTargetOnHide() {
+    const target = this.target || document.body;
+
     if (this.options.highlightClass) {
-      this.target.classList.remove(this.options.highlightClass);
+      target.classList.remove(this.options.highlightClass);
     }
 
-    this.target.classList.remove(
+    target.classList.remove(
       `${this.classPrefix}shepherd-enabled`,
       `${this.classPrefix}shepherd-target`
     );
