@@ -4828,9 +4828,7 @@
 	      this.el = null;
 	    }
 
-	    if (this.target) {
-	      this._updateStepTargetOnHide();
-	    }
+	    this._updateStepTargetOnHide();
 
 	    this.trigger('destroy');
 	  }
@@ -4856,9 +4854,7 @@
 	      this.el.hidden = true;
 	    }
 
-	    if (this.target) {
-	      this._updateStepTargetOnHide();
-	    }
+	    this._updateStepTargetOnHide();
 
 	    this.trigger('hide');
 	  }
@@ -5105,11 +5101,13 @@
 
 
 	  _updateStepTargetOnHide() {
+	    const target = this.target || document.body;
+
 	    if (this.options.highlightClass) {
-	      this.target.classList.remove(this.options.highlightClass);
+	      target.classList.remove(this.options.highlightClass);
 	    }
 
-	    this.target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+	    target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
 	  }
 
 	}
