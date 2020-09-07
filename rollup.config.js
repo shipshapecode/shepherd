@@ -70,7 +70,7 @@ plugins.push(filesize());
 plugins.push(visualizer());
 
 const rollupBuilds = [
-  // Generate unminifed bundle
+  // Generate unminified bundle
   {
     input: './src/js/shepherd.js',
 
