@@ -639,6 +639,10 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
 .flex-col {
   flex-direction: column;
 }
