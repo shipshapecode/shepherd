@@ -9839,10 +9839,10 @@ rollup-plugin-scss@^2.6.0:
     node-sass "4"
     rollup-pluginutils "2"
 
-rollup-plugin-svelte@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-6.0.0.tgz#a5b15354371ec17fe67bd4def4d4ea1b915f74cb"
-  integrity sha512-y9qtWa+iNYwXdOZqaEqz3i6k3gzofC9JXzv+WVKDOt0DLiJxJaSrlKKf4YkKG91RzTK5Lo+0fW8in9QH/DxEhA==
+rollup-plugin-svelte@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-6.0.1.tgz#a4fc9c19c5c4277e6dbf8e79185c4cbd6b4383bf"
+  integrity sha512-kS9/JZMBNgpKTqVKlwV8mhmGwxu8NiNf6+n5ZzdZ8yDp3+ADqjf8Au+JNEpoOn6kLlh1hLS2Gsa76k9RP57HDQ==
   dependencies:
     require-relative "^0.8.7"
     rollup-pluginutils "^2.8.2"
