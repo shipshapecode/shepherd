@@ -1,3 +1,32 @@
+## v8.1.0 (2020-10-05)
+
+#### :rocket: Enhancement
+* [#1176](https://github.com/shipshapecode/shepherd/pull/1176) Add `stepsContainer` option, allowing users to specify rendering target for step elements ([@zefj](https://github.com/zefj))
+* [#1074](https://github.com/shipshapecode/shepherd/pull/1074) Add missing types for Step.options and Tour.steps ([@anakorn](https://github.com/anakorn))
+
+#### :bug: Bug Fix
+* [#1132](https://github.com/shipshapecode/shepherd/pull/1132) Added default fallback for target when step is hidden/destroyed ([@IWMTom](https://github.com/IWMTom))
+* [#1119](https://github.com/shipshapecode/shepherd/pull/1119) shift + tab handled ([@faizanu94](https://github.com/faizanu94))
+
+#### :memo: Documentation
+* [#1133](https://github.com/shipshapecode/shepherd/pull/1133) docs: Fix simple typo, unminifed -> unminified ([@timgates42](https://github.com/timgates42))
+* [#1098](https://github.com/shipshapecode/shepherd/pull/1098) Update demo image ([@shepmaster](https://github.com/shepmaster))
+* [#1086](https://github.com/shipshapecode/shepherd/pull/1086) Add multiple events example to docs ([@ricobonfim](https://github.com/ricobonfim))
+
+#### :house: Internal
+* [#1044](https://github.com/shipshapecode/shepherd/pull/1044) add Step.id to typings, fix tour.getById() typing ([@cyremur](https://github.com/cyremur))
+
+#### Committers: 9
+- Alex Nakorn ([@anakorn](https://github.com/anakorn))
+- Filip Rec ([@zefj](https://github.com/zefj))
+- Jake Goulding ([@shepmaster](https://github.com/shepmaster))
+- Muhammad Faizan Uddin ([@faizanu94](https://github.com/faizanu94))
+- Ricardo Bonfim ([@ricobonfim](https://github.com/ricobonfim))
+- Tim Gates ([@timgates42](https://github.com/timgates42))
+- Tom Wilson ([@IWMTom](https://github.com/IWMTom))
+- [@cyremur](https://github.com/cyremur)
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v8.0.2 (2020-07-10)
 
 #### :rocket: Enhancement
