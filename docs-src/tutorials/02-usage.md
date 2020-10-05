@@ -118,6 +118,7 @@ const myTour = new Shepherd.Tour(options);
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `exitOnEsc`: Exiting the tour with the escape key will be enabled unless this is explicitly set to `false`.
 - `keyboardNavigation`: Navigating the tour via left and right arrow keys will be enabled unless this is explicitly set to `false`.
+- `stepsContainer` An optional container element for the steps. If not set, the steps will be appended to `document.body`.
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
 - `steps`: An array of step options objects or Step instances to initialize the tour with.
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's

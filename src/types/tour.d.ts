@@ -130,6 +130,16 @@ declare namespace Tour {
     keyboardNavigation?: boolean;
 
     /**
+     * An optional container element for the steps. If not set, the steps will be appended to document.body.
+     */
+    stepsContainer?: HTMLElement,
+
+    /**
+     * An optional container element for the modal. If not set, the modal will be appended to document.body.
+     */
+    modalContainer?: HTMLElement,
+
+    /**
      * An array of step options objects or Step instances to initialize the tour with
      */
     steps?: Array<object> | Array<Step>;
