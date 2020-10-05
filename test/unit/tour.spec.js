@@ -502,6 +502,28 @@ describe('Tour | Top-Level Class', function() {
 
       document.body.removeChild(div);
     });
+
+    it('renders step in stepsContainer', () => {
+      const stepsContainer = document.createElement('div');
+      stepsContainer.setAttribute('id', 'customStepTarget');
+      document.body.appendChild(stepsContainer);
+      expect(stepsContainer).toBeInTheDocument();
+
+      instance = new Shepherd.Tour({
+        stepsContainer,
+        defaultStepOptions
+      });
+
+      const step = instance.addStep({
+        title: 'This is a test step for our tour'
+      });
+
+      instance.start();
+
+      const stepElement = step.getElement();
+
+      expect(stepsContainer.contains(stepElement)).toBe(true);
+    });
   });
 
   describe('shepherdModalOverlayContainer', function() {
@@ -528,6 +550,28 @@ describe('Tour | Top-Level Class', function() {
       instance.complete();
 
       expect(document.querySelector('.shepherd-modal-overlay-container')).not.toBeInTheDocument();
+    });
+
+    it('renders modal in modalContainer', () => {
+      const modalContainer = document.createElement('div');
+      modalContainer.setAttribute('id', 'customModalTarget');
+      document.body.appendChild(modalContainer);
+      expect(modalContainer).toBeInTheDocument();
+
+      instance = new Shepherd.Tour({
+        modalContainer,
+        useModalOverlay: true
+      });
+
+      instance.addStep({
+        title: 'This is a test step for our tour'
+      });
+
+      instance.start();
+
+      const modalElement = instance.modal.getElement();
+
+      expect(modalContainer.contains(modalElement)).toBe(true);
     });
   });
 });

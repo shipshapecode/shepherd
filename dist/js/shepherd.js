@@ -4942,7 +4942,7 @@
 	    const descriptionId = `${this.id}-description`;
 	    const labelId = `${this.id}-label`;
 	    this.shepherdElementComponent = new Shepherd_element({
-	      target: document.body,
+	      target: this.tour.options.stepsContainer || document.body,
 	      props: {
 	        classPrefix: this.classPrefix,
 	        descriptionId,
@@ -5504,6 +5504,8 @@ Z`;
 	   * set to false.
 	   * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
 	   * unless this is explicitly set to false.
+	   * @param {HTMLElement} options.stepsContainer An optional container element for the steps.
+	   * If not set, the steps will be appended to `document.body`.
 	   * @param {HTMLElement} options.modalContainer An optional container element for the modal.
 	   * If not set, the modal will be appended to `document.body`.
 	   * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
