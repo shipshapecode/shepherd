@@ -316,6 +316,11 @@ pre {
 fieldset {
   margin: 0;
   padding: 0;
+} 
+
+button {
+  background-color: transparent;
+  background-image: none;
 }
 
 legend {
@@ -348,6 +353,10 @@ input::-ms-input-placeholder, textarea::-ms-input-placeholder {
   /* 1 */
   color: #9ca3af;
   /* 2 */
+}
+
+input::-ms-input-placeholder, textarea::-ms-input-placeholder {
+  color: #a0aec0;
 }
 
 input::placeholder,
@@ -391,7 +400,7 @@ embed,
 object {
   display: block;
   /* 1 */
-  vertical-align: middle;
+  /* vertical-align: middle; */
   /* 2 */
 }
 
@@ -504,6 +513,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mt-3 {
   margin-top: 0.75rem;
+}
+
+.table {
+  display: table;
+}
+
+.flex-col {
+  flex-direction: column;
 }
 
 .mt-8 {
@@ -722,6 +739,37 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .underline {
   text-decoration-line: underline;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
 }
 
 html, body {
@@ -961,6 +1009,15 @@ pre {
 .hover\:text-navy-light:hover {
   --tw-text-opacity: 1;
   color: rgb(149 159 172 / var(--tw-text-opacity));
+}
+
+@media (min-width: 640px) {
+}
+
+@media (min-width: 768px) {
+  .md\:justify-between {
+    justify-content: space-between;
+  }
 }
 
 @media (min-width: 768px) {
