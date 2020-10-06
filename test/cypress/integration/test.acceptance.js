@@ -80,6 +80,97 @@ describe('Shepherd Acceptance Tests', () => {
         });
       });
 
+      it('works with functions returning DOM elements', () => {
+        cy.document().then((document) => {
+          const steps = () => {
+            return [
+              {
+                text: 'You may provide function returning DOM node references.',
+                attachTo: {
+                  element: () => document.querySelector('[data-test-hero-including]'),
+                  on: 'bottom'
+                },
+                id: 'including'
+              }
+            ];
+          };
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+          tour.start();
+          // Step text should be visible
+          cy.get('.shepherd-text')
+            .contains('You may provide function returning DOM node references.').should('be.visible');
+          assert.deepEqual(
+            document.querySelector('[data-test-hero-including]'),
+            tour.getCurrentStep().target,
+            'heroIncludingElement is the target'
+          );
+        });
+      });
+
+      it('works with functions returning selectors', () => {
+        cy.document().then((document) => {
+          const steps = () => {
+            return [
+              {
+                text: 'You may provide functions returning selectors.',
+                attachTo: {
+                  element: () => '[data-test-hero-including]',
+                  on: 'bottom'
+                },
+                id: 'including'
+              }
+            ];
+          };
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+          tour.start();
+          // Step text should be visible
+          cy.get('.shepherd-text')
+            .contains('You may provide functions returning selectors.').should('be.visible');
+          assert.deepEqual(
+            document.querySelector('[data-test-hero-including]'),
+            tour.getCurrentStep().target,
+            'heroIncludingElement is the target'
+          );
+        });
+      });
+
+      it('works with functions returning null', () => {
+        cy.document().then(() => {
+          const steps = () => {
+            return [
+              {
+                text: 'When attachTo.element callback returns null, the step is centered.',
+                attachTo: {
+                  element: () => null,
+                  on: 'bottom'
+                },
+                id: 'including'
+              }
+            ];
+          };
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+          tour.start();
+          // Step text should be visible
+          cy.get('.shepherd-text')
+            .contains('When attachTo.element callback returns null, the step is centered.').should('be.visible');
+          cy.document().then(() => {
+            assert.deepEqual(null, tour.getCurrentStep().target, 'target is null');
+          });
+        });
+      });
+
       it('works when undefined', () => {
         const steps = () => {
           return [
@@ -101,6 +192,85 @@ describe('Shepherd Acceptance Tests', () => {
           .contains('When attachTo is undefined, the step is centered.').should('be.visible');
         cy.document().then(() => {
           assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
+        });
+      });
+
+      it('works with selectors that do not exist in the DOM', () => {
+        const steps = () => {
+          return [
+            {
+              text: 'When attachTo.element selector is not present in the DOM, the step is centered.',
+              attachTo: {
+                element: '.does-not-exist',
+                on: 'bottom'
+              },
+              classes: 'shepherd shepherd-transparent-text',
+              id: 'welcome'
+            }
+          ];
+        };
+
+        const tour = setupTour(Shepherd, {
+          cancelIcon: {
+            enabled: false
+          }
+        }, steps);
+
+        tour.start();
+
+        // Step text should be visible
+        cy.get('.shepherd-text')
+          .contains('When attachTo.element selector is not present in the DOM, the step is centered.').should('be.visible');
+        cy.document().then(() => {
+          assert.deepEqual(null, tour.getCurrentStep().target, 'target is undefined');
+        });
+      });
+
+      // This tests whether we can create and start a tour containing steps attached to elements that do not yet exist.
+      // We create the element between steps to simulate step target rendering upon user action.
+      it('correctly attaches to lazily-evaluated elements', () => {
+        cy.document().then((document) => {
+          const steps = () => {
+            return [
+              {
+                text: 'Dummy step'
+              },
+              {
+                text: 'Lazy target evaluation works too!',
+                attachTo: {
+                  element: () => document.querySelector('#lazyTarget'), // this element does not yet exist
+                  on: 'bottom'
+                },
+                id: 'lazyStep'
+              }
+            ];
+          };
+
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+
+          tour.start();
+
+          const lazyTarget = document.createElement('div');
+          lazyTarget.setAttribute('id', 'lazyTarget');
+          // Append to the hero so that the element is in viewport when running the test
+          document.querySelector('[data-test-hero-including]').appendChild(lazyTarget);
+
+          cy.wait(250);
+
+          tour.next();
+
+          // Step text should be visible
+          cy.get('[data-shepherd-step-id="lazyStep"] .shepherd-text')
+            .contains('Lazy target evaluation works too!').should('be.visible');
+          assert.deepEqual(
+            document.querySelector('#lazyTarget'),
+            tour.getCurrentStep().target,
+            '#lazyTarget is the target'
+          );
         });
       });
     });

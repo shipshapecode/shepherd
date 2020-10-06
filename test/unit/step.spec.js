@@ -1,3 +1,4 @@
+import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
@@ -573,6 +574,102 @@ describe('Tour | Step', () => {
 
         expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);
       });
+    });
+  });
+
+  describe('lazy attachTo evaluation', () => {
+    // We test this using attachTo.element callback.
+    // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
+    // not it's implementation, only if the callback is called lazily.
+    it('lazily evaluates attachTo.element callback', () => {
+      const step1AttachToCallback = spy();
+      const step2AttachToCallback = spy();
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: step1AttachToCallback, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: step2AttachToCallback, on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(step1AttachToCallback.called).toBe(true);
+      expect(step2AttachToCallback.called).toBe(false);
+      instance.next();
+      expect(step2AttachToCallback.called).toBe(true);
+      expect(step1AttachToCallback.callCount).toBe(1);
+      expect(step2AttachToCallback.callCount).toBe(1);
+    });
+
+    it('lazily evaluates attachTo.element selector', () => {
+      const querySelectorSpy = spy(document, 'querySelector');
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: '#step-1-attach-to-element', on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: '#step-2-attach-to-element', on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(true);
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(false);
+      instance.next();
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(true);
+    });
+
+    it('evaluates attachTo on subsequent shows', () => {
+      const step1AttachToCallback = spy();
+      const step2AttachToCallback = spy();
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: step1AttachToCallback, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: step2AttachToCallback, on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(step1AttachToCallback.callCount).toBe(1);
+      instance.next();
+      instance.back();
+      expect(step1AttachToCallback.callCount).toBe(2);
+    });
+
+    it('evaluates attachTo once', () => {
+      const instance = new Shepherd.Tour();
+
+      const step1 = instance.addStep({
+        text: 'step 1',
+        attachTo: { element: () => {}, on: 'auto' }
+      });
+
+      instance.start();
+
+      expect(step1.isOpen()).toBe(true);
+      // Subsequent calls to the getter return the same object
+      const result1 = step1._getResolvedAttachToOptions();
+      const result2 = step1._getResolvedAttachToOptions();
+      expect(result1).not.toBeNull();
+      expect(result1).toBe(result2);
     });
   });
 });

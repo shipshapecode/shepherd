@@ -13,7 +13,7 @@ declare class Step extends Evented {
    * @return The newly created Step instance
    */
   constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
-   
+
   /**
    * The string used as the `id` for the step.
    */
@@ -232,7 +232,7 @@ declare namespace Step {
   type PopperPlacement = 'auto'|'auto-start'|'auto-end'|'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'right'|'right-start'|'right-end'|'left'|'left-start'|'left-end';
 
   interface StepOptionsAttachTo {
-    element?: HTMLElement | string;
+    element?: HTMLElement | string | (() => HTMLElement | string | null | undefined);
     on?: PopperPlacement;
   }
 
@@ -259,7 +259,7 @@ declare namespace Step {
      * Extra classes to apply to the `<a>`
      */
     classes?: string;
-    
+
     /**
      * Whether the button should be disabled
      * When the value is `true`, or the function returns `true` the button will be disabled
@@ -270,7 +270,7 @@ declare namespace Step {
      * The aria-label text of the button
      */
     label?: string;
-    
+
     /**
      * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
      */

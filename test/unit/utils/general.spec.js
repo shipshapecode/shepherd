@@ -1,3 +1,4 @@
+import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
 import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
 
@@ -22,6 +23,39 @@ describe('General Utils', function() {
 
       const { element } = parseAttachTo(step);
       expect(element).toBeFalsy();
+    });
+
+    it('accepts callback function as element', function() {
+      const callback = spy();
+
+      const step = new Step({}, {
+        attachTo: { element: callback, on: 'center' }
+      });
+
+      parseAttachTo(step);
+      expect(callback.called).toBe(true);
+    });
+
+    it('correctly resolves elements when given function that returns a selector', function() {
+      const step = new Step({}, {
+        attachTo: { element: () => 'body', on: 'center' }
+      });
+
+      const { element } = parseAttachTo(step);
+      expect(element).toBe(document.body);
+    });
+
+    it('binds element callback to step', function() {
+      const step = new Step({}, {
+        attachTo: {
+          element() {
+            expect(this).toBe(step);
+          },
+          on: 'center'
+        }
+      });
+
+      parseAttachTo(step);
     });
   });
 

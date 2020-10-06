@@ -115,6 +115,14 @@ export class Step extends Evented {
       : '';
     this.styles = tour.styles;
 
+    /**
+     * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
+     * Do not use this directly, use the _getResolvedAttachToOptions method instead.
+     * @type {null|{}|{element, to}}
+     * @private
+     */
+    this._resolvedAttachTo = null;
+
     autoBind(this);
 
     this._setOptions(options);
@@ -186,11 +194,38 @@ export class Step extends Evented {
   }
 
   /**
+   * Resolves attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
+   */
+  _resolveAttachToOptions() {
+    this._resolvedAttachTo = parseAttachTo(this);
+    return this._resolvedAttachTo;
+  }
+
+  /**
+   * A selector for resolved attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
+   */
+  _getResolvedAttachToOptions() {
+    if (this._resolvedAttachTo === null) {
+      return this._resolveAttachToOptions();
+    }
+
+    return this._resolvedAttachTo;
+  }
+
+  /**
    * Checks if the step should be centered or not
    * @return {boolean} True if the step is centered
+   * @deprecated This method causes issues with lazy attachTo evaluation. We evaluate attachTo.element in `before-show`
+   * phase, and then memoize the result to make sure we're always referencing the same element. If you use this before
+   * showing the step, the resulting element might be different, depending on how you configure `attachTo.element`. For
+   * internal code, use shouldCenterStep instead.
    */
   isCentered() {
-    const attachToOptions = parseAttachTo(this);
+    const attachToOptions = this._getResolvedAttachToOptions();
     return !attachToOptions.element || !attachToOptions.on;
   }
 
@@ -278,7 +313,7 @@ export class Step extends Evented {
    * @private
    */
   _scrollTo(scrollToOptions) {
-    const { element } = parseAttachTo(this);
+    const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -371,6 +406,8 @@ export class Step extends Evented {
   _show() {
     this.trigger('before-show');
 
+    // Force resolve to make sure the options are updated on subsequent shows.
+    this._resolveAttachToOptions();
     this._setupElements();
 
     if (!this.tour.modal) {
