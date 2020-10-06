@@ -379,6 +379,14 @@
 	  var OwnElement = getWindow(node).HTMLElement;
 	  return node instanceof OwnElement || node instanceof HTMLElement;
 	}
+	/*:: declare function isShadowRoot(node: mixed): boolean %checks(node instanceof
+	  ShadowRoot); */
+
+
+	function isShadowRoot(node) {
+	  var OwnElement = getWindow(node).ShadowRoot;
+	  return node instanceof OwnElement || node instanceof ShadowRoot;
+	}
 
 	// and applies them to the HTMLElements such as popper and arrow
 
@@ -481,14 +489,12 @@
 	}
 
 	function contains(parent, child) {
-	  var rootNode = child.getRootNode && child.getRootNode(); // $FlowFixMe: Node is not aware of host
-
-	  var isShadow = Boolean(rootNode && rootNode.host); // First, attempt with faster native method
+	  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
 
 	  if (parent.contains(child)) {
 	    return true;
 	  } // then fallback to custom implementation with Shadow DOM support
-	  else if (isShadow) {
+	  else if (isShadowRoot(rootNode)) {
 	      var next = child;
 
 	      do {
