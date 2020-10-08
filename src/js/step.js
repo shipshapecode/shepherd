@@ -435,6 +435,7 @@ export class Step extends Evented {
     }
 
     target.classList.remove(
+      'shepherd-target-click-disabled',
       `${this.classPrefix}shepherd-enabled`,
       `${this.classPrefix}shepherd-target`
     );
