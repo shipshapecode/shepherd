@@ -1,0 +1,14 @@
+{
+  "01-install": {
+    "title": "Install"
+  },
+  "02-usage": {
+    "title": "Usage"
+  },
+  "03-styling": {
+    "title": "Theming and Styling"
+  },
+  "04-cookbook": {
+    "title": "Cookbook"
+  }
+}

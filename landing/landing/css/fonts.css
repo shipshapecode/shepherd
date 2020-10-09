@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'GT Pressura';
+  src: url('../assets/fonts/GTPressura-Bold.woff2') format('woff2'),
+  url('../assets/fonts/GTPressura-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Founders Grotesk';
+  src: url('../assets/fonts/FoundersGrotesk-Regular.woff2') format('woff2'),
+  url('../assets/fonts/FoundersGrotesk-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
