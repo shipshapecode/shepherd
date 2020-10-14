@@ -5115,7 +5115,7 @@
 	      target.classList.remove(this.options.highlightClass);
 	    }
 
-	    target.classList.remove(`${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
+	    target.classList.remove('shepherd-target-click-disabled', `${this.classPrefix}shepherd-enabled`, `${this.classPrefix}shepherd-target`);
 	  }
 
 	}
