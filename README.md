@@ -97,6 +97,10 @@ Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplu
 
 [Brokermate](https://www.brokermate.com/) uses Shepherd to guide users through initial setup steps.
 
+### [Snapsure](https://snapsure.app)
+
+[Snapsure](https://snapsure.app) uses Shepherd to help photographers learn how to set up alerts for their desired picture-perfect weather conditions.
+
 ### Your Project Here
 
 If you have a cool open-source library built on Shepherd, PR this doc.
