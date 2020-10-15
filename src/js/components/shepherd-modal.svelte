@@ -7,8 +7,17 @@
   let modalIsVisible = false;
   let rafId = undefined;
   let pathDefinition;
+  let pathRect;
 
-  $: pathDefinition = makeOverlayPath(openingProperties);
+  $: {
+    pathDefinition = makeOverlayPath(openingProperties);
+    pathRect = {
+      x: openingProperties.x,
+      y: openingProperties.y,
+      width: openingProperties.width,
+      height: openingProperties.height,
+    };
+  }
 
   closeModalOpening();
 
@@ -226,3 +235,8 @@
 >
   <path d="{pathDefinition}"></path>
 </svg>
+<div
+  class="{`${(modalIsVisible ? 'shepherd-modal-is-visible' : '')} shepherd-modal-overlay-clipped-path`}"
+  style="position:absolute;left:{pathRect.x}px;top:{pathRect.y}px;width:{pathRect.width}px;height:{pathRect.height}px"
+>
+</div>
