@@ -9386,10 +9386,10 @@ release-it@^13.7.0:
     yaml "1.10.0"
     yargs-parser "19.0.4"
 
-release-it@^14.1.0:
-  version "14.1.0"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.1.0.tgz#44dce71e35fcd57e0518c6dfdca1486a0c2889e6"
-  integrity sha512-S3yFUl7dv4D5+/Gqe7Qi3zKKDlH5KtrrZfSiNX6QanQ1B21htfzGWfU+JmE89aKJgZPmNG7W0vuiSGXoRzbFZA==
+release-it@^14.2.0:
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.2.0.tgz#395804c3b14893cd32ae5e17b7b995906c44f7ea"
+  integrity sha512-34m8YlmZOUs+/mJhiVx11hcJEi67CAxtqqWXGGszc0uoEUdojUNTm1cWCEW/kuJbv6bMhmb8jP8B/8qmGjiKyQ==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "18.0.6"
@@ -9418,7 +9418,7 @@ release-it@^14.1.0:
     url-join "4.0.1"
     uuid "8.3.1"
     yaml "1.10.0"
-    yargs-parser "20.2.1"
+    yargs-parser "20.2.3"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
@@ -11735,10 +11735,10 @@ yargs-parser@19.0.4:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-19.0.4.tgz#99183a3a59268b205c6b04177f2a5bfb46e79ba7"
   integrity sha512-eXeQm7yXRjPFFyf1voPkZgXQZJjYfjgQUmGPbD2TLtZeIYzvacgWX7sQ5a1HsRgVP+pfKAkRZDNtTGev4h9vhw==
 
-yargs-parser@20.2.1, yargs-parser@^20.0.0:
-  version "20.2.1"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.1.tgz#28f3773c546cdd8a69ddae68116b48a5da328e77"
-  integrity sha512-yYsjuSkjbLMBp16eaOt7/siKTjNVjMm3SoJnIg3sEh/JsvqVVDyjRKmaJV4cl+lNIgq6QEco2i3gDebJl7/vLA==
+yargs-parser@20.2.3:
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.3.tgz#92419ba867b858c868acf8bae9bf74af0dd0ce26"
+  integrity sha512-emOFRT9WVHw03QSvN5qor9QQT9+sw5vwxfYweivSMHTcAXPefwVae2FjO7JJjj8hCE4CzPOPeFM83VwT29HCww==
 
 yargs-parser@^13.1.1, yargs-parser@^13.1.2:
   version "13.1.2"
