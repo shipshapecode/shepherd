@@ -84,7 +84,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.1.2",
     "release-it": "^14.2.1",
-    "release-it-lerna-changelog": "^3.0.0",
+    "release-it-lerna-changelog": "^3.1.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.32.0",
