@@ -48,7 +48,7 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.5.3",
+    "@popperjs/core": "^2.5.4",
     "deepmerge": "^4.2.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
@@ -83,7 +83,7 @@
     "postcss": "^7.0.35",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.1.2",
-    "release-it": "^14.2.0",
+    "release-it": "^14.2.1",
     "release-it-lerna-changelog": "^3.0.0",
     "replace": "^1.2.0",
     "rimraf": "^3.0.2",

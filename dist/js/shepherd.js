@@ -494,7 +494,7 @@
 	  if (parent.contains(child)) {
 	    return true;
 	  } // then fallback to custom implementation with Shadow DOM support
-	  else if (isShadowRoot(rootNode)) {
+	  else if (rootNode && isShadowRoot(rootNode)) {
 	      var next = child;
 
 	      do {
