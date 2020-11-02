@@ -9496,7 +9496,7 @@ resolve@^1.1.6, resolve@^1.10.0, resolve@^1.11.0, resolve@^1.11.1, resolve@^1.12
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.18.1:
+resolve@^1.17.0, resolve@^1.18.1:
   version "1.18.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.18.1.tgz#018fcb2c5b207d2a6424aee361c5a266da8f4130"
   integrity sha512-lDfCPaMKfOJXjy0dPayzPdF1phampNWr3qFCjAu+rw/qbQmr5jWH5xN2hwh9QKfw9E5v4hwV7A+jrCmL8yjjqA==
@@ -10686,10 +10686,10 @@ svelte-jester@^1.1.5:
   dependencies:
     cosmiconfig "^6.0.0"
 
-svelte-preprocess@^4.5.1:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.5.1.tgz#cfdb642b0305e09ff6090b99d6af30fbb29239e0"
-  integrity sha512-fZiLMg+mJzp5y4bsvBtl6wE1WCp+s5L87BoKMONGLXk8HSZD5HuRJzxhM0yhM9LHF0jP5kYG22P2Vc/vrv4I0A==
+svelte-preprocess@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.5.2.tgz#37976d1e0d866eb382411d486f7468d2275087e9"
+  integrity sha512-ClUX5NecnGBwI+nJnnBvKKy0XutCq5uHTIKe6cPhpvuOj9AAnyvef9wOZAE93yr85OKPutGCNIJa/X1TrJ7O0Q==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
