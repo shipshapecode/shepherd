@@ -9825,10 +9825,10 @@ rollup-plugin-svelte@^6.1.0:
     rollup-pluginutils "^2.8.2"
     sourcemap-codec "^1.4.8"
 
-rollup-plugin-visualizer@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-4.1.2.tgz#d94202e3aa06e96007eecde84cca4864273fc14f"
-  integrity sha512-GdUYsbMSsIC7aXKMObNHHxu2CWyIem3uVGZJPx78e3W+TX7T7+dTj7kVTy4TMbBd2vFtVQ2E0PnwQfqYoY0sMw==
+rollup-plugin-visualizer@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-4.2.0.tgz#2fbdd9d11d22bf231782b6b56a10b5d30a94a01c"
+  integrity sha512-xjfvoK4x0G7lBT3toMx8K/9tkCEWhRehnSJnn+PLY3Hjk8sNvyo407b68Cd3hdV9j42xcb8HXt0ZrmRi5NWeaQ==
   dependencies:
     nanoid "^3.0.1"
     open "^7.0.3"
