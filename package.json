@@ -56,7 +56,7 @@
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
-    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/svelte": "^3.0.0",
     "autoprefixer": "^9.8.6",
     "babel-core": "^7.0.0-bridge.0",
