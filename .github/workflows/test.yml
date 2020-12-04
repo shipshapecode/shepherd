@@ -100,5 +100,6 @@ jobs:
         with:
           browser: chrome
           build: yarn build
+          config-file: cypress.json
           start: yarn start-test-server
           wait-on: http://localhost:9002
