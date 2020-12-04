@@ -78,4 +78,5 @@ jobs:
       - name: Run Tests
         uses: cypress-io/github-action@v2
         with:
+          cache-key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
           parallel: true
