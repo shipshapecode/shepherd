@@ -99,4 +99,4 @@ jobs:
 
       # Run Cypress
       - name: Run Tests
-        run: test:cy:ci:chrome
+        run: yarn test:cy:ci:chrome
