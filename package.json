@@ -96,7 +96,7 @@
     "rollup-plugin-license": "^2.2.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.6.4",
+    "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-scss": "^2.6.1",
     "rollup-plugin-svelte": "^6.1.1",
