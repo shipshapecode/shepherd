@@ -98,6 +98,5 @@ jobs:
       - name: Run Tests
         uses: cypress-io/github-action@v2
         with:
-          parallel: true
           start: yarn start-test-server
           wait-on: http://localhost:9002
