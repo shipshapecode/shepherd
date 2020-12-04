@@ -94,13 +94,9 @@ jobs:
       - run: npx cypress install
       - run: npx cypress cache list
 
+      - name: Build
+        run: yarn build
+
       # Run Cypress
       - name: Run Tests
-        uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          build: yarn build
-          config: viewportWidth=1440,viewportHeight=900
-          config-file: cypress.json
-          start: yarn start-test-server
-          wait-on: http://localhost:9002
+        run: test:cy:ci:chrome
