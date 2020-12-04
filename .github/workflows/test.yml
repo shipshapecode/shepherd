@@ -74,9 +74,28 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
+
+      - uses: bahmutov/npm-install@v1
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+      # confirm there is no Cypress installed
+      - run: npx cypress cache path
+      # should return empty list of installed versions
+      - run: npx cypress cache list
+      # restore / cache the binary ourselves on Linux
+      # see https://github.com/actions/cache
+      - name: Cache Cypress
+        id: cache-cypress
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+      # now let's install Cypress binary
+      - run: npx cypress install
+      - run: npx cypress cache list
+
       # Run Cypress
       - name: Run Tests
         uses: cypress-io/github-action@v2
         with:
-          cache-key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
           parallel: true
