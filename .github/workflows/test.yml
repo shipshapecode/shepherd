@@ -100,6 +100,7 @@ jobs:
         with:
           browser: chrome
           build: yarn build
+          config: viewportWidth=1440,viewportHeight=900
           config-file: cypress.json
           start: yarn start-test-server
           wait-on: http://localhost:9002
