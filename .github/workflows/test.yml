@@ -9,40 +9,54 @@ on:
       - master
 
 jobs:
-  test:
-    name: test
+  setup:
+    # Checkout the repo
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    # Setup Node.js build environment
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.3.0
+
+    # Cache dependencies
+    - name: Cache Dependencies
+      uses: actions/cache@v2
+      id: cache
+      with:
+        path: |
+          **/node_modules
+        key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
+
+    # Install project dependencies
+    - name: Install Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: yarn
+
+  test-unit:
+    name: Run Unit Tests
+    needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      # Setup Node.js build environment
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.3.0
-
-      # Cache dependencies
-      - name: Cache Dependencies
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: |
-            **/node_modules
-          key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
-
-      # Install project dependencies
-      - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn
-
-      # Run tests
-      - name: Run Tests
-        run: yarn test:ci
+      # Run Jest
+      - name: Run Unit Tests
+        run: yarn test:unit:ci
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  
+  test-integration:
+    name: Run Integration Tests
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      # Run Cypress
+      - name: Run Tests
+        uses: cypress-io/github-action@v2
+        with:
+          parallel: true
