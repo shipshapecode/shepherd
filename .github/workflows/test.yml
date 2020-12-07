@@ -97,9 +97,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       # Run Cypress
       - name: Run Tests
         run: yarn test:cy:ci:chrome
