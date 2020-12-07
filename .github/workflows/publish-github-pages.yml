@@ -2,8 +2,8 @@ name: Publish Github Pages
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*
 
 jobs:
   delpoy:
