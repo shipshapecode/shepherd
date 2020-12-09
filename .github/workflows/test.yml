@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
+  pull_request: {}
 
 jobs:
   test-unit:
@@ -79,9 +77,9 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
       # confirm there is no Cypress installed
-      - run: npx cypress cache path
+      - run: yarn cypress cache path
       # should return empty list of installed versions
-      - run: npx cypress cache list
+      - run: yarn cypress cache list
       # restore / cache the binary ourselves on Linux
       # see https://github.com/actions/cache
       - name: Cache Cypress
@@ -91,8 +89,8 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
       # now let's install Cypress binary
-      - run: npx cypress install
-      - run: npx cypress cache list
+      - run: yarn cypress install
+      - run: yarn cypress cache list
 
       - name: Build
         run: yarn build
@@ -134,9 +132,9 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
       # confirm there is no Cypress installed
-      - run: npx cypress cache path
+      - run: yarn cypress cache path
       # should return empty list of installed versions
-      - run: npx cypress cache list
+      - run: yarn cypress cache list
       # restore / cache the binary ourselves on Linux
       # see https://github.com/actions/cache
       - name: Cache Cypress
@@ -146,8 +144,8 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
       # now let's install Cypress binary
-      - run: npx cypress install
-      - run: npx cypress cache list
+      - run: yarn cypress install
+      - run: yarn cypress cache list
 
       - name: Build
         run: yarn build
