@@ -1,0 +1,155 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+jobs:
+  test-unit:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup Node.js build environment
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.3.0
+
+      # Cache dependencies
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+          key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
+
+      # Install project dependencies
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn
+      # Run Jest
+      - name: Run Unit Tests
+        run: yarn test:unit:ci
+
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+  test-integration-chrome:
+    name: Run Integration Chrome Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup Node.js build environment
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.3.0
+
+      # Cache dependencies
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+          key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
+
+      # Install project dependencies
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn
+
+      - uses: bahmutov/npm-install@v1
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+      # confirm there is no Cypress installed
+      - run: yarn cypress cache path
+      # should return empty list of installed versions
+      - run: yarn cypress cache list
+      # restore / cache the binary ourselves on Linux
+      # see https://github.com/actions/cache
+      - name: Cache Cypress
+        id: cache-cypress
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+      # now let's install Cypress binary
+      - run: yarn cypress install
+      - run: yarn cypress cache list
+
+      - name: Build
+        run: yarn build
+
+      # Run Cypress
+      - name: Run Tests
+        run: yarn test:cy:ci:chrome
+
+  test-integration-firefox:
+    name: Run Integration Firefox Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup Node.js build environment
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.3.0
+
+      # Cache dependencies
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+          key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
+
+      # Install project dependencies
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn
+
+      - uses: bahmutov/npm-install@v1
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+      # confirm there is no Cypress installed
+      - run: yarn cypress cache path
+      # should return empty list of installed versions
+      - run: yarn cypress cache list
+      # restore / cache the binary ourselves on Linux
+      # see https://github.com/actions/cache
+      - name: Cache Cypress
+        id: cache-cypress
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-cache-v2-${{ runner.os }}-${{ hashFiles('**/package.json') }}
+      # now let's install Cypress binary
+      - run: yarn cypress install
+      - run: yarn cypress cache list
+
+      - name: Build
+        run: yarn build
+
+      # Run Cypress
+      - name: Run Tests
+        run: yarn test:cy:ci:firefox
