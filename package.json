@@ -49,7 +49,7 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.5.4",
+    "@popperjs/core": "^2.6.0",
     "deepmerge": "^4.2.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
