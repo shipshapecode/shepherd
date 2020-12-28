@@ -103,7 +103,7 @@
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-visualizer": "^4.2.0",
     "sinon": "^9.2.2",
-    "start-server-and-test": "^1.11.6",
+    "start-server-and-test": "^1.11.7",
     "svelte": "^3.31.0",
     "svelte-jester": "^1.3.0",
     "svelte-preprocess": "^4.6.1",
