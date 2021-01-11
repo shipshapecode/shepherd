@@ -10852,10 +10852,10 @@ svelte-preprocess@^4.6.1:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
-svelte@^3.31.1:
-  version "3.31.1"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.31.1.tgz#1a1e2a2fe4eeb72be5c2542735e035c49c45be87"
-  integrity sha512-Q8xVz5U/IFFNjgvVSjdzKJPAX0MFytFwiJo1HAPfGwM7LkHA+BN2q2kL8vKcJwjku7/509MapLov8C9SjogNRg==
+svelte@^3.31.2:
+  version "3.31.2"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.31.2.tgz#d2ddf6cacbb95e4cc3796207510b660a25586324"
+  integrity sha512-TxZGrXzX2ggFH3BIKY5fmbeMdJuZrMIMDYPMX6R9255bueuYIuVaBQSLUeY2oD7W4IdeqRZiAVGCjDw2POKBRA==
 
 svgo@^1.0.0:
   version "1.3.2"
