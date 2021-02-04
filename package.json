@@ -46,7 +46,7 @@
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
-    "watch": "yarn clean && rollup -c --environment DEVELOPMENT"
+    "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
     "@popperjs/core": "^2.6.0",
