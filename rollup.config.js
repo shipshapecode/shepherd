@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel';
-import browsersync from 'rollup-plugin-browsersync';
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
 import commonjs from 'rollup-plugin-commonjs';
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import filesize from 'rollup-plugin-filesize';
@@ -43,26 +44,8 @@ const plugins = [
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
-  plugins.push(
-    browsersync({
-      host: 'localhost',
-      watch: true,
-      port: 3000,
-      notify: false,
-      open: true,
-      server: {
-        routes: {
-          '/dist/css/shepherd.css': 'dist/css/shepherd.css',
-          '/dist/js/shepherd.js': 'dist/js/shepherd.js',
-          '/landing/js/prism.js': 'landing/js/prism.js',
-          '/landing/js/welcome.js': 'landing/js/welcome.js',
-          '/landing/css/prism.css': 'landing/css/prism.css',
-          '/landing/css/welcome.css': 'landing/css/welcome.css',
-          '/landing/sheep.svg': 'landing/sheep.svg'
-        }
-      }
-    })
-  );
+  plugins.push(serve({ contentBase: ['.', 'dist', 'landing'], open: true }));
+  plugins.push(livereload());
 }
 
 plugins.push(license({ banner }));
@@ -125,10 +108,7 @@ if (!process.env.DEVELOPMENT) {
           extensions: ['.js', '.mjs', '.html', '.svelte']
         }),
         postcss({
-          plugins: [
-            require('autoprefixer'),
-            require('cssnano')
-          ],
+          plugins: [require('autoprefixer'), require('cssnano')],
           extract: 'dist/css/shepherd.css'
         }),
         compiler(),
@@ -138,7 +118,8 @@ if (!process.env.DEVELOPMENT) {
         filesize(),
         visualizer()
       ]
-    });
+    }
+  );
 }
 
 export default rollupBuilds;
