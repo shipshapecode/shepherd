@@ -4025,10 +4025,10 @@ eslint-plugin-ship-shape@^0.8.1:
     eslint-plugin-ember "^8.4.0"
     requireindex "~1.2.0"
 
-eslint-plugin-svelte3@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte3/-/eslint-plugin-svelte3-3.0.0.tgz#7c085ccc214e07feaa125b02f51a5789bc807a7f"
-  integrity sha512-8IZAT1Qkk1X6z+zLGeIF4OYYhYodr5iUoCczovEAbtzf2VOoyrS1rk66SkYknJKjPh8rwFErjCpN4dFa2Bmbng==
+eslint-plugin-svelte3@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte3/-/eslint-plugin-svelte3-3.1.1.tgz#dabd16dd0c8af82fd625ac0c0d76d43cf23139ca"
+  integrity sha512-fZ8YA7vPYMW6jEOhHLfl/IS6rXh92NkzR8UxMleXWT/QHKzTwkMl/f6WiEM9MUU7jxG6YzWE0MJVDoQvGTzI2A==
 
 eslint-scope@^5.0.0, eslint-scope@^5.1.1:
   version "5.1.1"
