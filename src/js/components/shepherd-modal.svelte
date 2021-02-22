@@ -132,27 +132,23 @@
       modalOverlayOpeningRadius
     } = step.options;
 
-    if (step) {
-      const scrollParent = _getScrollParent(step.target);
+    const scrollParent = _getScrollParent(step.target);
 
-      // Setup recursive function to call requestAnimationFrame to update the modal opening position
-      const rafLoop = () => {
-        rafId = undefined;
-        positionModal(
-          modalOverlayOpeningPadding,
-          modalOverlayOpeningRadius,
-          scrollParent,
-          step.target
-        );
-        rafId = requestAnimationFrame(rafLoop);
-      };
+    // Setup recursive function to call requestAnimationFrame to update the modal opening position
+    const rafLoop = () => {
+      rafId = undefined;
+      positionModal(
+        modalOverlayOpeningPadding,
+        modalOverlayOpeningRadius,
+        scrollParent,
+        step.target
+      );
+      rafId = requestAnimationFrame(rafLoop);
+    };
 
-      rafLoop();
+    rafLoop();
 
-      _addStepEventListeners();
-    } else {
-      closeModalOpening();
-    }
+    _addStepEventListeners();
   }
 
   /**
