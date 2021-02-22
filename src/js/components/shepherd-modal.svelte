@@ -59,9 +59,9 @@
         y: y - modalOverlayOpeningPadding,
         r: modalOverlayOpeningRadius
       };
+    } else {
+      closeModalOpening();
     }
-
-    closeModalOpening();
   }
 
   /**
