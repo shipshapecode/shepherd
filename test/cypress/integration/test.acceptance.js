@@ -191,7 +191,7 @@ describe('Shepherd Acceptance Tests', () => {
         });
         tour.start();
         cy.get('.shepherd-cancel-icon')
-          .should('not.be.visible');
+          .should('not.exist');
       });
 
       it('Shows cancel link', () => {
