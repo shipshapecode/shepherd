@@ -75,7 +75,7 @@
     <h3 class="reference-title">
       Shepherd.js
          
-            8.1.0
+            8.2.0
           
     </h3>
 
@@ -303,7 +303,7 @@ You can also always manually advance the Tour by calling <code>myTour.next()</co
 <li><code>modalOverlayOpeningRadius</code>: An amount of border radius to add around the modal overlay opening</li>
 <li><code>popperOptions</code>: Extra options to pass to <a href="https://popper.js.org/docs/v2/constructors/#options">Popper</a></li>
 <li><code>showOn</code>: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.</li>
-<li><code>scrollTo</code>: Should the element be scrolled to when this step is shown?</li>
+<li><code>scrollTo</code>: Should the element be scrolled to when this step is shown? If true, uses the default <code>scrollIntoView</code>, if an object, passes that object as the params to <code>scrollIntoView</code> i.e. <code>{behavior: 'smooth', block: 'center'}</code></li>
 <li><code>scrollToHandler</code>: A function that lets you override the default <code>scrollTo</code> behavior and define a custom action to do the scrolling,
 and possibly other logic.</li>
 <li><code>when</code>: You can define show, hide, etc events inside when. For example:</li>

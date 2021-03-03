@@ -1,3 +1,33 @@
+Version 9 of Highlight.js has reached EOL and is no longer supported.
+Please upgrade or ask whatever dependency you are using to upgrade.
+https://github.com/highlightjs/highlight.js/issues/2877
+
+## v8.2.0 (2021-03-03)
+
+#### :rocket: Enhancement
+* [#1189](https://github.com/shipshapecode/shepherd/pull/1189) Remove `shepherd-target-click-disabled` class on step hide ([@zefj](https://github.com/zefj))
+
+#### :bug: Bug Fix
+* [#1332](https://github.com/shipshapecode/shepherd/pull/1332) properly handle centered modal ([@xiwcx](https://github.com/xiwcx))
+
+#### :memo: Documentation
+* [#1214](https://github.com/shipshapecode/shepherd/pull/1214) Add license scan report and status ([@fossabot](https://github.com/fossabot))
+* [#1199](https://github.com/shipshapecode/shepherd/pull/1199) Add snapsure to Websites and Apps list in README.md ([@kkoppenhaver](https://github.com/kkoppenhaver))
+
+#### :house: Internal
+* [#1351](https://github.com/shipshapecode/shepherd/pull/1351) Bump cypress, fix cancel test ([@rwwagner90](https://github.com/rwwagner90))
+* [#1316](https://github.com/shipshapecode/shepherd/pull/1316) Remove browsersync, add rollup-serve ([@xiwcx](https://github.com/xiwcx))
+* [#1262](https://github.com/shipshapecode/shepherd/pull/1262) 👷 Move CI/CD to actions ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 7
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Filip Rec ([@zefj](https://github.com/zefj))
+- Keanan Koppenhaver ([@kkoppenhaver](https://github.com/kkoppenhaver))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+- fossabot ([@fossabot](https://github.com/fossabot))
+- i. welch canavan ([@xiwcx](https://github.com/xiwcx))
+
 ## v8.1.0 (2020-10-05)
 
 #### :rocket: Enhancement

@@ -1,4 +1,4 @@
-/*! shepherd.js 8.1.0 */
+/*! shepherd.js 8.2.0 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -135,7 +135,7 @@
 	 * Checks if `value` is classified as an `Element`.
 	 * @param {*} value The param to check if it is an Element
 	 */
-	function isElement(value) {
+	function isElement$1(value) {
 	  return value instanceof Element;
 	}
 	/**
@@ -143,7 +143,7 @@
 	 * @param {*} value The param to check if it is an HTMLElement
 	 */
 
-	function isHTMLElement(value) {
+	function isHTMLElement$1(value) {
 	  return value instanceof HTMLElement;
 	}
 	/**
@@ -356,6 +356,10 @@
 
 	/*:: declare function getWindow(node: Node | Window): Window; */
 	function getWindow(node) {
+	  if (node == null) {
+	    return window;
+	  }
+
 	  if (node.toString() !== '[object Window]') {
 	    var ownerDocument = node.ownerDocument;
 	    return ownerDocument ? ownerDocument.defaultView || window : window;
@@ -367,7 +371,7 @@
 	/*:: declare function isElement(node: mixed): boolean %checks(node instanceof
 	  Element); */
 
-	function isElement$1(node) {
+	function isElement(node) {
 	  var OwnElement = getWindow(node).Element;
 	  return node instanceof OwnElement || node instanceof Element;
 	}
@@ -375,7 +379,7 @@
 	  HTMLElement); */
 
 
-	function isHTMLElement$1(node) {
+	function isHTMLElement(node) {
 	  var OwnElement = getWindow(node).HTMLElement;
 	  return node instanceof OwnElement || node instanceof HTMLElement;
 	}
@@ -384,6 +388,11 @@
 
 
 	function isShadowRoot(node) {
+	  // IE 11 has no ShadowRoot
+	  if (typeof ShadowRoot === 'undefined') {
+	    return false;
+	  }
+
 	  var OwnElement = getWindow(node).ShadowRoot;
 	  return node instanceof OwnElement || node instanceof ShadowRoot;
 	}
@@ -397,11 +406,11 @@
 	    var attributes = state.attributes[name] || {};
 	    var element = state.elements[name]; // arrow is optional + virtual elements
 
-	    if (!isHTMLElement$1(element) || !getNodeName(element)) {
+	    if (!isHTMLElement(element) || !getNodeName(element)) {
 	      return;
 	    } // Flow doesn't support to extend this property, but it's the most
 	    // effective way to apply styles to an HTMLElement
-	    // $FlowFixMe
+	    // $FlowFixMe[cannot-write]
 
 
 	    Object.assign(element.style, style);
@@ -417,7 +426,7 @@
 	  });
 	}
 
-	function effect(_ref2) {
+	function effect$2(_ref2) {
 	  var state = _ref2.state;
 	  var initialStyles = {
 	    popper: {
@@ -432,6 +441,7 @@
 	    reference: {}
 	  };
 	  Object.assign(state.elements.popper.style, initialStyles.popper);
+	  state.styles = initialStyles;
 
 	  if (state.elements.arrow) {
 	    Object.assign(state.elements.arrow.style, initialStyles.arrow);
@@ -448,12 +458,9 @@
 	        return style;
 	      }, {}); // arrow is optional + virtual elements
 
-	      if (!isHTMLElement$1(element) || !getNodeName(element)) {
+	      if (!isHTMLElement(element) || !getNodeName(element)) {
 	        return;
-	      } // Flow doesn't support to extend this property, but it's the most
-	      // effective way to apply styles to an HTMLElement
-	      // $FlowFixMe
-
+	      }
 
 	      Object.assign(element.style, style);
 	      Object.keys(attributes).forEach(function (attribute) {
@@ -469,7 +476,7 @@
 	  enabled: true,
 	  phase: 'write',
 	  fn: applyStyles,
-	  effect: effect,
+	  effect: effect$2,
 	  requires: ['computeStyles']
 	};
 
@@ -477,14 +484,42 @@
 	  return placement.split('-')[0];
 	}
 
-	// Returns the layout rect of an element relative to its offsetParent. Layout
+	function getBoundingClientRect(element) {
+	  var rect = element.getBoundingClientRect();
+	  return {
+	    width: rect.width,
+	    height: rect.height,
+	    top: rect.top,
+	    right: rect.right,
+	    bottom: rect.bottom,
+	    left: rect.left,
+	    x: rect.left,
+	    y: rect.top
+	  };
+	}
+
 	// means it doesn't take into account transforms.
+
 	function getLayoutRect(element) {
+	  var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
+	  // Fixes https://github.com/popperjs/popper-core/issues/1223
+
+	  var width = element.offsetWidth;
+	  var height = element.offsetHeight;
+
+	  if (Math.abs(clientRect.width - width) <= 0.5) {
+	    width = clientRect.width;
+	  }
+
+	  if (Math.abs(clientRect.height - height) <= 0.5) {
+	    height = clientRect.height;
+	  }
+
 	  return {
 	    x: element.offsetLeft,
 	    y: element.offsetTop,
-	    width: element.offsetWidth,
-	    height: element.offsetHeight
+	    width: width,
+	    height: height
 	  };
 	}
 
@@ -500,7 +535,7 @@
 	      do {
 	        if (next && parent.isSameNode(next)) {
 	          return true;
-	        } // $FlowFixMe: need a better way to handle this...
+	        } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
 
 	        next = next.parentNode || next.host;
@@ -520,8 +555,9 @@
 	}
 
 	function getDocumentElement(element) {
-	  // $FlowFixMe: assume body is always available
-	  return ((isElement$1(element) ? element.ownerDocument : element.document) || window.document).documentElement;
+	  // $FlowFixMe[incompatible-return]: assume body is always available
+	  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+	  element.document) || window.document).documentElement;
 	}
 
 	function getParentNode(element) {
@@ -529,46 +565,39 @@
 	    return element;
 	  }
 
-	  return (// $FlowFixMe: this is a quicker (but less type safe) way to save quite some bytes from the bundle
+	  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+	    // $FlowFixMe[incompatible-return]
+	    // $FlowFixMe[prop-missing]
 	    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-	    element.parentNode || // DOM Element detected
-	    // $FlowFixMe: need a better way to handle this...
-	    element.host || // ShadowRoot detected
-	    // $FlowFixMe: HTMLElement is a Node
+	    element.parentNode || ( // DOM Element detected
+	    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+	    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
 	    getDocumentElement(element) // fallback
 
 	  );
 	}
 
 	function getTrueOffsetParent(element) {
-	  if (!isHTMLElement$1(element) || // https://github.com/popperjs/popper-core/issues/837
+	  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
 	  getComputedStyle(element).position === 'fixed') {
 	    return null;
 	  }
 
-	  var offsetParent = element.offsetParent;
-
-	  if (offsetParent) {
-	    var html = getDocumentElement(offsetParent);
-
-	    if (getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static' && getComputedStyle(html).position !== 'static') {
-	      return html;
-	    }
-	  }
-
-	  return offsetParent;
+	  return element.offsetParent;
 	} // `.offsetParent` reports `null` for fixed elements, while absolute elements
 	// return the containing block
 
 
 	function getContainingBlock(element) {
+	  var isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 	  var currentNode = getParentNode(element);
 
-	  while (isHTMLElement$1(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
+	  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
 	    var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
 	    // create a containing block.
+	    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
-	    if (css.transform !== 'none' || css.perspective !== 'none' || css.willChange && css.willChange !== 'auto') {
+	    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].includes(css.willChange) || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
 	      return currentNode;
 	    } else {
 	      currentNode = currentNode.parentNode;
@@ -588,7 +617,7 @@
 	    offsetParent = getTrueOffsetParent(offsetParent);
 	  }
 
-	  if (offsetParent && getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static') {
+	  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static')) {
 	    return window;
 	  }
 
@@ -599,8 +628,12 @@
 	  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
 	}
 
-	function within(min, value, max) {
-	  return Math.max(min, Math.min(value, max));
+	var max = Math.max;
+	var min = Math.min;
+	var round = Math.round;
+
+	function within(min$1, value, max$1) {
+	  return max(min$1, min(value, max$1));
 	}
 
 	function getFreshSideObject() {
@@ -613,7 +646,7 @@
 	}
 
 	function mergePaddingObject(paddingObject) {
-	  return Object.assign(Object.assign({}, getFreshSideObject()), paddingObject);
+	  return Object.assign({}, getFreshSideObject(), paddingObject);
 	}
 
 	function expandToHashMap(value, keys) {
@@ -623,11 +656,19 @@
 	  }, {});
 	}
 
+	var toPaddingObject = function toPaddingObject(padding, state) {
+	  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
+	    placement: state.placement
+	  })) : padding;
+	  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
+	};
+
 	function arrow(_ref) {
 	  var _state$modifiersData$;
 
 	  var state = _ref.state,
-	      name = _ref.name;
+	      name = _ref.name,
+	      options = _ref.options;
 	  var arrowElement = state.elements.arrow;
 	  var popperOffsets = state.modifiersData.popperOffsets;
 	  var basePlacement = getBasePlacement(state.placement);
@@ -639,7 +680,7 @@
 	    return;
 	  }
 
-	  var paddingObject = state.modifiersData[name + "#persistent"].padding;
+	  var paddingObject = toPaddingObject(options.padding, state);
 	  var arrowRect = getLayoutRect(arrowElement);
 	  var minProp = axis === 'y' ? top : left;
 	  var maxProp = axis === 'y' ? bottom : right;
@@ -661,12 +702,9 @@
 
 	function effect$1(_ref2) {
 	  var state = _ref2.state,
-	      options = _ref2.options,
-	      name = _ref2.name;
+	      options = _ref2.options;
 	  var _options$element = options.element,
-	      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element,
-	      _options$padding = options.padding,
-	      padding = _options$padding === void 0 ? 0 : _options$padding;
+	      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
 
 	  if (arrowElement == null) {
 	    return;
@@ -687,9 +725,6 @@
 	  }
 
 	  state.elements.arrow = arrowElement;
-	  state.modifiersData[name + "#persistent"] = {
-	    padding: mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements))
-	  };
 	} // eslint-disable-next-line import/no-unused-modules
 
 
@@ -712,14 +747,14 @@
 	// Zooming can change the DPR, but it seems to report a value that will
 	// cleanly divide the values into the appropriate subpixels.
 
-	function roundOffsets(_ref) {
+	function roundOffsetsByDPR(_ref) {
 	  var x = _ref.x,
 	      y = _ref.y;
 	  var win = window;
 	  var dpr = win.devicePixelRatio || 1;
 	  return {
-	    x: Math.round(x * dpr) / dpr || 0,
-	    y: Math.round(y * dpr) / dpr || 0
+	    x: round(round(x * dpr) / dpr) || 0,
+	    y: round(round(y * dpr) / dpr) || 0
 	  };
 	}
 
@@ -732,11 +767,14 @@
 	      offsets = _ref2.offsets,
 	      position = _ref2.position,
 	      gpuAcceleration = _ref2.gpuAcceleration,
-	      adaptive = _ref2.adaptive;
+	      adaptive = _ref2.adaptive,
+	      roundOffsets = _ref2.roundOffsets;
 
-	  var _roundOffsets = roundOffsets(offsets),
-	      x = _roundOffsets.x,
-	      y = _roundOffsets.y;
+	  var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets,
+	      _ref3$x = _ref3.x,
+	      x = _ref3$x === void 0 ? 0 : _ref3$x,
+	      _ref3$y = _ref3.y,
+	      y = _ref3$y === void 0 ? 0 : _ref3$y;
 
 	  var hasX = offsets.hasOwnProperty('x');
 	  var hasY = offsets.hasOwnProperty('y');
@@ -746,23 +784,32 @@
 
 	  if (adaptive) {
 	    var offsetParent = getOffsetParent(popper);
+	    var heightProp = 'clientHeight';
+	    var widthProp = 'clientWidth';
 
 	    if (offsetParent === getWindow(popper)) {
 	      offsetParent = getDocumentElement(popper);
-	    } // $FlowFixMe: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
+	      if (getComputedStyle(offsetParent).position !== 'static') {
+	        heightProp = 'scrollHeight';
+	        widthProp = 'scrollWidth';
+	      }
+	    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
 	    /*:: offsetParent = (offsetParent: Element); */
 
 
 	    if (placement === top) {
-	      sideY = bottom;
-	      y -= offsetParent.clientHeight - popperRect.height;
+	      sideY = bottom; // $FlowFixMe[prop-missing]
+
+	      y -= offsetParent[heightProp] - popperRect.height;
 	      y *= gpuAcceleration ? 1 : -1;
 	    }
 
 	    if (placement === left) {
-	      sideX = right;
-	      x -= offsetParent.clientWidth - popperRect.width;
+	      sideX = right; // $FlowFixMe[prop-missing]
+
+	      x -= offsetParent[widthProp] - popperRect.width;
 	      x *= gpuAcceleration ? 1 : -1;
 	    }
 	  }
@@ -774,19 +821,21 @@
 	  if (gpuAcceleration) {
 	    var _Object$assign;
 
-	    return Object.assign(Object.assign({}, commonStyles), {}, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) < 2 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+	    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) < 2 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
 	  }
 
-	  return Object.assign(Object.assign({}, commonStyles), {}, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
+	  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 	}
 
-	function computeStyles(_ref3) {
-	  var state = _ref3.state,
-	      options = _ref3.options;
+	function computeStyles(_ref4) {
+	  var state = _ref4.state,
+	      options = _ref4.options;
 	  var _options$gpuAccelerat = options.gpuAcceleration,
 	      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
 	      _options$adaptive = options.adaptive,
-	      adaptive = _options$adaptive === void 0 ? true : _options$adaptive;
+	      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+	      _options$roundOffsets = options.roundOffsets,
+	      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
 
 	  var commonStyles = {
 	    placement: getBasePlacement(state.placement),
@@ -796,22 +845,24 @@
 	  };
 
 	  if (state.modifiersData.popperOffsets != null) {
-	    state.styles.popper = Object.assign(Object.assign({}, state.styles.popper), mapToStyles(Object.assign(Object.assign({}, commonStyles), {}, {
+	    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
 	      offsets: state.modifiersData.popperOffsets,
 	      position: state.options.strategy,
-	      adaptive: adaptive
+	      adaptive: adaptive,
+	      roundOffsets: roundOffsets
 	    })));
 	  }
 
 	  if (state.modifiersData.arrow != null) {
-	    state.styles.arrow = Object.assign(Object.assign({}, state.styles.arrow), mapToStyles(Object.assign(Object.assign({}, commonStyles), {}, {
+	    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
 	      offsets: state.modifiersData.arrow,
 	      position: 'absolute',
-	      adaptive: false
+	      adaptive: false,
+	      roundOffsets: roundOffsets
 	    })));
 	  }
 
-	  state.attributes.popper = Object.assign(Object.assign({}, state.attributes.popper), {}, {
+	  state.attributes.popper = Object.assign({}, state.attributes.popper, {
 	    'data-popper-placement': state.placement
 	  });
 	} // eslint-disable-next-line import/no-unused-modules
@@ -829,7 +880,7 @@
 	  passive: true
 	};
 
-	function effect$2(_ref) {
+	function effect(_ref) {
 	  var state = _ref.state,
 	      instance = _ref.instance,
 	      options = _ref.options;
@@ -869,11 +920,11 @@
 	  enabled: true,
 	  phase: 'write',
 	  fn: function fn() {},
-	  effect: effect$2,
+	  effect: effect,
 	  data: {}
 	};
 
-	var hash = {
+	var hash$1 = {
 	  left: 'right',
 	  right: 'left',
 	  bottom: 'top',
@@ -881,32 +932,18 @@
 	};
 	function getOppositePlacement(placement) {
 	  return placement.replace(/left|right|bottom|top/g, function (matched) {
-	    return hash[matched];
+	    return hash$1[matched];
 	  });
 	}
 
-	var hash$1 = {
+	var hash = {
 	  start: 'end',
 	  end: 'start'
 	};
 	function getOppositeVariationPlacement(placement) {
 	  return placement.replace(/start|end/g, function (matched) {
-	    return hash$1[matched];
+	    return hash[matched];
 	  });
-	}
-
-	function getBoundingClientRect(element) {
-	  var rect = element.getBoundingClientRect();
-	  return {
-	    width: rect.width,
-	    height: rect.height,
-	    top: rect.top,
-	    right: rect.right,
-	    bottom: rect.bottom,
-	    left: rect.left,
-	    x: rect.left,
-	    y: rect.top
-	  };
 	}
 
 	function getWindowScroll(node) {
@@ -971,16 +1008,18 @@
 	// of the `<html>` and `<body>` rect bounds if horizontally scrollable
 
 	function getDocumentRect(element) {
+	  var _element$ownerDocumen;
+
 	  var html = getDocumentElement(element);
 	  var winScroll = getWindowScroll(element);
-	  var body = element.ownerDocument.body;
-	  var width = Math.max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-	  var height = Math.max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+	  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+	  var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+	  var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
 	  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
 	  var y = -winScroll.scrollTop;
 
 	  if (getComputedStyle(body || html).direction === 'rtl') {
-	    x += Math.max(html.clientWidth, body ? body.clientWidth : 0) - width;
+	    x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
 	  }
 
 	  return {
@@ -1003,11 +1042,11 @@
 
 	function getScrollParent(node) {
 	  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
-	    // $FlowFixMe: assume body is always available
+	    // $FlowFixMe[incompatible-return]: assume body is always available
 	    return node.ownerDocument.body;
 	  }
 
-	  if (isHTMLElement$1(node) && isScrollParent(node)) {
+	  if (isHTMLElement(node) && isScrollParent(node)) {
 	    return node;
 	  }
 
@@ -1017,26 +1056,28 @@
 	/*
 	given a DOM element, return the list of all scroll parents, up the list of ancesors
 	until we get to the top window object. This list is what we attach scroll listeners
-	to, because if any of these parent elements scroll, we'll need to re-calculate the 
+	to, because if any of these parent elements scroll, we'll need to re-calculate the
 	reference element's position.
 	*/
 
 	function listScrollParents(element, list) {
+	  var _element$ownerDocumen;
+
 	  if (list === void 0) {
 	    list = [];
 	  }
 
 	  var scrollParent = getScrollParent(element);
-	  var isBody = getNodeName(scrollParent) === 'body';
+	  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
 	  var win = getWindow(scrollParent);
 	  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
 	  var updatedList = list.concat(target);
-	  return isBody ? updatedList : // $FlowFixMe: isBody tells us target will be an HTMLElement here
+	  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
 	  updatedList.concat(listScrollParents(getParentNode(target)));
 	}
 
 	function rectToClientRect(rect) {
-	  return Object.assign(Object.assign({}, rect), {}, {
+	  return Object.assign({}, rect, {
 	    left: rect.x,
 	    top: rect.y,
 	    right: rect.x + rect.width,
@@ -1058,7 +1099,7 @@
 	}
 
 	function getClientRectFromMixedType(element, clippingParent) {
-	  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+	  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isHTMLElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
 	} // A "clipping parent" is an overflowable container with the characteristic of
 	// clipping (or hiding) overflowing elements with a position different from
 	// `initial`
@@ -1067,15 +1108,15 @@
 	function getClippingParents(element) {
 	  var clippingParents = listScrollParents(getParentNode(element));
 	  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle(element).position) >= 0;
-	  var clipperElement = canEscapeClipping && isHTMLElement$1(element) ? getOffsetParent(element) : element;
+	  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
 
-	  if (!isElement$1(clipperElement)) {
+	  if (!isElement(clipperElement)) {
 	    return [];
-	  } // $FlowFixMe: https://github.com/facebook/flow/issues/1414
+	  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
 
 	  return clippingParents.filter(function (clippingParent) {
-	    return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
+	    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
 	  });
 	} // Gets the maximum area that the element is visible in due to any number of
 	// clipping parents
@@ -1087,10 +1128,10 @@
 	  var firstClippingParent = clippingParents[0];
 	  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
 	    var rect = getClientRectFromMixedType(element, clippingParent);
-	    accRect.top = Math.max(rect.top, accRect.top);
-	    accRect.right = Math.min(rect.right, accRect.right);
-	    accRect.bottom = Math.min(rect.bottom, accRect.bottom);
-	    accRect.left = Math.max(rect.left, accRect.left);
+	    accRect.top = max(rect.top, accRect.top);
+	    accRect.right = min(rect.right, accRect.right);
+	    accRect.bottom = min(rect.bottom, accRect.bottom);
+	    accRect.left = max(rect.left, accRect.left);
 	    return accRect;
 	  }, getClientRectFromMixedType(element, firstClippingParent));
 	  clippingRect.width = clippingRect.right - clippingRect.left;
@@ -1157,11 +1198,11 @@
 
 	    switch (variation) {
 	      case start:
-	        offsets[mainAxis] = Math.floor(offsets[mainAxis]) - Math.floor(reference[len] / 2 - element[len] / 2);
+	        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
 	        break;
 
 	      case end:
-	        offsets[mainAxis] = Math.floor(offsets[mainAxis]) + Math.ceil(reference[len] / 2 - element[len] / 2);
+	        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
 	        break;
 	    }
 	  }
@@ -1192,7 +1233,7 @@
 	  var referenceElement = state.elements.reference;
 	  var popperRect = state.rects.popper;
 	  var element = state.elements[altBoundary ? altContext : elementContext];
-	  var clippingClientRect = getClippingRect(isElement$1(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
+	  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
 	  var referenceClientRect = getBoundingClientRect(referenceElement);
 	  var popperOffsets = computeOffsets({
 	    reference: referenceClientRect,
@@ -1200,7 +1241,7 @@
 	    strategy: 'absolute',
 	    placement: placement
 	  });
-	  var popperClientRect = rectToClientRect(Object.assign(Object.assign({}, popperRect), popperOffsets));
+	  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
 	  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
 	  // 0 or negative = within the clipping rect
 
@@ -1244,15 +1285,14 @@
 	  var variation = getVariation(placement);
 	  var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
 	    return getVariation(placement) === variation;
-	  }) : basePlacements; // $FlowFixMe
-
+	  }) : basePlacements;
 	  var allowedPlacements = placements$1.filter(function (placement) {
 	    return allowedAutoPlacements.indexOf(placement) >= 0;
 	  });
 
 	  if (allowedPlacements.length === 0) {
 	    allowedPlacements = placements$1;
-	  } // $FlowFixMe: Flow seems to have problems with two array unions...
+	  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
 
 
 	  var overflows = allowedPlacements.reduce(function (acc, placement) {
@@ -1453,7 +1493,7 @@
 	    isReferenceHidden: isReferenceHidden,
 	    hasPopperEscaped: hasPopperEscaped
 	  };
-	  state.attributes.popper = Object.assign(Object.assign({}, state.attributes.popper), {}, {
+	  state.attributes.popper = Object.assign({}, state.attributes.popper, {
 	    'data-popper-reference-hidden': isReferenceHidden,
 	    'data-popper-escaped': hasPopperEscaped
 	  });
@@ -1472,7 +1512,7 @@
 	  var basePlacement = getBasePlacement(placement);
 	  var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
 
-	  var _ref = typeof offset === 'function' ? offset(Object.assign(Object.assign({}, rects), {}, {
+	  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
 	    placement: placement
 	  })) : offset,
 	      skidding = _ref[0],
@@ -1578,7 +1618,7 @@
 	  var popperOffsets = state.modifiersData.popperOffsets;
 	  var referenceRect = state.rects.reference;
 	  var popperRect = state.rects.popper;
-	  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign(Object.assign({}, state.rects), {}, {
+	  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
 	    placement: state.placement
 	  })) : tetherOffset;
 	  var data = {
@@ -1590,13 +1630,13 @@
 	    return;
 	  }
 
-	  if (checkMainAxis) {
+	  if (checkMainAxis || checkAltAxis) {
 	    var mainSide = mainAxis === 'y' ? top : left;
 	    var altSide = mainAxis === 'y' ? bottom : right;
 	    var len = mainAxis === 'y' ? 'height' : 'width';
 	    var offset = popperOffsets[mainAxis];
-	    var min = popperOffsets[mainAxis] + overflow[mainSide];
-	    var max = popperOffsets[mainAxis] - overflow[altSide];
+	    var min$1 = popperOffsets[mainAxis] + overflow[mainSide];
+	    var max$1 = popperOffsets[mainAxis] - overflow[altSide];
 	    var additive = tether ? -popperRect[len] / 2 : 0;
 	    var minLen = variation === start ? referenceRect[len] : popperRect[len];
 	    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
@@ -1623,26 +1663,29 @@
 	    var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
 	    var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
 	    var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
-	    var preventedOffset = within(tether ? Math.min(min, tetherMin) : min, offset, tether ? Math.max(max, tetherMax) : max);
-	    popperOffsets[mainAxis] = preventedOffset;
-	    data[mainAxis] = preventedOffset - offset;
-	  }
 
-	  if (checkAltAxis) {
-	    var _mainSide = mainAxis === 'x' ? top : left;
+	    if (checkMainAxis) {
+	      var preventedOffset = within(tether ? min(min$1, tetherMin) : min$1, offset, tether ? max(max$1, tetherMax) : max$1);
+	      popperOffsets[mainAxis] = preventedOffset;
+	      data[mainAxis] = preventedOffset - offset;
+	    }
 
-	    var _altSide = mainAxis === 'x' ? bottom : right;
+	    if (checkAltAxis) {
+	      var _mainSide = mainAxis === 'x' ? top : left;
 
-	    var _offset = popperOffsets[altAxis];
+	      var _altSide = mainAxis === 'x' ? bottom : right;
 
-	    var _min = _offset + overflow[_mainSide];
+	      var _offset = popperOffsets[altAxis];
 
-	    var _max = _offset - overflow[_altSide];
+	      var _min = _offset + overflow[_mainSide];
 
-	    var _preventedOffset = within(_min, _offset, _max);
+	      var _max = _offset - overflow[_altSide];
 
-	    popperOffsets[altAxis] = _preventedOffset;
-	    data[altAxis] = _preventedOffset - _offset;
+	      var _preventedOffset = within(tether ? min(_min, tetherMin) : _min, _offset, tether ? max(_max, tetherMax) : _max);
+
+	      popperOffsets[altAxis] = _preventedOffset;
+	      data[altAxis] = _preventedOffset - _offset;
+	    }
 	  }
 
 	  state.modifiersData[name] = data;
@@ -1665,7 +1708,7 @@
 	}
 
 	function getNodeScroll(node) {
-	  if (node === getWindow(node) || !isHTMLElement$1(node)) {
+	  if (node === getWindow(node) || !isHTMLElement(node)) {
 	    return getWindowScroll(node);
 	  } else {
 	    return getHTMLElementScroll(node);
@@ -1681,7 +1724,7 @@
 
 	  var documentElement = getDocumentElement(offsetParent);
 	  var rect = getBoundingClientRect(elementOrVirtualElement);
-	  var isOffsetParentAnElement = isHTMLElement$1(offsetParent);
+	  var isOffsetParentAnElement = isHTMLElement(offsetParent);
 	  var scroll = {
 	    scrollLeft: 0,
 	    scrollTop: 0
@@ -1697,7 +1740,7 @@
 	      scroll = getNodeScroll(offsetParent);
 	    }
 
-	    if (isHTMLElement$1(offsetParent)) {
+	    if (isHTMLElement(offsetParent)) {
 	      offsets = getBoundingClientRect(offsetParent);
 	      offsets.x += offsetParent.clientLeft;
 	      offsets.y += offsetParent.clientTop;
@@ -1776,9 +1819,9 @@
 	function mergeByName(modifiers) {
 	  var merged = modifiers.reduce(function (merged, current) {
 	    var existing = merged[current.name];
-	    merged[current.name] = existing ? Object.assign(Object.assign(Object.assign({}, existing), current), {}, {
-	      options: Object.assign(Object.assign({}, existing.options), current.options),
-	      data: Object.assign(Object.assign({}, existing.data), current.data)
+	    merged[current.name] = existing ? Object.assign({}, existing, current, {
+	      options: Object.assign({}, existing.options, current.options),
+	      data: Object.assign({}, existing.data, current.data)
 	    }) : current;
 	    return merged;
 	  }, {}); // IE11 does not support Object.values
@@ -1822,7 +1865,7 @@
 	    var state = {
 	      placement: 'bottom',
 	      orderedModifiers: [],
-	      options: Object.assign(Object.assign({}, DEFAULT_OPTIONS), defaultOptions),
+	      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
 	      modifiersData: {},
 	      elements: {
 	        reference: reference,
@@ -1837,9 +1880,9 @@
 	      state: state,
 	      setOptions: function setOptions(options) {
 	        cleanupModifierEffects();
-	        state.options = Object.assign(Object.assign(Object.assign({}, defaultOptions), state.options), options);
+	        state.options = Object.assign({}, defaultOptions, state.options, options);
 	        state.scrollParents = {
-	          reference: isElement$1(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
+	          reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
 	          popper: listScrollParents(popper)
 	        }; // Orders the modifiers based on their dependencies and `phase`
 	        // properties
@@ -2559,7 +2602,6 @@
 	function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
 	  const parent_component = current_component;
 	  set_current_component(component);
-	  const prop_values = options.props || {};
 	  const $$ = component.$$ = {
 	    fragment: null,
 	    ctx: null,
@@ -2580,7 +2622,7 @@
 	    skip_bound: false
 	  };
 	  let ready = false;
-	  $$.ctx = instance ? instance(component, prop_values, (i, ret, ...rest) => {
+	  $$.ctx = instance ? instance(component, options.props || {}, (i, ret, ...rest) => {
 	    const value = rest.length ? rest[0] : ret;
 
 	    if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
@@ -2644,9 +2686,9 @@
 
 	}
 
-	/* src/js/components/shepherd-button.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-button.svelte generated by Svelte v3.32.1 */
 
-	function create_fragment(ctx) {
+	function create_fragment$8(ctx) {
 	  let button;
 	  let button_aria_label_value;
 	  let button_class_value;
@@ -2738,7 +2780,7 @@
 	  };
 	}
 
-	function instance($$self, $$props, $$invalidate) {
+	function instance$8($$self, $$props, $$invalidate) {
 	  let {
 	    config
 	  } = $$props,
@@ -2764,7 +2806,7 @@
 	    if ($$self.$$.dirty &
 	    /*config, step*/
 	    192) {
-	       {
+	      {
 	        $$invalidate(0, action = config.action ? config.action.bind(step.tour) : null);
 	        $$invalidate(1, classes = config.classes);
 	        $$invalidate(2, disabled = config.disabled ? getDisabled(config.disabled) : false);
@@ -2781,7 +2823,7 @@
 	class Shepherd_button extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance, create_fragment, safe_not_equal, {
+	    init(this, options, instance$8, create_fragment$8, safe_not_equal, {
 	      config: 6,
 	      step: 7
 	    });
@@ -2789,7 +2831,7 @@
 
 	}
 
-	/* src/js/components/shepherd-footer.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-footer.svelte generated by Svelte v3.32.1 */
 
 	function get_each_context(ctx, list, i) {
 	  const child_ctx = ctx.slice();
@@ -2798,7 +2840,7 @@
 	} // (24:4) {#if buttons}
 
 
-	function create_if_block(ctx) {
+	function create_if_block$3(ctx) {
 	  let each_1_anchor;
 	  let current;
 	  let each_value =
@@ -2950,12 +2992,12 @@
 	  };
 	}
 
-	function create_fragment$1(ctx) {
+	function create_fragment$7(ctx) {
 	  let footer;
 	  let current;
 	  let if_block =
 	  /*buttons*/
-	  ctx[1] && create_if_block(ctx);
+	  ctx[1] && create_if_block$3(ctx);
 	  return {
 	    c() {
 	      footer = element("footer");
@@ -2982,7 +3024,7 @@
 	            transition_in(if_block, 1);
 	          }
 	        } else {
-	          if_block = create_if_block(ctx);
+	          if_block = create_if_block$3(ctx);
 	          if_block.c();
 	          transition_in(if_block, 1);
 	          if_block.m(footer, null);
@@ -3015,7 +3057,8 @@
 	  };
 	}
 
-	function instance$1($$self, $$props, $$invalidate) {
+	function instance$7($$self, $$props, $$invalidate) {
+	  let buttons;
 	  let {
 	    step
 	  } = $$props;
@@ -3024,13 +3067,11 @@
 	    if ("step" in $$props) $$invalidate(0, step = $$props.step);
 	  };
 
-	  let buttons;
-
 	  $$self.$$.update = () => {
 	    if ($$self.$$.dirty &
 	    /*step*/
 	    1) {
-	       $$invalidate(1, buttons = step.options.buttons);
+	      $$invalidate(1, buttons = step.options.buttons);
 	    }
 	  };
 
@@ -3040,16 +3081,16 @@
 	class Shepherd_footer extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$1, create_fragment$1, safe_not_equal, {
+	    init(this, options, instance$7, create_fragment$7, safe_not_equal, {
 	      step: 0
 	    });
 	  }
 
 	}
 
-	/* src/js/components/shepherd-cancel-icon.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-cancel-icon.svelte generated by Svelte v3.32.1 */
 
-	function create_fragment$2(ctx) {
+	function create_fragment$6(ctx) {
 	  let button;
 	  let span;
 	  let button_aria_label_value;
@@ -3106,7 +3147,7 @@
 	  };
 	}
 
-	function instance$2($$self, $$props, $$invalidate) {
+	function instance$6($$self, $$props, $$invalidate) {
 	  let {
 	    cancelIcon
 	  } = $$props,
@@ -3133,7 +3174,7 @@
 	class Shepherd_cancel_icon extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$2, create_fragment$2, safe_not_equal, {
+	    init(this, options, instance$6, create_fragment$6, safe_not_equal, {
 	      cancelIcon: 0,
 	      step: 2
 	    });
@@ -3141,9 +3182,9 @@
 
 	}
 
-	/* src/js/components/shepherd-title.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-title.svelte generated by Svelte v3.32.1 */
 
-	function create_fragment$3(ctx) {
+	function create_fragment$5(ctx) {
 	  let h3;
 	  return {
 	    c() {
@@ -3184,7 +3225,7 @@
 	  };
 	}
 
-	function instance$3($$self, $$props, $$invalidate) {
+	function instance$5($$self, $$props, $$invalidate) {
 	  let {
 	    labelId
 	  } = $$props,
@@ -3221,7 +3262,7 @@
 	class Shepherd_title extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$3, create_fragment$3, safe_not_equal, {
+	    init(this, options, instance$5, create_fragment$5, safe_not_equal, {
 	      labelId: 1,
 	      element: 0,
 	      title: 2
@@ -3230,9 +3271,9 @@
 
 	}
 
-	/* src/js/components/shepherd-header.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-header.svelte generated by Svelte v3.32.1 */
 
-	function create_if_block_1(ctx) {
+	function create_if_block_1$1(ctx) {
 	  let shepherdtitle;
 	  let current;
 	  shepherdtitle = new Shepherd_title({
@@ -3289,7 +3330,7 @@
 	} // (39:4) {#if cancelIcon && cancelIcon.enabled}
 
 
-	function create_if_block$1(ctx) {
+	function create_if_block$2(ctx) {
 	  let shepherdcancelicon;
 	  let current;
 	  shepherdcancelicon = new Shepherd_cancel_icon({
@@ -3351,12 +3392,12 @@
 	  let current;
 	  let if_block0 =
 	  /*title*/
-	  ctx[2] && create_if_block_1(ctx);
+	  ctx[2] && create_if_block_1$1(ctx);
 	  let if_block1 =
 	  /*cancelIcon*/
 	  ctx[3] &&
 	  /*cancelIcon*/
-	  ctx[3].enabled && create_if_block$1(ctx);
+	  ctx[3].enabled && create_if_block$2(ctx);
 	  return {
 	    c() {
 	      header = element("header");
@@ -3387,7 +3428,7 @@
 	            transition_in(if_block0, 1);
 	          }
 	        } else {
-	          if_block0 = create_if_block_1(ctx);
+	          if_block0 = create_if_block_1$1(ctx);
 	          if_block0.c();
 	          transition_in(if_block0, 1);
 	          if_block0.m(header, t);
@@ -3414,7 +3455,7 @@
 	            transition_in(if_block1, 1);
 	          }
 	        } else {
-	          if_block1 = create_if_block$1(ctx);
+	          if_block1 = create_if_block$2(ctx);
 	          if_block1.c();
 	          transition_in(if_block1, 1);
 	          if_block1.m(header, null);
@@ -3468,7 +3509,7 @@
 	    if ($$self.$$.dirty &
 	    /*step*/
 	    2) {
-	       {
+	      {
 	        $$invalidate(2, title = step.options.title);
 	        $$invalidate(3, cancelIcon = step.options.cancelIcon);
 	      }
@@ -3489,9 +3530,9 @@
 
 	}
 
-	/* src/js/components/shepherd-text.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-text.svelte generated by Svelte v3.32.1 */
 
-	function create_fragment$5(ctx) {
+	function create_fragment$3(ctx) {
 	  let div;
 	  return {
 	    c() {
@@ -3532,7 +3573,7 @@
 	  };
 	}
 
-	function instance$5($$self, $$props, $$invalidate) {
+	function instance$3($$self, $$props, $$invalidate) {
 	  let {
 	    descriptionId
 	  } = $$props,
@@ -3551,7 +3592,7 @@
 	      text = text.call(step);
 	    }
 
-	    if (isHTMLElement(text)) {
+	    if (isHTMLElement$1(text)) {
 	      element.appendChild(text);
 	    } else {
 	      $$invalidate(0, element.innerHTML = text, element);
@@ -3577,7 +3618,7 @@
 	class Shepherd_text extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$5, create_fragment$5, safe_not_equal, {
+	    init(this, options, instance$3, create_fragment$3, safe_not_equal, {
 	      descriptionId: 1,
 	      element: 0,
 	      step: 2
@@ -3586,7 +3627,7 @@
 
 	}
 
-	/* src/js/components/shepherd-content.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-content.svelte generated by Svelte v3.32.1 */
 
 	function create_if_block_2(ctx) {
 	  let shepherdheader;
@@ -3645,7 +3686,7 @@
 	} // (28:2) {#if !isUndefined(step.options.text)}
 
 
-	function create_if_block_1$1(ctx) {
+	function create_if_block_1(ctx) {
 	  let shepherdtext;
 	  let current;
 	  shepherdtext = new Shepherd_text({
@@ -3702,7 +3743,7 @@
 	} // (35:2) {#if Array.isArray(step.options.buttons) && step.options.buttons.length}
 
 
-	function create_if_block$2(ctx) {
+	function create_if_block$1(ctx) {
 	  let shepherdfooter;
 	  let current;
 	  shepherdfooter = new Shepherd_footer({
@@ -3750,7 +3791,7 @@
 	  };
 	}
 
-	function create_fragment$6(ctx) {
+	function create_fragment$2(ctx) {
 	  let div;
 	  let show_if_2 = !isUndefined(
 	  /*step*/
@@ -3771,8 +3812,8 @@
 	  ctx[2].options.buttons.length;
 	  let current;
 	  let if_block0 = show_if_2 && create_if_block_2(ctx);
-	  let if_block1 = show_if_1 && create_if_block_1$1(ctx);
-	  let if_block2 = show_if && create_if_block$2(ctx);
+	  let if_block1 = show_if_1 && create_if_block_1(ctx);
+	  let if_block2 = show_if && create_if_block$1(ctx);
 	  return {
 	    c() {
 	      div = element("div");
@@ -3844,7 +3885,7 @@
 	            transition_in(if_block1, 1);
 	          }
 	        } else {
-	          if_block1 = create_if_block_1$1(ctx);
+	          if_block1 = create_if_block_1(ctx);
 	          if_block1.c();
 	          transition_in(if_block1, 1);
 	          if_block1.m(div, t1);
@@ -3875,7 +3916,7 @@
 	            transition_in(if_block2, 1);
 	          }
 	        } else {
-	          if_block2 = create_if_block$2(ctx);
+	          if_block2 = create_if_block$1(ctx);
 	          if_block2.c();
 	          transition_in(if_block2, 1);
 	          if_block2.m(div, null);
@@ -3914,7 +3955,7 @@
 	  };
 	}
 
-	function instance$6($$self, $$props, $$invalidate) {
+	function instance$2($$self, $$props, $$invalidate) {
 	  let {
 	    descriptionId
 	  } = $$props,
@@ -3937,7 +3978,7 @@
 	class Shepherd_content extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$6, create_fragment$6, safe_not_equal, {
+	    init(this, options, instance$2, create_fragment$2, safe_not_equal, {
 	      descriptionId: 0,
 	      labelId: 1,
 	      step: 2
@@ -3946,9 +3987,9 @@
 
 	}
 
-	/* src/js/components/shepherd-element.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-element.svelte generated by Svelte v3.32.1 */
 
-	function create_if_block$3(ctx) {
+	function create_if_block(ctx) {
 	  let div;
 	  return {
 	    c() {
@@ -3968,7 +4009,7 @@
 	  };
 	}
 
-	function create_fragment$7(ctx) {
+	function create_fragment$1(ctx) {
 	  let div;
 	  let t;
 	  let shepherdcontent;
@@ -3985,7 +4026,7 @@
 	  /*step*/
 	  ctx[4].options.attachTo.element &&
 	  /*step*/
-	  ctx[4].options.attachTo.on && create_if_block$3();
+	  ctx[4].options.attachTo.on && create_if_block();
 	  shepherdcontent = new Shepherd_content({
 	    props: {
 	      descriptionId:
@@ -4069,7 +4110,7 @@
 	      /*step*/
 	      ctx[4].options.attachTo.on) {
 	        if (if_block) ; else {
-	          if_block = create_if_block$3();
+	          if_block = create_if_block();
 	          if_block.c();
 	          if_block.m(div, t);
 	        }
@@ -4163,7 +4204,7 @@
 	  return classes.split(" ").filter(className => !!className.length);
 	}
 
-	function instance$7($$self, $$props, $$invalidate) {
+	function instance$1($$self, $$props, $$invalidate) {
 	  let {
 	    classPrefix
 	  } = $$props,
@@ -4317,7 +4358,7 @@
 	    if ($$self.$$.dirty &
 	    /*step*/
 	    16) {
-	       {
+	      {
 	        $$invalidate(5, hasCancelIcon = step.options && step.options.cancelIcon && step.options.cancelIcon.enabled);
 	        $$invalidate(6, hasTitle = step.options && step.options.title);
 	      }
@@ -4330,7 +4371,7 @@
 	class Shepherd_element extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$7, create_fragment$7, safe_not_equal, {
+	    init(this, options, instance$1, create_fragment$1, safe_not_equal, {
 	      classPrefix: 11,
 	      element: 0,
 	      descriptionId: 2,
@@ -4696,7 +4737,7 @@
 	    }
 	  })();
 	});
-	var smoothscroll_1 = smoothscroll.polyfill;
+	smoothscroll.polyfill;
 
 	smoothscroll.polyfill();
 	/**
@@ -4835,7 +4876,7 @@
 	      this.tooltip = null;
 	    }
 
-	    if (isHTMLElement(this.el) && this.el.parentNode) {
+	    if (isHTMLElement$1(this.el) && this.el.parentNode) {
 	      this.el.parentNode.removeChild(this.el);
 	      this.el = null;
 	    }
@@ -4980,7 +5021,7 @@
 
 	    if (isFunction(this.options.scrollToHandler)) {
 	      this.options.scrollToHandler(element);
-	    } else if (isElement(element) && typeof element.scrollIntoView === 'function') {
+	    } else if (isElement$1(element) && typeof element.scrollIntoView === 'function') {
 	      element.scrollIntoView(scrollToOptions);
 	    }
 	  }
@@ -5181,9 +5222,9 @@ a${r},${r},0,0,0-${r}-${r}\
 Z`;
 	}
 
-	/* src/js/components/shepherd-modal.svelte generated by Svelte v3.31.0 */
+	/* src/js/components/shepherd-modal.svelte generated by Svelte v3.32.1 */
 
-	function create_fragment$8(ctx) {
+	function create_fragment(ctx) {
 	  let svg;
 	  let path;
 	  let svg_class_value;
@@ -5265,14 +5306,14 @@ Z`;
 	  return _getScrollParent(element.parentElement);
 	}
 	/**
-	* Get the visible height of the target element relative to its scrollParent.
-	* If there is no scroll parent, the height of the element is returned.
-	*
-	* @param {HTMLElement} element The target element
-	* @param {HTMLElement} [scrollParent] The scrollable parent element
-	* @returns {{y: number, height: number}}
-	* @private
-	*/
+	 * Get the visible height of the target element relative to its scrollParent.
+	 * If there is no scroll parent, the height of the element is returned.
+	 *
+	 * @param {HTMLElement} element The target element
+	 * @param {HTMLElement} [scrollParent] The scrollable parent element
+	 * @returns {{y: number, height: number}}
+	 * @private
+	 */
 
 
 	function _getVisibleHeight(element, scrollParent) {
@@ -5296,14 +5337,14 @@ Z`;
 	  };
 	}
 
-	function instance$8($$self, $$props, $$invalidate) {
+	function instance($$self, $$props, $$invalidate) {
 	  let {
 	    element
 	  } = $$props,
 	      {
 	    openingProperties
 	  } = $$props;
-	  const guid = uuid();
+	  uuid();
 	  let modalIsVisible = false;
 	  let rafId = undefined;
 	  let pathDefinition;
@@ -5327,8 +5368,8 @@ Z`;
 	    _cleanupStepEventListeners();
 	  }
 
-	  function positionModalOpening(targetElement, scrollParent, modalOverlayOpeningPadding = 0, modalOverlayOpeningRadius = 0) {
-	    if (targetElement.getBoundingClientRect) {
+	  function positionModal(modalOverlayOpeningPadding = 0, modalOverlayOpeningRadius = 0, scrollParent, targetElement) {
+	    if (targetElement) {
 	      const {
 	        y,
 	        height
@@ -5347,6 +5388,8 @@ Z`;
 	        y: y - modalOverlayOpeningPadding,
 	        r: modalOverlayOpeningRadius
 	      });
+	    } else {
+	      closeModalOpening();
 	    }
 	  }
 
@@ -5415,22 +5458,18 @@ Z`;
 	      modalOverlayOpeningRadius
 	    } = step.options;
 
-	    if (step.target) {
-	      const scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
+	    const scrollParent = _getScrollParent(step.target); // Setup recursive function to call requestAnimationFrame to update the modal opening position
 
 
-	      const rafLoop = () => {
-	        rafId = undefined;
-	        positionModalOpening(step.target, scrollParent, modalOverlayOpeningPadding, modalOverlayOpeningRadius);
-	        rafId = requestAnimationFrame(rafLoop);
-	      };
+	    const rafLoop = () => {
+	      rafId = undefined;
+	      positionModal(modalOverlayOpeningPadding, modalOverlayOpeningRadius, scrollParent, step.target);
+	      rafId = requestAnimationFrame(rafLoop);
+	    };
 
-	      rafLoop();
+	    rafLoop();
 
-	      _addStepEventListeners();
-	    } else {
-	      closeModalOpening();
-	    }
+	    _addStepEventListeners();
 	  }
 
 	  function svg_binding($$value) {
@@ -5449,23 +5488,23 @@ Z`;
 	    if ($$self.$$.dirty &
 	    /*openingProperties*/
 	    16) {
-	       $$invalidate(2, pathDefinition = makeOverlayPath(openingProperties));
+	      $$invalidate(2, pathDefinition = makeOverlayPath(openingProperties));
 	    }
 	  };
 
-	  return [element, modalIsVisible, pathDefinition, _preventModalOverlayTouch, openingProperties, getElement, closeModalOpening, hide, positionModalOpening, setupForStep, show, svg_binding];
+	  return [element, modalIsVisible, pathDefinition, _preventModalOverlayTouch, openingProperties, getElement, closeModalOpening, hide, positionModal, setupForStep, show, svg_binding];
 	}
 
 	class Shepherd_modal extends SvelteComponent {
 	  constructor(options) {
 	    super();
-	    init(this, options, instance$8, create_fragment$8, safe_not_equal, {
+	    init(this, options, instance, create_fragment, safe_not_equal, {
 	      element: 0,
 	      openingProperties: 4,
 	      getElement: 5,
 	      closeModalOpening: 6,
 	      hide: 7,
-	      positionModalOpening: 8,
+	      positionModal: 8,
 	      setupForStep: 9,
 	      show: 10
 	    });
@@ -5483,7 +5522,7 @@ Z`;
 	    return this.$$.ctx[7];
 	  }
 
-	  get positionModalOpening() {
+	  get positionModal() {
 	    return this.$$.ctx[8];
 	  }
 
@@ -5796,7 +5835,7 @@ Z`;
 	    } // Focus the element that was focused before the tour started
 
 
-	    if (isHTMLElement(this.focusedElBeforeOpen)) {
+	    if (isHTMLElement$1(this.focusedElBeforeOpen)) {
 	      this.focusedElBeforeOpen.focus();
 	    }
 	  }
