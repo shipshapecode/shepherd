@@ -6877,15 +6877,15 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@4.17.19:
-  version "4.17.19"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
-  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
-lodash@4.17.20, lodash@^4.0.0, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@~4.17.10:
+lodash@4.17.20:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
+lodash@4.17.21, lodash@^4.0.0, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.4, lodash@~4.17.10:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 log-symbols@^1.0.2:
   version "1.0.2"
@@ -7346,12 +7346,7 @@ mkdirp@1.0.4, mkdirp@^1.0.3, mkdirp@^1.0.4:
   dependencies:
     minimist "^1.2.5"
 
-moment@2.27.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
-
-moment@^2.29.1:
+moment@2.29.1, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -8064,10 +8059,10 @@ package-json@^6.3.0:
     registry-url "^5.0.0"
     semver "^6.2.0"
 
-package-name-regex@1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-1.0.8.tgz#4b8388cace6cc415f462ab4a269583d9a2d9f131"
-  integrity sha512-g3vB2J62dLqf4m50VM4tJUC4sixw3JB+Igd0cF3P/gJhAvmvsmFEV2eWZTeLbwfkKEWTf3+gwQ2C6JFFRxWHEQ==
+package-name-regex@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-1.0.9.tgz#d7d33ff3f2ef43a28fbb02aa4fcf48fc1ab26588"
+  integrity sha512-+U2oQCfEz2IlGqws8gmfKzdMDbSd6+RZp6UIFdKo+GAw3+o+kfnsgXkWtJ1JMoKhpP2kEvuYyTy1lXOEQEe0ZA==
 
 pacote@^11.2.7:
   version "11.2.7"
@@ -9500,18 +9495,18 @@ rollup-plugin-filesize@^9.1.1:
     pacote "^11.2.7"
     terser "^5.6.0"
 
-rollup-plugin-license@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.2.0.tgz#0d19139bbe44dda500fbf15530af07c91949e348"
-  integrity sha512-xXb1vviEwlJMX+VGUSsglcMA/Rh9d2QzEm94awy4FlnsPqGrXoTYYGOR3UXR6gYIxiJFkr7qmkKF/NXfre/y8g==
+rollup-plugin-license@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.3.0.tgz#fc8711c5e0f5850bda2908751c718f45b0315bee"
+  integrity sha512-oi8pL59fVTwXCkLUsZ8dVGVJjO7Hcc5UT0chJvKd0MktPgeYHSadkaicAYUemdYHHpjb0D3DyvedZAEPt+2r8w==
   dependencies:
     commenting "1.1.0"
     glob "7.1.6"
-    lodash "4.17.19"
+    lodash "4.17.21"
     magic-string "0.25.7"
     mkdirp "1.0.4"
-    moment "2.27.0"
-    package-name-regex "1.0.8"
+    moment "2.29.1"
+    package-name-regex "1.0.9"
     spdx-expression-validate "2.0.0"
     spdx-satisfies "5.0.0"
 
