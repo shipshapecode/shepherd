@@ -1,6 +1,10 @@
-Version 9 of Highlight.js has reached EOL and is no longer supported.
-Please upgrade or ask whatever dependency you are using to upgrade.
-https://github.com/highlightjs/highlight.js/issues/2877
+## v8.2.1 (2021-03-24)
+
+#### :house: Internal
+* [#1354](https://github.com/shipshapecode/shepherd/pull/1354) 👷 Add github token to action ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
 
 ## v8.2.0 (2021-03-03)
 

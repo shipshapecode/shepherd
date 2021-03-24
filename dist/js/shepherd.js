@@ -1,4 +1,4 @@
-/*! shepherd.js 8.2.0 */
+/*! shepherd.js 8.2.1 */
 
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
@@ -352,9 +352,6 @@
 	  return element ? (element.nodeName || '').toLowerCase() : null;
 	}
 
-	/*:: import type { Window } from '../types'; */
-
-	/*:: declare function getWindow(node: Node | Window): Window; */
 	function getWindow(node) {
 	  if (node == null) {
 	    return window;
@@ -368,24 +365,15 @@
 	  return node;
 	}
 
-	/*:: declare function isElement(node: mixed): boolean %checks(node instanceof
-	  Element); */
-
 	function isElement(node) {
 	  var OwnElement = getWindow(node).Element;
 	  return node instanceof OwnElement || node instanceof Element;
 	}
-	/*:: declare function isHTMLElement(node: mixed): boolean %checks(node instanceof
-	  HTMLElement); */
-
 
 	function isHTMLElement(node) {
 	  var OwnElement = getWindow(node).HTMLElement;
 	  return node instanceof OwnElement || node instanceof HTMLElement;
 	}
-	/*:: declare function isShadowRoot(node: mixed): boolean %checks(node instanceof
-	  ShadowRoot); */
-
 
 	function isShadowRoot(node) {
 	  // IE 11 has no ShadowRoot
@@ -507,11 +495,11 @@
 	  var width = element.offsetWidth;
 	  var height = element.offsetHeight;
 
-	  if (Math.abs(clientRect.width - width) <= 0.5) {
+	  if (Math.abs(clientRect.width - width) <= 1) {
 	    width = clientRect.width;
 	  }
 
-	  if (Math.abs(clientRect.height - height) <= 0.5) {
+	  if (Math.abs(clientRect.height - height) <= 1) {
 	    height = clientRect.height;
 	  }
 
@@ -589,7 +577,7 @@
 
 
 	function getContainingBlock(element) {
-	  var isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+	  var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
 	  var currentNode = getParentNode(element);
 
 	  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
@@ -597,7 +585,7 @@
 	    // create a containing block.
 	    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
-	    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].includes(css.willChange) || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
+	    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
 	      return currentNode;
 	    } else {
 	      currentNode = currentNode.parentNode;
@@ -796,8 +784,8 @@
 	      }
 	    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
-	    /*:: offsetParent = (offsetParent: Element); */
 
+	    offsetParent = offsetParent;
 
 	    if (placement === top) {
 	      sideY = bottom; // $FlowFixMe[prop-missing]
@@ -1264,10 +1252,6 @@
 
 	  return overflowOffsets;
 	}
-
-	/*:: type OverflowsMap = { [ComputedPlacement]: number }; */
-
-	/*;; type OverflowsMap = { [key in ComputedPlacement]: number }; */
 
 	function computeAutoPlacement(state, options) {
 	  if (options === void 0) {
