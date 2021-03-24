@@ -1,3 +1,11 @@
+## v8.2.1 (2021-03-24)
+
+#### :house: Internal
+* [#1354](https://github.com/shipshapecode/shepherd/pull/1354) 👷 Add github token to action ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## v8.2.0 (2021-03-03)
 
 #### :rocket: Enhancement
