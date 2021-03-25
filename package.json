@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "8.2.1",
+  "version": "8.2.2",
   "description": "Guide your users through a tour of your app.",
   "keywords": [
     "site tour",
@@ -123,23 +123,5 @@
   "maintainers": [
     "Robert Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
-  ],
-  "release-it": {
-    "plugins": {
-      "release-it-lerna-changelog": {
-        "infile": "CHANGELOG.md",
-        "launchEditor": true
-      }
-    },
-    "git": {
-      "tagName": "v${version}"
-    },
-    "github": {
-      "release": true,
-      "tokenRef": "GITHUB_AUTH"
-    },
-    "npm": {
-      "publish": true
-    }
-  }
+  ]
 }
