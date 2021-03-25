@@ -125,6 +125,9 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "release-it": {
+    "hooks": {
+      "after:bump": "yarn build"
+    },
     "plugins": {
       "release-it-lerna-changelog": {
         "infile": "CHANGELOG.md",
