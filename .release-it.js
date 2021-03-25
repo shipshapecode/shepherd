@@ -15,7 +15,8 @@ module.exports = {
   },
   github: {
     release: true,
-    tokenRef: 'GITHUB_AUTH'
+    tokenRef: 'GITHUB_AUTH',
+    assets: ['dist/**/*.css', 'dist/**/*.js', 'dist/**/*.map']
   },
   npm: {
     publish: true
