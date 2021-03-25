@@ -30,6 +30,8 @@ module.exports = {
     {
       files: [
         '.eslintrc.js',
+        '.prettierrc.js',
+        '.release-it.js',
         'babel.config.js',
         'jest.config.js',
         'rollup.config.js',
