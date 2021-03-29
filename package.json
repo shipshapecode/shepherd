@@ -86,7 +86,7 @@
     "prettier": "^2.2.1",
     "release-it": "^14.5.0",
     "release-it-lerna-changelog": "^3.1.0",
-    "replace": "^1.2.0",
+    "replace": "^1.2.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.42.2",
     "rollup-plugin-analyzer": "^4.0.0",
