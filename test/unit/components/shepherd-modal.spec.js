@@ -4,8 +4,8 @@ import { stub } from 'sinon';
 const classPrefix = '';
 
 describe('components/ShepherdModal', () => {
-  describe('closeModalOpening()', function () {
-    it('sets values back to 0', async () => {
+  describe('closeModalOpening()', function() {
+    it('sets values back to 0', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -42,8 +42,8 @@ describe('components/ShepherdModal', () => {
     });
   });
 
-  describe('positionModal()', function () {
-    it('sets the correct attributes when positioning modal opening', async () => {
+  describe('positionModal()', function() {
+    it('sets the correct attributes when positioning modal opening', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -85,7 +85,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes with padding', async () => {
+    it('sets the correct attributes with padding', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -119,7 +119,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when positioning modal opening with border radius', async () => {
+    it('sets the correct attributes when positioning modal opening with border radius', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -161,7 +161,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when target is overflowing from scroll parent', async () => {
+    it('sets the correct attributes when target is overflowing from scroll parent', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -203,7 +203,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when target fits inside scroll parent', async () => {
+    it('sets the correct attributes when target fits inside scroll parent', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -246,7 +246,7 @@ describe('components/ShepherdModal', () => {
     });
   });
 
-  describe('setupForStep()', function () {
+  describe('setupForStep()', function() {
     let hideStub, showStub;
 
     afterEach(() => {
@@ -254,7 +254,7 @@ describe('components/ShepherdModal', () => {
       showStub.restore();
     });
 
-    it.skip('useModalOverlay: false, hides modal', async () => {
+    it.skip('useModalOverlay: false, hides modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -280,7 +280,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it.skip('useModalOverlay: true, shows modal', async () => {
+    it.skip('useModalOverlay: true, shows modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -307,7 +307,7 @@ describe('components/ShepherdModal', () => {
     });
   });
 
-  describe('show/hide', function () {
+  describe('show/hide', function() {
     const modalComponent = new ShepherdModal({
       target: document.body,
       props: {
@@ -315,7 +315,7 @@ describe('components/ShepherdModal', () => {
       }
     });
 
-    it('show adds classes', async () => {
+    it('show adds classes', async() => {
       await modalComponent.show();
 
       expect(modalComponent.getElement()).toHaveClass(
@@ -323,7 +323,7 @@ describe('components/ShepherdModal', () => {
       );
     });
 
-    it('hide removes classes', async () => {
+    it('hide removes classes', async() => {
       await modalComponent.hide();
 
       expect(modalComponent.getElement()).not.toHaveClass(

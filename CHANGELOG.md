@@ -2,6 +2,15 @@ Version 9 of Highlight.js has reached EOL and is no longer supported.
 Please upgrade or ask whatever dependency you are using to upgrade.
 https://github.com/highlightjs/highlight.js/issues/2877
 
+## v8.3.0 (2021-04-06)
+
+#### :house: Internal
+* [#1402](https://github.com/shipshapecode/shepherd/pull/1402) Update rollup-plugin-postcss ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 2
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v8.2.3 (2021-03-25)
 
 #### :house: Internal

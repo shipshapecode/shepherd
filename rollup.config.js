@@ -38,7 +38,7 @@ const plugins = [
       require('autoprefixer'),
       require('cssnano')
     ],
-    extract: 'dist/css/shepherd.css'
+    extract: 'css/shepherd.css'
   })
 ];
 
@@ -59,13 +59,15 @@ const rollupBuilds = [
 
     output: [
       {
-        file: pkg.main,
+        dir: 'dist',
+        entryFileNames: 'js/[name].js',
         format: 'umd',
         name: 'Shepherd',
         sourcemap: true
       },
       {
-        file: pkg.module,
+        dir: 'dist',
+        entryFileNames: 'js/[name].esm.js',
         format: 'esm',
         sourcemap: true
       }
@@ -81,13 +83,15 @@ if (!process.env.DEVELOPMENT) {
       input: './src/js/shepherd.js',
       output: [
         {
-          file: 'dist/js/shepherd.min.js',
+          dir: 'dist',
+          entryFileNames: 'js/[name].min.js',
           format: 'umd',
           name: 'Shepherd',
           sourcemap: true
         },
         {
-          file: 'dist/js/shepherd.esm.min.js',
+          dir: 'dist',
+          entryFileNames: 'js/[name].esm.min.js',
           format: 'esm',
           sourcemap: true
         }
@@ -109,7 +113,7 @@ if (!process.env.DEVELOPMENT) {
         }),
         postcss({
           plugins: [require('autoprefixer'), require('cssnano')],
-          extract: 'dist/css/shepherd.css'
+          extract: 'css/shepherd.css'
         }),
         compiler(),
         license({

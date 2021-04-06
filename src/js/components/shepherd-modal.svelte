@@ -215,8 +215,6 @@
 
 <style global>
   .shepherd-modal-overlay-container {
-    -ms-filter: progid:dximagetransform.microsoft.gradient.alpha(Opacity=50);
-    filter: alpha(opacity=50);
     height: 0;
     left: 0;
     opacity: 0;
