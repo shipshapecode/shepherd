@@ -7252,17 +7252,17 @@ micromatch@^4.0.2:
     braces "^3.0.1"
     picomatch "^2.0.5"
 
-mime-db@1.46.0:
-  version "1.46.0"
-  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.46.0.tgz#6267748a7f799594de3cbc8cde91def349661cee"
-  integrity sha512-svXaP8UQRZ5K7or+ZmfNhg2xX3yKDMUzqadsSqi4NCH/KomcH75MAMYAGVlvXn4+b/xOPhS3I2uHKRUzvjY7BQ==
+mime-db@1.47.0:
+  version "1.47.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.47.0.tgz#8cb313e59965d3c05cfbf898915a267af46a335c"
+  integrity sha512-QBmA/G2y+IfeS4oktet3qRZ+P5kPhCKRXxXnQEudYqUaEioAU1/Lq2us3D/t1Jfo4hE9REQPrbB7K5sOczJVIw==
 
-mime-types@2.1.29, mime-types@^2.1.12, mime-types@~2.1.19:
-  version "2.1.29"
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.29.tgz#1d4ab77da64b91f5f72489df29236563754bb1b2"
-  integrity sha512-Y/jMt/S5sR9OaqteJtslsFZKWOIIqMACsJSiHghlCAyhf7jfVYjKBmLiX8OgpWeW+fjJ2b+Az69aPFPkUOY6xQ==
+mime-types@2.1.30, mime-types@^2.1.12, mime-types@~2.1.19:
+  version "2.1.30"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.30.tgz#6e7be8b4c479825f85ed6326695db73f9305d62d"
+  integrity sha512-crmjA4bLtR8m9qLpHvgxSChT+XoSlZi8J4n/aIdn3z92e/U47Z0V/yl+Wh9W046GgFVAmoNR/fmdbZYcSSIUeg==
   dependencies:
-    mime-db "1.46.0"
+    mime-db "1.47.0"
 
 mime@>=2.4.6:
   version "2.5.0"
@@ -9288,10 +9288,10 @@ release-it-lerna-changelog@^3.1.0:
     validate-peer-dependencies "^1.0.0"
     which "^2.0.2"
 
-release-it@^14.5.1:
-  version "14.5.1"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.5.1.tgz#79c971f84bb827794a7ddef0b6209bbb5e978ff8"
-  integrity sha512-ivbMbYEk4E1RoV3DmWn8T37sjnCx35kwiHDSgfphDr0F8A5zbJCj4ZLZmDseE9sQi9ZjhXTN1webBLW5YbGxNg==
+release-it@^14.6.1:
+  version "14.6.1"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.6.1.tgz#a04623312d67886b37b8a6d298844ee3e0c7150a"
+  integrity sha512-noBho2997G3yrm6YvdLJj4Ua2SCFOU7ajCqtvteI3DZtpM1IhiyXSgcn2Q5irq8lTNK0it4eiNq9TSrAWNYDkA==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "18.5.2"
@@ -9310,7 +9310,7 @@ release-it@^14.5.1:
     inquirer "8.0.0"
     is-ci "3.0.0"
     lodash "4.17.21"
-    mime-types "2.1.29"
+    mime-types "2.1.30"
     ora "5.4.0"
     os-name "4.0.0"
     parse-json "5.2.0"
