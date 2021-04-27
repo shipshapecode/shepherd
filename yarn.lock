@@ -10907,10 +10907,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte-jester@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.4.0.tgz#75484201e1fefa60555fdbd1912bf902a437effb"
-  integrity sha512-lRNJZb+vxwOv4jhPzi+VFCaX0PMnHO8b9hcEVwjWURrwobXzdwGhJdb3NJy8WjLt1nHd4NWeS7Ei8mpvA7mNRg==
+svelte-jester@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.5.0.tgz#3472cc581ec77f57d710a98a5c47f2c8b7d9b128"
+  integrity sha512-nHOMAPpywjdz11wl/MRiSgcnaCrPM9zkmfaGO42pWRySzx9Y/99K3hosdWez/mXLMtFot3XwPDyEt+VmGiFWiQ==
   dependencies:
     cosmiconfig "^7.0.0"
 
