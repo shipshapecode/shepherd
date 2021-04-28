@@ -1,0 +1,32 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "10:00"
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: tailwindcss
+    versions:
+    - 2.1.1
+  - dependency-name: cssnano
+    versions:
+    - 5.0.0
+  - dependency-name: svelte
+    versions:
+    - 3.32.3
+    - 3.34.0
+    - 3.35.0
+    - 3.37.0
+  - dependency-name: svelte-jester
+    versions:
+    - 1.3.1
+  - dependency-name: cypress
+    versions:
+    - 6.3.0
+    - 6.4.0
+    - 6.5.0
