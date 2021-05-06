@@ -5,6 +5,6 @@ metadata:
   annotations:
     github.com/project-slug: shipshapecode/shepherd
 spec:
-  type: other
-  lifecycle: unknown
+  type: library
+  lifecycle: production
   owner: internal
