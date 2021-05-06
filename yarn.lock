@@ -1501,10 +1501,10 @@
   dependencies:
     "@octokit/openapi-types" "^6.0.0"
 
-"@popperjs/core@2.7.2":
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.7.2.tgz#00644825ce478065101954bdb2f7f2d062365b7f"
-  integrity sha512-3LC1/M2ZFcmDrSkD1byT/hZzoPehZkDucbDShLnZ+/Gwkr6CAxiQ2kWy1UtJeLGADe58hTWkx22YEHqjPGUKzw==
+"@popperjs/core@^2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
+  integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
