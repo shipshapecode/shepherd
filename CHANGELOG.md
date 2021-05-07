@@ -2,6 +2,19 @@ Version 9 of Highlight.js has reached EOL and is no longer supported.
 Please upgrade or ask whatever dependency you are using to upgrade.
 https://github.com/highlightjs/highlight.js/issues/2877
 
+Version 9 of Highlight.js has reached EOL and is no longer supported.
+Please upgrade or ask whatever dependency you are using to upgrade.
+https://github.com/highlightjs/highlight.js/issues/2877
+
+## v8.3.1 (2021-05-07)
+
+#### :bug: Bug Fix
+* [#1449](https://github.com/shipshapecode/shepherd/pull/1449) 🐛 Add preventOverflow option for tether to false ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
+
 ## v8.3.0 (2021-04-06)
 
 #### :house: Internal
