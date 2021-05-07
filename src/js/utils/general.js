@@ -97,7 +97,8 @@ export function getPopperOptions(attachToOptions, step) {
       {
         name: 'preventOverflow',
         options: {
-          altAxis: true
+          altAxis: true,
+          tether: false
         }
       },
       {
