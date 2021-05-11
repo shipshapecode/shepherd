@@ -10142,10 +10142,10 @@ rollup-plugin-svelte@^7.1.0:
     require-relative "^0.8.7"
     rollup-pluginutils "^2.8.2"
 
-rollup-plugin-visualizer@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.4.1.tgz#ec25c88d1ebab6d523e938c0084ca14cfe63b02e"
-  integrity sha512-mwrUIfOamkCw3dCtLvgnn/H0rvNSDA1RAe0sO9uHBpmdf86j/xOX/2yeCrVh2Ia/gCGLG846JB00MW0chq8CHQ==
+rollup-plugin-visualizer@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.5.0.tgz#dbe9daa3a46576fb697eb62b19ed251112b85d1e"
+  integrity sha512-QUd0ZHGYn6rgogS+yzG08AvMk9J4kR1lO1cpLJCIAQhbyIGSBdqCddKWtxDsdmsxhkY/GCGw8CvoSB3MwMQOIQ==
   dependencies:
     nanoid "^3.1.22"
     open "^7.4.2"
