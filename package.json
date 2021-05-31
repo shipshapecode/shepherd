@@ -106,7 +106,7 @@
     "sinon": "^10.0.0",
     "start-server-and-test": "^1.12.2",
     "svelte": "^3.38.2",
-    "svelte-jester": "^1.5.0",
+    "svelte-jester": "^1.6.0",
     "svelte-preprocess": "^4.7.3",
     "tailwindcss": "^1.9.6"
   },
