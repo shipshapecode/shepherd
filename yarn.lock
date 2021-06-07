@@ -10904,10 +10904,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-svelte-jester@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.6.0.tgz#e5b6e7c96ae2a07a4c4d1cd4f5e3647126dc5b75"
-  integrity sha512-P5YlGOzqJvwQu7PfGZf/No2PMwk/g4kNYsWjy60G5k+4VsB5tBR9ipDW4K7zEnzvHMKwmN+wuj7vhaFOW4ZzyQ==
+svelte-jester@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.7.0.tgz#b773e6a3857b3867086f81ea24d94689e5f78aa1"
+  integrity sha512-eWJSmxGXR/jetU+gpuAvrSEZT7PpNxrhV2GoUm/WQUtXFjGJcy6sZTq3kKaUz7q8VddHU1/yt9cxDRxo8IUsLA==
 
 svelte-preprocess@^4.7.3:
   version "4.7.3"
