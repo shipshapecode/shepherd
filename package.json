@@ -107,7 +107,7 @@
     "start-server-and-test": "^1.12.5",
     "svelte": "^3.38.3",
     "svelte-jester": "^1.7.0",
-    "svelte-preprocess": "^4.7.3",
+    "svelte-preprocess": "^4.7.4",
     "tailwindcss": "^2.2.4"
   },
   "engines": {
