@@ -413,12 +413,19 @@ export class Step extends Evented {
       return;
     }
 
+    const hasDisabledClass = targetElement.classList.contains('shepherd-target-click-disabled');
+
     if (step.options.highlightClass) {
       targetElement.classList.add(step.options.highlightClass);
     }
-
-    if (step.options.canClickTarget === false) {
+    // If the element should be disabled and doesn't already have the class
+    if (step.options.canClickTarget === false && !hasDisabledClass) {
       targetElement.classList.add('shepherd-target-click-disabled');
+    }
+    // If the element should be clickable, but may have add the disable class
+    // added in a previous step
+    if (step.options.canClickTarget === true && hasDisabledClass) {
+      targetElement.classList.remove('shepherd-target-click-disabled');
     }
   }
 
