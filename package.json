@@ -49,13 +49,13 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.9.2",
+    "@popperjs/core": "^2.9.3",
     "deepmerge": "^4.2.2",
     "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
-    "@babel/core": "^7.14.8",
+    "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.14.9",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/svelte": "^3.0.3",
