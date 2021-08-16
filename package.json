@@ -97,7 +97,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-postcss": "^4.0.1",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-scss": "^3.0.0",
     "rollup-plugin-serve": "^1.1.0",
