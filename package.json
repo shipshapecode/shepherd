@@ -108,7 +108,7 @@
     "svelte": "^3.42.4",
     "svelte-jester": "^1.7.0",
     "svelte-preprocess": "^4.9.1",
-    "tailwindcss": "^2.2.8"
+    "tailwindcss": "^2.2.9"
   },
   "engines": {
     "node": "10.* || >= 12"
