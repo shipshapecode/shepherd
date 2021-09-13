@@ -9823,10 +9823,10 @@ svelte-jester@^1.7.0:
   resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-1.7.0.tgz#b773e6a3857b3867086f81ea24d94689e5f78aa1"
   integrity sha512-eWJSmxGXR/jetU+gpuAvrSEZT7PpNxrhV2GoUm/WQUtXFjGJcy6sZTq3kKaUz7q8VddHU1/yt9cxDRxo8IUsLA==
 
-svelte-preprocess@^4.9.1:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.9.1.tgz#6b5a43b6f7851c64f721d72249689e82ee288191"
-  integrity sha512-nNGilNME8T7a1Yuisdo6MDfpVxHURR4Vj9rGsgdd1EfoS7H+8SF3qaVE92aJQt2IhTB7+BshBqBLeVP080gnpg==
+svelte-preprocess@^4.9.4:
+  version "4.9.4"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.9.4.tgz#1a81c47994b94a8ee8a8cadf10763053dd486e24"
+  integrity sha512-Z0mUQBGtE+ZZSv/HerRSHe7ukJokxjiPeHe7iPOIXseEoRw51H3K/Vh6OMIMstetzZ11vWO9rCsXSD/uUUArmA==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
