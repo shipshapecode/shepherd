@@ -63,3 +63,37 @@ when: {
   }
 }
 ```
+
+Another example, for anyone who wants to add progress indicators to the footer. Add the `shepherd-progress` className and some extra styles.
+
+```javascript
+when: {
+  show() {
+    const currentStepElement = shepherd.currentStep.el;
+    const footer = currentStepElement.querySelector('.shepherd-footer');
+    const progress = document.createElement('span');
+    progress.className = 'shepherd-progress';
+    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
+    footer.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
+  }
+}
+```
+
+```scss
+.shepherd-footer {
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 .75rem .75rem;
+  
+  .shepherd-button:last-child {
+    margin-right: 0;
+  }
+    
+  .shepherd-progress {
+    font-size: .8rem;
+  }
+}
+```
