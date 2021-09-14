@@ -64,7 +64,7 @@ when: {
 }
 ```
 
-Below is another example for anyone wants to place progress in footer. Added `shepherd-progress` className and some scss.
+Another example, for anyone who wants to add progress indicators to the footer. Add `shepherd-progress` className and some scss.
 
 ```javascript
 when: {
@@ -81,19 +81,19 @@ when: {
 
 ```scss
 .shepherd-footer {
-    border-bottom-left-radius:5px;
-    border-bottom-right-radius:5px;
-    padding:0 .75rem .75rem;
-    display:flex;
-    justify-content:space-between;
-    align-items: center;
-
-    .shepherd-button:last-child {
-        margin-right:0
-    }
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 .75rem .75rem;
+  
+  .shepherd-button:last-child {
+    margin-right: 0;
+  }
     
-    .shepherd-progress {
-        font-size: .8rem;
-    }
+  .shepherd-progress {
+    font-size: .8rem;
+  }
 }
 ```
