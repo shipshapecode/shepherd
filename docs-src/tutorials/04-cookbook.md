@@ -64,7 +64,7 @@ when: {
 }
 ```
 
-Another example, for anyone who wants to add progress indicators to the footer. Add `shepherd-progress` className and some scss.
+Another example, for anyone who wants to add progress indicators to the footer. Add the `shepherd-progress` className and some extra styles.
 
 ```javascript
 when: {
