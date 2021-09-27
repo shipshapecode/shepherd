@@ -81,7 +81,7 @@
     "jsdoc": "^3.6.7",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.7",
-    "postcss": "^8.3.6",
+    "postcss": "^8.3.8",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.4.1",
     "release-it": "^14.11.6",
