@@ -102,6 +102,13 @@ Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplu
 
 [Snapsure](https://snapsure.app) uses Shepherd to help photographers learn how to set up alerts for their desired picture-perfect weather conditions.
 
+
+### [Drupal](https://www.drupal.org/docs/8/core/modules/tour/overview)
+
+The [Drupal](https://www.drupal.org/docs/8/core/modules/tour/overview) CMS uses Shepherd to offer tours of it's core modules, and allows developers to add Tours to their custom and contributed modules.
+
+
+
 ### Your Project Here
 
 If you have a cool open-source library built on Shepherd, PR this doc.
