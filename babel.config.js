@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true);
 
   return {
@@ -15,9 +15,7 @@ module.exports = function(api) {
       },
       test: {
         presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
-        plugins: [
-          'transform-es2015-modules-commonjs'
-        ]
+        plugins: ['transform-es2015-modules-commonjs']
       }
     }
   };

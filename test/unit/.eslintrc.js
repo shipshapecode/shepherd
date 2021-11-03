@@ -9,7 +9,6 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:ship-shape/recommended',
     'plugin:jest/recommended'
   ],
   globals: {

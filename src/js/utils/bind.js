@@ -11,7 +11,8 @@ function _setupAdvanceOnHandler(selector, step) {
   return (event) => {
     if (step.isOpen()) {
       const targetIsEl = step.el && event.currentTarget === step.el;
-      const targetIsSelector = !isUndefined(selector) && event.currentTarget.matches(selector);
+      const targetIsSelector =
+        !isUndefined(selector) && event.currentTarget.matches(selector);
 
       if (targetIsSelector || targetIsEl) {
         step.tour.next();
@@ -38,7 +39,9 @@ export function bindAdvance(step) {
       // TODO
     }
     if (!isUndefined(selector) && !el) {
-      return console.error(`No element was found for the selector supplied to advanceOn: ${selector}`);
+      return console.error(
+        `No element was found for the selector supplied to advanceOn: ${selector}`
+      );
     } else if (el) {
       el.addEventListener(event, handler);
       step.on('destroy', () => {
@@ -51,6 +54,8 @@ export function bindAdvance(step) {
       });
     }
   } else {
-    return console.error('advanceOn was defined, but no event name was passed.');
+    return console.error(
+      'advanceOn was defined, but no event name was passed.'
+    );
   }
 }

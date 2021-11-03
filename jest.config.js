@@ -24,22 +24,25 @@ module.exports = {
   rootDir: './',
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: [
-    '<rootDir>/test/unit'
-  ],
+  roots: ['<rootDir>/test/unit'],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
   setupFilesAfterEnv: ['<rootDir>/test/unit/setupTests.js'],
 
+  testEnvironment: 'jsdom',
+
   // A map from regular expressions to paths to transformers
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '^.+\\.svelte$': ['svelte-jester', {
-      preprocess: true,
-      compilerOptions: {
-        dev: false
+    '^.+\\.svelte$': [
+      'svelte-jester',
+      {
+        preprocess: true,
+        compilerOptions: {
+          dev: false
+        }
       }
-    }],
+    ],
     '.+\\.(css|styl|less|sass|scss)$': 'jest-transform-css'
   }
 };
