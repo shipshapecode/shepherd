@@ -1,7 +1,12 @@
 import merge from 'deepmerge';
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
-import { isElement, isHTMLElement, isFunction, isUndefined } from './utils/type-check.js';
+import {
+  isElement,
+  isHTMLElement,
+  isFunction,
+  isUndefined
+} from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import {
   setupTooltip,

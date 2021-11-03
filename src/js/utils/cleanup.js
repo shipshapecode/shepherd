@@ -7,7 +7,11 @@ export function cleanupSteps(tour) {
     const { steps } = tour;
 
     steps.forEach((step) => {
-      if (step.options && step.options.canClickTarget === false && step.options.attachTo) {
+      if (
+        step.options &&
+        step.options.canClickTarget === false &&
+        step.options.attachTo
+      ) {
         if (step.target instanceof HTMLElement) {
           step.target.classList.remove('shepherd-target-click-disabled');
         }

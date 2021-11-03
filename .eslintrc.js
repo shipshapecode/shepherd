@@ -1,22 +1,20 @@
 module.exports = {
   root: true,
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: 2020,
     sourceType: 'module'
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:ship-shape/recommended'
-  ],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
     es6: true
   },
-  plugins: [
-    'svelte3'
-  ],
+  plugins: ['svelte3'],
   rules: {
-    'max-lines': ['warn', { max: 250, skipBlankLines: true, skipComments: true }],
+    'max-lines': [
+      'warn',
+      { max: 250, skipBlankLines: true, skipComments: true }
+    ],
     'no-console': 'off',
     'prefer-const': 'off'
   },

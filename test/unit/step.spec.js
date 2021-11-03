@@ -322,7 +322,7 @@ describe('Tour | Step', () => {
       expect(step.options.text).toBe('updated');
       expect(step.options.title).toBe('New title');
 
-      await requestAnimationFrame(
+      await window.requestAnimationFrame(
         () =>
           new Promise((resolve) => {
             return resolve();
@@ -345,7 +345,7 @@ describe('Tour | Step', () => {
         { text: 'button two', disabled: true, classes: 'button2' }
       ]);
 
-      await requestAnimationFrame(
+      await window.requestAnimationFrame(
         () =>
           new Promise((resolve) => {
             return resolve();
@@ -365,7 +365,7 @@ describe('Tour | Step', () => {
       step.updateStepOptions({ buttons });
       expect(step.options.buttons).toEqual(buttons);
 
-      await requestAnimationFrame(
+      await window.requestAnimationFrame(
         () =>
           new Promise((resolve) => {
             return resolve();
@@ -385,7 +385,7 @@ describe('Tour | Step', () => {
       step.updateStepOptions({ title: '' });
       expect(step.options.title).toEqual('');
 
-      await requestAnimationFrame(
+      await window.requestAnimationFrame(
         () =>
           new Promise((resolve) => {
             return resolve();
@@ -400,7 +400,7 @@ describe('Tour | Step', () => {
       step.updateStepOptions({ classes: 'test-1 test-2' });
       expect(step.options.classes).toEqual('test-1 test-2');
 
-      await requestAnimationFrame(
+      await window.requestAnimationFrame(
         () =>
           new Promise((resolve) => {
             return resolve();
