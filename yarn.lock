@@ -7890,10 +7890,10 @@ release-it-lerna-changelog@^4.0.1:
     validate-peer-dependencies "^2.0.0"
     which "^2.0.2"
 
-release-it@^14.11.6:
-  version "14.11.6"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.11.6.tgz#a285eaac25f9f3a6d47e688911e539af53a74446"
-  integrity sha512-6BNcuzFZHThBUBJ/xYw/bxZ+58CAwrwf1zgmjq2Ibl3nlDZbjphHG6iqxkJu7mZ8TIWs6NjloEAhqpjeXoN//Q==
+release-it@^14.11.7:
+  version "14.11.7"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-14.11.7.tgz#458696bad46b9ea28ef42df85de626cd7454ebfb"
+  integrity sha512-m4p9+x6AEQPczc96Jyg6dGFeovpJVgRCtA1lxeIgTmQVt9dutYPkkjZeJngZgUJ17/Lb1bx6ZzW2qsKmopKnbQ==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "18.10.0"
