@@ -189,6 +189,14 @@ export class Tour extends Evented {
   isActive() {
     return Shepherd.activeTour === this;
   }
+  
+  /**
+   * Check if the tour is open
+   * @returns {boolean}
+   */
+  isOpen() {
+    return this.isActive()? this.getCurrentStep().isOpen() : false;
+  }
 
   /**
    * Go to the next step in the tour
