@@ -3122,10 +3122,10 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-cssnano-preset-default@^5.1.7:
-  version "5.1.7"
-  resolved "https://registry.yarnpkg.com/cssnano-preset-default/-/cssnano-preset-default-5.1.7.tgz#68c3ad1ec6a810482ec7d06b2d70fc34b6b0d70c"
-  integrity sha512-bWDjtTY+BOqrqBtsSQIbN0RLGD2Yr2CnecpP0ydHNafh9ZUEre8c8VYTaH9FEbyOt0eIfEUAYYk5zj92ioO8LA==
+cssnano-preset-default@^5.1.8:
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/cssnano-preset-default/-/cssnano-preset-default-5.1.8.tgz#7525feb1b72f7b06e57f55064cbdae341d79dea2"
+  integrity sha512-zWMlP0+AMPBVE852SqTrP0DnhTcTA2C1wAF92TKZ3Va+aUVqLIhkqKlnJIXXdqXD7RN+S1ujuWmNpvrJBiM/vg==
   dependencies:
     css-declaration-sorter "^6.0.3"
     cssnano-utils "^2.0.1"
@@ -3152,7 +3152,7 @@ cssnano-preset-default@^5.1.7:
     postcss-normalize-url "^5.0.3"
     postcss-normalize-whitespace "^5.0.1"
     postcss-ordered-values "^5.0.2"
-    postcss-reduce-initial "^5.0.1"
+    postcss-reduce-initial "^5.0.2"
     postcss-reduce-transforms "^5.0.1"
     postcss-svgo "^5.0.3"
     postcss-unique-selectors "^5.0.2"
@@ -3162,12 +3162,12 @@ cssnano-utils@^2.0.1:
   resolved "https://registry.yarnpkg.com/cssnano-utils/-/cssnano-utils-2.0.1.tgz#8660aa2b37ed869d2e2f22918196a9a8b6498ce2"
   integrity sha512-i8vLRZTnEH9ubIyfdZCAdIdgnHAUeQeByEeQ2I7oTilvP9oHO6RScpeq3GsFUVqeB8uZgOQ9pw8utofNn32hhQ==
 
-cssnano@^5.0.1, cssnano@^5.0.11:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-5.0.11.tgz#743397a05e04cb87e9df44b7659850adfafc3646"
-  integrity sha512-5SHM31NAAe29jvy0MJqK40zZ/8dGlnlzcfHKw00bWMVFp8LWqtuyPSFwbaoIoxvt71KWJOfg8HMRGrBR3PExCg==
+cssnano@^5.0.1, cssnano@^5.0.12:
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/cssnano/-/cssnano-5.0.12.tgz#2c083a1c786fc9dc2d5522bd3c0e331b7cd302ab"
+  integrity sha512-U38V4x2iJ3ijPdeWqUrEr4eKBB5PbEKsNP5T8xcik2Au3LeMtiMHX0i2Hu9k51FcKofNZumbrcdC6+a521IUHg==
   dependencies:
-    cssnano-preset-default "^5.1.7"
+    cssnano-preset-default "^5.1.8"
     is-resolvable "^1.1.0"
     lilconfig "^2.0.3"
     yaml "^1.10.2"
@@ -7410,12 +7410,12 @@ postcss-ordered-values@^5.0.2:
     cssnano-utils "^2.0.1"
     postcss-value-parser "^4.1.0"
 
-postcss-reduce-initial@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-reduce-initial/-/postcss-reduce-initial-5.0.1.tgz#9d6369865b0f6f6f6b165a0ef5dc1a4856c7e946"
-  integrity sha512-zlCZPKLLTMAqA3ZWH57HlbCjkD55LX9dsRyxlls+wfuRfqCi5mSlZVan0heX5cHr154Dq9AfbH70LyhrSAezJw==
+postcss-reduce-initial@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-reduce-initial/-/postcss-reduce-initial-5.0.2.tgz#fa424ce8aa88a89bc0b6d0f94871b24abe94c048"
+  integrity sha512-v/kbAAQ+S1V5v9TJvbGkV98V2ERPdU6XvMcKMjqAlYiJ2NtsHGlKYLPjWWcXlaTKNxooId7BGxeraK8qXvzKtw==
   dependencies:
-    browserslist "^4.16.0"
+    browserslist "^4.16.6"
     caniuse-api "^3.0.0"
 
 postcss-reduce-transforms@^5.0.1:
