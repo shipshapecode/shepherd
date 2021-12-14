@@ -1,8 +1,5 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ['./index.html']
-  },
+  content: ['./index.html'],
   theme: {
     boxShadow: {
       default: '0 10px 30px 0 rgba(0, 0, 0, 1), 0 10px 20px 0 rgba(0, 0, 0, 1)'
@@ -80,7 +77,6 @@ module.exports = {
       140: '36rem'
     }
   },
-  variants: {},
   plugins: [],
   corePlugins: {
     container: false
