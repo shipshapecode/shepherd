@@ -6834,10 +6834,10 @@ package-json@^6.3.0:
     registry-url "^5.0.0"
     semver "^6.2.0"
 
-package-name-regex@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-2.0.4.tgz#e2d446a168ce7a5e4b3b7538e49e012845425e87"
-  integrity sha512-p+ixFAmbQ9DE9TG3ptbjLc7/gwgdKEMCwdGpZwxzgD02D1q/SRRT/j32MyjGjJQ36CSTeVsvKt9Zp3PUHYWBnw==
+package-name-regex@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/package-name-regex/-/package-name-regex-2.0.5.tgz#5e3548ffe3dba340b9779d28a024bdb4a19f055b"
+  integrity sha512-F0lX+FBs/Bo7KWY6EuUXj+oarXU0Og1R2Zdg3F/fVcNw3pPQAKFKxUrugno0Ds5NUztlx/gRLnQW9MF+7VTqAw==
 
 pacote@^11.2.7:
   version "11.3.5"
@@ -8031,10 +8031,10 @@ rollup-plugin-filesize@^9.1.1:
     pacote "^11.2.7"
     terser "^5.6.0"
 
-rollup-plugin-license@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.6.0.tgz#363a15bf2f86753942cb4936bbd65234696956f0"
-  integrity sha512-ilM+sb9xCvP+23tmzsCqJSm33877nIFeO6lMDGbckxc1jq2nW6WtU1nFD4cfOrKYl0cw1dkz4rC3VMAe8dA8cQ==
+rollup-plugin-license@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.6.1.tgz#20f15cc37950f362f8eefdc6e3a2e659d0cad9eb"
+  integrity sha512-JPtlXF0tZKyHztKJsyd3HHmQFSkXei+596Xrb/a/bHIdDhvFuNSKimCKkQpoXyspfeVQk7CNay1MyGpFHAXjvg==
   dependencies:
     commenting "1.1.0"
     glob "7.2.0"
@@ -8042,7 +8042,7 @@ rollup-plugin-license@^2.6.0:
     magic-string "0.25.7"
     mkdirp "1.0.4"
     moment "2.29.1"
-    package-name-regex "2.0.4"
+    package-name-regex "2.0.5"
     spdx-expression-validate "2.0.0"
     spdx-satisfies "5.0.1"
 
