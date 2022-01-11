@@ -1,7 +1,12 @@
 import merge from 'deepmerge';
 import { Evented } from './evented.js';
 import autoBind from './utils/auto-bind.js';
-import { isElement, isHTMLElement, isFunction, isUndefined } from './utils/type-check.js';
+import {
+  isElement,
+  isHTMLElement,
+  isFunction,
+  isUndefined
+} from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import {
   setupTooltip,
@@ -416,6 +421,8 @@ export class Step extends Evented {
     if (step.options.highlightClass) {
       targetElement.classList.add(step.options.highlightClass);
     }
+
+    targetElement.classList.remove('shepherd-target-click-disabled');
 
     if (step.options.canClickTarget === false) {
       targetElement.classList.add('shepherd-target-click-disabled');

@@ -1,7 +1,12 @@
 import { Evented } from './evented.js';
 import { Step } from './step.js';
 import autoBind from './utils/auto-bind.js';
-import { isHTMLElement, isFunction, isString, isUndefined } from './utils/type-check.js';
+import {
+  isHTMLElement,
+  isFunction,
+  isString,
+  isUndefined
+} from './utils/type-check.js';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix, uuid } from './utils/general.js';
 import ShepherdModal from './components/shepherd-modal.svelte';
@@ -52,7 +57,14 @@ export class Tour extends Evented {
     this.addSteps(this.options.steps);
 
     // Pass these events onto the global Shepherd object
-    const events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
+    const events = [
+      'active',
+      'cancel',
+      'complete',
+      'inactive',
+      'show',
+      'start'
+    ];
     events.map((event) => {
       ((e) => {
         this.on(e, (opts) => {
@@ -121,7 +133,9 @@ export class Tour extends Evented {
    */
   cancel() {
     if (this.options.confirmCancel) {
-      const cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
+      const cancelMessage =
+        this.options.confirmCancelMessage ||
+        'Are you sure you want to stop the tour?';
       const stopTour = window.confirm(cancelMessage);
       if (stopTour) {
         this._done('cancel');
@@ -230,7 +244,8 @@ export class Tour extends Evented {
     if (step) {
       this._updateStateBeforeShow();
 
-      const shouldSkipStep = isFunction(step.options.showOn) && !step.options.showOn();
+      const shouldSkipStep =
+        isFunction(step.options.showOn) && !step.options.showOn();
 
       // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
       if (shouldSkipStep) {
@@ -288,7 +303,9 @@ export class Tour extends Evented {
 
     if (event === 'cancel' || event === 'complete') {
       if (this.modal) {
-        const modalContainer = document.querySelector('.shepherd-modal-overlay-container');
+        const modalContainer = document.querySelector(
+          '.shepherd-modal-overlay-container'
+        );
 
         if (modalContainer) {
           modalContainer.remove();
@@ -319,8 +336,7 @@ export class Tour extends Evented {
   _setupModal() {
     this.modal = new ShepherdModal({
       target: this.options.modalContainer || document.body,
-      props:
-      {
+      props: {
         classPrefix: this.classPrefix,
         styles: this.styles
       }
@@ -328,7 +344,7 @@ export class Tour extends Evented {
   }
 
   /**
-   * Called when `showOn` evaluates to false, to skip the step
+   * Called when `showOn` evaluates to false, to skip the step or complete the tour if it's the last step
    * @param {Step} step The step to skip
    * @param {Boolean} forward True if we are going forward, false if backward
    * @private
@@ -336,7 +352,11 @@ export class Tour extends Evented {
   _skipStep(step, forward) {
     const index = this.steps.indexOf(step);
     const nextIndex = forward ? index + 1 : index - 1;
-    this.show(nextIndex, forward);
+    if (nextIndex === this.steps.length - 1) {
+      this.complete();
+    } else {
+      this.show(nextIndex, forward);
+    }
   }
 
   /**

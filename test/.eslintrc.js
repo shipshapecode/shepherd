@@ -8,8 +8,7 @@ module.exports = {
     'jest'
   ],
   extends: [
-    'eslint:recommended',
-    'plugin:ship-shape/recommended'
+    'eslint:recommended'
   ],
   globals: {
     Cypress: false,

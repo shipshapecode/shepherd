@@ -18,8 +18,7 @@ export class Evented {
   }
 
   off(event, handler) {
-    if (isUndefined(this.bindings) ||
-      isUndefined(this.bindings[event])) {
+    if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return this;
     }
 

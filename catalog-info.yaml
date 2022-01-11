@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shepherd
+  annotations:
+    github.com/project-slug: shipshapecode/shepherd
+spec:
+  type: library
+  lifecycle: production
+  owner: internal

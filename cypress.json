@@ -6,9 +6,5 @@
   "supportFile": "test/cypress/support/index.js",
   "video": false,
   "viewportWidth": 1440,
-  "viewportHeight": 900,
-  "firefoxGcInterval": {
-    "runMode": null,
-    "openMode": null
-  }
+  "viewportHeight": 900
 }

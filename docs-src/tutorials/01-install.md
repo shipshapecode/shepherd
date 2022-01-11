@@ -28,10 +28,11 @@ to the release in GitHub. You can find those assets [here](https://github.com/sh
 
 ### jsDelivr CDN
 
-You can use jsDelivr to pull down any release from npm. For example, you could include v5.0.1 in your app
+You can use jsDelivr to pull down any release from npm. For example, you could include v8.3.1 with styles in your app
 with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/shepherd.js@5.0.1/dist/js/shepherd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/shepherd.js@8.3.1/dist/js/shepherd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@8.3.1/dist/css/shepherd.css"/>
 ```
 

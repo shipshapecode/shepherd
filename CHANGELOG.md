@@ -6,6 +6,40 @@ Version 9 of Highlight.js has reached EOL and is no longer supported.
 Please upgrade or ask whatever dependency you are using to upgrade.
 https://github.com/highlightjs/highlight.js/issues/2877
 
+
+## v9.0.0 (2022-01-11)
+
+#### :boom: Breaking Change
+* [#1682](https://github.com/shipshapecode/shepherd/pull/1682) Drop node 10 support ([@rwwagner90](https://github.com/rwwagner90))
+
+#### :rocket: Enhancement
+* [#1758](https://github.com/shipshapecode/shepherd/pull/1758) Fix type signature for `Evented.off()` ([@ulken](https://github.com/ulken))
+
+#### :bug: Bug Fix
+* [#1544](https://github.com/shipshapecode/shepherd/pull/1544) 🐛 Add check to remove class if canClickTarget is true ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* [#1479](https://github.com/shipshapecode/shepherd/pull/1479) Fix issue #1353 : Complete the tour when skipStep is the lastStep ([@thomasguittonneau](https://github.com/thomasguittonneau))
+
+#### :memo: Documentation
+* [#1513](https://github.com/shipshapecode/shepherd/pull/1513) Add `useModalOverlay` to example ([@rodrigoaraujolima92trulogic](https://github.com/rodrigoaraujolima92trulogic))
+* [#1651](https://github.com/shipshapecode/shepherd/pull/1651) Adds Drupal to the list of Projects Using Shepherd ([@thejimbirch](https://github.com/thejimbirch))
+* [#1632](https://github.com/shipshapecode/shepherd/pull/1632) I faced a problem while was trying to install shepherdjs ([@loldalolwerollnroll](https://github.com/loldalolwerollnroll))
+* [#1623](https://github.com/shipshapecode/shepherd/pull/1623) Add another progress indicator cookbook example ([@aripddev](https://github.com/aripddev))
+
+#### :house: Internal
+* [#1520](https://github.com/shipshapecode/shepherd/pull/1520) Update config for tailwind 2 ([@rwwagner90](https://github.com/rwwagner90))
+* [#1462](https://github.com/shipshapecode/shepherd/pull/1462) Add automerge back to dependabot ([@rwwagner90](https://github.com/rwwagner90))
+* [#1447](https://github.com/shipshapecode/shepherd/pull/1447) Add catalog-info.yaml config file ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 8
+- Aleksey Baranov ([@loldalolwerollnroll](https://github.com/loldalolwerollnroll))
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Jim Birch ([@thejimbirch](https://github.com/thejimbirch))
+- Oskar Löfgren ([@ulken](https://github.com/ulken))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Rodrigo Lima ([@rodrigoaraujolima92trulogic](https://github.com/rodrigoaraujolima92trulogic))
+- [@thomasguittonneau](https://github.com/thomasguittonneau)
+- aripddev ([@aripddev](https://github.com/aripddev))
+
 ## v8.3.1 (2021-05-07)
 
 #### :bug: Bug Fix
