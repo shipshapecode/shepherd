@@ -3,7 +3,7 @@ declare class Evented {
 
   once(event: string, handler: Function): void;
 
-  off(event: string, handler: Function): boolean | void;
+  off(event: string, handler?: Function): boolean | void;
 
   trigger(event: string): void;
 }
