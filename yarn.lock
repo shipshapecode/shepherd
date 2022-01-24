@@ -8719,10 +8719,10 @@ svelte-jester@^2.1.5:
   resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-2.1.5.tgz#c9d47ee202a3676883cd8ea5b85d66fb5b077db1"
   integrity sha512-T3JoPsNYltlN2MiVFDxAMOulIO4fztFFI3DhOkzbs1yZQCUFp6sqS6aqusBsIEMVmXaEDW4HO/6bX+CuwuEUSw==
 
-svelte-preprocess@^4.10.1:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.10.1.tgz#5f435e8aaa82976165bc8f5fa690e2e5ba084760"
-  integrity sha512-NSNloaylf+o9UeyUR2KvpdxrAyMdHl3U7rMnoP06/sG0iwJvlUM4TpMno13RaNqovh4AAoGsx1jeYcIyuGUXMw==
+svelte-preprocess@^4.10.2:
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-4.10.2.tgz#2405689e57161916947b8360679051a56eddd5c6"
+  integrity sha512-aPpkCreSo8EL/y8kJSa1trhiX0oyAtTjlNNM7BNjRAsMJ8Yy2LtqHt0zyd4pQPXt+D4PzbO3qTjjio3kwOxDlA==
   dependencies:
     "@types/pug" "^2.0.4"
     "@types/sass" "^1.16.0"
