@@ -65,7 +65,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.3.4",
     "codeclimate-test-reporter": "^0.5.1",
-    "cssnano": "^5.0.15",
+    "cssnano": "^5.0.16",
     "cypress": "^9.3.1",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^6.0.0",
