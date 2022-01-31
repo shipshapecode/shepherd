@@ -5566,10 +5566,10 @@ jsdoc-template-ship-shape@^0.1.1:
   dependencies:
     taffydb "^2.7.3"
 
-jsdoc@^3.6.9:
-  version "3.6.9"
-  resolved "https://registry.yarnpkg.com/jsdoc/-/jsdoc-3.6.9.tgz#bbf2b9d3dfce7752e4e4aa682645bcbfa99b4d4e"
-  integrity sha512-bVrM2DT2iLmv6jd2IdTRk67tC4iaSDUicD+47y+cNCYlE8dccd4xZnlANG4M+OmGyV389bABSTKKfoPCOofbKw==
+jsdoc@^3.6.10:
+  version "3.6.10"
+  resolved "https://registry.yarnpkg.com/jsdoc/-/jsdoc-3.6.10.tgz#dc903c44763b78afa7d94d63da475d20bc224cc4"
+  integrity sha512-IdQ8ppSo5LKZ9o3M+LKIIK8i00DIe5msDvG3G81Km+1dhy0XrOWD0Ji8H61ElgyEj/O9KRLokgKbAM9XX9CJAg==
   dependencies:
     "@babel/parser" "^7.9.4"
     "@types/markdown-it" "^12.2.3"
