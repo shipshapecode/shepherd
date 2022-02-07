@@ -106,7 +106,7 @@
     "rollup-plugin-visualizer": "^5.5.4",
     "sinon": "^13.0.0",
     "start-server-and-test": "^1.14.0",
-    "svelte": "^3.46.3",
+    "svelte": "^3.46.4",
     "svelte-jester": "^2.1.5",
     "svelte-preprocess": "^4.10.2",
     "tailwindcss": "^3.0.18"
