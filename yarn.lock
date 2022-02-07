@@ -8758,10 +8758,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svelte-jester@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-2.1.5.tgz#c9d47ee202a3676883cd8ea5b85d66fb5b077db1"
-  integrity sha512-T3JoPsNYltlN2MiVFDxAMOulIO4fztFFI3DhOkzbs1yZQCUFp6sqS6aqusBsIEMVmXaEDW4HO/6bX+CuwuEUSw==
+svelte-jester@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/svelte-jester/-/svelte-jester-2.3.1.tgz#fbc9f169ae1ad63c0d815ab757acd0e88d24b934"
+  integrity sha512-Iss/w6EhWRqQ8e3I+UwT4JQCexwnA22jhr+1PcOD8+P99yQh3SsHHK2r2Fvr4bHHjBtvOTgzxhkOyRXP45lj4Q==
 
 svelte-preprocess@^4.10.2:
   version "4.10.2"
