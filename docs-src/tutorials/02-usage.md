@@ -197,9 +197,11 @@ the step will execute. For example:
   - `label` The label to add for `aria-label`
 - `classes`: A string of extra classes to add to the step's content element.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a footer below the main body text. Each button in the array is an object of the format:
-  - `text`: The HTML text of the button
+  - `label`: The label to add for `aria-label`. It can also be a function that returns a string (useful with i18n solutions).
+  - `disabled`: A boolean that controls the `disabled` attribute. It can also be a function that returns a boolean.
   - `classes`: Extra classes to apply to the `<a>`
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary` class to the button
+  - `text`: The HTML text of the button. It can also be a function that returns a string (useful with i18n solutions).
   - `action`: A function executed when the button is clicked on.
    It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
    work inside the action. You can use action to skip steps or navigate to specific steps, with something like:
@@ -209,7 +211,7 @@ the step will execute. For example:
      }
    ```
 - `advanceOn`: An action on the page which should advance shepherd to the next step.  It should be an object with a string `selector` and an `event` name.
-For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.  
+For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.
 You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
