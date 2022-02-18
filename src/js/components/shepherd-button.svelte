@@ -7,17 +7,17 @@
   $: {
     action = config.action ? config.action.bind(step.tour) : null;
     classes = config.classes;
-    disabled = config.disabled ? getDisabled(config.disabled) : false;
-    label = config.label;
+    disabled = config.disabled ? getConfigOption(config.disabled) : false;
+    label = config.label ? getConfigOption(config.label) : null;
     secondary = config.secondary;
-    text = config.text;
+    text = config.text ? getConfigOption(config.text) : null;
   }
 
-  function getDisabled(disabled) {
-      if (isFunction(disabled)) {
-          return disabled = disabled.call(step);
-      }
-      return disabled
+  function getConfigOption(option) {
+    if (isFunction(option)) {
+      return option = option.call(step);
+    }
+    return option;
   }
 
 </script>

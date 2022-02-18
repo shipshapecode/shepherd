@@ -93,6 +93,21 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
+    it('label - funtion', () => {
+      const config = {
+        label: () => 'Test'
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveAttribute('aria-label', 'Test');
+    });
+
     it('label - null', () => {
       const config = {
         label: null
@@ -119,6 +134,36 @@ describe('component/ShepherdButton', () => {
 
       const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
+    });
+
+    it('text - string', () => {
+      const config = {
+        text: 'Test'
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveTextContent('Test');
+    });
+
+    it('text - function', () => {
+      const config = {
+        text: () => 'Test'
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveTextContent('Test');
     });
   });
 });
