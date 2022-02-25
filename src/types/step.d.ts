@@ -269,7 +269,7 @@ declare namespace Step {
     /**
      * The aria-label text of the button
      */
-    label?: string;
+    label?: string | (() => string);
     
     /**
      * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
@@ -279,7 +279,7 @@ declare namespace Step {
     /**
      * The HTML text of the button
      */
-    text?: string;
+    text?: string | (() => string);
   }
 
   interface StepOptionsButtonEvent {

@@ -93,6 +93,34 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
+    it('label - funtion', () => {
+      let label = 'Test';
+      const labelFunction = () => label;
+      const config = {
+        label: labelFunction
+      };
+
+      const { container, rerender } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveAttribute('aria-label', 'Test');
+
+      label = 'Test 2';
+
+      rerender({
+        props: {
+          config
+        }
+      });
+
+      const buttonUpdated = container.querySelector('.shepherd-button');
+      expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
+    });
+
     it('label - null', () => {
       const config = {
         label: null
@@ -119,6 +147,49 @@ describe('component/ShepherdButton', () => {
 
       const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
+    });
+
+    it('text - string', () => {
+      const config = {
+        text: 'Test'
+      };
+
+      const { container } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveTextContent('Test');
+    });
+
+    it('text - function', () => {
+      let text = 'Test';
+      const textFunction = () => text;
+      const config = {
+        text: textFunction
+      };
+
+      const { container, rerender } = render(ShepherdButton, {
+        props: {
+          config
+        }
+      });
+
+      const button = container.querySelector('.shepherd-button');
+      expect(button).toHaveTextContent('Test');
+
+      text = 'Test 2';
+
+      rerender({
+        props: {
+          config
+        }
+      });
+
+      const buttonUpdated = container.querySelector('.shepherd-button');
+      expect(buttonUpdated).toHaveTextContent('Test 2');
     });
   });
 });
