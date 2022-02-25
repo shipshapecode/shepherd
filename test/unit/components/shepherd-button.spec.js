@@ -94,9 +94,10 @@ describe('component/ShepherdButton', () => {
     });
 
     it('label - funtion', () => {
-      const labelFunction = (label) => label;
+      let label = 'Test';
+      const labelFunction = () => label;
       const config = {
-        label: labelFunction('Test')
+        label: labelFunction
       };
 
       const { container, rerender } = render(ShepherdButton, {
@@ -108,7 +109,7 @@ describe('component/ShepherdButton', () => {
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', 'Test');
 
-      config.label = labelFunction('Test 2');
+      label = 'Test 2';
 
       rerender({
         props: {
@@ -164,9 +165,10 @@ describe('component/ShepherdButton', () => {
     });
 
     it('text - function', () => {
-      const textFunction = (text) => text;
+      let text = 'Test';
+      const textFunction = () => text;
       const config = {
-        text: textFunction('Test')
+        text: textFunction
       };
 
       const { container, rerender } = render(ShepherdButton, {
@@ -178,7 +180,7 @@ describe('component/ShepherdButton', () => {
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveTextContent('Test');
 
-      config.text = textFunction('Test 2');
+      text = 'Test 2';
 
       rerender({
         props: {
