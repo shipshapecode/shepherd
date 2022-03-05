@@ -2,7 +2,7 @@ import { should } from 'chai';
 import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
 import { Tour } from '../../../src/js/tour.js';
-import { getPopperOptions, parseAttachTo, shouldCenterStep } from '../../../src/js/utils/general.js';
+import { getPopperOptions, parseAttachTo, shouldCenterStep, parseElementOrSelector } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   let optionsElement;
@@ -58,6 +58,30 @@ describe('General Utils', function() {
       });
 
       parseAttachTo(step);
+    });
+  });
+
+  describe('parseElementOrSelector()', function() {
+    it('Returns the same HTMLElement passed to it', function () {
+      const element = document.createElement('div');
+      const parsedElement = parseElementOrSelector(element);
+      expect(element === parsedElement).toBeTruthy();
+    });
+
+    it('Returns an HTMLElement when passed a matching selector', function() {
+      const parsedElement = parseElementOrSelector('.options-test');
+      expect(parsedElement).toBeInstanceOf(window.HTMLElement);
+    });
+
+    it('Returns null when passed a non-matching selector', function() {
+      const parsedElement = parseElementOrSelector('.element-does-not-exist');
+      expect(parsedElement).toBeNull();
+    });
+
+    it('Returns null when passed falsy values', function() {
+      expect(parseElementOrSelector(undefined)).toBeNull();
+      expect(parseElementOrSelector(false)).toBeNull();
+      expect(parseElementOrSelector(null)).toBeNull();
     });
   });
 
