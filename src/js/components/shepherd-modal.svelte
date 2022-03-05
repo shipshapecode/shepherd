@@ -13,6 +13,7 @@
   closeModalOpening();
 
   export const getElement = () => element;
+  export const getOpeningProperties = () => openingProperties;
 
   export function closeModalOpening() {
     openingProperties = {

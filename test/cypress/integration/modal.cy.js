@@ -118,4 +118,31 @@ describe('Modal mode', () => {
       cy.get('.shepherd-modal-is-visible').should('have.length', 1);
     });
   });
+
+  describe('Modal with separate selector', function() {
+    const steps = () => {
+      return [
+        {
+          attachTo: {
+            element: '.hero-welcome',
+            on: 'bottom'
+          },
+          modalOverlayOpeningElement: '.hero-welcome h1',
+        }
+      ];
+    };
+
+    beforeEach(() => {
+      tour = setupTour(Shepherd, {}, steps, {
+        useModalOverlay: true
+      });
+    });
+
+    it('has the modal target the separate selector element', function() {
+      tour.start();
+      cy.get('.shepherd-modal-is-visible').should('have.length', 1);
+      const openingPropertyHeight = tour.modal.getOpeningProperties().height;
+      cy.get('.hero-welcome h1').invoke('outerHeight').should('eq', openingPropertyHeight);
+    });
+  });
 });
