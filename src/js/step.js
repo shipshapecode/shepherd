@@ -83,6 +83,8 @@ export class Step extends Evented {
    * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {string} options.id The string to use as the `id` for the step.
+   * @param {HTMLElement|string} options.modalOverlayOpeningElement An element selector string or a DOM element that the modal overlay
+   * opening should target. Defaults to using the same element as `attachTo` if unspecified.
    * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    * @param {number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    * @param {object} options.popperOptions Extra options to pass to Popper

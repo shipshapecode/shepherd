@@ -165,6 +165,13 @@ declare namespace Step {
     id?: string;
 
     /**
+     * An element selector string or a DOM element that the modal overlay
+     * opening should target. Defaults to using the same element as `attachTo`
+     * if unspecified.
+     */
+    modalOverlayOpeningElement?: HTMLElement | string;
+
+    /**
      * An amount of padding to add around the modal overlay opening
      */
     modalOverlayOpeningPadding?: number;
