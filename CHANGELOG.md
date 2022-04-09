@@ -7,6 +7,15 @@ Please upgrade or ask whatever dependency you are using to upgrade.
 https://github.com/highlightjs/highlight.js/issues/2877
 
 
+
+## v9.1.0 (2022-04-09)
+
+#### :rocket: Enhancement
+* [#1815](https://github.com/shipshapecode/shepherd/pull/1815) Add dynamic text and label properties for buttons ([@radibit](https://github.com/radibit))
+
+#### Committers: 1
+- Radimir Bitsov ([@radibit](https://github.com/radibit))
+
 ## v9.0.0 (2022-01-11)
 
 #### :boom: Breaking Change
