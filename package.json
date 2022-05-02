@@ -76,7 +76,7 @@
     "eslint-plugin-svelte3": "^3.4.1",
     "glob": "^8.0.1",
     "http-server": "^14.1.0",
-    "jest": "^27.5.1",
+    "jest": "^28.0.3",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^4.0.1",
     "jsdoc": "^3.6.10",
