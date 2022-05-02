@@ -5518,10 +5518,10 @@ jest-snapshot@^27.5.1:
     pretty-format "^27.5.1"
     semver "^7.3.2"
 
-jest-transform-css@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/jest-transform-css/-/jest-transform-css-4.0.0.tgz#47147071e2341f2b185e6f5d1f1b11539795e1e0"
-  integrity sha512-WnxLoXGObw5/i/m1xXl2hvlRsrsWYkSkwzfyWEawg9lOswDK6jtwXRwroNM0eidq8Dtef5d6ML4T1ZRQCwNgPQ==
+jest-transform-css@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/jest-transform-css/-/jest-transform-css-4.0.1.tgz#556fe428d633555ddf9cf5502565928c76afbdab"
+  integrity sha512-/rhrYXnLACL2rQ4ME6KtPGR2bKM27HDI6nRHGzGBrZXqkErN+PwxCz+wz6oflIf783szH8HWL0p5Iu7RXTSHYQ==
   dependencies:
     common-tags "1.8.2"
     cosmiconfig "7.0.1"
