@@ -78,7 +78,7 @@
     "http-server": "^14.1.0",
     "jest": "^27.5.1",
     "jest-expect-message": "^1.0.2",
-    "jest-transform-css": "^4.0.0",
+    "jest-transform-css": "^4.0.1",
     "jsdoc": "^3.6.10",
     "jsdoc-template-ship-shape": "^0.1.1",
     "mutationobserver-shim": "^0.3.7",
