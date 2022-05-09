@@ -69,7 +69,7 @@
     "cypress": "^9.6.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^6.0.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.1.5",
     "eslint-plugin-prettier": "^4.0.0",
