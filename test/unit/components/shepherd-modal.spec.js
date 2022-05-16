@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import ShepherdModal from '../../../src/js/components/shepherd-modal.svelte';
 import { stub } from 'sinon';
 

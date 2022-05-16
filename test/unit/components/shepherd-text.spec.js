@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import { cleanup, render } from '@testing-library/svelte';
 import ShepherdText from '../../../src/js/components/shepherd-text.svelte';
 

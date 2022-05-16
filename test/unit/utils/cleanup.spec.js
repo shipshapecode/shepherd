@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import { cleanupSteps } from '../../../src/js/utils/cleanup.js';
 
 describe('Cleanup Utils', function() {

@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import { Step } from '../../../src/js/step.js';
 import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
 

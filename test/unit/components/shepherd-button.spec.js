@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import { cleanup, render } from '@testing-library/svelte';
 import ShepherdButton from '../../../src/js/components/shepherd-button.svelte';
 

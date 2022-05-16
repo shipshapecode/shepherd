@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import { cleanup, render } from '@testing-library/svelte';
 import ShepherdFooter from '../../../src/js/components/shepherd-footer.svelte';
 import defaultButtons from '../../cypress/utils/default-buttons.js';
