@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import { cleanup, render } from '@testing-library/svelte';
 import ShepherdTitle from '../../../src/js/components/shepherd-title.svelte';
 

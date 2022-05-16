@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import { Evented } from '../../src/js/evented.js';
 import { spy } from 'sinon';
 

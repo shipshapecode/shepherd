@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import { bindAdvance } from '../../../src/js/utils/bind.js';
 import { Step } from '../../../src/js/step.js';
 import { spy } from 'sinon';

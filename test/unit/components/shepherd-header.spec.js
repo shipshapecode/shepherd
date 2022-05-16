@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import { spy } from 'sinon';
 import ShepherdHeader from '../../../src/js/components/shepherd-header.svelte';
