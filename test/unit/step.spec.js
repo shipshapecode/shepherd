@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
