@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
-*/
-
 import _ from 'lodash';
 import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
