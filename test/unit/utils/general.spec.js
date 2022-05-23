@@ -1,6 +1,8 @@
+import { should } from 'chai';
 import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
-import { getPopperOptions, parseAttachTo } from '../../../src/js/utils/general.js';
+import { Tour } from '../../../src/js/tour.js';
+import { getPopperOptions, parseAttachTo,shouldCenterStep } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   let optionsElement;
@@ -93,4 +95,48 @@ describe('General Utils', function() {
       expect(popperOptions.strategy).toBe('absolute');
     });
   });
+
+  
+  describe('shouldCenterStep()', () => {
+    it('Can accurately bind with falsy attachTo before tour start', () => {
+      const tour = new Tour({
+        steps: [{
+          id: 'noAttachTo'
+        }]
+      })
+
+      expect(shouldCenterStep(tour.getCurrentStep())).toBeTruthy()
+    })
+
+    it('Can accurately bind with multiple tour steps', () => {
+      const tour = new Tour({
+        steps: [{
+          id: 'noAttachTo1'
+        }, {
+          id: 'noAttachTo2'
+        }]
+      })
+
+      tour.start()
+      tour.next()
+      tour.removeStep('noAttachTo1')
+
+      expect(tour.getCurrentStep().id).toBe('noAttachTo2')
+      expect(shouldCenterStep(tour.getCurrentStep().attachTo)).toBeTruthy()
+    })
+
+    it('Can accurately bind after resolving step options', () => {
+      const tour = new Tour({
+        steps: [{
+          id: 'noAttachTo1'
+        }, {
+          id: 'noAttachTo2'
+        }]
+      })
+
+      tour.start()
+      
+      expect(shouldCenterStep(tour.getCurrentStep()._getResolvedAttachToOptions())).toBeTruthy()
+    })
+  })
 });
