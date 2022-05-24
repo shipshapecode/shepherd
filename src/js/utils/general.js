@@ -56,6 +56,10 @@ export function parseAttachTo(step) {
  * @returns {boolean}
  */
 export function shouldCenterStep(resolvedAttachToOptions) {
+  if (resolvedAttachToOptions === undefined || resolvedAttachToOptions === null) {
+    return true
+  }
+  
   return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
 }
 

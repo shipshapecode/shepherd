@@ -105,8 +105,8 @@ describe('General Utils', function() {
 
       expect(shouldCenterStep(emptyObjAttachTo)).toBe(true);
       expect(shouldCenterStep(emptyArrAttachTo)).toBe(true);
-      // expect(shouldCenterStep(nullAttachTo)).toBe(true);
-      // expect(shouldCenterStep(undefAttachTo)).toBe(true);
+      expect(shouldCenterStep(nullAttachTo)).toBe(true);
+      expect(shouldCenterStep(undefAttachTo)).toBe(true);
     })
 
     it('Returns false when element and on properties are truthy', () => {
