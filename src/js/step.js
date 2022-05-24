@@ -232,7 +232,7 @@ export class Step extends Evented {
   isCentered() {
     const attachToOptions = this._getResolvedAttachToOptions();
     return !attachToOptions.element || !attachToOptions.on;
-  }
+  } 
 
   /**
    * Check if the step is open and visible

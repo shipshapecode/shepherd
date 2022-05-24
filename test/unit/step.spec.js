@@ -577,57 +577,6 @@ describe('Tour | Step', () => {
     });
   });
 
-  describe('.isCentered()', () => {
-    // Where is isCentered being used in the package? Cannot see it being used as a dependency anywhere
-    it('Returns false when either element or on options of attachTo are given initial values', () => {
-      const step1Spy = spy();
-  
-      const instance = new Shepherd.Tour({
-        steps: [
-          {
-            text: 'step 1',
-            attachTo: { element: step1Spy, on: 'left' }
-          }
-        ]
-      });
-  
-      instance.start()
-  
-      expect(instance.getCurrentStep().isCentered()).toBe(false)
-    })
-
-    it('RESOLVED: Returns false when either element or on options of attachTo are given initial values)', () => {
-      const step1Spy = spy();
-  
-      const instance = new Shepherd.Tour({
-        steps: [
-          {
-            text: 'step 1',
-            attachTo: { element: step1Spy, on: 'auto' }
-          }
-        ]
-      });
-  
-      instance.start()
-      // instance.getCurrentStep().show()
-      expect(instance.getCurrentStep().isCentered()).toBe(true)
-    })
-
-    it('Returns true when both attachTo options (element and on) are not given initial values', () => {
-      const instance = new Shepherd.Tour({
-        steps: [
-          {
-            text: 'step 1'
-          }
-        ]
-      });
-  
-      instance.start()
-
-      expect(instance.getCurrentStep().isCentered()).toBe(true)
-    })
-  })
-
   describe('lazy attachTo evaluation', () => {
     // We test this using attachTo.element callback.
     // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
