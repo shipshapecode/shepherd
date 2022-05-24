@@ -222,19 +222,6 @@ export class Step extends Evented {
   }
 
   /**
-   * Checks if the step should be centered or not
-   * @return {boolean} True if the step is centered
-   * @deprecated This method causes issues with lazy attachTo evaluation. We evaluate attachTo.element in `before-show`
-   * phase, and then memoize the result to make sure we're always referencing the same element. If you use this before
-   * showing the step, the resulting element might be different, depending on how you configure `attachTo.element`. For
-   * internal code, use shouldCenterStep instead.
-   */
-  isCentered() {
-    const attachToOptions = this._getResolvedAttachToOptions();
-    return !attachToOptions.element || !attachToOptions.on;
-  } 
-
-  /**
    * Check if the step is open and visible
    * @return {boolean} True if the step is open and visible
    */
