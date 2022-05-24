@@ -95,15 +95,16 @@ describe('General Utils', function() {
       expect(popperOptions.strategy).toBe('absolute');
     });
   });
-
   
   describe('shouldCenterStep()', () => {
     it('Can accurately bind with falsy attachTo before tour start', () => {
       const tour = new Tour({
         steps: [{
-          id: 'noAttachTo'
+          text: 'noAttachTo'
         }]
       })
+
+      tour.start()
 
       expect(shouldCenterStep(tour.getCurrentStep())).toBeTruthy()
     })
@@ -111,9 +112,9 @@ describe('General Utils', function() {
     it('Can accurately bind with multiple tour steps', () => {
       const tour = new Tour({
         steps: [{
-          id: 'noAttachTo1'
+          text: 'noAttachTo1'
         }, {
-          id: 'noAttachTo2'
+          text: 'noAttachTo2'
         }]
       })
 
@@ -121,7 +122,7 @@ describe('General Utils', function() {
       tour.next()
       tour.removeStep('noAttachTo1')
 
-      expect(tour.getCurrentStep().id).toBe('noAttachTo2')
+      expect(tour.getCurrentStep().text).toBe('noAttachTo2')
       expect(shouldCenterStep(tour.getCurrentStep().attachTo)).toBeTruthy()
     })
 

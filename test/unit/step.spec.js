@@ -579,7 +579,24 @@ describe('Tour | Step', () => {
 
   describe('.isCentered()', () => {
     // Where is isCentered being used in the package? Cannot see it being used as a dependency anywhere
-    it('Can bind with a defined attachTo', () => {
+    it('Returns false when either element or on options of attachTo are given initial values', () => {
+      const step1Spy = spy();
+  
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: step1Spy, on: 'left' }
+          }
+        ]
+      });
+  
+      instance.start()
+  
+      expect(instance.getCurrentStep().isCentered()).toBe(false)
+    })
+
+    it('RESOLVED: Returns false when either element or on options of attachTo are given initial values)', () => {
       const step1Spy = spy();
   
       const instance = new Shepherd.Tour({
@@ -592,11 +609,11 @@ describe('Tour | Step', () => {
       });
   
       instance.start()
-  
-      expect(instance.steps[0].isCentered()).toBe(true)
+      // instance.getCurrentStep().show()
+      expect(instance.getCurrentStep().isCentered()).toBe(true)
     })
 
-    it('Can bind with a falsy attachTo', () => {
+    it('Returns true when both attachTo options (element and on) are not given initial values', () => {
       const instance = new Shepherd.Tour({
         steps: [
           {
@@ -607,7 +624,7 @@ describe('Tour | Step', () => {
   
       instance.start()
 
-      expect(instance.steps[0].isCentered()).toBe(true)
+      expect(instance.getCurrentStep().isCentered()).toBe(true)
     })
   })
 
