@@ -2,6 +2,7 @@ import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
+import { parseAttachTo } from '../../src/js/utils/general'
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -467,6 +468,35 @@ describe('Tour | Step', () => {
 
       step._scrollTo();
       expect(handlerAdded).toBeTruthy();
+    });
+
+    it('calls scroll native method after before-show promise resolution', () => {
+      const resTester = document.createElement('div');
+      let resHandlerCalled = false;
+      resTester.classList.add('post-res-scroll-test');
+      document.body.appendChild(resTester);
+      const step = new Step('test', {
+        attachTo: { element: '.post-res-scroll-test', on: 'center' }
+      });
+      
+      parseAttachTo(step)
+
+      resTester.scrollIntoView = () => (resHandlerCalled = true);
+
+      step._scrollTo();
+      expect(resHandlerCalled).toBeTruthy();
+    })
+
+    it('calls the custom handler after before-show promise resolution', () => {
+      let resHandlerAdded = false;
+      const step = new Step('test', {
+        scrollToHandler: () => (resHandlerAdded = true)
+      });
+
+      parseAttachTo(step)
+
+      step._scrollTo();
+      expect(resHandlerAdded).toBeTruthy();
     });
   });
 

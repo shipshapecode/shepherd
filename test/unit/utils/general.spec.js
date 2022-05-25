@@ -2,7 +2,7 @@ import { should } from 'chai';
 import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
 import { Tour } from '../../../src/js/tour.js';
-import { getPopperOptions, parseAttachTo,shouldCenterStep } from '../../../src/js/utils/general.js';
+import { getPopperOptions, parseAttachTo, shouldCenterStep } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
   let optionsElement;
