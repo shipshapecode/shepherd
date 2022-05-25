@@ -228,6 +228,89 @@ describe('Shepherd Acceptance Tests', () => {
 
       // This tests whether we can create and start a tour containing steps attached to elements that do not yet exist.
       // We create the element between steps to simulate step target rendering upon user action.
+      
+      it('correctly attaches to multiple lazily-evaluated elements', () => {
+        cy.document().then((document) => {
+          const steps = () => {
+            return [
+              {
+                text: 'First step'
+              },
+              {
+                text: 'Dummy step',
+                attachTo: {
+                  element: () => document.querySelector('#dummyTarget'),
+                  on: 'top'
+                },
+                id: 'dummyStep'
+              },
+              {
+                text: 'Lazy target evaluation works too!',
+                attachTo: {
+                  element: () => document.querySelector('#lazyTarget'), // this element does not yet exist
+                  on: 'bottom'
+                },
+                id: 'lazyStep'
+              }
+            ];
+          };
+
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+          
+          tour.start();
+
+          cy.wait(250);
+          
+          tour.next();
+          const dummyTarget = document.createElement('div');
+          dummyTarget.setAttribute('id', 'dummyTarget')
+          document.querySelector('[data-test-hero-including]').appendChild(dummyTarget);
+          
+          // Check dummy step binding
+          cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text')
+          .contains('Dummy step').should('be.visible');
+          assert.deepEqual(
+            document.querySelector('#dummyTarget'),
+            tour.getCurrentStep().target,
+            '#dummyTarget is the target'
+            );
+            
+          tour.next();
+          const lazyTarget = document.createElement('div');
+          lazyTarget.setAttribute('id', 'lazyTarget');
+          // Append to the hero so that the element is in viewport when running the test
+          document.querySelector('[data-test-hero-including]').appendChild(lazyTarget);
+          
+          // Check on binding of current lazy step
+          cy.get('[data-shepherd-step-id="lazyStep"] .shepherd-text')
+          .contains('Lazy target evaluation works too!').should('be.visible');
+          assert.deepEqual(
+            document.querySelector('#lazyTarget'),
+            tour.getCurrentStep().target,
+            '#lazyTarget is the target'
+          )
+            
+          tour.removeStep('dummyStep');
+
+          // Check binding of previous (now deleted) dummy step
+          // cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text')
+          // .contains('Dummy step').should('be.visible');
+          // assert.deepEqual(
+          //   document.querySelector('#dummyTarget'),
+          //   tour.getCurrentStep().target,
+          //   '#lazyTarget is the target'
+          // );
+           
+          // cy.document().then(() => {
+          //   assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
+          // });
+        });
+      });
+
       it('correctly attaches to lazily-evaluated elements', () => {
         cy.document().then((document) => {
           const steps = () => {
@@ -269,10 +352,10 @@ describe('Shepherd Acceptance Tests', () => {
           assert.deepEqual(
             document.querySelector('#lazyTarget'),
             tour.getCurrentStep().target,
-            '#lazyTarget is the target'
+            '#dummyTarget is the target'
           );
         });
-      });
+      });   
     });
 
     describe('buttons', () => {
