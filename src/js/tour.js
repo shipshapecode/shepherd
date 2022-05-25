@@ -352,7 +352,7 @@ export class Tour extends Evented {
   _skipStep(step, forward) {
     const index = this.steps.indexOf(step);
     const nextIndex = forward ? index + 1 : index - 1;
-    if (nextIndex === this.steps.length - 1) {
+    if (index === this.steps.length - 1) {
       this.complete();
     } else {
       this.show(nextIndex, forward);
