@@ -234,23 +234,23 @@ describe('Shepherd Acceptance Tests', () => {
           const steps = () => {
             return [
               {
-                text: 'First step'
+                text: 'foo'
               },
               {
-                text: 'Dummy step',
+                text: 'bar',
                 attachTo: {
-                  element: () => document.querySelector('#dummyTarget'),
-                  on: 'top'
-                },
-                id: 'dummyStep'
-              },
-              {
-                text: 'Lazy target evaluation works too!',
-                attachTo: {
-                  element: () => document.querySelector('#lazyTarget'), // this element does not yet exist
+                  element: () => document.querySelector('#bar'),
                   on: 'bottom'
                 },
-                id: 'lazyStep'
+                id: 'bar'
+              },
+              {
+                text: 'baz',
+                attachTo: {
+                  element: () => document.querySelector('#baz'),
+                  on: 'bottom'
+                },
+                id: 'baz'
               }
             ];
           };
@@ -262,48 +262,54 @@ describe('Shepherd Acceptance Tests', () => {
           }, steps);
           
           tour.start();
-
-          const dummyTarget = document.createElement('div');
-          dummyTarget.setAttribute('id', 'dummyTarget')
-          document.querySelector('[data-test-hero-including]').appendChild(dummyTarget);
           
+          const barTarget = document.createElement('div');
+          barTarget.setAttribute('id', 'bar')
+          document.querySelector('[data-test-hero-including]').appendChild(barTarget);
+
+          const bazTarget = document.createElement('div');
+          bazTarget.setAttribute('id', 'baz');
+          document.querySelector('[data-test-hero-including]').appendChild(bazTarget);
+
           tour.next()
           
-          cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text').then((dummyJq) => {
-            // dummyJq.contains('Dummy step').should('be.visible');
-            assert.deepEqual(
-              document.querySelector('#dummyTarget'),
-              tour.getCurrentStep().target,
-              '#dummyTarget is the target'
+          cy.get('[data-shepherd-step-id="bar"] .shepherd-text')
+            .then(() => {
+              cy.get('[data-shepherd-step-id="bar"] .shepherd-text').contains('bar').should('be.visible');
+              assert.deepEqual(
+                document.querySelector('#bar'),
+                tour.getCurrentStep().target,
+                '#bar is the target'
               );
-          })
-
-          //// SECOND ASSERTION
-
-          // const lazyTarget = document.createElement('div');
-          // lazyTarget.setAttribute('id', 'lazyTarget');
-          // document.querySelector('[data-test-hero-including]').appendChild(lazyTarget);
-
-          // tour.next();
+            })
+            .then(() => {
+              tour.next()
+            })
           
-          // cy.get('[data-shepherd-step-id="lazyStep"] .shepherd-text', {includeShadowDom: true})
-          // .contains('Lazy target evaluation works too!').should('be.visible');
-          // assert.deepEqual(
-          //   document.querySelector('#lazyTarget'),
-          //   tour.getCurrentStep().target,
-          //   '#lazyTarget is the target'
-          // )
-            
-          // tour.removeStep('dummyStep');
+          cy.get('[data-shepherd-step-id="baz"] .shepherd-text')
+            .then(() => {
+              cy.get('[data-shepherd-step-id="baz"] .shepherd-text').contains('baz').should('be.visible');
+              assert.deepEqual(
+                document.querySelector('#baz'),
+                tour.getCurrentStep().target,
+                '#baz is the target'
+              )
+            })
+            .then(() => {
+              tour.removeStep('bar')
+            })
+            .then(() => {
+              // Check binding of previous (now deleted) dummy step
+              // cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text')
+              // .contains('Dummy step').should('be.visible');
+              // assert.deepEqual(
+              //   document.querySelector('#dummyTarget'),
+              //   tour.getCurrentStep().target,
+              //   '#lazyTarget is the target'
+              // );
 
-          // Check binding of previous (now deleted) dummy step
-          // cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text')
-          // .contains('Dummy step').should('be.visible');
-          // assert.deepEqual(
-          //   document.querySelector('#dummyTarget'),
-          //   tour.getCurrentStep().target,
-          //   '#lazyTarget is the target'
-          // );
+            })
+            
            
           // cy.document().then(() => {
           //   assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
