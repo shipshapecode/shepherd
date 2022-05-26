@@ -1,5 +1,6 @@
 import setupTour from '../utils/setup-tour';
 import { assert } from 'chai';
+import { doc } from 'prettier';
 
 let Shepherd;
 
@@ -247,7 +248,7 @@ describe('Shepherd Acceptance Tests', () => {
               {
                 text: 'baz',
                 attachTo: {
-                  element: () => document.querySelector('#baz'),
+                  element: () => document.querySelector('.baz'),
                   on: 'bottom'
                 },
                 id: 'baz'
@@ -262,14 +263,22 @@ describe('Shepherd Acceptance Tests', () => {
           }, steps);
           
           tour.start();
+
           
           const barTarget = document.createElement('div');
           barTarget.setAttribute('id', 'bar')
           document.querySelector('[data-test-hero-including]').appendChild(barTarget);
 
           const bazTarget = document.createElement('div');
+          bazTarget.setAttribute('class', 'baz');
           bazTarget.setAttribute('id', 'baz');
           document.querySelector('[data-test-hero-including]').appendChild(bazTarget);
+
+          const quxTarget = document.createElement('div');
+          quxTarget.setAttribute('class', 'baz');
+          quxTarget.setAttribute('id', 'qux');
+          document.querySelector('[data-test-hero-including]').appendChild(quxTarget);
+          debugger
 
           tour.next()
           
@@ -296,24 +305,17 @@ describe('Shepherd Acceptance Tests', () => {
               )
             })
             .then(() => {
-              tour.removeStep('bar')
+              bazTarget.remove()
             })
             .then(() => {
-              // Check binding of previous (now deleted) dummy step
-              // cy.get('[data-shepherd-step-id="dummyStep"] .shepherd-text')
-              // .contains('Dummy step').should('be.visible');
-              // assert.deepEqual(
-              //   document.querySelector('#dummyTarget'),
-              //   tour.getCurrentStep().target,
-              //   '#lazyTarget is the target'
-              // );
-
+              cy.get('[data-shepherd-step-id="baz"] .shepherd-text').contains('baz').should('be.visible');
+              cy.get('.shepherd-element').should('have.focus');
+              assert.deepEqual(
+                tour.getCurrentStep()._getResolvedAttachToOptions().on,
+                'bottom',
+                'Resolved attachTo on is maintained'
+              )
             })
-            
-           
-          // cy.document().then(() => {
-          //   assert.deepEqual(undefined, tour.getCurrentStep().target, 'target is undefined');
-          // });
         });
       });
 

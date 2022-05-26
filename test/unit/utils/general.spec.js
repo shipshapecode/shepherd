@@ -118,10 +118,9 @@ describe('General Utils', function() {
       expect(shouldCenterStep(testAttachTo)).toBe(false)
     })
 
-    it('Returns false when either element or on properties are truthy', () => {
-      const elementAttachTo = { element: '.pseudo'}; // FAILS
+    it('Returns true when element property is null', () => {
+      const elementAttachTo = { element: null}; // FAILS
     
-
       expect(shouldCenterStep(elementAttachTo)).toBe(true)
     })
   })
