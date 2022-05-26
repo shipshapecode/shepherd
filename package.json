@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "9.1.0",
+  "version": "9.1.1",
   "description": "Guide your users through a tour of your app.",
   "keywords": [
     "site tour",
@@ -77,7 +77,7 @@
     "glob": "^8.0.3",
     "http-server": "^14.1.0",
     "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0", 
+    "jest-environment-jsdom": "^28.1.0",
     "jest-expect-message": "^1.0.2",
     "jest-transform-css": "^4.0.1",
     "jsdoc": "^3.6.10",

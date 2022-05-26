@@ -8,6 +8,20 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v9.1.1 (2022-05-26)
+
+#### :bug: Bug Fix
+* [#1931](https://github.com/shipshapecode/shepherd/pull/1931) fixed showOn incorrectly skipping an index ([@liam-jones-lucout](https://github.com/liam-jones-lucout))
+
+#### :house: Internal
+* [#1920](https://github.com/shipshapecode/shepherd/pull/1920) Cleanup jest comments, update yarn.lock ([@monshan](https://github.com/monshan))
+* [#1919](https://github.com/shipshapecode/shepherd/pull/1919) Write jest-environment-jsdom into package.json file ([@monshan](https://github.com/monshan))
+
+#### Committers: 2
+- Marika Shanahan ([@monshan](https://github.com/monshan))
+- [@liam-jones-lucout](https://github.com/liam-jones-lucout)
+
 ## v9.1.0 (2022-04-09)
 
 #### :rocket: Enhancement
