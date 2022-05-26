@@ -98,6 +98,12 @@ describe('Tour | Top-Level Class', function() {
         title: 'This is a test step for our tour'
       });
 
+      
+      instance.addStep({
+        id: 'test2',
+        title: 'Another Step'
+      });
+      
       instance.addStep({
         classes: 'skipped',
         id: 'skipped-step',
@@ -105,11 +111,6 @@ describe('Tour | Top-Level Class', function() {
         showOn() {
           return shouldShowStep;
         }
-      });
-
-      instance.addStep({
-        id: 'test2',
-        title: 'Another Step'
       });
 
       instance.addStep({
@@ -125,13 +126,13 @@ describe('Tour | Top-Level Class', function() {
       });
 
       it('adds tour steps at specified index', function() {
-        expect(instance.steps[2].options.id, 'original step at index 2').toBe('test2');
+        expect(instance.steps[1].options.id, 'original step at index 1').toBe('test2');
         instance.addStep({
           id: 'index-test',
           title: 'Test index insertion'
-        }, 2);
+        }, 1);
         expect(instance.steps.length).toBe(5);
-        expect(instance.steps[2].options.id, 'step inserted at index 2').toBe('index-test');
+        expect(instance.steps[1].options.id, 'step inserted at index 1').toBe('index-test');
       });
 
       it('adds steps with only one arg', function() {
@@ -400,6 +401,8 @@ describe('Tour | Top-Level Class', function() {
         expect(instance.getCurrentStep().id).toBe('test');
         instance.next();
         expect(instance.getCurrentStep().id).toBe('test2');
+        instance.next();
+        expect(instance.getCurrentStep().id).toBe('test3');
         expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');
         instance.back();
         shouldShowStep = true;
