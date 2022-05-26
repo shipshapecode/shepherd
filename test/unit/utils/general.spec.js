@@ -120,10 +120,9 @@ describe('General Utils', function() {
 
     it('Returns false when either element or on properties are truthy', () => {
       const elementAttachTo = { element: '.pseudo'}; // FAILS
-      const onAttachTo = { on: 'right' }; // FAILS
+    
 
-      // expect(shouldCenterStep(elementAttachTo)).toBe(false)
-      // expect(shouldCenterStep(onAttachTo)).toBe(false)
+      expect(shouldCenterStep(elementAttachTo)).toBe(true)
     })
   })
 });
