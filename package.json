@@ -68,7 +68,7 @@
     "cssnano": "^5.1.9",
     "cypress": "^9.6.1",
     "cypress-plugin-tab": "^1.0.5",
-    "del": "^6.1.0",
+    "del": "^6.1.1",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.2.2",
