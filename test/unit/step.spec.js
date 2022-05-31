@@ -514,13 +514,6 @@ describe('Tour | Step', () => {
 
       expect(resHandlerAdded).toBeTruthy();
     });
-
-    it('can use _scrollTo before _show', () => {
-      let resHandlerAdded = false;
-      const step = new Step('test', {
-        scrollToHandler: () => (resHandlerAdded = true)
-      });
-    })
   });
 
   describe('setOptions()', () => {
