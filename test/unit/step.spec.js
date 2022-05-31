@@ -491,12 +491,12 @@ describe('Tour | Step', () => {
 
       const scrollIntoViewSpy = spy(resTester.scrollIntoView)
 
-      step.show()
+      step.show();
 
-      step._scrollTo(true);
-      
-      expect(resHandlerCalled).toBeTruthy();
-      expect(scrollIntoViewSpy.called).toBeTruthy();
+      step._scrollTo(true).then(() => {
+        expect(resHandlerCalled).toBeTruthy();
+        expect(scrollIntoViewSpy.called).toBeTruthy();
+      });
     })
 
     it('calls the custom handler after before-show promise resolution', () => {
