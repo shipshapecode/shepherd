@@ -2,7 +2,6 @@ import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
-import { parseAttachTo } from '../../src/js/utils/general'
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -470,11 +469,12 @@ describe('Tour | Step', () => {
       expect(handlerAdded).toBeTruthy();
     });
 
-    it('calls scroll native method after before-show promise resolution', async () => {
+    it('calls scroll native method after before-show promise resolution', () => {
       const resTester = document.createElement('div');
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
       resTester.scrollIntoView = () => (resHandlerCalled = true);
+      const resSpy = jest.spyOn(resTester, 'scrollIntoView')
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
@@ -488,15 +488,19 @@ describe('Tour | Step', () => {
         }
       });
 
-      const scrollIntoViewSpy = spy(resTester.scrollIntoView)
+      // const scrollIntoViewSpy = spy(resTester.scrollIntoView)
       
-      await step.beforeShowPromise();
+      step.show()
 
       step._scrollTo();
-      
-      expect(resHandlerCalled).toBeTruthy();
-      
-      await expect(scrollIntoViewSpy.called).toBeTruthy();
+
+      // try {
+        expect(resHandlerCalled).toBeTruthy();
+        expect(resSpy).toBeCalled();
+      //   done()
+      // } catch (err) {
+      //   done(error)
+      // }
     })
     
     it('calls the custom handler after before-show promise resolution', () => {
@@ -513,7 +517,7 @@ describe('Tour | Step', () => {
         }
       });
 
-      step.show();
+      // step.show();
 
       step._scrollTo();
 
