@@ -498,6 +498,13 @@ describe('Tour | Step', () => {
       step._scrollTo();
       expect(resHandlerAdded).toBeTruthy();
     });
+
+    it('can use _scrollTo before _show', () => {
+      let resHandlerAdded = false;
+      const step = new Step('test', {
+        scrollToHandler: () => (resHandlerAdded = true)
+      });
+    })
   });
 
   describe('setOptions()', () => {
@@ -701,5 +708,25 @@ describe('Tour | Step', () => {
       expect(result1).not.toBeNull();
       expect(result1).toBe(result2);
     });
+
+    it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: () => {}, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: () => {}, on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start()
+
+      expect(instance.steps[1]._getResolvedAttachToOptions).toBeTruthy()
+      
+    })
   });
 });

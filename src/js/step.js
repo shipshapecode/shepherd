@@ -43,7 +43,7 @@ export class Step extends Evented {
    * If you don’t specify an attachTo the element will appear in the middle of the screen.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * @param {HTMLElement|string} options.attachTo.element An element selector string or a DOM element.
+   * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
    * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
    *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
