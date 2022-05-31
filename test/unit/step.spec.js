@@ -474,6 +474,7 @@ describe('Tour | Step', () => {
       const resTester = document.createElement('div');
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
+      resTester.scrollIntoView = () => (resHandlerCalled = true);
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
@@ -487,18 +488,16 @@ describe('Tour | Step', () => {
         }
       });
 
-      resTester.scrollIntoView = () => (resHandlerCalled = true);
-
       const scrollIntoViewSpy = spy(resTester.scrollIntoView)
-
+      
       step.show();
 
-      step._scrollTo(true).then(() => {
+      step._scrollTo(true).then((ghost) => {
         expect(resHandlerCalled).toBeTruthy();
         expect(scrollIntoViewSpy.called).toBeTruthy();
       });
     })
-
+    
     it('calls the custom handler after before-show promise resolution', () => {
       let resHandlerAdded = false;
 
