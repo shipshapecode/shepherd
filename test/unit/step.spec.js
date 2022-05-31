@@ -474,28 +474,44 @@ describe('Tour | Step', () => {
       const resTester = document.createElement('div');
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
+      const scrollIntoViewSpy = spy(resTester.scrollIntoView)
       document.body.appendChild(resTester);
+
+      const beforeShowPromise = new Promise((resolve) => {
+        return setTimeout(1000, resolve('beforeShowPromise worked!'));
+      });
+
       const step = new Step('test', {
-        attachTo: { element: '.post-res-scroll-test', on: 'center' }
+        attachTo: { element: '.post-res-scroll-test', on: 'center' },
+        beforeShowPromise: () => {
+          return beforeShowPromise
+        }
       });
       
-      parseAttachTo(step)
-
       resTester.scrollIntoView = () => (resHandlerCalled = true);
 
-      step._scrollTo();
+      step.show()
+      
       expect(resHandlerCalled).toBeTruthy();
+      expect(scrollIntoViewSpy.called).toBeTruthy();
     })
 
     it('calls the custom handler after before-show promise resolution', () => {
       let resHandlerAdded = false;
-      const step = new Step('test', {
-        scrollToHandler: () => (resHandlerAdded = true)
+
+      const beforeShowPromise = new Promise((resolve) => {
+        return setTimeout(1000, resolve('beforeShowPromise worked!'));
       });
 
-      parseAttachTo(step)
+      const step = new Step('test', {
+        scrollToHandler: () => (resHandlerAdded = true),
+        beforeShowPromise: () => {
+          return beforeShowPromise
+        }
+      });
 
-      step._scrollTo();
+      step.show();
+
       expect(resHandlerAdded).toBeTruthy();
     });
 
