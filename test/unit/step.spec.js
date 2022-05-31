@@ -510,7 +510,7 @@ describe('Tour | Step', () => {
         }
       });
 
-      const resSpy = jest.spyOn(step, 'scrollToHandler')
+      const resSpy = jest.spyOn(step.options, 'scrollToHandler')
 
       step.show();
 
