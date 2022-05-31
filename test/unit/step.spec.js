@@ -491,6 +491,8 @@ describe('Tour | Step', () => {
       resTester.scrollIntoView = () => (resHandlerCalled = true);
 
       step.show()
+
+      step._scrollTo();
       
       expect(resHandlerCalled).toBeTruthy();
       expect(scrollIntoViewSpy.called).toBeTruthy();
@@ -511,6 +513,8 @@ describe('Tour | Step', () => {
       });
 
       step.show();
+
+      step._scrollTo();
 
       expect(resHandlerAdded).toBeTruthy();
     });
