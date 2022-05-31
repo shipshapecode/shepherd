@@ -470,7 +470,7 @@ describe('Tour | Step', () => {
       expect(handlerAdded).toBeTruthy();
     });
 
-    it('calls scroll native method after before-show promise resolution', () => {
+    it('calls scroll native method after before-show promise resolution', async () => {
       const resTester = document.createElement('div');
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
@@ -492,10 +492,10 @@ describe('Tour | Step', () => {
       
       step.show();
 
-      step._scrollTo(true).then((ghost) => {
-        expect(resHandlerCalled).toBeTruthy();
-        expect(scrollIntoViewSpy.called).toBeTruthy();
-      });
+      step._scrollTo(true);
+      
+      await expect(resHandlerCalled).toBeTruthy();
+      await expect(scrollIntoViewSpy.called).toBeTruthy();
     })
     
     it('calls the custom handler after before-show promise resolution', () => {
