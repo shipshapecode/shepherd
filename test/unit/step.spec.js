@@ -490,11 +490,12 @@ describe('Tour | Step', () => {
 
       const scrollIntoViewSpy = spy(resTester.scrollIntoView)
       
-      step.show();
+      await step.beforeShowPromise();
 
-      step._scrollTo(true);
+      step._scrollTo();
       
-      await expect(resHandlerCalled).toBeTruthy();
+      expect(resHandlerCalled).toBeTruthy();
+      
       await expect(scrollIntoViewSpy.called).toBeTruthy();
     })
     
