@@ -488,19 +488,12 @@ describe('Tour | Step', () => {
         }
       });
 
-      // const scrollIntoViewSpy = spy(resTester.scrollIntoView)
-      
       step.show()
 
       step._scrollTo();
 
-      // try {
-        expect(resHandlerCalled).toBeTruthy();
-        expect(resSpy).toBeCalled();
-      //   done()
-      // } catch (err) {
-      //   done(error)
-      // }
+      expect(resHandlerCalled).toBeTruthy();
+      expect(resSpy).toBeCalled();
     })
     
     it('calls the custom handler after before-show promise resolution', () => {
@@ -517,11 +510,14 @@ describe('Tour | Step', () => {
         }
       });
 
-      // step.show();
+      const resSpy = jest.spyOn(step, 'scrollToHandler')
+
+      step.show();
 
       step._scrollTo();
 
       expect(resHandlerAdded).toBeTruthy();
+      expect(resSpy).toBeCalled();
     });
   });
 
