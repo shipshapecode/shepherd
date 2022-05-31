@@ -474,7 +474,6 @@ describe('Tour | Step', () => {
       const resTester = document.createElement('div');
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
-      const scrollIntoViewSpy = spy(resTester.scrollIntoView)
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
@@ -487,12 +486,14 @@ describe('Tour | Step', () => {
           return beforeShowPromise
         }
       });
-      
+
       resTester.scrollIntoView = () => (resHandlerCalled = true);
+
+      const scrollIntoViewSpy = spy(resTester.scrollIntoView)
 
       step.show()
 
-      step._scrollTo();
+      step._scrollTo(true);
       
       expect(resHandlerCalled).toBeTruthy();
       expect(scrollIntoViewSpy.called).toBeTruthy();
