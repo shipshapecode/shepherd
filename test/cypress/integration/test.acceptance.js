@@ -1,6 +1,5 @@
 import setupTour from '../utils/setup-tour';
 import { assert } from 'chai';
-import { doc } from 'prettier';
 
 let Shepherd;
 
