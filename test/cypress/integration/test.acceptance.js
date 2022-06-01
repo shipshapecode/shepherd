@@ -277,7 +277,6 @@ describe('Shepherd Acceptance Tests', () => {
           quxTarget.setAttribute('class', 'baz');
           quxTarget.setAttribute('id', 'qux');
           document.querySelector('[data-test-hero-including]').appendChild(quxTarget);
-          debugger
 
           tour.next()
           
