@@ -724,6 +724,11 @@ describe('Tour | Step', () => {
     });
 
     it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
+      const step2AttachTo = {
+        element: () => {},
+        on: 'auto'
+      }
+
       const instance = new Shepherd.Tour({
         steps: [
           {
@@ -732,15 +737,14 @@ describe('Tour | Step', () => {
           },
           {
             text: 'step 2',
-            attachTo: { element: () => {}, on: 'auto' }
+            attachTo: step2AttachTo
           }
         ]
       });
 
       instance.start()
 
-      expect(instance.steps[1]._getResolvedAttachToOptions).toBeTruthy()
-      
+      expect(instance.steps[1]._getResolvedAttachToOptions()).toBe(step2AttachTo)
     })
   });
 });
