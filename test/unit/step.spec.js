@@ -705,12 +705,15 @@ describe('Tour | Step', () => {
       expect(step1AttachToCallback.callCount).toBe(2);
     });
 
-    it('evaluates attachTo once', () => {
-      const instance = new Shepherd.Tour();
-
-      const step1 = instance.addStep({
-        text: 'step 1',
-        attachTo: { element: () => {}, on: 'auto' }
+    it('evaluates attachTo only once', () => {
+      const instance = new Shepherd.Tour({
+        steps: [{
+          text: 'step 1',
+          attachTo: { element: () => {}, on: 'auto' }
+        }, {
+          text: 'step 2',
+          attachTo: { element: () => {}, on: 'auto' }
+        }]
       });
 
       instance.start();
@@ -719,8 +722,10 @@ describe('Tour | Step', () => {
       // Subsequent calls to the getter return the same object
       const result1 = step1._getResolvedAttachToOptions();
       const result2 = step1._getResolvedAttachToOptions();
-      expect(result1).not.toBeNull();
-      expect(result1).toBe(result2);
+      expect(result1).not.toBeNull().then(() => {
+        instance.next();
+        expect(result1).toBe(result2);
+      });
     });
 
     it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
