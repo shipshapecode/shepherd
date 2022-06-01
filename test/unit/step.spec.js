@@ -709,7 +709,8 @@ describe('Tour | Step', () => {
       const instance = new Shepherd.Tour({
         steps: [{
           text: 'step 1',
-          attachTo: { element: () => {}, on: 'auto' }
+          attachTo: { element: () => {}, on: 'auto' },
+          id: 'step1'
         }, {
           text: 'step 2',
           attachTo: { element: () => {}, on: 'auto' }
