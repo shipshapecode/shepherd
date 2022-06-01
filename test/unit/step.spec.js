@@ -731,7 +731,7 @@ describe('Tour | Step', () => {
       // expect(result1).toBe(result2);
     });
 
-    it('can evaluate _getResolvedAttachToOptions before step before-show phase', async () => {
+    it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
       const instance = new Shepherd.Tour({
         steps: [
           {
@@ -748,7 +748,7 @@ describe('Tour | Step', () => {
 
       instance.start()
 
-      await expect(instance.getById('step2')._getResolvedAttachToOptions()).toBe({ element: undefined, on: 'auto'})
+      expect(instance.getById('step2')._getResolvedAttachToOptions()).toEqual({ element: undefined, on: 'auto'})
     })
   });
 });
