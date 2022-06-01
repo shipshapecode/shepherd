@@ -724,6 +724,7 @@ describe('Tour | Step', () => {
       const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
       expect(result1).not.toBeNull().then(() => {
         instance.next();
+        const result2 = instance.getById('step1')
         expect(result1).toBe(result2);
       });
     });
