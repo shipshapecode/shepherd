@@ -721,7 +721,6 @@ describe('Tour | Step', () => {
       expect(instance.getCurrentStep().isOpen()).toBe(true);
       // Subsequent calls to the getter return the same object
       const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
-      const result2 = result1;
       expect(result1).not.toBeNull().then(() => {
         instance.next();
         expect(result1).toBe(result2);
