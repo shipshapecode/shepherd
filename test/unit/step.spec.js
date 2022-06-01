@@ -718,10 +718,10 @@ describe('Tour | Step', () => {
 
       instance.start();
 
-      expect(step1.isOpen()).toBe(true);
+      expect(instance.getCurrentStep().isOpen()).toBe(true);
       // Subsequent calls to the getter return the same object
-      const result1 = step1._getResolvedAttachToOptions();
-      const result2 = step1._getResolvedAttachToOptions();
+      const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
+      const result2 = result1;
       expect(result1).not.toBeNull().then(() => {
         instance.next();
         expect(result1).toBe(result2);
@@ -729,11 +729,6 @@ describe('Tour | Step', () => {
     });
 
     it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
-      const step2AttachTo = {
-        element: () => {},
-        on: 'auto'
-      }
-
       const instance = new Shepherd.Tour({
         steps: [
           {
@@ -742,14 +737,14 @@ describe('Tour | Step', () => {
           },
           {
             text: 'step 2',
-            attachTo: step2AttachTo
+            attachTo: { element: () => {}, on: 'auto' }
           }
         ]
       });
 
       instance.start()
 
-      expect(instance.steps[1]._getResolvedAttachToOptions()).toBe(step2AttachTo)
+      expect(instance.steps[1]._getResolvedAttachToOptions()).toBe({ element: undefined, on: 'auto'})
     })
   });
 });
