@@ -722,11 +722,13 @@ describe('Tour | Step', () => {
       expect(instance.getCurrentStep().isOpen()).toBe(true);
       // Subsequent calls to the getter return the same object
       const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
-      expect(result1).not.toBeNull().then(() => {
-        instance.next();
-        const result2 = instance.getById('step1')
-        expect(result1).toBe(result2);
-      });
+
+      expect(result1).not.toBeNull()
+
+      instance.next();
+      
+      const result2 = instance.getById('step1')
+      expect(result1).toBe(result2);
     });
 
     it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
