@@ -40,7 +40,7 @@ export class Step extends Evented {
    * });
    * ```
    *
-   * If you don’t specify an attachTo the element will appear in the middle of the screen.
+   * If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
    * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
