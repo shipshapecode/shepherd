@@ -40,10 +40,11 @@ export class Step extends Evented {
    * });
    * ```
    *
-   * If you don’t specify an attachTo the element will appear in the middle of the screen.
+   * If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * @param {HTMLElement|string} options.attachTo.element An element selector string or a DOM element.
+   * If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
+   * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
    * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
    *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
@@ -120,6 +121,14 @@ export class Step extends Evented {
       : '';
     this.styles = tour.styles;
 
+    /**
+     * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
+     * Do not use this directly, use the _getResolvedAttachToOptions method instead.
+     * @type {null|{}|{element, to}}
+     * @private
+     */
+    this._resolvedAttachTo = null;
+
     autoBind(this);
 
     this._setOptions(options);
@@ -191,12 +200,26 @@ export class Step extends Evented {
   }
 
   /**
-   * Checks if the step should be centered or not
-   * @return {boolean} True if the step is centered
+   * Resolves attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
    */
-  isCentered() {
-    const attachToOptions = parseAttachTo(this);
-    return !attachToOptions.element || !attachToOptions.on;
+  _resolveAttachToOptions() {
+    this._resolvedAttachTo = parseAttachTo(this);
+    return this._resolvedAttachTo;
+  }
+
+  /**
+   * A selector for resolved attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
+   */
+  _getResolvedAttachToOptions() {
+    if (this._resolvedAttachTo === null) {
+      return this._resolveAttachToOptions();
+    }
+
+    return this._resolvedAttachTo;
   }
 
   /**
@@ -283,7 +306,7 @@ export class Step extends Evented {
    * @private
    */
   _scrollTo(scrollToOptions) {
-    const { element } = parseAttachTo(this);
+    const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -376,6 +399,8 @@ export class Step extends Evented {
   _show() {
     this.trigger('before-show');
 
+    // Force resolve to make sure the options are updated on subsequent shows.
+    this._resolveAttachToOptions();
     this._setupElements();
 
     if (!this.tour.modal) {

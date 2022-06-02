@@ -1,3 +1,4 @@
+import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
@@ -467,6 +468,57 @@ describe('Tour | Step', () => {
       step._scrollTo();
       expect(handlerAdded).toBeTruthy();
     });
+
+    it('calls scroll native method after before-show promise resolution', () => {
+      const resTester = document.createElement('div');
+      let resHandlerCalled = false;
+      resTester.classList.add('post-res-scroll-test');
+      resTester.scrollIntoView = () => (resHandlerCalled = true);
+      const resSpy = jest.spyOn(resTester, 'scrollIntoView')
+      document.body.appendChild(resTester);
+
+      const beforeShowPromise = new Promise((resolve) => {
+        return setTimeout(1000, resolve('beforeShowPromise worked!'));
+      });
+
+      const step = new Step('test', {
+        attachTo: { element: '.post-res-scroll-test', on: 'center' },
+        beforeShowPromise: () => {
+          return beforeShowPromise
+        }
+      });
+
+      step.show()
+
+      step._scrollTo();
+
+      expect(resHandlerCalled).toBeTruthy();
+      expect(resSpy).toBeCalled();
+    })
+    
+    it('calls the custom handler after before-show promise resolution', () => {
+      let resHandlerAdded = false;
+
+      const beforeShowPromise = new Promise((resolve) => {
+        return setTimeout(1000, resolve('beforeShowPromise worked!'));
+      });
+
+      const step = new Step('test', {
+        scrollToHandler: () => (resHandlerAdded = true),
+        beforeShowPromise: () => {
+          return beforeShowPromise
+        }
+      });
+
+      const resSpy = jest.spyOn(step.options, 'scrollToHandler')
+
+      step.show();
+
+      step._scrollTo();
+
+      expect(resHandlerAdded).toBeTruthy();
+      expect(resSpy).toBeCalled();
+    });
   });
 
   describe('setOptions()', () => {
@@ -574,5 +626,130 @@ describe('Tour | Step', () => {
         expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);
       });
     });
+  });
+
+  describe('lazy attachTo evaluation', () => {
+    // We test this using attachTo.element callback.
+    // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
+    // not it's implementation, only if the callback is called lazily.
+    it('lazily evaluates attachTo.element callback', () => {
+      const step1AttachToCallback = spy();
+      const step2AttachToCallback = spy();
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: step1AttachToCallback, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: step2AttachToCallback, on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(step1AttachToCallback.called).toBe(true);
+      expect(step2AttachToCallback.called).toBe(false);
+      instance.next();
+      expect(step2AttachToCallback.called).toBe(true);
+      expect(step1AttachToCallback.callCount).toBe(1);
+      expect(step2AttachToCallback.callCount).toBe(1);
+    });
+
+    it('lazily evaluates attachTo.element selector', () => {
+      const querySelectorSpy = spy(document, 'querySelector');
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: '#step-1-attach-to-element', on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: '#step-2-attach-to-element', on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(true);
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(false);
+      instance.next();
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(true);
+    });
+
+    it('evaluates attachTo on subsequent shows', () => {
+      const step1AttachToCallback = spy();
+      const step2AttachToCallback = spy();
+
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: step1AttachToCallback, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: step2AttachToCallback, on: 'auto' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(step1AttachToCallback.callCount).toBe(1);
+      instance.next();
+      instance.back();
+      expect(step1AttachToCallback.callCount).toBe(2);
+    });
+
+    it('evaluates attachTo only once', () => {
+      const instance = new Shepherd.Tour({
+        steps: [{
+          text: 'step 1',
+          attachTo: { element: () => {}, on: 'auto' },
+          id: 'step1'
+        }, {
+          text: 'step 2',
+          attachTo: { element: () => {}, on: 'auto' }
+        }]
+      });
+
+      instance.start();
+
+      expect(instance.getCurrentStep().isOpen()).toBe(true);
+      // Subsequent calls to the getter return the same object
+      const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
+
+      expect(result1).not.toBeNull()
+
+      instance.next();
+      
+      const result2 = instance.getById('step1')._getResolvedAttachToOptions();
+      
+      expect(result1).toEqual(result2);
+    });
+
+    it('can evaluate _getResolvedAttachToOptions before step before-show phase', () => {
+      const instance = new Shepherd.Tour({
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: () => {}, on: 'auto' }
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: () => {}, on: 'auto' },
+            id: 'step2'
+          }
+        ]
+      });
+
+      instance.start()
+
+      expect(instance.getById('step2')._getResolvedAttachToOptions()).toEqual({ element: undefined, on: 'auto'})
+    })
   });
 });

@@ -1,5 +1,5 @@
 import { createPopper } from '@popperjs/core';
-import { isString } from './type-check';
+import { isFunction, isString } from './type-check';
 import { makeCenteredPopper } from './popper-options';
 
 /**
@@ -16,9 +16,9 @@ export function normalizePrefix(prefix) {
 }
 
 /**
- * Checks if options.attachTo.element is a string, and if so, tries to find the element
+ * Resolves attachTo options, converting element option value to a qualified HTMLElement.
  * @param {Step} step The step instance
- * @returns {{element, on}}
+ * @returns {{}|{element, on}}
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
@@ -26,11 +26,16 @@ export function parseAttachTo(step) {
   const options = step.options.attachTo || {};
   const returnOpts = Object.assign({}, options);
 
-  if (isString(options.element)) {
+  if (isFunction(returnOpts.element)) {
+    // Bind the callback to step so that it has access to the object, to enable running additional logic
+    returnOpts.element = returnOpts.element.call(step);
+  }
+
+  if (isString(returnOpts.element)) {
     // Can't override the element in user opts reference because we can't
     // guarantee that the element will exist in the future.
     try {
-      returnOpts.element = document.querySelector(options.element);
+      returnOpts.element = document.querySelector(returnOpts.element);
     } catch (e) {
       // TODO
     }
@@ -45,6 +50,20 @@ export function parseAttachTo(step) {
 }
 
 /**
+ * Checks if the step should be centered or not. Does not trigger attachTo.element evaluation, making it a pure
+ * alternative for the deprecated step.isCentered() method.
+ * @param resolvedAttachToOptions
+ * @returns {boolean}
+ */
+export function shouldCenterStep(resolvedAttachToOptions) {
+  if (resolvedAttachToOptions === undefined || resolvedAttachToOptions === null) {
+    return true
+  }
+  
+  return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
+}
+
+/**
  * Determines options for the tooltip and initializes
  * `step.tooltip` as a Popper instance.
  * @param {Step} step The step instance
@@ -54,12 +73,12 @@ export function setupTooltip(step) {
     step.tooltip.destroy();
   }
 
-  const attachToOptions = parseAttachTo(step);
+  const attachToOptions = step._getResolvedAttachToOptions();
 
   let target = attachToOptions.element;
   const popperOptions = getPopperOptions(attachToOptions, step);
 
-  if (step.isCentered()) {
+  if (shouldCenterStep(attachToOptions)) {
     target = document.body;
     const content = step.shepherdElementComponent.getElement();
     content.classList.add('shepherd-centered');
@@ -117,7 +136,7 @@ export function getPopperOptions(attachToOptions, step) {
     strategy: 'absolute'
   };
 
-  if (step.isCentered()) {
+  if (shouldCenterStep(attachToOptions)) {
     popperOptions = makeCenteredPopper(step);
   } else {
     popperOptions.placement = attachToOptions.on;
