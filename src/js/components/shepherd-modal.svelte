@@ -231,6 +231,7 @@
     height: 100vh;
     opacity: 0.5;
     transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+    transform: translateZ(0);
   }
 
   .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
