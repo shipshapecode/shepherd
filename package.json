@@ -75,7 +75,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-svelte3": "^4.0.0",
     "glob": "^8.0.3",
-    "http-server": "^14.1.0",
+    "http-server": "^14.1.1",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
     "jest-expect-message": "^1.0.2",
