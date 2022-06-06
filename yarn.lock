@@ -1589,10 +1589,10 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/svelte@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.npmjs.org/@testing-library/svelte/-/svelte-3.1.1.tgz"
-  integrity sha512-JM0MwtUCbL13CkdosivF5So5s7Y1cGTrrIGTNUOy4vq+quCvHTiFkHLRsUuOyFhGG3fXT6lhCzX30ichG+AlHA==
+"@testing-library/svelte@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@testing-library/svelte/-/svelte-3.1.3.tgz#a3605a0e98ea04f9ba58ec3d554a9e1a81a4a577"
+  integrity sha512-pyed3yMnTu7wG9Z4XKoIxdrx52hSEFDC8qUaiSsiSh8tBVj3ZjqEKnV2Nfc0IF2llEkT0B7QOXnOVTLJ3O5RCw==
   dependencies:
     "@testing-library/dom" "^8.1.0"
 
