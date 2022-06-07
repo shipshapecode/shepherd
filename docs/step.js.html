@@ -77,7 +77,7 @@
     <h3 class="reference-title">
       Shepherd.js
          
-            9.1.1
+            10.0.0
           
     </h3>
 
@@ -90,7 +90,7 @@
       
     
 
-    <h3>Tutorials</h3><ul><li id="01-install-nav"><a href="tutorial-01-install.html">Install</a></li><li id="02-usage-nav"><a href="tutorial-02-usage.html">Usage</a></li><li id="03-styling-nav"><a href="tutorial-03-styling.html">Theming and Styling</a></li><li id="04-cookbook-nav"><a href="tutorial-04-cookbook.html">Cookbook</a></li></ul><h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getElement-nav"><a href="Step.html#getElement">getElement</a></li><li data-type="method" id="Step-getTarget-nav"><a href="Step.html#getTarget">getTarget</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isCentered-nav"><a href="Step.html#isCentered">isCentered</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li><li data-type="method" id="Step-updateStepOptions-nav"><a href="Step.html#updateStepOptions">updateStepOptions</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-addSteps-nav"><a href="Tour.html#addSteps">addSteps</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
+    <h3>Tutorials</h3><ul><li id="01-install-nav"><a href="tutorial-01-install.html">Install</a></li><li id="02-usage-nav"><a href="tutorial-02-usage.html">Usage</a></li><li id="03-styling-nav"><a href="tutorial-03-styling.html">Theming and Styling</a></li><li id="04-cookbook-nav"><a href="tutorial-04-cookbook.html">Cookbook</a></li></ul><h3>Classes</h3><ul><li id="Step-nav"><a href="Step.html">Step</a><ul class='methods'><li data-type="method" id="Step-cancel-nav"><a href="Step.html#cancel">cancel</a></li><li data-type="method" id="Step-complete-nav"><a href="Step.html#complete">complete</a></li><li data-type="method" id="Step-destroy-nav"><a href="Step.html#destroy">destroy</a></li><li data-type="method" id="Step-getElement-nav"><a href="Step.html#getElement">getElement</a></li><li data-type="method" id="Step-getTarget-nav"><a href="Step.html#getTarget">getTarget</a></li><li data-type="method" id="Step-getTour-nav"><a href="Step.html#getTour">getTour</a></li><li data-type="method" id="Step-hide-nav"><a href="Step.html#hide">hide</a></li><li data-type="method" id="Step-isOpen-nav"><a href="Step.html#isOpen">isOpen</a></li><li data-type="method" id="Step-show-nav"><a href="Step.html#show">show</a></li><li data-type="method" id="Step-updateStepOptions-nav"><a href="Step.html#updateStepOptions">updateStepOptions</a></li></ul></li><li id="Tour-nav"><a href="Tour.html">Tour</a><ul class='methods'><li data-type="method" id="Tour-addStep-nav"><a href="Tour.html#addStep">addStep</a></li><li data-type="method" id="Tour-addSteps-nav"><a href="Tour.html#addSteps">addSteps</a></li><li data-type="method" id="Tour-back-nav"><a href="Tour.html#back">back</a></li><li data-type="method" id="Tour-cancel-nav"><a href="Tour.html#cancel">cancel</a></li><li data-type="method" id="Tour-complete-nav"><a href="Tour.html#complete">complete</a></li><li data-type="method" id="Tour-getById-nav"><a href="Tour.html#getById">getById</a></li><li data-type="method" id="Tour-getCurrentStep-nav"><a href="Tour.html#getCurrentStep">getCurrentStep</a></li><li data-type="method" id="Tour-hide-nav"><a href="Tour.html#hide">hide</a></li><li data-type="method" id="Tour-isActive-nav"><a href="Tour.html#isActive">isActive</a></li><li data-type="method" id="Tour-next-nav"><a href="Tour.html#next">next</a></li><li data-type="method" id="Tour-removeStep-nav"><a href="Tour.html#removeStep">removeStep</a></li><li data-type="method" id="Tour-show-nav"><a href="Tour.html#show">show</a></li><li data-type="method" id="Tour-start-nav"><a href="Tour.html#start">start</a></li></ul></li></ul>
   </nav>
 
   <div id="main">
@@ -147,10 +147,11 @@ export class Step extends Evented {
    * });
    * ```
    *
-   * If you don’t specify an attachTo the element will appear in the middle of the screen.
+   * If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * @param {HTMLElement|string} options.attachTo.element An element selector string or a DOM element.
+   * If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
+   * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
    * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
    *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
@@ -227,6 +228,14 @@ export class Step extends Evented {
       : '';
     this.styles = tour.styles;
 
+    /**
+     * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
+     * Do not use this directly, use the _getResolvedAttachToOptions method instead.
+     * @type {null|{}|{element, to}}
+     * @private
+     */
+    this._resolvedAttachTo = null;
+
     autoBind(this);
 
     this._setOptions(options);
@@ -298,12 +307,26 @@ export class Step extends Evented {
   }
 
   /**
-   * Checks if the step should be centered or not
-   * @return {boolean} True if the step is centered
+   * Resolves attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
    */
-  isCentered() {
-    const attachToOptions = parseAttachTo(this);
-    return !attachToOptions.element || !attachToOptions.on;
+  _resolveAttachToOptions() {
+    this._resolvedAttachTo = parseAttachTo(this);
+    return this._resolvedAttachTo;
+  }
+
+  /**
+   * A selector for resolved attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
+   */
+  _getResolvedAttachToOptions() {
+    if (this._resolvedAttachTo === null) {
+      return this._resolveAttachToOptions();
+    }
+
+    return this._resolvedAttachTo;
   }
 
   /**
@@ -390,7 +413,7 @@ export class Step extends Evented {
    * @private
    */
   _scrollTo(scrollToOptions) {
-    const { element } = parseAttachTo(this);
+    const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -483,6 +506,8 @@ export class Step extends Evented {
   _show() {
     this.trigger('before-show');
 
+    // Force resolve to make sure the options are updated on subsequent shows.
+    this._resolveAttachToOptions();
     this._setupElements();
 
     if (!this.tour.modal) {

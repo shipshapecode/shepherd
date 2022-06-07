@@ -1,4 +1,4 @@
-/*! shepherd.js 9.1.1 */
+/*! shepherd.js 10.0.0 */
 
 var isMergeableObject = function isMergeableObject(value) {
   return isNonNullObject(value) && !isSpecial(value);
@@ -2106,7 +2106,7 @@ var createPopper = /*#__PURE__*/popperGenerator({
 }); // eslint-disable-next-line import/no-unused-modules
 
 function _extends() {
-  _extends = Object.assign || function (target) {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -2119,7 +2119,6 @@ function _extends() {
 
     return target;
   };
-
   return _extends.apply(this, arguments);
 }
 
@@ -2215,9 +2214,9 @@ function normalizePrefix(prefix) {
   return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
 }
 /**
- * Checks if options.attachTo.element is a string, and if so, tries to find the element
+ * Resolves attachTo options, converting element option value to a qualified HTMLElement.
  * @param {Step} step The step instance
- * @returns {{element, on}}
+ * @returns {{}|{element, on}}
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
@@ -2226,11 +2225,16 @@ function parseAttachTo(step) {
   const options = step.options.attachTo || {};
   const returnOpts = Object.assign({}, options);
 
-  if (isString(options.element)) {
+  if (isFunction(returnOpts.element)) {
+    // Bind the callback to step so that it has access to the object, to enable running additional logic
+    returnOpts.element = returnOpts.element.call(step);
+  }
+
+  if (isString(returnOpts.element)) {
     // Can't override the element in user opts reference because we can't
     // guarantee that the element will exist in the future.
     try {
-      returnOpts.element = document.querySelector(options.element);
+      returnOpts.element = document.querySelector(returnOpts.element);
     } catch (e) {// TODO
     }
 
@@ -2240,6 +2244,20 @@ function parseAttachTo(step) {
   }
 
   return returnOpts;
+}
+/**
+ * Checks if the step should be centered or not. Does not trigger attachTo.element evaluation, making it a pure
+ * alternative for the deprecated step.isCentered() method.
+ * @param resolvedAttachToOptions
+ * @returns {boolean}
+ */
+
+function shouldCenterStep(resolvedAttachToOptions) {
+  if (resolvedAttachToOptions === undefined || resolvedAttachToOptions === null) {
+    return true;
+  }
+
+  return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
 }
 /**
  * Determines options for the tooltip and initializes
@@ -2252,11 +2270,12 @@ function setupTooltip(step) {
     step.tooltip.destroy();
   }
 
-  const attachToOptions = parseAttachTo(step);
+  const attachToOptions = step._getResolvedAttachToOptions();
+
   let target = attachToOptions.element;
   const popperOptions = getPopperOptions(attachToOptions, step);
 
-  if (step.isCentered()) {
+  if (shouldCenterStep(attachToOptions)) {
     target = document.body;
     const content = step.shepherdElementComponent.getElement();
     content.classList.add('shepherd-centered');
@@ -2312,7 +2331,7 @@ function getPopperOptions(attachToOptions, step) {
     strategy: 'absolute'
   };
 
-  if (step.isCentered()) {
+  if (shouldCenterStep(attachToOptions)) {
     popperOptions = makeCenteredPopper(step);
   } else {
     popperOptions.placement = attachToOptions.on;
@@ -4851,10 +4870,11 @@ class Step extends Evented {
    * });
    * ```
    *
-   * If you don’t specify an attachTo the element will appear in the middle of the screen.
+   * If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * @param {HTMLElement|string} options.attachTo.element An element selector string or a DOM element.
+   * If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
+   * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
    * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
    *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
@@ -4932,6 +4952,14 @@ class Step extends Evented {
     this.tour = tour;
     this.classPrefix = this.tour.options ? normalizePrefix(this.tour.options.classPrefix) : '';
     this.styles = tour.styles;
+    /**
+     * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
+     * Do not use this directly, use the _getResolvedAttachToOptions method instead.
+     * @type {null|{}|{element, to}}
+     * @private
+     */
+
+    this._resolvedAttachTo = null;
     autoBind(this);
 
     this._setOptions(options);
@@ -5006,14 +5034,29 @@ class Step extends Evented {
     this.trigger('hide');
   }
   /**
-   * Checks if the step should be centered or not
-   * @return {boolean} True if the step is centered
+   * Resolves attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
    */
 
 
-  isCentered() {
-    const attachToOptions = parseAttachTo(this);
-    return !attachToOptions.element || !attachToOptions.on;
+  _resolveAttachToOptions() {
+    this._resolvedAttachTo = parseAttachTo(this);
+    return this._resolvedAttachTo;
+  }
+  /**
+   * A selector for resolved attachTo options.
+   * @returns {{}|{element, on}}
+   * @private
+   */
+
+
+  _getResolvedAttachToOptions() {
+    if (this._resolvedAttachTo === null) {
+      return this._resolveAttachToOptions();
+    }
+
+    return this._resolvedAttachTo;
   }
   /**
    * Check if the step is open and visible
@@ -5111,7 +5154,7 @@ class Step extends Evented {
   _scrollTo(scrollToOptions) {
     const {
       element
-    } = parseAttachTo(this);
+    } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
       this.options.scrollToHandler(element);
@@ -5192,7 +5235,9 @@ class Step extends Evented {
 
 
   _show() {
-    this.trigger('before-show');
+    this.trigger('before-show'); // Force resolve to make sure the options are updated on subsequent shows.
+
+    this._resolveAttachToOptions();
 
     this._setupElements();
 
