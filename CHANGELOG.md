@@ -9,6 +9,18 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v10.0.0 (2022-06-07)
+
+#### :boom: Breaking Change
+* [#1930](https://github.com/shipshapecode/shepherd/pull/1930) Implement lazy evaluation of attachTo.element ([@monshan](https://github.com/monshan))
+
+#### :bug: Bug Fix
+* [#1942](https://github.com/shipshapecode/shepherd/pull/1942) Fix chrome opacity bug ([@monshan](https://github.com/monshan))
+
+#### Committers: 1
+- Marika Shanahan ([@monshan](https://github.com/monshan))
+
 ## v9.1.1 (2022-05-26)
 
 #### :bug: Bug Fix
