@@ -157,7 +157,10 @@ jobs:
   automerge:
     needs: [test-unit, test-integration-chrome, test-integration-firefox]
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v2.2.0
+      - uses: fastify/github-action-merge-dependabot@v3.2.0
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.GITHUB_TOKEN}}  
