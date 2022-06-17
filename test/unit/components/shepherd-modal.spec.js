@@ -5,7 +5,7 @@ const classPrefix = '';
 
 describe('components/ShepherdModal', () => {
   describe('closeModalOpening()', function() {
-    it('sets values back to 0', async() => {
+    it('sets values back to 0', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -13,7 +13,7 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      await modalComponent.positionModal(0, 0, null, {
+      await modalComponent.positionModal(0, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -24,7 +24,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      let modalPath = modalComponent.getElement().querySelector('path');
+      let modalPath = await modalComponent.getElement().querySelector('path');
+      
       expect(modalPath).toHaveAttribute(
         'd',
         'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0Z'
@@ -43,7 +44,7 @@ describe('components/ShepherdModal', () => {
   });
 
   describe('positionModal()', function() {
-    it('sets the correct attributes when positioning modal opening', async() => {
+    it('sets the correct attributes when positioning modal opening', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -51,7 +52,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      let modalPath = modalComponent.getElement().querySelector('path');
+      let modalPath = await modalComponent.getElement().querySelector('path');
+      
       expect(modalPath).toHaveAttribute(
         'd',
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
