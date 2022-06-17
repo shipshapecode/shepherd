@@ -67,7 +67,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(0, 0, null, {
+      await modalComponent.positionModal(0, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -101,7 +101,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(10, 0, null, {
+      await modalComponent.positionModal(10, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -143,7 +143,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(0, 10, null, {
+      await modalComponent.positionModal(0, 10, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -172,6 +172,8 @@ describe('components/ShepherdModal', () => {
       });
 
       await modalComponent.positionModal(
+        0,
+        0,
         0,
         0,
         {
@@ -214,6 +216,8 @@ describe('components/ShepherdModal', () => {
       });
 
       await modalComponent.positionModal(
+        0,
+        0,
         0,
         0,
         {
