@@ -87,6 +87,88 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
+    it('can offset the x-axis', async () => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      modalComponent.positionModal(0, 0, 50, 0, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }}
+      )
+
+      let modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM60,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H560a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z')
+
+      modalComponent.positionModal(0, 0, 100, 0, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }}
+      )
+
+      modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM110,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H610a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z')
+
+      modalComponent.$destroy();
+    })
+
+    it('can offset the y-axis', async () => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      modalComponent.positionModal(0, 0, 0, 35, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }}
+      )
+
+      let modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM10,45a0,0,0,0,0-0,0V295a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V45a0,0,0,0,0-0-0Z')
+
+      modalComponent.positionModal(0, 0, 0, 75, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }}
+      )
+
+      modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute('d', 'M1024,768H0V0H1024V768ZM10,85a0,0,0,0,0-0,0V335a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V85a0,0,0,0,0-0-0Z')
+
+      modalComponent.$destroy();
+    })
+
     it('sets the correct attributes with padding', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
