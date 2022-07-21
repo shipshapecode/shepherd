@@ -1,6 +1,6 @@
 import { createPopper } from '@popperjs/core';
 import { isFunction, isString } from './type-check';
-import { makeCenteredPopper } from './popper-options';
+import { makeCenteredPopper, generateFocusAfterRenderModifier } from './popper-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -120,22 +120,7 @@ export function getPopperOptions(attachToOptions, step) {
           tether: false
         }
       },
-      {
-        name: 'focusAfterRender',
-        enabled: true,
-        phase: 'afterWrite',
-        fn() {
-          setTimeout(() => {
-            if (step.el) {
-              const focusOptions = {
-                preventScroll: true
-              };
-
-              step.el.focus(focusOptions);
-            }
-          }, 300);
-        }
-      }
+      generateFocusAfterRenderModifier(step)
     ],
     strategy: 'absolute'
   };
