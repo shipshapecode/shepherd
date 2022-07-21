@@ -60,7 +60,11 @@ export function makeCenteredPopper(step) {
         fn() {
           setTimeout(() => {
             if (step.el) {
-              step.el.focus();
+              const focusOptions = {
+                preventScroll: true
+              };
+
+              step.el.focus(focusOptions);
             }
           }, 300);
         }
