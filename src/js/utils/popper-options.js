@@ -42,7 +42,6 @@ function _getCenteredStylePopperModifier() {
  * Generates a modifier for popper that will help focus the element after it has
  * been rendered
  *
- * @export
  * @param {Step} step The step instance
  * @return {Object} The focus after render modifier configuration object
  */
