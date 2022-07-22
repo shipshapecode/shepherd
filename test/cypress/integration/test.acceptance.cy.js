@@ -525,9 +525,10 @@ describe('Shepherd Acceptance Tests', () => {
 
         cy.get('.hero-followup')
           .then((element) => calculateCenteredScrollTop(element[0]))
-          .then((scrollTop) =>
-            cy.window().its('scrollY').should('equal', scrollTop)
-          );
+          .then((scrollTop) => {
+            const plusOrMinusPx = 10;
+            cy.window().its('scrollY').should('be.closeTo', scrollTop, plusOrMinusPx)
+          });
       });
     });
   });
