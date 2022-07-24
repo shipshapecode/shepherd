@@ -493,6 +493,43 @@ describe('Shepherd Acceptance Tests', () => {
         tour.next();
         cy.document().get('body').should('have.prop', 'scrollTop').and('eq', 0);
       });
+
+      it('scrollTo:scrollIntoViewOptions scrolls with options', () => {
+        const scrollIntoViewOptions = {
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'nearest'
+        };
+
+        const calculateCenteredScrollTop = (target) =>
+          target.offsetTop -
+          target.offsetParent.offsetHeight / 2 +
+          target.clientHeight / 2;
+
+        const tour = setupTour(
+          Shepherd,
+          {
+            scrollTo: scrollIntoViewOptions
+          },
+          null,
+          {
+            useModalOverlay: true
+          }
+        );
+
+        // start the tour and skip a few steps ahead, so we scroll down the page a bit
+        tour.start();
+        tour.next();
+        tour.next();
+        tour.next();
+
+        cy.get('.hero-followup')
+          .then((element) => calculateCenteredScrollTop(element[0]))
+          .then((scrollTop) => {
+            const plusOrMinusPx = 10;
+            cy.window().its('scrollY').should('be.closeTo', scrollTop, plusOrMinusPx)
+          });
+      });
     });
   });
 

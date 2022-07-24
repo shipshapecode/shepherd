@@ -94,6 +94,27 @@ describe('General Utils', function() {
       const popperOptions = getPopperOptions(step.options.attachTo, step);
       expect(popperOptions.strategy).toBe('absolute');
     });
+
+    it(`has a modifier to focus on the step's element after render`, function () {
+      const step = new Step({}, {
+        attachTo: { element: '.options-test', on: 'center' },
+      });
+
+      const popperOptions = getPopperOptions(step.options.attachTo, step);
+
+      const expectedModifier = {
+        name: 'focusAfterRender',
+        enabled: true,
+        phase: 'afterWrite',
+        fn: expect.any(Function)
+      };
+
+      const actualModifier = popperOptions.modifiers.find(
+        (modifier) => modifier.name === expectedModifier.name
+      );
+
+      expect(actualModifier).toMatchObject(expectedModifier);
+    });
   });
   
   describe('shouldCenterStep()', () => {
