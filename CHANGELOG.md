@@ -10,6 +10,15 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v10.0.1 (2022-08-01)
+
+#### :bug: Bug Fix
+* [#1997](https://github.com/shipshapecode/shepherd/pull/1997) Fix for smooth scrolling ([@hrypkema-amplify](https://github.com/hrypkema-amplify))
+
+#### Committers: 1
+- Henrik Rypkema ([@hrypkema-amplify](https://github.com/hrypkema-amplify))
+
 ## v10.0.0 (2022-06-07)
 
 #### :boom: Breaking Change
