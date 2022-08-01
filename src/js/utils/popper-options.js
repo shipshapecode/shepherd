@@ -39,6 +39,32 @@ function _getCenteredStylePopperModifier() {
 }
 
 /**
+ * Generates a modifier for popper that will help focus the element after it has
+ * been rendered
+ *
+ * @param {Step} step The step instance
+ * @return {Object} The focus after render modifier configuration object
+ */
+export function generateFocusAfterRenderModifier(step) {
+  return {
+    name: 'focusAfterRender',
+    enabled: true,
+    phase: 'afterWrite',
+    fn() {
+      setTimeout(() => {
+        if (step.el) {
+          const focusOptions = {
+            preventScroll: true
+          };
+
+          step.el.focus(focusOptions);
+        }
+      }, 300);
+    }
+  };
+}
+
+/**
  * Generates the array of options for a tooltip that doesn't have a
  * target element in the DOM -- and thus is positioned in the center
  * of the view
@@ -52,20 +78,7 @@ export function makeCenteredPopper(step) {
   let popperOptions = {
     placement: 'top',
     strategy: 'fixed',
-    modifiers: [
-      {
-        name: 'focusAfterRender',
-        enabled: true,
-        phase: 'afterWrite',
-        fn() {
-          setTimeout(() => {
-            if (step.el) {
-              step.el.focus();
-            }
-          }, 300);
-        }
-      }
-    ]
+    modifiers: [generateFocusAfterRenderModifier(step)]
   };
 
   popperOptions = {
