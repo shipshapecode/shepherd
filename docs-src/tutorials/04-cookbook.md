@@ -54,15 +54,9 @@ being show.
 ```javascript
 when: {
   show() {
-    const currentStep = Shepherd.activeTour?.getCurrentStep()
-    if (!currentStep)
-      return
-    const currentStepElement = currentStep.getElement()
-    if (!currentStepElement)
-      return
-    const header = currentStepElement.querySelector('.shepherd-header')
-    if (!header)
-      return
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const header = currentStepElement?.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
