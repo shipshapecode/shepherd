@@ -59,7 +59,7 @@ when: {
     const header = currentStepElement?.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
-    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
+    progress.innerText = `${shepherd.activeTour?.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
     header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
@@ -75,7 +75,7 @@ when: {
     const footer = currentStepElement?.querySelector('.shepherd-footer');
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
-    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
+    progress.innerText = `${shepherd.activeTour?.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
     footer?.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
   }
 }
