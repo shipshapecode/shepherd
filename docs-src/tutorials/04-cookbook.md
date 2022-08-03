@@ -70,15 +70,9 @@ Another example, for anyone who wants to add progress indicators to the footer. 
 ```javascript
 when: {
   show() {
-    const currentStep = Shepherd.activeTour?.getCurrentStep()
-    if (!currentStep)
-      return
-    const currentStepElement = currentStep.getElement()
-    if (!currentStepElement)
-      return
-    const footer = currentStepElement.querySelector('.shepherd-footer')
-    if (!footer)
-      return
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const footer = currentStepElement?.querySelector('.shepherd-footer');
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
