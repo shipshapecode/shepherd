@@ -43,7 +43,7 @@ popperOptions: {
 
 ### Progress Indicator
 
-Using the already exposed API, you could add a progress indicator of your chosing 
+Using the already exposed API, you could add a progress indicator of your choosing 
 for each step to let your users know how far into a tour they may be.
 
 The example below uses the [Step](https://shepherdjs.dev/docs/Step.html) `options` 
@@ -60,7 +60,7 @@ when: {
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
-    header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
+    header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
 ```
@@ -76,7 +76,7 @@ when: {
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
-    footer.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
+    footer?.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
   }
 }
 ```
