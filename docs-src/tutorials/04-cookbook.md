@@ -54,8 +54,15 @@ being show.
 ```javascript
 when: {
   show() {
-    const currentStepElement = shepherd.currentStep.el;
-    const header = currentStepElement.querySelector('.shepherd-header');
+    const currentStep = Shepherd.activeTour?.getCurrentStep()
+    if (!currentStep)
+      return
+    const currentStepElement = currentStep.getElement()
+    if (!currentStepElement)
+      return
+    const header = currentStepElement.querySelector('.shepherd-header')
+    if (!header)
+      return
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
@@ -69,8 +76,15 @@ Another example, for anyone who wants to add progress indicators to the footer. 
 ```javascript
 when: {
   show() {
-    const currentStepElement = shepherd.currentStep.el;
-    const footer = currentStepElement.querySelector('.shepherd-footer');
+    const currentStep = Shepherd.activeTour?.getCurrentStep()
+    if (!currentStep)
+      return
+    const currentStepElement = currentStep.getElement()
+    if (!currentStepElement)
+      return
+    const footer = currentStepElement.querySelector('.shepherd-footer')
+    if (!footer)
+      return
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
     progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
