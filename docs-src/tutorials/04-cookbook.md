@@ -59,7 +59,7 @@ when: {
     const header = currentStepElement?.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
-    progress.innerText = `${shepherd.activeTour?.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1}/${Shepherd.activeTour?.steps.length}`;
     header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
