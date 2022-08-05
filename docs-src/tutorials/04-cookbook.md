@@ -75,7 +75,7 @@ when: {
     const footer = currentStepElement?.querySelector('.shepherd-footer');
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
-    progress.innerText = `${shepherd.activeTour?.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1} of ${Shepherd.activeTour?.steps.length}`;
     footer?.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
   }
 }
