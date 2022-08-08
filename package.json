@@ -71,7 +71,7 @@
     "del": "^7.0.0",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.7.0",
+    "eslint-plugin-jest": "^26.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-svelte3": "^4.0.0",
     "glob": "^8.0.3",
