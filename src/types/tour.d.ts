@@ -146,7 +146,7 @@ declare namespace Tour {
 
     /**
      * An optional "name" for the tour. This will be appended to the the tour's
-     * dynamically generated `id` property
+     * dynamically generated `id` property.
      */
     tourName?: string;
 
