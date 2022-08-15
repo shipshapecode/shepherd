@@ -90,7 +90,7 @@
     "release-it-lerna-changelog": "^5.0.0",
     "replace": "^1.2.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.77.2",
+    "rollup": "^2.78.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
