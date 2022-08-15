@@ -4710,26 +4710,7 @@ google-closure-compiler@20210808.0.0:
     google-closure-compiler-osx "^20210808.0.0"
     google-closure-compiler-windows "^20210808.0.0"
 
-got@12.2.0:
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/got/-/got-12.2.0.tgz#0b5de8cd48d0a16cd44789fd5fdd071ba3ee1de5"
-  integrity sha512-A81ll5Z8wzeCmSdIlWVMDWFKDo82v2nmOaMZDQNHKGInNqDBcle+CSb6BBiZcn/Aiefz/kSpo520WBKi9QAO/A==
-  dependencies:
-    "@sindresorhus/is" "^5.2.0"
-    "@szmarczak/http-timer" "^5.0.1"
-    "@types/cacheable-request" "^6.0.2"
-    "@types/responselike" "^1.0.0"
-    cacheable-lookup "^6.0.4"
-    cacheable-request "^7.0.2"
-    decompress-response "^6.0.0"
-    form-data-encoder "^2.0.1"
-    get-stream "^6.0.1"
-    http2-wrapper "^2.1.10"
-    lowercase-keys "^3.0.0"
-    p-cancelable "^3.0.0"
-    responselike "^2.0.0"
-
-got@^12.1.0:
+got@12.3.1, got@^12.1.0:
   version "12.3.1"
   resolved "https://registry.yarnpkg.com/got/-/got-12.3.1.tgz#79d6ebc0cb8358c424165698ddb828be56e74684"
   integrity sha512-tS6+JMhBh4iXMSXF6KkIsRxmloPln31QHDlcb6Ec3bzxjjFJFr/8aXdpyuLmVc9I4i2HyBHYw1QU5K1ruUdpkw==
@@ -5128,10 +5109,10 @@ ini@^1.3.4, ini@~1.3.0:
   resolved "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-inquirer@9.0.2:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-9.0.2.tgz#81d830044718528485d7b9f7d47c6d590ccd1a7f"
-  integrity sha512-AqmDHmz3bIe573OiM4svTZzajBzff1xpuzYAimW8gjzW5ncuPllWB8t/GKl+NSuKRJaKyIF2bU2RCx8H1dwqyQ==
+inquirer@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-9.1.0.tgz#446a09abe2e5a18973322bee89b42a6c304f2cd3"
+  integrity sha512-eukdjrBljg9t55ZnvJjvGi1OyYEzVBFsO/8o5d2MV3mc28u3x4X2kS4eJ/+9U10KiREfPkEBSeCrU/S2G/uRtw==
   dependencies:
     ansi-escapes "^5.0.0"
     chalk "^5.0.1"
@@ -7020,10 +7001,10 @@ node-domexception@^1.0.0:
   resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
-node-fetch@3.2.9:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.9.tgz#3f6070bf854de20f21b9fe8479f823462e615d7d"
-  integrity sha512-/2lI+DBecVvVm9tDhjziTVjo2wmTsSxSk58saUYP0P/fRJ3xxtfMDY24+CKTkfm0Dlhyn3CSXNL0SoRiCZ8Rzg==
+node-fetch@3.2.10:
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.10.tgz#e8347f94b54ae18b57c9c049ef641cef398a85c8"
+  integrity sha512-MhuzNwdURnZ1Cp4XTazr69K0BTizsBroX7Zx3UgDSVcZYKF/6p0CBe4EUb/hLqmzVhl0UpYfgRljQ4yxE+iCxA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"
@@ -8318,10 +8299,10 @@ release-it-lerna-changelog@^5.0.0:
     validate-peer-dependencies "^2.0.0"
     which "^2.0.2"
 
-release-it@^15.2.0:
-  version "15.2.0"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.2.0.tgz#06837d4682f913d820c873a7934fa05cd8120a7f"
-  integrity sha512-zVtk/+BSX941e9lR2dhWGQhOIVdr98Fifgel4xUnsJVycU0uTtalOUhjoZM2jyDgcD22idmuDVgvgOTl9IyJ/g==
+release-it@^15.3.0:
+  version "15.3.0"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.3.0.tgz#700a7edca3664653991c39f0c2e7d268aee5c4b7"
+  integrity sha512-MI4EBGca+y4SskgBkWNIakFp/GvXfpZEMWkmqmsysPcou/L+E+sKd0oy33ovGCyLic+9SI2rv/lQ3ACgonmqdQ==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "19.0.3"
@@ -8332,13 +8313,13 @@ release-it@^15.2.0:
     form-data "4.0.0"
     git-url-parse "12.0.0"
     globby "13.1.2"
-    got "12.2.0"
-    inquirer "9.0.2"
+    got "12.3.1"
+    inquirer "9.1.0"
     is-ci "3.0.1"
     lodash "4.17.21"
     mime-types "2.1.35"
     new-github-release-url "2.0.0"
-    node-fetch "3.2.9"
+    node-fetch "3.2.10"
     open "8.4.0"
     ora "6.1.2"
     os-name "5.0.1"
@@ -8349,7 +8330,7 @@ release-it@^15.2.0:
     update-notifier "6.0.2"
     url-join "5.0.0"
     wildcard-match "5.1.2"
-    yargs-parser "21.0.1"
+    yargs-parser "21.1.1"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
@@ -10088,10 +10069,10 @@ yaml@^1.10.0, yaml@^1.10.2:
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yargs-parser@21.0.1, yargs-parser@^21.0.0:
-  version "21.0.1"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.0.1.tgz#0267f286c877a4f0f728fceb6f8a3e4cb95c6e35"
-  integrity sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==
+yargs-parser@21.1.1, yargs-parser@^21.0.0:
+  version "21.1.1"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
+  integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
 yargs-parser@^18.1.2:
   version "18.1.3"
