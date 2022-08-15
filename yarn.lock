@@ -8655,10 +8655,10 @@ rollup-plugin-scss@^3.0.0:
   dependencies:
     rollup-pluginutils "^2.3.3"
 
-rollup-plugin-serve@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-serve/-/rollup-plugin-serve-2.0.0.tgz#f5ac0d9740f8c30e8be353a780303838fa1dac0e"
-  integrity sha512-adII2hdsHyNftFhg4bx55B6ogZWmySEGtdqcqxwZQi3BryAnfzQ+xRb1/BLe3DR1lX9QxnpwtHbBCSULyXbMwA==
+rollup-plugin-serve@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-serve/-/rollup-plugin-serve-2.0.1.tgz#79d2813baeae48888ebbc608418afc68f938eab8"
+  integrity sha512-/9lnzylTMwbXNQUwWAO0DIxW145wl+rmikwFXgujLJ5N9bRfWcjP+qd1XM5wxSiw8ZlBAlFy/n2zRvzcG21bBw==
   dependencies:
     mime ">=2.4.6"
     opener "1"

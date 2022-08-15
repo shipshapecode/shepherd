@@ -102,7 +102,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-scss": "^3.0.0",
-    "rollup-plugin-serve": "^2.0.0",
+    "rollup-plugin-serve": "^2.0.1",
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-visualizer": "^5.7.1",
     "sinon": "^14.0.0",
