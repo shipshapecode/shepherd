@@ -104,7 +104,7 @@
     "rollup-plugin-scss": "^3.0.0",
     "rollup-plugin-serve": "^2.0.1",
     "rollup-plugin-svelte": "^7.1.0",
-    "rollup-plugin-visualizer": "^5.7.1",
+    "rollup-plugin-visualizer": "^5.8.0",
     "sinon": "^14.0.0",
     "start-server-and-test": "^1.14.0",
     "svelte": "^3.49.0",
