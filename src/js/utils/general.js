@@ -36,17 +36,39 @@ export function parseAttachTo(step) {
     // guarantee that the element will exist in the future.
     try {
       returnOpts.element = document.querySelector(returnOpts.element);
+      returnOpts.element = parseElementOrSelector(options.element);
     } catch (e) {
       // TODO
+      return null;
     }
-    if (!returnOpts.element) {
-      console.error(
-        `The element for this Shepherd step was not found ${options.element}`
-      );
-    }
+  }
+  if (!returnOpts.element) {
+    console.error(
+      `The element for this Shepherd step was not found ${options.element}`
+    );
   }
 
   return returnOpts;
+}
+
+/**
+ * Takes in an HTMLElement or string or nullish value, returns HTMLElement or null if not found
+ * @param {HTMLElement|string|void} element DOM element or string selector (or any falsy value)
+ * @returns {HTMLElement|null}
+ */
+export function parseElementOrSelector(element) {
+  if (!element) {
+    return null;
+  }
+  if (isString(element)) {
+    try {
+      return document.querySelector(element);
+    } catch (e) {
+      // TODO
+      return null;
+    }
+  }
+  return element;
 }
 
 /**

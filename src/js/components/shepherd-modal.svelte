@@ -1,5 +1,5 @@
 <script>
-  import { uuid } from '../utils/general.js';
+  import { uuid, parseElementOrSelector } from '../utils/general.js';
   import { makeOverlayPath } from '../utils/overlay-path.js';
 
   export let element, openingProperties;
@@ -13,6 +13,7 @@
   closeModalOpening();
 
   export const getElement = () => element;
+  export const getOpeningProperties = () => openingProperties;
 
   export function closeModalOpening() {
     openingProperties = {
@@ -128,11 +129,13 @@
    */
   function _styleForStep(step) {
     const {
+      modalOverlayOpeningElement,
       modalOverlayOpeningPadding,
       modalOverlayOpeningRadius
     } = step.options;
 
-    const scrollParent = _getScrollParent(step.target);
+    const target = parseElementOrSelector(modalOverlayOpeningElement) || step.target;
+    const scrollParent = _getScrollParent(target);
 
     // Setup recursive function to call requestAnimationFrame to update the modal opening position
     const rafLoop = () => {
@@ -141,7 +144,7 @@
         modalOverlayOpeningPadding,
         modalOverlayOpeningRadius,
         scrollParent,
-        step.target
+        target
       );
       rafId = requestAnimationFrame(rafLoop);
     };

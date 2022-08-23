@@ -219,6 +219,7 @@ For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to 
 You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
+- `modalOverlayOpeningElement`: An element selector string or a DOM element that the modal overlay opening should target. Defaults to using the same element as `attachTo` if unspecified.
 - `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
 - `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening
 - `popperOptions`: Extra options to pass to [Popper](https://popper.js.org/docs/v2/constructors/#options)
