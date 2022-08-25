@@ -1,9 +1,17 @@
-import { createPopper } from '@popperjs/core';
 import { isFunction, isString } from './type-check';
 import {
   makeCenteredPopper,
   generateFocusAfterRenderModifier
 } from './popper-options';
+
+import {
+  computePosition,
+  autoUpdate,
+  shift,
+  flip,
+  arrow
+} from '@floating-ui/dom';
+import { generateFocusMiddleware } from './floatingui-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -75,14 +83,16 @@ export function shouldCenterStep(resolvedAttachToOptions) {
  * @param {Step} step The step instance
  */
 export function setupTooltip(step) {
-  if (step.tooltip) {
-    step.tooltip.destroy();
+  if (step.cleanup) {
+    console.log('cleanup');
+    step.cleanup();
   }
 
   const attachToOptions = step._getResolvedAttachToOptions();
 
   let target = attachToOptions.element;
-  const popperOptions = getPopperOptions(attachToOptions, step);
+  //const popperOptions = getPopperOptions(attachToOptions, step);
+  const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
 
   if (shouldCenterStep(attachToOptions)) {
     target = document.body;
@@ -90,10 +100,35 @@ export function setupTooltip(step) {
     content.classList.add('shepherd-centered');
   }
 
-  step.tooltip = createPopper(target, step.el, popperOptions);
+  step.cleanup = autoUpdate(target, step.el, () => {
+    if (!step.el) {
+      step.cleanup();
+      return;
+    }
+
+    computePosition(target, step.el, floatingUIOptions).then(({ x, y, middlewareData }) => {
+      Object.assign(step.el.style, {
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`
+      });
+
+      const arrowEl = step.el.querySelector('.shepherd-arrow');
+      if (arrowEl) {
+        const { arrow } = middlewareData;
+        Object.assign(arrowEl.style, {
+          position: 'absolute',
+          left: `${arrow.x}px`,
+          top: `${arrow.y}px`
+        });
+      }
+    });
+  });
+
+  //step.tooltip = createPopper(target, step.el, popperOptions);
   step.target = attachToOptions.element;
 
-  return popperOptions;
+  return floatingUIOptions;
 }
 
 /**
@@ -107,6 +142,46 @@ export function uuid() {
     d = Math.floor(d / 16);
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
+}
+
+
+/**
+ * Gets the `Popper` options from a set of base `attachTo` options
+ * @param attachToOptions
+ * @param {Step} step The step instance
+ * @return {Object}
+ * @private
+ */
+export function getFloatingUIOptions(attachToOptions, step) {
+  const arrowEl = step.el.querySelector('.shepherd-arrow');
+  let options = {
+    middleware: [shift()],
+    strategy: 'absolute'
+  };
+  if (arrowEl) {
+    options.middleware.push(arrow({ element: arrowEl }));
+  }
+  options.middleware.push(generateFocusMiddleware(step));
+
+  if (shouldCenterStep(attachToOptions)) {
+    //options = makeCenteredPopper(step);
+    console.log('@todo : makeCenteredPopper(step)');
+  } else {
+    options.placement = attachToOptions.on;
+  }
+
+  const defaultStepOptions =
+    step.tour && step.tour.options && step.tour.options.defaultStepOptions;
+
+  if (defaultStepOptions) {
+    //options = _mergeModifiers(defaultStepOptions, options);
+    console.log('@todo : _mergeModifiers(defaultStepOptions, options)');
+  }
+
+  //options = _mergeModifiers(step.options, options);
+  console.log('@todo : _mergeModifiers(step.options, options)');
+
+  return options;
 }
 
 /**
