@@ -84,7 +84,6 @@ export function shouldCenterStep(resolvedAttachToOptions) {
  */
 export function setupTooltip(step) {
   if (step.cleanup) {
-    console.log('cleanup');
     step.cleanup();
   }
 

@@ -1,3 +1,9 @@
+/**
+ * @todo
+ *
+ * @return {*[]}
+ * @private
+ */
 function _getCenteredStylePopperModifier() {
   return [];
 }
@@ -6,6 +12,8 @@ function _getCenteredStylePopperModifier() {
  * Generates the array of options for a tooltip that doesn't have a
  * target element in the DOM -- and thus is positioned in the center
  * of the view
+ *
+ * @todo
  *
  * @param {Step} step The step instance
  * @return {Object} The final floatingUI options object
