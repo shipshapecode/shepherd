@@ -91,7 +91,6 @@ export function setupTooltip(step) {
   const attachToOptions = step._getResolvedAttachToOptions();
 
   let target = attachToOptions.element;
-  //const popperOptions = getPopperOptions(attachToOptions, step);
   const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
 
   if (shouldCenterStep(attachToOptions)) {
@@ -101,26 +100,39 @@ export function setupTooltip(step) {
   }
 
   step.cleanup = autoUpdate(target, step.el, () => {
+    // The element might have already been removed by the end of the tour.
     if (!step.el) {
       step.cleanup();
       return;
     }
 
     computePosition(target, step.el, floatingUIOptions)
-      .then(({ x, y, middlewareData }) => {
+      .then(({ x, y, placement, middlewareData }) => {
         Object.assign(step.el.style, {
           position: 'absolute',
           left: `${x}px`,
           top: `${y}px`
         });
 
+        step.el.dataset.popperPlacement = placement;
+
         const arrowEl = step.el.querySelector('.shepherd-arrow');
         if (arrowEl) {
-          const { arrow } = middlewareData;
+          const {x: arrowX, y: arrowY} = middlewareData.arrow;
+
+          const staticSide = {
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right'
+          }[placement.split('-')[0]];
+
           Object.assign(arrowEl.style, {
-            position: 'absolute',
-            left: `${arrow.x}px`,
-            top: `${arrow.y}px`
+            left: arrowX != null ? `${arrowX}px` : '',
+            top: arrowY != null ? `${arrowY}px` : '',
+            right: '',
+            bottom: '',
+            [staticSide]: '-35px'
           });
         }
 
@@ -129,9 +141,9 @@ export function setupTooltip(step) {
         });
       })
       // Replaces focusAfterRender modifier.
-      .then((step) => {
-        if (step.el) {
-          step.el.focus({ preventScroll: true });
+      .then(({ el }) => {
+        if (el) {
+          el.focus({ preventScroll: true });
         }
       });
   });
