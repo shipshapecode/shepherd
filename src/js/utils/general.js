@@ -107,39 +107,7 @@ export function setupTooltip(step) {
     }
 
     computePosition(target, step.el, floatingUIOptions)
-      .then(({ x, y, placement, middlewareData }) => {
-        Object.assign(step.el.style, {
-          position: 'absolute',
-          left: `${x}px`,
-          top: `${y}px`
-        });
-
-        step.el.dataset.popperPlacement = placement;
-
-        const arrowEl = step.el.querySelector('.shepherd-arrow');
-        if (arrowEl) {
-          const { x: arrowX, y: arrowY } = middlewareData.arrow;
-
-          const staticSide = {
-            top: 'bottom',
-            right: 'left',
-            bottom: 'top',
-            left: 'right'
-          }[placement.split('-')[0]];
-
-          Object.assign(arrowEl.style, {
-            left: arrowX != null ? `${arrowX}px` : '',
-            top: arrowY != null ? `${arrowY}px` : '',
-            right: '',
-            bottom: '',
-            [staticSide]: '-35px'
-          });
-        }
-
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(step), 300);
-        });
-      })
+      .then(floatingUIposition(step))
       // Replaces focusAfterRender modifier.
       .then(({ el }) => {
         if (el) {
@@ -167,6 +135,56 @@ export function uuid() {
   });
 }
 
+/**
+ *
+ * @param step
+ * @return {function({x: *, y: *, placement: *, middlewareData: *}): Promise<unknown>}
+ */
+function floatingUIposition(step) {
+  return ({ x, y, placement, middlewareData }) => {
+    Object.assign(step.el.style, {
+      position: 'absolute',
+      left: `${x}px`,
+      top: `${y}px`
+    });
+
+    step.el.dataset.popperPlacement = placement;
+
+    placeArrow(step, placement, middlewareData);
+
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(step), 300);
+    });
+  };
+}
+
+/**
+ *
+ * @param step
+ * @param placement
+ * @param middlewareData
+ */
+function placeArrow(step, placement, middlewareData) {
+  const arrowEl = step.el.querySelector('.shepherd-arrow');
+  if (arrowEl) {
+    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+
+    const staticSide = {
+      top: 'bottom',
+      right: 'left',
+      bottom: 'top',
+      left: 'right'
+    }[placement.split('-')[0]];
+
+    Object.assign(arrowEl.style, {
+      left: arrowX != null ? `${arrowX}px` : '',
+      top: arrowY != null ? `${arrowY}px` : '',
+      right: '',
+      bottom: '',
+      [staticSide]: '-35px'
+    });
+  }
+}
 
 /**
  * Gets the `Popper` options from a set of base `attachTo` options
@@ -178,10 +196,12 @@ export function uuid() {
 export function getFloatingUIOptions(attachToOptions, step) {
   const arrowEl = step.el.querySelector('.shepherd-arrow');
   let options = {
-    middleware: [shift({
-      limiter: limitShift(),
-      crossAxis: true
-    })],
+    middleware: [
+      shift({
+        limiter: limitShift(),
+        crossAxis: true
+      })
+    ],
     strategy: 'absolute'
   };
   if (arrowEl) {
