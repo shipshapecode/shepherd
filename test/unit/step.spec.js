@@ -2,9 +2,11 @@ import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
+import ResizeObserver from 'resize-observer-polyfill';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
+window.ResizeObserver = ResizeObserver;
 
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 

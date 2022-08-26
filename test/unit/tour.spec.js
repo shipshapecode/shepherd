@@ -1,12 +1,14 @@
 import _ from 'lodash';
 import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
+import ResizeObserver from 'resize-observer-polyfill';
 import { Step } from '../../src/js/step';
 import { setupTooltip } from '../../src/js/utils/general.js';
 import { spy } from 'sinon';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
+window.ResizeObserver = ResizeObserver;
 
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 
@@ -98,12 +100,12 @@ describe('Tour | Top-Level Class', function() {
         title: 'This is a test step for our tour'
       });
 
-      
+
       instance.addStep({
         id: 'test2',
         title: 'Another Step'
       });
-      
+
       instance.addStep({
         classes: 'skipped',
         id: 'skipped-step',

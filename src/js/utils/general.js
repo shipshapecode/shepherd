@@ -137,9 +137,9 @@ function setPosition(target, step, floatingUIOptions) {
     computePosition(target, step.el, floatingUIOptions)
       .then(floatingUIposition(step))
       // Replaces focusAfterRender modifier.
-      .then(({ el }) => {
-        if (el) {
-          el.focus({ preventScroll: true });
+      .then((step) => {
+        if (step && step.el) {
+          step.el.focus({ preventScroll: true });
         }
       })
   );
@@ -152,6 +152,9 @@ function setPosition(target, step, floatingUIOptions) {
  */
 function floatingUIposition(step) {
   return ({ x, y, placement, middlewareData }) => {
+    if (!step.el) {
+      return;
+    }
     Object.assign(step.el.style, {
       position: 'absolute',
       left: `${x}px`,
@@ -160,7 +163,7 @@ function floatingUIposition(step) {
 
     step.el.dataset.popperPlacement = placement;
 
-    placeArrow(step, placement, middlewareData);
+    placeArrow(step.el, placement, middlewareData);
 
     return new Promise((resolve) => {
       setTimeout(() => resolve(step), 300);
@@ -170,12 +173,12 @@ function floatingUIposition(step) {
 
 /**
  *
- * @param step
+ * @param el
  * @param placement
  * @param middlewareData
  */
-function placeArrow(step, placement, middlewareData) {
-  const arrowEl = step.el.querySelector('.shepherd-arrow');
+function placeArrow(el, placement, middlewareData) {
+  const arrowEl = el.querySelector('.shepherd-arrow');
   if (arrowEl) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
