@@ -8,8 +8,8 @@ import {
   computePosition,
   autoUpdate,
   shift,
-  flip,
-  arrow
+  arrow,
+  limitShift
 } from '@floating-ui/dom';
 //import { generateFocusMiddleware } from './floatingui-options';
 
@@ -118,7 +118,7 @@ export function setupTooltip(step) {
 
         const arrowEl = step.el.querySelector('.shepherd-arrow');
         if (arrowEl) {
-          const {x: arrowX, y: arrowY} = middlewareData.arrow;
+          const { x: arrowX, y: arrowY } = middlewareData.arrow;
 
           const staticSide = {
             top: 'bottom',
@@ -178,7 +178,10 @@ export function uuid() {
 export function getFloatingUIOptions(attachToOptions, step) {
   const arrowEl = step.el.querySelector('.shepherd-arrow');
   let options = {
-    middleware: [shift()],
+    middleware: [shift({
+      limiter: limitShift(),
+      crossAxis: true
+    })],
     strategy: 'absolute'
   };
   if (arrowEl) {
