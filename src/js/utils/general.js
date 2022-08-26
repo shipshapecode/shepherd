@@ -106,14 +106,7 @@ export function setupTooltip(step) {
       return;
     }
 
-    computePosition(target, step.el, floatingUIOptions)
-      .then(floatingUIposition(step))
-      // Replaces focusAfterRender modifier.
-      .then(({ el }) => {
-        if (el) {
-          el.focus({ preventScroll: true });
-        }
-      });
+    setPosition(target, step, floatingUIOptions);
   });
 
   //step.tooltip = createPopper(target, step.el, popperOptions);
@@ -133,6 +126,23 @@ export function uuid() {
     d = Math.floor(d / 16);
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
+}
+
+/**
+ *
+ * @return {Promise<*>}
+ */
+function setPosition(target, step, floatingUIOptions) {
+  return (
+    computePosition(target, step.el, floatingUIOptions)
+      .then(floatingUIposition(step))
+      // Replaces focusAfterRender modifier.
+      .then(({ el }) => {
+        if (el) {
+          el.focus({ preventScroll: true });
+        }
+      })
+  );
 }
 
 /**
