@@ -153,8 +153,9 @@ function setPosition(target, step, floatingUIOptions) {
 function floatingUIposition(step) {
   return ({ x, y, placement, middlewareData }) => {
     if (!step.el) {
-      return;
+      return step;
     }
+
     Object.assign(step.el.style, {
       position: 'absolute',
       left: `${x}px`,
