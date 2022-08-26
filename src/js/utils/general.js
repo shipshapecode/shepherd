@@ -11,7 +11,7 @@ import {
   flip,
   arrow
 } from '@floating-ui/dom';
-import { generateFocusMiddleware } from './floatingui-options';
+//import { generateFocusMiddleware } from './floatingui-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -106,23 +106,34 @@ export function setupTooltip(step) {
       return;
     }
 
-    computePosition(target, step.el, floatingUIOptions).then(({ x, y, middlewareData }) => {
-      Object.assign(step.el.style, {
-        position: 'absolute',
-        left: `${x}px`,
-        top: `${y}px`
-      });
-
-      const arrowEl = step.el.querySelector('.shepherd-arrow');
-      if (arrowEl) {
-        const { arrow } = middlewareData;
-        Object.assign(arrowEl.style, {
+    computePosition(target, step.el, floatingUIOptions)
+      .then(({ x, y, middlewareData }) => {
+        Object.assign(step.el.style, {
           position: 'absolute',
-          left: `${arrow.x}px`,
-          top: `${arrow.y}px`
+          left: `${x}px`,
+          top: `${y}px`
         });
-      }
-    });
+
+        const arrowEl = step.el.querySelector('.shepherd-arrow');
+        if (arrowEl) {
+          const { arrow } = middlewareData;
+          Object.assign(arrowEl.style, {
+            position: 'absolute',
+            left: `${arrow.x}px`,
+            top: `${arrow.y}px`
+          });
+        }
+
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(step), 300);
+        });
+      })
+      // Replaces focusAfterRender modifier.
+      .then((step) => {
+        if (step.el) {
+          step.el.focus({ preventScroll: true });
+        }
+      });
   });
 
   //step.tooltip = createPopper(target, step.el, popperOptions);
@@ -161,7 +172,6 @@ export function getFloatingUIOptions(attachToOptions, step) {
   if (arrowEl) {
     options.middleware.push(arrow({ element: arrowEl }));
   }
-  options.middleware.push(generateFocusMiddleware(step));
 
   if (shouldCenterStep(attachToOptions)) {
     //options = makeCenteredPopper(step);
