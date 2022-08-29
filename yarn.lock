@@ -8428,10 +8428,10 @@ release-it-lerna-changelog@^5.0.0:
     validate-peer-dependencies "^2.0.0"
     which "^2.0.2"
 
-release-it@^15.3.0:
-  version "15.3.0"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.3.0.tgz#700a7edca3664653991c39f0c2e7d268aee5c4b7"
-  integrity sha512-MI4EBGca+y4SskgBkWNIakFp/GvXfpZEMWkmqmsysPcou/L+E+sKd0oy33ovGCyLic+9SI2rv/lQ3ACgonmqdQ==
+release-it@^15.4.0:
+  version "15.4.0"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.4.0.tgz#dad3909a40a465681e085ed0fdc006322f681459"
+  integrity sha512-l7ZHfg5SHXWaAQy5gUS1dowryqjLevpXKvyNt8V7QCqqGQO/IvQEfLnc5xx4unBgJvxjt/X2f9KZ8FOzRnaT9w==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "19.0.3"
