@@ -7,6 +7,38 @@ on:
   pull_request: {}
 
 jobs:
+  test-lint:
+    name: Run Lint Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      # Setup Node.js build environment
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.18.1
+
+      # Cache dependencies
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: |
+            **/node_modules
+          key: yarn-${{ hashFiles('**/package.json', 'yarn.lock') }}
+
+      # Install project dependencies
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn
+      # Run Jest
+      - name: Run Lint Test
+        run: yarn lint:js
+
   test-unit:
     name: Run Unit Tests
     runs-on: ubuntu-latest
@@ -153,7 +185,7 @@ jobs:
       # Run Cypress
       - name: Run Tests
         run: yarn test:cy:ci:firefox
-  
+
   automerge:
     needs: [test-unit, test-integration-chrome, test-integration-firefox]
     runs-on: ubuntu-latest
@@ -163,4 +195,4 @@ jobs:
     steps:
       - uses: fastify/github-action-merge-dependabot@v3.2.0
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}  
+          github-token: ${{secrets.GITHUB_TOKEN}}
