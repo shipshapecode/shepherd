@@ -35,7 +35,7 @@ jobs:
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn
-      # Run Jest
+      # Run eslint
       - name: Run Lint Test
         run: yarn lint:js
 
