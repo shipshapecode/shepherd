@@ -97,7 +97,7 @@ describe('Tour | Step', () => {
     });
 
     const beforeShowPromise = new Promise((resolve) => {
-      return setTimeout(1000, resolve('beforeShowPromise worked!'));
+      return setTimeout(() => resolve('beforeShowPromise worked!'), 1000);
     });
 
     const beforeShowPromiseTestStep = instance.addStep({
@@ -478,7 +478,7 @@ describe('Tour | Step', () => {
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
-        return setTimeout(1000, resolve('beforeShowPromise worked!'));
+        return setTimeout(() => resolve('beforeShowPromise worked!'), 1000);
       });
 
       const step = new Step('test', {
@@ -495,12 +495,12 @@ describe('Tour | Step', () => {
       expect(resHandlerCalled).toBeTruthy();
       expect(resSpy).toBeCalled();
     })
-    
+
     it('calls the custom handler after before-show promise resolution', () => {
       let resHandlerAdded = false;
 
       const beforeShowPromise = new Promise((resolve) => {
-        return setTimeout(1000, resolve('beforeShowPromise worked!'));
+        return setTimeout(() => resolve('beforeShowPromise worked!'), 1000);
       });
 
       const step = new Step('test', {
@@ -726,9 +726,9 @@ describe('Tour | Step', () => {
       expect(result1).not.toBeNull()
 
       instance.next();
-      
+
       const result2 = instance.getById('step1')._getResolvedAttachToOptions();
-      
+
       expect(result1).toEqual(result2);
     });
 
