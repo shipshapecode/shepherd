@@ -232,12 +232,10 @@ export function getFloatingUIOptions(attachToOptions, step) {
     step.tour && step.tour.options && step.tour.options.defaultStepOptions;
 
   if (defaultStepOptions) {
-    //options = _mergeModifiers(defaultStepOptions, options);
-    console.log('@todo : _mergeModifiers(defaultStepOptions, options)');
+    options = _mergeMiddleware(defaultStepOptions, options);
   }
 
-  //options = _mergeModifiers(step.options, options);
-  console.log('@todo : _mergeModifiers(step.options, options)');
+  options = _mergeMiddleware(step.options, options);
 
   return options;
 }
@@ -280,6 +278,22 @@ export function getPopperOptions(attachToOptions, step) {
   popperOptions = _mergeModifiers(step.options, popperOptions);
 
   return popperOptions;
+}
+
+function _mergeMiddleware(stepOptions, options) {
+  if (
+    stepOptions.floatingUIOptions &&
+    stepOptions.floatingUIOptions.middleware &&
+    stepOptions.floatingUIOptions.middleware.length
+  ) {
+    return Object.assign({}, options, stepOptions.floatingUIOptions, {
+      middleware: stepOptions.floatingUIOptions.middleware.concat(
+        options.middleware
+      )
+    });
+  }
+
+  return options;
 }
 
 function _mergeModifiers(stepOptions, popperOptions) {

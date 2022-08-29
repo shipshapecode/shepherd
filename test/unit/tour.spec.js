@@ -5,6 +5,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 import { Step } from '../../src/js/step';
 import { setupTooltip } from '../../src/js/utils/general.js';
 import { spy } from 'sinon';
+import { offset } from "@floating-ui/dom";
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -29,6 +30,9 @@ describe('Tour | Top-Level Class', function() {
     scrollTo: true,
     popperOptions: {
       modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+    },
+    floatingUIOptions: {
+      middleware: [offset({crossAxis: 32})],
     },
     showOn,
     when
@@ -57,6 +61,9 @@ describe('Tour | Top-Level Class', function() {
         scrollTo: true,
         popperOptions: {
           modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        },
+        floatingUIOptions: {
+          middleware: [offset({crossAxis: 32})],
         },
         showOn,
         when
@@ -426,7 +433,7 @@ describe('Tour | Top-Level Class', function() {
     });
   });
 
-  describe('popperOptions', () => {
+  describe('floatingUIOptions', () => {
     it('applies the default modifiers from defaultStepOptions', function() {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
@@ -437,9 +444,9 @@ describe('Tour | Top-Level Class', function() {
 
       instance.start();
 
-      const popperOptions = setupTooltip(step);
+      const floatingUIOptions = setupTooltip(step);
 
-      expect(popperOptions.modifiers.length).toBe(4);
+      expect(floatingUIOptions.middleware.length).toBe(4);
     });
 
     it('adds a step modifer to default modifiers', function() {
@@ -450,14 +457,18 @@ describe('Tour | Top-Level Class', function() {
         title: 'This is a test step for our tour',
         popperOptions: {
           modifiers: [{ name: 'foo', options: 'bar' }]
-        }
+        },
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        },
       });
 
       instance.start();
 
-      const popperOptions = setupTooltip(step);
+      const floatingUIOptions = setupTooltip(step);
+      //console.log(floatingUIOptions);
 
-      expect(popperOptions.modifiers.length).toBe(5);
+      expect(floatingUIOptions.middleware.length).toBe(5);
     });
 
     it('correctly changes modifiers when going from centered to attached', function() {
@@ -471,7 +482,10 @@ describe('Tour | Top-Level Class', function() {
         title: 'This is a centered step for our tour',
         popperOptions: {
           modifiers: [{ name: 'foo', options: 'bar' }]
-        }
+        },
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        },
       });
 
       const attachedStep = instance.addStep({
@@ -480,30 +494,34 @@ describe('Tour | Top-Level Class', function() {
         title: 'This is an attached step for our tour',
         popperOptions: {
           modifiers: [{ name: 'foo', options: 'bar' }]
-        }
+        },
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        },
       });
 
       instance.start();
 
-      let popperOptions = setupTooltip(centeredStep);
-      let modifierNames = popperOptions.modifiers.map((modifier) => modifier.name);
-      expect(popperOptions.modifiers.length).toBe(5);
-      expect(modifierNames.includes('applyStyles')).toBe(true);
-      expect(modifierNames.includes('computeStyles')).toBe(true);
-      expect(modifierNames.includes('offset')).toBe(true);
-      expect(modifierNames.includes('foo')).toBe(true);
-      expect(modifierNames.includes('preventOverflow')).toBe(false);
+      let options = setupTooltip(centeredStep);
+      //let modifierNames = popperOptions.modifiers.map((modifier) => modifier.name);
+      let middlewareNames = options.middleware.map(( {name}) => name);
+      expect(options.middleware.length).toBe(5);
+      expect(middlewareNames.includes('applyStyles')).toBe(true);
+      expect(middlewareNames.includes('computeStyles')).toBe(true);
+      expect(middlewareNames.includes('offset')).toBe(true);
+      expect(middlewareNames.includes('foo')).toBe(true);
+      expect(middlewareNames.includes('preventOverflow')).toBe(false);
 
       instance.next();
 
-      popperOptions = setupTooltip(attachedStep);
-      modifierNames = popperOptions.modifiers.map((modifier) => modifier.name);
-      expect(popperOptions.modifiers.length).toBe(4);
-      expect(modifierNames.includes('preventOverflow')).toBe(true);
-      expect(modifierNames.includes('offset')).toBe(true);
-      expect(modifierNames.includes('foo')).toBe(true);
-      expect(modifierNames.includes('applyStyles')).toBe(false);
-      expect(modifierNames.includes('computeStyles')).toBe(false);
+      options = setupTooltip(attachedStep);
+      middlewareNames = options.middleware.map(( {name}) => name);
+      expect(options.middleware.length).toBe(4);
+      expect(middlewareNames.includes('preventOverflow')).toBe(true);
+      expect(middlewareNames.includes('offset')).toBe(true);
+      expect(middlewareNames.includes('foo')).toBe(true);
+      expect(middlewareNames.includes('applyStyles')).toBe(false);
+      expect(middlewareNames.includes('computeStyles')).toBe(false);
 
       document.body.removeChild(div);
     });

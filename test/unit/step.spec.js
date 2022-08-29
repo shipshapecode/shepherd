@@ -3,6 +3,7 @@ import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
 import ResizeObserver from 'resize-observer-polyfill';
+import { offset } from "@floating-ui/dom";
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -33,6 +34,9 @@ describe('Tour | Step', () => {
         popperOptions: {
           modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
         },
+        floatingUIOptions: {
+          middleware: [offset({crossAxis: 32})],
+        },
         showOn,
         when
       }
@@ -51,7 +55,10 @@ describe('Tour | Step', () => {
       id: 'test',
       popperOptions: {
         modifiers: [{ name: 'foo', options: 'bar' }]
-      }
+      },
+      floatingUIOptions: {
+        middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+      },
     });
 
     const showTestStep = instance.addStep({
@@ -119,7 +126,8 @@ describe('Tour | Step', () => {
         'arrow',
         'classes',
         'scrollTo',
-        'popperOptions',
+        //'popperOptions',
+        'floatingUIOptions',
         'showOn',
         'when',
         'attachTo',
@@ -159,6 +167,9 @@ describe('Tour | Step', () => {
         text: 'This is a step for testing',
         popperOptions: {
           modifiers: [{ name: 'foo', options: 'bar' }]
+        },
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
         },
         showOn,
         when
@@ -577,6 +588,9 @@ describe('Tour | Step', () => {
         popperOptions: {
           modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
         },
+        floatingUIOptions: {
+          middleware: [offset({crossAxis: 32})],
+        },
         showOn,
         when
       }
@@ -594,7 +608,10 @@ describe('Tour | Step', () => {
       id: 'test',
       popperOptions: {
         modifiers: [{ name: 'foo', options: 'bar' }]
-      }
+      },
+      floatingUIOptions: {
+        middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+      },
     });
 
     afterEach(() => {
