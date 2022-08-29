@@ -493,9 +493,9 @@ describe('Tour | Step', () => {
       step._scrollTo();
 
       expect(resHandlerCalled).toBeTruthy();
-      expect(resSpy).toBeCalled();
+      expect(resSpy).toHaveBeenCalled();
     })
-    
+
     it('calls the custom handler after before-show promise resolution', () => {
       let resHandlerAdded = false;
 
@@ -517,7 +517,7 @@ describe('Tour | Step', () => {
       step._scrollTo();
 
       expect(resHandlerAdded).toBeTruthy();
-      expect(resSpy).toBeCalled();
+      expect(resSpy).toHaveBeenCalled();
     });
   });
 
@@ -726,9 +726,9 @@ describe('Tour | Step', () => {
       expect(result1).not.toBeNull()
 
       instance.next();
-      
+
       const result2 = instance.getById('step1')._getResolvedAttachToOptions();
-      
+
       expect(result1).toEqual(result2);
     });
 
