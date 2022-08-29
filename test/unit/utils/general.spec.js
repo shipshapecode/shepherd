@@ -1,7 +1,5 @@
-import { should } from 'chai';
 import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
-import { Tour } from '../../../src/js/tour.js';
 import { getPopperOptions, parseAttachTo, shouldCenterStep } from '../../../src/js/utils/general.js';
 
 describe('General Utils', function() {
@@ -116,7 +114,7 @@ describe('General Utils', function() {
       expect(actualModifier).toMatchObject(expectedModifier);
     });
   });
-  
+
   describe('shouldCenterStep()', () => {
     it('Returns true when resolved attachTo options are falsy', () => {
       const emptyObjAttachTo = {};
@@ -141,7 +139,7 @@ describe('General Utils', function() {
 
     it('Returns true when element property is null', () => {
       const elementAttachTo = { element: null}; // FAILS
-    
+
       expect(shouldCenterStep(elementAttachTo)).toBe(true)
     })
   })

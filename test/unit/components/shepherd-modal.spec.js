@@ -254,6 +254,7 @@ describe('components/ShepherdModal', () => {
       showStub.restore();
     });
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: false, hides modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
@@ -280,6 +281,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: true, shows modal', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,

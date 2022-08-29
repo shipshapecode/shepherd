@@ -1,6 +1,9 @@
 import { createPopper } from '@popperjs/core';
 import { isFunction, isString } from './type-check';
-import { makeCenteredPopper, generateFocusAfterRenderModifier } from './popper-options';
+import {
+  makeCenteredPopper,
+  generateFocusAfterRenderModifier
+} from './popper-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -56,10 +59,13 @@ export function parseAttachTo(step) {
  * @returns {boolean}
  */
 export function shouldCenterStep(resolvedAttachToOptions) {
-  if (resolvedAttachToOptions === undefined || resolvedAttachToOptions === null) {
-    return true
+  if (
+    resolvedAttachToOptions === undefined ||
+    resolvedAttachToOptions === null
+  ) {
+    return true;
   }
-  
+
   return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
 }
 

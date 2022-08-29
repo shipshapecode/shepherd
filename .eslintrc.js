@@ -7,7 +7,8 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   env: {
     browser: true,
-    es6: true
+    es6: true,
+    node: true
   },
   plugins: ['svelte3'],
   rules: {

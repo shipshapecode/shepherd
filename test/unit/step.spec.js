@@ -493,7 +493,7 @@ describe('Tour | Step', () => {
       step._scrollTo();
 
       expect(resHandlerCalled).toBeTruthy();
-      expect(resSpy).toBeCalled();
+      expect(resSpy).toHaveBeenCalled();
     })
 
     it('calls the custom handler after before-show promise resolution', () => {
@@ -517,7 +517,7 @@ describe('Tour | Step', () => {
       step._scrollTo();
 
       expect(resHandlerAdded).toBeTruthy();
-      expect(resSpy).toBeCalled();
+      expect(resSpy).toHaveBeenCalled();
     });
   });
 
