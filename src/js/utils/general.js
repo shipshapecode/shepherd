@@ -1,8 +1,4 @@
 import { isFunction, isString } from './type-check';
-import {
-  makeCenteredPopper,
-  generateFocusAfterRenderModifier
-} from './popper-options';
 
 import {
   computePosition,
@@ -11,7 +7,6 @@ import {
   arrow,
   limitShift
 } from '@floating-ui/dom';
-//import { generateFocusMiddleware } from './floatingui-options';
 
 /**
  * Ensure class prefix ends in `-`
@@ -108,7 +103,6 @@ export function setupTooltip(step) {
     setPosition(target, step, floatingUIOptions);
   });
 
-  //step.tooltip = createPopper(target, step.el, popperOptions);
   step.target = attachToOptions.element;
 
   return floatingUIOptions;
@@ -207,7 +201,6 @@ function placeArrow(el, placement, middlewareData) {
  * @private
  */
 export function getFloatingUIOptions(attachToOptions, step) {
-  const arrowEl = step.el.querySelector('.shepherd-arrow');
   let options = {
     middleware: [
       shift({
@@ -217,14 +210,15 @@ export function getFloatingUIOptions(attachToOptions, step) {
     ],
     strategy: 'absolute'
   };
-  if (arrowEl) {
-    options.middleware.push(arrow({ element: arrowEl }));
+
+  if (step.el) {
+    const arrowEl = step.el.querySelector('.shepherd-arrow');
+    if (arrowEl) {
+      options.middleware.push(arrow({ element: arrowEl }));
+    }
   }
 
-  if (shouldCenterStep(attachToOptions)) {
-    //options = makeCenteredPopper(step);
-    console.log('@todo : makeCenteredPopper(step)');
-  } else {
+  if (!shouldCenterStep(attachToOptions)) {
     options.placement = attachToOptions.on;
   }
 
@@ -240,86 +234,28 @@ export function getFloatingUIOptions(attachToOptions, step) {
   return options;
 }
 
-/**
- * Gets the `Popper` options from a set of base `attachTo` options
- * @param attachToOptions
- * @param {Step} step The step instance
- * @return {Object}
- * @private
- */
-export function getPopperOptions(attachToOptions, step) {
-  let popperOptions = {
-    modifiers: [
-      {
-        name: 'preventOverflow',
-        options: {
-          altAxis: true,
-          tether: false
-        }
-      },
-      generateFocusAfterRenderModifier(step)
-    ],
-    strategy: 'absolute'
-  };
-
-  if (shouldCenterStep(attachToOptions)) {
-    popperOptions = makeCenteredPopper(step);
-  } else {
-    popperOptions.placement = attachToOptions.on;
-  }
-
-  const defaultStepOptions =
-    step.tour && step.tour.options && step.tour.options.defaultStepOptions;
-
-  if (defaultStepOptions) {
-    popperOptions = _mergeModifiers(defaultStepOptions, popperOptions);
-  }
-
-  popperOptions = _mergeModifiers(step.options, popperOptions);
-
-  return popperOptions;
-}
 
 function _mergeMiddleware(stepOptions, options) {
-  if (
-    stepOptions.floatingUIOptions &&
-    stepOptions.floatingUIOptions.middleware &&
-    stepOptions.floatingUIOptions.middleware.length
-  ) {
-    return Object.assign({}, options, stepOptions.floatingUIOptions, {
-      middleware: stepOptions.floatingUIOptions.middleware.concat(
-        options.middleware
-      )
-    });
-  }
+  const { floatingUIOptions } = stepOptions;
+  if (floatingUIOptions) {
+    const mergedOptions = Object.assign({}, options, floatingUIOptions);
 
-  return options;
-}
+    const { middleware } = floatingUIOptions;
+    mergedOptions.middleware = options.middleware;
+    /*
+      @todo decide if we keep this logic.
 
-function _mergeModifiers(stepOptions, popperOptions) {
-  if (stepOptions.popperOptions) {
-    let mergedPopperOptions = Object.assign(
-      {},
-      popperOptions,
-      stepOptions.popperOptions
-    );
-
-    if (
-      stepOptions.popperOptions.modifiers &&
-      stepOptions.popperOptions.modifiers.length > 0
-    ) {
       const names = stepOptions.popperOptions.modifiers.map((mod) => mod.name);
       const filteredModifiers = popperOptions.modifiers.filter(
         (mod) => !names.includes(mod.name)
       );
 
-      mergedPopperOptions.modifiers = Array.from(
-        new Set([...filteredModifiers, ...stepOptions.popperOptions.modifiers])
-      );
+     */
+    if (middleware && middleware.length) {
+      mergedOptions.middleware = middleware.concat(options.middleware);
     }
 
-    return mergedPopperOptions;
+    return mergedOptions;
   }
-
-  return popperOptions;
+  return options;
 }

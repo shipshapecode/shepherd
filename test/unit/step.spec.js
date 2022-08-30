@@ -126,7 +126,6 @@ describe('Tour | Step', () => {
         'arrow',
         'classes',
         'scrollTo',
-        //'popperOptions',
         'floatingUIOptions',
         'showOn',
         'when',

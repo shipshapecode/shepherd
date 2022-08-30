@@ -499,8 +499,7 @@ describe('Tour | Top-Level Class', function() {
       instance.start();
 
       let options = setupTooltip(centeredStep);
-      //let modifierNames = popperOptions.modifiers.map((modifier) => modifier.name);
-      let middlewareNames = options.middleware.map(( {name}) => name);
+      let middlewareNames = options.middleware.map(({name}) => name);
       expect(options.middleware.length).toBe(5);
       expect(middlewareNames.includes('applyStyles')).toBe(true);
       expect(middlewareNames.includes('computeStyles')).toBe(true);
