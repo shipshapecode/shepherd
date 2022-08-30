@@ -1,5 +1,5 @@
 import { isFunction, isString } from './type-check';
-
+import merge from 'deepmerge';
 import {
   computePosition,
   autoUpdate,
@@ -211,7 +211,7 @@ export function getFloatingUIOptions(attachToOptions, step) {
     strategy: 'absolute'
   };
 
-  if (step.el) {
+  if (step.options.arrow && step.el) {
     const arrowEl = step.el.querySelector('.shepherd-arrow');
     if (arrowEl) {
       options.middleware.push(arrow({ element: arrowEl }));
@@ -222,40 +222,7 @@ export function getFloatingUIOptions(attachToOptions, step) {
     options.placement = attachToOptions.on;
   }
 
-  const defaultStepOptions =
-    step.tour && step.tour.options && step.tour.options.defaultStepOptions;
+  options = merge(step.options.floatingUIOptions || {}, options);
 
-  if (defaultStepOptions) {
-    options = _mergeMiddleware(defaultStepOptions, options);
-  }
-
-  options = _mergeMiddleware(step.options, options);
-
-  return options;
-}
-
-
-function _mergeMiddleware(stepOptions, options) {
-  const { floatingUIOptions } = stepOptions;
-  if (floatingUIOptions) {
-    const mergedOptions = Object.assign({}, options, floatingUIOptions);
-
-    const { middleware } = floatingUIOptions;
-    mergedOptions.middleware = options.middleware;
-    /*
-      @todo decide if we keep this logic.
-
-      const names = stepOptions.popperOptions.modifiers.map((mod) => mod.name);
-      const filteredModifiers = popperOptions.modifiers.filter(
-        (mod) => !names.includes(mod.name)
-      );
-
-     */
-    if (middleware && middleware.length) {
-      mergedOptions.middleware = middleware.concat(options.middleware);
-    }
-
-    return mergedOptions;
-  }
   return options;
 }
