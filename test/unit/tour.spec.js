@@ -25,14 +25,13 @@ describe('Tour | Top-Level Class', function() {
     }
   };
 
+  const offsetMiddleware = offset({crossAxis: 32});
+
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true,
-    popperOptions: {
-      modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
-    },
     floatingUIOptions: {
-      middleware: [offset({crossAxis: 32})],
+      middleware: [offsetMiddleware],
     },
     showOn,
     when
@@ -59,11 +58,8 @@ describe('Tour | Top-Level Class', function() {
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {
-          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
-        },
         floatingUIOptions: {
-          middleware: [offset({crossAxis: 32})],
+          middleware: [offsetMiddleware],
         },
         showOn,
         when
