@@ -3,7 +3,7 @@ import { stub } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { Step } from '../../src/js/step';
-import { setupTooltip } from '../../src/js/utils/general.js';
+import { setupTooltip } from '../../src/js/utils/floating-ui';
 import { spy } from 'sinon';
 import { offset } from "@floating-ui/dom";
 
