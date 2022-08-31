@@ -27,15 +27,14 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
+    const defaultOffsetMiddleware = offset({mainAxis: 0, crossAxis: 32});
+
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {
-          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
-        },
         floatingUIOptions: {
-          middleware: [offset({crossAxis: 32})],
+          middleware: [defaultOffsetMiddleware],
         },
         showOn,
         when
@@ -53,11 +52,8 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      popperOptions: {
-        modifiers: [{ name: 'foo', options: 'bar' }]
-      },
       floatingUIOptions: {
-        middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        middleware: [{name: 'foo', options: 'bar'}],
       },
     });
 
@@ -90,6 +86,7 @@ describe('Tour | Step', () => {
       ]
     });
 
+    const stepWithoutNameWithoutIdOffsetMiddleware = offset(0);
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -100,8 +97,8 @@ describe('Tour | Step', () => {
           action: instance.next
         }
       ],
-      popperOptions: {
-        modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
+      floatingUIOptions: {
+        middleware: [stepWithoutNameWithoutIdOffsetMiddleware]
       }
     });
 
@@ -164,11 +161,8 @@ describe('Tour | Step', () => {
         id: 'test',
         scrollTo: true,
         text: 'This is a step for testing',
-        popperOptions: {
-          modifiers: [{ name: 'foo', options: 'bar' }]
-        },
         floatingUIOptions: {
-          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+          middleware: [{name: 'foo', options: 'bar'}],
         },
         showOn,
         when
@@ -177,18 +171,9 @@ describe('Tour | Step', () => {
 
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
-      const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce(
-        (prev, next) => {
-          if (next.name === 'offset') {
-            return `${next.options.offset}`;
-          }
+      const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.find(({name}) => name === 'offset');
 
-          return '';
-        },
-        ''
-      );
-
-      expect(offsetValues).toBe('0,0');
+      expect(offsetMiddleware.options).toBe(0);
     });
 
     describe('.hide()', () => {
@@ -443,10 +428,8 @@ describe('Tour | Step', () => {
     it('calls destroy on the tooltip if it already exists', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;
-      step.tooltip = {
-        destroy() {
-          destroyCalled = true;
-        }
+      step.cleanup = () => {
+        destroyCalled = true;
       };
       step._setupElements();
       expect(

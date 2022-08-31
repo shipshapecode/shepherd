@@ -108,6 +108,14 @@ export function setupTooltip(step) {
   return floatingUIOptions;
 }
 
+export function destroyTooltip(step) {
+  if (step.cleanup) {
+    step.cleanup();
+  }
+
+  step.cleanup = null;
+}
+
 /**
  * Create a unique id for steps, tours, modals, etc
  * @return {string}

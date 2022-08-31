@@ -9,6 +9,7 @@ import {
 } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import {
+  destroyTooltip,
   setupTooltip,
   parseAttachTo,
   normalizePrefix,
@@ -159,13 +160,10 @@ export class Step extends Evented {
    * Triggers `destroy` event
    */
   destroy() {
-    if (this.tooltip) {
-      this.tooltip.destroy();
-      this.tooltip = null;
-    }
+    destroyTooltip(this);
 
-    if (isHTMLElement(this.el) && this.el.parentNode) {
-      this.el.parentNode.removeChild(this.el);
+    if (isHTMLElement(this.el)) {
+      this.el.remove();
       this.el = null;
     }
 
