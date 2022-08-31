@@ -232,7 +232,7 @@ export function getFloatingUIOptions(attachToOptions, step) {
   };
 
   const arrowEl = addArrow(step);
-  if (addArrow) {
+  if (arrowEl) {
     options.middleware.push(arrow({ element: arrowEl }));
   }
 
