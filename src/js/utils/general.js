@@ -206,23 +206,28 @@ function placeArrow(el, placement, middlewareData) {
   }
 }
 
+function getDefaultFloatingUIOptions() {
+  return {
+    strategy: 'absolute',
+    middleware: [
+      // Replicate PopperJS default behavior.
+      shift({
+        limiter: limitShift(),
+        crossAxis: true
+      })
+    ]
+  };
+}
+
 /**
- * Gets the `Popper` options from a set of base `attachTo` options
+ * Gets the `Floating UI` options from a set of base `attachTo` options
  * @param attachToOptions
  * @param {Step} step The step instance
  * @return {Object}
  * @private
  */
 export function getFloatingUIOptions(attachToOptions, step) {
-  let options = {
-    middleware: [
-      shift({
-        limiter: limitShift(),
-        crossAxis: true
-      })
-    ],
-    strategy: 'absolute'
-  };
+  const options = getDefaultFloatingUIOptions();
 
   if (step.options.arrow && step.el) {
     const arrowEl = step.el.querySelector('.shepherd-arrow');
@@ -235,7 +240,5 @@ export function getFloatingUIOptions(attachToOptions, step) {
     options.placement = attachToOptions.on;
   }
 
-  options = merge(step.options.floatingUIOptions || {}, options);
-
-  return options;
+  return merge(step.options.floatingUIOptions || {}, defaultFloatingUIOptions);
 }
