@@ -139,7 +139,7 @@ function setPosition(target, step, floatingUIOptions) {
       .then(floatingUIposition(step))
       // Wait before forcing focus.
       .then(
-        () =>
+        (step) =>
           new Promise((resolve) => {
             setTimeout(() => resolve(step), 300);
           })
@@ -172,7 +172,9 @@ function floatingUIposition(step) {
 
     step.el.dataset.popperPlacement = placement;
 
-    return placeArrow(step.el, placement, middlewareData);
+    placeArrow(step.el, placement, middlewareData);
+
+    return step;
   };
 }
 
