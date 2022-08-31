@@ -58,7 +58,6 @@ export function destroyTooltip(step) {
   step.cleanup = null;
 }
 
-
 /**
  *
  * @return {Promise<*>}
