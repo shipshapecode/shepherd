@@ -138,11 +138,12 @@ function setPosition(target, step, floatingUIOptions) {
     computePosition(target, step.el, floatingUIOptions)
       .then(floatingUIposition(step))
       // Wait before forcing focus.
-      .then(() => {
-        new Promise((resolve) => {
-          setTimeout(() => resolve(step), 300);
-        });
-      })
+      .then(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(() => resolve(step), 300);
+          })
+      )
       // Replaces focusAfterRender modifier.
       .then((step) => {
         if (step && step.el) {
