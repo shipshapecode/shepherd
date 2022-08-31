@@ -8,13 +8,8 @@ import {
   isUndefined
 } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
-import {
-  destroyTooltip,
-  setupTooltip,
-  parseAttachTo,
-  normalizePrefix,
-  uuid
-} from './utils/general.js';
+import { parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
+import { setupTooltip, destroyTooltip } from './utils/floating-ui.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
@@ -386,6 +381,9 @@ export class Step extends Evented {
     if (this.options.advanceOn) {
       bindAdvance(this);
     }
+
+    // The tooltip implementation details are handled outside of the Step
+    // object.
     setupTooltip(this);
   }
 
