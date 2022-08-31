@@ -27,6 +27,7 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
+    const defaultCallback = (args) => args;
     const defaultOffsetMiddleware = offset({mainAxis: 0, crossAxis: 32});
 
     const instance = new Shepherd.Tour({
@@ -53,7 +54,7 @@ describe('Tour | Step', () => {
       ],
       id: 'test',
       floatingUIOptions: {
-        middleware: [{name: 'foo', options: 'bar'}],
+        middleware: [{name: 'foo', options: 'bar', fn: defaultCallback}],
       },
     });
 
@@ -102,16 +103,17 @@ describe('Tour | Step', () => {
       }
     });
 
-    const beforeShowPromise = new Promise((resolve) => {
-      return setTimeout(() => resolve('beforeShowPromise worked!'), 1000);
+    const beforeShowPromise = () => new Promise((resolve) => {
+       setTimeout(() => {
+         console.log('beforeShowPromise worked!');
+         resolve('beforeShowPromise worked!')
+       }, 1000);
     });
 
     const beforeShowPromiseTestStep = instance.addStep({
       text: 'Before Show Promise Step',
       id: 'test3',
-      beforeShowPromise() {
-        return beforeShowPromise;
-      }
+      beforeShowPromise,
     });
 
     afterEach(() => {
@@ -162,7 +164,7 @@ describe('Tour | Step', () => {
         scrollTo: true,
         text: 'This is a step for testing',
         floatingUIOptions: {
-          middleware: [{name: 'foo', options: 'bar'}],
+          middleware: [{name: 'foo', options: 'bar', fn: defaultCallback}],
         },
         showOn,
         when
@@ -192,12 +194,11 @@ describe('Tour | Step', () => {
 
     describe('.show()', () => {
       it('beforeShowPromise called before `show`', () => {
-        beforeShowPromiseTestStep.show();
+        console.log = jest.fn();
+        const promise = beforeShowPromiseTestStep.show();
 
-        return beforeShowPromise.then((result) => {
-          expect(result, 'beforeShowPromise is called').toBe(
-            'beforeShowPromise worked!'
-          );
+        return promise.then(() => {
+          expect(console.log).toHaveBeenCalledWith('beforeShowPromise worked!');
         });
       });
 
@@ -563,15 +564,14 @@ describe('Tour | Step', () => {
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
+    const offsetMiddleware = offset({crossAxis: 32});
+    const defaultCallback = (args) => args;
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {
-          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
-        },
         floatingUIOptions: {
-          middleware: [offset({crossAxis: 32})],
+          middleware: [offsetMiddleware],
         },
         showOn,
         when
@@ -588,11 +588,8 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      popperOptions: {
-        modifiers: [{ name: 'foo', options: 'bar' }]
-      },
       floatingUIOptions: {
-        middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        middleware: [{name: 'foo', options: 'bar', fn: defaultCallback}],
       },
     });
 

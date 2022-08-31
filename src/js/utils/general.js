@@ -137,6 +137,12 @@ function setPosition(target, step, floatingUIOptions) {
   return (
     computePosition(target, step.el, floatingUIOptions)
       .then(floatingUIposition(step))
+      // Wait before forcing focus.
+      .then(() => {
+        new Promise((resolve) => {
+          setTimeout(() => resolve(step), 300);
+        });
+      })
       // Replaces focusAfterRender modifier.
       .then((step) => {
         if (step && step.el) {
@@ -165,11 +171,7 @@ function floatingUIposition(step) {
 
     step.el.dataset.popperPlacement = placement;
 
-    placeArrow(step.el, placement, middlewareData);
-
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(step), 300);
-    });
+    return placeArrow(step.el, placement, middlewareData);
   };
 }
 
