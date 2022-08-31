@@ -73,6 +73,12 @@ export function shouldCenterStep(resolvedAttachToOptions) {
 }
 
 /**
+ * Floating UI Options
+ *
+ * @typedef {object} FloatingUIOptions
+ */
+
+/**
  * Determines options for the tooltip and initializes
  * `step.tooltip` as a Popper instance.
  * @param {Step} step The step instance
@@ -206,6 +212,10 @@ function placeArrow(el, placement, middlewareData) {
   }
 }
 
+/**
+ *
+ * @return {FloatingUIOptions}
+ */
 function getDefaultFloatingUIOptions() {
   return {
     strategy: 'absolute',
@@ -240,5 +250,5 @@ export function getFloatingUIOptions(attachToOptions, step) {
     options.placement = attachToOptions.on;
   }
 
-  return merge(step.options.floatingUIOptions || {}, defaultFloatingUIOptions);
+  return merge(step.options.floatingUIOptions || {}, options);
 }
