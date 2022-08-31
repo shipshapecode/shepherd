@@ -213,11 +213,14 @@ function placeArrow(el, placement, middlewareData) {
 }
 
 /**
- *
- * @return {FloatingUIOptions}
+ * Gets the `Floating UI` options from a set of base `attachTo` options
+ * @param attachToOptions
+ * @param {Step} step The step instance
+ * @return {Object}
+ * @private
  */
-function getDefaultFloatingUIOptions() {
-  return {
+export function getFloatingUIOptions(attachToOptions, step) {
+  const options = {
     strategy: 'absolute',
     middleware: [
       // Replicate PopperJS default behavior.
@@ -227,23 +230,10 @@ function getDefaultFloatingUIOptions() {
       })
     ]
   };
-}
 
-/**
- * Gets the `Floating UI` options from a set of base `attachTo` options
- * @param attachToOptions
- * @param {Step} step The step instance
- * @return {Object}
- * @private
- */
-export function getFloatingUIOptions(attachToOptions, step) {
-  const options = getDefaultFloatingUIOptions();
-
-  if (step.options.arrow && step.el) {
-    const arrowEl = step.el.querySelector('.shepherd-arrow');
-    if (arrowEl) {
-      options.middleware.push(arrow({ element: arrowEl }));
-    }
+  const arrowEl = addArrow(step);
+  if (addArrow) {
+    options.middleware.push(arrow({ element: arrowEl }));
   }
 
   if (!shouldCenterStep(attachToOptions)) {
@@ -251,4 +241,16 @@ export function getFloatingUIOptions(attachToOptions, step) {
   }
 
   return merge(step.options.floatingUIOptions || {}, options);
+}
+
+/**
+ * @param {Step} step
+ * @return {HTMLElement|false|null}
+ */
+function addArrow(step) {
+  if (step.options.arrow && step.el) {
+    return step.el.querySelector('.shepherd-arrow');
+  }
+
+  return false;
 }
