@@ -43,44 +43,41 @@ describe('destroying-elements', () => {
 
     cy.wait(250);
 
+    let initialPosition;
+    let missingStepElementPosition;
+    let finalPosition;
+
     cy.get('[data-shepherd-step-id="first"]').then((stepElement) => {
-      const initialFirstStepTransform = stepElement[0].style.transform;
+      initialPosition = stepElement.css(['position', 'top', 'left']);
+      tour.next();
 
-      cy.document().then((document) => {
-        tour.next();
+      // Remove the first element
+      Cypress.$('.first').remove();
 
-        // Remove the first element
-        document.querySelector('.first').remove();
+      tour.back();
+      cy.wait(250);
 
-        tour.back();
+      return cy.get('[data-shepherd-step-id="first"]');
+    })
+    .then((stepElement2) => {
+      missingStepElementPosition = stepElement2.css(['position', 'top', 'left']);
+      expect(missingStepElementPosition).to.not.deep.equal(initialPosition);
 
-        cy.wait(250);
+      tour.next();
 
-        cy.get('[data-shepherd-step-id="first"]').then((stepElement2) => {
-          const secondFirstStepTransform = stepElement2[0].style.transform;
+      // Create the first element again
+      Cypress.$('body').append('<div class="first">First</div>');
 
-          expect(initialFirstStepTransform).to.not.equal(secondFirstStepTransform);
-          expect(secondFirstStepTransform).to.equal('translate(-50%, -50%)');
+      tour.back();
 
-          tour.next();
+      cy.wait(250);
 
-          // Create the first element again
-          const first = document.createElement('div');
-          first.className = 'first';
-          first.textContent = 'First';
-          document.body.appendChild(first);
-
-          tour.back();
-
-          cy.wait(250);
-
-          cy.get('[data-shepherd-step-id="first"]').then((stepElement3) => {
-            const finalFirstStepTransform = stepElement3[0].style.transform;
-            expect(finalFirstStepTransform).to.equal(initialFirstStepTransform);
-            expect(finalFirstStepTransform).to.not.equal('translate(-50%, -50%)');
-          });
-        });
-      });
+      return cy.get('[data-shepherd-step-id="first"]');
+    })
+    .then((stepElement3) => {
+      finalPosition = stepElement3.css(['position', 'top', 'left']);
+      expect(finalPosition).to.deep.equal(initialPosition);
     });
+
   });
 });
