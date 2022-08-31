@@ -43,7 +43,7 @@ popperOptions: {
 
 ### Progress Indicator
 
-Using the already exposed API, you could add a progress indicator of your chosing 
+Using the already exposed API, you could add a progress indicator of your choosing 
 for each step to let your users know how far into a tour they may be.
 
 The example below uses the [Step](https://shepherdjs.dev/docs/Step.html) `options` 
@@ -54,12 +54,13 @@ being show.
 ```javascript
 when: {
   show() {
-    const currentStepElement = shepherd.currentStep.el;
-    const header = currentStepElement.querySelector('.shepherd-header');
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const header = currentStepElement?.querySelector('.shepherd-header');
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
-    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
-    header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1}/${Shepherd.activeTour?.steps.length}`;
+    header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
   }
 }
 ```
@@ -69,12 +70,13 @@ Another example, for anyone who wants to add progress indicators to the footer. 
 ```javascript
 when: {
   show() {
-    const currentStepElement = shepherd.currentStep.el;
-    const footer = currentStepElement.querySelector('.shepherd-footer');
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const footer = currentStepElement?.querySelector('.shepherd-footer');
     const progress = document.createElement('span');
     progress.className = 'shepherd-progress';
-    progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1} of ${shepherd.steps.length}`;
-    footer.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1} of ${Shepherd.activeTour?.steps.length}`;
+    footer?.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
   }
 }
 ```
