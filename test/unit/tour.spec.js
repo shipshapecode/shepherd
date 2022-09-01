@@ -441,7 +441,6 @@ describe('Tour | Top-Level Class', function() {
       instance.start();
 
       const floatingUIOptions = setupTooltip(step);
-
       expect(floatingUIOptions.middleware.length).toBe(2);
     });
 
@@ -459,9 +458,7 @@ describe('Tour | Top-Level Class', function() {
       instance.start();
 
       const floatingUIOptions = setupTooltip(step);
-
-      // @todo should be 3 here.
-      expect(floatingUIOptions.middleware.length).toBe(2);
+      expect(floatingUIOptions.middleware.length).toBe(3);
     });
 
     it('correctly changes modifiers when going from centered to attached', function() {
@@ -499,7 +496,7 @@ describe('Tour | Top-Level Class', function() {
       instance.next();
 
       options = setupTooltip(attachedStep);
-      middlewareNames = options.middleware.map(( {name}) => name);
+      middlewareNames = options.middleware.map(({name}) => name);
       expect(options.middleware.length).toBe(3);
       expect(middlewareNames.includes('foo')).toBe(true);
       expect(middlewareNames.includes('shift')).toBe(true);

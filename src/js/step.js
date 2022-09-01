@@ -350,7 +350,13 @@ export class Step extends Evented {
         arrow: true
       },
       tourOptions,
-      options
+      options,
+      {
+        floatingUIOptions: merge(
+          tourOptions.floatingUIOptions || {},
+          options.floatingUIOptions || {}
+        )
+      }
     );
 
     const { when } = this.options;
