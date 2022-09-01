@@ -13,6 +13,8 @@ import ShepherdModal from './components/shepherd-modal.svelte';
 
 const Shepherd = new Evented();
 
+const noop = () => {};
+
 /**
  * Class representing the site tour
  * @extends {Evented}
@@ -41,42 +43,48 @@ export class Tour extends Evented {
    * @returns {Tour}
    */
   constructor(options = {}) {
-    super(options);
+    const isServerSide = typeof window === 'undefined';
 
-    autoBind(this);
+    if (isServerSide) {
+      return noop();
+    } else {
+      super(options);
 
-    const defaultTourOptions = {
-      exitOnEsc: true,
-      keyboardNavigation: true
-    };
+      autoBind(this);
 
-    this.options = Object.assign({}, defaultTourOptions, options);
-    this.classPrefix = normalizePrefix(this.options.classPrefix);
-    this.steps = [];
-    this.addSteps(this.options.steps);
+      const defaultTourOptions = {
+        exitOnEsc: true,
+        keyboardNavigation: true
+      };
 
-    // Pass these events onto the global Shepherd object
-    const events = [
-      'active',
-      'cancel',
-      'complete',
-      'inactive',
-      'show',
-      'start'
-    ];
-    events.map((event) => {
-      ((e) => {
-        this.on(e, (opts) => {
-          opts = opts || {};
-          opts.tour = this;
-          Shepherd.trigger(e, opts);
-        });
-      })(event);
-    });
+      this.options = Object.assign({}, defaultTourOptions, options);
+      this.classPrefix = normalizePrefix(this.options.classPrefix);
+      this.steps = [];
+      this.addSteps(this.options.steps);
 
-    this._setTourID();
+      // Pass these events onto the global Shepherd object
+      const events = [
+        'active',
+        'cancel',
+        'complete',
+        'inactive',
+        'show',
+        'start'
+      ];
+      events.map((event) => {
+        ((e) => {
+          this.on(e, (opts) => {
+            opts = opts || {};
+            opts.tour = this;
+            Shepherd.trigger(e, opts);
+          });
+        })(event);
+      });
 
-    return this;
+      this._setTourID();
+
+      return this;
+    }
   }
 
   /**
