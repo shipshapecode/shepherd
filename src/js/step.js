@@ -233,12 +233,11 @@ export class Step extends Evented {
    */
   show() {
     if (isFunction(this.options.beforeShowPromise)) {
-      const beforeShowPromise = this.options.beforeShowPromise();
-      if (!isUndefined(beforeShowPromise)) {
-        return beforeShowPromise.then(() => this._show());
-      }
+      return Promise.resolve(this.options.beforeShowPromise()).then(() =>
+        this._show()
+      );
     }
-    this._show();
+    return Promise.resolve(this._show());
   }
 
   /**
