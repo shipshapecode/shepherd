@@ -9,7 +9,11 @@ import {
 } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
 import { parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
-import { setupTooltip, destroyTooltip } from './utils/floating-ui.js';
+import {
+  setupTooltip,
+  destroyTooltip,
+  mergeTooltipConfig
+} from './utils/floating-ui.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 // Polyfills
@@ -351,12 +355,7 @@ export class Step extends Evented {
       },
       tourOptions,
       options,
-      {
-        floatingUIOptions: merge(
-          tourOptions.floatingUIOptions || {},
-          options.floatingUIOptions || {}
-        )
-      }
+      mergeTooltipConfig(tourOptions, options)
     );
 
     const { when } = this.options;

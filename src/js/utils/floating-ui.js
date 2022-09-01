@@ -15,9 +15,11 @@ import {
  */
 
 /**
- * Determines options for the tooltip and initializes
- * `step.tooltip` as a Popper instance.
+ * Determines options for the tooltip and initializes event listeners.
+ *
  * @param {Step} step The step instance
+ *
+ * @return {FloatingUIOptions}
  */
 export function setupTooltip(step) {
   if (step.cleanup) {
@@ -50,6 +52,28 @@ export function setupTooltip(step) {
   return floatingUIOptions;
 }
 
+/**
+ * Merge tooltip options handling nested keys.
+ *
+ * @param tourOptions - The default tour options.
+ * @param options - Step specific options.
+ *
+ * @return {floatingUIOptions: FloatingUIOptions}
+ */
+export function mergeTooltipConfig(tourOptions, options) {
+  return {
+    floatingUIOptions: merge(
+      tourOptions.floatingUIOptions || {},
+      options.floatingUIOptions || {}
+    )
+  };
+}
+
+/**
+ * Cleanup function called when the step is closed/destroyed.
+ *
+ * @param {Step} step
+ */
 export function destroyTooltip(step) {
   if (step.cleanup) {
     step.cleanup();

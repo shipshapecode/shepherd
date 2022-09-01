@@ -486,18 +486,20 @@ describe('Tour | Top-Level Class', function() {
 
       instance.start();
 
-      let options = setupTooltip(centeredStep);
-      let middlewareNames = options.middleware.map(({name}) => name);
-      expect(options.middleware.length).toBe(2);
-      expect(middlewareNames.includes('foo')).toBe(true);
-      expect(middlewareNames.includes('shift')).toBe(true);
-      expect(middlewareNames.includes('arrow')).toBe(false);
+      const centeredOptions = setupTooltip(centeredStep);
+      const centeredMiddlewareNames = centeredOptions.middleware.map(({name}) => name);
+      expect(centeredOptions.middleware.length).toBe(3);
+      expect(centeredMiddlewareNames.includes('offset')).toBe(true);
+      expect(centeredMiddlewareNames.includes('foo')).toBe(true);
+      expect(centeredMiddlewareNames.includes('shift')).toBe(true);
+      expect(centeredMiddlewareNames.includes('arrow')).toBe(false);
 
       instance.next();
 
-      options = setupTooltip(attachedStep);
-      middlewareNames = options.middleware.map(({name}) => name);
-      expect(options.middleware.length).toBe(3);
+      const options = setupTooltip(attachedStep);
+      const middlewareNames = options.middleware.map(({name}) => name);
+      expect(options.middleware.length).toBe(4);
+      expect(middlewareNames.includes('offset')).toBe(true);
       expect(middlewareNames.includes('foo')).toBe(true);
       expect(middlewareNames.includes('shift')).toBe(true);
       expect(middlewareNames.includes('arrow')).toBe(true);
