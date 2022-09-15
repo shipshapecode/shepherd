@@ -51,8 +51,11 @@ describe('destroying-elements', () => {
       initialPosition = stepElement.css(['position', 'top', 'left']);
       tour.next();
 
+      return cy.get('.first');
+    })
+    .then((firstElement) => {
       // Remove the first element
-      Cypress.$('.first').remove();
+      firstElement.remove();
 
       tour.back();
       cy.wait(250);
