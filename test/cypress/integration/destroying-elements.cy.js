@@ -68,8 +68,14 @@ describe('destroying-elements', () => {
 
       tour.next();
 
+      return cy.document();
+    })
+    .then((document) => {
       // Create the first element again
-      Cypress.$('body').append('<div class="first">First</div>');
+      const first = document.createElement('div');
+      first.className = 'first';
+      first.textContent = 'First';
+      document.body.appendChild(first);
 
       tour.back();
 
