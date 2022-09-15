@@ -13,8 +13,6 @@ import ShepherdModal from './components/shepherd-modal.svelte';
 
 const Shepherd = new Evented();
 
-const noop = () => {};
-
 /**
  * Class representing the site tour
  * @extends {Evented}
@@ -43,48 +41,42 @@ export class Tour extends Evented {
    * @returns {Tour}
    */
   constructor(options = {}) {
-    const isServerSide = typeof window === 'undefined';
+    super(options);
 
-    if (isServerSide) {
-      return noop();
-    } else {
-      super(options);
+    autoBind(this);
 
-      autoBind(this);
+    const defaultTourOptions = {
+      exitOnEsc: true,
+      keyboardNavigation: true
+    };
 
-      const defaultTourOptions = {
-        exitOnEsc: true,
-        keyboardNavigation: true
-      };
+    this.options = Object.assign({}, defaultTourOptions, options);
+    this.classPrefix = normalizePrefix(this.options.classPrefix);
+    this.steps = [];
+    this.addSteps(this.options.steps);
 
-      this.options = Object.assign({}, defaultTourOptions, options);
-      this.classPrefix = normalizePrefix(this.options.classPrefix);
-      this.steps = [];
-      this.addSteps(this.options.steps);
+    // Pass these events onto the global Shepherd object
+    const events = [
+      'active',
+      'cancel',
+      'complete',
+      'inactive',
+      'show',
+      'start'
+    ];
+    events.map((event) => {
+      ((e) => {
+        this.on(e, (opts) => {
+          opts = opts || {};
+          opts.tour = this;
+          Shepherd.trigger(e, opts);
+        });
+      })(event);
+    });
 
-      // Pass these events onto the global Shepherd object
-      const events = [
-        'active',
-        'cancel',
-        'complete',
-        'inactive',
-        'show',
-        'start'
-      ];
-      events.map((event) => {
-        ((e) => {
-          this.on(e, (opts) => {
-            opts = opts || {};
-            opts.tour = this;
-            Shepherd.trigger(e, opts);
-          });
-        })(event);
-      });
+    this._setTourID();
 
-      this._setTourID();
-
-      return this;
-    }
+    return this;
   }
 
   /**
