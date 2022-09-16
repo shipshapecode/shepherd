@@ -672,7 +672,7 @@ describe('Tour | Step', () => {
     });
 
     it('lazily evaluates attachTo.element selector', () => {
-      const querySelectorSpy = spy(document, 'querySelector');
+      const querySelectorAllSpy = spy(document, 'querySelectorAll');
 
       const instance = new Shepherd.Tour({
         steps: [

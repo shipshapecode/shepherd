@@ -48,7 +48,7 @@ describe('General Utils', function() {
       });
 
       const { element } = parseAttachTo(step);
-      expect(element).toBe(document.body);
+      expect(element[0]).toBe(document.body);
     });
 
     it('binds element callback to step', function() {

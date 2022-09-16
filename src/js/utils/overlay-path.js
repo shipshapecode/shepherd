@@ -8,7 +8,7 @@
  * @param {number | { topLeft: number, topRight: number, bottomRight: number, bottomLeft: number }} [r=0] - Corner Radius. Keep this smaller than half of width or height.
  * @returns {string} - Rounded rectangle overlay path data.
  */
-export function makeOverlayPath({ width, height, x = 0, y = 0, r = 0 }) {
+export function makeOverlayPath({ elements, r = 0 }) {
   const { innerWidth: w, innerHeight: h } = window;
   const {
     topLeft = 0,
@@ -19,7 +19,7 @@ export function makeOverlayPath({ width, height, x = 0, y = 0, r = 0 }) {
     ? { topLeft: r, topRight: r, bottomRight: r, bottomLeft: r }
     : r;
 
-  return `M${w},${h}\
+  const commonPart = `M${w},${h}\
 H0\
 V0\
 H${w}\

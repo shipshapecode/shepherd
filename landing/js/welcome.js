@@ -125,6 +125,31 @@
           }
         ],
         id: 'attaching'
+      },
+	  {
+        title: 'Highliting multiple Elements',
+        text: 'Your tour steps can highlight multiple elements (like this step).',
+        attachTo: {
+          element: '.hero-multiple-select',
+		  on: 'bottom',
+		  multiple: true
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: 'Back'
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: 'Next'
+          }
+        ],
+        id: 'multiple-select'
       }
     ];
 
