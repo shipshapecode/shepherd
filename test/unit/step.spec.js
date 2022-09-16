@@ -172,7 +172,7 @@ describe('Tour | Step', () => {
     });
 
     // @todo decide what to do here.
-    it.skip('allows the step to override a previously defined modifier', () => {
+    it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
       const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.find(({name}) => name === 'offset');
 
