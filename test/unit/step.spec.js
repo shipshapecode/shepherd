@@ -688,14 +688,14 @@ describe('Tour | Step', () => {
       });
 
       instance.start();
-      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(
+      expect(querySelectorAllSpy.calledWith('#step-1-attach-to-element')).toBe(
         true
       );
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
+      expect(querySelectorAllSpy.calledWith('#step-2-attach-to-element')).toBe(
         false
       );
       instance.next();
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
+      expect(querySelectorAllSpy.calledWith('#step-2-attach-to-element')).toBe(
         true
       );
     });

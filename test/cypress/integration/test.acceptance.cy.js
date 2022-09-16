@@ -361,7 +361,41 @@ describe('Shepherd Acceptance Tests', () => {
             '#dummyTarget is the target'
           );
         });
-      });   
+      });
+    
+    it('correctly selects multiple elements', () => {
+        cy.document().then((document) => {
+          const steps = () => {
+            return [
+              {
+                text: 'Multiple selection works too!',
+                attachTo: {
+                  element: '.hero-multiple div',
+                  on: 'bottom',
+          multiple: true
+                },
+                id: 'multipleStep'
+              }
+            ];
+          };
+
+          const tour = setupTour(Shepherd, {
+            cancelIcon: {
+              enabled: false
+            }
+          }, steps);
+
+          tour.start();
+
+          cy.get('[data-shepherd-step-id="multipleStep"] .shepherd-text')
+            .contains('Multiple selection works too!').should('be.visible');
+          assert.deepEqual(
+            [...document.querySelectorAll('.hero-multiple div')],
+            tour.getCurrentStep().target,
+            '#multiple-targets are in the target'
+          );
+        });
+      }); 
     });
 
     describe('buttons', () => {

@@ -5,14 +5,14 @@ const classPrefix = '';
 
 describe('components/ShepherdModal', () => {
   const elementMock = {
-	getBoundingClientRect() {
-      return {
-		height: 250,
-		x: 20,
-		y: 20,
-		width: 500
-      };
-	}
+    getBoundingClientRect() {
+        return {
+          height: 250,
+          x: 20,
+          y: 20,
+          width: 500
+        };
+    }
   };
   describe('closeModalOpening()', function() {
     it('sets values back to 0', async() => {
@@ -146,7 +146,7 @@ describe('components/ShepherdModal', () => {
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768Z'
       );
 
       await modalComponent.closeModalOpening();
@@ -154,14 +154,14 @@ describe('components/ShepherdModal', () => {
       modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768Z'
       );
 
       await modalComponent.positionModal(
         0,
         { topLeft: 1, bottomLeft: 2, bottomRight: 3 },
         null,
-        {
+        [{
           getBoundingClientRect() {
             return {
               height: 250,
@@ -170,7 +170,7 @@ describe('components/ShepherdModal', () => {
               width: 500
             };
           }
-        }
+        }]
       );
 
       modalPath = modalComponent.getElement().querySelector('path');
