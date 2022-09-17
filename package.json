@@ -50,8 +50,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
-    "deepmerge": "^4.2.2",
-    "smoothscroll-polyfill": "^0.4.4"
+    "deepmerge": "^4.2.2"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.27.0",
@@ -61,7 +60,7 @@
     "@testing-library/svelte": "^3.2.1",
     "autoprefixer": "^10.4.8",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^29.0.1",
+    "babel-jest": "^29.0.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "chai": "^4.3.6",
     "codeclimate-test-reporter": "^0.5.1",
@@ -76,9 +75,9 @@
     "eslint-plugin-svelte3": "^4.0.0",
     "glob": "^8.0.3",
     "http-server": "^14.1.1",
-    "jest": "^29.0.1",
-    "jest-environment-jsdom": "^29.0.1",
-    "jest-expect-message": "^1.0.2",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.3",
+    "jest-expect-message": "^1.1.2",
     "jest-transform-css": "^4.0.1",
     "jsdoc": "^3.6.11",
     "jsdoc-template-ship-shape": "^0.1.1",

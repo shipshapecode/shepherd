@@ -1,8 +1,6 @@
 import 'regenerator-runtime/runtime';
 import 'jest-expect-message';
 import '@testing-library/jest-dom/extend-expect';
-import 'mutationobserver-shim';
-
 
 // Console errors are used for user information, do not display them during
 // tests.
