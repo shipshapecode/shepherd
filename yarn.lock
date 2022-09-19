@@ -5940,13 +5940,12 @@ jest-snapshot@^29.0.3:
     pretty-format "^29.0.3"
     semver "^7.3.5"
 
-jest-transform-css@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/jest-transform-css/-/jest-transform-css-4.0.1.tgz"
-  integrity sha512-/rhrYXnLACL2rQ4ME6KtPGR2bKM27HDI6nRHGzGBrZXqkErN+PwxCz+wz6oflIf783szH8HWL0p5Iu7RXTSHYQ==
+jest-transform-css@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/jest-transform-css/-/jest-transform-css-5.0.0.tgz#b35786d4de1abfea2d8d5d13076b8c0f2fc486c8"
+  integrity sha512-ShTIKDQEOPL2UJMH1H8fvAkKCoHiw2tx8vYnlRnHorfUe3E/AErwf/68IUvn9pNM53MaS8SmWpIyDuS3ueD5FQ==
   dependencies:
     common-tags "1.8.2"
-    cosmiconfig "7.0.1"
     cross-spawn "7.0.3"
     postcss-load-config "2.0.0"
     postcss-modules "4.3.1"
