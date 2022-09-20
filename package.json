@@ -50,8 +50,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
-    "deepmerge": "^4.2.2",
-    "smoothscroll-polyfill": "^0.4.4"
+    "deepmerge": "^4.2.2"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.27.0",
