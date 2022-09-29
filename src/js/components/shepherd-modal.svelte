@@ -44,24 +44,24 @@
     scrollParent,
     targetElements
   ) {
-	if (targetElements) {
-	  const elements = [];
-      targetElements.forEach(el => {
-		const { y, height } = _getVisibleHeight(el, scrollParent);
-		const { x, width, left } = el.getBoundingClientRect();
-		
-		// getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-		elements.push({
-		  width: width + modalOverlayOpeningPadding * 2,
-		  height: height + modalOverlayOpeningPadding * 2,
-		  x: (x || left) - modalOverlayOpeningPadding,
-		  y: y - modalOverlayOpeningPadding,
-		});
-	  });
-	  openingProperties = {
-		elements,
-		r: modalOverlayOpeningRadius
-	  };
+    if (targetElements) {
+      const elements = [];
+      targetElements.forEach((el) => {
+        const { y, height } = _getVisibleHeight(el, scrollParent);
+        const { x, width, left } = el.getBoundingClientRect();
+
+        // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+        elements.push({
+          width: width + modalOverlayOpeningPadding * 2,
+          height: height + modalOverlayOpeningPadding * 2,
+          x: (x || left) - modalOverlayOpeningPadding,
+          y: y - modalOverlayOpeningPadding
+        });
+      });
+      openingProperties = {
+        elements,
+        r: modalOverlayOpeningRadius
+      };
     } else {
       closeModalOpening();
     }
@@ -130,10 +130,8 @@
    * @private
    */
   function _styleForStep(step) {
-    const {
-      modalOverlayOpeningPadding,
-      modalOverlayOpeningRadius
-    } = step.options;
+    const { modalOverlayOpeningPadding, modalOverlayOpeningRadius } =
+      step.options;
 
     const scrollParent = _getScrollParent(step.target);
 

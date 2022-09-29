@@ -8053,6 +8053,11 @@ prettier@^2.8.4:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.4.tgz#34dd2595629bfbb79d344ac4a91ff948694463c3"
   integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
 
+prettier-plugin-svelte@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-2.7.1.tgz#c04a32eeba95916d1c7a82243f7a8f8cb822ed46"
+  integrity sha512-H33qjhCBZyd9Zr1A5hUAYDh7j0Mf97uvy7XcA7CP4nNSYrNcPvBUf7wI8K9NptWTIs0S41QtgTWmJIUiGlEBtw==
+
 pretty-bytes@^5.6.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-5.6.0.tgz"

@@ -41,7 +41,9 @@ html {
   /* 3 */
   tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -124,7 +126,8 @@ code,
 kbd,
 samp,
 pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
   /* 1 */
   font-size: 1em;
   /* 2 */
@@ -349,7 +352,8 @@ textarea {
 2. Set the default placeholder color to the user's configured gray 400 color.
 */
 
-input::-ms-input-placeholder, textarea::-ms-input-placeholder {
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
   opacity: 1;
   /* 1 */
   color: #9ca3af;
@@ -369,7 +373,7 @@ Set the default cursor for buttons.
 */
 
 button,
-[role="button"] {
+[role='button'] {
   cursor: pointer;
 }
 
@@ -427,16 +431,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
+  --tw-pan-x: ;
+  --tw-pan-y: ;
+  --tw-pinch-zoom: ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
+  --tw-ordinal: ;
+  --tw-slashed-zero: ;
+  --tw-numeric-figure: ;
+  --tw-numeric-spacing: ;
+  --tw-numeric-fraction: ;
+  --tw-ring-inset: ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -444,24 +448,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+  --tw-blur: ;
+  --tw-brightness: ;
+  --tw-contrast: ;
+  --tw-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-invert: ;
+  --tw-saturate: ;
+  --tw-sepia: ;
+  --tw-drop-shadow: ;
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
 }
 
 ::backdrop {
@@ -474,16 +478,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x:  ;
-  --tw-pan-y:  ;
-  --tw-pinch-zoom:  ;
+  --tw-pan-x: ;
+  --tw-pan-y: ;
+  --tw-pinch-zoom: ;
   --tw-scroll-snap-strictness: proximity;
-  --tw-ordinal:  ;
-  --tw-slashed-zero:  ;
-  --tw-numeric-figure:  ;
-  --tw-numeric-spacing:  ;
-  --tw-numeric-fraction:  ;
-  --tw-ring-inset:  ;
+  --tw-ordinal: ;
+  --tw-slashed-zero: ;
+  --tw-numeric-figure: ;
+  --tw-numeric-spacing: ;
+  --tw-numeric-fraction: ;
+  --tw-ring-inset: ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -491,24 +495,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  --tw-blur:  ;
-  --tw-brightness:  ;
-  --tw-contrast:  ;
-  --tw-grayscale:  ;
-  --tw-hue-rotate:  ;
-  --tw-invert:  ;
-  --tw-saturate:  ;
-  --tw-sepia:  ;
-  --tw-drop-shadow:  ;
-  --tw-backdrop-blur:  ;
-  --tw-backdrop-brightness:  ;
-  --tw-backdrop-contrast:  ;
-  --tw-backdrop-grayscale:  ;
-  --tw-backdrop-hue-rotate:  ;
-  --tw-backdrop-invert:  ;
-  --tw-backdrop-opacity:  ;
-  --tw-backdrop-saturate:  ;
-  --tw-backdrop-sepia:  ;
+  --tw-blur: ;
+  --tw-brightness: ;
+  --tw-contrast: ;
+  --tw-grayscale: ;
+  --tw-hue-rotate: ;
+  --tw-invert: ;
+  --tw-saturate: ;
+  --tw-sepia: ;
+  --tw-drop-shadow: ;
+  --tw-backdrop-blur: ;
+  --tw-backdrop-brightness: ;
+  --tw-backdrop-contrast: ;
+  --tw-backdrop-grayscale: ;
+  --tw-backdrop-hue-rotate: ;
+  --tw-backdrop-invert: ;
+  --tw-backdrop-opacity: ;
+  --tw-backdrop-saturate: ;
+  --tw-backdrop-sepia: ;
 }
 
 .absolute {
@@ -777,8 +781,9 @@ video {
   text-decoration-line: underline;
 }
 
-html, body {
-  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
+html,
+body {
+  font-family: 'Pier Sans', 'proxima-nova', 'Helvetica Neue', sans-serif;
 }
 
 body {
@@ -814,7 +819,7 @@ a {
 }
 
 .button:hover {
-  background: #F3F5F5;
+  background: #f3f5f5;
   transform: translateX(10px) translateY(-10px);
 }
 
@@ -855,12 +860,12 @@ a {
 }
 
 .footer-icon path {
-  fill: #16202D;
+  fill: #16202d;
   transition: 0.25s ease-in-out;
 }
 
 .footer-icon:hover path {
-  fill: #959FAC;
+  fill: #959fac;
 }
 
 .footer-logo {
@@ -879,12 +884,12 @@ pre {
 
 .shepherd-button {
   background: #ffffff;
-  border-top: solid 4px #16202D;
+  border-top: solid 4px #16202d;
   border-radius: 0;
-  color: #16202D;
+  color: #16202d;
   display: flex;
   flex-grow: 1;
-  font-family: "GT Pressura", sans-serif;
+  font-family: 'GT Pressura', sans-serif;
   font-size: 1rem;
   justify-content: center;
   margin: 0;
@@ -894,25 +899,25 @@ pre {
 }
 
 .shepherd-button:hover {
-  background: #16202D;
+  background: #16202d;
   color: #ffffff;
 }
 
 .shepherd-button.shepherd-button-secondary {
-  background: #CAD5D5;
+  background: #cad5d5;
 }
 
 .shepherd-button.shepherd-button-secondary:hover {
-  color: #CAD5D5;
-  background: #16202D;
+  color: #cad5d5;
+  background: #16202d;
 }
 
 .shepherd-cancel-icon {
-  font-family: "GT Pressura", sans-serif;
+  font-family: 'GT Pressura', sans-serif;
 }
 
 .shepherd-element {
-  border: solid 4px #16202D;
+  border: solid 4px #16202d;
 }
 
 .shepherd-element,
@@ -974,7 +979,7 @@ pre {
 }
 
 .shepherd-footer button:not(:last-of-type) {
-  border-right: solid 4px #16202D;
+  border-right: solid 4px #16202d;
 }
 
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
@@ -983,7 +988,7 @@ pre {
 
 .shepherd-has-title .shepherd-content .shepherd-header {
   background: transparent;
-  font-family: "GT Pressura", sans-serif;
+  font-family: 'GT Pressura', sans-serif;
   padding-bottom: 0;
   padding-left: 2rem;
 }
@@ -998,7 +1003,8 @@ pre {
   padding: 2rem;
 }
 
-.shepherd-text a, .shepherd-text a:visited,
+.shepherd-text a,
+.shepherd-text a:visited,
 .shepherd-text a:active {
   border-bottom: 1px dotted;
   border-bottom-color: rgba(0, 0, 0, 0.75);
@@ -1006,7 +1012,8 @@ pre {
   text-decoration: none;
 }
 
-.shepherd-text a:hover, .shepherd-text a:visited:hover,
+.shepherd-text a:hover,
+.shepherd-text a:visited:hover,
 .shepherd-text a:active:hover {
   border-bottom-style: solid;
 }
