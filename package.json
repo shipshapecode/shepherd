@@ -57,7 +57,7 @@
     "@babel/core": "^7.19.3",
     "@babel/preset-env": "^7.19.3",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/svelte": "^3.2.1",
+    "@testing-library/svelte": "^3.2.2",
     "autoprefixer": "^10.4.12",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^29.1.2",
