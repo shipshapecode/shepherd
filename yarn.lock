@@ -8542,10 +8542,10 @@ rollup-plugin-filesize@^9.1.2:
     pacote "^11.2.7"
     terser "^5.6.0"
 
-rollup-plugin-license@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.8.1.tgz#3709ef8b59675e0162a27ea7bba10ee523f8289e"
-  integrity sha512-VYd9pzaNL7NN6xQp93XiiCV2UoduXgSmTcz6rl9bHPdiifT6yH3Zw/omEr73Rq8TIyN4nqJACBbKIT/2eE66wg==
+rollup-plugin-license@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-license/-/rollup-plugin-license-2.8.2.tgz#8f3c66dae9d3b3793a637ee1183e7fa90c7fb627"
+  integrity sha512-jv268aj71J0Ee6+isjy1mYD2LlwuNg6aUiSdgly0PS0fQ2+vsuc+PLx1ueSk2/QKfjk5OJzcGPEDMHyoIeAFCw==
   dependencies:
     commenting "~1.1.0"
     glob "~7.2.0"
