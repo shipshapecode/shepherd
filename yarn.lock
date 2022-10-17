@@ -8690,10 +8690,10 @@ rollup-plugin-svelte@^7.1.0:
     require-relative "^0.8.7"
     rollup-pluginutils "^2.8.2"
 
-rollup-plugin-visualizer@^5.8.2:
-  version "5.8.2"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.8.2.tgz#25a4cc6431aba2eba8ecb7c99d8c3623d493e4bd"
-  integrity sha512-Fh7KoAa7FVVOojmyyX9ro7fBSR7mPG2cgfDbA877HM4IeJJtSZO+I/R3h/u6TB8wVP5J4pXPpTaRMSREyqCS3g==
+rollup-plugin-visualizer@^5.8.3:
+  version "5.8.3"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.8.3.tgz#2f002d6e1e38f4d4fb8638fd8d23ec799c3a2060"
+  integrity sha512-QGJk4Bqe4AOat5AjipOh8esZH1nck5X2KFpf4VytUdSUuuuSwvIQZjMGgjcxe/zXexltqaXp5Vx1V3LmnQH15Q==
   dependencies:
     open "^8.4.0"
     source-map "^0.7.4"
