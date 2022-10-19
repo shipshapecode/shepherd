@@ -16,10 +16,6 @@ import {
 } from './utils/floating-ui.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
-// Polyfills
-import smoothscroll from 'smoothscroll-polyfill';
-smoothscroll.polyfill();
-
 /**
  * A class representing steps to be added to a tour.
  * @extends {Evented}
