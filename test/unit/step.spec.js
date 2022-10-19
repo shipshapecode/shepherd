@@ -87,7 +87,7 @@ describe('Tour | Step', () => {
       ]
     });
 
-    const stepWithoutNameWithoutIdOffsetMiddleware = offset(0);
+    const stepWithoutNameWithoutIdOffsetMiddleware = offset({mainAxis: 0, crossAxis: -32});
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -171,12 +171,16 @@ describe('Tour | Step', () => {
       });
     });
 
-    // @todo decide what to do here.
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
-      const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.find(({name}) => name === 'offset');
+      const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(({name}) => name === 'offset');
+      const offsetResult = offsetMiddleware.reduce((agg, current) => {
+        agg.mainAxis += current.options.mainAxis;
+        agg.crossAxis += current.options.crossAxis;
+        return agg;
+      }, {mainAxis: 0, crossAxis: 0});
 
-      expect(offsetMiddleware.options).toBe(0);
+      expect(offsetResult).toEqual({mainAxis: 0, crossAxis: 0});
     });
 
     describe('.hide()', () => {
