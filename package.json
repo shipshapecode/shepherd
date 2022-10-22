@@ -49,7 +49,7 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.6",
+    "@floating-ui/dom": "^1.0.1",
     "deepmerge": "^4.2.2"
   },
   "devDependencies": {
@@ -88,6 +88,7 @@
     "release-it": "^15.5.0",
     "release-it-lerna-changelog": "^5.0.0",
     "replace": "^1.2.1",
+    "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
     "rollup-plugin-analyzer": "^4.0.0",

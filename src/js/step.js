@@ -8,12 +8,12 @@ import {
   isUndefined
 } from './utils/type-check.js';
 import { bindAdvance } from './utils/bind.js';
+import { parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
 import {
   setupTooltip,
-  parseAttachTo,
-  normalizePrefix,
-  uuid
-} from './utils/general.js';
+  destroyTooltip,
+  mergeTooltipConfig
+} from './utils/floating-ui.js';
 import ShepherdElement from './components/shepherd-element.svelte';
 
 /**
@@ -155,13 +155,10 @@ export class Step extends Evented {
    * Triggers `destroy` event
    */
   destroy() {
-    if (this.tooltip) {
-      this.tooltip.destroy();
-      this.tooltip = null;
-    }
+    destroyTooltip(this);
 
-    if (isHTMLElement(this.el) && this.el.parentNode) {
-      this.el.parentNode.removeChild(this.el);
+    if (isHTMLElement(this.el)) {
+      this.el.remove();
       this.el = null;
     }
 
@@ -232,12 +229,11 @@ export class Step extends Evented {
    */
   show() {
     if (isFunction(this.options.beforeShowPromise)) {
-      const beforeShowPromise = this.options.beforeShowPromise();
-      if (!isUndefined(beforeShowPromise)) {
-        return beforeShowPromise.then(() => this._show());
-      }
+      return Promise.resolve(this.options.beforeShowPromise()).then(() =>
+        this._show()
+      );
     }
-    this._show();
+    return Promise.resolve(this._show());
   }
 
   /**
@@ -353,7 +349,8 @@ export class Step extends Evented {
         arrow: true
       },
       tourOptions,
-      options
+      options,
+      mergeTooltipConfig(tourOptions, options)
     );
 
     const { when } = this.options;
@@ -384,6 +381,9 @@ export class Step extends Evented {
     if (this.options.advanceOn) {
       bindAdvance(this);
     }
+
+    // The tooltip implementation details are handled outside of the Step
+    // object.
     setupTooltip(this);
   }
 

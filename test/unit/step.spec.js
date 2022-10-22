@@ -2,9 +2,12 @@ import { spy } from 'sinon';
 import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
+import ResizeObserver from 'resize-observer-polyfill';
+import { offset } from "@floating-ui/dom";
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
+window.ResizeObserver = ResizeObserver;
 
 const DEFAULT_STEP_CLASS = 'shepherd-step-tooltip';
 
@@ -24,12 +27,15 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
+    const defaultOffsetMiddleware = offset({mainAxis: 0, crossAxis: 32});
+    const fooMiddleware = {name: 'foo', options: 'bar', fn: (args) => args};
+
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {
-          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        floatingUIOptions: {
+          middleware: [defaultOffsetMiddleware],
         },
         showOn,
         when
@@ -47,9 +53,9 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      popperOptions: {
-        modifiers: [{ name: 'foo', options: 'bar' }]
-      }
+      floatingUIOptions: {
+        middleware: [fooMiddleware],
+      },
     });
 
     const showTestStep = instance.addStep({
@@ -81,6 +87,7 @@ describe('Tour | Step', () => {
       ]
     });
 
+    const stepWithoutNameWithoutIdOffsetMiddleware = offset({mainAxis: 0, crossAxis: -32});
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -91,21 +98,22 @@ describe('Tour | Step', () => {
           action: instance.next
         }
       ],
-      popperOptions: {
-        modifiers: [{ name: 'offset', options: { offset: [0, 0] } }]
+      floatingUIOptions: {
+        middleware: [stepWithoutNameWithoutIdOffsetMiddleware]
       }
     });
 
-    const beforeShowPromise = new Promise((resolve) => {
-      return setTimeout(() => resolve('beforeShowPromise worked!'), 1000);
+    const beforeShowPromise = () => new Promise((resolve) => {
+       setTimeout(() => {
+         console.log('beforeShowPromise worked!');
+         resolve('beforeShowPromise worked!')
+       }, 1000);
     });
 
     const beforeShowPromiseTestStep = instance.addStep({
       text: 'Before Show Promise Step',
       id: 'test3',
-      beforeShowPromise() {
-        return beforeShowPromise;
-      }
+      beforeShowPromise,
     });
 
     afterEach(() => {
@@ -117,7 +125,7 @@ describe('Tour | Step', () => {
         'arrow',
         'classes',
         'scrollTo',
-        'popperOptions',
+        'floatingUIOptions',
         'showOn',
         'when',
         'attachTo',
@@ -155,8 +163,8 @@ describe('Tour | Step', () => {
         id: 'test',
         scrollTo: true,
         text: 'This is a step for testing',
-        popperOptions: {
-          modifiers: [{ name: 'foo', options: 'bar' }]
+        floatingUIOptions: {
+          middleware: [defaultOffsetMiddleware, fooMiddleware],
         },
         showOn,
         when
@@ -165,18 +173,14 @@ describe('Tour | Step', () => {
 
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
-      const offsetValues = stepWithoutNameWithoutId.options.popperOptions.modifiers.reduce(
-        (prev, next) => {
-          if (next.name === 'offset') {
-            return `${next.options.offset}`;
-          }
+      const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(({name}) => name === 'offset');
+      const offsetResult = offsetMiddleware.reduce((agg, current) => {
+        agg.mainAxis += current.options.mainAxis;
+        agg.crossAxis += current.options.crossAxis;
+        return agg;
+      }, {mainAxis: 0, crossAxis: 0});
 
-          return '';
-        },
-        ''
-      );
-
-      expect(offsetValues).toBe('0,0');
+      expect(offsetResult).toEqual({mainAxis: 0, crossAxis: 0});
     });
 
     describe('.hide()', () => {
@@ -195,12 +199,11 @@ describe('Tour | Step', () => {
 
     describe('.show()', () => {
       it('beforeShowPromise called before `show`', () => {
-        beforeShowPromiseTestStep.show();
+        console.log = jest.fn();
+        const promise = beforeShowPromiseTestStep.show();
 
-        return beforeShowPromise.then((result) => {
-          expect(result, 'beforeShowPromise is called').toBe(
-            'beforeShowPromise worked!'
-          );
+        return promise.then(() => {
+          expect(console.log).toHaveBeenCalledWith('beforeShowPromise worked!');
         });
       });
 
@@ -431,10 +434,8 @@ describe('Tour | Step', () => {
     it('calls destroy on the tooltip if it already exists', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;
-      step.tooltip = {
-        destroy() {
-          destroyCalled = true;
-        }
+      step.cleanup = () => {
+        destroyCalled = true;
       };
       step._setupElements();
       expect(
@@ -568,12 +569,14 @@ describe('Tour | Step', () => {
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
+    const offsetMiddleware = offset({crossAxis: 32});
+    const defaultCallback = (args) => args;
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        popperOptions: {
-          modifiers: [{ name: 'offset', options: { offset: [0, 32] } }]
+        floatingUIOptions: {
+          middleware: [offsetMiddleware],
         },
         showOn,
         when
@@ -590,9 +593,9 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      popperOptions: {
-        modifiers: [{ name: 'foo', options: 'bar' }]
-      }
+      floatingUIOptions: {
+        middleware: [{name: 'foo', options: 'bar', fn: defaultCallback}],
+      },
     });
 
     afterEach(() => {
