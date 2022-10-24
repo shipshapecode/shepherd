@@ -37,7 +37,7 @@
   /**
    * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
    * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-   * @param {Number} modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
+   * @param {Number | { topLeft: Number, bottomLeft: Number, bottomRight: Number, topRight: Number }} modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    * @param {HTMLElement} scrollParent The scrollable parent of the target element
    * @param {HTMLElement} targetElement The element the opening will expose
    */
