@@ -119,7 +119,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when positioning modal opening with border radius', async() => {
+    it('sets the correct attributes when positioning modal opening with border radius as number', async() => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -156,6 +156,53 @@ describe('components/ShepherdModal', () => {
       expect(modalPath).toHaveAttribute(
         'd',
         'M1024,768H0V0H1024V768ZM30,20a10,10,0,0,0-10,10V260a10,10,0,0,0,10,10H510a10,10,0,0,0,10-10V30a10,10,0,0,0-10-10Z'
+      );
+
+      modalComponent.$destroy();
+    });
+
+    it('sets the correct attributes when positioning modal opening with border radius as object', async() => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      let modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+      );
+
+      await modalComponent.closeModalOpening();
+
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+      );
+
+      await modalComponent.positionModal(
+        0,
+        { topLeft: 1, bottomLeft: 2, bottomRight: 3 },
+        null,
+        {
+          getBoundingClientRect() {
+            return {
+              height: 250,
+              x: 20,
+              y: 20,
+              width: 500
+            };
+          }
+        }
+      );
+
+      modalPath = modalComponent.getElement().querySelector('path');
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM21,20a1,1,0,0,0-1,1V268a2,2,0,0,0,2,2H517a3,3,0,0,0,3-3V20a0,0,0,0,0-0-0Z'
       );
 
       modalComponent.$destroy();

@@ -80,7 +80,7 @@ export class Step extends Evented {
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    * @param {string} options.id The string to use as the `id` for the step.
    * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-   * @param {number} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
+   * @param {number | { topLeft: number, bottomLeft: number, bottomRight: number, topRight: number }} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
    * @param {object} options.popperOptions Extra options to pass to Popper
    * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`

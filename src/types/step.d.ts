@@ -172,7 +172,14 @@ declare namespace Step {
     /**
      * An amount of border radius to add around the modal overlay opening
      */
-    modalOverlayOpeningRadius?: number;
+    modalOverlayOpeningRadius?:
+      | number
+      | {
+          topLeft?: number;
+          bottomLeft?: number;
+          bottomRight?: number;
+          topRight?: number;
+        };
 
     /**
      * Extra [options to pass to Popper]{@link https://popper.js.org/docs/v2/}

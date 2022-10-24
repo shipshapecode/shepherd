@@ -220,7 +220,7 @@ You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
 - `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
-- `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening
+- `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening. It can be either a number or an object with properties `{ topLeft, bottomLeft, bottomRight, topRight }`
 - `popperOptions`: Extra options to pass to [Popper](https://popper.js.org/docs/v2/constructors/#options)
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`, if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
