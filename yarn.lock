@@ -1344,10 +1344,10 @@
     jest-haste-map "^29.2.1"
     slash "^3.0.0"
 
-"@jest/transform@^29.2.1":
-  version "29.2.1"
-  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-29.2.1.tgz#f3d8154edd19cdbcaf1d6646bd8f4ff7812318a2"
-  integrity sha512-xup+iEuaIRSQabQaeqxaQyN0vg1Dctrp9oTObQsNf3sZEowTIa5cANYuoyi8Tqhg4GCqEVLTf18KW7ii0UeFVA==
+"@jest/transform@^29.2.1", "@jest/transform@^29.2.2":
+  version "29.2.2"
+  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-29.2.2.tgz#dfc03fc092b31ffea0c55917728e75bfcf8b5de6"
+  integrity sha512-aPe6rrletyuEIt2axxgdtxljmzH8O/nrov4byy6pDw9S8inIrTV+2PnjyP/oFHMSynzGxJ2s6OHowBNMXp/Jzg==
   dependencies:
     "@babel/core" "^7.11.6"
     "@jest/types" "^29.2.1"
@@ -2424,12 +2424,12 @@ babel-core@^7.0.0-bridge.0:
   resolved "https://registry.npmjs.org/babel-core/-/babel-core-7.0.0-bridge.0.tgz"
   integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
 
-babel-jest@^29.2.1:
-  version "29.2.1"
-  resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.2.1.tgz#213c47e28072de11bdb98c9d29b89f2ab99664f1"
-  integrity sha512-gQJwArok0mqoREiCYhXKWOgUhElJj9DpnssW6GL8dG7ARYqHEhrM9fmPHTjdqEGRVXZAd6+imo3/Vwa8TjLcsw==
+babel-jest@^29.2.1, babel-jest@^29.2.2:
+  version "29.2.2"
+  resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.2.2.tgz#2c15abd8c2081293c9c3f4f80a4ed1d51542fee5"
+  integrity sha512-kkq2QSDIuvpgfoac3WZ1OOcHsQQDU5xYk2Ql7tLdJ8BVAYbefEXal+NfS45Y5LVZA7cxC8KYcQMObpCt1J025w==
   dependencies:
-    "@jest/transform" "^29.2.1"
+    "@jest/transform" "^29.2.2"
     "@types/babel__core" "^7.1.14"
     babel-plugin-istanbul "^6.1.1"
     babel-preset-jest "^29.2.0"
