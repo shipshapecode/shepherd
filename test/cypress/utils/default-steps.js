@@ -4,12 +4,12 @@ export default function(shepherd) {
       text: `
          <p>
            Shepherd is a JavaScript library for guiding users through your app.
-           It uses <a href="https://popper.js.org/" data-test-popper-link>Popper.js</a>,
+           It uses <a href="https://floating-ui.com/" data-test-popper-link>Floating UI</a>,
            another open source library, to render dialogs for each tour "step".
          </p>
         
          <p>
-           Among many things, Popper makes sure your steps never end up off screen or cropped by an overflow.
+           Among many things, Floating UI makes sure your steps never end up off screen or cropped by an overflow.
            (Try resizing your browser to see what we mean.)
          </p>`,
       attachTo: {
