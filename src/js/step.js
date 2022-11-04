@@ -41,8 +41,8 @@ export class Step extends Evented {
    * in the middle of the screen, without an arrow pointing to the target.
    * If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
    * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
-   * @param {string} options.attachTo.on The optional direction to place the Popper tooltip relative to the element.
-   *   - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
+   * @param {string} options.attachTo.on The optional direction to place the FloatingUI tooltip relative to the element.
+   *   - Possible string values: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
    * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
    * It should be an object with a string `selector` and an `event` name
    * ```js
@@ -81,7 +81,7 @@ export class Step extends Evented {
    * @param {string} options.id The string to use as the `id` for the step.
    * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
    * @param {number | { topLeft: number, bottomLeft: number, bottomRight: number, topRight: number }} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
-   * @param {object} options.popperOptions Extra options to pass to Popper
+   * @param {object} options.floatingUIOptions Extra options to pass to FloatingUI
    * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
    * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
@@ -151,7 +151,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Remove the step, delete the step's element, and destroy the Popper instance for the step.
+   * Remove the step, delete the step's element, and destroy the FloatingUI instance for the step.
    * Triggers `destroy` event
    */
   destroy() {
@@ -368,7 +368,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the Popper instance
+   * Create the element and set up the FloatingUI instance
    * @private
    */
   _setupElements() {
@@ -389,7 +389,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a Popper instance for the tooltip, then triggers `show`.
+   * sets up a FloatingUI instance for the tooltip, then triggers `show`.
    * @private
    */
   _show() {
