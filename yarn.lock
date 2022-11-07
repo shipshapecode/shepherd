@@ -1322,27 +1322,6 @@
     jest-haste-map "^29.2.1"
     slash "^3.0.0"
 
-"@jest/transform@^29.2.1", "@jest/transform@^29.2.2":
-  version "29.2.2"
-  resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-29.2.2.tgz#dfc03fc092b31ffea0c55917728e75bfcf8b5de6"
-  integrity sha512-aPe6rrletyuEIt2axxgdtxljmzH8O/nrov4byy6pDw9S8inIrTV+2PnjyP/oFHMSynzGxJ2s6OHowBNMXp/Jzg==
-  dependencies:
-    "@babel/core" "^7.11.6"
-    "@jest/types" "^29.2.1"
-    "@jridgewell/trace-mapping" "^0.3.15"
-    babel-plugin-istanbul "^6.1.1"
-    chalk "^4.0.0"
-    convert-source-map "^1.4.0"
-    fast-json-stable-stringify "^2.1.0"
-    graceful-fs "^4.2.9"
-    jest-haste-map "^29.2.1"
-    jest-regex-util "^29.2.0"
-    jest-util "^29.2.1"
-    micromatch "^4.0.4"
-    pirates "^4.0.4"
-    slash "^3.0.0"
-    write-file-atomic "^4.0.1"
-
 "@jest/transform@^29.2.2":
   version "29.2.2"
   resolved "https://registry.yarnpkg.com/@jest/transform/-/transform-29.2.2.tgz#dfc03fc092b31ffea0c55917728e75bfcf8b5de6"
@@ -2401,19 +2380,6 @@ babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
   resolved "https://registry.npmjs.org/babel-core/-/babel-core-7.0.0-bridge.0.tgz"
   integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
-
-babel-jest@^29.2.1, babel-jest@^29.2.2:
-  version "29.2.2"
-  resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.2.2.tgz#2c15abd8c2081293c9c3f4f80a4ed1d51542fee5"
-  integrity sha512-kkq2QSDIuvpgfoac3WZ1OOcHsQQDU5xYk2Ql7tLdJ8BVAYbefEXal+NfS45Y5LVZA7cxC8KYcQMObpCt1J025w==
-  dependencies:
-    "@jest/transform" "^29.2.2"
-    "@types/babel__core" "^7.1.14"
-    babel-plugin-istanbul "^6.1.1"
-    babel-preset-jest "^29.2.0"
-    chalk "^4.0.0"
-    graceful-fs "^4.2.9"
-    slash "^3.0.0"
 
 babel-jest@^29.2.2:
   version "29.2.2"
@@ -7951,7 +7917,7 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.1.0, postcss-value-parser@^
   resolved "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.4.17, postcss@^8.4.18:
+postcss@^8.4.18:
   version "8.4.18"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.18.tgz#6d50046ea7d3d66a85e0e782074e7203bc7fbca2"
   integrity sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA==
@@ -9296,10 +9262,10 @@ taffydb@^2.7.3:
   resolved "https://registry.npmjs.org/taffydb/-/taffydb-2.7.3.tgz"
   integrity sha1-KtNxaWKUmPylvIQkMJbTzeDsOjQ=
 
-tailwindcss@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.1.tgz#1bd828fff3172489962357f8d531c184080a6786"
-  integrity sha512-Uw+GVSxp5CM48krnjHObqoOwlCt5Qo6nw1jlCRwfGy68dSYb/LwS9ZFidYGRiM+w6rMawkZiu1mEMAsHYAfoLg==
+tailwindcss@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.2.2.tgz#705f78cec8f4de2feb52abdb7a8a056e67f2d736"
+  integrity sha512-c2GtSdqg+harR4QeoTmex0Ngfg8IIHNeLQH5yr2B9uZbZR1Xt1rYbjWOWTcj3YLTZhrmZnPowoQDbSRFyZHQ5Q==
   dependencies:
     arg "^5.0.2"
     chokidar "^3.5.3"
@@ -9315,7 +9281,7 @@ tailwindcss@^3.2.1:
     normalize-path "^3.0.0"
     object-hash "^3.0.0"
     picocolors "^1.0.0"
-    postcss "^8.4.17"
+    postcss "^8.4.18"
     postcss-import "^14.1.0"
     postcss-js "^4.0.0"
     postcss-load-config "^3.1.4"
