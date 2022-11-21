@@ -248,7 +248,7 @@ declare namespace Step {
     event?: string;
   }
 
-  interface StepOptionsButton {
+  export interface StepOptionsButton {
     /**
      * A function executed when the button is clicked on
      * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
