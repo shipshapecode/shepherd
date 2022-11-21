@@ -1,6 +1,16 @@
 import { Step } from './step.js';
 import { Shepherd, Tour } from './tour.js';
 
-Object.assign(Shepherd, { Tour, Step });
+const isServerSide = typeof window === 'undefined';
+
+class NoOp {
+  constructor() {}
+}
+
+if (isServerSide) {
+  Object.assign(Shepherd, { Tour: NoOp, Step: NoOp });
+} else {
+  Object.assign(Shepherd, { Tour, Step });
+}
 
 export default Shepherd;

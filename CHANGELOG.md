@@ -11,6 +11,36 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v11.0.0 (2022-11-21)
+
+#### :boom: Breaking Change
+* [#2037](https://github.com/shipshapecode/shepherd/pull/2037) Replace popperJS with Floating UI ([@theodoreb](https://github.com/theodoreb))
+
+#### :rocket: Enhancement
+* [#2137](https://github.com/shipshapecode/shepherd/pull/2137) Exporting StepOptionsButton type to be able to add tour steps buttons dynamically with type checking ([@xhafan](https://github.com/xhafan))
+* [#2116](https://github.com/shipshapecode/shepherd/pull/2116) feat: add ability to specify corner radii ([@simoneb](https://github.com/simoneb))
+
+#### :bug: Bug Fix
+* [#2068](https://github.com/shipshapecode/shepherd/pull/2068) Do nothing when running server side ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* [#2129](https://github.com/shipshapecode/shepherd/pull/2129) Replace references to popperjs ([@theodoreb](https://github.com/theodoreb))
+* [#2022](https://github.com/shipshapecode/shepherd/pull/2022) remove all mentions of data-shepherd-active-tour ([@EmNicholson93](https://github.com/EmNicholson93))
+
+#### :house: Internal
+* [#2157](https://github.com/shipshapecode/shepherd/pull/2157) Remove firefox tests ([@rwwagner90](https://github.com/rwwagner90))
+* [#2047](https://github.com/shipshapecode/shepherd/pull/2047) chore: make yarn lint:js pass ([@theodoreb](https://github.com/theodoreb))
+* [#2046](https://github.com/shipshapecode/shepherd/pull/2046) Fix calls to setTimeout in tests ([@theodoreb](https://github.com/theodoreb))
+
+#### Committers: 6
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Eli Nicholson ([@EmNicholson93](https://github.com/EmNicholson93))
+- Martin Havlišta ([@xhafan](https://github.com/xhafan))
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Simone Busoli ([@simoneb](https://github.com/simoneb))
+- Théodore Biadala ([@theodoreb](https://github.com/theodoreb))
+
 ## v10.0.1 (2022-08-01)
 
 #### :bug: Bug Fix

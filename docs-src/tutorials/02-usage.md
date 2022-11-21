@@ -123,7 +123,7 @@ const myTour = new Shepherd.Tour(options);
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
 - `steps`: An array of step options objects or Step instances to initialize the tour with.
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's
-dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute whenever the tour becomes active.
+dynamically generated `id` property.
 - `useModalOverlay`: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.
 
 ##### Tour Methods
@@ -167,8 +167,8 @@ created.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
 - `attachTo`: The element the step should be attached to on the page. An object with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`). 
-  - `on`: The optional direction to place the Popper tooltip relative to the element.
-    - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
+  - `on`: The optional direction to place the Floating UI tooltip relative to the element.
+    - Possible string values: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
 
 ```js
 const new Step(tour, {
@@ -220,8 +220,8 @@ You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
 - `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
-- `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening
-- `popperOptions`: Extra options to pass to [Popper](https://popper.js.org/docs/v2/constructors/#options)
+- `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening. It can be either a number or an object with properties `{ topLeft, bottomLeft, bottomRight, topRight }`
+- `floatingUIOptions`: Extra options to pass to [Floating UI](https://floating-ui.com/docs/getting-started)
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`, if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,

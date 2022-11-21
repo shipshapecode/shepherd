@@ -34,8 +34,7 @@ export class Tour extends Evented {
    * If not set, the modal will be appended to `document.body`.
    * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
    * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
-   * dynamically generated `id` property -- which is also set on the `body` element as the `data-shepherd-active-tour` attribute
-   * whenever the tour becomes active.
+   * dynamically generated `id` property.
    * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
    * can remain interactive

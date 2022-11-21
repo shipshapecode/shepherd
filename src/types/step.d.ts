@@ -32,7 +32,7 @@ declare class Step extends Evented {
   complete(): void;
 
   /**
-   * Remove the step, delete the step's element, and destroy the Popper instance for the step
+   * Remove the step, delete the step's element, and destroy the FloatingUI instance for the step
    * Triggers `destroy` event
    */
   destroy(): void;
@@ -172,12 +172,19 @@ declare namespace Step {
     /**
      * An amount of border radius to add around the modal overlay opening
      */
-    modalOverlayOpeningRadius?: number;
+    modalOverlayOpeningRadius?:
+      | number
+      | {
+          topLeft?: number;
+          bottomLeft?: number;
+          bottomRight?: number;
+          topRight?: number;
+        };
 
     /**
-     * Extra [options to pass to Popper]{@link https://popper.js.org/docs/v2/}
+     * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
      */
-    popperOptions?: object;
+    floatingUIOptions?: object;
 
     /**
      * Should the element be scrolled to when this step is shown?
@@ -229,7 +236,7 @@ declare namespace Step {
     when?: StepOptionsWhen;
   }
 
-  type PopperPlacement = 'auto'|'auto-start'|'auto-end'|'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'right'|'right-start'|'right-end'|'left'|'left-start'|'left-end';
+  type PopperPlacement = 'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'right'|'right-start'|'right-end'|'left'|'left-start'|'left-end';
 
   interface StepOptionsAttachTo {
     element?: HTMLElement | string | (() => HTMLElement | string | null | undefined);
@@ -241,7 +248,7 @@ declare namespace Step {
     event?: string;
   }
 
-  interface StepOptionsButton {
+  export interface StepOptionsButton {
     /**
      * A function executed when the button is clicked on
      * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
@@ -270,7 +277,7 @@ declare namespace Step {
      * The aria-label text of the button
      */
     label?: string | (() => string);
-    
+
     /**
      * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
      */

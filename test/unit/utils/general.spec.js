@@ -1,8 +1,12 @@
-import { should } from 'chai';
 import { spy } from 'sinon';
 import { Step } from '../../../src/js/step.js';
-import { Tour } from '../../../src/js/tour.js';
-import { getPopperOptions, parseAttachTo, shouldCenterStep } from '../../../src/js/utils/general.js';
+import {
+  parseAttachTo,
+  shouldCenterStep
+} from '../../../src/js/utils/general.js';
+import {
+  getFloatingUIOptions
+} from '../../../src/js/utils/floating-ui.js';
 
 describe('General Utils', function() {
   let optionsElement;
@@ -61,12 +65,12 @@ describe('General Utils', function() {
     });
   });
 
-  describe('getPopperOptions', function() {
-    it('modifiers can be overridden', function() {
+  describe('floatingUIOptions', function() {
+    it('middleware can be overridden', function() {
       const step = new Step({}, {
         attachTo: { element: '.options-test', on: 'right' },
-        popperOptions: {
-          modifiers: [
+        floatingUIOptions: {
+          middleware: [
             {
               name: 'preventOverflow',
               options: {
@@ -77,46 +81,26 @@ describe('General Utils', function() {
         }
       });
 
-      const popperOptions = getPopperOptions(step.options.attachTo, step);
-      expect(popperOptions.modifiers[1].options.altAxis).toBe(false);
+      const floatingUIOptions = getFloatingUIOptions(step.options.attachTo, step);
+      expect(floatingUIOptions.middleware[0].options.altAxis).toBe(false);
     });
 
     it('positioning strategy is explicitly set', function() {
       const step = new Step({}, {
         attachTo: { element: '.options-test', on: 'center' },
         options: {
-          popperOptions: {
+          floatingUIOptions: {
             strategy: 'absolute'
           }
         }
       });
 
-      const popperOptions = getPopperOptions(step.options.attachTo, step);
-      expect(popperOptions.strategy).toBe('absolute');
+      const floatingUIOptions = getFloatingUIOptions(step.options.attachTo, step);
+      expect(floatingUIOptions.strategy).toBe('absolute');
     });
 
-    it(`has a modifier to focus on the step's element after render`, function () {
-      const step = new Step({}, {
-        attachTo: { element: '.options-test', on: 'center' },
-      });
-
-      const popperOptions = getPopperOptions(step.options.attachTo, step);
-
-      const expectedModifier = {
-        name: 'focusAfterRender',
-        enabled: true,
-        phase: 'afterWrite',
-        fn: expect.any(Function)
-      };
-
-      const actualModifier = popperOptions.modifiers.find(
-        (modifier) => modifier.name === expectedModifier.name
-      );
-
-      expect(actualModifier).toMatchObject(expectedModifier);
-    });
   });
-  
+
   describe('shouldCenterStep()', () => {
     it('Returns true when resolved attachTo options are falsy', () => {
       const emptyObjAttachTo = {};
@@ -141,7 +125,7 @@ describe('General Utils', function() {
 
     it('Returns true when element property is null', () => {
       const elementAttachTo = { element: null}; // FAILS
-    
+
       expect(shouldCenterStep(elementAttachTo)).toBe(true)
     })
   })
