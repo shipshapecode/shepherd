@@ -99,7 +99,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-scss": "^3.0.0",
+    "rollup-plugin-scss": "^4.0.0",
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-visualizer": "^5.8.3",
