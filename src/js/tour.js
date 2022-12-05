@@ -135,22 +135,22 @@ export class Tour extends Evented {
    */
   async cancel() {
     const { confirmCancel, confirmCancelMessage } = this.options;
-    if (confirmCancel) {
-      if (['[object Function]', '[object AsyncFunction]'].includes(Object.prototype.toString.call(confirmCancel))) {
-        const stopTour = await confirmCancel();
-        if (stopTour) {
-          this._done('cancel');
-        }
-        return;
-      }
-      const cancelMessage =
-        confirmCancelMessage ||
-        'Are you sure you want to stop the tour?';
-      const stopTour = window.confirm(cancelMessage);
+    if (!confirmCancel) {
+      this._done('cancel');
+    }
+    const type = Object.prototype.toString.call(confirmCancel);
+    if (type === '[object Function]' || type=== '[object AsyncFunction]') {
+      const stopTour = await confirmCancel();
       if (stopTour) {
         this._done('cancel');
       }
-    } else {
+      return;
+    }
+    const cancelMessage =
+      confirmCancelMessage ||
+      'Are you sure you want to stop the tour?';
+    const stopTour = window.confirm(cancelMessage);
+    if (stopTour) {
       this._done('cancel');
     }
   }
