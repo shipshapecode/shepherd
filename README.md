@@ -109,7 +109,7 @@ The [Drupal](https://www.drupal.org/docs/8/core/modules/tour/overview) CMS uses 
 
 ### [Budibase Shepherd Tour Plugin](https://github.com/JayP718/tour_shepherd_bb_plugin)
 
-[Budibase](https://budibase.com/) is an open source application which allows you develop low code applications rapidly and efficiently.This [Budibase](https://budibase.com/) Shepherd tour plugin allows you to create interative walkthroughs for you application.
+[Budibase](https://budibase.com/) is an open source application which allows you develop low code applications rapidly and efficiently.This [Budibase](https://budibase.com/) Shepherd tour plugin allows you to create interative walkthroughs for your application.
 
 
 ### Your Project Here
