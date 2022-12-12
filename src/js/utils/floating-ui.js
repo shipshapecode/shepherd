@@ -1,11 +1,12 @@
 import merge from 'deepmerge';
 import { shouldCenterStep } from './general';
 import {
-  computePosition,
   autoUpdate,
-  shift,
   arrow,
-  limitShift
+  computePosition,
+  flip,
+  limitShift,
+  shift
 } from '@floating-ui/dom';
 
 /**
@@ -153,8 +154,7 @@ function placeArrow(el, placement, middlewareData) {
       left: arrowX != null ? `${arrowX}px` : '',
       top: arrowY != null ? `${arrowY}px` : '',
       right: '',
-      bottom: '',
-      [staticSide]: '-35px'
+      bottom: ''
     });
   }
 }
@@ -170,6 +170,7 @@ export function getFloatingUIOptions(attachToOptions, step) {
   const options = {
     strategy: 'absolute',
     middleware: [
+      flip(),
       // Replicate PopperJS default behavior.
       shift({
         limiter: limitShift(),
