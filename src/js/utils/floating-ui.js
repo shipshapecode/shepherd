@@ -126,7 +126,7 @@ function floatingUIposition(step) {
 
     step.el.dataset.popperPlacement = placement;
 
-    placeArrow(step.el, placement, middlewareData);
+    placeArrow(step.el, middlewareData);
 
     return step;
   };
