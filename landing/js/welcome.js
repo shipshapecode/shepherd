@@ -30,14 +30,14 @@
           },
           buttons: [
             {
-              action: function() {
+              action() {
                 return this.cancel();
               },
               secondary: true,
               text: 'Exit'
             },
             {
-              action: function() {
+              action() {
                 return this.next();
               },
               text: 'Next'
@@ -63,14 +63,14 @@
         },
         buttons: [
           {
-            action: function() {
+            action() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action: function() {
+            action() {
               return this.next();
             },
             text: 'Next'
@@ -87,14 +87,14 @@
         },
         buttons: [
           {
-            action: function() {
+            action() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action: function() {
+            action() {
               return this.next();
             },
             text: 'Next'
@@ -111,14 +111,14 @@
         },
         buttons: [
           {
-            action: function() {
+            action() {
               return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
-            action: function() {
+            action() {
               return this.next();
             },
             text: 'Next'
@@ -136,14 +136,14 @@
       text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
       buttons: [
         {
-          action: function() {
+          action() {
             return this.back();
           },
           secondary: true,
           text: 'Back'
         },
         {
-          action: function() {
+          action() {
             return this.next();
           },
           text: 'Next'
@@ -161,14 +161,14 @@
       },
       buttons: [
         {
-          action: function() {
+          action() {
             return this.back();
           },
           secondary: true,
           text: 'Back'
         },
         {
-          action: function() {
+          action() {
             return this.next();
           },
           text: 'Done'
