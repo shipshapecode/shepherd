@@ -3,7 +3,7 @@ import Shepherd from '../../src/js/shepherd';
 import { Step } from '../../src/js/step';
 import { Tour } from '../../src/js/tour';
 import ResizeObserver from 'resize-observer-polyfill';
-import { offset } from "@floating-ui/dom";
+import { offset } from '@floating-ui/dom';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -27,15 +27,15 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
-    const defaultOffsetMiddleware = offset({mainAxis: 0, crossAxis: 32});
-    const fooMiddleware = {name: 'foo', options: 'bar', fn: (args) => args};
+    const defaultOffsetMiddleware = offset({ mainAxis: 0, crossAxis: 32 });
+    const fooMiddleware = { name: 'foo', options: 'bar', fn: (args) => args };
 
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
         floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware],
+          middleware: [defaultOffsetMiddleware]
         },
         showOn,
         when
@@ -54,8 +54,8 @@ describe('Tour | Step', () => {
       ],
       id: 'test',
       floatingUIOptions: {
-        middleware: [fooMiddleware],
-      },
+        middleware: [fooMiddleware]
+      }
     });
 
     const showTestStep = instance.addStep({
@@ -87,7 +87,10 @@ describe('Tour | Step', () => {
       ]
     });
 
-    const stepWithoutNameWithoutIdOffsetMiddleware = offset({mainAxis: 0, crossAxis: -32});
+    const stepWithoutNameWithoutIdOffsetMiddleware = offset({
+      mainAxis: 0,
+      crossAxis: -32
+    });
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -103,17 +106,18 @@ describe('Tour | Step', () => {
       }
     });
 
-    const beforeShowPromise = () => new Promise((resolve) => {
-       setTimeout(() => {
-         console.log('beforeShowPromise worked!');
-         resolve('beforeShowPromise worked!')
-       }, 1000);
-    });
+    const beforeShowPromise = () =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('beforeShowPromise worked!');
+          resolve('beforeShowPromise worked!');
+        }, 1000);
+      });
 
     const beforeShowPromiseTestStep = instance.addStep({
       text: 'Before Show Promise Step',
       id: 'test3',
-      beforeShowPromise,
+      beforeShowPromise
     });
 
     afterEach(() => {
@@ -164,7 +168,7 @@ describe('Tour | Step', () => {
         scrollTo: true,
         text: 'This is a step for testing',
         floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware, fooMiddleware],
+          middleware: [defaultOffsetMiddleware, fooMiddleware]
         },
         showOn,
         when
@@ -173,14 +177,20 @@ describe('Tour | Step', () => {
 
     it('allows the step to override a previously defined modifier', () => {
       stepWithoutNameWithoutId.show();
-      const offsetMiddleware = stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(({name}) => name === 'offset');
-      const offsetResult = offsetMiddleware.reduce((agg, current) => {
-        agg.mainAxis += current.options.mainAxis;
-        agg.crossAxis += current.options.crossAxis;
-        return agg;
-      }, {mainAxis: 0, crossAxis: 0});
+      const offsetMiddleware =
+        stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(
+          ({ name }) => name === 'offset'
+        );
+      const offsetResult = offsetMiddleware.reduce(
+        (agg, current) => {
+          agg.mainAxis += current.options.mainAxis;
+          agg.crossAxis += current.options.crossAxis;
+          return agg;
+        },
+        { mainAxis: 0, crossAxis: 0 }
+      );
 
-      expect(offsetResult).toEqual({mainAxis: 0, crossAxis: 0});
+      expect(offsetResult).toEqual({ mainAxis: 0, crossAxis: 0 });
     });
 
     describe('.hide()', () => {
@@ -320,7 +330,7 @@ describe('Tour | Step', () => {
       step.destroy();
     });
 
-    it('should update passed in properties', async() => {
+    it('should update passed in properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
 
       expect(step.options.text).toBe('updated');
@@ -341,7 +351,7 @@ describe('Tour | Step', () => {
       );
     });
 
-    it('should not affect other properties', async() => {
+    it('should not affect other properties', async () => {
       step.updateStepOptions({ text: 'updated', title: 'New title' });
       expect(step.options.id).toEqual('test-id');
       expect(step.options.buttons).toEqual([
@@ -360,7 +370,7 @@ describe('Tour | Step', () => {
       expect(document.querySelector('.button2').textContent).toBe('button two');
     });
 
-    it('should update buttons', async() => {
+    it('should update buttons', async () => {
       const buttons = [
         { text: 'button one updated', disabled: true, classes: 'button1' },
         { text: 'button two updated', disabled: false, classes: 'button2' }
@@ -385,7 +395,7 @@ describe('Tour | Step', () => {
       expect(buttonTwo.disabled).toBe(false);
     });
 
-    it('removing title should remove class', async() => {
+    it('removing title should remove class', async () => {
       step.updateStepOptions({ title: '' });
       expect(step.options.title).toEqual('');
 
@@ -400,7 +410,7 @@ describe('Tour | Step', () => {
       expect(element.classList.contains('shepherd-has-title')).toBeFalsy();
     });
 
-    it('updating classes should update element classes', async() => {
+    it('updating classes should update element classes', async () => {
       step.updateStepOptions({ classes: 'test-1 test-2' });
       expect(step.options.classes).toEqual('test-1 test-2');
 
@@ -475,7 +485,7 @@ describe('Tour | Step', () => {
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
       resTester.scrollIntoView = () => (resHandlerCalled = true);
-      const resSpy = jest.spyOn(resTester, 'scrollIntoView')
+      const resSpy = jest.spyOn(resTester, 'scrollIntoView');
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
@@ -485,17 +495,17 @@ describe('Tour | Step', () => {
       const step = new Step('test', {
         attachTo: { element: '.post-res-scroll-test', on: 'center' },
         beforeShowPromise: () => {
-          return beforeShowPromise
+          return beforeShowPromise;
         }
       });
 
-      step.show()
+      step.show();
 
       step._scrollTo();
 
       expect(resHandlerCalled).toBeTruthy();
       expect(resSpy).toHaveBeenCalled();
-    })
+    });
 
     it('calls the custom handler after before-show promise resolution', () => {
       let resHandlerAdded = false;
@@ -507,11 +517,11 @@ describe('Tour | Step', () => {
       const step = new Step('test', {
         scrollToHandler: () => (resHandlerAdded = true),
         beforeShowPromise: () => {
-          return beforeShowPromise
+          return beforeShowPromise;
         }
       });
 
-      const resSpy = jest.spyOn(step.options, 'scrollToHandler')
+      const resSpy = jest.spyOn(step.options, 'scrollToHandler');
 
       step.show();
 
@@ -569,14 +579,14 @@ describe('Tour | Step', () => {
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
-    const offsetMiddleware = offset({crossAxis: 32});
+    const offsetMiddleware = offset({ crossAxis: 32 });
     const defaultCallback = (args) => args;
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
         floatingUIOptions: {
-          middleware: [offsetMiddleware],
+          middleware: [offsetMiddleware]
         },
         showOn,
         when
@@ -594,8 +604,8 @@ describe('Tour | Step', () => {
       ],
       id: 'test',
       floatingUIOptions: {
-        middleware: [{name: 'foo', options: 'bar', fn: defaultCallback}],
-      },
+        middleware: [{ name: 'foo', options: 'bar', fn: defaultCallback }]
+      }
     });
 
     afterEach(() => {
@@ -678,10 +688,16 @@ describe('Tour | Step', () => {
       });
 
       instance.start();
-      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(true);
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(false);
+      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(
+        true
+      );
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
+        false
+      );
       instance.next();
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(true);
+      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
+        true
+      );
     });
 
     it('evaluates attachTo on subsequent shows', () => {
@@ -710,14 +726,17 @@ describe('Tour | Step', () => {
 
     it('evaluates attachTo only once', () => {
       const instance = new Shepherd.Tour({
-        steps: [{
-          text: 'step 1',
-          attachTo: { element: () => {}, on: 'auto' },
-          id: 'step1'
-        }, {
-          text: 'step 2',
-          attachTo: { element: () => {}, on: 'auto' }
-        }]
+        steps: [
+          {
+            text: 'step 1',
+            attachTo: { element: () => {}, on: 'auto' },
+            id: 'step1'
+          },
+          {
+            text: 'step 2',
+            attachTo: { element: () => {}, on: 'auto' }
+          }
+        ]
       });
 
       instance.start();
@@ -726,7 +745,7 @@ describe('Tour | Step', () => {
       // Subsequent calls to the getter return the same object
       const result1 = instance.getCurrentStep()._getResolvedAttachToOptions();
 
-      expect(result1).not.toBeNull()
+      expect(result1).not.toBeNull();
 
       instance.next();
 
@@ -750,9 +769,12 @@ describe('Tour | Step', () => {
         ]
       });
 
-      instance.start()
+      instance.start();
 
-      expect(instance.getById('step2')._getResolvedAttachToOptions()).toEqual({ element: undefined, on: 'auto'})
-    })
+      expect(instance.getById('step2')._getResolvedAttachToOptions()).toEqual({
+        element: undefined,
+        on: 'auto'
+      });
+    });
   });
 });
