@@ -140,13 +140,19 @@ function floatingUIposition(step) {
 function placeArrow(el, middlewareData) {
   const arrowEl = el.querySelector('.shepherd-arrow');
   if (arrowEl) {
-    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+    let left, top, right, bottom;
+
+    if (middlewareData.arrow) {
+      const { x: arrowX, y: arrowY } = middlewareData.arrow;
+      left = arrowX != null ? `${arrowX}px` : '';
+      top = arrowY != null ? `${arrowY}px` : '';
+    }
 
     Object.assign(arrowEl.style, {
-      left: arrowX != null ? `${arrowX}px` : '',
-      top: arrowY != null ? `${arrowY}px` : '',
-      right: '',
-      bottom: ''
+      left,
+      top,
+      right,
+      bottom
     });
   }
 }

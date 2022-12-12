@@ -441,7 +441,7 @@ describe('Tour | Top-Level Class', function() {
       instance.start();
 
       const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(2);
+      expect(floatingUIOptions.middleware.length).toBe(3);
     });
 
     it('adds a step modifer to default modifiers', function() {
@@ -458,7 +458,7 @@ describe('Tour | Top-Level Class', function() {
       instance.start();
 
       const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(3);
+      expect(floatingUIOptions.middleware.length).toBe(4);
     });
 
     it('correctly changes modifiers when going from centered to attached', function() {
@@ -488,7 +488,7 @@ describe('Tour | Top-Level Class', function() {
 
       const centeredOptions = setupTooltip(centeredStep);
       const centeredMiddlewareNames = centeredOptions.middleware.map(({name}) => name);
-      expect(centeredOptions.middleware.length).toBe(3);
+      expect(centeredOptions.middleware.length).toBe(4);
       expect(centeredMiddlewareNames.includes('offset')).toBe(true);
       expect(centeredMiddlewareNames.includes('foo')).toBe(true);
       expect(centeredMiddlewareNames.includes('shift')).toBe(true);
@@ -498,7 +498,7 @@ describe('Tour | Top-Level Class', function() {
 
       const options = setupTooltip(attachedStep);
       const middlewareNames = options.middleware.map(({name}) => name);
-      expect(options.middleware.length).toBe(4);
+      expect(options.middleware.length).toBe(5);
       expect(middlewareNames.includes('offset')).toBe(true);
       expect(middlewareNames.includes('foo')).toBe(true);
       expect(middlewareNames.includes('shift')).toBe(true);
