@@ -1,11 +1,12 @@
 import merge from 'deepmerge';
 import { shouldCenterStep } from './general';
 import {
-  computePosition,
   autoUpdate,
-  shift,
   arrow,
-  limitShift
+  computePosition,
+  flip,
+  limitShift,
+  shift
 } from '@floating-ui/dom';
 
 /**
@@ -30,8 +31,9 @@ export function setupTooltip(step) {
 
   let target = attachToOptions.element;
   const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
+  const shouldCenter = shouldCenterStep(attachToOptions);
 
-  if (shouldCenterStep(attachToOptions)) {
+  if (shouldCenter) {
     target = document.body;
     const content = step.shepherdElementComponent.getElement();
     content.classList.add('shepherd-centered');
@@ -44,7 +46,7 @@ export function setupTooltip(step) {
       return;
     }
 
-    setPosition(target, step, floatingUIOptions);
+    setPosition(target, step, floatingUIOptions, shouldCenter);
   });
 
   step.target = attachToOptions.element;
@@ -86,10 +88,10 @@ export function destroyTooltip(step) {
  *
  * @return {Promise<*>}
  */
-function setPosition(target, step, floatingUIOptions) {
+function setPosition(target, step, floatingUIOptions, shouldCenter) {
   return (
     computePosition(target, step.el, floatingUIOptions)
-      .then(floatingUIposition(step))
+      .then(floatingUIposition(step, shouldCenter))
       // Wait before forcing focus.
       .then(
         (step) =>
@@ -109,23 +111,33 @@ function setPosition(target, step, floatingUIOptions) {
 /**
  *
  * @param step
+ * @param shouldCenter
  * @return {function({x: *, y: *, placement: *, middlewareData: *}): Promise<unknown>}
  */
-function floatingUIposition(step) {
+function floatingUIposition(step, shouldCenter) {
   return ({ x, y, placement, middlewareData }) => {
     if (!step.el) {
       return step;
     }
 
-    Object.assign(step.el.style, {
-      position: 'absolute',
-      left: `${x}px`,
-      top: `${y}px`
-    });
+    if (shouldCenter) {
+      Object.assign(step.el.style, {
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)'
+      });
+    } else {
+      Object.assign(step.el.style, {
+        position: 'absolute',
+        left: `${x}px`,
+        top: `${y}px`
+      });
+    }
 
     step.el.dataset.popperPlacement = placement;
 
-    placeArrow(step.el, placement, middlewareData);
+    placeArrow(step.el, middlewareData);
 
     return step;
   };
@@ -134,27 +146,24 @@ function floatingUIposition(step) {
 /**
  *
  * @param el
- * @param placement
  * @param middlewareData
  */
-function placeArrow(el, placement, middlewareData) {
+function placeArrow(el, middlewareData) {
   const arrowEl = el.querySelector('.shepherd-arrow');
   if (arrowEl) {
-    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+    let left, top, right, bottom;
 
-    const staticSide = {
-      top: 'bottom',
-      right: 'left',
-      bottom: 'top',
-      left: 'right'
-    }[placement.split('-')[0]];
+    if (middlewareData.arrow) {
+      const { x: arrowX, y: arrowY } = middlewareData.arrow;
+      left = arrowX != null ? `${arrowX}px` : '';
+      top = arrowY != null ? `${arrowY}px` : '';
+    }
 
     Object.assign(arrowEl.style, {
-      left: arrowX != null ? `${arrowX}px` : '',
-      top: arrowY != null ? `${arrowY}px` : '',
-      right: '',
-      bottom: '',
-      [staticSide]: '-35px'
+      left,
+      top,
+      right,
+      bottom
     });
   }
 }
@@ -169,21 +178,27 @@ function placeArrow(el, placement, middlewareData) {
 export function getFloatingUIOptions(attachToOptions, step) {
   const options = {
     strategy: 'absolute',
-    middleware: [
+    middleware: []
+  };
+
+  const arrowEl = addArrow(step);
+
+  const shouldCenter = shouldCenterStep(attachToOptions);
+
+  if (!shouldCenter) {
+    options.middleware.push(
+      flip(),
       // Replicate PopperJS default behavior.
       shift({
         limiter: limitShift(),
         crossAxis: true
       })
-    ]
-  };
+    );
 
-  const arrowEl = addArrow(step);
-  if (arrowEl) {
-    options.middleware.push(arrow({ element: arrowEl }));
-  }
+    if (arrowEl) {
+      options.middleware.push(arrow({ element: arrowEl }));
+    }
 
-  if (!shouldCenterStep(attachToOptions)) {
     options.placement = attachToOptions.on;
   }
 

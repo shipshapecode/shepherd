@@ -12,6 +12,16 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v11.0.1 (2022-12-12)
+
+#### :bug: Bug Fix
+* [#2183](https://github.com/shipshapecode/shepherd/pull/2183) Fix centering steps with no attachTo.on ([@rwwagner90](https://github.com/rwwagner90))
+* [#2182](https://github.com/shipshapecode/shepherd/pull/2182) Fix arrow offset, add back flipping behavior ([@rwwagner90](https://github.com/rwwagner90))
+
+#### Committers: 1
+- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+
 ## v11.0.0 (2022-11-21)
 
 #### :boom: Breaking Change
