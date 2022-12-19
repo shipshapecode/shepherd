@@ -47,7 +47,7 @@
     "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.0.10",
+    "@floating-ui/dom": "^1.0.12",
     "deepmerge": "^4.2.2"
   },
   "devDependencies": {
