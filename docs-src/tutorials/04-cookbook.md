@@ -35,7 +35,7 @@ For example:
 
 ```js
 floatingUIOptions: {
-  middlewares: [offset({ mainAxis: 0, crossAxis: 12 })]
+  middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
 }
 ```
 
