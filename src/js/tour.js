@@ -139,7 +139,7 @@ export class Tour extends Evented {
       return;
     }
     const type = Object.prototype.toString.call(this.options.confirmCancel);
-    if (type === '[object Function]' || type === '[object AsyncFunction]') {
+    if (typeof this.options?.confirmCancel === 'function') {
       const stopTour = await this.options.confirmCancel();
       if (stopTour) {
         this._done('cancel');
