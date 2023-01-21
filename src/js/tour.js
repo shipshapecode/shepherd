@@ -131,7 +131,7 @@ export class Tour extends Evented {
    * Calls _done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
    * If `confirmCancel` is a function, will call it and wait for the return value,
-   * and only cancell when the value returned is true
+   * and only cancel when the value returned is true
    */
   async cancel() {
     if (this.options.confirmCancel) {
