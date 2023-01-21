@@ -134,21 +134,19 @@ export class Tour extends Evented {
    * and only cancell when the value returned is true
    */
   async cancel() {
-    if (!this.options.confirmCancel) {
-      this._done('cancel');
-      return;
-    }
-    if (typeof this.options?.confirmCancel === 'function') {
-      const stopTour = await this.options.confirmCancel();
+    if (this.options.confirmCancel) {
+      const confirmCancelIsFunction =
+        typeof this.options.confirmCancel === 'function';
+      const cancelMessage =
+        this.options.confirmCancelMessage ||
+        'Are you sure you want to stop the tour?';
+      const stopTour = confirmCancelIsFunction
+        ? await this.options.confirmCancel()
+        : window.confirm(cancelMessage);
       if (stopTour) {
         this._done('cancel');
       }
-      return;
-    }
-    const cancelMessage =
-      this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
-    const stopTour = window.confirm(cancelMessage);
-    if (stopTour) {
+    } else {
       this._done('cancel');
     }
   }
