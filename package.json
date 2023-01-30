@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.1.0",
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.3.0"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.27.0",
