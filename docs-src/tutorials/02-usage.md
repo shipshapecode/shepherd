@@ -88,7 +88,7 @@ event handlers a `tour` key pointing to the instance which fired the event:
 For multiple events, you can use something like:
 
 ```javascript
-['close', 'cancel'].forEach(event => shepherd.on(event, () => {
+['complete', 'cancel'].forEach(event => shepherd.on(event, () => {
    // some code here
 }));
 ```
