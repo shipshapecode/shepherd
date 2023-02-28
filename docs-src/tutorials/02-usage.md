@@ -114,7 +114,9 @@ const myTour = new Shepherd.Tour(options);
 ##### Tour Options
 
 - `classPrefix`: The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
-- `confirmCancel`: If true, will issue a `window.confirm` before cancelling
+- `confirmCancel`:
+  - If true, will issue a `window.confirm` before cancelling
+  - If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `exitOnEsc`: Exiting the tour with the escape key will be enabled unless this is explicitly set to `false`.

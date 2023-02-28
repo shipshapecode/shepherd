@@ -291,6 +291,48 @@ describe('Tour | Top-Level Class', function() {
         instance.cancel();
         expect(cancelFired, 'cancel event fired').toBeTruthy();
       });
+      
+      [{status:'normal', title:'whether cancel depends on function return value'},
+       {status:'async', title:'whether cancel will wait for the value returned from the function'}]
+      .map(({status, title}) => {
+        it('when confirmCancel is function, '+title,async function() {
+          const myMock = jest.fn();
+          if(status === 'async') {
+            myMock.mockImplementationOnce(()=>Promise.resolve(false))
+                  .mockImplementationOnce(()=>Promise.resolve(true))
+          }else{
+            myMock.mockReturnValueOnce(false).mockReturnValueOnce(true)
+          }
+          instance = new Shepherd.Tour({
+            defaultStepOptions,
+            confirmCancel: myMock,
+            confirmCancelMessage: 'Confirm cancel?'
+          });
+
+          instance.addStep({
+            id: 'test',
+            title: 'This is a test step for our tour'
+          });
+
+          let inactiveFired = false;
+          instance.on('cancel', () => {
+            inactiveFired = true;
+          });
+
+          instance.start();
+          expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
+
+          await instance.cancel();
+          expect(myMock.mock.calls.length, 'confirmCancel callback called once').toBe(1);
+          expect(await myMock.mock.results[0].value, 'confirmCancel callback returns false').toBe(false);
+          expect(inactiveFired, 'tour still going, since confirmCancel callback returned false').toBeFalsy();
+
+          await instance.cancel();
+          expect(myMock.mock.calls.length, 'confirmCancel callback called twice').toBe(2);
+          expect(await myMock.mock.results[1].value, 'confirmCancel callback returns true').toBe(true);
+          expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();
+        });
+      });
     });
 
     describe('.complete()', function() {
