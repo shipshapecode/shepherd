@@ -8804,10 +8804,10 @@ rollup-plugin-serve@^2.0.2:
     mime ">=2.4.6"
     opener "1"
 
-rollup-plugin-svelte@^7.1.3:
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-7.1.3.tgz#947f67468edb1a87c5a67d5fe6272376092b03f7"
-  integrity sha512-kQiZP++PZOObMEZBQcdFdRj0K5ucL496qiYtwo/toFbd8a/1x1gG2kF5yY+PxxYiXUv4S4OVnCd3T02c74TXWQ==
+rollup-plugin-svelte@^7.1.4:
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-svelte/-/rollup-plugin-svelte-7.1.4.tgz#abd71aebe709c3d5f1e50ad98d9399ee18bdeb41"
+  integrity sha512-Jm0FCydR7k8bBGe7wimXAes8x2zEK10Ew3f3lEZwYor/Zya3X0AZVeSAPRH7yiXB9hWQVzJu597EUeNwGDTdjQ==
   dependencies:
     "@rollup/pluginutils" "^4.1.0"
     resolve.exports "^2.0.0"
