@@ -82,7 +82,7 @@
     "mutationobserver-shim": "^0.3.7",
     "postcss": "^8.4.21",
     "postinstall-postinstall": "^2.1.0",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.5",
     "release-it": "^15.8.0",
     "release-it-lerna-changelog": "^5.0.0",
     "replace": "^1.2.2",
