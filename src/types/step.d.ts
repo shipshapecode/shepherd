@@ -187,6 +187,11 @@ declare namespace Step {
     floatingUIOptions?: object;
 
     /**
+     * disables default position logic of FloatingUI. Provide your logic via floatingUIOptions
+     */
+    disableDefaultStepPositioning?: boolean;
+
+    /**
      * Should the element be scrolled to when this step is shown?
      */
     scrollTo?: boolean | ScrollIntoViewOptions;

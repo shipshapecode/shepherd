@@ -39,6 +39,30 @@ floatingUIOptions: {
 }
 ```
 
+### Improved positioning
+
+By default, Shepherd.js uses a number of FloatingUI middlewares to set up automatic placement of the step window. 
+However, this logic may conflict with the improved custom logic you provided via `floatingUIOptions` (i.e. Shepherd uses `flip` middleware, but it conflicts with `autoPlacement` middleware).
+In order to take over the positioning logic, you should disable the default logic with `disableDefaultStepPositioning`.
+
+For example:
+
+```javascript
+stepOptions = {
+  disableDefaultStepPositioning : true,
+  floatingUIOptions: {
+    middleware: [
+      offset(80),
+      autoPlacement(),
+      shift({
+        limiter: limitShift(),
+        crossAxis: true
+      })
+    ]
+  }
+}
+```
+
 
 ### Progress Indicator
 

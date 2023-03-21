@@ -177,14 +177,16 @@ export function getFloatingUIOptions(attachToOptions, step) {
   const shouldCenter = shouldCenterStep(attachToOptions);
 
   if (!shouldCenter) {
-    options.middleware.push(
-      flip(),
-      // Replicate PopperJS default behavior.
-      shift({
-        limiter: limitShift(),
-        crossAxis: true
-      })
-    );
+    if (!step.options.disableDefaultStepPositioning) {
+      options.middleware.push(
+        flip(),
+        // Replicate PopperJS default behavior.
+        shift({
+          limiter: limitShift(),
+          crossAxis: true
+        })
+      );
+    }
 
     if (arrowEl) {
       options.middleware.push(arrow({ element: arrowEl }));

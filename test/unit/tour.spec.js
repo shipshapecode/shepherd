@@ -619,4 +619,72 @@ describe('Tour | Top-Level Class', function() {
       expect(modalContainer.contains(modalElement)).toBe(true);
     });
   });
+
+  describe("disableDefaultStepPositioning", function() {
+
+    it('removes default middlewares', function() {
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        disableDefaultStepPositioning : true
+      });
+
+      instance.start();
+
+      const floatingUIOptions = setupTooltip(step);
+      expect(floatingUIOptions.middleware.length).toBe(1);
+      const middlewareNames = floatingUIOptions.middleware.map(({name}) => name);
+      expect(middlewareNames.includes('offset')).toBe(true);
+    });
+
+    it('adds middlewares instead of disabled default middlewares', function() {
+      const div = document.createElement('div');
+      div.classList.add('modifiers-test');
+      document.body.appendChild(div);
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const centeredStep = instance.addStep({
+        id: 'centered',
+        title: 'This is a centered step for our tour',
+        disableDefaultStepPositioning : true,
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        },
+      });
+
+      const attachedStep = instance.addStep({
+        attachTo: { element: '.modifiers-test', on: 'top' },
+        id: 'attached',
+        title: 'This is an attached step for our tour',
+        disableDefaultStepPositioning : true,
+        floatingUIOptions: {
+          middleware: [{name: 'foo', options: 'bar', fn: (args) => args}],
+        },
+      });
+
+      instance.start();
+
+      const centeredOptions = setupTooltip(centeredStep);
+      const centeredMiddlewareNames = centeredOptions.middleware.map(({name}) => name);
+      expect(centeredOptions.middleware.length).toBe(2);
+      expect(centeredMiddlewareNames.includes('offset')).toBe(true);
+      expect(centeredMiddlewareNames.includes('foo')).toBe(true);
+      expect(centeredMiddlewareNames.includes('arrow')).toBe(false);
+
+      instance.next();
+
+      const options = setupTooltip(attachedStep);
+      const middlewareNames = options.middleware.map(({name}) => name);
+      expect(options.middleware.length).toBe(3);
+      expect(middlewareNames.includes('offset')).toBe(true);
+      expect(middlewareNames.includes('foo')).toBe(true);
+      expect(middlewareNames.includes('shift')).toBe(false);
+      expect(middlewareNames.includes('arrow')).toBe(true);
+
+      document.body.removeChild(div);
+    });
+
+  })
 });

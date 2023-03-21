@@ -224,6 +224,7 @@ You can also always manually advance the Tour by calling `myTour.next()`.
 - `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
 - `modalOverlayOpeningRadius`: An amount of border radius to add around the modal overlay opening. It can be either a number or an object with properties `{ topLeft, bottomLeft, bottomRight, topRight }`
 - `floatingUIOptions`: Extra options to pass to [Floating UI](https://floating-ui.com/docs/getting-started)
+- `disableDefaultStepPositioning`: disables default automatic positioning middlewares of Shepherd, so you gain full control over it by positioning via `floatingUIOptions`.
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`, if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,
