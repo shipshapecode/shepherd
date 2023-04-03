@@ -20,7 +20,7 @@ const Shepherd = new Evented();
 export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
-   * @param {boolean | (() => boolean) | Promise<boolean> | (() => Promise<boolean>)} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
+   * @param {boolean | function(): boolean | Promise<boolean> | function(): Promise<boolean>} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
    * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
    * @param {string} options.confirmCancelMessage The message to display in the `window.confirm` dialog
    * @param {string} options.classPrefix The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
