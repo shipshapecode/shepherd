@@ -13,6 +13,28 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v11.1.0 (2023-04-03)
+
+#### :rocket: Enhancement
+* [#2168](https://github.com/shipshapecode/shepherd/pull/2168) add funtion support for confirmCancel ([@taozhiyu](https://github.com/taozhiyu))
+
+#### :bug: Bug Fix
+* [#2204](https://github.com/shipshapecode/shepherd/pull/2204) Bugfix: prevent to show spurious warnings in dev panel console ([@SamyCookie](https://github.com/SamyCookie))
+
+#### :memo: Documentation
+* [#2251](https://github.com/shipshapecode/shepherd/pull/2251) Use a valid event on code example ([@didaquis](https://github.com/didaquis))
+* [#2224](https://github.com/shipshapecode/shepherd/pull/2224) Remove mention to Popper on docs ([@didaquis](https://github.com/didaquis))
+* [#2205](https://github.com/shipshapecode/shepherd/pull/2205) Fix the typo in docs ([@de-don](https://github.com/de-don))
+* [#2174](https://github.com/shipshapecode/shepherd/pull/2174) Adding an example use case of shepherd to Read Me ([@JayP718](https://github.com/JayP718))
+
+#### Committers: 5
+- Denis ([@de-don](https://github.com/de-don))
+- Dídac García ([@didaquis](https://github.com/didaquis))
+- [@JayP718](https://github.com/JayP718)
+- [@SamyCookie](https://github.com/SamyCookie)
+- 涛之雨 ([@taozhiyu](https://github.com/taozhiyu))
+
 ## v11.0.1 (2022-12-12)
 
 #### :bug: Bug Fix
