@@ -75,7 +75,7 @@
     <h3 class="reference-title">
       Shepherd.js
          
-            11.0.1
+            11.1.1
           
     </h3>
 
@@ -229,6 +229,12 @@
       boolean
     </span>
 
+    |
+
+    <span class="param-type">
+      function
+    </span>
+
     
 
 
@@ -240,7 +246,8 @@
         
 
         <td class="description last">
-          <p>If true, will issue a <code>window.confirm</code> before cancelling</p>
+          <p>If true, will issue a <code>window.confirm</code> before cancelling.
+If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true</p>
           
         </td>
       </tr>
@@ -269,7 +276,7 @@
         
 
         <td class="description last">
-          <p>The message to display in the confirm dialog</p>
+          <p>The message to display in the <code>window.confirm</code> dialog</p>
           
         </td>
       </tr>
@@ -819,7 +826,7 @@ is added to the end of the array.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line89">line 89</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line90">line 90</a>
         </li>
       </ul>
     </dd>
@@ -971,7 +978,7 @@ is added to the end of the array.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line111">line 111</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line112">line 112</a>
         </li>
       </ul>
     </dd>
@@ -1062,7 +1069,7 @@ is added to the end of the array.</p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line124">line 124</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line125">line 125</a>
         </li>
       </ul>
     </dd>
@@ -1101,7 +1108,7 @@ is added to the end of the array.</p>
       </svg>
     </a>
     <h4 class="name" id="cancel">
-      <span class="type-signature"></span>cancel<span class="signature">()</span><span class="type-signature"></span>
+      <span class="type-signature">(async) </span>cancel<span class="signature">()</span><span class="type-signature"></span>
     </h4>
   </span>
 
@@ -1111,7 +1118,9 @@ is added to the end of the array.</p>
 
   <div class="description">
     <p>Calls _done() triggering the 'cancel' event
-If <code>confirmCancel</code> is true, will show a window.confirm before cancelling</p>
+If <code>confirmCancel</code> is true, will show a window.confirm before cancelling
+If <code>confirmCancel</code> is a function, will call it and wait for the return value,
+and only cancel when the value returned is true</p>
   </div>
 
 
@@ -1154,7 +1163,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line133">line 133</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line136">line 136</a>
         </li>
       </ul>
     </dd>
@@ -1245,7 +1254,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line150">line 150</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line157">line 157</a>
         </li>
       </ul>
     </dd>
@@ -1397,7 +1406,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line159">line 159</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line166">line 166</a>
         </li>
       </ul>
     </dd>
@@ -1488,7 +1497,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line169">line 169</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line176">line 176</a>
         </li>
       </ul>
     </dd>
@@ -1579,7 +1588,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line176">line 176</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line183">line 183</a>
         </li>
       </ul>
     </dd>
@@ -1670,7 +1679,7 @@ If <code>confirmCancel</code> is true, will show a window.confirm before cancell
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line188">line 188</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line195">line 195</a>
         </li>
       </ul>
     </dd>
@@ -1762,7 +1771,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line196">line 196</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line203">line 203</a>
         </li>
       </ul>
     </dd>
@@ -1908,7 +1917,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line210">line 210</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line217">line 217</a>
         </li>
       </ul>
     </dd>
@@ -2103,7 +2112,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line240">line 240</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line247">line 247</a>
         </li>
       </ul>
     </dd>
@@ -2194,7 +2203,7 @@ If we are at the end, call <code>complete</code></p>
     <dd class="tag-source">
       <ul class="dummy">
         <li>
-          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line267">line 267</a>
+          <a href="tour.js.html">tour.js</a>, <a href="tour.js.html#line274">line 274</a>
         </li>
       </ul>
     </dd>
@@ -2237,7 +2246,7 @@ If we are at the end, call <code>complete</code></p>
   <br class="clear">
 
   <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
   </footer>
 
   <script src="scripts/linenumber.js"></script>

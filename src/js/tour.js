@@ -20,8 +20,9 @@ const Shepherd = new Evented();
 export class Tour extends Evented {
   /**
    * @param {Object} options The options for the tour
-   * @param {boolean} options.confirmCancel If true, will issue a `window.confirm` before cancelling
-   * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
+   * @param {boolean | function(): boolean | Promise<boolean> | function(): Promise<boolean>} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
+   * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
+   * @param {string} options.confirmCancelMessage The message to display in the `window.confirm` dialog
    * @param {string} options.classPrefix The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
    * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
    * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
@@ -129,13 +130,19 @@ export class Tour extends Evented {
   /**
    * Calls _done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
+   * If `confirmCancel` is a function, will call it and wait for the return value,
+   * and only cancel when the value returned is true
    */
-  cancel() {
+  async cancel() {
     if (this.options.confirmCancel) {
+      const confirmCancelIsFunction =
+        typeof this.options.confirmCancel === 'function';
       const cancelMessage =
         this.options.confirmCancelMessage ||
         'Are you sure you want to stop the tour?';
-      const stopTour = window.confirm(cancelMessage);
+      const stopTour = confirmCancelIsFunction
+        ? await this.options.confirmCancel()
+        : window.confirm(cancelMessage);
       if (stopTour) {
         this._done('cancel');
       }

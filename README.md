@@ -107,6 +107,9 @@ Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplu
 
 The [Drupal](https://www.drupal.org/docs/8/core/modules/tour/overview) CMS uses Shepherd to offer tours of it's core modules, and allows developers to add Tours to their custom and contributed modules.
 
+### [Budibase Shepherd Tour Plugin](https://github.com/JayP718/tour_shepherd_bb_plugin)
+
+[Budibase](https://budibase.com/) is an open source application which allows you develop low code applications rapidly and efficiently.This [Budibase](https://budibase.com/) Shepherd tour plugin allows you to create interative walkthroughs for your application.
 
 
 ### Your Project Here

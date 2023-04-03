@@ -28,14 +28,14 @@ Similar results could be had by adding elements purely for the purpose of exposi
 
 ### Offsets
 
-By default, Popper instances are placed directly next to their target. However, if you need to apply some margin 
+By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin 
 between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.
 
 For example:
 
 ```js
 floatingUIOptions: {
-  middlewares: [offset({ mainAxis: 0, crossAxis: 12 })]
+  middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
 }
 ```
 

@@ -150,20 +150,11 @@ function floatingUIposition(step, shouldCenter) {
  */
 function placeArrow(el, middlewareData) {
   const arrowEl = el.querySelector('.shepherd-arrow');
-  if (arrowEl) {
-    let left, top, right, bottom;
-
-    if (middlewareData.arrow) {
-      const { x: arrowX, y: arrowY } = middlewareData.arrow;
-      left = arrowX != null ? `${arrowX}px` : '';
-      top = arrowY != null ? `${arrowY}px` : '';
-    }
-
+  if (arrowEl && middlewareData.arrow) {
+    const { x: arrowX, y: arrowY } = middlewareData.arrow;
     Object.assign(arrowEl.style, {
-      left,
-      top,
-      right,
-      bottom
+      left: arrowX != null ? `${arrowX}px` : '',
+      top: arrowY != null ? `${arrowY}px` : ''
     });
   }
 }
