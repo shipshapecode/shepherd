@@ -14,6 +14,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+## v11.1.1 (2023-04-03)
+
 ## v11.1.0 (2023-04-03)
 
 #### :rocket: Enhancement
