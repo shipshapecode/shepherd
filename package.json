@@ -53,7 +53,7 @@
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.27.0",
     "@babel/core": "^7.21.4",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-env": "^7.21.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/svelte": "^3.2.2",
     "autoprefixer": "^10.4.14",
