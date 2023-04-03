@@ -15,7 +15,7 @@
   },
   "funding": {
     "type": "individual",
-    "url": "https://github.com/sponsors/rwwagner90"
+    "url": "https://github.com/sponsors/RobbieTheWagner"
   },
   "license": "MIT",
   "main": "dist/js/shepherd.js",
@@ -111,7 +111,7 @@
     "tailwindcss": "^3.3.1"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "16.* || >= 18"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -121,7 +121,7 @@
     "Zack Bloom <zackbloom@gmail.com>"
   ],
   "maintainers": [
-    "Robert Wagner <rwwagner90@gmail.com>",
+    "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ]
 }
