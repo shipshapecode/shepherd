@@ -83,7 +83,7 @@
     "postcss": "^8.4.21",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.8.7",
-    "release-it": "^15.9.3",
+    "release-it": "^15.10.1",
     "release-it-lerna-changelog": "^5.0.0",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
