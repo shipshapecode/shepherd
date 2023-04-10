@@ -87,7 +87,7 @@
     "release-it-lerna-changelog": "^5.0.0",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "rollup": "^2.79.1",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-babel": "^4.4.0",
