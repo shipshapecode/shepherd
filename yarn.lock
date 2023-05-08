@@ -9206,10 +9206,10 @@ release-it-lerna-changelog@^5.0.0:
     validate-peer-dependencies "^2.0.0"
     which "^2.0.2"
 
-release-it@^15.10.2:
-  version "15.10.2"
-  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.10.2.tgz#d468bfbb844bf6fbf4c8412601d5a148beeacf9f"
-  integrity sha512-fm1MtEG6IFxMMmOhUzpw9FTx8k9Ln5iiM+bikjrg3oZ5JLJO1uR1yxloPqc4A2gIXUq+bQp8/g4wipOwgDmEcw==
+release-it@^15.10.3:
+  version "15.10.3"
+  resolved "https://registry.yarnpkg.com/release-it/-/release-it-15.10.3.tgz#9d0a832083c070958cdd0727d3053d45ea344e85"
+  integrity sha512-OSdHOg76gwkpLbSLBK09GZQj5XWXwBP+S6v//rSoQKkjqklaCLK04Gl5NkTwNrQOHHiihs4ToesDNh2+w55k3w==
   dependencies:
     "@iarna/toml" "2.2.5"
     "@octokit/rest" "19.0.7"
