@@ -10265,10 +10265,10 @@ svelte-preprocess@^5.0.3:
     sorcery "^0.11.0"
     strip-indent "^3.0.0"
 
-svelte@^3.59.0:
-  version "3.59.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.59.0.tgz#0d991cb1af5e4b61aad2021b004815aad05e7ee1"
-  integrity sha512-Di1wVPwdWriw5pSyInMRpr5EZmwrzKxtDKv5aXu8A/WDUi59Y5bIvl42eLef0x1vwz+ZtrjdnT8nXir2bDqR/A==
+svelte@^3.59.1:
+  version "3.59.1"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.59.1.tgz#3de3d56b9165748f32f3131589b8d183cabe7449"
+  integrity sha512-pKj8fEBmqf6mq3/NfrB9SLtcJcUvjYSWyePlfCqN9gujLB25RitWK8PvFzlwim6hD/We35KbPlRteuA6rnPGcQ==
 
 svgo@^2.7.0:
   version "2.8.0"
