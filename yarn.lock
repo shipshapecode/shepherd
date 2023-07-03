@@ -3625,10 +3625,10 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress@12.15.0:
-  version "12.15.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.15.0.tgz#06103529583c41f39712c6cfa6d9d09a01731760"
-  integrity sha512-FqGbxsH+QgjStuTO9onXMIeF44eOrgVwPvlcvuzLIaePQMkl72YgBvpuHlBGRcrw3Q4SvqKfajN8iV5XWShAiQ==
+cypress@12.16.0:
+  version "12.16.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.16.0.tgz#d0dcd0725a96497f4c60cf54742242259847924c"
+  integrity sha512-mwv1YNe48hm0LVaPgofEhGCtLwNIQEjmj2dJXnAkY1b4n/NE9OtgPph4TyS+tOtYp5CKtRmDvBzWseUXQTjbTg==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
