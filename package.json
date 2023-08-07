@@ -63,7 +63,7 @@
     "chai": "^4.3.7",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^6.0.1",
-    "cypress": "12.17.2",
+    "cypress": "12.17.3",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^7.0.0",
     "eslint": "^8.46.0",
