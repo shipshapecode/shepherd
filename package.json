@@ -60,7 +60,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^29.6.2",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "chai": "^4.3.7",
+    "chai": "^4.3.8",
     "codeclimate-test-reporter": "^0.5.1",
     "cssnano": "^6.0.1",
     "cypress": "12.17.4",
