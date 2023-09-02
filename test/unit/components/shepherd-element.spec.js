@@ -76,9 +76,18 @@ describe('components/ShepherdElement', () => {
     it('keyboardNavigation: true - arrow keys move between steps', async() => {
       const tour = new Tour();
       const step = new Step(tour, {});
+      let propagateValue = 0;
 
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
+
+      // Add a keystroke listener to a parent to test event propagation
+      document.body.addEventListener('keydown', (event) => {
+        // listen to ESC, KEY_RIGHT, KEY_LEFT
+        if ([27, 37, 39].includes(event.keyCode)) {
+          propagateValue += 1;
+        }
+      });
 
       expect(tourBackStub.called).toBe(false);
       expect(tourNextStub.called).toBe(false);
@@ -90,9 +99,13 @@ describe('components/ShepherdElement', () => {
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
       expect(tourNextStub.called).toBe(true);
+      // There should be no event propagation
+      expect(propagateValue).toBe(0);
 
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
       expect(tourBackStub.called).toBe(true);
+      // There should be no event propagation
+      expect(propagateValue).toBe(0);
 
       tourBackStub.restore();
       tourNextStub.restore();
@@ -101,9 +114,18 @@ describe('components/ShepherdElement', () => {
     it('keyboardNavigation: false - arrow keys do not move between steps', async() => {
       const tour = new Tour({ keyboardNavigation: false });
       const step = new Step(tour, {});
+      let propagateValue = 0;
 
       const tourBackStub = stub(tour, 'back');
       const tourNextStub = stub(tour, 'next');
+
+      // Add a keystroke listener to a parent to test event propagation
+      document.body.addEventListener('keydown', (event) => {
+        // listen to ESC, KEY_RIGHT, KEY_LEFT
+        if ([27, 37, 39].includes(event.keyCode)) {
+          propagateValue += 1;
+        }
+      });
 
       expect(tourBackStub.called).toBe(false);
       expect(tourNextStub.called).toBe(false);
@@ -115,9 +137,13 @@ describe('components/ShepherdElement', () => {
       });
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 39 });
       expect(tourNextStub.called).toBe(false);
+      // There should be event propagation
+      expect(propagateValue).toBe(1);
 
       fireEvent.keyDown(container.querySelector('.shepherd-element'), { keyCode: 37 });
       expect(tourBackStub.called).toBe(false);
+      // There should be another event propagation
+      expect(propagateValue).toBe(2);
 
       tourBackStub.restore();
       tourNextStub.restore();

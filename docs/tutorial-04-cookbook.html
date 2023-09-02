@@ -75,7 +75,7 @@
     <h3 class="reference-title">
       Shepherd.js
          
-            11.1.1
+            11.2.0
           
     </h3>
 
@@ -131,9 +131,19 @@ starting the tour, then <code>bodyScrollLock.clearAllBodyScrollLocks();</code> a
 <p>By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
 between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.</p>
 <p>For example:</p>
-<pre class="prettyprint source lang-js"><code>floatingUIOptions: {
-  middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
-}
+<pre class="prettyprint source lang-js"><code>import { offset } from '@floating-ui/dom';
+
+const tour = new Shepherd.Tour({
+  steps: [
+    {
+      ...
+      floatingUIOptions: {
+        middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
+      }
+      ...
+    }  
+  ]
+});
 </code></pre>
 <h3>Progress Indicator</h3>
 <p>Using the already exposed API, you could add a progress indicator of your choosing

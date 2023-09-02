@@ -14,6 +14,15 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+## v11.2.0 (2023-09-02)
+
+#### :rocket: Enhancement
+* [#2399](https://github.com/shipshapecode/shepherd/pull/2399) Prevent ESC, KEY_RIGHT, KEY_LEFT propagation when keyboardNav is enabled ([@karendolan](https://github.com/karendolan))
+
+#### Committers: 1
+- Karen Dolan ([@karendolan](https://github.com/karendolan))
+
 ## v11.1.1 (2023-04-03)
 
 ## v11.1.0 (2023-04-03)
