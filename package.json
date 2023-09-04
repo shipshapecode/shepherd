@@ -93,7 +93,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-filesize": "^10.0.0",
-    "rollup-plugin-license": "^3.0.1",
+    "rollup-plugin-license": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
