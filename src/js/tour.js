@@ -315,7 +315,7 @@ export class Tour extends Evented {
 
         if (modalContainer) {
           modalContainer.remove();
-          this.modal = null
+          this.modal = null;
         }
       }
     }
