@@ -405,7 +405,7 @@ export class Step extends Evented {
     }
 
     if (Shepherd.activeTour !== this.tour) {
-      this.tour._setupActiveTour()
+      this.tour._setupActiveTour();
     }
 
     this.tour.modal.setupForStep(this);
