@@ -138,6 +138,7 @@ You can also pass an existing `Step` instance rather than `options`, but note th
 - `next()`: Advance to the next step, in the order they were added
 - `back()`: Show the previous step, in the order they were added
 - `cancel()`: Trigger cancel on the current step, hiding it without advancing
+- `complete()`: Calls _done() triggering the `complete` event
 - `hide()`: Hide the current step
 - `show([id])`: Show the step specified by id (if it's a string), or index (if it's a number) provided.  Defaults to the first step.
 - `start()`: Show the first step and begin the tour
