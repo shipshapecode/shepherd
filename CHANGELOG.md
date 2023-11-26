@@ -13,14 +13,47 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 
 
+
+
+## v11.2.0 (2023-09-02)
+
+#### :rocket: Enhancement
+* [#2399](https://github.com/shipshapecode/shepherd/pull/2399) Prevent ESC, KEY_RIGHT, KEY_LEFT propagation when keyboardNav is enabled ([@karendolan](https://github.com/karendolan))
+
+#### Committers: 1
+- Karen Dolan ([@karendolan](https://github.com/karendolan))
+
+## v11.1.1 (2023-04-03)
+
+## v11.1.0 (2023-04-03)
+
+#### :rocket: Enhancement
+* [#2168](https://github.com/shipshapecode/shepherd/pull/2168) add funtion support for confirmCancel ([@taozhiyu](https://github.com/taozhiyu))
+
+#### :bug: Bug Fix
+* [#2204](https://github.com/shipshapecode/shepherd/pull/2204) Bugfix: prevent to show spurious warnings in dev panel console ([@SamyCookie](https://github.com/SamyCookie))
+
+#### :memo: Documentation
+* [#2251](https://github.com/shipshapecode/shepherd/pull/2251) Use a valid event on code example ([@didaquis](https://github.com/didaquis))
+* [#2224](https://github.com/shipshapecode/shepherd/pull/2224) Remove mention to Popper on docs ([@didaquis](https://github.com/didaquis))
+* [#2205](https://github.com/shipshapecode/shepherd/pull/2205) Fix the typo in docs ([@de-don](https://github.com/de-don))
+* [#2174](https://github.com/shipshapecode/shepherd/pull/2174) Adding an example use case of shepherd to Read Me ([@JayP718](https://github.com/JayP718))
+
+#### Committers: 5
+- Denis ([@de-don](https://github.com/de-don))
+- Dídac García ([@didaquis](https://github.com/didaquis))
+- [@JayP718](https://github.com/JayP718)
+- [@SamyCookie](https://github.com/SamyCookie)
+- 涛之雨 ([@taozhiyu](https://github.com/taozhiyu))
+
 ## v11.0.1 (2022-12-12)
 
 #### :bug: Bug Fix
-* [#2183](https://github.com/shipshapecode/shepherd/pull/2183) Fix centering steps with no attachTo.on ([@rwwagner90](https://github.com/rwwagner90))
-* [#2182](https://github.com/shipshapecode/shepherd/pull/2182) Fix arrow offset, add back flipping behavior ([@rwwagner90](https://github.com/rwwagner90))
+* [#2183](https://github.com/shipshapecode/shepherd/pull/2183) Fix centering steps with no attachTo.on ([@rwwagner90](https://github.com/RobbieTheWagner))
+* [#2182](https://github.com/shipshapecode/shepherd/pull/2182) Fix arrow offset, add back flipping behavior ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### Committers: 1
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 ## v11.0.0 (2022-11-21)
 
@@ -39,7 +72,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 * [#2022](https://github.com/shipshapecode/shepherd/pull/2022) remove all mentions of data-shepherd-active-tour ([@EmNicholson93](https://github.com/EmNicholson93))
 
 #### :house: Internal
-* [#2157](https://github.com/shipshapecode/shepherd/pull/2157) Remove firefox tests ([@rwwagner90](https://github.com/rwwagner90))
+* [#2157](https://github.com/shipshapecode/shepherd/pull/2157) Remove firefox tests ([@rwwagner90](https://github.com/RobbieTheWagner))
 * [#2047](https://github.com/shipshapecode/shepherd/pull/2047) chore: make yarn lint:js pass ([@theodoreb](https://github.com/theodoreb))
 * [#2046](https://github.com/shipshapecode/shepherd/pull/2046) Fix calls to setTimeout in tests ([@theodoreb](https://github.com/theodoreb))
 
@@ -47,7 +80,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 - Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
 - Eli Nicholson ([@EmNicholson93](https://github.com/EmNicholson93))
 - Martin Havlišta ([@xhafan](https://github.com/xhafan))
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - Simone Busoli ([@simoneb](https://github.com/simoneb))
 - Théodore Biadala ([@theodoreb](https://github.com/theodoreb))
 
@@ -94,7 +127,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 ## v9.0.0 (2022-01-11)
 
 #### :boom: Breaking Change
-* [#1682](https://github.com/shipshapecode/shepherd/pull/1682) Drop node 10 support ([@rwwagner90](https://github.com/rwwagner90))
+* [#1682](https://github.com/shipshapecode/shepherd/pull/1682) Drop node 10 support ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### :rocket: Enhancement
 * [#1758](https://github.com/shipshapecode/shepherd/pull/1758) Fix type signature for `Evented.off()` ([@ulken](https://github.com/ulken))
@@ -110,8 +143,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 * [#1623](https://github.com/shipshapecode/shepherd/pull/1623) Add another progress indicator cookbook example ([@aripddev](https://github.com/aripddev))
 
 #### :house: Internal
-* [#1520](https://github.com/shipshapecode/shepherd/pull/1520) Update config for tailwind 2 ([@rwwagner90](https://github.com/rwwagner90))
-* [#1462](https://github.com/shipshapecode/shepherd/pull/1462) Add automerge back to dependabot ([@rwwagner90](https://github.com/rwwagner90))
+* [#1520](https://github.com/shipshapecode/shepherd/pull/1520) Update config for tailwind 2 ([@rwwagner90](https://github.com/RobbieTheWagner))
+* [#1462](https://github.com/shipshapecode/shepherd/pull/1462) Add automerge back to dependabot ([@rwwagner90](https://github.com/RobbieTheWagner))
 * [#1447](https://github.com/shipshapecode/shepherd/pull/1447) Add catalog-info.yaml config file ([@chuckcarpenter](https://github.com/chuckcarpenter))
 
 #### Committers: 8
@@ -119,7 +152,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 - Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
 - Jim Birch ([@thejimbirch](https://github.com/thejimbirch))
 - Oskar Löfgren ([@ulken](https://github.com/ulken))
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - Rodrigo Lima ([@rodrigoaraujolima92trulogic](https://github.com/rodrigoaraujolima92trulogic))
 - [@thomasguittonneau](https://github.com/thomasguittonneau)
 - aripddev ([@aripddev](https://github.com/aripddev))
@@ -136,19 +169,19 @@ https://github.com/highlightjs/highlight.js/issues/2877
 ## v8.3.0 (2021-04-06)
 
 #### :house: Internal
-* [#1402](https://github.com/shipshapecode/shepherd/pull/1402) Update rollup-plugin-postcss ([@rwwagner90](https://github.com/rwwagner90))
+* [#1402](https://github.com/shipshapecode/shepherd/pull/1402) Update rollup-plugin-postcss ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### Committers: 2
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
 
 ## v8.2.3 (2021-03-25)
 
 #### :house: Internal
-* [#1379](https://github.com/shipshapecode/shepherd/pull/1379) Update npmignore, add assets to release ([@rwwagner90](https://github.com/rwwagner90))
+* [#1379](https://github.com/shipshapecode/shepherd/pull/1379) Update npmignore, add assets to release ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### Committers: 1
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 ## v8.2.1 (2021-03-24)
 
@@ -171,7 +204,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 * [#1199](https://github.com/shipshapecode/shepherd/pull/1199) Add snapsure to Websites and Apps list in README.md ([@kkoppenhaver](https://github.com/kkoppenhaver))
 
 #### :house: Internal
-* [#1351](https://github.com/shipshapecode/shepherd/pull/1351) Bump cypress, fix cancel test ([@rwwagner90](https://github.com/rwwagner90))
+* [#1351](https://github.com/shipshapecode/shepherd/pull/1351) Bump cypress, fix cancel test ([@rwwagner90](https://github.com/RobbieTheWagner))
 * [#1316](https://github.com/shipshapecode/shepherd/pull/1316) Remove browsersync, add rollup-serve ([@xiwcx](https://github.com/xiwcx))
 * [#1262](https://github.com/shipshapecode/shepherd/pull/1262) 👷 Move CI/CD to actions ([@chuckcarpenter](https://github.com/chuckcarpenter))
 
@@ -179,7 +212,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 - Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
 - Filip Rec ([@zefj](https://github.com/zefj))
 - Keanan Koppenhaver ([@kkoppenhaver](https://github.com/kkoppenhaver))
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
 - fossabot ([@fossabot](https://github.com/fossabot))
 - i. welch canavan ([@xiwcx](https://github.com/xiwcx))
@@ -221,14 +254,14 @@ https://github.com/highlightjs/highlight.js/issues/2877
 * [#995](https://github.com/shipshapecode/shepherd/pull/995) Added the correct this context to StepOption 'when' functions ([@WORMSS](https://github.com/WORMSS))
 
 #### :bug: Bug Fix
-* [#1039](https://github.com/shipshapecode/shepherd/pull/1039) Use isElement fot svg scrollIntoView support ([@rwwagner90](https://github.com/rwwagner90))
+* [#1039](https://github.com/shipshapecode/shepherd/pull/1039) Use isElement fot svg scrollIntoView support ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### :house: Internal
 * [#1040](https://github.com/shipshapecode/shepherd/pull/1040) Add secondary property on StepOptionsButton ([@linsolas](https://github.com/linsolas))
-* [#1006](https://github.com/shipshapecode/shepherd/pull/1006) Switch to svelte-jester, test with node 12 ([@rwwagner90](https://github.com/rwwagner90))
+* [#1006](https://github.com/shipshapecode/shepherd/pull/1006) Switch to svelte-jester, test with node 12 ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### Committers: 5
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - Romain Linsolas ([@linsolas](https://github.com/linsolas))
 - WORMSS ([@WORMSS](https://github.com/WORMSS))
 - [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
@@ -239,20 +272,20 @@ https://github.com/highlightjs/highlight.js/issues/2877
 ## v8.0.0 (2020-05-25)
 
 #### :boom: Breaking Change
-* [#982](https://github.com/shipshapecode/shepherd/pull/982) Officially drop IE 11 and remove from browserslist ([@rwwagner90](https://github.com/rwwagner90))
+* [#982](https://github.com/shipshapecode/shepherd/pull/982) Officially drop IE 11 and remove from browserslist ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### :bug: Bug Fix
-* [#979](https://github.com/shipshapecode/shepherd/pull/979) Require attachTo.on to show arrow ([@rwwagner90](https://github.com/rwwagner90))
+* [#979](https://github.com/shipshapecode/shepherd/pull/979) Require attachTo.on to show arrow ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### :memo: Documentation
 * [#967](https://github.com/shipshapecode/shepherd/pull/967) 📝 Add cookbook item for multi item highlighting ([@chuckcarpenter](https://github.com/chuckcarpenter))
 
 #### :house: Internal
-* [#981](https://github.com/shipshapecode/shepherd/pull/981) Remove eslint from rollup, tweak tailwind ([@rwwagner90](https://github.com/rwwagner90))
+* [#981](https://github.com/shipshapecode/shepherd/pull/981) Remove eslint from rollup, tweak tailwind ([@rwwagner90](https://github.com/RobbieTheWagner))
 
 #### Committers: 3
 - Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
-- Robert Wagner ([@rwwagner90](https://github.com/rwwagner90))
+- Robert Wagner ([@rwwagner90](https://github.com/RobbieTheWagner))
 - [@dependabot-preview[bot]](https://github.com/apps/dependabot-preview)
 
 # Changelog
@@ -263,7 +296,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Fixed bugs:**
 
-- Fix bug when modifiers was not defined [\#811](https://github.com/shipshapecode/shepherd/pull/811) ([rwwagner90](https://github.com/rwwagner90))
+- Fix bug when modifiers was not defined [\#811](https://github.com/shipshapecode/shepherd/pull/811) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -279,7 +312,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Breaking changes:**
 
-- \[WIP\] Popper v2 [\#752](https://github.com/shipshapecode/shepherd/pull/752) ([rwwagner90](https://github.com/rwwagner90))
+- \[WIP\] Popper v2 [\#752](https://github.com/shipshapecode/shepherd/pull/752) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Implemented enhancements:**
 
@@ -316,28 +349,28 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Breaking changes:**
 
-- Remove style vendor prefixing [\#519](https://github.com/shipshapecode/shepherd/pull/519) ([rwwagner90](https://github.com/rwwagner90))
-- showCancelLink -\> cancelIcon [\#518](https://github.com/shipshapecode/shepherd/pull/518) ([rwwagner90](https://github.com/rwwagner90))
-- Remove link styles [\#509](https://github.com/shipshapecode/shepherd/pull/509) ([rwwagner90](https://github.com/rwwagner90))
-- Remove Shepherd.Evented [\#506](https://github.com/shipshapecode/shepherd/pull/506) ([rwwagner90](https://github.com/rwwagner90))
+- Remove style vendor prefixing [\#519](https://github.com/shipshapecode/shepherd/pull/519) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- showCancelLink -\> cancelIcon [\#518](https://github.com/shipshapecode/shepherd/pull/518) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove link styles [\#509](https://github.com/shipshapecode/shepherd/pull/509) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove Shepherd.Evented [\#506](https://github.com/shipshapecode/shepherd/pull/506) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Implemented enhancements:**
 
 - Vue wrapper [\#333](https://github.com/shipshapecode/shepherd/issues/333)
-- Add includeStyles option [\#526](https://github.com/shipshapecode/shepherd/pull/526) ([rwwagner90](https://github.com/rwwagner90))
-- Tie modal z-index to shepherdElementZIndex [\#523](https://github.com/shipshapecode/shepherd/pull/523) ([rwwagner90](https://github.com/rwwagner90))
-- Add disableScroll to types [\#522](https://github.com/shipshapecode/shepherd/pull/522) ([rwwagner90](https://github.com/rwwagner90))
+- Add includeStyles option [\#526](https://github.com/shipshapecode/shepherd/pull/526) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Tie modal z-index to shepherdElementZIndex [\#523](https://github.com/shipshapecode/shepherd/pull/523) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add disableScroll to types [\#522](https://github.com/shipshapecode/shepherd/pull/522) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Types don't support activeTour or Evented properties. [\#504](https://github.com/shipshapecode/shepherd/issues/504)
 - Remove object-assign-deep, refactor setting popper options [\#516](https://github.com/shipshapecode/shepherd/pull/516) ([genadis](https://github.com/genadis))
-- Use requestAnimationFrame to position modal opening [\#514](https://github.com/shipshapecode/shepherd/pull/514) ([rwwagner90](https://github.com/rwwagner90))
-- Add overlayOpacity to styleVariables options [\#512](https://github.com/shipshapecode/shepherd/pull/512) ([rwwagner90](https://github.com/rwwagner90))
-- Add keyboardNav and exitOnEsc options [\#508](https://github.com/shipshapecode/shepherd/pull/508) ([rwwagner90](https://github.com/rwwagner90))
-- Move activeTour to namespace [\#507](https://github.com/shipshapecode/shepherd/pull/507) ([rwwagner90](https://github.com/rwwagner90))
+- Use requestAnimationFrame to position modal opening [\#514](https://github.com/shipshapecode/shepherd/pull/514) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add overlayOpacity to styleVariables options [\#512](https://github.com/shipshapecode/shepherd/pull/512) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add keyboardNav and exitOnEsc options [\#508](https://github.com/shipshapecode/shepherd/pull/508) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Move activeTour to namespace [\#507](https://github.com/shipshapecode/shepherd/pull/507) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
 - advanceOn click doesn't work on nested elements [\#511](https://github.com/shipshapecode/shepherd/issues/511)
-- Use currentTarget for advanceOn [\#513](https://github.com/shipshapecode/shepherd/pull/513) ([rwwagner90](https://github.com/rwwagner90))
+- Use currentTarget for advanceOn [\#513](https://github.com/shipshapecode/shepherd/pull/513) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -360,7 +393,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Wrong type definition for scrollTo [\#490](https://github.com/shipshapecode/shepherd/issues/490)
-- Fade in modal overlay [\#496](https://github.com/shipshapecode/shepherd/pull/496) ([rwwagner90](https://github.com/rwwagner90))
+- Fade in modal overlay [\#496](https://github.com/shipshapecode/shepherd/pull/496) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Fix for the wrong type definition of StepOptions.scrollTo [\#494](https://github.com/shipshapecode/shepherd/pull/494) ([moxival](https://github.com/moxival))
 
 ## [v4.5.0](https://github.com/shipshapecode/shepherd/tree/v4.5.0) (2019-08-09)
@@ -370,7 +403,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Fixed bugs:**
 
 - Passing 'HTMLElement' to tour.addStep{ text: ... } doesn't work anymore [\#492](https://github.com/shipshapecode/shepherd/issues/492)
-- Support passing elements for text [\#493](https://github.com/shipshapecode/shepherd/pull/493) ([rwwagner90](https://github.com/rwwagner90))
+- Support passing elements for text [\#493](https://github.com/shipshapecode/shepherd/pull/493) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.4.1](https://github.com/shipshapecode/shepherd/tree/v4.4.1) (2019-08-07)
 
@@ -379,7 +412,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Fixed bugs:**
 
 - ShepherdClass missing after adding modifiers of popper [\#486](https://github.com/shipshapecode/shepherd/issues/486)
-- Use objectAssignDeep to deeply merge tippyOptions [\#488](https://github.com/shipshapecode/shepherd/pull/488) ([rwwagner90](https://github.com/rwwagner90))
+- Use objectAssignDeep to deeply merge tippyOptions [\#488](https://github.com/shipshapecode/shepherd/pull/488) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.4.0](https://github.com/shipshapecode/shepherd/tree/v4.4.0) (2019-08-05)
 
@@ -387,7 +420,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Add addSteps method and allow passing steps to tour constructor [\#485](https://github.com/shipshapecode/shepherd/pull/485) ([rwwagner90](https://github.com/rwwagner90))
+- Add addSteps method and allow passing steps to tour constructor [\#485](https://github.com/shipshapecode/shepherd/pull/485) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -400,7 +433,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - styleVariables missing in 'TourOptions' declaration and beforeShowStep not implemented [\#483](https://github.com/shipshapecode/shepherd/issues/483)
-- Fix some types and docs [\#484](https://github.com/shipshapecode/shepherd/pull/484) ([rwwagner90](https://github.com/rwwagner90))
+- Fix some types and docs [\#484](https://github.com/shipshapecode/shepherd/pull/484) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.3.3](https://github.com/shipshapecode/shepherd/tree/v4.3.3) (2019-08-02)
 
@@ -408,7 +441,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Fix some TypeScript issues [\#482](https://github.com/shipshapecode/shepherd/pull/482) ([rwwagner90](https://github.com/rwwagner90))
+- Fix some TypeScript issues [\#482](https://github.com/shipshapecode/shepherd/pull/482) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.3.2](https://github.com/shipshapecode/shepherd/tree/v4.3.2) (2019-08-02)
 
@@ -416,7 +449,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Add confirmCancel and confirmCancelMessage to types [\#480](https://github.com/shipshapecode/shepherd/pull/480) ([rwwagner90](https://github.com/rwwagner90))
+- Add confirmCancel and confirmCancelMessage to types [\#480](https://github.com/shipshapecode/shepherd/pull/480) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.3.1](https://github.com/shipshapecode/shepherd/tree/v4.3.1) (2019-08-02)
 
@@ -425,7 +458,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Closing the tour should move the focus back to the element that opened it [\#473](https://github.com/shipshapecode/shepherd/issues/473)
-- Return focus after closing the tour [\#479](https://github.com/shipshapecode/shepherd/pull/479) ([rwwagner90](https://github.com/rwwagner90))
+- Return focus after closing the tour [\#479](https://github.com/shipshapecode/shepherd/pull/479) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Merged pull requests:**
 
@@ -452,7 +485,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Accessibility support [\#198](https://github.com/shipshapecode/shepherd/issues/198)
-- Remove shepherdElementWidth option [\#471](https://github.com/shipshapecode/shepherd/pull/471) ([rwwagner90](https://github.com/rwwagner90))
+- Remove shepherdElementWidth option [\#471](https://github.com/shipshapecode/shepherd/pull/471) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v4.1.0](https://github.com/shipshapecode/shepherd/tree/v4.1.0) (2019-07-30)
 
@@ -460,7 +493,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Make cancel link more accessible [\#469](https://github.com/shipshapecode/shepherd/pull/469) ([rwwagner90](https://github.com/rwwagner90))
+- Make cancel link more accessible [\#469](https://github.com/shipshapecode/shepherd/pull/469) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - switched to default export in TS typing [\#468](https://github.com/shipshapecode/shepherd/pull/468) ([grycmat](https://github.com/grycmat))
 
 ## [v4.0.0](https://github.com/shipshapecode/shepherd/tree/v4.0.0) (2019-07-29)
@@ -469,17 +502,17 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Breaking changes:**
 
-- Switch modals from ids to classes and prefix them [\#466](https://github.com/shipshapecode/shepherd/pull/466) ([rwwagner90](https://github.com/rwwagner90))
-- Simplify addStep API [\#464](https://github.com/shipshapecode/shepherd/pull/464) ([rwwagner90](https://github.com/rwwagner90))
-- Remove predefined themes [\#462](https://github.com/shipshapecode/shepherd/pull/462) ([rwwagner90](https://github.com/rwwagner90))
-- Switch to CSSinJS [\#450](https://github.com/shipshapecode/shepherd/pull/450) ([rwwagner90](https://github.com/rwwagner90))
-- Use autoBind, pass context rather than manually binding [\#440](https://github.com/shipshapecode/shepherd/pull/440) ([rwwagner90](https://github.com/rwwagner90))
-- Remove array support for `step.options.text` [\#429](https://github.com/shipshapecode/shepherd/pull/429) ([rwwagner90](https://github.com/rwwagner90))
-- .shepherd-popper -\> .shepherd, move .shepherd-has-title [\#422](https://github.com/shipshapecode/shepherd/pull/422) ([rwwagner90](https://github.com/rwwagner90))
-- Tippy v5 [\#420](https://github.com/shipshapecode/shepherd/pull/420) ([rwwagner90](https://github.com/rwwagner90))
-- Remove remaining lodash, IE 11+ [\#419](https://github.com/shipshapecode/shepherd/pull/419) ([rwwagner90](https://github.com/rwwagner90))
-- Remove the string option for `advanceOn` in favor of object [\#418](https://github.com/shipshapecode/shepherd/pull/418) ([rwwagner90](https://github.com/rwwagner90))
-- Remove string option for `attachTo` in favor of object [\#417](https://github.com/shipshapecode/shepherd/pull/417) ([rwwagner90](https://github.com/rwwagner90))
+- Switch modals from ids to classes and prefix them [\#466](https://github.com/shipshapecode/shepherd/pull/466) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Simplify addStep API [\#464](https://github.com/shipshapecode/shepherd/pull/464) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove predefined themes [\#462](https://github.com/shipshapecode/shepherd/pull/462) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Switch to CSSinJS [\#450](https://github.com/shipshapecode/shepherd/pull/450) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Use autoBind, pass context rather than manually binding [\#440](https://github.com/shipshapecode/shepherd/pull/440) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove array support for `step.options.text` [\#429](https://github.com/shipshapecode/shepherd/pull/429) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- .shepherd-popper -\> .shepherd, move .shepherd-has-title [\#422](https://github.com/shipshapecode/shepherd/pull/422) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Tippy v5 [\#420](https://github.com/shipshapecode/shepherd/pull/420) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove remaining lodash, IE 11+ [\#419](https://github.com/shipshapecode/shepherd/pull/419) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove the string option for `advanceOn` in favor of object [\#418](https://github.com/shipshapecode/shepherd/pull/418) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove string option for `attachTo` in favor of object [\#417](https://github.com/shipshapecode/shepherd/pull/417) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -487,22 +520,22 @@ https://github.com/highlightjs/highlight.js/issues/2877
 - Modal mask opening shows back up on scroll [\#444](https://github.com/shipshapecode/shepherd/issues/444)
 - IE11 support is broken [\#437](https://github.com/shipshapecode/shepherd/issues/437)
 - Incorrect path to typings files in package.json [\#435](https://github.com/shipshapecode/shepherd/issues/435)
-- Start fixing IE11 support [\#438](https://github.com/shipshapecode/shepherd/pull/438) ([rwwagner90](https://github.com/rwwagner90))
+- Start fixing IE11 support [\#438](https://github.com/shipshapecode/shepherd/pull/438) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - fix for incorrect types path in package.json [\#434](https://github.com/shipshapecode/shepherd/pull/434) ([cmcnicholas](https://github.com/cmcnicholas))
 - Arrow navigation skips steps if you do back then next [\#423](https://github.com/shipshapecode/shepherd/issues/423)
-- Only add keydown listeners once [\#424](https://github.com/shipshapecode/shepherd/pull/424) ([rwwagner90](https://github.com/rwwagner90))
+- Only add keydown listeners once [\#424](https://github.com/shipshapecode/shepherd/pull/424) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - useModalOverlay does not play well with multiple instances on the page [\#370](https://github.com/shipshapecode/shepherd/issues/370)
 
 **Implemented enhancements:**
 
-- Make build smaller, while still supporting IE11 [\#467](https://github.com/shipshapecode/shepherd/pull/467) ([rwwagner90](https://github.com/rwwagner90))
-- Convert to Preact components [\#458](https://github.com/shipshapecode/shepherd/pull/458) ([rwwagner90](https://github.com/rwwagner90))
-- Add first class support for secondary button [\#457](https://github.com/shipshapecode/shepherd/pull/457) ([rwwagner90](https://github.com/rwwagner90))
+- Make build smaller, while still supporting IE11 [\#467](https://github.com/shipshapecode/shepherd/pull/467) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Convert to Preact components [\#458](https://github.com/shipshapecode/shepherd/pull/458) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add first class support for secondary button [\#457](https://github.com/shipshapecode/shepherd/pull/457) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Prefixes fixes [\#453](https://github.com/shipshapecode/shepherd/pull/453) ([genadis](https://github.com/genadis))
-- Add prefix to data attributes [\#452](https://github.com/shipshapecode/shepherd/pull/452) ([rwwagner90](https://github.com/rwwagner90))
-- Import ES5 bodyScrollLock, use babel-transform-runtime [\#447](https://github.com/shipshapecode/shepherd/pull/447) ([rwwagner90](https://github.com/rwwagner90))
-- Remove drop util [\#436](https://github.com/shipshapecode/shepherd/pull/436) ([rwwagner90](https://github.com/rwwagner90))
-- Cleanup public/private API [\#430](https://github.com/shipshapecode/shepherd/pull/430) ([rwwagner90](https://github.com/rwwagner90))
+- Add prefix to data attributes [\#452](https://github.com/shipshapecode/shepherd/pull/452) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Import ES5 bodyScrollLock, use babel-transform-runtime [\#447](https://github.com/shipshapecode/shepherd/pull/447) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Remove drop util [\#436](https://github.com/shipshapecode/shepherd/pull/436) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Cleanup public/private API [\#430](https://github.com/shipshapecode/shepherd/pull/430) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -513,11 +546,11 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Document canClickTarget [\#465](https://github.com/shipshapecode/shepherd/pull/465) ([rwwagner90](https://github.com/rwwagner90))
+- Document canClickTarget [\#465](https://github.com/shipshapecode/shepherd/pull/465) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Add index to 'show' and 'cancel' events [\#454](https://github.com/shipshapecode/shepherd/pull/454) ([genadis](https://github.com/genadis))
-- Remove Eager [\#451](https://github.com/shipshapecode/shepherd/pull/451) ([rwwagner90](https://github.com/rwwagner90))
-- Add StackShare badge [\#446](https://github.com/shipshapecode/shepherd/pull/446) ([rwwagner90](https://github.com/rwwagner90))
-- Transpile auto-bind [\#441](https://github.com/shipshapecode/shepherd/pull/441) ([rwwagner90](https://github.com/rwwagner90)
+- Remove Eager [\#451](https://github.com/shipshapecode/shepherd/pull/451) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add StackShare badge [\#446](https://github.com/shipshapecode/shepherd/pull/446) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Transpile auto-bind [\#441](https://github.com/shipshapecode/shepherd/pull/441) ([RobbieTheWagner](https://github.com/RobbieTheWagner)
 - Update del to the latest version 🚀 [\#425](https://github.com/shipshapecode/shepherd/pull/425) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v3.1.0](https://github.com/shipshapecode/shepherd/tree/v3.1.0) (2019-06-25)
@@ -526,8 +559,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Fixed bugs:**
 
-- Fix jumpy disableScroll [\#416](https://github.com/shipshapecode/shepherd/pull/416) ([rwwagner90](https://github.com/rwwagner90))
-- Reuse existing modal overlay [\#414](https://github.com/shipshapecode/shepherd/pull/414) ([rwwagner90](https://github.com/rwwagner90))
+- Fix jumpy disableScroll [\#416](https://github.com/shipshapecode/shepherd/pull/416) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Reuse existing modal overlay [\#414](https://github.com/shipshapecode/shepherd/pull/414) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Merged pull requests:**
 
@@ -539,22 +572,22 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Breaking changes:**
 
-- Remove ul, li button wrapper [\#409](https://github.com/shipshapecode/shepherd/pull/409) ([rwwagner90](https://github.com/rwwagner90))
+- Remove ul, li button wrapper [\#409](https://github.com/shipshapecode/shepherd/pull/409) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Implemented enhancements:**
 
 - Support to keyboard navigation [\#406](https://github.com/shipshapecode/shepherd/issues/406)
 - Feature request --- Add Typescript Typings [\#359](https://github.com/shipshapecode/shepherd/issues/359)
-- Add `disableScroll` option [\#413](https://github.com/shipshapecode/shepherd/pull/413) ([rwwagner90](https://github.com/rwwagner90))
-- Add aria-describedby and aria-labeledby [\#411](https://github.com/shipshapecode/shepherd/pull/411) ([rwwagner90](https://github.com/rwwagner90))
-- Arrow nav [\#410](https://github.com/shipshapecode/shepherd/pull/410) ([rwwagner90](https://github.com/rwwagner90))
-- Add focus trap, to disallow tabbing outside the modal [\#408](https://github.com/shipshapecode/shepherd/pull/408) ([rwwagner90](https://github.com/rwwagner90))
-- Support close with ESC, focus tooltip on `show` [\#407](https://github.com/shipshapecode/shepherd/pull/407) ([rwwagner90](https://github.com/rwwagner90))
+- Add `disableScroll` option [\#413](https://github.com/shipshapecode/shepherd/pull/413) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add aria-describedby and aria-labeledby [\#411](https://github.com/shipshapecode/shepherd/pull/411) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Arrow nav [\#410](https://github.com/shipshapecode/shepherd/pull/410) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add focus trap, to disallow tabbing outside the modal [\#408](https://github.com/shipshapecode/shepherd/pull/408) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Support close with ESC, focus tooltip on `show` [\#407](https://github.com/shipshapecode/shepherd/pull/407) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Merged pull requests:**
 
 - Update eslint to the latest version 🚀 [\#412](https://github.com/shipshapecode/shepherd/pull/412) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-- Greenkeeper/rollup plugin visualizer 2.1.1 [\#404](https://github.com/shipshapecode/shepherd/pull/404) ([rwwagner90](https://github.com/rwwagner90))
+- Greenkeeper/rollup plugin visualizer 2.1.1 [\#404](https://github.com/shipshapecode/shepherd/pull/404) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.10.0](https://github.com/shipshapecode/shepherd/tree/v2.10.0) (2019-06-13)
 
@@ -562,13 +595,13 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Add scrollIntoView options and polyfill [\#402](https://github.com/shipshapecode/shepherd/pull/402) ([rwwagner90](https://github.com/rwwagner90))
+- Add scrollIntoView options and polyfill [\#402](https://github.com/shipshapecode/shepherd/pull/402) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Add TypeScript definitions [\#360](https://github.com/shipshapecode/shepherd/pull/360) ([superheri](https://github.com/superheri))
 
 **Fixed bugs:**
 
 - "TypeError: Property 'handleEvent' is not callable." in Firefox [\#393](https://github.com/shipshapecode/shepherd/issues/393)
-- Remove addStepEventListeners call [\#396](https://github.com/shipshapecode/shepherd/pull/396) ([rwwagner90](https://github.com/rwwagner90))
+- Remove addStepEventListeners call [\#396](https://github.com/shipshapecode/shepherd/pull/396) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -586,8 +619,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Tippy 4.3.4, bump deps, fix lint [\#395](https://github.com/shipshapecode/shepherd/pull/395) ([rwwagner90](https://github.com/rwwagner90))
-- Fix modal padding test failures, add tests, docs [\#390](https://github.com/shipshapecode/shepherd/pull/390) ([rwwagner90](https://github.com/rwwagner90))
+- Tippy 4.3.4, bump deps, fix lint [\#395](https://github.com/shipshapecode/shepherd/pull/395) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Fix modal padding test failures, add tests, docs [\#390](https://github.com/shipshapecode/shepherd/pull/390) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -608,12 +641,12 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Add back IE support [\#380](https://github.com/shipshapecode/shepherd/pull/380) ([rwwagner90](https://github.com/rwwagner90))
+- Add back IE support [\#380](https://github.com/shipshapecode/shepherd/pull/380) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
 - Show event of tour does not pass the hash of `step` and `previous` [\#371](https://github.com/shipshapecode/shepherd/issues/371)
-- Ensure arguments are passed down to trigger [\#381](https://github.com/shipshapecode/shepherd/pull/381) ([rwwagner90](https://github.com/rwwagner90))
+- Ensure arguments are passed down to trigger [\#381](https://github.com/shipshapecode/shepherd/pull/381) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -633,9 +666,9 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Convert several lodash functions to internal utils [\#368](https://github.com/shipshapecode/shepherd/pull/368) ([rwwagner90](https://github.com/rwwagner90))
-- Use internal debounce function [\#367](https://github.com/shipshapecode/shepherd/pull/367) ([rwwagner90](https://github.com/rwwagner90))
-- Greenkeeper/stylelint 10.0.1 [\#362](https://github.com/shipshapecode/shepherd/pull/362) ([rwwagner90](https://github.com/rwwagner90))
+- Convert several lodash functions to internal utils [\#368](https://github.com/shipshapecode/shepherd/pull/368) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Use internal debounce function [\#367](https://github.com/shipshapecode/shepherd/pull/367) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Greenkeeper/stylelint 10.0.1 [\#362](https://github.com/shipshapecode/shepherd/pull/362) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -647,8 +680,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Added 'shepherd-popper' css class [\#366](https://github.com/shipshapecode/shepherd/pull/366) ([rwwagner90](https://github.com/rwwagner90))
-- Add ESDoc, bump some deps [\#365](https://github.com/shipshapecode/shepherd/pull/365) ([rwwagner90](https://github.com/rwwagner90))
+- Added 'shepherd-popper' css class [\#366](https://github.com/shipshapecode/shepherd/pull/366) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add ESDoc, bump some deps [\#365](https://github.com/shipshapecode/shepherd/pull/365) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.7.0](https://github.com/shipshapecode/shepherd/tree/v2.7.0) (2019-04-22)
 
@@ -657,7 +690,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Fixed bugs:**
 
 - After tour is canceled/completed and started again, overlay is not present anymore [\#347](https://github.com/shipshapecode/shepherd/issues/347)
-- Add createModalOverlay function [\#358](https://github.com/shipshapecode/shepherd/pull/358) ([rwwagner90](https://github.com/rwwagner90))
+- Add createModalOverlay function [\#358](https://github.com/shipshapecode/shepherd/pull/358) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Merged pull requests:**
 
@@ -674,7 +707,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Fixed bugs:**
 
 - Minified File Size [\#354](https://github.com/shipshapecode/shepherd/issues/354)
-- Fix inflated build size, bump some deps [\#355](https://github.com/shipshapecode/shepherd/pull/355) ([rwwagner90](https://github.com/rwwagner90))
+- Fix inflated build size, bump some deps [\#355](https://github.com/shipshapecode/shepherd/pull/355) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.5.0](https://github.com/shipshapecode/shepherd/tree/v2.5.0) (2019-03-20)
 
@@ -682,7 +715,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Breaking changes:**
 
-- Drop IE support, bump some deps [\#344](https://github.com/shipshapecode/shepherd/pull/344) ([rwwagner90](https://github.com/rwwagner90))
+- Drop IE support, bump some deps [\#344](https://github.com/shipshapecode/shepherd/pull/344) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 
@@ -691,7 +724,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Add flipping tippy by default, scrollTo for demo [\#345](https://github.com/shipshapecode/shepherd/pull/345) ([rwwagner90](https://github.com/rwwagner90))
+- Add flipping tippy by default, scrollTo for demo [\#345](https://github.com/shipshapecode/shepherd/pull/345) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Update del to the latest version 🚀 [\#340](https://github.com/shipshapecode/shepherd/pull/340) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.4.0](https://github.com/shipshapecode/shepherd/tree/v2.4.0) (2019-02-27)
@@ -710,8 +743,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Tippy 4 [\#336](https://github.com/shipshapecode/shepherd/pull/336) ([rwwagner90](https://github.com/rwwagner90))
-- Fix inability to click things in shepherd-element [\#334](https://github.com/shipshapecode/shepherd/pull/334) ([rwwagner90](https://github.com/rwwagner90))
+- Tippy 4 [\#336](https://github.com/shipshapecode/shepherd/pull/336) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Fix inability to click things in shepherd-element [\#334](https://github.com/shipshapecode/shepherd/pull/334) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Update rollup-plugin-css-only to the latest version 🚀 [\#327](https://github.com/shipshapecode/shepherd/pull/327) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.3.3](https://github.com/shipshapecode/shepherd/tree/v2.3.3) (2019-01-23)
@@ -738,9 +771,9 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Use @babel/plugin-transform-object-assign [\#324](https://github.com/shipshapecode/shepherd/pull/324) ([rwwagner90](https://github.com/rwwagner90))
-- Apply scroll listener to all scroll events [\#322](https://github.com/shipshapecode/shepherd/pull/322) ([rwwagner90](https://github.com/rwwagner90))
-- Use vh and vw to ensure modal is always full screen [\#321](https://github.com/shipshapecode/shepherd/pull/321) ([rwwagner90](https://github.com/rwwagner90))
+- Use @babel/plugin-transform-object-assign [\#324](https://github.com/shipshapecode/shepherd/pull/324) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Apply scroll listener to all scroll events [\#322](https://github.com/shipshapecode/shepherd/pull/322) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Use vh and vw to ensure modal is always full screen [\#321](https://github.com/shipshapecode/shepherd/pull/321) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.3.1](https://github.com/shipshapecode/shepherd/tree/v2.3.1) (2019-01-15)
 
@@ -760,7 +793,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Inject tippy CSS to head [\#315](https://github.com/shipshapecode/shepherd/pull/315) ([rwwagner90](https://github.com/rwwagner90))
+- Inject tippy CSS to head [\#315](https://github.com/shipshapecode/shepherd/pull/315) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.2.0](https://github.com/shipshapecode/shepherd/tree/v2.2.0) (2019-01-14)
 
@@ -768,8 +801,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- setAttributeNS -\> setAttribute, add modal utils tests [\#312](https://github.com/shipshapecode/shepherd/pull/312) ([rwwagner90](https://github.com/rwwagner90))
-- Use rollup instead of webpack [\#309](https://github.com/shipshapecode/shepherd/pull/309) ([rwwagner90](https://github.com/rwwagner90))
+- setAttributeNS -\> setAttribute, add modal utils tests [\#312](https://github.com/shipshapecode/shepherd/pull/312) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Use rollup instead of webpack [\#309](https://github.com/shipshapecode/shepherd/pull/309) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.1.1](https://github.com/shipshapecode/shepherd/tree/v2.1.1) (2019-01-11)
 
@@ -777,7 +810,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Fixed bugs:**
 
-- Use correct cleanupStepEventListeners [\#311](https://github.com/shipshapecode/shepherd/pull/311) ([rwwagner90](https://github.com/rwwagner90))
+- Use correct cleanupStepEventListeners [\#311](https://github.com/shipshapecode/shepherd/pull/311) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.1.0](https://github.com/shipshapecode/shepherd/tree/v2.1.0) (2019-01-06)
 
@@ -789,7 +822,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Move modal to its own class [\#308](https://github.com/shipshapecode/shepherd/pull/308) ([rwwagner90](https://github.com/rwwagner90))
+- Move modal to its own class [\#308](https://github.com/shipshapecode/shepherd/pull/308) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.0.2](https://github.com/shipshapecode/shepherd/tree/v2.0.2) (2019-01-04)
 
@@ -820,7 +853,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Merged pull requests:**
 
 - Integrate modal functionality that was originally in Ember Shepherd [\#301](https://github.com/shipshapecode/shepherd/pull/301) ([BrianSipple](https://github.com/BrianSipple))
-- Use data attributes for test selectors [\#299](https://github.com/shipshapecode/shepherd/pull/299) ([rwwagner90](https://github.com/rwwagner90))
+- Use data attributes for test selectors [\#299](https://github.com/shipshapecode/shepherd/pull/299) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Remove redundant `id` attribute on step tooltip containers. [\#295](https://github.com/shipshapecode/shepherd/pull/295) ([BrianSipple](https://github.com/BrianSipple))
 - Link to Shepherd's Tippy defaults in docs [\#294](https://github.com/shipshapecode/shepherd/pull/294) ([BrianSipple](https://github.com/BrianSipple))
 
@@ -843,7 +876,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Bump deps [\#291](https://github.com/shipshapecode/shepherd/pull/291) ([rwwagner90](https://github.com/rwwagner90))
+- Bump deps [\#291](https://github.com/shipshapecode/shepherd/pull/291) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Add testing for `Tour.isActive`. [\#290](https://github.com/shipshapecode/shepherd/pull/290) ([BrianSipple](https://github.com/BrianSipple))
 - Added documentation for tour.removeStep \(fixes \#278\) [\#289](https://github.com/shipshapecode/shepherd/pull/289) ([joeinnes](https://github.com/joeinnes))
 - Improve CodeClimate and test coverage. [\#286](https://github.com/shipshapecode/shepherd/pull/286) ([BrianSipple](https://github.com/BrianSipple))
@@ -868,7 +901,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Add minified js + css to release package [\#258](https://github.com/shipshapecode/shepherd/issues/258)
-- Bump a bunch of deps [\#281](https://github.com/shipshapecode/shepherd/pull/281) ([rwwagner90](https://github.com/rwwagner90))
+- Bump a bunch of deps [\#281](https://github.com/shipshapecode/shepherd/pull/281) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -959,7 +992,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Greenkeeper/babel plugin add module exports 1.0.0 [\#246](https://github.com/shipshapecode/shepherd/pull/246) ([rwwagner90](https://github.com/rwwagner90))
+- Greenkeeper/babel plugin add module exports 1.0.0 [\#246](https://github.com/shipshapecode/shepherd/pull/246) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.0.0-beta.26](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.26) (2018-09-07)
 
@@ -981,8 +1014,8 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Way to get user to confirm quitting a tutorial [\#133](https://github.com/shipshapecode/shepherd/issues/133)
-- Add step options to ESDoc [\#234](https://github.com/shipshapecode/shepherd/pull/234) ([rwwagner90](https://github.com/rwwagner90))
-- Add Confirm cancel [\#232](https://github.com/shipshapecode/shepherd/pull/232) ([rwwagner90](https://github.com/rwwagner90))
+- Add step options to ESDoc [\#234](https://github.com/shipshapecode/shepherd/pull/234) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Add Confirm cancel [\#232](https://github.com/shipshapecode/shepherd/pull/232) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - improved theming [\#204](https://github.com/shipshapecode/shepherd/pull/204) ([bm2u](https://github.com/bm2u))
 
 **Fixed bugs:**
@@ -1006,7 +1039,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Update to Babel 7, use lodash-es [\#231](https://github.com/shipshapecode/shepherd/pull/231) ([rwwagner90](https://github.com/rwwagner90))
+- Update to Babel 7, use lodash-es [\#231](https://github.com/shipshapecode/shepherd/pull/231) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Merged pull requests:**
 
@@ -1019,7 +1052,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Implement ESDoc [\#226](https://github.com/shipshapecode/shepherd/pull/226) ([rwwagner90](https://github.com/rwwagner90))
+- Implement ESDoc [\#226](https://github.com/shipshapecode/shepherd/pull/226) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -1031,7 +1064,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Merge coverage from cypress and unit tests [\#225](https://github.com/shipshapecode/shepherd/pull/225) ([rwwagner90](https://github.com/rwwagner90))
+- Merge coverage from cypress and unit tests [\#225](https://github.com/shipshapecode/shepherd/pull/225) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Renaming of scss source dir [\#219](https://github.com/shipshapecode/shepherd/pull/219) ([bm2u](https://github.com/bm2u))
 
 ## [v2.0.0-beta.20](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.20) (2018-08-26)
@@ -1040,7 +1073,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Increase test coverage, refactor, and cleanup [\#224](https://github.com/shipshapecode/shepherd/pull/224) ([rwwagner90](https://github.com/rwwagner90))
+- Increase test coverage, refactor, and cleanup [\#224](https://github.com/shipshapecode/shepherd/pull/224) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.0.0-beta.19](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.19) (2018-08-25)
 
@@ -1052,7 +1085,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Add some tour tests [\#216](https://github.com/shipshapecode/shepherd/pull/216) ([rwwagner90](https://github.com/rwwagner90))
+- Add some tour tests [\#216](https://github.com/shipshapecode/shepherd/pull/216) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Testing for Evented module [\#215](https://github.com/shipshapecode/shepherd/pull/215) ([chuckcarpenter](https://github.com/chuckcarpenter))
 
 **Fixed bugs:**
@@ -1062,11 +1095,11 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Move bind methods to their own file [\#222](https://github.com/shipshapecode/shepherd/pull/222) ([rwwagner90](https://github.com/rwwagner90))
-- Start some refactoring [\#221](https://github.com/shipshapecode/shepherd/pull/221) ([rwwagner90](https://github.com/rwwagner90))
+- Move bind methods to their own file [\#222](https://github.com/shipshapecode/shepherd/pull/222) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Start some refactoring [\#221](https://github.com/shipshapecode/shepherd/pull/221) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - Step.js coverage increase [\#218](https://github.com/shipshapecode/shepherd/pull/218) ([chuckcarpenter](https://github.com/chuckcarpenter))
-- Reduce Evented complexity [\#217](https://github.com/shipshapecode/shepherd/pull/217) ([rwwagner90](https://github.com/rwwagner90))
-- Start refactoring for Code Climate [\#214](https://github.com/shipshapecode/shepherd/pull/214) ([rwwagner90](https://github.com/rwwagner90))
+- Reduce Evented complexity [\#217](https://github.com/shipshapecode/shepherd/pull/217) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Start refactoring for Code Climate [\#214](https://github.com/shipshapecode/shepherd/pull/214) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.0.0-beta.17](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.17) (2018-08-15)
 
@@ -1074,7 +1107,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Feature/webpack [\#212](https://github.com/shipshapecode/shepherd/pull/212) ([rwwagner90](https://github.com/rwwagner90))
+- Feature/webpack [\#212](https://github.com/shipshapecode/shepherd/pull/212) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 ## [v2.0.0-beta.16](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.16) (2018-08-14)
 
@@ -1090,7 +1123,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Merged pull requests:**
 
-- Start on cypress [\#209](https://github.com/shipshapecode/shepherd/pull/209) ([rwwagner90](https://github.com/rwwagner90))
+- Start on cypress [\#209](https://github.com/shipshapecode/shepherd/pull/209) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 - increase test coverage [\#206](https://github.com/shipshapecode/shepherd/pull/206) ([chuckcarpenter](https://github.com/chuckcarpenter))
 
 ## [v2.0.0-beta.15](https://github.com/shipshapecode/shepherd/tree/v2.0.0-beta.15) (2018-08-06)
@@ -1134,7 +1167,7 @@ https://github.com/highlightjs/highlight.js/issues/2877
 **Implemented enhancements:**
 
 - Attach shepherd-step to "custom" element / supporting dialog elements. [\#157](https://github.com/shipshapecode/shepherd/issues/157)
-- Add renderLocation option [\#192](https://github.com/shipshapecode/shepherd/pull/192) ([rwwagner90](https://github.com/rwwagner90))
+- Add renderLocation option [\#192](https://github.com/shipshapecode/shepherd/pull/192) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
@@ -1232,11 +1265,11 @@ https://github.com/highlightjs/highlight.js/issues/2877
 
 **Implemented enhancements:**
 
-- Convert to popper [\#189](https://github.com/shipshapecode/shepherd/pull/189) ([rwwagner90](https://github.com/rwwagner90))
+- Convert to popper [\#189](https://github.com/shipshapecode/shepherd/pull/189) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Fixed bugs:**
 
-- Attempting to fix uncaught exception caused by non-existing element f… [\#190](https://github.com/shipshapecode/shepherd/pull/190) ([rwwagner90](https://github.com/rwwagner90))
+- Attempting to fix uncaught exception caused by non-existing element f… [\#190](https://github.com/shipshapecode/shepherd/pull/190) ([RobbieTheWagner](https://github.com/RobbieTheWagner))
 
 **Closed issues:**
 

@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 14.18.1
+          node-version: 16.20.0
 
       # Cache dependencies
       - name: Cache Dependencies
@@ -52,7 +52,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 14.18.1
+          node-version: 16.20.0
 
       # Cache dependencies
       - name: Cache Dependencies
@@ -89,7 +89,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 14.18.1
+          node-version: 16.20.0
 
       # Cache dependencies
       - name: Cache Dependencies

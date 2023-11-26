@@ -114,7 +114,9 @@ const myTour = new Shepherd.Tour(options);
 ##### Tour Options
 
 - `classPrefix`: The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
-- `confirmCancel`: If true, will issue a `window.confirm` before cancelling
+- `confirmCancel`:
+  - If true, will issue a `window.confirm` before cancelling
+  - If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
 - `confirmCancelMessage`: The message to display in the confirm dialog
 - `defaultStepOptions`: Default options for Steps created through `addStep`
 - `exitOnEsc`: Exiting the tour with the escape key will be enabled unless this is explicitly set to `false`.
@@ -136,6 +138,7 @@ You can also pass an existing `Step` instance rather than `options`, but note th
 - `next()`: Advance to the next step, in the order they were added
 - `back()`: Show the previous step, in the order they were added
 - `cancel()`: Trigger cancel on the current step, hiding it without advancing
+- `complete()`: Calls _done() triggering the `complete` event
 - `hide()`: Hide the current step
 - `show([id])`: Show the step specified by id (if it's a string), or index (if it's a number) provided.  Defaults to the first step.
 - `start()`: Show the first step and begin the tour

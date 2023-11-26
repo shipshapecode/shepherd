@@ -34,6 +34,8 @@ declare class Tour extends Evented {
   /**
    * Calls done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
+   * If `confirmCancel` is a function, will call it and wait for the return value,
+   * and only cancel when the value returned is true
    */
   cancel(): void;
 
@@ -104,8 +106,9 @@ declare namespace Tour {
 
     /**
      * If true, will issue a `window.confirm` before cancelling
+     * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
      */
-    confirmCancel?: boolean;
+    confirmCancel?: boolean | (() => boolean) | Promise<boolean> | (() => Promise<boolean>);
 
     /**
      * The message to display in the confirm dialog
