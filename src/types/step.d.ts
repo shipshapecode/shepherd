@@ -12,7 +12,7 @@ declare class Step extends Evented {
    * @param options The options for the step
    * @return The newly created Step instance
    */
-  constructor(tour: Tour, options: Step.StepOptions);//TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
+  constructor(tour: Tour, options: Step.StepOptions); //TODO superheri Note: Return on constructor is not possible in typescript. Could this be possible to make this the same for the constructor of the Step class?
 
   /**
    * The string used as the `id` for the step.
@@ -41,13 +41,13 @@ declare class Step extends Evented {
    * Returns the element for the step
    * @return The element instance. undefined if it has never been shown, null if it has been destroyed
    */
-  getElement(): HTMLElement | null | undefined
+  getElement(): HTMLElement | null | undefined;
 
   /**
    * Returns the target for the step
    * @returns The element instance. undefined if it has never been shown, null if query string has not been found
    */
-  getTarget(): HTMLElement | null | undefined
+  getTarget(): HTMLElement | null | undefined;
 
   /**
    * Returns the tour for the step
@@ -130,7 +130,7 @@ declare namespace Step {
      * A function that returns a promise.
      * When the promise resolves, the rest of the `show` code for the step will execute.
      */
-    beforeShowPromise?: (() => Promise<any>);
+    beforeShowPromise?: () => Promise<any>;
 
     /**
      * An array of buttons to add to the step. These will be rendered in a
@@ -182,6 +182,16 @@ declare namespace Step {
         };
 
     /**
+     * An amount to offset the modal overlay opening in the x-direction
+     */
+    modalOverlayOpeningXOffset?: number;
+
+    /**
+     * An amount to offset the modal overlay opening in the y-direction
+     */
+    modalOverlayOpeningYOffset?: number;
+
+    /**
      * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
      */
     floatingUIOptions?: object;
@@ -195,13 +205,13 @@ declare namespace Step {
      * A function that lets you override the default scrollTo behavior and
      * define a custom action to do the scrolling, and possibly other logic.
      */
-    scrollToHandler?: ((element: HTMLElement) => void);
+    scrollToHandler?: (element: HTMLElement) => void;
 
     /**
      * A function that, when it returns `true`, will show the step.
      * If it returns `false`, the step will be skipped.
      */
-    showOn?: (() => boolean);
+    showOn?: () => boolean;
 
     /**
      * The text in the body of the step. It can be one of four types:
@@ -212,7 +222,11 @@ declare namespace Step {
      * - `Function` to be executed when the step is built. It must return one of the three options above.
      * ```
      */
-    text?: string | ReadonlyArray<string> | HTMLElement | (() => string | ReadonlyArray<string> | HTMLElement);
+    text?:
+      | string
+      | ReadonlyArray<string>
+      | HTMLElement
+      | (() => string | ReadonlyArray<string> | HTMLElement);
 
     /**
      * The step's title. It becomes an `h3` at the top of the step.
@@ -236,10 +250,25 @@ declare namespace Step {
     when?: StepOptionsWhen;
   }
 
-  type PopperPlacement = 'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'right'|'right-start'|'right-end'|'left'|'left-start'|'left-end';
+  type PopperPlacement =
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end';
 
   interface StepOptionsAttachTo {
-    element?: HTMLElement | string | (() => HTMLElement | string | null | undefined);
+    element?:
+      | HTMLElement
+      | string
+      | (() => HTMLElement | string | null | undefined);
     on?: PopperPlacement;
   }
 
@@ -260,7 +289,7 @@ declare namespace Step {
      * }
      * ```
      */
-    action?: ((this: Tour) => void);
+    action?: (this: Tour) => void;
 
     /**
      * Extra classes to apply to the `<a>`
@@ -290,7 +319,7 @@ declare namespace Step {
   }
 
   interface StepOptionsButtonEvent {
-    [key: string]: (() => void);
+    [key: string]: () => void;
   }
 
   interface StepOptionsCancelIcon {
@@ -299,7 +328,7 @@ declare namespace Step {
   }
 
   interface StepOptionsWhen {
-    [key: string]: ((this: Step) => void);
+    [key: string]: (this: Step) => void;
   }
 }
 

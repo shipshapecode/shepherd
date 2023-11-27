@@ -4,16 +4,13 @@ import { stub } from 'sinon';
 const classPrefix = '';
 
 describe('components/ShepherdModal', () => {
-  describe('closeModalOpening()', function() {
-    it('sets values back to 0', async() => {
+  describe('closeModalOpening()', function () {
+    it('sets values back to 0', async () => {
       const modalComponent = new ShepherdModal({
-        target: document.body,
-        props: {
-          classPrefix
-        }
+        target: document.body
       });
 
-      await modalComponent.positionModal(0, 0, null, {
+      await modalComponent.positionModal(0, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -42,8 +39,8 @@ describe('components/ShepherdModal', () => {
     });
   });
 
-  describe('positionModal()', function() {
-    it('sets the correct attributes when positioning modal opening', async() => {
+  describe('positionModal()', function () {
+    it('sets the correct attributes when positioning modal opening', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -65,7 +62,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(0, 0, null, {
+      await modalComponent.positionModal(0, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -85,7 +82,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes with padding', async() => {
+    it('sets the correct attributes with padding', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -99,7 +96,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(10, 0, null, {
+      await modalComponent.positionModal(10, 0, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -119,7 +116,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when positioning modal opening with border radius as number', async() => {
+    it('sets the correct attributes when positioning modal opening with border radius as number', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -141,7 +138,7 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
       );
 
-      await modalComponent.positionModal(0, 10, null, {
+      await modalComponent.positionModal(0, 10, 0, 0, null, {
         getBoundingClientRect() {
           return {
             height: 250,
@@ -161,7 +158,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when positioning modal opening with border radius as object', async() => {
+    it('sets the correct attributes when positioning modal opening with border radius as object', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -186,6 +183,8 @@ describe('components/ShepherdModal', () => {
       await modalComponent.positionModal(
         0,
         { topLeft: 1, bottomLeft: 2, bottomRight: 3 },
+        0,
+        0,
         null,
         {
           getBoundingClientRect() {
@@ -208,7 +207,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when target is overflowing from scroll parent', async() => {
+    it('sets the correct attributes when target is overflowing from scroll parent', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -217,6 +216,8 @@ describe('components/ShepherdModal', () => {
       });
 
       await modalComponent.positionModal(
+        0,
+        0,
         0,
         0,
         {
@@ -250,7 +251,7 @@ describe('components/ShepherdModal', () => {
       modalComponent.$destroy();
     });
 
-    it('sets the correct attributes when target fits inside scroll parent', async() => {
+    it('sets the correct attributes when target fits inside scroll parent', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -259,6 +260,8 @@ describe('components/ShepherdModal', () => {
       });
 
       await modalComponent.positionModal(
+        0,
+        0,
         0,
         0,
         {
@@ -287,13 +290,107 @@ describe('components/ShepherdModal', () => {
       expect(modalPath).toHaveAttribute(
         'd',
         'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V100a0,0,0,0,0-0-0Z'
+      );
+
+      modalComponent.$destroy();
+    });
+
+    it('allows setting an x-axis offset', async () => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      modalComponent.positionModal(0, 0, 50, 0, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }
+      });
+
+      let modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM60,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H560a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z'
+      );
+
+      modalComponent.positionModal(0, 0, 100, 0, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }
+      });
+
+      modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM110,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H610a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z'
+      );
+
+      modalComponent.$destroy();
+    });
+
+    it('allows setting a y-axis offset', async () => {
+      const modalComponent = new ShepherdModal({
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      modalComponent.positionModal(0, 0, 0, 35, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }
+      });
+
+      let modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM10,45a0,0,0,0,0-0,0V295a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V45a0,0,0,0,0-0-0Z'
+      );
+
+      modalComponent.positionModal(0, 0, 0, 75, null, {
+        getBoundingClientRect() {
+          return {
+            height: 250,
+            x: 10,
+            y: 10,
+            width: 500
+          };
+        }
+      });
+
+      modalPath = await modalComponent.getElement().querySelector('path');
+
+      expect(modalPath).toHaveAttribute(
+        'd',
+        'M1024,768H0V0H1024V768ZM10,85a0,0,0,0,0-0,0V335a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V85a0,0,0,0,0-0-0Z'
       );
 
       modalComponent.$destroy();
     });
   });
 
-  describe('setupForStep()', function() {
+  describe('setupForStep()', function () {
     let hideStub, showStub;
 
     afterEach(() => {
@@ -302,7 +399,7 @@ describe('components/ShepherdModal', () => {
     });
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('useModalOverlay: false, hides modal', async() => {
+    it.skip('useModalOverlay: false, hides modal', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -329,7 +426,7 @@ describe('components/ShepherdModal', () => {
     });
 
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('useModalOverlay: true, shows modal', async() => {
+    it.skip('useModalOverlay: true, shows modal', async () => {
       const modalComponent = new ShepherdModal({
         target: document.body,
         props: {
@@ -356,7 +453,7 @@ describe('components/ShepherdModal', () => {
     });
   });
 
-  describe('show/hide', function() {
+  describe('show/hide', function () {
     const modalComponent = new ShepherdModal({
       target: document.body,
       props: {
@@ -364,7 +461,7 @@ describe('components/ShepherdModal', () => {
       }
     });
 
-    it('show adds classes', async() => {
+    it('show adds classes', async () => {
       await modalComponent.show();
 
       expect(modalComponent.getElement()).toHaveClass(
@@ -372,7 +469,7 @@ describe('components/ShepherdModal', () => {
       );
     });
 
-    it('hide removes classes', async() => {
+    it('hide removes classes', async () => {
       await modalComponent.hide();
 
       expect(modalComponent.getElement()).not.toHaveClass(
