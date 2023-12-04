@@ -67,7 +67,7 @@
     "cypress-plugin-tab": "^1.0.5",
     "del": "^7.1.0",
     "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-svelte3": "^4.0.0",
