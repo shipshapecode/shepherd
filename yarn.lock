@@ -9672,10 +9672,10 @@ rollup-plugin-svelte@^7.1.6:
     "@rollup/pluginutils" "^4.1.0"
     resolve.exports "^2.0.0"
 
-rollup-plugin-visualizer@^5.10.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.10.0.tgz#a71c733255dff4cb1ca57ecf31fd62f895c0535f"
-  integrity sha512-N4AkNL0qFvipegbDJ0kupS+8eKGjL0q+lYwV46NflLX/B8Rh73wz3kCIdg50bR6XVhNcaMA4Eb519xtm90Ckfg==
+rollup-plugin-visualizer@^5.11.0:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.11.0.tgz#991a78834516f20d130162e283babeb264c80b06"
+  integrity sha512-exM0Ms2SN3AgTzMeW7y46neZQcyLY7eKwWAop1ZoRTCZwyrIRdMMJ6JjToAJbML77X/9N8ZEpmXG4Z/Clb9k8g==
   dependencies:
     open "^8.4.0"
     picomatch "^2.3.1"
