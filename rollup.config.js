@@ -1,4 +1,5 @@
 import babel from 'rollup-plugin-babel';
+import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from 'rollup-plugin-commonjs';
@@ -33,11 +34,7 @@ const plugins = [
     extensions: ['.js', '.mjs', '.html', '.svelte']
   }),
   postcss({
-    plugins: [
-      require('tailwindcss'),
-      require('autoprefixer'),
-      require('cssnano')
-    ],
+    plugins: [require('autoprefixer'), require('cssnano')],
     extract: 'css/shepherd.css'
   })
 ];
@@ -120,7 +117,10 @@ if (!process.env.DEVELOPMENT) {
           banner
         }),
         filesize(),
-        visualizer()
+        visualizer(),
+        copy({
+          targets: [{ src: 'dist/js/shepherd.js', dest: 'landing/public' }]
+        })
       ]
     }
   );

@@ -154,7 +154,7 @@ pre {
 }
 
 .shepherd-element .shepherd-arrow:after {
-  content: url('../assets/img/arrow.svg');
+  content: url('../img/arrow.svg');
   display: inline-block;
 }
 

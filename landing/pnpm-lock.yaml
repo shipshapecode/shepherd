@@ -23,6 +23,9 @@ dependencies:
   astro:
     specifier: ^4.0.3
     version: 4.0.3(typescript@5.3.3)
+  shepherd.js:
+    specifier: file:../dist/js/shepherd.js
+    version: link:../dist/js
   tailwindcss:
     specifier: ^3.3.5
     version: 3.3.6
