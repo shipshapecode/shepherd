@@ -25,7 +25,7 @@
     "build": "yarn clean && rollup -c",
     "postbuild": "yarn build:landing",
     "build:landing": "npx tailwind build -i ./landing/css/styles.css -o ./landing/css/welcome.css",
-    "clean": "rimraf dist",
+    "clean": "rimraf ./landing/dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
     "dev": "yarn watch",

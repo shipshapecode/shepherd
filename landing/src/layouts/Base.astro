@@ -1,0 +1,9 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+
+<html lang="en">
+  <head> <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} /></head>
+  <slot />
+</html>
