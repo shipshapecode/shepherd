@@ -10373,10 +10373,10 @@ svelte-jester@^2.3.2:
   resolved "https://registry.npmjs.org/svelte-jester/-/svelte-jester-2.3.2.tgz"
   integrity sha512-JtxSz4FWAaCRBXbPsh4LcDs4Ua7zdXgLC0TZvT1R56hRV0dymmNP+abw67DTPF7sQPyNxWsOKd0Sl7Q8SnP8kg==
 
-svelte-preprocess@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-5.1.1.tgz#53d7107c2e8b307afd4418e06239177c4de12025"
-  integrity sha512-p/Dp4hmrBW5mrCCq29lEMFpIJT2FZsRlouxEc5qpbOmXRbaFs7clLs8oKPwD3xCFyZfv1bIhvOzpQkhMEVQdMw==
+svelte-preprocess@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-5.1.2.tgz#f5edb71bb0cb662cd8342bd5c092834a99ab85f7"
+  integrity sha512-XF0aliMAcYnP4hLETvB6HRAMnaL09ASYT1Z2I1Gwu0nz6xbdg/dSgAEthtFZJA4AKrNhFDFdmUDO+H9d/6xg5g==
   dependencies:
     "@types/pug" "^2.0.6"
     detect-indent "^6.1.0"
