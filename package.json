@@ -24,7 +24,7 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "postbuild": "yarn build:landing",
-    "build:landing": "cd landing && pnpm build",
+    "build:landing": "cd landing && pnpm i && pnpm build",
     "clean": "rimraf ./dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
