@@ -20,8 +20,8 @@ module.exports = {
   sourceType: 'module',
   templates: {
     referenceTitle: 'Shepherd.js',
-    favicon: '/landing/assets/favicons/favicon-32x32.png',
-    githubLink: 'https://github.com/shipshapecode/shepherd',
+    favicon: '/landing/public/favicons/favicon-32x32.png',
+    githubLink: 'https://github.com/shepherd-pro/shepherd',
     // Do not disable sorting
     disableSort: false,
     // Do not collapse, show all methods
@@ -31,7 +31,7 @@ module.exports = {
     }
   },
   opts: {
-    destination: './docs/',
+    destination: './site/docs/',
     encoding: 'utf8',
     // Do not include functions marked `@private`
     private: false,

@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 16.20.0
+          node-version: 20
 
       # Cache dependencies
       - name: Cache Dependencies
@@ -52,7 +52,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 16.20.0
+          node-version: 20
 
       # Cache dependencies
       - name: Cache Dependencies
@@ -71,10 +71,10 @@ jobs:
       - name: Run Unit Tests
         run: yarn test:unit:ci
 
-#       - name: Publish code coverage
-#         uses: paambaati/codeclimate-action@v2.7.4
-#         env:
-#           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+  #       - name: Publish code coverage
+  #         uses: paambaati/codeclimate-action@v2.7.4
+  #         env:
+  #           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
   test-integration:
     name: Run Integration Chrome Tests
@@ -89,7 +89,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 16.20.0
+          node-version: 20
 
       # Cache dependencies
       - name: Cache Dependencies

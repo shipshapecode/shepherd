@@ -24,8 +24,8 @@
   "scripts": {
     "build": "yarn clean && rollup -c",
     "postbuild": "yarn build:landing",
-    "build:landing": "npx tailwind build -i ./landing/css/styles.css -o ./landing/css/welcome.css",
-    "clean": "rimraf dist",
+    "build:landing": "cd landing && yarn && yarn build",
+    "clean": "rimraf ./dist",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
     "dev": "yarn watch",
@@ -92,6 +92,7 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.2.0",
     "rollup-plugin-livereload": "^2.0.5",
