@@ -2,10 +2,18 @@ name: Publish Github Pages
 
 on:
   push:
-    paths:
-      - "landing/**"
     tags:
       - v*
+  workflow_dispatch:
+    logLevel:
+      description: "Log level"
+      required: true
+      default: "warning"
+      type: choice
+      options:
+        - info
+        - warning
+        - debug
 
 jobs:
   delpoy:
