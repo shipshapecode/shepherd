@@ -3,23 +3,16 @@
     alt="Shepherd.js Logo"
     src="https://i.imgur.com/cowwtSX.png"/>
 </p>
-
-<div>
-  <a href="https://shipshape.io">
-    <img align="left" src="http://i.imgur.com/DWHQjA5.png" alt="Ship Shape" width="50" height="50"/>
-  </a>
- 
-  **[Shepherd is maintained by Ship Shape. Contact us for web app consulting, development, and training for your project](https://shipshape.io/ember-consulting/)**.
-</div>  
+  
 
 [![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 ![npm](https://img.shields.io/npm/dm/shepherd.js.svg)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shepherd-pro%2Fshepherd?ref=badge_shield)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
-[![Test](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
+[![Test](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shepherd-pro/shepherd/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shepherd-pro/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
@@ -46,7 +39,7 @@ Documentation
 Demo
 ----------------------------------------------------------
 
-[Demo](https://shepherdjs.dev/)
+[Demo](https://shepherdjs.dev/demo)
 
 Contributing
 ----------------------------------------------------------
@@ -64,19 +57,19 @@ Here we showcase some of the awesome libraries built using Shepherd.
 
 ### JS Framework Wrappers
 
-### [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
+### [ember-shepherd](https://github.com/shepherd-pro/ember-shepherd)
 
 Ember addon for the site tour library Shepherd
 
-### [angular-shepherd](https://github.com/shipshapecode/angular-shepherd)
+### [angular-shepherd](https://github.com/shepherd-pro/angular-shepherd)
 
 An Angular wrapper for the site tour library Shepherd
 
-### [react-shepherd](https://github.com/shipshapecode/react-shepherd)
+### [react-shepherd](https://github.com/shepherd-pro/react-shepherd)
 
 A React wrapper for the site tour library Shepherd
 
-### [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
+### [vue-shepherd](https://github.com/shepherd-pro/vue-shepherd)
 
 A Vue wrapper for the site tour library Shepherd
 

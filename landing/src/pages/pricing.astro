@@ -10,37 +10,37 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-white font-body p-4 text-navy">
+  <body class="bg-white font-body text-navy">
     <Header title={SITE_TITLE} />
     <main>
-      <div class="bg-white py-24 sm:py-32">
+      <div class="bg-white py-20 sm:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="mx-auto max-w-4xl sm:text-center">
-            <h2 class="text-base font-semibold leading-7 text-indigo-600">
-              Pricing
-            </h2>
-            <p
-              class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl"
+            <h2
+              class="mt-2 text-4xl font-bold font-title tracking-tight text-gray-900 uppercase sm:text-5xl"
             >
               Choose the right plan for&nbsp;you
-            </p>
+            </h2>
           </div>
           <p
-            class="font-body mx-auto mt-6 max-w-2xl text-xl leading-8 text-gray-600 sm:text-center"
+            class="font-body mx-auto mt-6 max-w-2xl text-xl text-left leading-8 text-gray-600"
           >
-            Shepherd is MIT-licensed and open-source. However, if you want to
-            use Shepherd in your commercial app, website or plugin, you would
-            need to obtain a commercial license.
+            Shepherd remains an open-source MIT-licensed software, and this
+            commitment is unwavering. Our library serves as a foundation for
+            countless solo developers and esteemed organizations, empowering
+            them to create their applications. With a thriving community of
+            users, the ongoing enhancement and upkeep of the library,
+            documentation, and community engagement demand significant
+            resources. Your support is essential for us to continue this
+            mission.
           </p>
-          <div class="mt-20 flow-root">
+
+          <div class="my-20 flow-root">
             <div
-              class="isolate -mt-16 grid grid-cols-3 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4"
+              class="isolate -mt-16 grid max-w-7xl grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-4 lg:divide-x lg:divide-y-0 xl:-mx-4"
             >
               <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
-                <h3
-                  id="tier-open"
-                  class="text-base font-semibold leading-7 text-gray-900"
-                >
+                <h3 class="font-heading p-2 text-xl uppercase w-full">
                   Open Source
                 </h3>
                 <p class="mt-6 flex items-baseline gap-x-1">
@@ -51,24 +51,19 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                     >/month</span
                   >
                 </p>
-                <!-- <p class="mt-3 text-sm leading-6 text-gray-500">
-                  $12 per month if paid annually
-                </p> -->
-                <div class="bg-navy inline-block mb-4 w-56">
-                  <a
+                <div class="bg-navy font-heading inline-block mb-4 w-56">
+                  <button
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
-                    href=""
-                    aria-describedby="tier-open"
                   >
                     Enjoy Free Software!
-                  </a>
+                  </button>
                 </div>
-                <p class="mt-10 text-sm font-semibold leading-6 text-gray-900">
+                <p class="mt-10 text-m font-semibold leading-6 text-gray-900">
                   Everything necessary to get started.
                 </p>
                 <ul
                   role="list"
-                  class="mt-6 space-y-3 text-sm leading-6 text-gray-600"
+                  class="mt-6 space-y-3 text-l leading-6 text-gray-600"
                 >
                   <li class="flex gap-x-3">
                     <svg
@@ -82,7 +77,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
                         clip-rule="evenodd"></path>
                     </svg>
-                     User Onboarding
+                     User Onboarding Tours and Feature Guides
                   </li>
                   <li class="flex gap-x-3">
                     <svg
@@ -110,7 +105,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
                         clip-rule="evenodd"></path>
                     </svg>
-                     REST API
+                     REST API <em>(Coming Soon)</em>
                   </li>
                   <li class="flex gap-x-3">
                     <svg
@@ -143,24 +138,18 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                 </ul>
               </div>
               <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
-                <h3
-                  id="tier-essential"
-                  class="text-base font-semibold leading-7 text-gray-900"
-                >
-                  Shepherd Pro (Enterprise License)
+                <h3 class="font-heading p-2 text-xl uppercase w-full">
+                  Shepherd Pro
                 </h3>
                 <p class="mt-6 flex items-baseline gap-x-1">
                   <span class="text-5xl font-bold tracking-tight text-gray-900"
-                    >$15</span
+                    >$45</span
                   >
                   <span class="text-sm font-semibold leading-6 text-gray-600"
                     >/month</span
                   >
                 </p>
-                <!-- <p class="mt-3 text-sm leading-6 text-gray-500">
-                  $24 per month if paid annually
-                </p> -->
-                <div class="bg-navy inline-block mb-4 w-56">
+                <div class="bg-navy font-heading inline-block mb-4 w-56">
                   <a
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
                     href=""
@@ -169,13 +158,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                     Buy plan
                   </a>
                 </div>
-                <p class="mt-10 text-sm font-semibold leading-6 text-gray-900">
+                <p class="mt-10 text-m font-semibold leading-6 text-gray-900">
                   Everything in Open, plus professional tools for growing your
                   business.
                 </p>
                 <ul
                   role="list"
-                  class="mt-6 space-y-3 text-sm leading-6 text-gray-600"
+                  class="mt-6 space-y-3 text-l leading-6 text-gray-600"
                 >
                   <li class="flex gap-x-3">
                     <svg
@@ -189,12 +178,21 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
                         clip-rule="evenodd"></path>
                     </svg>
-                    <ul>
-                      <li>Feature Adoption</li>
-                      <li>Trial Conversions</li>
-                      <li>Butter Bar</li>
-                      <li>Downtime Notifications</li>
-                    </ul>
+                     1,000,000 Monthly Active Users
+                  </li>
+                  <li class="flex gap-x-3">
+                    <svg
+                      class="h-6 w-5 flex-none text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                     Professional Recipes for User Journeys
                   </li>
 
                   <li class="flex gap-x-3">
@@ -210,12 +208,86 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                         clip-rule="evenodd"></path>
                     </svg>
                     <ul>
-                      <li>React SDK (Coming Soon!)</li>
-                      <li>SaaS (Coming Soon!)</li>
-                      <li>User Profiles (Coming Soon!)</li>
-                      <li>Analytics (Coming Soon!)</li>
-                      <li>SAML, OAuth, LDAP (Coming Soon!)</li>
-                      <li>Integrations (Coming Soon!)</li>
+                      <li>React SDK <em>(Coming Soon)</em></li>
+                      <li>User Profiles <em>(Coming Soon)</em></li>
+                      <li>Analytics <em>(Coming Soon)</em></li>
+                    </ul>
+                  </li>
+                  <li class="flex gap-x-3">
+                    <svg
+                      class="h-6 w-5 flex-none text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                     Support via Email & Docs
+                  </li>
+                </ul>
+              </div>
+              <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+                <h3 class="font-heading p-2 text-xl uppercase w-full">
+                  Shepherd Pro Enterprise
+                </h3>
+                <p class="mt-6 flex items-baseline gap-x-1">
+                  <span class="text-5xl font-bold tracking-tight text-gray-900"
+                    >$200</span
+                  >
+                  <span class="text-sm font-semibold leading-6 text-gray-600"
+                    >/month</span
+                  >
+                </p>
+                <div class="bg-navy font-heading inline-block mb-4 w-56">
+                  <a
+                    class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
+                    href=""
+                    aria-describedby="tier-esssential"
+                  >
+                    Buy plan
+                  </a>
+                </div>
+                <p class="mt-10 text-m font-semibold leading-6 text-gray-900">
+                  Everything in Pro, plus collaboration tools and deeper
+                  insights. Plus increased access to our team.
+                </p>
+                <ul
+                  role="list"
+                  class="mt-6 space-y-3 text-l leading-6 text-gray-600"
+                >
+                  <li class="flex gap-x-3">
+                    <svg
+                      class="h-6 w-5 flex-none text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                     5,000,000 Monthly Active Users
+                  </li>
+
+                  <li class="flex gap-x-3">
+                    <svg
+                      class="h-6 w-5 flex-none text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    <ul>
+                      <li>SAML, OAuth, LDAP <em>(Coming Soon)</em></li>
+                      <li>Integrations <em>(Coming Soon)</em></li>
                     </ul>
                   </li>
                   <li class="flex gap-x-3">
@@ -232,67 +304,34 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                     </svg>
                      24-hour support response time
                   </li>
-                  <li class="flex gap-x-3">
-                    <svg
-                      class="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                     Support via Email & Docs
-                  </li>
-                  <li class="flex gap-x-3">
-                    <svg
-                      class="h-6 w-5 flex-none text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                     Self-Hosted or SaaS
-                  </li>
                 </ul>
               </div>
               <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
-                <h3
-                  id="tier-growth"
-                  class="text-base font-semibold leading-7 text-gray-900"
-                >
-                  Shepherd Pro-Serve (We build it for you!)
+                <h3 class="font-heading p-2 text-xl uppercase w-full">
+                  Shepherd Pro Service
                 </h3>
-                <p class="mt-6 flex items-baseline gap-x-1">
-                  <span class="text-5xl font-bold tracking-tight text-gray-900"
-                    >Contact Us</span
+                <p class="mt-6 mb-4 flex items-baseline gap-x-1">
+                  <span class="text-4xl font-bold tracking-tight text-gray-900"
+                    >Request a Quote</span
                   >
                 </p>
-                <!-- <p class="mt-3 text-sm leading-6 text-gray-500">
-                  $48 per month if paid annually
-                </p>
-                <div class="bg-navy inline-block mb-4 w-56">
+
+                <div class="bg-navy font-heading inline-block mb-4 w-56">
                   <a
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
-                    href=""
+                    href="mailto:hello@shepherdpro.com"
                     aria-describedby="tier-growth"
                   >
-                    Buy plan
+                    Contact Us
                   </a>
-                </div> -->
+                </div>
                 <p class="mt-10 text-sm font-semibold leading-6 text-gray-900">
-                  Everything in Pro, plus collaboration tools and deeper
-                  insights.
+                  Let us help you get the most out of Shepherd and provide
+                  support for an on premise solution.
                 </p>
                 <ul
                   role="list"
-                  class="mt-6 space-y-3 text-sm leading-6 text-gray-600"
+                  class="mt-6 space-y-3 text-m leading-6 text-gray-600"
                 >
                   <li class="flex gap-x-3">
                     <svg
@@ -307,6 +346,20 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                         clip-rule="evenodd"></path>
                     </svg>
                      White-Glove Services
+                  </li>
+                  <li class="flex gap-x-3">
+                    <svg
+                      class="h-6 w-5 flex-none text-indigo-600"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                     On-Boarding & Training
                   </li>
                   <li class="flex gap-x-3">
                     <svg
