@@ -2,7 +2,6 @@
 import { ViewTransitions } from 'astro:transitions';
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../styles/ads.css';
 import '../styles/fonts.css';
 import '../styles/prism.css';
 import '../styles/shepherd.css';
@@ -82,6 +81,21 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+
+<!-- Google tag (gtag.js) -->
+<script
+  type="text/partytown"
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-TCGJJ6WHV6"></script>
+<script type="text/partytown">
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+
+  gtag('config', 'G-TCGJJ6WHV6');
+</script>
 
 <!-- Open Graph / Facebook -->
 <!-- <meta property="og:type" content="website" />
