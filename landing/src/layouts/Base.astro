@@ -5,5 +5,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 <html lang="en">
   <head> <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} /></head>
-  <slot />
+  <body class="bg-white flex flex-col font-body p-4 min-h-screen text-navy">
+    <slot />
+  </body>
 </html>
