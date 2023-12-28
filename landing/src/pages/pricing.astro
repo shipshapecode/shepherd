@@ -14,7 +14,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     <Header title={SITE_TITLE} />
     <main>
       <div class="bg-white py-20 sm:py-32">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl px-6 lg:px-8">
           <div class="mx-auto max-w-4xl sm:text-center">
             <h2
               class="mt-2 text-4xl font-bold font-title tracking-tight text-gray-900 uppercase sm:text-5xl"
@@ -37,7 +37,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
           <div class="my-20 flow-root">
             <div
-              class="isolate -mt-16 grid max-w-7xl grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0 xl:-mx-4"
+              class="isolate -mt-16 grid max-w-3xl grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-2 lg:divide-x lg:divide-y-0 xl:-mx-4"
             >
               <div class="pt-16 lg:px-8 lg:pt-0 xl:px-14">
                 <h3 class="font-heading p-2 text-xl uppercase w-full">
@@ -52,11 +52,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                   >
                 </p>
                 <div class="bg-navy font-heading inline-block mb-4 w-56">
-                  <button
+                  <a
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
+                    href="https://github.com/shepherd-pro/shepherd"
+                    aria-describedby="link to github"
                   >
                     Enjoy Free Software!
-                  </button>
+                  </a>
                 </div>
                 <p class="mt-10 text-m font-semibold leading-6 text-gray-900">
                   Everything necessary to get started.
@@ -157,7 +159,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                     Contact Us
                   </a>
                 </div>
-                <p class="mt-10 text-sm font-semibold leading-6 text-gray-900">
+                <p class="mt-10 text-m font-semibold leading-6 text-gray-900">
                   Let us help you get the most out of Shepherd and provide
                   support for an on premise solution.
                 </p>
