@@ -3,7 +3,7 @@ import { SITE_TITLE } from '../consts';
 import ShepherdHead from '../images/shepherd-head.svg?raw';
 import ShepherdHeader from '../images/shepherd-header.svg';
 
-const isHome = Astro.url.pathname.endsWith('/');
+const { isHome } = Astro.props;
 ---
 
 <header class="flex justify-center mt-4 w-full">
