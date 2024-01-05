@@ -1,10 +1,15 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const { overrideTitle = SITE_TITLE, overrideDescription = SITE_DESCRIPTION } =
+  Astro.props;
 ---
 
 <html lang="en">
-  <head> <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} /></head>
+  <head>
+    <BaseHead title={overrideTitle} description={overrideDescription} /></head
+  >
   <body class="bg-white flex flex-col font-body p-4 min-h-screen text-navy">
     <slot />
   </body>

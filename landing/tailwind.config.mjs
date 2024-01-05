@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-	theme: {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  theme: {
     boxShadow: {
       default: '0 10px 30px 0 rgba(0, 0, 0, 1), 0 10px 20px 0 rgba(0, 0, 0, 1)'
     },
@@ -78,8 +78,8 @@ export default {
       140: '36rem'
     }
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
   corePlugins: {
     container: false
   }
-}
+};

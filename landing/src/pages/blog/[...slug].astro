@@ -1,20 +1,69 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BlogPost from '../../layouts/BlogPost.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}));
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post
+  }));
 }
 type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
 ---
 
 <BlogPost {...post.data}>
-	<Content />
+  <div class="section flex flex-wrap justify-center">
+    <div class="max-w-4xl w-full">
+      <h1
+        class="font-heading m-auto max-w-3xl my-8 text-5xl"
+        itemprop="headline"
+      >
+        {post.data.title}
+      </h1>
+
+      <!-- <AuthorRow
+        categories={post.data.categories}
+        date={post.data.date}
+        id={author.id}
+        image={author.image}
+        name={author.name}
+      /> -->
+
+      {
+        post.data.heroImage && (
+          <figure>
+            <Image
+              alt="Shepherd Pro HQ, the kid's playhouse"
+              class="my-6 rounded-md"
+              itemprop="image"
+              format="webp"
+              height={672}
+              loading="lazy"
+              src={`/img/blog/${post.data.heroImage}`}
+              width={896}
+            />
+            <figcaption class="italic mb-12 text-gray-700">
+              Shepherd Pro HQ, the kid's playhouse
+            </figcaption>
+          </figure>
+        )
+      }
+
+      <div
+        class="prose max-w-none m-auto
+				prose-headings:font-heading prose-headings:text-navy
+				prose-p:font-body
+				prose-p:text-gray-600
+				md:prose-lg lg:prose-xl"
+      >
+        <Content />
+      </div>
+    </div>
+  </div>
 </BlogPost>
