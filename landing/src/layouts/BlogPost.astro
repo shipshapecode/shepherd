@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description } = Astro.props;
 ---
 
 <Base overrideDescription={description} overrideTitle={title}>
