@@ -63,7 +63,6 @@
 	  && !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
 	  && Object.propertyIsEnumerable.call(target, key)); // and also unsafe if they're nonenumerable.
 	}
-
 	function mergeObject(target, source, options) {
 	  var destination = {};
 	  if (options.isMergeableObject(target)) {
@@ -2150,7 +2149,6 @@
 	    p: outros // parent group
 	  };
 	}
-
 	function check_outros() {
 	  if (!outros.r) {
 	    run_all(outros.c);
