@@ -1817,10 +1817,17 @@
   dependencies:
     type-detect "4.0.8"
 
-"@sinonjs/fake-timers@^10.0.2", "@sinonjs/fake-timers@^10.2.0":
+"@sinonjs/fake-timers@^10.0.2":
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/fake-timers/-/fake-timers-10.2.0.tgz#b3e322a34c5f26e3184e7f6115695f299c1b1194"
   integrity sha512-OPwQlEdg40HAj5KNF8WW6q2KG4Z+cBCZb3m4ninfTZKaBmbIJodviQsDBoYMPHkOyJJMHnOJo5j2+LKDOhOACg==
+  dependencies:
+    "@sinonjs/commons" "^3.0.0"
+
+"@sinonjs/fake-timers@^11.2.2":
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/@sinonjs/fake-timers/-/fake-timers-11.2.2.tgz#50063cc3574f4a27bd8453180a04171c85cc9699"
+  integrity sha512-G2piCSxQ7oWOxwGSAyFHfPIsyeJGXYtc6mFbnFA+kRXkiEnTl8c/8jul2S329iFBnDI9HGoeWWAZvuvOkZccgw==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
@@ -1833,10 +1840,10 @@
     lodash.get "^4.4.2"
     type-detect "^4.0.8"
 
-"@sinonjs/text-encoding@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.npmjs.org/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz"
-  integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
+"@sinonjs/text-encoding@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.2.tgz#5981a8db18b56ba38ef0efb7d995b12aa7b51918"
+  integrity sha512-sXXKG+uL9IrKqViTtao2Ws6dy0znu9sOaP1di/jKGW1M6VssO8vlpXCQcpZ+jisQ1tTFAC5Jo/EOzFbggBagFQ==
 
 "@szmarczak/http-timer@^5.0.1":
   version "5.0.1"
@@ -6051,11 +6058,6 @@ is-yarn-global@^0.4.0:
   resolved "https://registry.yarnpkg.com/is-yarn-global/-/is-yarn-global-0.4.0.tgz#714d94453327db9ea98fbf1a0c5f2b88f59ddd5c"
   integrity sha512-HneQBCrXGBy15QnaDfcn6OLoU8AQPAa0Qn0IeJR/QCo4E8dNZaGGwxpCwWyEBQC5QvFonP8d6t60iGpAHVAfNA==
 
-isarray@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
-  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
-
 isarray@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npmjs.org/isarray/-/isarray-2.0.5.tgz"
@@ -6775,10 +6777,10 @@ jsprim@^2.0.2:
     json-schema "0.4.0"
     verror "1.10.0"
 
-just-extend@^4.0.2:
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/just-extend/-/just-extend-4.2.1.tgz"
-  integrity sha512-g3UB796vUFIY90VIv/WX3L2c8CS2MdWUww3CNrYmqza1Fg0DURc2K/O4YrnklBdQarSJ/y8JnJYDGc+1iumQjg==
+just-extend@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-6.2.0.tgz#b816abfb3d67ee860482e7401564672558163947"
+  integrity sha512-cYofQu2Xpom82S6qD778jBDpwvvy39s1l/hrYij2u9AMdQcGRpaBu6kY4mVhuno5kJVi1DAz4aiphA2WI1/OAw==
 
 keyv@^4.5.2:
   version "4.5.2"
@@ -7755,16 +7757,16 @@ new-github-release-url@2.0.0:
   dependencies:
     type-fest "^2.5.1"
 
-nise@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/nise/-/nise-5.1.4.tgz#491ce7e7307d4ec546f5a659b2efe94a18b4bbc0"
-  integrity sha512-8+Ib8rRJ4L0o3kfmyVCL7gzrohyDe0cMFTBa2d364yIrEGMEoetznKJx899YxjybU6bL9SQkYPSBBs1gyYs8Xg==
+nise@^5.1.5:
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/nise/-/nise-5.1.7.tgz#03ca96539efb306612eb60a8c5d6beeb208e27e5"
+  integrity sha512-wWtNUhkT7k58uvWTB/Gy26eA/EJKtPZFVAhEilN5UYVmmGRYOURbejRUyKm0Uu9XVEW7K5nBOZfR8VMB4QR2RQ==
   dependencies:
-    "@sinonjs/commons" "^2.0.0"
-    "@sinonjs/fake-timers" "^10.0.2"
-    "@sinonjs/text-encoding" "^0.7.1"
-    just-extend "^4.0.2"
-    path-to-regexp "^1.7.0"
+    "@sinonjs/commons" "^3.0.0"
+    "@sinonjs/fake-timers" "^11.2.2"
+    "@sinonjs/text-encoding" "^0.7.2"
+    just-extend "^6.2.0"
+    path-to-regexp "^6.2.1"
 
 node-domexception@^1.0.0:
   version "1.0.0"
@@ -8382,12 +8384,10 @@ path-scurry@^1.10.1, path-scurry@^1.6.1:
     lru-cache "^9.1.1 || ^10.0.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
-path-to-regexp@^1.7.0:
-  version "1.8.0"
-  resolved "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-1.8.0.tgz"
-  integrity sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
-  dependencies:
-    isarray "0.0.1"
+path-to-regexp@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.1.tgz#d54934d6798eb9e5ef14e7af7962c945906918e5"
+  integrity sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==
 
 path-type@^4.0.0:
   version "4.0.0"
@@ -9938,16 +9938,16 @@ sigstore@^1.0.0:
     make-fetch-happen "^11.0.1"
     tuf-js "^1.0.0"
 
-sinon@^15.1.0:
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/sinon/-/sinon-15.1.0.tgz#87656841545f7c63bd1e291df409fafd0e9aec09"
-  integrity sha512-cS5FgpDdE9/zx7no8bxROHymSlPLZzq0ChbbLk1DrxBfc+eTeBK3y8nIL+nu/0QeYydhhbLIr7ecHJpywjQaoQ==
+sinon@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-17.0.1.tgz#26b8ef719261bf8df43f925924cccc96748e407a"
+  integrity sha512-wmwE19Lie0MLT+ZYNpDymasPHUKTaZHUH/pKEubRXIzySv9Atnlw+BUMGCzWgV7b7wO+Hw6f1TEOr0IUnmU8/g==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
-    "@sinonjs/fake-timers" "^10.2.0"
+    "@sinonjs/fake-timers" "^11.2.2"
     "@sinonjs/samsam" "^8.0.0"
     diff "^5.1.0"
-    nise "^5.1.4"
+    nise "^5.1.5"
     supports-color "^7.2.0"
 
 sisteransi@^1.0.5:

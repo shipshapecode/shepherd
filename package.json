@@ -104,7 +104,7 @@
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-svelte": "^7.1.6",
     "rollup-plugin-visualizer": "^5.11.0",
-    "sinon": "^15.1.0",
+    "sinon": "^17.0.1",
     "start-server-and-test": "^2.0.3",
     "svelte": "^3.59.2",
     "svelte-jester": "^2.3.2",
@@ -112,7 +112,7 @@
     "tailwindcss": "^3.3.6"
   },
   "engines": {
-    "node": "16.* || >= 18"
+    "node": "18.* || >= 20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
