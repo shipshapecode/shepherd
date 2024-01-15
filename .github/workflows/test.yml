@@ -14,11 +14,11 @@ jobs:
     steps:
       # Checkout the repo
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       # Setup Node.js build environment
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -46,11 +46,11 @@ jobs:
     steps:
       # Checkout the repo
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       # Setup Node.js build environment
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -83,11 +83,11 @@ jobs:
     steps:
       # Checkout the repo
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       # Setup Node.js build environment
       - name: Setup Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
