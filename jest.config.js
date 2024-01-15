@@ -20,6 +20,10 @@ module.exports = {
   // An array of file extensions your modules use
   moduleFileExtensions: ['js', 'svelte'],
 
+  moduleNameMapper: {
+    sinon: '<rootDir>/node_modules/sinon/pkg/sinon.js'
+  },
+
   // The root directory that Jest should scan for tests and modules within
   rootDir: './',
 
