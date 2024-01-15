@@ -5,7 +5,7 @@ module.exports = {
     'after:bump': 'yarn build'
   },
   plugins: {
-    'release-it-lerna-changelog': {
+    '@release-it-plugins/lerna-changelog': {
       infile: 'CHANGELOG.md',
       launchEditor: true
     }
