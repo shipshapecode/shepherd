@@ -92,18 +92,21 @@
         break;
       case KEY_ESC:
         if (tour.options.exitOnEsc) {
+          e.preventDefault();
           e.stopPropagation();
           step.cancel();
         }
         break;
       case LEFT_ARROW:
         if (tour.options.keyboardNavigation) {
+          e.preventDefault();
           e.stopPropagation();
           tour.back();
         }
         break;
       case RIGHT_ARROW:
         if (tour.options.keyboardNavigation) {
+          e.preventDefault();
           e.stopPropagation();
           tour.next();
         }
