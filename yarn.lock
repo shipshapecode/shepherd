@@ -2015,13 +2015,6 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@^18.17.5":
-  version "18.19.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.7.tgz#9a5f6ac7ec42a5dff68fe7faf2dd359710de4a12"
-  integrity sha512-IGRJfoNX10N/PfrReRZ1br/7SQ+2vF/tK3KXNwzXz82D32z5dMQEoOlFew18nLSN+vMNcLY4GrKfzwi/yWI8/w==
-  dependencies:
-    undici-types "~5.26.4"
-
 "@types/pug@^2.0.6":
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/@types/pug/-/pug-2.0.10.tgz#52f8dbd6113517aef901db20b4f3fca543b88c1f"
@@ -3710,14 +3703,13 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress@^13.6.2:
-  version "13.6.2"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.6.2.tgz#c70df09db0a45063298b3cecba2fa21109768e08"
-  integrity sha512-TW3bGdPU4BrfvMQYv1z3oMqj71YI4AlgJgnrycicmPZAXtvywVFZW9DAToshO65D97rCWfG/kqMFsYB6Kp91gQ==
+cypress@^13.6.3:
+  version "13.6.3"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.6.3.tgz#54f03ca07ee56b2bc18211e7bd32abd2533982ba"
+  integrity sha512-d/pZvgwjAyZsoyJ3FOsJT5lDsqnxQ/clMqnNc++rkHjbkkiF2h9s0JsZSyyH4QXhVFW3zPFg82jD25roFLOdZA==
   dependencies:
     "@cypress/request" "^3.0.0"
     "@cypress/xvfb" "^1.2.4"
-    "@types/node" "^18.17.5"
     "@types/sinonjs__fake-timers" "8.1.1"
     "@types/sizzle" "^2.3.2"
     arch "^2.2.0"
