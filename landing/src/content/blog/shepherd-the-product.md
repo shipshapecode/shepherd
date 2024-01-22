@@ -5,6 +5,7 @@ pubDate: '2024-01-05'
 slug: shepherd-the-product
 description: ''
 heroImage: 'shepherd-HQ.jpg'
+heroImageCaption: 'Shepherd Pro HQ, the kid&apos;s playhouse'
 ---
 
 Web development isn’t just about slinging code – it’s about creating experiences that don’t make users want to pull their hair out. Enter Shepherd.js, our guiding light in this adventure, and our choice for steering users through journeys in our apps without getting them lost and helping to drive value every time they interact. What makes this development story unique is our approach: building in public with open source.
