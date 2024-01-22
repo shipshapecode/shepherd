@@ -5,7 +5,7 @@ pubDate: '2024-01-19'
 slug: tale-of-frameworks
 description: 'Let us talk about some cool new technologies, but how sometimes well know frameworks are still good.'
 heroImage: 'dan-meyers-T5w1xkN1c-Q-unsplash.jpg'
-heroImageCaption: 'Photo by <a href="https://unsplash.com/@dmey503?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Dan Meyers</a> on <a href="https://unsplash.com/photos/forest-pathways-photo-during-daytime-T5w1xkN1c-Q?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>'
+heroImageCaption: 'Photo by Dan Meyers on Unsplash'
 ---
 
 ## And so it begins
