@@ -5,15 +5,16 @@ on:
     tags:
       - v*
   workflow_dispatch:
-    logLevel:
-      description: "Log level"
-      required: true
-      default: "warning"
-      type: choice
-      options:
-        - info
-        - warning
-        - debug
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
 
 jobs:
   delpoy:
