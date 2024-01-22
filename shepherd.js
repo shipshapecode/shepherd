@@ -372,6 +372,14 @@
 	  return target;
 	}
 
+	/**
+	 * Custom positioning reference element.
+	 * @see https://floating-ui.com/docs/virtual-elements
+	 */
+
+	const sides = ['top', 'right', 'bottom', 'left'];
+	const alignments = ['start', 'end'];
+	const placements = /*#__PURE__*/sides.reduce((acc, side) => acc.concat(side, side + "-" + alignments[0], side + "-" + alignments[1]), []);
 	const min = Math.min;
 	const max = Math.max;
 	const round = Math.round;
@@ -490,8 +498,11 @@
 	  });
 	}
 
-	const _excluded2 = ["mainAxis", "crossAxis", "fallbackPlacements", "fallbackStrategy", "fallbackAxisSideDirection", "flipAlignment"],
-	  _excluded4 = ["mainAxis", "crossAxis", "limiter"];
+	const _excluded = ["crossAxis", "alignment", "allowedPlacements", "autoAlignment"],
+	  _excluded2 = ["mainAxis", "crossAxis", "fallbackPlacements", "fallbackStrategy", "fallbackAxisSideDirection", "flipAlignment"],
+	  _excluded3 = ["strategy"],
+	  _excluded4 = ["mainAxis", "crossAxis", "limiter"],
+	  _excluded5 = ["apply"];
 	function computeCoordsFromPlacement(_ref, placement, rtl) {
 	  let {
 	    reference,
@@ -550,7 +561,7 @@
 
 	/**
 	 * Computes the `x` and `y` coordinates that will place the floating element
-	 * next to a reference element when it is given a certain positioning strategy.
+	 * next to a given reference element.
 	 *
 	 * This export does not have any `platform` interface logic. You will need to
 	 * write one for the platform you are using Floating UI with.
@@ -703,7 +714,7 @@
 	 * appears centered to the reference element.
 	 * @see https://floating-ui.com/docs/arrow
 	 */
-	const arrow = options => ({
+	const arrow$1 = options => ({
 	  name: 'arrow',
 	  options,
 	  async fn(state) {
@@ -778,6 +789,109 @@
 	    };
 	  }
 	});
+	function getPlacementList(alignment, autoAlignment, allowedPlacements) {
+	  const allowedPlacementsSortedByAlignment = alignment ? [...allowedPlacements.filter(placement => getAlignment(placement) === alignment), ...allowedPlacements.filter(placement => getAlignment(placement) !== alignment)] : allowedPlacements.filter(placement => getSide(placement) === placement);
+	  return allowedPlacementsSortedByAlignment.filter(placement => {
+	    if (alignment) {
+	      return getAlignment(placement) === alignment || (autoAlignment ? getOppositeAlignmentPlacement(placement) !== placement : false);
+	    }
+	    return true;
+	  });
+	}
+	/**
+	 * Optimizes the visibility of the floating element by choosing the placement
+	 * that has the most space available automatically, without needing to specify a
+	 * preferred placement. Alternative to `flip`.
+	 * @see https://floating-ui.com/docs/autoPlacement
+	 */
+	const autoPlacement = function autoPlacement(options) {
+	  if (options === void 0) {
+	    options = {};
+	  }
+	  return {
+	    name: 'autoPlacement',
+	    options,
+	    async fn(state) {
+	      var _middlewareData$autoP, _middlewareData$autoP2, _placementsThatFitOnE;
+	      const {
+	        rects,
+	        middlewareData,
+	        placement,
+	        platform,
+	        elements
+	      } = state;
+	      const _evaluate = evaluate(options, state),
+	        {
+	          crossAxis = false,
+	          alignment,
+	          allowedPlacements = placements,
+	          autoAlignment = true
+	        } = _evaluate,
+	        detectOverflowOptions = _objectWithoutPropertiesLoose(_evaluate, _excluded);
+	      const placements$1 = alignment !== undefined || allowedPlacements === placements ? getPlacementList(alignment || null, autoAlignment, allowedPlacements) : allowedPlacements;
+	      const overflow = await detectOverflow(state, detectOverflowOptions);
+	      const currentIndex = ((_middlewareData$autoP = middlewareData.autoPlacement) == null ? void 0 : _middlewareData$autoP.index) || 0;
+	      const currentPlacement = placements$1[currentIndex];
+	      if (currentPlacement == null) {
+	        return {};
+	      }
+	      const alignmentSides = getAlignmentSides(currentPlacement, rects, await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating)));
+
+	      // Make `computeCoords` start from the right place.
+	      if (placement !== currentPlacement) {
+	        return {
+	          reset: {
+	            placement: placements$1[0]
+	          }
+	        };
+	      }
+	      const currentOverflows = [overflow[getSide(currentPlacement)], overflow[alignmentSides[0]], overflow[alignmentSides[1]]];
+	      const allOverflows = [...(((_middlewareData$autoP2 = middlewareData.autoPlacement) == null ? void 0 : _middlewareData$autoP2.overflows) || []), {
+	        placement: currentPlacement,
+	        overflows: currentOverflows
+	      }];
+	      const nextPlacement = placements$1[currentIndex + 1];
+
+	      // There are more placements to check.
+	      if (nextPlacement) {
+	        return {
+	          data: {
+	            index: currentIndex + 1,
+	            overflows: allOverflows
+	          },
+	          reset: {
+	            placement: nextPlacement
+	          }
+	        };
+	      }
+	      const placementsSortedByMostSpace = allOverflows.map(d => {
+	        const alignment = getAlignment(d.placement);
+	        return [d.placement, alignment && crossAxis ?
+	        // Check along the mainAxis and main crossAxis side.
+	        d.overflows.slice(0, 2).reduce((acc, v) => acc + v, 0) :
+	        // Check only the mainAxis.
+	        d.overflows[0], d.overflows];
+	      }).sort((a, b) => a[1] - b[1]);
+	      const placementsThatFitOnEachSide = placementsSortedByMostSpace.filter(d => d[2].slice(0,
+	      // Aligned placements should not check their opposite crossAxis
+	      // side.
+	      getAlignment(d[0]) ? 2 : 3).every(v => v <= 0));
+	      const resetPlacement = ((_placementsThatFitOnE = placementsThatFitOnEachSide[0]) == null ? void 0 : _placementsThatFitOnE[0]) || placementsSortedByMostSpace[0][0];
+	      if (resetPlacement !== placement) {
+	        return {
+	          data: {
+	            index: currentIndex + 1,
+	            overflows: allOverflows
+	          },
+	          reset: {
+	            placement: resetPlacement
+	          }
+	        };
+	      }
+	      return {};
+	    }
+	  };
+	};
 
 	/**
 	 * Optimizes the visibility of the floating element by flipping the `placement`
@@ -785,7 +899,7 @@
 	 * clipping boundary. Alternative to `autoPlacement`.
 	 * @see https://floating-ui.com/docs/flip
 	 */
-	const flip = function flip(options) {
+	const flip$1 = function flip(options) {
 	  if (options === void 0) {
 	    options = {};
 	  }
@@ -894,13 +1008,210 @@
 	    }
 	  };
 	};
+	function getSideOffsets(overflow, rect) {
+	  return {
+	    top: overflow.top - rect.height,
+	    right: overflow.right - rect.width,
+	    bottom: overflow.bottom - rect.height,
+	    left: overflow.left - rect.width
+	  };
+	}
+	function isAnySideFullyClipped(overflow) {
+	  return sides.some(side => overflow[side] >= 0);
+	}
+	/**
+	 * Provides data to hide the floating element in applicable situations, such as
+	 * when it is not in the same clipping context as the reference element.
+	 * @see https://floating-ui.com/docs/hide
+	 */
+	const hide = function hide(options) {
+	  if (options === void 0) {
+	    options = {};
+	  }
+	  return {
+	    name: 'hide',
+	    options,
+	    async fn(state) {
+	      const {
+	        rects
+	      } = state;
+	      const _evaluate3 = evaluate(options, state),
+	        {
+	          strategy = 'referenceHidden'
+	        } = _evaluate3,
+	        detectOverflowOptions = _objectWithoutPropertiesLoose(_evaluate3, _excluded3);
+	      switch (strategy) {
+	        case 'referenceHidden':
+	          {
+	            const overflow = await detectOverflow(state, _extends({}, detectOverflowOptions, {
+	              elementContext: 'reference'
+	            }));
+	            const offsets = getSideOffsets(overflow, rects.reference);
+	            return {
+	              data: {
+	                referenceHiddenOffsets: offsets,
+	                referenceHidden: isAnySideFullyClipped(offsets)
+	              }
+	            };
+	          }
+	        case 'escaped':
+	          {
+	            const overflow = await detectOverflow(state, _extends({}, detectOverflowOptions, {
+	              altBoundary: true
+	            }));
+	            const offsets = getSideOffsets(overflow, rects.floating);
+	            return {
+	              data: {
+	                escapedOffsets: offsets,
+	                escaped: isAnySideFullyClipped(offsets)
+	              }
+	            };
+	          }
+	        default:
+	          {
+	            return {};
+	          }
+	      }
+	    }
+	  };
+	};
+	function getBoundingRect(rects) {
+	  const minX = min(...rects.map(rect => rect.left));
+	  const minY = min(...rects.map(rect => rect.top));
+	  const maxX = max(...rects.map(rect => rect.right));
+	  const maxY = max(...rects.map(rect => rect.bottom));
+	  return {
+	    x: minX,
+	    y: minY,
+	    width: maxX - minX,
+	    height: maxY - minY
+	  };
+	}
+	function getRectsByLine(rects) {
+	  const sortedRects = rects.slice().sort((a, b) => a.y - b.y);
+	  const groups = [];
+	  let prevRect = null;
+	  for (let i = 0; i < sortedRects.length; i++) {
+	    const rect = sortedRects[i];
+	    if (!prevRect || rect.y - prevRect.y > prevRect.height / 2) {
+	      groups.push([rect]);
+	    } else {
+	      groups[groups.length - 1].push(rect);
+	    }
+	    prevRect = rect;
+	  }
+	  return groups.map(rect => rectToClientRect(getBoundingRect(rect)));
+	}
+	/**
+	 * Provides improved positioning for inline reference elements that can span
+	 * over multiple lines, such as hyperlinks or range selections.
+	 * @see https://floating-ui.com/docs/inline
+	 */
+	const inline = function inline(options) {
+	  if (options === void 0) {
+	    options = {};
+	  }
+	  return {
+	    name: 'inline',
+	    options,
+	    async fn(state) {
+	      const {
+	        placement,
+	        elements,
+	        rects,
+	        platform,
+	        strategy
+	      } = state;
+	      // A MouseEvent's client{X,Y} coords can be up to 2 pixels off a
+	      // ClientRect's bounds, despite the event listener being triggered. A
+	      // padding of 2 seems to handle this issue.
+	      const {
+	        padding = 2,
+	        x,
+	        y
+	      } = evaluate(options, state);
+	      const nativeClientRects = Array.from((await (platform.getClientRects == null ? void 0 : platform.getClientRects(elements.reference))) || []);
+	      const clientRects = getRectsByLine(nativeClientRects);
+	      const fallback = rectToClientRect(getBoundingRect(nativeClientRects));
+	      const paddingObject = getPaddingObject(padding);
+	      function getBoundingClientRect() {
+	        // There are two rects and they are disjoined.
+	        if (clientRects.length === 2 && clientRects[0].left > clientRects[1].right && x != null && y != null) {
+	          // Find the first rect in which the point is fully inside.
+	          return clientRects.find(rect => x > rect.left - paddingObject.left && x < rect.right + paddingObject.right && y > rect.top - paddingObject.top && y < rect.bottom + paddingObject.bottom) || fallback;
+	        }
+
+	        // There are 2 or more connected rects.
+	        if (clientRects.length >= 2) {
+	          if (getSideAxis(placement) === 'y') {
+	            const firstRect = clientRects[0];
+	            const lastRect = clientRects[clientRects.length - 1];
+	            const isTop = getSide(placement) === 'top';
+	            const top = firstRect.top;
+	            const bottom = lastRect.bottom;
+	            const left = isTop ? firstRect.left : lastRect.left;
+	            const right = isTop ? firstRect.right : lastRect.right;
+	            const width = right - left;
+	            const height = bottom - top;
+	            return {
+	              top,
+	              bottom,
+	              left,
+	              right,
+	              width,
+	              height,
+	              x: left,
+	              y: top
+	            };
+	          }
+	          const isLeftSide = getSide(placement) === 'left';
+	          const maxRight = max(...clientRects.map(rect => rect.right));
+	          const minLeft = min(...clientRects.map(rect => rect.left));
+	          const measureRects = clientRects.filter(rect => isLeftSide ? rect.left === minLeft : rect.right === maxRight);
+	          const top = measureRects[0].top;
+	          const bottom = measureRects[measureRects.length - 1].bottom;
+	          const left = minLeft;
+	          const right = maxRight;
+	          const width = right - left;
+	          const height = bottom - top;
+	          return {
+	            top,
+	            bottom,
+	            left,
+	            right,
+	            width,
+	            height,
+	            x: left,
+	            y: top
+	          };
+	        }
+	        return fallback;
+	      }
+	      const resetRects = await platform.getElementRects({
+	        reference: {
+	          getBoundingClientRect
+	        },
+	        floating: elements.floating,
+	        strategy
+	      });
+	      if (rects.reference.x !== resetRects.reference.x || rects.reference.y !== resetRects.reference.y || rects.reference.width !== resetRects.reference.width || rects.reference.height !== resetRects.reference.height) {
+	        return {
+	          reset: {
+	            rects: resetRects
+	          }
+	        };
+	      }
+	      return {};
+	    }
+	  };
+	};
 
 	/**
 	 * Optimizes the visibility of the floating element by shifting it in order to
 	 * keep it in view when it will overflow the clipping boundary.
 	 * @see https://floating-ui.com/docs/shift
 	 */
-	const shift = function shift(options) {
+	const shift$1 = function shift(options) {
 	  if (options === void 0) {
 	    options = {};
 	  }
@@ -970,7 +1281,7 @@
 	/**
 	 * Built-in `limiter` that will stop `shift()` at a certain point.
 	 */
-	const limitShift = function limitShift(options) {
+	const limitShift$1 = function limitShift(options) {
 	  if (options === void 0) {
 	    options = {};
 	  }
@@ -1035,6 +1346,88 @@
 	  };
 	};
 
+	/**
+	 * Provides data that allows you to change the size of the floating element —
+	 * for instance, prevent it from overflowing the clipping boundary or match the
+	 * width of the reference element.
+	 * @see https://floating-ui.com/docs/size
+	 */
+	const size = function size(options) {
+	  if (options === void 0) {
+	    options = {};
+	  }
+	  return {
+	    name: 'size',
+	    options,
+	    async fn(state) {
+	      const {
+	        placement,
+	        rects,
+	        platform,
+	        elements
+	      } = state;
+	      const _evaluate5 = evaluate(options, state),
+	        {
+	          apply = () => {}
+	        } = _evaluate5,
+	        detectOverflowOptions = _objectWithoutPropertiesLoose(_evaluate5, _excluded5);
+	      const overflow = await detectOverflow(state, detectOverflowOptions);
+	      const side = getSide(placement);
+	      const alignment = getAlignment(placement);
+	      const isYAxis = getSideAxis(placement) === 'y';
+	      const {
+	        width,
+	        height
+	      } = rects.floating;
+	      let heightSide;
+	      let widthSide;
+	      if (side === 'top' || side === 'bottom') {
+	        heightSide = side;
+	        widthSide = alignment === ((await (platform.isRTL == null ? void 0 : platform.isRTL(elements.floating))) ? 'start' : 'end') ? 'left' : 'right';
+	      } else {
+	        widthSide = side;
+	        heightSide = alignment === 'end' ? 'top' : 'bottom';
+	      }
+	      const overflowAvailableHeight = height - overflow[heightSide];
+	      const overflowAvailableWidth = width - overflow[widthSide];
+	      const noShift = !state.middlewareData.shift;
+	      let availableHeight = overflowAvailableHeight;
+	      let availableWidth = overflowAvailableWidth;
+	      if (isYAxis) {
+	        const maximumClippingWidth = width - overflow.left - overflow.right;
+	        availableWidth = alignment || noShift ? min(overflowAvailableWidth, maximumClippingWidth) : maximumClippingWidth;
+	      } else {
+	        const maximumClippingHeight = height - overflow.top - overflow.bottom;
+	        availableHeight = alignment || noShift ? min(overflowAvailableHeight, maximumClippingHeight) : maximumClippingHeight;
+	      }
+	      if (noShift && !alignment) {
+	        const xMin = max(overflow.left, 0);
+	        const xMax = max(overflow.right, 0);
+	        const yMin = max(overflow.top, 0);
+	        const yMax = max(overflow.bottom, 0);
+	        if (isYAxis) {
+	          availableWidth = width - 2 * (xMin !== 0 || xMax !== 0 ? xMin + xMax : max(overflow.left, overflow.right));
+	        } else {
+	          availableHeight = height - 2 * (yMin !== 0 || yMax !== 0 ? yMin + yMax : max(overflow.top, overflow.bottom));
+	        }
+	      }
+	      await apply(_extends({}, state, {
+	        availableWidth,
+	        availableHeight
+	      }));
+	      const nextDimensions = await platform.getDimensions(elements.floating);
+	      if (width !== nextDimensions.width || height !== nextDimensions.height) {
+	        return {
+	          reset: {
+	            rects: true
+	          }
+	        };
+	      }
+	      return {};
+	    }
+	  };
+	};
+
 	function getNodeName(node) {
 	  if (isNode(node)) {
 	    return (node.nodeName || '').toLowerCase();
@@ -1046,7 +1439,7 @@
 	}
 	function getWindow(node) {
 	  var _node$ownerDocument;
-	  return (node == null ? void 0 : (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+	  return (node == null || (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
 	}
 	function getDocumentElement(node) {
 	  var _ref;
@@ -1475,7 +1868,14 @@
 	  };
 	}
 	function getDimensions(element) {
-	  return getCssDimensions(element);
+	  const {
+	    width,
+	    height
+	  } = getCssDimensions(element);
+	  return {
+	    width,
+	    height
+	  };
 	}
 	function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
 	  const isOffsetParentAnElement = isHTMLElement(offsetParent);
@@ -1715,9 +2115,65 @@
 	}
 
 	/**
+	 * Optimizes the visibility of the floating element by choosing the placement
+	 * that has the most space available automatically, without needing to specify a
+	 * preferred placement. Alternative to `flip`.
+	 * @see https://floating-ui.com/docs/autoPlacement
+	 */
+	autoPlacement;
+
+	/**
+	 * Optimizes the visibility of the floating element by shifting it in order to
+	 * keep it in view when it will overflow the clipping boundary.
+	 * @see https://floating-ui.com/docs/shift
+	 */
+	const shift = shift$1;
+
+	/**
+	 * Optimizes the visibility of the floating element by flipping the `placement`
+	 * in order to keep it in view when the preferred placement(s) will overflow the
+	 * clipping boundary. Alternative to `autoPlacement`.
+	 * @see https://floating-ui.com/docs/flip
+	 */
+	const flip = flip$1;
+
+	/**
+	 * Provides data that allows you to change the size of the floating element —
+	 * for instance, prevent it from overflowing the clipping boundary or match the
+	 * width of the reference element.
+	 * @see https://floating-ui.com/docs/size
+	 */
+	size;
+
+	/**
+	 * Provides data to hide the floating element in applicable situations, such as
+	 * when it is not in the same clipping context as the reference element.
+	 * @see https://floating-ui.com/docs/hide
+	 */
+	hide;
+
+	/**
+	 * Provides data to position an inner element of the floating element so that it
+	 * appears centered to the reference element.
+	 * @see https://floating-ui.com/docs/arrow
+	 */
+	const arrow = arrow$1;
+
+	/**
+	 * Provides improved positioning for inline reference elements that can span
+	 * over multiple lines, such as hyperlinks or range selections.
+	 * @see https://floating-ui.com/docs/inline
+	 */
+	inline;
+
+	/**
+	 * Built-in `limiter` that will stop `shift()` at a certain point.
+	 */
+	const limitShift = limitShift$1;
+
+	/**
 	 * Computes the `x` and `y` coordinates that will place the floating element
-	 * next to a reference element when it is given a certain CSS positioning
-	 * strategy.
+	 * next to a given reference element.
 	 */
 	const computePosition = (reference, floating, options) => {
 	  // This caches the expensive `getClippingElementAncestors` function so that
@@ -3468,18 +3924,21 @@
 	        break;
 	      case KEY_ESC:
 	        if (tour.options.exitOnEsc) {
+	          e.preventDefault();
 	          e.stopPropagation();
 	          step.cancel();
 	        }
 	        break;
 	      case LEFT_ARROW:
 	        if (tour.options.keyboardNavigation) {
+	          e.preventDefault();
 	          e.stopPropagation();
 	          tour.back();
 	        }
 	        break;
 	      case RIGHT_ARROW:
 	        if (tour.options.keyboardNavigation) {
+	          e.preventDefault();
 	          e.stopPropagation();
 	          tour.next();
 	        }
