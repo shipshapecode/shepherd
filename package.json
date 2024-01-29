@@ -55,7 +55,7 @@
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
     "@release-it-plugins/lerna-changelog": "^6.1.0",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.3.0",
     "@testing-library/svelte": "^3.2.2",
     "autoprefixer": "^10.4.16",
     "babel-core": "^7.0.0-bridge.0",
