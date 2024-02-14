@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 6
   cacheKey: 10c0
 
 "@aashutoshrathi/word-wrap@npm:^1.2.3":
@@ -3348,21 +3348,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.16":
-  version: 10.4.16
-  resolution: "autoprefixer@npm:10.4.16"
+"autoprefixer@npm:^10.4.17":
+  version: 10.4.17
+  resolution: "autoprefixer@npm:10.4.17"
   dependencies:
-    browserslist: "npm:^4.21.10"
-    caniuse-lite: "npm:^1.0.30001538"
-    fraction.js: "npm:^4.3.6"
-    normalize-range: "npm:^0.1.2"
-    picocolors: "npm:^1.0.0"
-    postcss-value-parser: "npm:^4.2.0"
+    browserslist: ^4.22.2
+    caniuse-lite: ^1.0.30001578
+    fraction.js: ^4.3.7
+    normalize-range: ^0.1.2
+    picocolors: ^1.0.0
+    postcss-value-parser: ^4.2.0
   peerDependencies:
     postcss: ^8.1.0
   bin:
     autoprefixer: bin/autoprefixer
-  checksum: e00256e754d481a026d928bca729b25954074dd142dbec022f0a7db0d3bbc0dc2e2dc7542e94fec22eff81e21fe140e6856448e2d9a002660cb1e2ad434daee0
+  checksum: 8/1b4cf4097507f9dc48cef3194f18a05901311c881380cc634b308fce54a6554cf2dcd20aec8384b44e994d4665ab12c63dc89492523f8d74ff5d4d5eb1469f8c
   languageName: node
   linkType: hard
 
@@ -3803,7 +3803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.21.10, browserslist@npm:^4.21.4, browserslist@npm:^4.22.2":
+"browserslist@npm:^4.0.0, browserslist@npm:^4.21.4, browserslist@npm:^4.22.2":
   version: 4.22.2
   resolution: "browserslist@npm:4.22.2"
   dependencies:
@@ -4064,10 +4064,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001538, caniuse-lite@npm:^1.0.30001565":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001565":
   version: 1.0.30001576
   resolution: "caniuse-lite@npm:1.0.30001576"
   checksum: 79cf666f9139c542bdf75eab76171534dc638d2f8efacd325649c8ec6be59de400f0e9d6dc02504f12125626b306c0a848fe86904c01722218b2a479be82a9c1
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001578":
+  version: 1.0.30001587
+  resolution: "caniuse-lite@npm:1.0.30001587"
+  checksum: 8/fb50aa9beaaae42f9feae92ce038f6ff71e97510f024ef1bef2666f3adcfd36d6c59e5675442e5fe795575193f71bc826cb7721d4b0f6d763e82d193bea57863
   languageName: node
   linkType: hard
 
@@ -6400,7 +6407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fraction.js@npm:^4.3.6":
+"fraction.js@npm:^4.3.7":
   version: 4.3.7
   resolution: "fraction.js@npm:4.3.7"
   checksum: df291391beea9ab4c263487ffd9d17fed162dbb736982dee1379b2a8cc94e4e24e46ed508c6d278aded9080ba51872f1bc5f3a5fd8d7c74e5f105b508ac28711
@@ -6472,9 +6479,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@npm%3A^2.3.2#optional!builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#optional!builtin<compat/fsevents>":
+"fsevents@patch:fsevents@npm%3A^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@npm%3A~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.3
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.3#~builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"
   dependencies:
     node-gyp: "npm:latest"
   conditions: os=darwin
@@ -12538,16 +12545,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.1.6#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.1.7#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.11.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.11.1#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.2#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.11.0#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.11.1#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.19.0#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#~builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.2#~builtin<compat/resolve>":
   version: 1.22.8
-  resolution: "resolve@patch:resolve@npm%3A1.22.8#optional!builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.8#~builtin<compat/resolve>::version=1.22.8&hash=c3c19d"
   dependencies:
     is-core-module: "npm:^2.13.0"
     path-parse: "npm:^1.0.7"
     supports-preserve-symlinks-flag: "npm:^1.0.0"
   bin:
     resolve: bin/resolve
-  checksum: 0446f024439cd2e50c6c8fa8ba77eaa8370b4180f401a96abf3d1ebc770ac51c1955e12764cde449fde3fff480a61f84388e3505ecdbab778f4bef5f8212c729
+  checksum: 8/5479b7d431cacd5185f8db64bfcb7286ae5e31eb299f4c4f404ad8aa6098b77599563ac4257cb2c37a42f59dfc06a1bec2bcf283bb448f319e37f0feb9a09847
   languageName: node
   linkType: hard
 
@@ -13079,67 +13086,67 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "shepherd.js@workspace:."
   dependencies:
-    "@ampproject/rollup-plugin-closure-compiler": "npm:^0.27.0"
-    "@babel/core": "npm:^7.23.5"
-    "@babel/preset-env": "npm:^7.23.5"
-    "@floating-ui/dom": "npm:^1.5.3"
-    "@release-it-plugins/lerna-changelog": "npm:^6.1.0"
-    "@testing-library/jest-dom": "npm:^5.17.0"
-    "@testing-library/svelte": "npm:^3.2.2"
-    autoprefixer: "npm:^10.4.16"
-    babel-core: "npm:^7.0.0-bridge.0"
-    babel-jest: "npm:^29.7.0"
-    babel-plugin-transform-es2015-modules-commonjs: "npm:^6.26.2"
-    chai: "npm:^4.3.10"
-    codeclimate-test-reporter: "npm:^0.5.1"
-    cssnano: "npm:^6.0.3"
-    cypress: "npm:^13.6.2"
-    cypress-plugin-tab: "npm:^1.0.5"
-    deepmerge: "npm:^4.3.1"
-    del: "npm:^7.1.0"
-    eslint: "npm:^8.56.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-plugin-jest: "npm:^27.6.3"
-    eslint-plugin-prettier: "npm:^5.1.3"
-    eslint-plugin-svelte3: "npm:^4.0.0"
-    glob: "npm:^10.3.10"
-    http-server: "npm:^14.1.1"
-    jest: "npm:^29.7.0"
-    jest-environment-jsdom: "npm:^29.7.0"
-    jest-expect-message: "npm:^1.1.3"
-    jest-transform-css: "npm:^6.0.1"
-    jsdoc: "npm:^4.0.2"
-    jsdoc-template-ship-shape: "npm:^0.1.1"
-    mutationobserver-shim: "npm:^0.3.7"
-    postcss: "npm:^8.4.33"
-    postinstall-postinstall: "npm:^2.1.0"
-    prettier: "npm:^3.1.1"
-    release-it: "npm:^16.3.0"
-    replace: "npm:^1.2.2"
-    resize-observer-polyfill: "npm:^1.5.1"
-    rimraf: "npm:^5.0.5"
-    rollup: "npm:^2.79.1"
-    rollup-plugin-analyzer: "npm:^4.0.0"
-    rollup-plugin-babel: "npm:^4.4.0"
-    rollup-plugin-commonjs: "npm:^10.1.0"
-    rollup-plugin-copy: "npm:^3.5.0"
-    rollup-plugin-filesize: "npm:^10.0.0"
-    rollup-plugin-license: "npm:^3.2.0"
-    rollup-plugin-livereload: "npm:^2.0.5"
-    rollup-plugin-multi-entry: "npm:^2.1.0"
-    rollup-plugin-node-resolve: "npm:^5.2.0"
-    rollup-plugin-postcss: "npm:^4.0.2"
-    rollup-plugin-replace: "npm:^2.2.0"
-    rollup-plugin-scss: "npm:^4.0.0"
-    rollup-plugin-serve: "npm:^2.0.2"
-    rollup-plugin-svelte: "npm:^7.1.6"
-    rollup-plugin-visualizer: "npm:^5.11.0"
-    sinon: "npm:^17.0.1"
-    start-server-and-test: "npm:^2.0.3"
-    svelte: "npm:^3.59.2"
-    svelte-jester: "npm:^2.3.2"
-    svelte-preprocess: "npm:^5.1.3"
-    tailwindcss: "npm:^3.4.1"
+    "@ampproject/rollup-plugin-closure-compiler": ^0.27.0
+    "@babel/core": ^7.23.5
+    "@babel/preset-env": ^7.23.5
+    "@floating-ui/dom": ^1.5.3
+    "@release-it-plugins/lerna-changelog": ^6.1.0
+    "@testing-library/jest-dom": ^5.17.0
+    "@testing-library/svelte": ^3.2.2
+    autoprefixer: ^10.4.17
+    babel-core: ^7.0.0-bridge.0
+    babel-jest: ^29.7.0
+    babel-plugin-transform-es2015-modules-commonjs: ^6.26.2
+    chai: ^4.3.10
+    codeclimate-test-reporter: ^0.5.1
+    cssnano: ^6.0.3
+    cypress: ^13.6.2
+    cypress-plugin-tab: ^1.0.5
+    deepmerge: ^4.3.1
+    del: ^7.1.0
+    eslint: ^8.56.0
+    eslint-config-prettier: ^9.1.0
+    eslint-plugin-jest: ^27.6.3
+    eslint-plugin-prettier: ^5.1.3
+    eslint-plugin-svelte3: ^4.0.0
+    glob: ^10.3.10
+    http-server: ^14.1.1
+    jest: ^29.7.0
+    jest-environment-jsdom: ^29.7.0
+    jest-expect-message: ^1.1.3
+    jest-transform-css: ^6.0.1
+    jsdoc: ^4.0.2
+    jsdoc-template-ship-shape: ^0.1.1
+    mutationobserver-shim: ^0.3.7
+    postcss: ^8.4.33
+    postinstall-postinstall: ^2.1.0
+    prettier: ^3.1.1
+    release-it: ^16.3.0
+    replace: ^1.2.2
+    resize-observer-polyfill: ^1.5.1
+    rimraf: ^5.0.5
+    rollup: ^2.79.1
+    rollup-plugin-analyzer: ^4.0.0
+    rollup-plugin-babel: ^4.4.0
+    rollup-plugin-commonjs: ^10.1.0
+    rollup-plugin-copy: ^3.5.0
+    rollup-plugin-filesize: ^10.0.0
+    rollup-plugin-license: ^3.2.0
+    rollup-plugin-livereload: ^2.0.5
+    rollup-plugin-multi-entry: ^2.1.0
+    rollup-plugin-node-resolve: ^5.2.0
+    rollup-plugin-postcss: ^4.0.2
+    rollup-plugin-replace: ^2.2.0
+    rollup-plugin-scss: ^4.0.0
+    rollup-plugin-serve: ^2.0.2
+    rollup-plugin-svelte: ^7.1.6
+    rollup-plugin-visualizer: ^5.11.0
+    sinon: ^17.0.1
+    start-server-and-test: ^2.0.3
+    svelte: ^3.59.2
+    svelte-jester: ^2.3.2
+    svelte-preprocess: ^5.1.3
+    tailwindcss: ^3.4.1
   languageName: unknown
   linkType: soft
 

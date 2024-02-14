@@ -57,7 +57,7 @@
     "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/svelte": "^3.2.2",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.17",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^29.7.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
