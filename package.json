@@ -84,6 +84,7 @@
     "postcss": "^8.4.33",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
+    "regenerator-runtime": "^0.14.1",
     "release-it": "^16.3.0",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
@@ -124,5 +125,6 @@
   "maintainers": [
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
-  ]
+  ],
+  "packageManager": "yarn@4.1.0"
 }
