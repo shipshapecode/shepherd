@@ -7,14 +7,14 @@ import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 
 const posts = (await getCollection('blog')).sort(
-  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
 <Base>
   <Header title={SITE_TITLE} />
   <main class="flex justify-center w-full">
-    <section class="max-w-3xl my-10 text-xl w-full">
+    <section class="max-w-4xl my-10 text-2xl w-full">
       <ul class="list-square">
         {
           posts.map((post) => (
@@ -27,7 +27,7 @@ const posts = (await getCollection('blog')).sort(
                   <h4 class="font-bold font-title">{post.data.title}</h4>
                 </a>
               </div>
-              <div class="text-text-muted text-sm italic">
+              <div class="text-text-muted text-md italic">
                 <time datetime={post.data.pubDate.toISOString()}>
                   <FormattedDate date={post.data.pubDate} />
                 </time>
