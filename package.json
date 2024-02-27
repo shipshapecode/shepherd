@@ -22,7 +22,7 @@
   "module": "dist/js/shepherd.esm.js",
   "types": "src/types/shepherd.d.ts",
   "scripts": {
-    "build": "yarn clean && rollup -c",
+    "build": "yarn clean && rollup -c && yarn postbuild",
     "postbuild": "yarn build:landing",
     "build:landing": "cd landing && yarn && yarn build",
     "clean": "rimraf ./dist",
@@ -38,7 +38,7 @@
     "start-test-server": "http-server -p 9002",
     "test": "yarn lint:js && yarn test:ci",
     "pretest:ci": "yarn build",
-    "test:ci": "yarn test:unit:ci && yarn test:cy:ci:chrome",
+    "test:ci": "yarn build && yarn test:unit:ci && yarn test:cy:ci:chrome",
     "test:cy:ci:chrome": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
     "test:cy:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open",
     "test:unit:ci": "jest --coverage",
