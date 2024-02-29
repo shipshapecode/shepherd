@@ -33,6 +33,14 @@ pnpm install shepherd.js --save
 bun add shepherd.js
 ```
 
+### styles
+
+Don't forget to add your styles
+
+```javascript
+import 'shepherd.js/dist/css/shepherd.css';
+```
+
 ### GitHub Releases
 
 Whenever we release a new version, the contents of the `dist` are uploaded
