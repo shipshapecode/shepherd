@@ -8,33 +8,34 @@ on:
 
 jobs:
   test-lint:
-    name: Run eslint
+    name: Linting
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repo and setup pnpm
-      - name: Checkout and setup pnpm
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
       # Install project dependencies
-      - name: Install Dependencies
-        run: pnpm install
-      # Run eslint
-      - name: Linting
-        run: pnpm lint:js
+      - name: Install dependencies and run linting
+        run: pnpm install && pnpm lint:js
 
   test-unit:
     name: Run Unit Tests
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repo and setup pnpm
-      - name: Checkout and setup pnpm
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
-      # Install project dependencies
       - name: Install Dependencies
         run: pnpm install
+
       # Run Jest
       - name: Run Unit Tests
         run: pnpm test:unit:ci
@@ -49,11 +50,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repo and setup pnpm
-      - name: Checkout and setup pnpm
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
-      # Install project dependencies
       - name: Install Dependencies
         run: pnpm install
 
