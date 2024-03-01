@@ -65,7 +65,6 @@ jobs:
           browser: chrome
           build: pnpm build
           start: pnpm test:cy:start-server
-          working-directory: test/cypress
 
   automerge:
     needs: [test-unit, test-integration]
