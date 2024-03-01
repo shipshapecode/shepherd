@@ -56,15 +56,16 @@ jobs:
       - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
-      - name: Install dependencies and setup Cypress
-        uses: cypress-io/github-action@v6
-
       - name: Build
         run: pnpm build
 
-      # Run Cypress
-      - name: Run Tests
-        run: pnpm test:cy:ci:chrome
+      - name: Install dependencies and setup Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          build: pnpm build
+          start: pnpm test:cy:start-server
+          working-directory: test/cypress
 
   automerge:
     needs: [test-unit, test-integration]
