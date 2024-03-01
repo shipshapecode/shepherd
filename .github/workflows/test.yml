@@ -56,9 +56,6 @@ jobs:
       - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
-      - name: Build
-        run: pnpm build
-
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
