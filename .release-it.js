@@ -2,7 +2,7 @@
 
 module.exports = {
   hooks: {
-    'after:bump': 'yarn build'
+    'after:bump': 'pnpm build'
   },
   plugins: {
     '@release-it-plugins/lerna-changelog': {

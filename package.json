@@ -13,38 +13,41 @@
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
-  "funding": {
-    "type": "individual",
-    "url": "https://github.com/sponsors/RobbieTheWagner"
-  },
+  "authors": [
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
+    "Zack Bloom <zackbloom@gmail.com>"
+  ],
+  "maintainers": [
+    "Robbie Wagner <rwwagner90@gmail.com>",
+    "Chuck Carpenter <chuck@shipshape.io>"
+  ],
   "license": "MIT",
   "main": "dist/js/shepherd.js",
   "module": "dist/js/shepherd.esm.js",
   "types": "src/types/shepherd.d.ts",
   "scripts": {
-    "build": "yarn clean && rollup -c && yarn postbuild",
-    "postbuild": "yarn build:landing",
-    "build:landing": "cd landing && yarn && yarn build",
+    "build": "pnpm clean && rollup -c && pnpm postbuild",
+    "postbuild": "pnpm build:landing",
+    "build:landing": "pnpm -F landing build",
     "clean": "rimraf ./dist",
     "cy:open": "./node_modules/.bin/cypress open",
-    "cy:run:chrome": "cypress run --browser chrome",
-    "dev": "yarn watch",
+    "dev": "pnpm watch",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "lint:js": "eslint . --ext js",
     "release": "release-it",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
-    "start": "yarn watch",
+    "start": "pnpm watch",
     "start-test-server": "http-server -p 9002",
-    "test": "yarn lint:js && yarn test:ci",
-    "pretest:ci": "yarn build",
-    "test:ci": "yarn build && yarn test:unit:ci && yarn test:cy:ci:chrome",
-    "test:cy:ci:chrome": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
-    "test:cy:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open",
+    "test": "pnpm lint:js && pnpm test:ci",
+    "pretest:ci": "pnpm build",
+    "test:ci": "pnpm build && pnpm test:unit:ci",
+    "test:cy:start-server": "start-server-and-test start-test-server http://127.0.0.1:9002",
+    "test:cy:watch": "pnpm test:cy:start-server && pnpm cy:open",
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
-    "watch": "yarn clean && rollup -c --environment DEVELOPMENT --watch"
+    "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
@@ -115,16 +118,8 @@
   "engines": {
     "node": "18.* || >= 20"
   },
+  "packageManager": "pnpm@8.15.4",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
-  },
-  "authors": [
-    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
-    "Zack Bloom <zackbloom@gmail.com>"
-  ],
-  "maintainers": [
-    "Robbie Wagner <rwwagner90@gmail.com>",
-    "Chuck Carpenter <chuck@shipshape.io>"
-  ],
-  "packageManager": "yarn@4.1.0"
+  }
 }

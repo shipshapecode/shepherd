@@ -24,12 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: wyvox/action-setup-pnpm@v3
       - name: Install Deps and Build
         run: |
-          yarn
-          yarn build
+          pnpm i
+          pnpm build
       - name: Build docs
-        run: yarn docs
+        run: pnpm docs
       - name: Publish site and docs
         uses: peaceiris/actions-gh-pages@v3
         with:
