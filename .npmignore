@@ -21,6 +21,7 @@ tests/
 cypress.json
 index.html
 jest.config.js
+pnpm-lock.yaml
 stats.html
 yarn.lock
 yarn-error.log

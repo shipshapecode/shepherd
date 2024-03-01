@@ -24,7 +24,7 @@ yarn add shepherd.js
 ### pnpm
 
 ```bash
-pnpm install shepherd.js --save
+pnpm add shepherd.js
 ```
 
 ### bun
