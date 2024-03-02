@@ -62,11 +62,13 @@ jobs:
       - name: Install Cypress Binary
         run: pnpm cypress install
 
+      - name: Build
+        run: pnpm build
+
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          build: pnpm build
           install: false
           start: pnpm test:cy:start-server
 
