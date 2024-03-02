@@ -12,6 +12,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import visualizer from 'rollup-plugin-visualizer';
+import typescript from '@rollup/plugin-typescript';
 
 const pkg = require('./package.json');
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -20,12 +21,13 @@ const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
 const plugins = [
   svelte({
-    preprocess: sveltePreprocess(),
+    preprocess: sveltePreprocess({ typescript: true }),
     emitCss: true
   }),
   resolve({
-    extensions: ['.js', '.json', '.svelte']
+    extensions: ['.js', '.json', '.svelte', '.ts']
   }),
+  typescript(),
   commonjs(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
@@ -95,12 +97,13 @@ if (!process.env.DEVELOPMENT) {
       ],
       plugins: [
         svelte({
-          preprocess: sveltePreprocess(),
+          preprocess: sveltePreprocess({ typescript: true }),
           emitCss: true
         }),
         resolve({
-          extensions: ['.js', '.json', '.svelte']
+          extensions: ['.js', '.json', '.svelte', '.ts']
         }),
+        typescript(),
         commonjs(),
         replace({
           'process.env.NODE_ENV': JSON.stringify(env)

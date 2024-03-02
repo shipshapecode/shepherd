@@ -37,7 +37,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '\\.[jt]s?$': 'babel-jest',
     '^.+\\.svelte$': [
       'svelte-jester',
       {
