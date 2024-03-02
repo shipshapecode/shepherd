@@ -59,6 +59,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      - name: Install Cypress Binary
+        run: pnpm cypress install
+
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
