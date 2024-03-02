@@ -81,6 +81,8 @@ jobs:
           browser: chrome
           build: pnpm build
           start: pnpm test:cy:start-server
+          wait-on: 'http://127.0.0.1:9002'
+          wait-on-timeout: 120
 
   automerge:
     needs: [test-unit, test-integration]
