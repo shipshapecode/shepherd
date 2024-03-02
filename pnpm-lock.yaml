@@ -37,8 +37,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(svelte@3.59.2)
       autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.17(postcss@8.4.35)
+        specifier: ^10.4.18
+        version: 10.4.18(postcss@8.4.35)
       babel-core:
         specifier: ^7.0.0-bridge.0
         version: 7.0.0-bridge.0(@babel/core@7.24.0)
@@ -3732,6 +3732,23 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.35
       postcss-value-parser: 4.2.0
+    dev: false
+
+  /autoprefixer@10.4.18(postcss@8.4.35):
+    resolution: {integrity: sha512-1DKbDfsr6KUElM6wg+0zRNkB/Q7WcKYAaK+pzXn+Xqmszm/5Xa9coeNdtP88Vi+dPzZnMjhge8GIV49ZQkDa+g==}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.23.0
+      caniuse-lite: 1.0.30001591
+      fraction.js: 4.3.7
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.35
+      postcss-value-parser: 4.2.0
+    dev: true
 
   /available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
