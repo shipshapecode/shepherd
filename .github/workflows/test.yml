@@ -80,6 +80,7 @@ jobs:
         with:
           browser: chrome
           build: pnpm build
+          install: false
           start: pnpm test:cy:start-server
 
   automerge:
