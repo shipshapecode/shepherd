@@ -1,5 +1,5 @@
 import { bindAdvance } from '../../../src/utils/bind.js';
-import { Step } from '../../../src/step.js';
+import { Step } from '../../../src/step';
 import { spy } from 'sinon';
 
 describe('Bind Utils', function() {
