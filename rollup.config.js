@@ -3,7 +3,6 @@ import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from 'rollup-plugin-commonjs';
-import compiler from '@ampproject/rollup-plugin-closure-compiler';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -115,7 +114,6 @@ if (!process.env.DEVELOPMENT) {
           plugins: [require('autoprefixer'), require('cssnano')],
           extract: 'css/shepherd.css'
         }),
-        compiler(),
         license({
           banner
         }),

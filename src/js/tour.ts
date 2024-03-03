@@ -9,6 +9,7 @@ import {
 } from './utils/type-check';
 import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix, uuid } from './utils/general';
+// @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
 
 interface ShepherdBase extends Evented {
@@ -66,7 +67,7 @@ interface TourOptions {
   /**
    * An array of step options objects or Step instances to initialize the tour with.
    */
-  steps?: object[] | Step[];
+  steps?: Array<StepOptions> | Array<Step>;
   /**
    * An optional "name" for the tour. This will be appended to the the tour's
    * dynamically generated `id` property.
@@ -119,9 +120,9 @@ export class Tour extends Evented {
     ];
     events.map((event) => {
       ((e) => {
-        this.on(e, (opts) => {
+        this.on(e, (opts?: { [key: string]: unknown }) => {
           opts = opts || {};
-          opts.tour = this;
+          opts['tour'] = this;
           Shepherd.trigger(e, opts);
         });
       })(event);
@@ -149,9 +150,9 @@ export class Tour extends Evented {
     }
 
     if (!isUndefined(index)) {
-      this.steps.splice(index, 0, step);
+      this.steps.splice(index, 0, step as Step);
     } else {
-      this.steps.push(step);
+      this.steps.push(step as Step);
     }
 
     return step;
@@ -161,7 +162,7 @@ export class Tour extends Evented {
    * Add multiple steps to the tour
    * @param steps - The steps to add to the tour
    */
-  addSteps(steps: Array<object> | Array<Step>) {
+  addSteps(steps?: Array<StepOptions> | Array<Step>) {
     if (Array.isArray(steps)) {
       steps.forEach((step) => {
         this.addStep(step);
@@ -187,14 +188,17 @@ export class Tour extends Evented {
    */
   async cancel() {
     if (this.options.confirmCancel) {
-      const confirmCancelIsFunction =
-        typeof this.options.confirmCancel === 'function';
       const cancelMessage =
         this.options.confirmCancelMessage ||
         'Are you sure you want to stop the tour?';
-      const stopTour = confirmCancelIsFunction
-        ? await this.options.confirmCancel()
-        : window.confirm(cancelMessage);
+      let stopTour;
+
+      if (isFunction(this.options.confirmCancel)) {
+        stopTour = await this.options.confirmCancel();
+      } else {
+        stopTour = window.confirm(cancelMessage);
+      }
+
       if (stopTour) {
         this._done('cancel');
       }
@@ -391,7 +395,6 @@ export class Tour extends Evented {
     this.modal = new ShepherdModal({
       target: this.options.modalContainer || document.body,
       props: {
-        classPrefix: this.classPrefix,
         // @ts-expect-error TODO: investigate where styles comes from
         styles: this.styles
       }

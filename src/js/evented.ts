@@ -1,9 +1,12 @@
+// @ts-nocheck
 import { isUndefined } from './utils/type-check';
 
+type Bindings = {
+  [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;
+};
+
 export class Evented {
-  declare bindings: {
-    [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;
-  };
+  declare bindings: Bindings;
 
   on(event: string, handler: Function, ctx?: unknown, once = false) {
     if (isUndefined(this.bindings)) {

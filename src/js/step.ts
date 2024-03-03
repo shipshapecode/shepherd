@@ -200,6 +200,7 @@ export interface StepOptionsAttachTo {
   element?:
     | HTMLElement
     | string
+    | null
     | (() => HTMLElement | string | null | undefined);
   on?: PopperPlacement;
 }
@@ -270,7 +271,7 @@ export interface StepOptionsWhen {
 export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   classPrefix?: string;
-  declare el: HTMLElement;
+  declare el: HTMLElement | null;
   declare id: string;
   declare options: StepOptions;
   target?: HTMLElement;
@@ -469,11 +470,11 @@ export class Step extends Evented {
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
    * @private
    */
-  _scrollTo(scrollToOptions: boolean | object) {
+  _scrollTo(scrollToOptions: boolean | ScrollIntoViewOptions) {
     const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
-      this.options.scrollToHandler(element);
+      this.options.scrollToHandler(element as HTMLElement);
     } else if (
       isElement(element) &&
       typeof element.scrollIntoView === 'function'
@@ -532,6 +533,7 @@ export class Step extends Evented {
 
     if (when) {
       Object.keys(when).forEach((event) => {
+        // @ts-expect-error TODO: figure out this type error
         this.on(event, when[event], this);
       });
     }
@@ -575,16 +577,23 @@ export class Step extends Evented {
 
     this.tour.modal?.setupForStep(this);
     this._styleTargetElementForStep(this);
-    this.el.hidden = false;
+
+    if (this.el) {
+      this.el.hidden = false;
+    }
 
     // start scrolling to target before showing the step
     if (this.options.scrollTo) {
       setTimeout(() => {
-        this._scrollTo(this.options.scrollTo);
+        this._scrollTo(
+          this.options.scrollTo as boolean | ScrollIntoViewOptions
+        );
       });
     }
 
-    this.el.hidden = false;
+    if (this.el) {
+      this.el.hidden = false;
+    }
 
     // @ts-expect-error TODO: get types for Svelte components
     const content = this.shepherdElementComponent.getElement();
