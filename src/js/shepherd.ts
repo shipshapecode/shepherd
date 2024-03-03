@@ -1,5 +1,5 @@
-import { Step } from './step.js';
-import { Shepherd, Tour } from './tour.js';
+import { Step } from './step';
+import { Shepherd, Tour } from './tour';
 
 const isServerSide = typeof window === 'undefined';
 

@@ -1,7 +1,11 @@
 import { isUndefined } from './utils/type-check';
 
 export class Evented {
-  on(event, handler, ctx, once = false) {
+  declare bindings: {
+    [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;
+  };
+
+  on(event: string, handler: Function, ctx: unknown, once = false) {
     if (isUndefined(this.bindings)) {
       this.bindings = {};
     }
@@ -13,11 +17,11 @@ export class Evented {
     return this;
   }
 
-  once(event, handler, ctx) {
+  once(event: string, handler: Function, ctx: unknown) {
     return this.on(event, handler, ctx, true);
   }
 
-  off(event, handler) {
+  off(event: string, handler: Function) {
     if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return this;
     }
@@ -35,7 +39,7 @@ export class Evented {
     return this;
   }
 
-  trigger(event, ...args) {
+  trigger(event: string, ...args: Array<any>) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
       this.bindings[event].forEach((binding, index) => {
         const { ctx, handler, once } = binding;

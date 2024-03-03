@@ -1,4 +1,4 @@
-import { type Step } from '../step';
+import { type StepOptionsAttachTo, type Step } from '../step';
 import { isFunction, isString } from './type-check';
 
 /**
@@ -51,10 +51,8 @@ export function parseAttachTo(step: Step) {
 /**
  * Checks if the step should be centered or not. Does not trigger attachTo.element evaluation, making it a pure
  * alternative for the deprecated step.isCentered() method.
- * @param resolvedAttachToOptions
- * @returns {boolean}
  */
-export function shouldCenterStep(resolvedAttachToOptions) {
+export function shouldCenterStep(resolvedAttachToOptions: StepOptionsAttachTo) {
   if (
     resolvedAttachToOptions === undefined ||
     resolvedAttachToOptions === null

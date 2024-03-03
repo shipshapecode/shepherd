@@ -196,7 +196,7 @@ type PopperPlacement =
   | 'left-start'
   | 'left-end';
 
-interface StepOptionsAttachTo {
+export interface StepOptionsAttachTo {
   element?:
     | HTMLElement
     | string
@@ -204,7 +204,7 @@ interface StepOptionsAttachTo {
   on?: PopperPlacement;
 }
 
-interface StepOptionsAdvanceOn {
+export interface StepOptionsAdvanceOn {
   selector?: string;
   event?: string;
 }
@@ -250,16 +250,16 @@ export interface StepOptionsButton {
   text?: string | (() => string);
 }
 
-interface StepOptionsButtonEvent {
+export interface StepOptionsButtonEvent {
   [key: string]: () => void;
 }
 
-interface StepOptionsCancelIcon {
+export interface StepOptionsCancelIcon {
   enabled?: boolean;
   label?: string;
 }
 
-interface StepOptionsWhen {
+export interface StepOptionsWhen {
   [key: string]: (this: Step) => void;
 }
 
@@ -276,7 +276,7 @@ export class Step extends Evented {
   tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {
-    super(tour: Tour, options);
+    super(tour, options);
 
     this.tour = tour;
     this.classPrefix = this.tour.options

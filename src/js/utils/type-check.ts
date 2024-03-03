@@ -2,7 +2,7 @@
  * Checks if `value` is classified as an `Element`.
  * @param value The param to check if it is an Element
  */
-export function isElement(value: unknown) {
+export function isElement<T>(value: T) {
   return value instanceof Element;
 }
 
@@ -10,7 +10,7 @@ export function isElement(value: unknown) {
  * Checks if `value` is classified as an `HTMLElement`.
  * @param value The param to check if it is an HTMLElement
  */
-export function isHTMLElement(value: unknown) {
+export function isHTMLElement<T>(value: T) {
   return value instanceof HTMLElement;
 }
 
@@ -18,7 +18,7 @@ export function isHTMLElement(value: unknown) {
  * Checks if `value` is classified as a `Function` object.
  * @param value The param to check if it is a function
  */
-export function isFunction(value: unknown) {
+export function isFunction<T>(value: T) {
   return typeof value === 'function';
 }
 
@@ -26,7 +26,7 @@ export function isFunction(value: unknown) {
  * Checks if `value` is classified as a `String` object.
  * @param value The param to check if it is a string
  */
-export function isString(value: unknown) {
+export function isString<T>(value: T) {
   return typeof value === 'string';
 }
 
@@ -34,6 +34,6 @@ export function isString(value: unknown) {
  * Checks if `value` is undefined.
  * @param value The param to check if it is undefined
  */
-export function isUndefined(value: unknown) {
+export function isUndefined<T>(value: T) {
   return value === undefined;
 }

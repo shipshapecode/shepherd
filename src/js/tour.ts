@@ -83,6 +83,7 @@ interface TourOptions {
 export class Tour extends Evented {
   classPrefix: string;
   currentStep?: Step | null;
+  focusedElBeforeOpen?: HTMLElement;
   id?: string;
   modal?: ShepherdModal;
   options: TourOptions;
