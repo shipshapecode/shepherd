@@ -333,10 +333,10 @@ export class Tour extends Evented {
 
   /**
    * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param {String} event The event name to trigger
+   * @param event The event name to trigger
    * @private
    */
-  _done(event) {
+  _done(event: string) {
     const index = this.steps.indexOf(this.currentStep);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());

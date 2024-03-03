@@ -54,7 +54,7 @@ plugins.push(visualizer());
 const rollupBuilds = [
   // Generate unminified bundle
   {
-    input: './src/js/shepherd.js',
+    input: './src/js/shepherd.ts',
 
     output: [
       {
@@ -79,7 +79,7 @@ if (!process.env.DEVELOPMENT) {
   rollupBuilds.push(
     // Generate minifed bundle
     {
-      input: './src/js/shepherd.js',
+      input: './src/js/shepherd.ts',
       output: [
         {
           dir: 'dist',
