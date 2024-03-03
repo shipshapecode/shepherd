@@ -5,7 +5,7 @@ export class Evented {
     [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;
   };
 
-  on(event: string, handler: Function, ctx: unknown, once = false) {
+  on(event: string, handler: Function, ctx?: unknown, once = false) {
     if (isUndefined(this.bindings)) {
       this.bindings = {};
     }
@@ -17,7 +17,7 @@ export class Evented {
     return this;
   }
 
-  once(event: string, handler: Function, ctx: unknown) {
+  once(event: string, handler: Function, ctx?: unknown) {
     return this.on(event, handler, ctx, true);
   }
 

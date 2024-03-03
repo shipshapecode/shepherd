@@ -268,7 +268,7 @@ export interface StepOptionsWhen {
  * @extends {Evented}
  */
 export class Step extends Evented {
-  _resolvedAttachTo?: StepOptionsAttachTo | null;
+  _resolvedAttachTo: StepOptionsAttachTo | null;
   classPrefix?: string;
   declare el: HTMLElement;
   declare id: string;
@@ -283,6 +283,7 @@ export class Step extends Evented {
     this.classPrefix = this.tour.options
       ? normalizePrefix(this.tour.options.classPrefix)
       : '';
+    // @ts-expect-error TODO: investigate where styles comes from
     this.styles = tour.styles;
 
     /**
@@ -384,7 +385,7 @@ export class Step extends Evented {
 
   /**
    * Check if the step is open and visible
-   * @return {boolean} True if the step is open and visible
+   * @return True if the step is open and visible
    */
   isOpen() {
     return Boolean(this.el && !this.el.hidden);
@@ -451,6 +452,7 @@ export class Step extends Evented {
         descriptionId,
         labelId,
         step: this,
+        // @ts-expect-error TODO: investigate where styles comes from
         styles: this.styles
       }
     });
@@ -463,11 +465,11 @@ export class Step extends Evented {
    * If a custom scrollToHandler is defined, call that, otherwise do the generic
    * scrollIntoView call.
    *
-   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+   * @param scrollToOptions - If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
    * @private
    */
-  _scrollTo(scrollToOptions) {
+  _scrollTo(scrollToOptions: boolean | object) {
     const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
@@ -571,7 +573,7 @@ export class Step extends Evented {
       this.tour.setupModal();
     }
 
-    this.tour.modal.setupForStep(this);
+    this.tour.modal?.setupForStep(this);
     this._styleTargetElementForStep(this);
     this.el.hidden = false;
 

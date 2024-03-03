@@ -1,5 +1,5 @@
 import { Evented } from './evented';
-import { Step } from './step';
+import { Step, type StepOptions } from './step';
 import autoBind from './utils/auto-bind.js';
 import {
   isHTMLElement,
@@ -42,7 +42,7 @@ interface TourOptions {
   /**
    * Default options for Steps ({@link Step#constructor}), created through `addStep`.
    */
-  defaultStepOptions?: object;
+  defaultStepOptions?: StepOptions;
   /**
    * Exiting the tour with the escape key will be enabled unless this is explicitly
    * set to false.
@@ -87,11 +87,11 @@ interface TourOptions {
 export class Tour extends Evented {
   classPrefix: string;
   currentStep?: Step | null;
-  focusedElBeforeOpen?: HTMLElement;
+  focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
   modal?: ShepherdModal;
   options: TourOptions;
-  steps: Array<unknown>;
+  steps: Array<Step>;
 
   constructor(options: TourOptions = {}) {
     super();
@@ -134,12 +134,12 @@ export class Tour extends Evented {
 
   /**
    * Adds a new step to the tour
-   * @param {Object|Step} options An object containing step options or a Step instance
+   * @param options - An object containing step options or a Step instance
    * @param index - The optional index to insert the step at. If undefined, the step
    * is added to the end of the array.
    * @return The newly added step
    */
-  addStep(options, index?: number) {
+  addStep(options: StepOptions | Step, index?: number) {
     let step = options;
 
     if (!(step instanceof Step)) {
@@ -175,7 +175,7 @@ export class Tour extends Evented {
    * Go to the previous step in the tour
    */
   back() {
-    const index = this.steps.indexOf(this.currentStep);
+    const index = this.steps.indexOf(this.currentStep as Step);
     this.show(index - 1, false);
   }
 
@@ -251,7 +251,7 @@ export class Tour extends Evented {
    * If we are at the end, call `complete`
    */
   next() {
-    const index = this.steps.indexOf(this.currentStep);
+    const index = this.steps.indexOf(this.currentStep as Step);
 
     if (index === this.steps.length - 1) {
       this.complete();
@@ -262,9 +262,9 @@ export class Tour extends Evented {
 
   /**
    * Removes the step from the tour
-   * @param {String} name The id for the step to remove
+   * @param name - The id for the step to remove
    */
-  removeStep(name) {
+  removeStep(name: string) {
     const current = this.getCurrentStep();
 
     // Find the step, destroy it and remove it from this.steps
@@ -291,10 +291,10 @@ export class Tour extends Evented {
 
   /**
    * Show a specific step in the tour
-   * @param {Number|String} key The key to look up the step by
-   * @param {Boolean} forward True if we are going forward, false if backward
+   * @param key - The key to look up the step by
+   * @param forward - True if we are going forward, false if backward
    */
-  show(key = 0, forward = true) {
+  show(key: number | string = 0, forward = true) {
     const step = isString(key) ? this.getById(key) : this.steps[key];
 
     if (step) {
@@ -325,7 +325,7 @@ export class Tour extends Evented {
     this.trigger('start');
 
     // Save the focused element before the tour opens
-    this.focusedElBeforeOpen = document.activeElement;
+    this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
 
     this.currentStep = null;
 
@@ -341,7 +341,7 @@ export class Tour extends Evented {
    * @private
    */
   _done(event: string) {
-    const index = this.steps.indexOf(this.currentStep);
+    const index = this.steps.indexOf(this.currentStep as Step);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
@@ -392,6 +392,7 @@ export class Tour extends Evented {
       target: this.options.modalContainer || document.body,
       props: {
         classPrefix: this.classPrefix,
+        // @ts-expect-error TODO: investigate where styles comes from
         styles: this.styles
       }
     });

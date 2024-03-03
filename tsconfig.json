@@ -2,8 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "typeRoots": ["./src/types"],
-    "types": ["shepherd.js"],
+    "moduleResolution": "bundler",
     "outDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
