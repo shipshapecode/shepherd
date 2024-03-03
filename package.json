@@ -46,6 +46,7 @@
     "test:cy:watch": "pnpm test:cy:start-server && pnpm cy:open",
     "test:unit:ci": "jest --coverage",
     "test:unit:watch": "jest --watch",
+    "types:check": "pnpm tsc",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },

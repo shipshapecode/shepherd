@@ -14,34 +14,81 @@ import ShepherdModal from './components/shepherd-modal.svelte';
 const Shepherd = new Evented();
 
 /**
+ * The options for the tour
+ */
+interface TourOptions {
+  /**
+   * If true, will issue a `window.confirm` before cancelling.
+   * If it is a function(support Async Function), it will be called and wait for the return value,
+   * and will only be cancelled if the value returned is true.
+   */
+  confirmCancel?:
+    | boolean
+    | (() => boolean)
+    | Promise<boolean>
+    | (() => Promise<boolean>);
+  /**
+   * The message to display in the `window.confirm` dialog.
+   */
+  confirmCancelMessage?: string;
+  /**
+   * The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
+   */
+  classPrefix?: string;
+  /**
+   * Default options for Steps ({@link Step#constructor}), created through `addStep`.
+   */
+  defaultStepOptions?: object;
+  /**
+   * Exiting the tour with the escape key will be enabled unless this is explicitly
+   * set to false.
+   */
+  exitOnEsc?: boolean;
+  /**
+   * Navigating the tour via left and right arrow keys will be enabled
+   * unless this is explicitly set to false.
+   */
+  keyboardNavigation?: boolean;
+  /**
+   * An optional container element for the modal.
+   * If not set, the modal will be appended to `document.body`.
+   */
+  modalContainer?: HTMLElement;
+  /**
+   * An optional container element for the steps.
+   * If not set, the steps will be appended to `document.body`.
+   */
+  stepsContainer?: HTMLElement;
+  /**
+   * An array of step options objects or Step instances to initialize the tour with.
+   */
+  steps?: object[] | Step[];
+  /**
+   * An optional "name" for the tour. This will be appended to the the tour's
+   * dynamically generated `id` property.
+   */
+  tourName?: string;
+  /**
+   * Whether or not steps should be placed above a darkened
+   * modal overlay. If true, the overlay will create an opening around the target element so that it
+   * can remain interactive
+   */
+  useModalOverlay?: boolean;
+}
+
+/**
  * Class representing the site tour
  * @extends {Evented}
  */
 export class Tour extends Evented {
-  /**
-   * @param {Object} options The options for the tour
-   * @param {boolean | function(): boolean | Promise<boolean> | function(): Promise<boolean>} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
-   * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
-   * @param {string} options.confirmCancelMessage The message to display in the `window.confirm` dialog
-   * @param {string} options.classPrefix The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
-   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
-   * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
-   * set to false.
-   * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
-   * unless this is explicitly set to false.
-   * @param {HTMLElement} options.stepsContainer An optional container element for the steps.
-   * If not set, the steps will be appended to `document.body`.
-   * @param {HTMLElement} options.modalContainer An optional container element for the modal.
-   * If not set, the modal will be appended to `document.body`.
-   * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
-   * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
-   * dynamically generated `id` property.
-   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
-   * modal overlay. If true, the overlay will create an opening around the target element so that it
-   * can remain interactive
-   * @returns {Tour}
-   */
-  constructor(options = {}) {
+  classPrefix: string;
+  currentStep?: Step | null;
+  id?: string;
+  modal?: ShepherdModal;
+  options: TourOptions;
+  steps: Array<unknown>;
+
+  constructor(options: TourOptions = {}) {
     super(options);
 
     autoBind(this);
@@ -75,7 +122,7 @@ export class Tour extends Evented {
       })(event);
     });
 
-    this._setTourID();
+    this.#setTourID();
 
     return this;
   }
@@ -83,11 +130,11 @@ export class Tour extends Evented {
   /**
    * Adds a new step to the tour
    * @param {Object|Step} options An object containing step options or a Step instance
-   * @param {number} index The optional index to insert the step at. If undefined, the step
+   * @param index - The optional index to insert the step at. If undefined, the step
    * is added to the end of the array.
-   * @return {Step} The newly added step
+   * @return The newly added step
    */
-  addStep(options, index) {
+  addStep(options, index?: number) {
     let step = options;
 
     if (!(step instanceof Step)) {
@@ -107,9 +154,9 @@ export class Tour extends Evented {
 
   /**
    * Add multiple steps to the tour
-   * @param {Array<object> | Array<Step>} steps The steps to add to the tour
+   * @param steps - The steps to add to the tour
    */
-  addSteps(steps) {
+  addSteps(steps: Array<object> | Array<Step>) {
     if (Array.isArray(steps)) {
       steps.forEach((step) => {
         this.addStep(step);
@@ -160,10 +207,10 @@ export class Tour extends Evented {
 
   /**
    * Gets the step from a given id
-   * @param {Number|String} id The id of the step to retrieve
-   * @return {Step} The step corresponding to the `id`
+   * @param id - The id of the step to retrieve
+   * @return The step corresponding to the `id`
    */
-  getById(id) {
+  getById(id: number | string) {
     return this.steps.find((step) => {
       return step.id === id;
     });
@@ -171,7 +218,6 @@ export class Tour extends Evented {
 
   /**
    * Gets the current step
-   * @returns {Step|null}
    */
   getCurrentStep() {
     return this.currentStep;
@@ -190,7 +236,6 @@ export class Tour extends Evented {
 
   /**
    * Check if the tour is active
-   * @return {boolean}
    */
   isActive() {
     return Shepherd.activeTour === this;
@@ -279,9 +324,9 @@ export class Tour extends Evented {
 
     this.currentStep = null;
 
-    this._setupModal();
+    this.setupModal();
 
-    this._setupActiveTour();
+    this.#setupActiveTour();
     this.next();
   }
 
@@ -327,19 +372,17 @@ export class Tour extends Evented {
 
   /**
    * Make this tour "active"
-   * @private
    */
-  _setupActiveTour() {
+  #setupActiveTour() {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
   }
 
   /**
-   * _setupModal create the modal container and instance
-   * @private
+   * setupModal create the modal container and instance
    */
-  _setupModal() {
+  setupModal() {
     this.modal = new ShepherdModal({
       target: this.options.modalContainer || document.body,
       props: {
@@ -351,11 +394,11 @@ export class Tour extends Evented {
 
   /**
    * Called when `showOn` evaluates to false, to skip the step or complete the tour if it's the last step
-   * @param {Step} step The step to skip
-   * @param {Boolean} forward True if we are going forward, false if backward
+   * @param step - The step to skip
+   * @param forward - True if we are going forward, false if backward
    * @private
    */
-  _skipStep(step, forward) {
+  _skipStep(step: Step, forward: boolean) {
     const index = this.steps.indexOf(step);
 
     if (index === this.steps.length - 1) {
@@ -377,7 +420,7 @@ export class Tour extends Evented {
     }
 
     if (!this.isActive()) {
-      this._setupActiveTour();
+      this.#setupActiveTour();
     }
   }
 
@@ -385,7 +428,7 @@ export class Tour extends Evented {
    * Sets this.id to `${tourName}--${uuid}`
    * @private
    */
-  _setTourID() {
+  #setTourID() {
     const tourName = this.options.tourName || 'tour';
 
     this.id = `${tourName}--${uuid()}`;
