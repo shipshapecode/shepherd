@@ -58,6 +58,7 @@
     "@ampproject/rollup-plugin-closure-compiler": "^0.27.0",
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
+    "@babel/preset-typescript": "^7.23.3",
     "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@testing-library/jest-dom": "^5.17.0",

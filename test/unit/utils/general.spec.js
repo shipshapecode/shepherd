@@ -3,7 +3,7 @@ import { Step } from '../../../src/js/step.js';
 import {
   parseAttachTo,
   shouldCenterStep
-} from '../../../src/js/utils/general.js';
+} from '../../../src/js/utils/general';
 import {
   getFloatingUIOptions
 } from '../../../src/js/utils/floating-ui.js';

@@ -1,14 +1,14 @@
-import { Evented } from './evented.js';
-import { Step } from './step.js';
+import { Evented } from './evented';
+import { Step } from './step';
 import autoBind from './utils/auto-bind.js';
 import {
   isHTMLElement,
   isFunction,
   isString,
   isUndefined
-} from './utils/type-check.js';
+} from './utils/type-check';
 import { cleanupSteps } from './utils/cleanup.js';
-import { normalizePrefix, uuid } from './utils/general.js';
+import { normalizePrefix, uuid } from './utils/general';
 import ShepherdModal from './components/shepherd-modal.svelte';
 
 const Shepherd = new Evented();

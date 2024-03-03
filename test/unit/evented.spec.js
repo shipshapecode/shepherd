@@ -1,4 +1,4 @@
-import { Evented } from '../../src/js/evented.js';
+import { Evented } from '../../src/js/evented';
 import { spy } from 'sinon';
 
 describe('Evented', () => {

@@ -1,5 +1,5 @@
 <script>
-  import { uuid } from '../utils/general.js';
+  import { uuid } from '../utils/general';
   import { makeOverlayPath } from '../utils/overlay-path.js';
 
   export let element, openingProperties;

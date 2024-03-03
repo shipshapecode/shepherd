@@ -1,14 +1,14 @@
 import merge from 'deepmerge';
-import { Evented } from './evented.js';
+import { Evented } from './evented';
 import autoBind from './utils/auto-bind.js';
 import {
   isElement,
   isHTMLElement,
   isFunction,
   isUndefined
-} from './utils/type-check.js';
+} from './utils/type-check';
 import { bindAdvance } from './utils/bind.js';
-import { parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
+import { parseAttachTo, normalizePrefix, uuid } from './utils/general';
 import {
   setupTooltip,
   destroyTooltip,
