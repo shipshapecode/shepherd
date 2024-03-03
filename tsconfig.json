@@ -33,9 +33,10 @@
     "noEmit": true,
     "declaration": true,
     "declarationMap": true,
+    "declarationDir": "dist/types",
     "inlineSourceMap": true,
     "inlineSources": true,
-    "outDir": "dist",
     "skipLibCheck": true
-  }
+  },
+  "include": ["src/**/*"]
 }

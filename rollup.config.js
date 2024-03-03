@@ -53,19 +53,19 @@ plugins.push(visualizer());
 const rollupBuilds = [
   // Generate unminified bundle
   {
-    input: './src/js/shepherd.ts',
+    input: './src/shepherd.ts',
 
     output: [
       {
         dir: 'dist',
-        entryFileNames: 'js/[name].js',
+        entryFileNames: '[name].js',
         format: 'umd',
         name: 'Shepherd',
         sourcemap: true
       },
       {
         dir: 'dist',
-        entryFileNames: 'js/[name].esm.js',
+        entryFileNames: '[name].esm.js',
         format: 'esm',
         sourcemap: true
       }
@@ -78,18 +78,18 @@ if (!process.env.DEVELOPMENT) {
   rollupBuilds.push(
     // Generate minifed bundle
     {
-      input: './src/js/shepherd.ts',
+      input: './src/shepherd.ts',
       output: [
         {
           dir: 'dist',
-          entryFileNames: 'js/[name].min.js',
+          entryFileNames: '[name].min.js',
           format: 'umd',
           name: 'Shepherd',
           sourcemap: true
         },
         {
           dir: 'dist',
-          entryFileNames: 'js/[name].esm.min.js',
+          entryFileNames: '[name].esm.min.js',
           format: 'esm',
           sourcemap: true
         }
@@ -120,7 +120,7 @@ if (!process.env.DEVELOPMENT) {
         filesize(),
         visualizer(),
         copy({
-          targets: [{ src: 'dist/js/shepherd.js', dest: 'landing/public' }]
+          targets: [{ src: 'dist/shepherd.js', dest: 'landing/public' }]
         })
       ]
     }

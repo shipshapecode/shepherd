@@ -1,7 +1,7 @@
 ### Rollup/Webpack Based Builds
 
 The latest versions of Rollup and Webpack support ES6 imports. We have an ES module
-exported to `dist/js/shepherd.esm.js`. This is also specified as `"module"` in
+exported to `dist/shepherd.esm.js`. This is also specified as `"module"` in
 `package.json`, which should allow you to import using standard ES import syntax.
 
 i.e.

@@ -1,12 +1,12 @@
 import { spy } from 'sinon';
-import { Step } from '../../../src/js/step';
+import { Step } from '../../../src/step';
 import {
   parseAttachTo,
   shouldCenterStep
-} from '../../../src/js/utils/general';
+} from '../../../src/utils/general';
 import {
   getFloatingUIOptions
-} from '../../../src/js/utils/floating-ui.js';
+} from '../../../src/utils/floating-ui.js';
 
 describe('General Utils', function() {
   let optionsElement;

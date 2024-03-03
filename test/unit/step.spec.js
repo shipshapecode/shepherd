@@ -1,7 +1,7 @@
 import { spy } from 'sinon';
-import Shepherd from '../../src/js/shepherd';
-import { Step } from '../../src/js/step';
-import { Tour } from '../../src/js/tour';
+import Shepherd from '../../src/shepherd';
+import { Step } from '../../src/step';
+import { Tour } from '../../src/tour';
 import ResizeObserver from 'resize-observer-polyfill';
 import { offset } from '@floating-ui/dom';
 

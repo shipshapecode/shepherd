@@ -9,9 +9,9 @@ module.exports = {
     include: [
       'package.json',
       'README.md',
-      './src/js/shepherd.js',
-      './src/js/step.js',
-      './src/js/tour.js'
+      './src/shepherd.ts',
+      './src/step.ts',
+      './src/tour.ts'
     ]
   },
   plugins: [

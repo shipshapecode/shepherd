@@ -1,5 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
-import ShepherdTitle from '../../../src/js/components/shepherd-title.svelte';
+import ShepherdTitle from '../../../src/components/shepherd-title.svelte';
 
 describe('components/ShepherdTitle', () => {
   beforeEach(cleanup);

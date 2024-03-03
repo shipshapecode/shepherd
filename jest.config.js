@@ -7,11 +7,11 @@ module.exports = {
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
-    'src/js/*.js',
-    'src/js/*.svelte',
-    'src/js/components/**/*.svelte',
-    'src/js/utils/*.js',
-    'src/js/utils/*.svelte'
+    'src/*.ts',
+    'src/*.svelte',
+    'src/components/**/*.svelte',
+    'src/utils/*.ts',
+    'src/utils/*.svelte'
   ],
 
   // The directory where Jest should output its coverage files
