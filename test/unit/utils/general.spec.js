@@ -1,5 +1,5 @@
 import { spy } from 'sinon';
-import { Step } from '../../../src/js/step.js';
+import { Step } from '../../../src/js/step';
 import {
   parseAttachTo,
   shouldCenterStep

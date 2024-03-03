@@ -11,7 +11,11 @@ import { cleanupSteps } from './utils/cleanup.js';
 import { normalizePrefix, uuid } from './utils/general';
 import ShepherdModal from './components/shepherd-modal.svelte';
 
-const Shepherd = new Evented();
+interface ShepherdBase extends Evented {
+  activeTour?: Tour | null;
+}
+
+const Shepherd: ShepherdBase = new Evented();
 
 /**
  * The options for the tour
@@ -90,7 +94,7 @@ export class Tour extends Evented {
   steps: Array<unknown>;
 
   constructor(options: TourOptions = {}) {
-    super(options);
+    super();
 
     autoBind(this);
 
@@ -123,7 +127,7 @@ export class Tour extends Evented {
       })(event);
     });
 
-    this.#setTourID();
+    this._setTourID();
 
     return this;
   }
@@ -327,7 +331,7 @@ export class Tour extends Evented {
 
     this.setupModal();
 
-    this.#setupActiveTour();
+    this._setupActiveTour();
     this.next();
   }
 
@@ -374,7 +378,7 @@ export class Tour extends Evented {
   /**
    * Make this tour "active"
    */
-  #setupActiveTour() {
+  _setupActiveTour() {
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -421,7 +425,7 @@ export class Tour extends Evented {
     }
 
     if (!this.isActive()) {
-      this.#setupActiveTour();
+      this._setupActiveTour();
     }
   }
 
@@ -429,7 +433,7 @@ export class Tour extends Evented {
    * Sets this.id to `${tourName}--${uuid}`
    * @private
    */
-  #setTourID() {
+  _setTourID() {
     const tourName = this.options.tourName || 'tour';
 
     this.id = `${tourName}--${uuid()}`;

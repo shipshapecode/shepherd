@@ -268,6 +268,7 @@ export interface StepOptionsWhen {
  * @extends {Evented}
  */
 export class Step extends Evented {
+  _resolvedAttachTo?: StepOptionsAttachTo | null;
   classPrefix?: string;
   declare el: HTMLElement;
   declare id: string;
@@ -276,7 +277,7 @@ export class Step extends Evented {
   tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {
-    super(tour, options);
+    super();
 
     this.tour = tour;
     this.classPrefix = this.tour.options
@@ -294,7 +295,7 @@ export class Step extends Evented {
 
     autoBind(this);
 
-    this.#setOptions(options);
+    this._setOptions(options);
 
     return this;
   }
@@ -329,7 +330,7 @@ export class Step extends Evented {
       this.el = null;
     }
 
-    this.#updateStepTargetOnHide();
+    this._updateStepTargetOnHide();
 
     this.trigger('destroy');
   }
@@ -354,7 +355,7 @@ export class Step extends Evented {
       this.el.hidden = true;
     }
 
-    this.#updateStepTargetOnHide();
+    this._updateStepTargetOnHide();
 
     this.trigger('hide');
   }
@@ -363,7 +364,7 @@ export class Step extends Evented {
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
    */
-  #resolveAttachToOptions() {
+  _resolveAttachToOptions() {
     this._resolvedAttachTo = parseAttachTo(this);
     return this._resolvedAttachTo;
   }
@@ -375,7 +376,7 @@ export class Step extends Evented {
    */
   _getResolvedAttachToOptions() {
     if (this._resolvedAttachTo === null) {
-      return this.#resolveAttachToOptions();
+      return this._resolveAttachToOptions();
     }
 
     return this._resolvedAttachTo;
@@ -390,26 +391,28 @@ export class Step extends Evented {
   }
 
   /**
-   * Wraps `#show` and ensures `beforeShowPromise` resolves before calling show
+   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
    */
   show() {
     if (isFunction(this.options.beforeShowPromise)) {
       return Promise.resolve(this.options.beforeShowPromise()).then(() =>
-        this.#show()
+        this._show()
       );
     }
-    return Promise.resolve(this.#show());
+    return Promise.resolve(this._show());
   }
 
   /**
    * Updates the options of the step.
    *
-   * @param {Object} options The options for the step
+   * @param options The options for the step
    */
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
+    // @ts-expect-error TODO: get types for Svelte components
     if (this.shepherdElementComponent) {
+      // @ts-expect-error TODO: get types for Svelte components
       this.shepherdElementComponent.$set({ step: this });
     }
   }
@@ -440,6 +443,7 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
+    // @ts-expect-error TODO: get types for Svelte components
     this.shepherdElementComponent = new ShepherdElement({
       target: this.tour.options.stepsContainer || document.body,
       props: {
@@ -451,6 +455,7 @@ export class Step extends Evented {
       }
     });
 
+    // @ts-expect-error TODO: get types for Svelte components
     return this.shepherdElementComponent.getElement();
   }
 
@@ -476,11 +481,11 @@ export class Step extends Evented {
   }
 
   /**
-   * #getClassOptions gets all possible classes for the step
+   * _getClassOptions gets all possible classes for the step
    * @param stepOptions The step specific options
    * @returns unique string from array of classes
    */
-  #getClassOptions(stepOptions: StepOptions) {
+  _getClassOptions(stepOptions: StepOptions) {
     const defaultStepOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
     const stepClasses = stepOptions.classes ? stepOptions.classes : '';
@@ -501,7 +506,7 @@ export class Step extends Evented {
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param options - The options for the step
    */
-  #setOptions(options: StepOptions = {}) {
+  _setOptions(options: StepOptions = {}) {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
@@ -518,7 +523,7 @@ export class Step extends Evented {
 
     const { when } = this.options;
 
-    this.options.classes = this.#getClassOptions(options);
+    this.options.classes = this._getClassOptions(options);
 
     this.destroy();
     this.id = this.options.id || `step-${uuid()}`;
@@ -555,11 +560,11 @@ export class Step extends Evented {
    * sets up a FloatingUI instance for the tooltip, then triggers `show`.
    * @private
    */
-  #show() {
+  _show() {
     this.trigger('before-show');
 
     // Force resolve to make sure the options are updated on subsequent shows.
-    this.#resolveAttachToOptions();
+    this._resolveAttachToOptions();
     this._setupElements();
 
     if (!this.tour.modal) {
@@ -579,6 +584,7 @@ export class Step extends Evented {
 
     this.el.hidden = false;
 
+    // @ts-expect-error TODO: get types for Svelte components
     const content = this.shepherdElementComponent.getElement();
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`);
@@ -618,7 +624,7 @@ export class Step extends Evented {
    * and 'shepherd-target' classes
    * @private
    */
-  #updateStepTargetOnHide() {
+  _updateStepTargetOnHide() {
     const target = this.target || document.body;
 
     if (this.options.highlightClass) {
