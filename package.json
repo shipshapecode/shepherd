@@ -38,7 +38,6 @@
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "pnpm watch",
     "start-test-server": "http-server -p 9002",
-    "test": "pnpm lint:js && pnpm test:ci",
     "pretest:ci": "pnpm build",
     "test:ci": "pnpm build && pnpm test:unit:ci",
     "test:cy:start-server": "start-server-and-test start-test-server http://127.0.0.1:9002",
