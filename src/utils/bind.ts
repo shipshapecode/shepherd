@@ -33,7 +33,7 @@ export function bindAdvance(step: Step) {
     const handler = _setupAdvanceOnHandler(step, selector);
 
     // TODO: this should also bind/unbind on show/hide
-    let el: Element | null;
+    let el: Element | null = null;
 
     if (!isUndefined(selector)) {
       el = document.querySelector(selector);
@@ -42,17 +42,19 @@ export function bindAdvance(step: Step) {
         return console.error(
           `No element was found for the selector supplied to advanceOn: ${selector}`
         );
-      } else if (isHTMLElement(el)) {
-        el.addEventListener(event, handler);
-        step.on('destroy', () => {
-          return (el as HTMLElement).removeEventListener(event, handler);
-        });
-      } else {
-        document.body.addEventListener(event, handler, true);
-        step.on('destroy', () => {
-          return document.body.removeEventListener(event, handler, true);
-        });
       }
+    }
+
+    if (el) {
+      el.addEventListener(event, handler);
+      step.on('destroy', () => {
+        return (el as HTMLElement).removeEventListener(event, handler);
+      });
+    } else {
+      document.body.addEventListener(event, handler, true);
+      step.on('destroy', () => {
+        return document.body.removeEventListener(event, handler, true);
+      });
     }
   } else {
     return console.error(
