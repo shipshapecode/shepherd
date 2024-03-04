@@ -24,7 +24,7 @@
   "license": "MIT",
   "main": "dist/shepherd.js",
   "module": "dist/shepherd.esm.js",
-  "types": "dist/types/*.d.ts",
+  "types": "dist/types/shepherd.d.ts",
   "scripts": {
     "build": "pnpm clean && rollup -c && pnpm postbuild",
     "postbuild": "pnpm build:landing",
