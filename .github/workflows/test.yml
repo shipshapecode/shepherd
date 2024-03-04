@@ -87,9 +87,8 @@ jobs:
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
-          browser: chrome
+          command: pnpm test:cy:ci:chrome
           install: false
-          start: pnpm test:cy:start-server
 
   automerge:
     needs: [test-unit, test-integration]
