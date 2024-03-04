@@ -1,19 +1,19 @@
 import merge from 'deepmerge';
 import { Evented } from './evented';
-import autoBind from './utils/auto-bind.js';
+import autoBind from './utils/auto-bind';
 import {
   isElement,
   isHTMLElement,
   isFunction,
   isUndefined
 } from './utils/type-check';
-import { bindAdvance } from './utils/bind.js';
+import { bindAdvance } from './utils/bind';
 import { parseAttachTo, normalizePrefix, uuid } from './utils/general';
 import {
   setupTooltip,
   destroyTooltip,
   mergeTooltipConfig
-} from './utils/floating-ui.js';
+} from './utils/floating-ui';
 // @ts-expect-error TODO: not yet typed
 import ShepherdElement from './components/shepherd-element.svelte';
 import { Tour } from './tour';
@@ -206,8 +206,8 @@ export interface StepOptionsAttachTo {
 }
 
 export interface StepOptionsAdvanceOn {
-  selector?: string;
-  event?: string;
+  event: string;
+  selector: string;
 }
 
 export interface StepOptionsButton {
@@ -271,10 +271,11 @@ export interface StepOptionsWhen {
 export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   classPrefix?: string;
-  declare el: HTMLElement | null;
+  declare cleanup: Function | null;
+  el?: HTMLElement | null;
   declare id: string;
   declare options: StepOptions;
-  target?: HTMLElement;
+  target?: HTMLElement | null;
   tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {
@@ -429,7 +430,7 @@ export class Step extends Evented {
 
   /**
    * Returns the target for the step
-   * @return {HTMLElement|null|undefined} The element instance. undefined if it has never been shown, null if query string has not been found
+   * @return The element instance. undefined if it has never been shown, null if query string has not been found
    */
   getTarget() {
     return this.target;

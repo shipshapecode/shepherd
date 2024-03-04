@@ -1,6 +1,6 @@
 <script>
   import { uuid } from '../utils/general';
-  import { makeOverlayPath } from '../utils/overlay-path.js';
+  import { makeOverlayPath } from '../utils/overlay-path';
 
   export let element, openingProperties;
   const guid = uuid();

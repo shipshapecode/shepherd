@@ -1,4 +1,4 @@
-import { bindAdvance } from '../../../src/utils/bind.js';
+import { bindAdvance } from '../../../src/utils/bind';
 import { Step } from '../../../src/step';
 import { spy } from 'sinon';
 

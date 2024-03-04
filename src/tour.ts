@@ -1,13 +1,13 @@
 import { Evented } from './evented';
 import { Step, type StepOptions } from './step';
-import autoBind from './utils/auto-bind.js';
+import autoBind from './utils/auto-bind';
 import {
   isHTMLElement,
   isFunction,
   isString,
   isUndefined
 } from './utils/type-check';
-import { cleanupSteps } from './utils/cleanup.js';
+import { cleanupSteps } from './utils/cleanup';
 import { normalizePrefix, uuid } from './utils/general';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
@@ -21,7 +21,7 @@ const Shepherd: ShepherdBase = new Evented();
 /**
  * The options for the tour
  */
-interface TourOptions {
+export interface TourOptions {
   /**
    * If true, will issue a `window.confirm` before cancelling.
    * If it is a function(support Async Function), it will be called and wait for the return value,
