@@ -1,7 +1,7 @@
 <script>
   import { onMount, afterUpdate } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
-  import { isUndefined, isString } from '../utils/type-check.js';
+  import { isUndefined, isString } from '../utils/type-check';
 
   const KEY_TAB = 9;
   const KEY_ESC = 27;

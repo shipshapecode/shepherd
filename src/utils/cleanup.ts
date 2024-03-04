@@ -1,8 +1,11 @@
+import type { Tour } from '../tour';
+import { isHTMLElement } from './type-check';
+
 /**
  * Cleanup the steps and set pointerEvents back to 'auto'
  * @param tour The tour object
  */
-export function cleanupSteps(tour) {
+export function cleanupSteps(tour: Tour) {
   if (tour) {
     const { steps } = tour;
 
@@ -12,7 +15,7 @@ export function cleanupSteps(tour) {
         step.options.canClickTarget === false &&
         step.options.attachTo
       ) {
-        if (step.target instanceof HTMLElement) {
+        if (isHTMLElement(step.target)) {
           step.target.classList.remove('shepherd-target-click-disabled');
         }
       }

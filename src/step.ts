@@ -1,32 +1,29 @@
 import merge from 'deepmerge';
-import { Evented } from './evented.js';
-import autoBind from './utils/auto-bind.js';
+import { Evented } from './evented';
+import autoBind from './utils/auto-bind';
 import {
   isElement,
   isHTMLElement,
   isFunction,
   isUndefined
-} from './utils/type-check.js';
-import { bindAdvance } from './utils/bind.js';
-import { parseAttachTo, normalizePrefix, uuid } from './utils/general.js';
+} from './utils/type-check';
+import { bindAdvance } from './utils/bind';
+import { parseAttachTo, normalizePrefix, uuid } from './utils/general';
 import {
   setupTooltip,
   destroyTooltip,
   mergeTooltipConfig
-} from './utils/floating-ui.js';
+} from './utils/floating-ui';
+// @ts-expect-error TODO: not yet typed
 import ShepherdElement from './components/shepherd-element.svelte';
+import { Tour } from './tour';
 
 /**
- * A class representing steps to be added to a tour.
- * @extends {Evented}
+ * The options for the step
  */
-export class Step extends Evented {
+export interface StepOptions {
   /**
-   * Create a step
-   * @param {Tour} tour The tour for the step
-   * @param {object} options The options for the step
-   * @param {boolean} options.arrow Whether to display the arrow for the tooltip or not. Defaults to `true`.
-   * @param {object} options.attachTo The element the step should be attached to on the page.
+   * The element the step should be attached to on the page.
    * An object with properties `element` and `on`.
    *
    * ```js
@@ -36,14 +33,14 @@ export class Step extends Evented {
    * });
    * ```
    *
-   * If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
+   * If you don’t specify an attachTo the element will appear in the middle of the screen.
    * If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
    * in the middle of the screen, without an arrow pointing to the target.
-   * If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
-   * @param {string|HTMLElement|function} options.attachTo.element An element selector string, DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
-   * @param {string} options.attachTo.on The optional direction to place the FloatingUI tooltip relative to the element.
-   *   - Possible string values: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
-   * @param {Object} options.advanceOn An action on the page which should advance shepherd to the next step.
+   */
+  attachTo?: StepOptionsAttachTo;
+
+  /**
+   * An action on the page which should advance shepherd to the next step.
    * It should be an object with a string `selector` and an `event` name
    * ```js
    * const step = new Step(tour, {
@@ -53,11 +50,169 @@ export class Step extends Evented {
    * ```
    * `event` doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
    * You can also always manually advance the Tour by calling `myTour.next()`.
-   * @param {function} options.beforeShowPromise A function that returns a promise.
+   */
+  advanceOn?: StepOptionsAdvanceOn;
+
+  /**
+   * Whether to display the arrow for the tooltip or not
+   */
+  arrow?: boolean;
+
+  /**
+   * A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
-   * @param {Object[]} options.buttons An array of buttons to add to the step. These will be rendered in a
+   */
+  beforeShowPromise?: () => Promise<any>;
+
+  /**
+   * An array of buttons to add to the step. These will be rendered in a
    * footer below the main body text.
-   * @param {function} options.buttons.button.action A function executed when the button is clicked on.
+   */
+  buttons?: ReadonlyArray<StepOptionsButton>;
+
+  /**
+   * Should a cancel “✕” be shown in the header of the step?
+   */
+  cancelIcon?: StepOptionsCancelIcon;
+
+  /**
+   * A boolean, that when set to false, will set `pointer-events: none` on the target.
+   */
+  canClickTarget?: boolean;
+
+  /**
+   * A string of extra classes to add to the step's content element.
+   */
+  classes?: string;
+
+  /**
+   * An extra class to apply to the `attachTo` element when it is
+   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
+   */
+  highlightClass?: string;
+
+  /**
+   * The string to use as the `id` for the step.
+   */
+  id?: string;
+
+  /**
+   * An amount of padding to add around the modal overlay opening
+   */
+  modalOverlayOpeningPadding?: number;
+
+  /**
+   * An amount of border radius to add around the modal overlay opening
+   */
+  modalOverlayOpeningRadius?:
+    | number
+    | {
+        topLeft?: number;
+        bottomLeft?: number;
+        bottomRight?: number;
+        topRight?: number;
+      };
+
+  /**
+   * An amount to offset the modal overlay opening in the x-direction
+   */
+  modalOverlayOpeningXOffset?: number;
+
+  /**
+   * An amount to offset the modal overlay opening in the y-direction
+   */
+  modalOverlayOpeningYOffset?: number;
+
+  /**
+   * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   */
+  floatingUIOptions?: object;
+
+  /**
+   * Should the element be scrolled to when this step is shown?
+   */
+  scrollTo?: boolean | ScrollIntoViewOptions;
+
+  /**
+   * A function that lets you override the default scrollTo behavior and
+   * define a custom action to do the scrolling, and possibly other logic.
+   */
+  scrollToHandler?: (element: HTMLElement) => void;
+
+  /**
+   * A function that, when it returns `true`, will show the step.
+   * If it returns `false`, the step will be skipped.
+   */
+  showOn?: () => boolean;
+
+  /**
+   * The text in the body of the step. It can be one of four types:
+   * ```
+   * - HTML string
+   * - Array of HTML strings
+   * - `HTMLElement` object
+   * - `Function` to be executed when the step is built. It must return one of the three options above.
+   * ```
+   */
+  text?:
+    | string
+    | ReadonlyArray<string>
+    | HTMLElement
+    | (() => string | ReadonlyArray<string> | HTMLElement);
+
+  /**
+   * The step's title. It becomes an `h3` at the top of the step.
+   * ```
+   * - HTML string
+   * - `Function` to be executed when the step is built. It must return HTML string.
+   * ```
+   */
+  title?: string | (() => string);
+
+  /**
+   * You can define `show`, `hide`, etc events inside `when`. For example:
+   * ```js
+   * when: {
+   *   show: function() {
+   *     window.scrollTo(0, 0);
+   *   }
+   * }
+   * ```
+   */
+  when?: StepOptionsWhen;
+}
+
+type PopperPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';
+
+export interface StepOptionsAttachTo {
+  element?:
+    | HTMLElement
+    | string
+    | null
+    | (() => HTMLElement | string | null | undefined);
+  on?: PopperPlacement;
+}
+
+export interface StepOptionsAdvanceOn {
+  event: string;
+  selector: string;
+}
+
+export interface StepOptionsButton {
+  /**
+   * A function executed when the button is clicked on
    * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
    * work inside the action.
    * You can use action to skip steps or navigate to specific steps, with something like:
@@ -66,55 +221,71 @@ export class Step extends Evented {
    *   return this.show('some_step_name');
    * }
    * ```
-   * @param {string} options.buttons.button.classes Extra classes to apply to the `<a>`
-   * @param {boolean} options.buttons.button.disabled Should the button be disabled?
-   * @param {string} options.buttons.button.label The aria-label text of the button
-   * @param {boolean} options.buttons.button.secondary If true, a shepherd-button-secondary class is applied to the button
-   * @param {string} options.buttons.button.text The HTML text of the button
-   * @param {boolean} options.canClickTarget A boolean, that when set to false, will set `pointer-events: none` on the target
-   * @param {object} options.cancelIcon Options for the cancel icon
-   * @param {boolean} options.cancelIcon.enabled Should a cancel “✕” be shown in the header of the step?
-   * @param {string} options.cancelIcon.label The label to add for `aria-label`
-   * @param {string} options.classes A string of extra classes to add to the step's content element.
-   * @param {string} options.highlightClass An extra class to apply to the `attachTo` element when it is
-   * highlighted (that is, when its step is active). You can then target that selector in your CSS.
-   * @param {string} options.id The string to use as the `id` for the step.
-   * @param {number} options.modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-   * @param {number | { topLeft: number, bottomLeft: number, bottomRight: number, topRight: number }} options.modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
-   * @param {object} options.floatingUIOptions Extra options to pass to FloatingUI
-   * @param {boolean|Object} options.scrollTo Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`,
-   * if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
-   * @param {function} options.scrollToHandler A function that lets you override the default scrollTo behavior and
-   * define a custom action to do the scrolling, and possibly other logic.
-   * @param {function} options.showOn A function that, when it returns `true`, will show the step.
-   * If it returns false, the step will be skipped.
-   * @param {string} options.text The text in the body of the step. It can be one of three types:
-   * ```
-   * - HTML string
-   * - `HTMLElement` object
-   * - `Function` to be executed when the step is built. It must return one the two options above.
-   * ```
-   * @param {string} options.title The step's title. It becomes an `h3` at the top of the step. It can be one of two types:
-   * ```
-   * - HTML string
-   * - `Function` to be executed when the step is built. It must return HTML string.
-   * ```
-   * @param {object} options.when You can define `show`, `hide`, etc events inside `when`. For example:
-   * ```js
-   * when: {
-   *   show: function() {
-   *     window.scrollTo(0, 0);
-   *   }
-   * }
-   * ```
-   * @return {Step} The newly created Step instance
    */
-  constructor(tour, options = {}) {
-    super(tour, options);
+  action?: (this: Tour) => void;
+
+  /**
+   * Extra classes to apply to the `<a>`
+   */
+  classes?: string;
+
+  /**
+   * Whether the button should be disabled
+   * When the value is `true`, or the function returns `true` the button will be disabled
+   */
+  disabled?: boolean | (() => boolean);
+
+  /**
+   * The aria-label text of the button
+   */
+  label?: string | (() => string);
+
+  /**
+   * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
+   */
+  secondary?: boolean;
+
+  /**
+   * The HTML text of the button
+   */
+  text?: string | (() => string);
+}
+
+export interface StepOptionsButtonEvent {
+  [key: string]: () => void;
+}
+
+export interface StepOptionsCancelIcon {
+  enabled?: boolean;
+  label?: string;
+}
+
+export interface StepOptionsWhen {
+  [key: string]: (this: Step) => void;
+}
+
+/**
+ * A class representing steps to be added to a tour.
+ * @extends {Evented}
+ */
+export class Step extends Evented {
+  _resolvedAttachTo: StepOptionsAttachTo | null;
+  classPrefix?: string;
+  declare cleanup: Function | null;
+  el?: HTMLElement | null;
+  declare id: string;
+  declare options: StepOptions;
+  target?: HTMLElement | null;
+  tour: Tour;
+
+  constructor(tour: Tour, options: StepOptions = {}) {
+    super();
+
     this.tour = tour;
     this.classPrefix = this.tour.options
       ? normalizePrefix(this.tour.options.classPrefix)
       : '';
+    // @ts-expect-error TODO: investigate where styles comes from
     this.styles = tour.styles;
 
     /**
@@ -195,7 +366,6 @@ export class Step extends Evented {
   /**
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
-   * @private
    */
   _resolveAttachToOptions() {
     this._resolvedAttachTo = parseAttachTo(this);
@@ -217,7 +387,7 @@ export class Step extends Evented {
 
   /**
    * Check if the step is open and visible
-   * @return {boolean} True if the step is open and visible
+   * @return True if the step is open and visible
    */
   isOpen() {
     return Boolean(this.el && !this.el.hidden);
@@ -225,7 +395,6 @@ export class Step extends Evented {
 
   /**
    * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
-   * @return {*|Promise}
    */
   show() {
     if (isFunction(this.options.beforeShowPromise)) {
@@ -239,12 +408,14 @@ export class Step extends Evented {
   /**
    * Updates the options of the step.
    *
-   * @param {Object} options The options for the step
+   * @param options The options for the step
    */
-  updateStepOptions(options) {
+  updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
+    // @ts-expect-error TODO: get types for Svelte components
     if (this.shepherdElementComponent) {
+      // @ts-expect-error TODO: get types for Svelte components
       this.shepherdElementComponent.$set({ step: this });
     }
   }
@@ -259,7 +430,7 @@ export class Step extends Evented {
 
   /**
    * Returns the target for the step
-   * @return {HTMLElement|null|undefined} The element instance. undefined if it has never been shown, null if query string has not been found
+   * @return The element instance. undefined if it has never been shown, null if query string has not been found
    */
   getTarget() {
     return this.target;
@@ -275,6 +446,7 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
+    // @ts-expect-error TODO: get types for Svelte components
     this.shepherdElementComponent = new ShepherdElement({
       target: this.tour.options.stepsContainer || document.body,
       props: {
@@ -282,10 +454,12 @@ export class Step extends Evented {
         descriptionId,
         labelId,
         step: this,
+        // @ts-expect-error TODO: investigate where styles comes from
         styles: this.styles
       }
     });
 
+    // @ts-expect-error TODO: get types for Svelte components
     return this.shepherdElementComponent.getElement();
   }
 
@@ -293,15 +467,15 @@ export class Step extends Evented {
    * If a custom scrollToHandler is defined, call that, otherwise do the generic
    * scrollIntoView call.
    *
-   * @param {boolean|Object} scrollToOptions If true, uses the default `scrollIntoView`,
+   * @param scrollToOptions - If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
    * @private
    */
-  _scrollTo(scrollToOptions) {
+  _scrollTo(scrollToOptions: boolean | ScrollIntoViewOptions) {
     const { element } = this._getResolvedAttachToOptions();
 
     if (isFunction(this.options.scrollToHandler)) {
-      this.options.scrollToHandler(element);
+      this.options.scrollToHandler(element as HTMLElement);
     } else if (
       isElement(element) &&
       typeof element.scrollIntoView === 'function'
@@ -312,11 +486,10 @@ export class Step extends Evented {
 
   /**
    * _getClassOptions gets all possible classes for the step
-   * @param {Object} stepOptions The step specific options
-   * @returns {String} unique string from array of classes
-   * @private
+   * @param stepOptions The step specific options
+   * @returns unique string from array of classes
    */
-  _getClassOptions(stepOptions) {
+  _getClassOptions(stepOptions: StepOptions) {
     const defaultStepOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
     const stepClasses = stepOptions.classes ? stepOptions.classes : '';
@@ -335,10 +508,9 @@ export class Step extends Evented {
 
   /**
    * Sets the options for the step, maps `when` to events, sets up buttons
-   * @param {Object} options The options for the step
-   * @private
+   * @param options - The options for the step
    */
-  _setOptions(options = {}) {
+  _setOptions(options: StepOptions = {}) {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
@@ -362,6 +534,7 @@ export class Step extends Evented {
 
     if (when) {
       Object.keys(when).forEach((event) => {
+        // @ts-expect-error TODO: figure out this type error
         this.on(event, when[event], this);
       });
     }
@@ -400,22 +573,30 @@ export class Step extends Evented {
     this._setupElements();
 
     if (!this.tour.modal) {
-      this.tour._setupModal();
+      this.tour.setupModal();
     }
 
-    this.tour.modal.setupForStep(this);
+    this.tour.modal?.setupForStep(this);
     this._styleTargetElementForStep(this);
-    this.el.hidden = false;
+
+    if (this.el) {
+      this.el.hidden = false;
+    }
 
     // start scrolling to target before showing the step
     if (this.options.scrollTo) {
       setTimeout(() => {
-        this._scrollTo(this.options.scrollTo);
+        this._scrollTo(
+          this.options.scrollTo as boolean | ScrollIntoViewOptions
+        );
       });
     }
 
-    this.el.hidden = false;
+    if (this.el) {
+      this.el.hidden = false;
+    }
 
+    // @ts-expect-error TODO: get types for Svelte components
     const content = this.shepherdElementComponent.getElement();
     const target = this.target || document.body;
     target.classList.add(`${this.classPrefix}shepherd-enabled`);
@@ -432,7 +613,7 @@ export class Step extends Evented {
    * @param step The step object that attaches to the element
    * @private
    */
-  _styleTargetElementForStep(step) {
+  _styleTargetElementForStep(step: Step) {
     const targetElement = step.target;
 
     if (!targetElement) {

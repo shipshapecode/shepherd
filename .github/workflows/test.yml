@@ -7,7 +7,7 @@ on:
   pull_request: {}
 
 jobs:
-  test-lint:
+  lint:
     name: Linting
     runs-on: ubuntu-latest
 
@@ -18,9 +18,28 @@ jobs:
       - name: Setup pnpm
         uses: wyvox/action-setup-pnpm@v3
 
-      # Install project dependencies
-      - name: Install dependencies and run linting
-        run: pnpm install && pnpm lint:js
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run linting
+        run: pnpm lint:js
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: wyvox/action-setup-pnpm@v3
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check types
+        run: pnpm types:check
 
   test-unit:
     name: Run Unit Tests
@@ -68,9 +87,8 @@ jobs:
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
-          browser: chrome
+          command: pnpm test:cy:ci:chrome
           install: false
-          start: pnpm test:cy:start-server
 
   automerge:
     needs: [test-unit, test-integration]

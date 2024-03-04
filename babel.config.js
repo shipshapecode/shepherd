@@ -14,7 +14,10 @@ module.exports = function (api) {
         ]
       },
       test: {
-        presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
+        presets: [
+          ['@babel/preset-env', { targets: { node: 'current' } }],
+          ['@babel/preset-typescript', { allowDeclareFields: true }]
+        ],
         plugins: ['transform-es2015-modules-commonjs']
       }
     }

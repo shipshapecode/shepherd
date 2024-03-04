@@ -1,48 +1,101 @@
-import { Evented } from './evented.js';
-import { Step } from './step.js';
-import autoBind from './utils/auto-bind.js';
+import { Evented } from './evented';
+import { Step, type StepOptions } from './step';
+import autoBind from './utils/auto-bind';
 import {
   isHTMLElement,
   isFunction,
   isString,
   isUndefined
-} from './utils/type-check.js';
-import { cleanupSteps } from './utils/cleanup.js';
-import { normalizePrefix, uuid } from './utils/general.js';
+} from './utils/type-check';
+import { cleanupSteps } from './utils/cleanup';
+import { normalizePrefix, uuid } from './utils/general';
+// @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
 
-const Shepherd = new Evented();
+interface ShepherdBase extends Evented {
+  activeTour?: Tour | null;
+}
+
+const Shepherd: ShepherdBase = new Evented();
+
+/**
+ * The options for the tour
+ */
+export interface TourOptions {
+  /**
+   * If true, will issue a `window.confirm` before cancelling.
+   * If it is a function(support Async Function), it will be called and wait for the return value,
+   * and will only be cancelled if the value returned is true.
+   */
+  confirmCancel?:
+    | boolean
+    | (() => boolean)
+    | Promise<boolean>
+    | (() => Promise<boolean>);
+  /**
+   * The message to display in the `window.confirm` dialog.
+   */
+  confirmCancelMessage?: string;
+  /**
+   * The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
+   */
+  classPrefix?: string;
+  /**
+   * Default options for Steps ({@link Step#constructor}), created through `addStep`.
+   */
+  defaultStepOptions?: StepOptions;
+  /**
+   * Exiting the tour with the escape key will be enabled unless this is explicitly
+   * set to false.
+   */
+  exitOnEsc?: boolean;
+  /**
+   * Navigating the tour via left and right arrow keys will be enabled
+   * unless this is explicitly set to false.
+   */
+  keyboardNavigation?: boolean;
+  /**
+   * An optional container element for the modal.
+   * If not set, the modal will be appended to `document.body`.
+   */
+  modalContainer?: HTMLElement;
+  /**
+   * An optional container element for the steps.
+   * If not set, the steps will be appended to `document.body`.
+   */
+  stepsContainer?: HTMLElement;
+  /**
+   * An array of step options objects or Step instances to initialize the tour with.
+   */
+  steps?: Array<StepOptions> | Array<Step>;
+  /**
+   * An optional "name" for the tour. This will be appended to the the tour's
+   * dynamically generated `id` property.
+   */
+  tourName?: string;
+  /**
+   * Whether or not steps should be placed above a darkened
+   * modal overlay. If true, the overlay will create an opening around the target element so that it
+   * can remain interactive
+   */
+  useModalOverlay?: boolean;
+}
 
 /**
  * Class representing the site tour
  * @extends {Evented}
  */
 export class Tour extends Evented {
-  /**
-   * @param {Object} options The options for the tour
-   * @param {boolean | function(): boolean | Promise<boolean> | function(): Promise<boolean>} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
-   * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
-   * @param {string} options.confirmCancelMessage The message to display in the `window.confirm` dialog
-   * @param {string} options.classPrefix The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
-   * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
-   * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
-   * set to false.
-   * @param {boolean} options.keyboardNavigation Navigating the tour via left and right arrow keys will be enabled
-   * unless this is explicitly set to false.
-   * @param {HTMLElement} options.stepsContainer An optional container element for the steps.
-   * If not set, the steps will be appended to `document.body`.
-   * @param {HTMLElement} options.modalContainer An optional container element for the modal.
-   * If not set, the modal will be appended to `document.body`.
-   * @param {object[] | Step[]} options.steps An array of step options objects or Step instances to initialize the tour with
-   * @param {string} options.tourName An optional "name" for the tour. This will be appended to the the tour's
-   * dynamically generated `id` property.
-   * @param {boolean} options.useModalOverlay Whether or not steps should be placed above a darkened
-   * modal overlay. If true, the overlay will create an opening around the target element so that it
-   * can remain interactive
-   * @returns {Tour}
-   */
-  constructor(options = {}) {
-    super(options);
+  classPrefix: string;
+  currentStep?: Step | null;
+  focusedElBeforeOpen?: HTMLElement | null;
+  id?: string;
+  modal?: ShepherdModal;
+  options: TourOptions;
+  steps: Array<Step>;
+
+  constructor(options: TourOptions = {}) {
+    super();
 
     autoBind(this);
 
@@ -67,9 +120,9 @@ export class Tour extends Evented {
     ];
     events.map((event) => {
       ((e) => {
-        this.on(e, (opts) => {
+        this.on(e, (opts?: { [key: string]: unknown }) => {
           opts = opts || {};
-          opts.tour = this;
+          opts['tour'] = this;
           Shepherd.trigger(e, opts);
         });
       })(event);
@@ -82,12 +135,12 @@ export class Tour extends Evented {
 
   /**
    * Adds a new step to the tour
-   * @param {Object|Step} options An object containing step options or a Step instance
-   * @param {number} index The optional index to insert the step at. If undefined, the step
+   * @param options - An object containing step options or a Step instance
+   * @param index - The optional index to insert the step at. If undefined, the step
    * is added to the end of the array.
-   * @return {Step} The newly added step
+   * @return The newly added step
    */
-  addStep(options, index) {
+  addStep(options: StepOptions | Step, index?: number) {
     let step = options;
 
     if (!(step instanceof Step)) {
@@ -97,9 +150,9 @@ export class Tour extends Evented {
     }
 
     if (!isUndefined(index)) {
-      this.steps.splice(index, 0, step);
+      this.steps.splice(index, 0, step as Step);
     } else {
-      this.steps.push(step);
+      this.steps.push(step as Step);
     }
 
     return step;
@@ -107,9 +160,9 @@ export class Tour extends Evented {
 
   /**
    * Add multiple steps to the tour
-   * @param {Array<object> | Array<Step>} steps The steps to add to the tour
+   * @param steps - The steps to add to the tour
    */
-  addSteps(steps) {
+  addSteps(steps?: Array<StepOptions> | Array<Step>) {
     if (Array.isArray(steps)) {
       steps.forEach((step) => {
         this.addStep(step);
@@ -123,7 +176,7 @@ export class Tour extends Evented {
    * Go to the previous step in the tour
    */
   back() {
-    const index = this.steps.indexOf(this.currentStep);
+    const index = this.steps.indexOf(this.currentStep as Step);
     this.show(index - 1, false);
   }
 
@@ -135,14 +188,17 @@ export class Tour extends Evented {
    */
   async cancel() {
     if (this.options.confirmCancel) {
-      const confirmCancelIsFunction =
-        typeof this.options.confirmCancel === 'function';
       const cancelMessage =
         this.options.confirmCancelMessage ||
         'Are you sure you want to stop the tour?';
-      const stopTour = confirmCancelIsFunction
-        ? await this.options.confirmCancel()
-        : window.confirm(cancelMessage);
+      let stopTour;
+
+      if (isFunction(this.options.confirmCancel)) {
+        stopTour = await this.options.confirmCancel();
+      } else {
+        stopTour = window.confirm(cancelMessage);
+      }
+
       if (stopTour) {
         this._done('cancel');
       }
@@ -160,10 +216,10 @@ export class Tour extends Evented {
 
   /**
    * Gets the step from a given id
-   * @param {Number|String} id The id of the step to retrieve
-   * @return {Step} The step corresponding to the `id`
+   * @param id - The id of the step to retrieve
+   * @return The step corresponding to the `id`
    */
-  getById(id) {
+  getById(id: number | string) {
     return this.steps.find((step) => {
       return step.id === id;
     });
@@ -171,7 +227,6 @@ export class Tour extends Evented {
 
   /**
    * Gets the current step
-   * @returns {Step|null}
    */
   getCurrentStep() {
     return this.currentStep;
@@ -190,7 +245,6 @@ export class Tour extends Evented {
 
   /**
    * Check if the tour is active
-   * @return {boolean}
    */
   isActive() {
     return Shepherd.activeTour === this;
@@ -201,7 +255,7 @@ export class Tour extends Evented {
    * If we are at the end, call `complete`
    */
   next() {
-    const index = this.steps.indexOf(this.currentStep);
+    const index = this.steps.indexOf(this.currentStep as Step);
 
     if (index === this.steps.length - 1) {
       this.complete();
@@ -212,9 +266,9 @@ export class Tour extends Evented {
 
   /**
    * Removes the step from the tour
-   * @param {String} name The id for the step to remove
+   * @param name - The id for the step to remove
    */
-  removeStep(name) {
+  removeStep(name: string) {
     const current = this.getCurrentStep();
 
     // Find the step, destroy it and remove it from this.steps
@@ -241,10 +295,10 @@ export class Tour extends Evented {
 
   /**
    * Show a specific step in the tour
-   * @param {Number|String} key The key to look up the step by
-   * @param {Boolean} forward True if we are going forward, false if backward
+   * @param key - The key to look up the step by
+   * @param forward - True if we are going forward, false if backward
    */
-  show(key = 0, forward = true) {
+  show(key: number | string = 0, forward = true) {
     const step = isString(key) ? this.getById(key) : this.steps[key];
 
     if (step) {
@@ -275,11 +329,11 @@ export class Tour extends Evented {
     this.trigger('start');
 
     // Save the focused element before the tour opens
-    this.focusedElBeforeOpen = document.activeElement;
+    this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
 
     this.currentStep = null;
 
-    this._setupModal();
+    this.setupModal();
 
     this._setupActiveTour();
     this.next();
@@ -287,11 +341,11 @@ export class Tour extends Evented {
 
   /**
    * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param {String} event The event name to trigger
+   * @param event The event name to trigger
    * @private
    */
-  _done(event) {
-    const index = this.steps.indexOf(this.currentStep);
+  _done(event: string) {
+    const index = this.steps.indexOf(this.currentStep as Step);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
@@ -327,7 +381,6 @@ export class Tour extends Evented {
 
   /**
    * Make this tour "active"
-   * @private
    */
   _setupActiveTour() {
     this.trigger('active', { tour: this });
@@ -336,14 +389,13 @@ export class Tour extends Evented {
   }
 
   /**
-   * _setupModal create the modal container and instance
-   * @private
+   * setupModal create the modal container and instance
    */
-  _setupModal() {
+  setupModal() {
     this.modal = new ShepherdModal({
       target: this.options.modalContainer || document.body,
       props: {
-        classPrefix: this.classPrefix,
+        // @ts-expect-error TODO: investigate where styles comes from
         styles: this.styles
       }
     });
@@ -351,11 +403,11 @@ export class Tour extends Evented {
 
   /**
    * Called when `showOn` evaluates to false, to skip the step or complete the tour if it's the last step
-   * @param {Step} step The step to skip
-   * @param {Boolean} forward True if we are going forward, false if backward
+   * @param step - The step to skip
+   * @param forward - True if we are going forward, false if backward
    * @private
    */
-  _skipStep(step, forward) {
+  _skipStep(step: Step, forward: boolean) {
     const index = this.steps.indexOf(step);
 
     if (index === this.steps.length - 1) {

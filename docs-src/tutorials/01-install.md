@@ -52,7 +52,7 @@ You can use jsDelivr to pull down any release from npm. For example, you could i
 with:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/js/shepherd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/shepherd.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css"/>
 ```
 

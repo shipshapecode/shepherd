@@ -1,18 +1,19 @@
-import { isUndefined } from './type-check';
+import type { Step } from '../step';
+import { isHTMLElement, isUndefined } from './type-check';
 
 /**
  * Sets up the handler to determine if we should advance the tour
- * @param {string} selector
- * @param {Step} step The step instance
- * @return {Function}
+ * @param step The step instance
+ * @param selector
  * @private
  */
-function _setupAdvanceOnHandler(selector, step) {
-  return (event) => {
+function _setupAdvanceOnHandler(step: Step, selector?: string) {
+  return (event: Event) => {
     if (step.isOpen()) {
       const targetIsEl = step.el && event.currentTarget === step.el;
       const targetIsSelector =
-        !isUndefined(selector) && event.currentTarget.matches(selector);
+        !isUndefined(selector) &&
+        (event.currentTarget as HTMLElement).matches(selector);
 
       if (targetIsSelector || targetIsEl) {
         step.tour.next();
@@ -23,29 +24,31 @@ function _setupAdvanceOnHandler(selector, step) {
 
 /**
  * Bind the event handler for advanceOn
- * @param {Step} step The step instance
+ * @param step The step instance
  */
-export function bindAdvance(step) {
+export function bindAdvance(step: Step) {
   // An empty selector matches the step element
   const { event, selector } = step.options.advanceOn || {};
   if (event) {
-    const handler = _setupAdvanceOnHandler(selector, step);
+    const handler = _setupAdvanceOnHandler(step, selector);
 
     // TODO: this should also bind/unbind on show/hide
-    let el;
-    try {
+    let el: Element | null = null;
+
+    if (!isUndefined(selector)) {
       el = document.querySelector(selector);
-    } catch (e) {
-      // TODO
+
+      if (!el) {
+        return console.error(
+          `No element was found for the selector supplied to advanceOn: ${selector}`
+        );
+      }
     }
-    if (!isUndefined(selector) && !el) {
-      return console.error(
-        `No element was found for the selector supplied to advanceOn: ${selector}`
-      );
-    } else if (el) {
+
+    if (el) {
       el.addEventListener(event, handler);
       step.on('destroy', () => {
-        return el.removeEventListener(event, handler);
+        return (el as HTMLElement).removeEventListener(event, handler);
       });
     } else {
       document.body.addEventListener(event, handler, true);

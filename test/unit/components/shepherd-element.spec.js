@@ -1,8 +1,8 @@
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
-import ShepherdElement from '../../../src/js/components/shepherd-element.svelte';
-import { Step } from '../../../src/js/step.js';
+import ShepherdElement from '../../../src/components/shepherd-element.svelte';
+import { Step } from '../../../src/step';
 import { spy, stub } from 'sinon';
-import { Tour } from '../../../src/js/tour.js';
+import { Tour } from '../../../src/tour';
 
 describe('components/ShepherdElement', () => {
   describe('arrow', () => {

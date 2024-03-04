@@ -6,50 +6,48 @@ import {
   computePosition,
   flip,
   limitShift,
-  shift
+  shift,
+  type ComputePositionConfig,
+  type MiddlewareData,
+  type Placement
 } from '@floating-ui/dom';
-
-/**
- * Floating UI Options
- *
- * @typedef {object} FloatingUIOptions
- */
+import type { Step, StepOptions, StepOptionsAttachTo } from '../step';
+import { isHTMLElement } from './type-check';
 
 /**
  * Determines options for the tooltip and initializes event listeners.
  *
- * @param {Step} step The step instance
- *
- * @return {FloatingUIOptions}
+ * @param step The step instance
  */
-export function setupTooltip(step) {
+export function setupTooltip(step: Step): ComputePositionConfig {
   if (step.cleanup) {
     step.cleanup();
   }
 
   const attachToOptions = step._getResolvedAttachToOptions();
 
-  let target = attachToOptions.element;
+  let target = attachToOptions.element as HTMLElement;
   const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
   const shouldCenter = shouldCenterStep(attachToOptions);
 
   if (shouldCenter) {
     target = document.body;
+    // @ts-expect-error TODO: fix this type error when we type Svelte
     const content = step.shepherdElementComponent.getElement();
     content.classList.add('shepherd-centered');
   }
 
-  step.cleanup = autoUpdate(target, step.el, () => {
+  step.cleanup = autoUpdate(target, step.el as HTMLElement, () => {
     // The element might have already been removed by the end of the tour.
     if (!step.el) {
-      step.cleanup();
+      step.cleanup?.();
       return;
     }
 
     setPosition(target, step, floatingUIOptions, shouldCenter);
   });
 
-  step.target = attachToOptions.element;
+  step.target = attachToOptions.element as HTMLElement;
 
   return floatingUIOptions;
 }
@@ -62,7 +60,10 @@ export function setupTooltip(step) {
  *
  * @return {floatingUIOptions: FloatingUIOptions}
  */
-export function mergeTooltipConfig(tourOptions, options) {
+export function mergeTooltipConfig(
+  tourOptions: StepOptions,
+  options: StepOptions
+) {
   return {
     floatingUIOptions: merge(
       tourOptions.floatingUIOptions || {},
@@ -74,9 +75,9 @@ export function mergeTooltipConfig(tourOptions, options) {
 /**
  * Cleanup function called when the step is closed/destroyed.
  *
- * @param {Step} step
+ * @param step
  */
-export function destroyTooltip(step) {
+export function destroyTooltip(step: Step) {
   if (step.cleanup) {
     step.cleanup();
   }
@@ -84,38 +85,43 @@ export function destroyTooltip(step) {
   step.cleanup = null;
 }
 
-/**
- *
- * @return {Promise<*>}
- */
-function setPosition(target, step, floatingUIOptions, shouldCenter) {
+function setPosition(
+  target: HTMLElement,
+  step: Step,
+  floatingUIOptions: ComputePositionConfig,
+  shouldCenter: boolean
+) {
   return (
-    computePosition(target, step.el, floatingUIOptions)
+    computePosition(target, step.el as HTMLElement, floatingUIOptions)
       .then(floatingUIposition(step, shouldCenter))
       // Wait before forcing focus.
       .then(
-        (step) =>
-          new Promise((resolve) => {
+        (step: Step) =>
+          new Promise<Step>((resolve) => {
             setTimeout(() => resolve(step), 300);
           })
       )
       // Replaces focusAfterRender modifier.
-      .then((step) => {
-        if (step && step.el) {
+      .then((step: Step) => {
+        if (step?.el) {
           step.el.focus({ preventScroll: true });
         }
       })
   );
 }
 
-/**
- *
- * @param step
- * @param shouldCenter
- * @return {function({x: *, y: *, placement: *, middlewareData: *}): Promise<unknown>}
- */
-function floatingUIposition(step, shouldCenter) {
-  return ({ x, y, placement, middlewareData }) => {
+function floatingUIposition(step: Step, shouldCenter: boolean) {
+  return ({
+    x,
+    y,
+    placement,
+    middlewareData
+  }: {
+    x: number;
+    y: number;
+    placement: Placement;
+    middlewareData: MiddlewareData;
+  }) => {
     if (!step.el) {
       return step;
     }
@@ -135,7 +141,7 @@ function floatingUIposition(step, shouldCenter) {
       });
     }
 
-    step.el.dataset.popperPlacement = placement;
+    step.el.dataset['popperPlacement'] = placement;
 
     placeArrow(step.el, middlewareData);
 
@@ -143,14 +149,9 @@ function floatingUIposition(step, shouldCenter) {
   };
 }
 
-/**
- *
- * @param el
- * @param middlewareData
- */
-function placeArrow(el, middlewareData) {
+function placeArrow(el: HTMLElement, middlewareData: MiddlewareData) {
   const arrowEl = el.querySelector('.shepherd-arrow');
-  if (arrowEl && middlewareData.arrow) {
+  if (isHTMLElement(arrowEl) && middlewareData.arrow) {
     const { x: arrowX, y: arrowY } = middlewareData.arrow;
     Object.assign(arrowEl.style, {
       left: arrowX != null ? `${arrowX}px` : '',
@@ -162,15 +163,18 @@ function placeArrow(el, middlewareData) {
 /**
  * Gets the `Floating UI` options from a set of base `attachTo` options
  * @param attachToOptions
- * @param {Step} step The step instance
- * @return {Object}
+ * @param step The step instance
  * @private
  */
-export function getFloatingUIOptions(attachToOptions, step) {
-  const options = {
-    strategy: 'absolute',
-    middleware: []
+export function getFloatingUIOptions(
+  attachToOptions: StepOptionsAttachTo,
+  step: Step
+): ComputePositionConfig {
+  const options: ComputePositionConfig = {
+    strategy: 'absolute'
   };
+
+  options.middleware = [];
 
   const arrowEl = addArrow(step);
 
@@ -196,11 +200,7 @@ export function getFloatingUIOptions(attachToOptions, step) {
   return merge(step.options.floatingUIOptions || {}, options);
 }
 
-/**
- * @param {Step} step
- * @return {HTMLElement|false|null}
- */
-function addArrow(step) {
+function addArrow(step: Step) {
   if (step.options.arrow && step.el) {
     return step.el.querySelector('.shepherd-arrow');
   }
