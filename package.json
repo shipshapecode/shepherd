@@ -24,6 +24,7 @@
   "license": "MIT",
   "main": "dist/shepherd.js",
   "module": "dist/shepherd.esm.js",
+  "types": "dist/types/*.d.ts",
   "scripts": {
     "build": "pnpm clean && rollup -c && pnpm postbuild",
     "postbuild": "pnpm build:landing",
@@ -127,16 +128,26 @@
     "registry": "https://registry.npmjs.org"
   },
   "exports": {
-    "./*": {
-      "types": "./dist/types/*.d.ts",
-      "default": "./dist/*.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "dist/types/*"
-      ]
-    }
+    ".": {
+      "import": "./dist/shepherd.esm.js",
+      "require": "./dist/shepherd.js",
+      "types": "./dist/types/shepherd.d.ts"
+    },
+    "./evented": {
+      "import": "./dist/evented.esm.js",
+      "require": "./dist/evented.js",
+      "types": "./dist/types/evented.d.ts"
+    },
+    "./step": {
+      "import": "./dist/step.esm.js",
+      "require": "./dist/step.js",
+      "types": "./dist/types/step.d.ts"
+    },
+    "./tour": {
+      "import": "./dist/tour.esm.js",
+      "require": "./dist/tour.js",
+      "types": "./dist/types/tour.d.ts"
+    },
+    "./*": "./*"
   }
 }
