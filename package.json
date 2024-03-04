@@ -127,14 +127,14 @@
   },
   "exports": {
     "./*": {
-      "types": "./dist/declarations/*.d.ts",
+      "types": "./dist/types/*.d.ts",
       "default": "./dist/*.js"
     }
   },
   "typesVersions": {
     "*": {
       "*": [
-        "dist/declarations/*"
+        "dist/types/*"
       ]
     }
   }
