@@ -228,8 +228,8 @@ export class Tour extends Evented {
 
   /**
    * Adds a new step to the tour
-   * @param options - An object containing step options or a Step instance
-   * @param index - The optional index to insert the step at. If undefined, the step
+   * @param {StepOptions} options - An object containing step options or a Step instance
+   * @param {number | undefined} index - The optional index to insert the step at. If undefined, the step
    * is added to the end of the array.
    * @return The newly added step
    */
@@ -253,7 +253,7 @@ export class Tour extends Evented {
 
   /**
    * Add multiple steps to the tour
-   * @param steps - The steps to add to the tour
+   * @param {Array<StepOptions> | Array<Step> | undefined} steps - The steps to add to the tour
    */
   addSteps(steps?: Array<StepOptions> | Array<Step>) {
     if (Array.isArray(steps)) {
@@ -309,7 +309,7 @@ export class Tour extends Evented {
 
   /**
    * Gets the step from a given id
-   * @param id - The id of the step to retrieve
+   * @param {number | string} id - The id of the step to retrieve
    * @return The step corresponding to the `id`
    */
   getById(id: number | string) {
@@ -359,7 +359,7 @@ export class Tour extends Evented {
 
   /**
    * Removes the step from the tour
-   * @param name - The id for the step to remove
+   * @param {string} name - The id for the step to remove
    */
   removeStep(name: string) {
     const current = this.getCurrentStep();
@@ -388,8 +388,8 @@ export class Tour extends Evented {
 
   /**
    * Show a specific step in the tour
-   * @param key - The key to look up the step by
-   * @param forward - True if we are going forward, false if backward
+   * @param {number | string} key - The key to look up the step by
+   * @param {boolean} forward - True if we are going forward, false if backward
    */
   show(key: number | string = 0, forward = true) {
     const step = isString(key) ? this.getById(key) : this.steps[key];
@@ -434,7 +434,7 @@ export class Tour extends Evented {
 
   /**
    * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
-   * @param event The event name to trigger
+   * @param {string} event - The event name to trigger
    * @private
    */
   _done(event: string) {
@@ -496,8 +496,8 @@ export class Tour extends Evented {
 
   /**
    * Called when `showOn` evaluates to false, to skip the step or complete the tour if it's the last step
-   * @param step - The step to skip
-   * @param forward - True if we are going forward, false if backward
+   * @param {Step} step - The step to skip
+   * @param {boolean} forward - True if we are going forward, false if backward
    * @private
    */
   _skipStep(step: Step, forward: boolean) {

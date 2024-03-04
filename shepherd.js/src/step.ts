@@ -291,7 +291,7 @@ export class Step extends Evented {
     /**
      * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
      * Do not use this directly, use the _getResolvedAttachToOptions method instead.
-     * @type {null|{}|{element, to}}
+     * @type {StepOptionsAttachTo | null}
      * @private
      */
     this._resolvedAttachTo = null;
@@ -408,7 +408,7 @@ export class Step extends Evented {
   /**
    * Updates the options of the step.
    *
-   * @param options The options for the step
+   * @param {StepOptions} options The options for the step
    */
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
@@ -467,7 +467,7 @@ export class Step extends Evented {
    * If a custom scrollToHandler is defined, call that, otherwise do the generic
    * scrollIntoView call.
    *
-   * @param scrollToOptions - If true, uses the default `scrollIntoView`,
+   * @param {boolean | ScrollIntoViewOptions} scrollToOptions - If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
    * @private
    */
@@ -486,8 +486,8 @@ export class Step extends Evented {
 
   /**
    * _getClassOptions gets all possible classes for the step
-   * @param stepOptions The step specific options
-   * @returns unique string from array of classes
+   * @param {StepOptions} stepOptions The step specific options
+   * @returns {string} unique string from array of classes
    */
   _getClassOptions(stepOptions: StepOptions) {
     const defaultStepOptions =
@@ -610,7 +610,7 @@ export class Step extends Evented {
    * Modulates the styles of the passed step's target element, based on the step's options and
    * the tour's `modal` option, to visually emphasize the element
    *
-   * @param step The step object that attaches to the element
+   * @param {Step} step The step object that attaches to the element
    * @private
    */
   _styleTargetElementForStep(step: Step) {
