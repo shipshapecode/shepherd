@@ -1,5 +1,4 @@
 import { babel } from '@rollup/plugin-babel';
-import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from '@rollup/plugin-commonjs';
@@ -118,10 +117,7 @@ if (!process.env.DEVELOPMENT) {
           banner
         }),
         filesize(),
-        visualizer(),
-        copy({
-          targets: [{ src: 'dist/shepherd.js', dest: 'landing/public' }]
-        })
+        visualizer()
       ]
     }
   );

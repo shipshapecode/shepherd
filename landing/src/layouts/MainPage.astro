@@ -8,6 +8,7 @@ const { isHome } = Astro.props;
 const shepherdIncludeCode = `
 	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
 	<script src="shepherd.js/dist/shepherd.min.js"></script>
+  
 `;
 ---
 
@@ -172,12 +173,11 @@ const shepherdIncludeCode = `
   <Footer />
 </Base>
 
-<!-- Shepherd -->
-<script src="/shepherd.js" is:inline></script>
-
 <!-- Welcome page -->
-<script is:inline>
+<script type="module" is:inline>
   'use strict';
+
+  import Shepherd from './node_modules/shepherd.js/dist/shepherd.esm.js';
 
   (function () {
     function init() {

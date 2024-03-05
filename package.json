@@ -123,6 +123,10 @@
     "registry": "https://registry.npmjs.org"
   },
   "exports": {
+    ".": {
+      "import": "./dist/shepherd.esm.js",
+      "default": "./dist/shepherd.js"
+    },
     "./*": {
       "import": "./dist/*.esm.js",
       "types": "./dist/*.d.ts",
