@@ -10,3 +10,5 @@ global.console = {
 };
 
 global.sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+global.structuredClone = (v) => JSON.parse(JSON.stringify(v));

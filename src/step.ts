@@ -1,11 +1,12 @@
-import merge from 'deepmerge';
+import { deepMerge } from './utils/deep-merge';
 import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
 import {
   isElement,
   isHTMLElement,
   isFunction,
-  isUndefined
+  isUndefined,
+  type AnyObject
 } from './utils/type-check';
 import { bindAdvance } from './utils/bind';
 import { parseAttachTo, normalizePrefix, uuid } from './utils/general';
@@ -21,7 +22,7 @@ import { Tour } from './tour';
 /**
  * The options for the step
  */
-export interface StepOptions {
+export interface StepOptions extends AnyObject {
   /**
    * The element the step should be attached to on the page.
    * An object with properties `element` and `on`.
@@ -126,7 +127,7 @@ export interface StepOptions {
   /**
    * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
    */
-  floatingUIOptions?: object;
+  floatingUIOptions?: AnyObject;
 
   /**
    * Should the element be scrolled to when this step is shown?
@@ -514,7 +515,7 @@ export class Step extends Evented {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
-    tourOptions = merge({}, tourOptions || {});
+    tourOptions = deepMerge({}, tourOptions || {});
 
     this.options = Object.assign(
       {

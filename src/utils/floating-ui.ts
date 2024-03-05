@@ -1,4 +1,4 @@
-import merge from 'deepmerge';
+import { deepMerge } from './deep-merge';
 import { shouldCenterStep } from './general';
 import {
   autoUpdate,
@@ -65,7 +65,7 @@ export function mergeTooltipConfig(
   options: StepOptions
 ) {
   return {
-    floatingUIOptions: merge(
+    floatingUIOptions: deepMerge(
       tourOptions.floatingUIOptions || {},
       options.floatingUIOptions || {}
     )
@@ -197,7 +197,7 @@ export function getFloatingUIOptions(
     options.placement = attachToOptions.on;
   }
 
-  return merge(step.options.floatingUIOptions || {}, options);
+  return deepMerge(step.options.floatingUIOptions || {}, options);
 }
 
 function addArrow(step: Step) {

@@ -1,3 +1,5 @@
+export type AnyObject = { [key: string]: unknown };
+
 /**
  * Checks if `value` is classified as an `Element`.
  * @param value The param to check if it is an Element
@@ -15,7 +17,7 @@ export function isHTMLElement<T>(value: T | HTMLElement): value is HTMLElement {
 }
 
 /**
- * Checks if `value` is classified as a `Function` object.
+ * Checks if `value` is classified as a `Function`.
  * @param value The param to check if it is a function
  */
 export function isFunction<T>(value: T | Function): value is Function {
@@ -23,7 +25,15 @@ export function isFunction<T>(value: T | Function): value is Function {
 }
 
 /**
- * Checks if `value` is classified as a `String` object.
+ * Checks if `value` is classified as an `object`.
+ * @param value The param to check if it is a function
+ */
+export function isObject<T>(value: T | object): value is AnyObject {
+  return value && typeof value === 'object' && !Array.isArray(value);
+}
+
+/**
+ * Checks if `value` is classified as a `String`.
  * @param value The param to check if it is a string
  */
 export function isString<T>(value: T | string): value is string {

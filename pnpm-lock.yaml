@@ -11,9 +11,6 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.5.3
         version: 1.6.3
-      deepmerge:
-        specifier: ^4.3.1
-        version: 4.3.1
     devDependencies:
       '@babel/core':
         specifier: ^7.23.5
@@ -5258,6 +5255,7 @@ packages:
   /deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /default-browser-id@3.0.0:
     resolution: {integrity: sha512-OZ1y3y0SqSICtE8DE4S8YOE9UZOJ8wO16fKWVP5J1Qz42kV9jcnMVFrEE/noXb/ss3Q4pZIH79kxofzyNNtUNA==}

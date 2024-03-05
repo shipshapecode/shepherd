@@ -49,8 +49,7 @@
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.5.3",
-    "deepmerge": "^4.3.1"
+    "@floating-ui/dom": "^1.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
