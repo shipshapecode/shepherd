@@ -1,13 +1,13 @@
-import babel from 'rollup-plugin-babel';
+import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
-import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import visualizer from 'rollup-plugin-visualizer';
@@ -23,7 +23,7 @@ const plugins = [
     preprocess: sveltePreprocess({ typescript: true }),
     emitCss: true
   }),
-  resolve({
+  nodeResolve({
     extensions: ['.js', '.json', '.svelte', '.ts']
   }),
   typescript(),
@@ -99,7 +99,7 @@ if (!process.env.DEVELOPMENT) {
           preprocess: sveltePreprocess({ typescript: true }),
           emitCss: true
         }),
-        resolve({
+        nodeResolve({
           extensions: ['.js', '.json', '.svelte', '.ts']
         }),
         typescript(),
