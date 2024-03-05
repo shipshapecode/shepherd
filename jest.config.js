@@ -33,7 +33,7 @@ module.exports = {
   // The path to a module that runs some code to configure or set up the testing framework before each test
   setupFilesAfterEnv: ['<rootDir>/test/unit/setupTests.js'],
 
-  testEnvironment: 'jsdom',
+  testEnvironment: '<rootDir>/jsdom-extended.js',
 
   // A map from regular expressions to paths to transformers
   transform: {
