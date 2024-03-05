@@ -1,5 +1,7 @@
+import autoprefixer from 'autoprefixer';
+import fs from 'fs';
+import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
-import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from '@rollup/plugin-commonjs';
@@ -10,10 +12,10 @@ import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
-import visualizer from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 import typescript from '@rollup/plugin-typescript';
 
-const pkg = require('./package.json');
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
@@ -35,7 +37,7 @@ const plugins = [
     extensions: ['.js', '.mjs', '.html', '.svelte']
   }),
   postcss({
-    plugins: [require('autoprefixer'), require('cssnano')],
+    plugins: [autoprefixer, cssnanoPlugin],
     extract: 'css/shepherd.css'
   })
 ];
@@ -111,17 +113,14 @@ if (!process.env.DEVELOPMENT) {
           extensions: ['.js', '.mjs', '.html', '.svelte']
         }),
         postcss({
-          plugins: [require('autoprefixer'), require('cssnano')],
+          plugins: [autoprefixer, cssnanoPlugin],
           extract: 'css/shepherd.css'
         }),
         license({
           banner
         }),
         filesize(),
-        visualizer(),
-        copy({
-          targets: [{ src: 'dist/shepherd.js', dest: 'landing/public' }]
-        })
+        visualizer()
       ]
     }
   );
