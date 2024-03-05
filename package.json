@@ -92,7 +92,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "regenerator-runtime": "^0.14.1",
-    "release-it": "^16.3.0",
+    "release-it": "^17.1.1",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^5.0.5",
