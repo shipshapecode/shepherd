@@ -33,7 +33,7 @@
     "noEmit": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist",
     "inlineSourceMap": true,
     "inlineSources": true,
     "skipLibCheck": true

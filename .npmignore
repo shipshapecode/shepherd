@@ -10,6 +10,7 @@ docs/
 esdoc/
 jsdoc-template/
 landing/
+site/
 test/
 tests/
 
@@ -17,8 +18,7 @@ tests/
 .eslintrc.js
 .gitignore
 .stylelintrc.js
-.travis.yml
-cypress.json
+cypress.config.js
 index.html
 jest.config.js
 pnpm-lock.yaml

@@ -22,8 +22,6 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "license": "MIT",
-  "main": "dist/shepherd.js",
-  "module": "dist/shepherd.esm.js",
   "scripts": {
     "build": "pnpm clean && rollup -c && pnpm postbuild",
     "postbuild": "pnpm build:landing",
@@ -126,14 +124,15 @@
   },
   "exports": {
     "./*": {
-      "types": "./dist/types/*.d.ts",
+      "import": "./dist/*.esm.js",
+      "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     }
   },
   "typesVersions": {
     "*": {
       "*": [
-        "dist/types/*"
+        "./dist/*"
       ]
     }
   }
