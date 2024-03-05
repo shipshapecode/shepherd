@@ -106,7 +106,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-serve": "^2.0.2",
+    "rollup-plugin-serve": "^3.0.0",
     "rollup-plugin-svelte": "^7.1.6",
     "rollup-plugin-visualizer": "^5.11.0",
     "sinon": "^17.0.1",
