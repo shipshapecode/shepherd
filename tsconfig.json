@@ -36,7 +36,12 @@
     "declarationDir": "dist",
     "inlineSourceMap": true,
     "inlineSources": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "src/*": [
+        "./src/*",
+      ],
+    },
   },
   "include": ["src/**/*"]
 }
