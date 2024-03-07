@@ -175,14 +175,14 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
-    describe('.getCurrentStep()', function () {
-      it('returns the currently shown step', function () {
+    describe('.getCurrentStep()', function() {
+      it('returns the currently shown step', function() {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');
       });
     });
 
-    describe('.hide()', function () {
+    describe('.hide()', function() {
       it('hides the current step', () => {
         const [firstStep] = instance.steps;
         const hideStepSpy = spy(firstStep, 'hide');
@@ -200,8 +200,8 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
-    describe('isActive', function () {
-      it('computes whether or not `Shepherd.activeTour` equals the instance', function () {
+    describe('isActive', function() {
+      it('computes whether or not `Shepherd.activeTour` equals the instance', function() {
         Shepherd.activeTour = '';
         expect(instance.isActive()).toBe(false);
 
@@ -213,8 +213,8 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
-    describe('.next()/.back()', function () {
-      it('goes to the next/previous steps', function () {
+    describe('.next()/.back()', function() {
+      it('goes to the next/previous steps', function() {
         instance.start();
         instance.next();
         expect(instance.getCurrentStep().id).toBe('test2');
@@ -222,7 +222,7 @@ describe('Tour | Top-Level Class', function() {
         expect(instance.getCurrentStep().id).toBe('test');
       });
 
-      it('next completes tour when on last step', function () {
+      it('next completes tour when on last step', function() {
         let completeFired = false;
         instance.on('complete', () => {
           completeFired = true;
@@ -232,15 +232,12 @@ describe('Tour | Top-Level Class', function() {
         instance.show('test3');
         expect(instance.getCurrentStep().id).toBe('test3');
         instance.next();
-        expect(
-          completeFired,
-          'complete is called when next is clicked on last step'
-        ).toBeTruthy();
+        expect(completeFired, 'complete is called when next is clicked on last step').toBeTruthy();
       });
     });
 
-    describe('.cancel()', function () {
-      it('shows confirm dialog when confirmCancel is true', function () {
+    describe('.cancel()', function() {
+      it('shows confirm dialog when confirmCancel is true', function() {
         instance = new Shepherd.Tour({
           defaultStepOptions,
           confirmCancel: true,
@@ -261,46 +258,30 @@ describe('Tour | Top-Level Class', function() {
         windowConfirmStub.returns(false);
 
         instance.start();
-        expect(instance, 'activeTour is set to our tour').toBe(
-          Shepherd.activeTour
-        );
+        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
         instance.cancel();
-        expect(
-          windowConfirmStub.called,
-          'window confirm is called'
-        ).toBeTruthy();
-        expect(
-          inactiveFired,
-          'tour still going, since confirm returned false'
-        ).toBeFalsy();
+        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();
+        expect(inactiveFired, 'tour still going, since confirm returned false').toBeFalsy();
 
         windowConfirmStub.returns(true);
         instance.cancel();
-        expect(
-          windowConfirmStub.called,
-          'window confirm is called'
-        ).toBeTruthy();
-        expect(
-          inactiveFired,
-          'tour inactive, since confirm returned true'
-        ).toBeTruthy();
+        expect(windowConfirmStub.called, 'window confirm is called').toBeTruthy();
+        expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();
       });
 
-      it('tears down tour on cancel', function () {
+      it('tears down tour on cancel', function() {
         let inactiveFired = false;
         instance.on('inactive', () => {
           inactiveFired = true;
         });
         instance.start();
-        expect(instance, 'activeTour is set to our tour').toBe(
-          Shepherd.activeTour
-        );
+        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
         instance.cancel();
         expect(Shepherd.activeTour, 'activeTour is torn down').toBeFalsy();
         expect(inactiveFired, 'inactive event fired').toBeTruthy();
       });
 
-      it('triggers cancel event when cancel function is called', function () {
+      it('triggers cancel event when cancel function is called', function() {
         let cancelFired = false;
         instance.on('cancel', () => {
           cancelFired = true;
@@ -310,26 +291,17 @@ describe('Tour | Top-Level Class', function() {
         instance.cancel();
         expect(cancelFired, 'cancel event fired').toBeTruthy();
       });
-
-      [
-        {
-          status: 'normal',
-          title: 'whether cancel depends on function return value'
-        },
-        {
-          status: 'async',
-          title:
-            'whether cancel will wait for the value returned from the function'
-        }
-      ].map(({ status, title }) => {
-        it('when confirmCancel is function, ' + title, async function () {
+      
+      [{status:'normal', title:'whether cancel depends on function return value'},
+       {status:'async', title:'whether cancel will wait for the value returned from the function'}]
+      .map(({status, title}) => {
+        it('when confirmCancel is function, '+title,async function() {
           const myMock = jest.fn();
-          if (status === 'async') {
-            myMock
-              .mockImplementationOnce(() => Promise.resolve(false))
-              .mockImplementationOnce(() => Promise.resolve(true));
-          } else {
-            myMock.mockReturnValueOnce(false).mockReturnValueOnce(true);
+          if(status === 'async') {
+            myMock.mockImplementationOnce(()=>Promise.resolve(false))
+                  .mockImplementationOnce(()=>Promise.resolve(true))
+          }else{
+            myMock.mockReturnValueOnce(false).mockReturnValueOnce(true)
           }
           instance = new Shepherd.Tour({
             defaultStepOptions,
@@ -348,43 +320,23 @@ describe('Tour | Top-Level Class', function() {
           });
 
           instance.start();
-          expect(instance, 'activeTour is set to our tour').toBe(
-            Shepherd.activeTour
-          );
+          expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
 
           await instance.cancel();
-          expect(
-            myMock.mock.calls.length,
-            'confirmCancel callback called once'
-          ).toBe(1);
-          expect(
-            await myMock.mock.results[0].value,
-            'confirmCancel callback returns false'
-          ).toBe(false);
-          expect(
-            inactiveFired,
-            'tour still going, since confirmCancel callback returned false'
-          ).toBeFalsy();
+          expect(myMock.mock.calls.length, 'confirmCancel callback called once').toBe(1);
+          expect(await myMock.mock.results[0].value, 'confirmCancel callback returns false').toBe(false);
+          expect(inactiveFired, 'tour still going, since confirmCancel callback returned false').toBeFalsy();
 
           await instance.cancel();
-          expect(
-            myMock.mock.calls.length,
-            'confirmCancel callback called twice'
-          ).toBe(2);
-          expect(
-            await myMock.mock.results[1].value,
-            'confirmCancel callback returns true'
-          ).toBe(true);
-          expect(
-            inactiveFired,
-            'tour inactive, since confirm returned true'
-          ).toBeTruthy();
+          expect(myMock.mock.calls.length, 'confirmCancel callback called twice').toBe(2);
+          expect(await myMock.mock.results[1].value, 'confirmCancel callback returns true').toBe(true);
+          expect(inactiveFired, 'tour inactive, since confirm returned true').toBeTruthy();
         });
       });
     });
 
-    describe('.complete()', function () {
-      it('triggers complete event when complete function is called', function () {
+    describe('.complete()', function() {
+      it('triggers complete event when complete function is called', function() {
         let completeFired = false;
 
         instance.on('complete', () => {
@@ -408,23 +360,18 @@ describe('Tour | Top-Level Class', function() {
       });
     });
 
-    describe('._done()', function () {
-      it('tears down the active tour', function () {
+    describe('._done()', function() {
+      it('tears down the active tour', function() {
         instance.start();
 
-        expect(instance, 'activeTour is set to our tour').toBe(
-          Shepherd.activeTour
-        );
+        expect(instance, 'activeTour is set to our tour').toBe(Shepherd.activeTour);
 
         instance.complete();
 
-        expect(
-          Shepherd.activeTour,
-          '`activeTour` is torn down and removed from the `Shepherd` global'
-        ).toBe(null);
+        expect(Shepherd.activeTour, '`activeTour` is torn down and removed from the `Shepherd` global').toBe(null);
       });
 
-      it('removes any of its `Step` tooltip elements from the DOM', function () {
+      it('removes any of its `Step` tooltip elements from the DOM', function() {
         const testStep = {
           id: 'element-removal-test',
           classes: 'element-removal-test',
@@ -435,20 +382,18 @@ describe('Tour | Top-Level Class', function() {
         instance.start();
         instance.show('element-removal-test');
 
-        expect(
-          document.querySelector('.element-removal-test'),
-          'a step is rendered in the DOM after the tour starts'
-        ).toBeInTheDocument();
+        expect(document.querySelector('.element-removal-test'),
+          'a step is rendered in the DOM after the tour starts')
+          .toBeInTheDocument();
 
         instance.complete();
 
-        expect(
-          document.querySelector('.element-removal-test'),
-          'steps are removed from the DOM after the tour completes'
-        ).not.toBeInTheDocument();
+        expect(document.querySelector('.element-removal-test'),
+          'steps are removed from the DOM after the tour completes')
+          .not.toBeInTheDocument();
       });
 
-      it('fires the `inactive` event', function () {
+      it('fires the `inactive` event', function() {
         let inactiveFired = false;
 
         instance.on('inactive', () => {
@@ -457,28 +402,23 @@ describe('Tour | Top-Level Class', function() {
 
         instance.start();
 
-        expect(
-          inactiveFired,
-          'inactive event does not fire before `complete()`'
-        ).toBe(false);
+        expect(inactiveFired, 'inactive event does not fire before `complete()`').toBe(false);
 
         instance.complete();
 
-        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(
-          true
-        );
+        expect(inactiveFired, 'inactive event fires after `complete()`').toBe(true);
       });
     });
 
-    describe('.removeStep()', function () {
-      it('removes the step when passed the id', function () {
+    describe('.removeStep()', function() {
+      it('removes the step when passed the id', function() {
         instance.start();
         expect(instance.steps.length).toBe(4);
         instance.removeStep('test2');
         expect(instance.steps.length).toBe(3);
       });
 
-      it('hides the step before removing', function () {
+      it('hides the step before removing', function() {
         let hideFired = false;
         instance.start();
         expect(instance.steps.length).toBe(4);
@@ -488,48 +428,36 @@ describe('Tour | Top-Level Class', function() {
         });
         instance.removeStep('test');
         expect(instance.steps.length).toBe(3);
-        expect(
-          hideFired,
-          'hide is fired before step is destroyed'
-        ).toBeTruthy();
+        expect(hideFired, 'hide is fired before step is destroyed').toBeTruthy();
       });
     });
 
-    describe('.show()', function () {
-      it('show short-circuits if next is not found', function () {
+    describe('.show()', function() {
+      it('show short-circuits if next is not found', function() {
         let showFired = false;
         instance.start();
         instance.on('show', () => {
           showFired = true;
         });
         instance.show('not-a-real-key');
-        expect(
-          showFired,
-          'showFired is false because show short circuits'
-        ).toBeFalsy();
+        expect(showFired, 'showFired is false because show short circuits').toBeFalsy();
       });
 
-      it('showOn determines which steps to skip', function () {
+      it('showOn determines which steps to skip', function() {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');
         instance.next();
         expect(instance.getCurrentStep().id).toBe('test2');
         instance.next();
         expect(instance.getCurrentStep().id).toBe('test3');
-        expect(
-          instance.getCurrentStep().id,
-          'step skipped because `showOn` returns false'
-        ).not.toBe('skipped-step');
+        expect(instance.getCurrentStep().id, 'step skipped because `showOn` returns false').not.toBe('skipped-step');
         instance.back();
         shouldShowStep = true;
         instance.next();
-        expect(
-          instance.getCurrentStep().id,
-          'step shown because `showOn` returns true'
-        ).toBe('skipped-step');
+        expect(instance.getCurrentStep().id, 'step shown because `showOn` returns true').toBe('skipped-step');
       });
 
-      it("sets the instance on `Shepherd.activeTour` if it's not already set", function () {
+      it('sets the instance on `Shepherd.activeTour` if it\'s not already set', function() {
         const setupFuncSpy = spy(instance, '_setupActiveTour');
         Shepherd.activeTour = null;
 
