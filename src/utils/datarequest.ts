@@ -3,14 +3,19 @@ interface ActorResponse {
 }
 
 class DataRequest {
-  public data: Record<string, unknown>[] | null;
   private apiKey: string;
   private apiPath: string;
 
   constructor(apiKey: string, apiPath: string) {
+    if (!apiKey) {
+      throw new Error('Shepherd Pro: Missing required apiKey option.');
+    }
+    if (!apiPath) {
+      throw new Error('Shepherd Pro: Missing required apiPath option.');
+    }
+
     this.apiKey = apiKey;
     this.apiPath = apiPath;
-    this.data = null;
   }
 
   async sendEvents(body: Record<string, unknown>) {
