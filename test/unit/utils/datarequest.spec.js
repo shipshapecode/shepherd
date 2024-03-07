@@ -1,17 +1,12 @@
 import DataRequest from '../../../src/utils/datarequest';
 
-describe('DataRequest', () => {
-  const dataRequesterMock = jest
-    .spyOn(DataRequest.prototype, 'sendEvents')
-    .mockImplementation(() => Promise.resolve({}));
+global.fetch = jest.fn();
 
+describe('DataRequest', () => {
   const defaultOptions = [
     'apiKey_12345', 'https://api.shepherdpro.com'
   ];
 
-  afterAll(() => {
-    dataRequesterMock.mockReset();
-  });
   it('exists and creates an instance', () => {
     const requestInstance = new DataRequest(...defaultOptions);
 
@@ -31,6 +26,10 @@ describe('DataRequest', () => {
   });
 
   it('can use the dataRequester to sendEvents()', async () => {
+    fetch.mockResolvedValue({
+      ok: true,
+      json: () => new Promise((resolve) => resolve({ data: {} }))
+    });
     const dataRequester = new DataRequest(...defaultOptions);
 
     expect(typeof dataRequester.sendEvents).toBe('function');
@@ -38,6 +37,5 @@ describe('DataRequest', () => {
     const data = await dataRequester.sendEvents({});
 
     expect(data).toMatchObject({});
-    expect(dataRequester.sendEvents).toHaveBeenCalled();
   });
 });
