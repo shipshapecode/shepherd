@@ -196,8 +196,8 @@ importers:
   landing:
     dependencies:
       '@astrojs/check':
-        specifier: ^0.3.1
-        version: 0.3.4(prettier@3.2.5)(typescript@5.3.3)
+        specifier: ^0.5.6
+        version: 0.5.6(prettier@3.2.5)(typescript@5.3.3)
       '@astrojs/mdx':
         specifier: ^2.0.0
         version: 2.1.1(astro@4.4.8)
@@ -252,8 +252,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.24
 
-  /@astrojs/check@0.3.4(prettier@3.2.5)(typescript@5.3.3):
-    resolution: {integrity: sha512-Wi4KwW38J3GCd/U6LH2UuU4uc4P/K1WYaqhoKm2o7rVoGhQfO+RWrSO26rUPRXYbmae8JugAgpCmsHC8bt5RlA==}
+  /@astrojs/check@0.5.6(prettier@3.2.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-i7j5ogoSg/Bu2NV5zVvwCo9R4kGWXWsJDejxpCu9F7iNNlR333u8EwpP4bpeKASDtjOA1rXKo9ogUTEVlIAHqA==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
