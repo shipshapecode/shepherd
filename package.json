@@ -11,7 +11,7 @@
   "homepage": "https://shepherdjs.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shipshapecode/shepherd.git"
+    "url": "git+https://github.com/shepherd-pro/shepherd.git"
   },
   "license": "MIT",
   "maintainers": [
