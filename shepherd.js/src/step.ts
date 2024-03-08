@@ -514,7 +514,7 @@ export class Step extends Evented {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
-    tourOptions = merge({}, tourOptions || {});
+    tourOptions = merge({}, tourOptions || {}) as StepOptions;
 
     this.options = Object.assign(
       {

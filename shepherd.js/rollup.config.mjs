@@ -1,5 +1,8 @@
 import autoprefixer from 'autoprefixer';
 import fs from 'fs';
+import path from 'node:path';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -27,10 +30,11 @@ const plugins = [
     emitCss: true
   }),
   nodeResolve({
-    extensions: ['.js', '.json', '.svelte', '.ts']
+    extensions: ['.js', '.json', '.svelte', '.ts'],
+    modulesOnly: true
   }),
-  typescript(),
   commonjs(),
+  typescript(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
   }),
@@ -40,6 +44,17 @@ const plugins = [
   postcss({
     plugins: [autoprefixer, cssnanoPlugin],
     extract: 'css/shepherd.css'
+  }),
+  license({
+    banner
+  }),
+  filesize(),
+  visualizer(),
+  copy({
+    targets: [
+      { src: 'dist/css/shepherd.css', dest: '../test/cypress/dummy/css' },
+      { src: 'dist/shepherd.js', dest: '../test/cypress/dummy/js' }
+    ]
   })
 ];
 
@@ -51,88 +66,31 @@ if (process.env.DEVELOPMENT) {
   plugins.push(livereload());
 }
 
-plugins.push(license({ banner }));
-plugins.push(filesize());
-plugins.push(visualizer());
+const inputFiles = Object.fromEntries(
+  globSync('src/**/*.ts').map((file) => [
+    // This remove `src/` as well as the file extension from each
+    // file, so e.g. src/nested/foo.js becomes nested/foo
+    path.relative(
+      'src',
+      file.slice(0, file.length - path.extname(file).length)
+    ),
+    // This expands the relative paths to absolute paths, so e.g.
+    // src/nested/foo becomes /project/src/nested/foo.js
+    fileURLToPath(new URL(file, import.meta.url))
+  ])
+);
 
-const rollupBuilds = [
-  // Generate unminified bundle
+export default [
   {
-    input: './src/shepherd.ts',
+    input: inputFiles,
 
     output: [
       {
         dir: 'dist',
-        entryFileNames: '[name].js',
-        format: 'umd',
-        name: 'Shepherd',
-        sourcemap: true
-      },
-      {
-        dir: 'dist',
-        entryFileNames: '[name].esm.js',
-        format: 'esm',
+        format: 'es',
         sourcemap: true
       }
     ],
     plugins
   }
 ];
-
-if (!process.env.DEVELOPMENT) {
-  rollupBuilds.push(
-    // Generate minifed bundle
-    {
-      input: './src/shepherd.ts',
-      output: [
-        {
-          dir: 'dist',
-          entryFileNames: '[name].min.js',
-          format: 'umd',
-          name: 'Shepherd',
-          sourcemap: true
-        },
-        {
-          dir: 'dist',
-          entryFileNames: '[name].esm.min.js',
-          format: 'esm',
-          sourcemap: true
-        }
-      ],
-      plugins: [
-        svelte({
-          preprocess: sveltePreprocess({ typescript: true }),
-          emitCss: true
-        }),
-        nodeResolve({
-          extensions: ['.js', '.json', '.svelte', '.ts']
-        }),
-        typescript(),
-        commonjs(),
-        replace({
-          'process.env.NODE_ENV': JSON.stringify(env)
-        }),
-        babel({
-          extensions: ['.js', '.mjs', '.html', '.svelte']
-        }),
-        postcss({
-          plugins: [autoprefixer, cssnanoPlugin],
-          extract: 'css/shepherd.css'
-        }),
-        license({
-          banner
-        }),
-        filesize(),
-        visualizer(),
-        copy({
-          targets: [
-            { src: 'dist/css/shepherd.css', dest: '../test/cypress/dummy/css' },
-            { src: 'dist/shepherd.js', dest: '../test/cypress/dummy/js' }
-          ]
-        })
-      ]
-    }
-  );
-}
-
-export default rollupBuilds;

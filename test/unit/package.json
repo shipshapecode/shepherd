@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "lint:js": "eslint .",
+    "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watch",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o"

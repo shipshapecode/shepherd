@@ -13,15 +13,20 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
-    "build": "pnpm -F shepherd.js build",
+    "build": "pnpm -F shepherd.js build && pnpm build:landing",
+    "dev": "pnpm watch",
+    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
+    "build:landing": "pnpm -F landing build",
     "lint:js": "pnpm -F '*' lint:js",
+    "start": "pnpm watch",
     "test:ci": "pnpm build && pnpm test:unit:ci && pnpm test:cy:ci:chrome",
     "test:cy:ci:chrome": "pnpm -F cypress-tests test:ci:chrome",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",
     "test:unit:ci": "pnpm -F unit-tests test:ci",
     "test:unit:watch": "pnpm -F unit-tests test:watch",
     "types:check": "pnpm -F shepherd.js types:check",
-    "view-coverage": "pnpm -F unit-tests view-coverage"
+    "view-coverage": "pnpm -F unit-tests view-coverage",
+    "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",

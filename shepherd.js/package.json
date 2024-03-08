@@ -37,17 +37,10 @@
     }
   },
   "scripts": {
-    "build": "pnpm clean && rollup -c && pnpm postbuild",
-    "postbuild": "pnpm build:landing",
-    "build:landing": "pnpm -F landing build",
+    "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist",
-    "dev": "pnpm watch",
-    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "lint:js": "eslint . --ext js",
-    "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
-    "start": "pnpm watch",
-    "test": "pnpm lint:js && pnpm test:ci",
     "types:check": "pnpm tsc",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
