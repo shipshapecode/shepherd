@@ -25,6 +25,8 @@
   "devDependencies": {
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
+    "@release-it-plugins/lerna-changelog": "^6.1.0",
+    "@release-it-plugins/workspaces": "^4.2.0",
     "autoprefixer": "^10.4.16",
     "cypress": "^13.6.2",
     "cypress-plugin-tab": "^1.0.5",
@@ -40,6 +42,7 @@
     "postcss": "^8.4.33",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
+    "release-it": "^17.1.1",
     "release-plan": "^0.8.0",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
