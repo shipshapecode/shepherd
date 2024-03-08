@@ -22,6 +22,8 @@
     "autoprefixer": "^10.4.16",
     "chai": "^4.3.10",
     "codeclimate-test-reporter": "^0.5.1",
+    "cypress": "^13.6.2",
+    "cypress-plugin-tab": "^1.0.5",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
