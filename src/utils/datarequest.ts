@@ -6,7 +6,7 @@ class DataRequest {
   private apiKey: string;
   private apiPath: string;
 
-  constructor(apiKey: string, apiPath: string) {
+  constructor(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
