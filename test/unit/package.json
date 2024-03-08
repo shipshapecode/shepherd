@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
+    "lint:js": "eslint .",
     "test:ci": "jest --coverage",
     "test:watch": "jest --watch"
   },
