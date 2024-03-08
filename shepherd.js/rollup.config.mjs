@@ -7,7 +7,6 @@ import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -28,7 +27,6 @@ const plugins = [
     preprocess: sveltePreprocess({ typescript: true }),
     emitCss: true
   }),
-  commonjs(),
   nodeResolve({
     extensions: ['.js', '.json', '.svelte', '.ts'],
     modulesOnly: true

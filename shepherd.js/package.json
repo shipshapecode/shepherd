@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
-    "deepmerge": "^4.3.1"
+    "deepmerge-ts": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",

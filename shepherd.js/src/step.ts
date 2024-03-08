@@ -1,4 +1,4 @@
-import merge from 'deepmerge';
+import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
 import {
@@ -514,7 +514,7 @@ export class Step extends Evented {
     let tourOptions =
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
-    tourOptions = merge({}, tourOptions || {}) as StepOptions;
+    tourOptions = deepmerge({}, tourOptions || {});
 
     this.options = Object.assign(
       {

@@ -4,10 +4,10 @@
       rel="stylesheet"
       href="../node_modules/shepherd.js/dist/css/shepherd.css"
     />
-    <script
-      type="module"
-      src="../node_modules/shepherd.js/dist/shepherd.js"
-    ></script>
+    <script type="module">
+      import Shepherd from '../node_modules/shepherd.js/dist/shepherd.js';
+      window.Shepherd = Shepherd;
+    </script>
   </head>
 
   <body>

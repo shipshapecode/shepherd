@@ -124,10 +124,10 @@
     </div>
 
     <!-- Shepherd -->
-    <script
-      type="module"
-      src="../node_modules/shepherd.js/dist/shepherd.js"
-    ></script>
+    <script type="module">
+      import Shepherd from '../node_modules/shepherd.js/dist/shepherd.js';
+      window.Shepherd = Shepherd;
+    </script>
 
     <!-- Welcome page -->
     <script src="js/prism.js"></script>
