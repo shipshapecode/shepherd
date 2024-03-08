@@ -129,8 +129,8 @@ const Shepherd = new ShepherdPro();
  * @extends {Evented}
  */
 export class Tour extends Evented {
-  public dataRequester;
-  public trackedEvents = ['active', 'cancel', 'complete', 'show'];
+  dataRequester;
+  trackedEvents = ['active', 'cancel', 'complete', 'show'];
 
   private currentUserId: string | null = null;
 
