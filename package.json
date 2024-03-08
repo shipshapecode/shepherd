@@ -1,7 +1,7 @@
 {
   "name": "shepherd-monorepo",
   "private": "true",
-  "version": "12.0.0-alpha.1",
+  "version": "12.0.0-alpha.2",
   "description": "The monorepo for Shepherd",
   "repository": {
     "type": "git",

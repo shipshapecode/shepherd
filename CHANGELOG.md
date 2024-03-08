@@ -1,6 +1,15 @@
 # Changelog
 
 
+
+## v12.0.0-alpha.2 (2024-03-08)
+
+#### :boom: Breaking Change
+* [#2626](https://github.com/shepherd-pro/shepherd/pull/2626) Convert to ESM ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-1 (2024-03-08)
 
 ## v12.0.0-0 (2024-03-08)
