@@ -1,4 +1,4 @@
-import merge from '@bundled-es-modules/deepmerge';
+import merge from 'deepmerge';
 import { Evented } from './evented';
 import autoBind from './utils/auto-bind';
 import {
@@ -534,6 +534,7 @@ export class Step extends Evented {
 
     if (when) {
       Object.keys(when).forEach((event) => {
+        // @ts-expect-error TODO: fix this type error
         this.on(event, when[event], this);
       });
     }

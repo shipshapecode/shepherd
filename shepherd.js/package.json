@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
-    "@bundled-es-modules/deepmerge": "^4.3.1"
+    "deepmerge": "^4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",

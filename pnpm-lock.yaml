@@ -180,12 +180,12 @@ importers:
 
   shepherd.js:
     dependencies:
-      '@bundled-es-modules/deepmerge':
-        specifier: ^4.3.1
-        version: 4.3.1
       '@floating-ui/dom':
         specifier: ^1.5.3
         version: 1.6.3
+      deepmerge:
+        specifier: ^4.3.1
+        version: 4.3.1
     devDependencies:
       '@babel/core':
         specifier: ^7.23.5
@@ -1964,12 +1964,6 @@ packages:
     resolution: {integrity: sha512-WKGE+SO0qUGirW8J+xOWkHeCkfFEoPPvHnFkcdMl+MY3kDbAcTwjZCzjg27JCvoD0h8fH47FR7DSIss0/S5lyg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
-    dev: false
-
-  /@bundled-es-modules/deepmerge@4.3.1:
-    resolution: {integrity: sha512-Rk453EklPUPC3NRWc3VUNI/SSUjdBaFoaQvFRmNBNtMHVtOFD5AntiWg5kEE1hqcPqedYFDzxE3ZcMYPcA195w==}
-    dependencies:
-      deepmerge: 4.3.1
     dev: false
 
   /@colors/colors@1.5.0:

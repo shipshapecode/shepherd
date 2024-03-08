@@ -1,4 +1,4 @@
-import merge from '@bundled-es-modules/deepmerge';
+import merge from 'deepmerge';
 import { shouldCenterStep } from './general';
 import {
   autoUpdate,
