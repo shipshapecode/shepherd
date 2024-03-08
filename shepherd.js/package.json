@@ -48,8 +48,6 @@
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "pnpm watch",
     "test": "pnpm lint:js && pnpm test:ci",
-    "pretest:ci": "pnpm build",
-    "test:ci": "pnpm build && pnpm test:unit:ci && test:cy:ci:chrome",
     "types:check": "pnpm tsc",
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"

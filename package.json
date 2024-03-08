@@ -14,6 +14,8 @@
   "scripts": {
     "build": "pnpm -F shepherd.js build",
     "lint:js": "pnpm -F shepherd.js lint:js",
+    "pretest:ci": "pnpm build",
+    "test:ci": "pnpm build && pnpm test:unit:ci && test:cy:ci:chrome",
     "test:cy:ci:chrome": "pnpm -F cypress-tests test:ci:chrome",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",
     "test:unit:ci": "pnpm -F unit-tests test:ci",
