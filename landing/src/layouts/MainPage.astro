@@ -7,7 +7,7 @@ import { SITE_TITLE } from '../consts';
 const { isHome } = Astro.props;
 const shepherdIncludeCode = `
 	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-	<script src="shepherd.js/dist/shepherd.min.js"></script>
+	<script type="module" src="shepherd.js/dist/shepherd.js"></script>
   
 `;
 ---
@@ -177,7 +177,7 @@ const shepherdIncludeCode = `
 <script type="module" is:inline>
   'use strict';
 
-  import Shepherd from './node_modules/shepherd.js/dist/shepherd.esm.js';
+  import Shepherd from './node_modules/shepherd.js/dist/shepherd.js';
 
   (function () {
     function init() {
