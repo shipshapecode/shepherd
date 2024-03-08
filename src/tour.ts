@@ -89,7 +89,7 @@ export class ShepherdPro extends Evented {
   public apiPath: string | undefined;
   public dataRequester: DataRequest | undefined;
 
-  init(apiKey: string, apiPath?: string) {
+  init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
