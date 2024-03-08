@@ -84,10 +84,10 @@ const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com';
 const SHEPHERD_USER_ID = 'shepherdPro:userId';
 
 export class ShepherdPro extends Evented {
-  public activeTour: Tour | null | undefined;
-  public apiKey: string | undefined;
-  public apiPath: string | undefined;
-  public dataRequester: DataRequest | undefined;
+  activeTour?: Tour | null;
+  apiKey?: string;
+  apiPath?: string;
+  dataRequester?: DataRequest;
 
   init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
