@@ -18,7 +18,12 @@ module.exports = {
   github: {
     release: true,
     tokenRef: 'GITHUB_AUTH',
-    assets: ['dist/**/*.css', 'dist/**/*.js', 'dist/**/*.ts', 'dist/**/*.map']
+    assets: [
+      'shepherd.js/dist/**/*.css',
+      'shepherd.js/dist/**/*.js',
+      'shepherd.js/dist/**/*.ts',
+      'shepherd.js/dist/**/*.map'
+    ]
   },
   npm: false
 };
