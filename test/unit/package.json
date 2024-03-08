@@ -10,7 +10,8 @@
   "scripts": {
     "lint:js": "eslint .",
     "test:ci": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
@@ -21,7 +22,6 @@
     "autoprefixer": "^10.4.16",
     "babel-jest": "^29.7.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "codeclimate-test-reporter": "^0.5.1",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
@@ -45,7 +45,6 @@
     "start-server-and-test": "^2.0.3",
     "svelte": "^3.59.2",
     "svelte-jester": "^2.3.2",
-    "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   },
   "packageManager": "pnpm@8.15.4",
