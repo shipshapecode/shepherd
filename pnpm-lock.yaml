@@ -92,9 +92,6 @@ importers:
       jsdoc-template-ship-shape:
         specifier: ^0.1.1
         version: 0.1.1
-      mutationobserver-shim:
-        specifier: ^0.3.7
-        version: 0.3.7
       postcss:
         specifier: ^8.4.33
         version: 8.4.35
@@ -104,18 +101,12 @@ importers:
       prettier:
         specifier: ^3.1.1
         version: 3.2.5
-      regenerator-runtime:
-        specifier: ^0.14.1
-        version: 0.14.1
       release-plan:
         specifier: ^0.8.0
         version: 0.8.0
       replace:
         specifier: ^1.2.2
         version: 1.2.2
-      resize-observer-polyfill:
-        specifier: ^1.5.1
-        version: 1.5.1
       rimraf:
         specifier: ^5.0.5
         version: 5.0.5
@@ -265,9 +256,6 @@ importers:
       jsdoc-template-ship-shape:
         specifier: ^0.1.1
         version: 0.1.1
-      mutationobserver-shim:
-        specifier: ^0.3.7
-        version: 0.3.7
       postcss:
         specifier: ^8.4.33
         version: 8.4.35
@@ -277,18 +265,12 @@ importers:
       prettier:
         specifier: ^3.1.1
         version: 3.2.5
-      regenerator-runtime:
-        specifier: ^0.14.1
-        version: 0.14.1
       release-plan:
         specifier: ^0.8.0
         version: 0.8.0
       replace:
         specifier: ^1.2.2
         version: 1.2.2
-      resize-observer-polyfill:
-        specifier: ^1.5.1
-        version: 1.5.1
       rimraf:
         specifier: ^5.0.5
         version: 5.0.5
@@ -391,9 +373,6 @@ importers:
       http-server:
         specifier: ^14.1.1
         version: 14.1.1
-      mutationobserver-shim:
-        specifier: ^0.3.7
-        version: 0.3.7
       postcss:
         specifier: ^8.4.33
         version: 8.4.35
@@ -403,15 +382,9 @@ importers:
       prettier:
         specifier: ^3.1.1
         version: 3.2.5
-      regenerator-runtime:
-        specifier: ^0.14.1
-        version: 0.14.1
       replace:
         specifier: ^1.2.2
         version: 1.2.2
-      resize-observer-polyfill:
-        specifier: ^1.5.1
-        version: 1.5.1
       rimraf:
         specifier: ^5.0.5
         version: 5.0.5
@@ -511,9 +484,6 @@ importers:
       jest-transform-css:
         specifier: ^6.0.1
         version: 6.0.1(postcss@8.4.35)
-      mutationobserver-shim:
-        specifier: ^0.3.7
-        version: 0.3.7
       postcss:
         specifier: ^8.4.33
         version: 8.4.35
@@ -9502,10 +9472,6 @@ packages:
   /muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
     dev: false
-
-  /mutationobserver-shim@0.3.7:
-    resolution: {integrity: sha512-oRIDTyZQU96nAiz2AQyngwx1e89iApl2hN5AOYwyxLUB47UYsU3Wv9lJWqH5y/QdiYkc5HQLi23ZNB3fELdHcQ==}
-    dev: true
 
   /mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
