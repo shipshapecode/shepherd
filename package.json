@@ -13,15 +13,29 @@
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
-  "authors": [
-    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
-    "Zack Bloom <zackbloom@gmail.com>"
-  ],
+  "license": "MIT",
   "maintainers": [
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/shepherd.esm.js",
+      "default": "./dist/shepherd.js"
+    },
+    "./*": {
+      "import": "./dist/*.esm.js",
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
   "scripts": {
     "build": "pnpm clean && rollup -c && pnpm postbuild",
     "postbuild": "pnpm build:landing",
@@ -33,12 +47,11 @@
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "esdoc": "esdoc",
     "lint:js": "eslint . --ext js",
-    "release": "release-it",
     "rewrite-paths": "replace 'SF:.*src' 'SF:src' coverage/lcov.info",
     "start": "pnpm watch",
     "start-test-server": "http-server -p 9002",
-    "pretest:ci": "pnpm build",
     "test": "pnpm lint:js && pnpm test:ci",
+    "pretest:ci": "pnpm build",
     "test:ci": "pnpm build && pnpm test:unit:ci && test:cy:ci:chrome",
     "test:cy:ci:chrome": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
     "test:cy:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open",
@@ -56,7 +69,6 @@
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
     "@babel/preset-typescript": "^7.23.3",
-    "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -92,7 +104,7 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "regenerator-runtime": "^0.14.1",
-    "release-it": "^16.3.0",
+    "release-plan": "^0.8.0",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^5.0.5",
@@ -114,29 +126,15 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   },
+  "packageManager": "pnpm@8.15.4",
   "engines": {
     "node": "18.* || >= 20"
   },
-  "packageManager": "pnpm@8.15.4",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/shepherd.esm.js",
-      "default": "./dist/shepherd.js"
-    },
-    "./*": {
-      "import": "./dist/*.esm.js",
-      "types": "./dist/*.d.ts",
-      "default": "./dist/*.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*"
-      ]
-    }
-  }
+  "authors": [
+    "Adam Schwartz <adam.flynn.schwartz@gmail.com>",
+    "Zack Bloom <zackbloom@gmail.com>"
+  ]
 }
