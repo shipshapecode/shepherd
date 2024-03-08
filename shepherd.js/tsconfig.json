@@ -38,10 +38,8 @@
     "inlineSources": true,
     "skipLibCheck": true,
     "paths": {
-      "src/*": [
-        "./src/*",
-      ],
-    },
+      "src/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"]
 }

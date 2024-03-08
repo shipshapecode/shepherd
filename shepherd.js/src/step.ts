@@ -534,7 +534,7 @@ export class Step extends Evented {
 
     if (when) {
       Object.keys(when).forEach((event) => {
-        // @ts-expect-error TODO: figure out this type error
+        // @ts-expect-error TODO: fix this type error
         this.on(event, when[event], this);
       });
     }

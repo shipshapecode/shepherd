@@ -1,2 +1,5 @@
 packages:
   - 'landing'
+  - 'shepherd.js'
+  - 'test/cypress'
+  - 'test/unit'

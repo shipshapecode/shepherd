@@ -1,5 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
-import ShepherdFooter from '../../../src/components/shepherd-footer.svelte';
+import ShepherdFooter from '../../../shepherd.js/src/components/shepherd-footer.svelte';
 import defaultButtons from '../../cypress/utils/default-buttons.js';
 
 describe('components/ShepherdFooter', () => {

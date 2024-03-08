@@ -7,11 +7,11 @@ module.exports = {
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
-    'src/*.ts',
-    'src/*.svelte',
-    'src/components/**/*.svelte',
-    'src/utils/*.ts',
-    'src/utils/*.svelte'
+    '../../shepherd.js/src/*.ts',
+    '../../shepherd.js/src/*.svelte',
+    '../../shepherd.js/src/components/**/*.svelte',
+    '../../shepherd.js/src/utils/*.ts',
+    '../../shepherd.js/src/utils/*.svelte'
   ],
 
   // The directory where Jest should output its coverage files
@@ -28,10 +28,10 @@ module.exports = {
   rootDir: './',
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: ['<rootDir>/test/unit'],
+  roots: ['<rootDir>'],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['<rootDir>/test/unit/setupTests.js'],
+  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
 
   testEnvironment: 'jsdom',
 
@@ -41,7 +41,7 @@ module.exports = {
     '^.+\\.svelte$': [
       'svelte-jester',
       {
-        preprocess: true,
+        preprocess: "../../shepherd.js/svelte.config.js",
         compilerOptions: {
           dev: false
         }

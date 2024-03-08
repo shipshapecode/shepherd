@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import Shepherd from '../../src/shepherd';
+import Shepherd from '../../shepherd.js/src/shepherd';
 
 describe('Server Side Render', function () {
   describe('Tour constructor', function () {

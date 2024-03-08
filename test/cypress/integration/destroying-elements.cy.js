@@ -6,7 +6,7 @@ describe('destroying-elements', () => {
   beforeEach(() => {
     Shepherd = null;
 
-    cy.visit('/test/examples/destroying-elements', {
+    cy.visit('/examples/destroying-elements', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
           return Shepherd = contentWindow.Shepherd;

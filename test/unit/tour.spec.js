@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import { stub } from 'sinon';
-import Shepherd from '../../src/shepherd';
+import Shepherd from '../../shepherd.js/src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
-import { Step } from '../../src/step';
-import { setupTooltip } from '../../src/utils/floating-ui';
+import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
 import { spy } from 'sinon';
 import { offset } from "@floating-ui/dom";
+
+const { Step } = Shepherd;
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;

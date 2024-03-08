@@ -3,6 +3,7 @@ import fs from 'fs';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
+import copy from 'rollup-plugin-copy';
 import livereload from 'rollup-plugin-livereload';
 import commonjs from '@rollup/plugin-commonjs';
 import filesize from 'rollup-plugin-filesize';
@@ -44,7 +45,9 @@ const plugins = [
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
-  plugins.push(serve({ contentBase: ['.', 'dist', 'test/dummy'], open: true }));
+  plugins.push(
+    serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
+  );
   plugins.push(livereload());
 }
 
@@ -120,7 +123,13 @@ if (!process.env.DEVELOPMENT) {
           banner
         }),
         filesize(),
-        visualizer()
+        visualizer(),
+        copy({
+          targets: [
+            { src: 'dist/css/shepherd.css', dest: '../test/cypress/dummy/css' },
+            { src: 'dist/shepherd.js', dest: '../test/cypress/dummy/js' }
+          ]
+        })
       ]
     }
   );

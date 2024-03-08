@@ -1,0 +1,44 @@
+{
+  "name": "cypress-tests",
+  "private": "true",
+  "description": "Cypress tests for Shepherd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "start-test-server": "http-server -p 9002",
+    "test:ci:chrome": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
+    "test:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-typescript": "^7.23.3",
+    "@testing-library/svelte": "^3.2.2",
+    "autoprefixer": "^10.4.16",
+    "chai": "^4.3.10",
+    "del": "^7.1.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "glob": "^10.3.10",
+    "http-server": "^14.1.1",
+    "postcss": "^8.4.33",
+    "postinstall-postinstall": "^2.1.0",
+    "prettier": "^3.1.1",
+    "replace": "^1.2.2",
+    "shepherd.js": "workspace:*",
+    "start-server-and-test": "^2.0.3",
+    "svelte": "^3.59.2",
+    "typescript": "^5.3.3"
+  },
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": "18.* || >= 20"
+  }
+}
