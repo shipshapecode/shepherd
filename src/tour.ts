@@ -8,15 +8,14 @@ import {
   isUndefined
 } from './utils/type-check';
 import { cleanupSteps } from './utils/cleanup';
+import DataRequest from './utils/datarequest';
 import { normalizePrefix, uuid } from './utils/general';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
 
-interface ShepherdBase extends Evented {
-  activeTour?: Tour | null;
+interface Actor {
+  actorId: number;
 }
-
-const Shepherd: ShepherdBase = new Evented();
 
 /**
  * The options for the tour
@@ -81,11 +80,60 @@ export interface TourOptions {
   useModalOverlay?: boolean;
 }
 
+const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
+const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
+
+export class ShepherdPro extends Evented {
+  activeTour?: Tour | null;
+  apiKey?: string;
+  apiPath?: string;
+  dataRequester?: DataRequest;
+
+  init(apiKey?: string, apiPath?: string) {
+    if (!apiKey) {
+      throw new Error('Shepherd Pro: Missing required apiKey option.');
+    }
+    this.apiKey = apiKey;
+    this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
+
+    if (this.apiKey) {
+      this.dataRequester = new DataRequest(this.apiKey, this.apiPath);
+      // Setup actor before first tour is loaded if none exists
+      const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
+
+      if (!shepherdProId) {
+        this.createNewActor();
+      }
+    }
+  }
+
+  async createNewActor() {
+    if (!this.dataRequester) return;
+
+    // Setup type returns an actor
+    const response = (await this.dataRequester.sendEvents({
+      data: {
+        currentUserId: null,
+        eventType: 'setup'
+      }
+    })) as unknown as Actor;
+
+    localStorage.setItem(SHEPHERD_USER_ID, String(response.actorId));
+  }
+}
+
+const Shepherd = new ShepherdPro();
+
 /**
  * Class representing the site tour
  * @extends {Evented}
  */
 export class Tour extends Evented {
+  dataRequester;
+  trackedEvents = ['active', 'cancel', 'complete', 'show'];
+
+  private currentUserId: string | null = null;
+
   classPrefix: string;
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
@@ -129,6 +177,29 @@ export class Tour extends Evented {
     });
 
     this._setTourID();
+
+    const { apiKey, apiPath } = Shepherd;
+    // If we have an API key, then setup Pro features
+    if (apiKey && apiPath) {
+      this.dataRequester = new DataRequest(apiKey, apiPath);
+
+      const shepherdProId = localStorage.getItem('shepherdPro:userId');
+      this.currentUserId = shepherdProId;
+
+      this.trackedEvents.forEach((event) =>
+        this.on(event, (opts: Record<string, unknown>) => {
+          const { tour } = opts;
+          const { id, steps } = tour as Tour;
+
+          const data = {
+            currentUserId: this.currentUserId,
+            eventType: event,
+            tour: { id, numberOfSteps: steps.length }
+          };
+          this.dataRequester?.sendEvents({ data });
+        })
+      );
+    }
 
     return this;
   }
