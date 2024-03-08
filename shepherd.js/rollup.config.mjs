@@ -45,7 +45,7 @@ const plugins = [
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
 if (process.env.DEVELOPMENT) {
   plugins.push(
-    serve({ contentBase: ['.', 'dist', '../test/dummy'], open: true })
+    serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
   );
   plugins.push(livereload());
 }

@@ -7,7 +7,7 @@ describe('Modal mode', () => {
   beforeEach(() => {
     Shepherd = null;
 
-    cy.visit('/test/dummy/', {
+    cy.visit('/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
           return Shepherd = contentWindow.Shepherd;
