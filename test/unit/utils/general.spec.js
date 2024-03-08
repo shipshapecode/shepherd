@@ -1,7 +1,7 @@
 import { spy } from 'sinon';
-import { Step } from '../../../src/step';
-import { parseAttachTo, shouldCenterStep } from '../../../src/utils/general';
-import { getFloatingUIOptions } from '../../../src/utils/floating-ui';
+import { Step } from '../../../shepherd.js/src/step';
+import { parseAttachTo, shouldCenterStep } from '../../../shepherd.js//src/utils/general';
+import { getFloatingUIOptions } from '../../../shepherd.js/src/utils/floating-ui';
 
 describe('General Utils', function () {
   let optionsElement;

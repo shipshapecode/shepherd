@@ -1,5 +1,5 @@
-import { bindAdvance } from '../../../src/utils/bind';
-import { Step } from '../../../src/step';
+import { bindAdvance } from '../../../shepherd.js/src/utils/bind';
+import { Step } from '../../../shepherd.js/src/step';
 import { spy } from 'sinon';
 
 describe('Bind Utils', function() {

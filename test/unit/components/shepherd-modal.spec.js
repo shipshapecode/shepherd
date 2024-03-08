@@ -1,4 +1,4 @@
-import ShepherdModal from '../../../src/components/shepherd-modal.svelte';
+import ShepherdModal from '../../../shepherd.js/src/components/shepherd-modal.svelte';
 import { stub } from 'sinon';
 
 const classPrefix = '';

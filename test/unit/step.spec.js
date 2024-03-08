@@ -1,9 +1,9 @@
 import { spy } from 'sinon';
-import Shepherd from '../../src/shepherd';
-import { Step } from '../../src/step';
-import { Tour } from '../../src/tour';
+import Shepherd from 'shepherd.js';
 import ResizeObserver from 'resize-observer-polyfill';
 import { offset } from '@floating-ui/dom';
+
+const { Step, Tour } = Shepherd;
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;

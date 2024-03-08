@@ -1,8 +1,8 @@
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import { spy } from 'sinon';
-import ShepherdHeader from '../../../src/components/shepherd-header.svelte';
-import { Tour } from '../../../src/tour';
-import { Step } from '../../../src/step';
+import ShepherdHeader from '../../../shepherd.js/src/components/shepherd-header.svelte';
+import { Tour } from '../../../shepherd.js/src/tour';
+import { Step } from '../../../shepherd.js/src/step';
 
 describe('components/ShepherdHeader', () => {
   beforeEach(cleanup);

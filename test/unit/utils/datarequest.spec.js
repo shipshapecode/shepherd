@@ -1,4 +1,4 @@
-import DataRequest from '../../../src/utils/datarequest';
+import DataRequest from '../../../shepherd.js/src/utils//datarequest';
 
 global.fetch = jest.fn();
 

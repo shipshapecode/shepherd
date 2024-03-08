@@ -1,5 +1,5 @@
-import Shepherd from '../../src/shepherd';
-import DataRequest from '../../src/utils/datarequest';
+import Shepherd from '../../shepherd.js/src/shepherd';
+import DataRequest from '../../shepherd.js/src/utils/datarequest';
 
 describe('Shepherd Pro', function () {
   const dataRequesterMock = jest

@@ -1,0 +1,1 @@
+{"version":3,"file":"datarequest.d.ts","sourceRoot":"","sources":["../../src/utils/datarequest.ts"],"names":[],"mappings":"AAIA,cAAM,WAAW;IACf,OAAO,CAAC,MAAM,CAAS;IACvB,OAAO,CAAC,OAAO,CAAS;gBAEZ,MAAM,CAAC,EAAE,MAAM,EAAE,OAAO,CAAC,EAAE,MAAM;IAYvC,UAAU,CAAC,IAAI,EAAE,MAAM,CAAC,MAAM,EAAE,OAAO,CAAC;CAwB/C;AAED,eAAe,WAAW,CAAC"}
