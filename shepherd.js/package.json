@@ -20,11 +20,9 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/shepherd.esm.js",
       "default": "./dist/shepherd.js"
     },
     "./*": {
-      "import": "./dist/*.esm.js",
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     }
@@ -76,7 +74,6 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.12.0",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.2.0",
     "rollup-plugin-livereload": "^2.0.5",

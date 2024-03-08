@@ -1,8 +1,7 @@
 ### Rollup/Webpack Based Builds
 
-The latest versions of Rollup and Webpack support ES6 imports. We have an ES module
-exported to `dist/shepherd.esm.js`. This is also specified as `"module"` in
-`package.json`, which should allow you to import using standard ES import syntax.
+The latest versions of Rollup and Webpack support ES6 imports. Shepherd ships as an ES module
+which should allow you to import using standard ES import syntax.
 
 i.e.
 
@@ -74,7 +73,7 @@ occurring in _any_ tour:
 
 ##### Events
 
-The global Shepherd fires the following events whenever a `Tour` instance fires them.  It adds to the object passed to the
+The global Shepherd fires the following events whenever a `Tour` instance fires them. It adds to the object passed to the
 event handlers a `tour` key pointing to the instance which fired the event:
 
 - `complete`
@@ -88,9 +87,11 @@ event handlers a `tour` key pointing to the instance which fired the event:
 For multiple events, you can use something like:
 
 ```javascript
-['complete', 'cancel'].forEach(event => shepherd.on(event, () => {
-   // some code here
-}));
+['complete', 'cancel'].forEach((event) =>
+  shepherd.on(event, () => {
+    // some code here
+  })
+);
 ```
 
 ##### Current Tour
@@ -125,22 +126,22 @@ const myTour = new Shepherd.Tour(options);
 - `modalContainer` An optional container element for the modal. If not set, the modal will be appended to `document.body`.
 - `steps`: An array of step options objects or Step instances to initialize the tour with.
 - `tourName`: An optional "name" for the tour. This will be appended to the the tour's
-dynamically generated `id` property.
+  dynamically generated `id` property.
 - `useModalOverlay`: Whether or not steps should be placed above a darkened modal overlay. If true, the overlay will create an opening around the target element so that it can remain interactive.
 
 ##### Tour Methods
 
 - `addStep(options)`: Creates a new Step object with options, and returns the `Step` instance it created. If the options hash doesn't include an `id`, one will be generated.
-You can also pass an existing `Step` instance rather than `options`, but note that Shepherd does not support a Step being attached to multiple Tours.
+  You can also pass an existing `Step` instance rather than `options`, but note that Shepherd does not support a Step being attached to multiple Tours.
 - `addSteps([Steps])`: Add multiple steps to the tour
 - `getById(id)`: Return a step with a specific id
 - `isActive()`: Check if the tour is active
 - `next()`: Advance to the next step, in the order they were added
 - `back()`: Show the previous step, in the order they were added
 - `cancel()`: Trigger cancel on the current step, hiding it without advancing
-- `complete()`: Calls _done() triggering the `complete` event
+- `complete()`: Calls \_done() triggering the `complete` event
 - `hide()`: Hide the current step
-- `show([id])`: Show the step specified by id (if it's a string), or index (if it's a number) provided.  Defaults to the first step.
+- `show([id])`: Show the step specified by id (if it's a string), or index (if it's a number) provided. Defaults to the first step.
 - `start()`: Show the first step and begin the tour
 - `getCurrentStep()`: Returns the currently shown step
 - `removeStep(id)`: Removes the step from the tour
@@ -169,7 +170,7 @@ created.
   - `Function` to be executed when the step is built. It must return one the two options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
 - `attachTo`: The element the step should be attached to on the page. An object with properties `element` and `on`.
-  - `element`: An element selector string, a DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`). 
+  - `element`: An element selector string, a DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
   - `on`: The optional direction to place the Floating UI tooltip relative to the element.
     - Possible string values: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
 
@@ -180,15 +181,16 @@ const new Step(tour, {
 });
 ```
 
-If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your 
+If you don’t specify an `attachTo` the element will appear in the middle of the screen. The same will happen if your
 `attachTo.element` callback returns `null`, `undefined`, or a selector that does not exist in the DOM.
 
 If you omit the `on` portion of `attachTo`, the element will still be highlighted, but the tooltip will appear
 in the middle of the screen, without an arrow pointing to the target.
 
 If the element to highlight does not yet exist while instantiating tour steps, you may use lazy evaluation by supplying a function to `attachTo.element`. The function will be called in the `before-show` phase.
+
 - `beforeShowPromise`: A function that returns a promise. When the promise resolves, the rest of the `show` code for
-the step will execute. For example:
+  the step will execute. For example:
   ```javascript
   beforeShowPromise: function() {
     return new Promise(function(resolve) {
@@ -210,16 +212,16 @@ the step will execute. For example:
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary` class to the button
   - `text`: The HTML text of the button. It can also be a function that returns a string (useful with i18n solutions).
   - `action`: A function executed when the button is clicked on.
-   It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
-   work inside the action. You can use action to skip steps or navigate to specific steps, with something like:
-   ```javascript
-     action() {
-       return this.show('some_step_name');
-     }
-   ```
-- `advanceOn`: An action on the page which should advance shepherd to the next step.  It should be an object with a string `selector` and an `event` name.
-For example: `{selector: '.some-element', event: 'click'}`.  It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.
-You can also always manually advance the Tour by calling `myTour.next()`.
+    It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
+    work inside the action. You can use action to skip steps or navigate to specific steps, with something like:
+  ```javascript
+    action() {
+      return this.show('some_step_name');
+    }
+  ```
+- `advanceOn`: An action on the page which should advance shepherd to the next step. It should be an object with a string `selector` and an `event` name.
+  For example: `{selector: '.some-element', event: 'click'}`. It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.
+  You can also always manually advance the Tour by calling `myTour.next()`.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is highlighted (that is, when its step is active). You can then target that selector in your CSS.
 - `id`: The string to use as the `id` for the step. If an id is not passed one will be generated.
 - `modalOverlayOpeningPadding`: An amount of padding to add around the modal overlay opening
@@ -228,8 +230,9 @@ You can also always manually advance the Tour by calling `myTour.next()`.
 - `showOn`: A function that, when it returns true, will show the step. If it returns false, the step will be skipped.
 - `scrollTo`: Should the element be scrolled to when this step is shown? If true, uses the default `scrollIntoView`, if an object, passes that object as the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
 - `scrollToHandler`: A function that lets you override the default `scrollTo` behavior and define a custom action to do the scrolling,
-and possibly other logic.
+  and possibly other logic.
 - `when`: You can define show, hide, etc events inside when. For example:
+
 ```javascript
 when: {
   show: function() {
@@ -265,14 +268,14 @@ Please note that `complete` and `cancel` are only ever triggered if you call the
 
 ### Advancing on Actions
 
-You can use the `advanceOn` option, or the Next button, to advance steps.  If you would like however to have a step advance on a
+You can use the `advanceOn` option, or the Next button, to advance steps. If you would like however to have a step advance on a
 complex user action, you can do the following:
 
 ```javascript
 const myStep = myTour.addStep(options);
 
 yourApp.on('some-event', () => {
-  if (myStep.isOpen()){
+  if (myStep.isOpen()) {
     Shepherd.activeTour.next();
   }
 });

@@ -7,8 +7,6 @@
 /coverage/
 /cypress/
 /dist/
-/dummy/css/shepherd.css
-/dummy/js/shepherd.js
 /node_modules/
 /.DS_Store
 /.sass-cache

@@ -7,6 +7,7 @@
     "url": "git+https://github.com/shepherd-pro/shepherd.git"
   },
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
