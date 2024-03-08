@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "build": "pnpm -F shepherd.js build",
+    "lint:js": "pnpm -F shepherd.js lint:js",
     "test:cy:ci:chrome": "pnpm -F cypress-tests test:ci:chrome",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",
     "test:unit:ci": "pnpm -F unit-tests test:ci",
