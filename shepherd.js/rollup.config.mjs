@@ -28,11 +28,11 @@ const plugins = [
     preprocess: sveltePreprocess({ typescript: true }),
     emitCss: true
   }),
+  commonjs(),
   nodeResolve({
     extensions: ['.js', '.json', '.svelte', '.ts'],
     modulesOnly: true
   }),
-  commonjs(),
   typescript(),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
