@@ -80,8 +80,8 @@ export interface TourOptions {
   useModalOverlay?: boolean;
 }
 
-const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com';
-const SHEPHERD_USER_ID = 'shepherdPro:userId';
+const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
+const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
 
 export class ShepherdPro extends Evented {
   activeTour?: Tour | null;
