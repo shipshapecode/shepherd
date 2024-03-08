@@ -89,14 +89,3 @@ jobs:
         with:
           command: pnpm test:cy:ci:chrome
           install: false
-
-  automerge:
-    needs: [test-unit, test-integration]
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - uses: fastify/github-action-merge-dependabot@v3.2.0
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}

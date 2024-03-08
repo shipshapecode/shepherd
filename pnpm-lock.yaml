@@ -26,18 +26,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.17(postcss@8.4.35)
-      babel-core:
-        specifier: ^7.0.0-bridge.0
-        version: 7.0.0-bridge.0(@babel/core@7.24.0)
-      babel-jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@babel/core@7.24.0)
-      babel-plugin-transform-es2015-modules-commonjs:
-        specifier: ^6.26.2
-        version: 6.26.2
-      chai:
-        specifier: ^4.3.10
-        version: 4.4.1
       codeclimate-test-reporter:
         specifier: ^0.5.1
         version: 0.5.1
@@ -208,15 +196,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.17(postcss@8.4.35)
-      babel-core:
-        specifier: ^7.0.0-bridge.0
-        version: 7.0.0-bridge.0(@babel/core@7.24.0)
-      babel-plugin-transform-es2015-modules-commonjs:
-        specifier: ^6.26.2
-        version: 6.26.2
-      chai:
-        specifier: ^4.3.10
-        version: 4.4.1
       codeclimate-test-reporter:
         specifier: ^0.5.1
         version: 0.5.1
@@ -337,12 +316,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.17(postcss@8.4.35)
-      babel-core:
-        specifier: ^7.0.0-bridge.0
-        version: 7.0.0-bridge.0(@babel/core@7.24.0)
-      babel-plugin-transform-es2015-modules-commonjs:
-        specifier: ^6.26.2
-        version: 6.26.2
       chai:
         specifier: ^4.3.10
         version: 4.4.1
@@ -430,18 +403,12 @@ importers:
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.17(postcss@8.4.35)
-      babel-core:
-        specifier: ^7.0.0-bridge.0
-        version: 7.0.0-bridge.0(@babel/core@7.24.0)
       babel-jest:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.24.0)
       babel-plugin-transform-es2015-modules-commonjs:
         specifier: ^6.26.2
         version: 6.26.2
-      chai:
-        specifier: ^4.3.10
-        version: 4.4.1
       codeclimate-test-reporter:
         specifier: ^0.5.1
         version: 0.5.1
@@ -4102,14 +4069,6 @@ packages:
       chalk: 1.1.3
       esutils: 2.0.3
       js-tokens: 3.0.2
-    dev: true
-
-  /babel-core@7.0.0-bridge.0(@babel/core@7.24.0):
-    resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.24.0
     dev: true
 
   /babel-jest@29.7.0(@babel/core@7.24.0):
