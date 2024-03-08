@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { stub } from 'sinon';
-import Shepherd from 'shepherd.js';
+import Shepherd from '../../shepherd.js/src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
 import { spy } from 'sinon';
