@@ -1,6 +1,8 @@
 # Changelog
 
 
+## v12.0.0-1 (2024-03-08)
+
 ## v12.0.0-0 (2024-03-08)
 
 #### :boom: Breaking Change
