@@ -196,7 +196,7 @@ export class Tour extends Evented {
             eventType: event,
             tour: { id, numberOfSteps: steps.length }
           };
-          if (this.dataRequester) this.dataRequester.sendEvents({ data });
+          this.dataRequester?.sendEvents({ data });
         })
       );
     }
