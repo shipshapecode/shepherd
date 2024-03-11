@@ -218,8 +218,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       rollup-plugin-license:
-        specifier: ^3.2.0
-        version: 3.2.0(rollup@4.12.0)
+        specifier: ^3.3.1
+        version: 3.3.1(rollup@4.12.0)
       rollup-plugin-livereload:
         specifier: ^2.0.5
         version: 2.0.5
@@ -10233,8 +10233,8 @@ packages:
     hasBin: true
     dev: true
 
-  /moment@2.29.4:
-    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+  /moment@2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
     dev: true
 
   /mri@1.2.0:
@@ -12596,8 +12596,8 @@ packages:
       - supports-color
     dev: true
 
-  /rollup-plugin-license@3.2.0(rollup@4.12.0):
-    resolution: {integrity: sha512-gLtSOTE3hZ/mDgxg1HvYz87timTpLlyWXnV7OTyYMhn+Esek+xKxAOjtTsYnfMFGtsBWX+hvqC4b2Ct5ABpE6A==}
+  /rollup-plugin-license@3.3.1(rollup@4.12.0):
+    resolution: {integrity: sha512-lwZ/J8QgSnP0unVOH2FQuOBkeiyp0EBvrbYdNU33lOaYD8xP9Zoki+PGoWMD31EUq8Q07GGocSABTYlWMKkwuw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.0.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
@@ -12607,7 +12607,7 @@ packages:
       lodash: 4.17.21
       magic-string: 0.30.7
       mkdirp: 3.0.1
-      moment: 2.29.4
+      moment: 2.30.1
       package-name-regex: 2.0.6
       rollup: 4.12.0
       spdx-expression-validate: 2.0.0
