@@ -12,6 +12,7 @@ import DataRequest from './utils/datarequest';
 import { normalizePrefix, uuid } from './utils/general';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
+import type { NoOp } from './utils/general';
 
 interface Actor {
   actorId: number;
@@ -26,12 +27,6 @@ interface EventOptions {
 interface SerializedStep extends Omit<Step, 'tour'> {
   // This interface includes all properties from Step except for 'tour' for avoiding circular references
 }
-
-class NoOp {
-  constructor() {}
-}
-
-const isServerSide = typeof window === 'undefined';
 
 /**
  * The options for the tour
@@ -104,8 +99,8 @@ export class ShepherdPro extends Evented {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
-  Step = isServerSide ? NoOp : Step;
-  Tour = isServerSide ? NoOp : Tour;
+  declare Step: NoOp | Step;
+  declare Tour: NoOp | Tour;
 
   init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {

@@ -16,7 +16,7 @@ import {
 } from './utils/floating-ui';
 // @ts-expect-error TODO: not yet typed
 import ShepherdElement from './components/shepherd-element.svelte';
-import { Tour } from './tour';
+import { type Tour } from './tour';
 
 /**
  * The options for the step
@@ -340,7 +340,7 @@ export class Step extends Evented {
 
   /**
    * Returns the tour for the step
-   * @return {Tour} The tour instance
+   * @return The tour instance
    */
   getTour() {
     return this.tour;
