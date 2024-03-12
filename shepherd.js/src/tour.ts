@@ -17,6 +17,12 @@ interface Actor {
   actorId: number;
 }
 
+class NoOp {
+  constructor() {}
+}
+
+const isServerSide = typeof window === 'undefined';
+
 /**
  * The options for the tour
  */
@@ -88,6 +94,8 @@ export class ShepherdPro extends Evented {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
+  Step = isServerSide ? NoOp : Step;
+  Tour = isServerSide ? NoOp : Tour;
 
   init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
