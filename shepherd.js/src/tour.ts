@@ -130,8 +130,6 @@ export class ShepherdPro extends Evented {
   }
 }
 
-const Shepherd = new ShepherdPro();
-
 /**
  * Class representing the site tour
  * @extends {Evented}
@@ -522,5 +520,7 @@ export class Tour extends Evented {
     this.id = `${tourName}--${uuid()}`;
   }
 }
+
+const Shepherd = new ShepherdPro();
 
 export { Shepherd };
