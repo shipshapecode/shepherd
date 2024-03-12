@@ -12,16 +12,17 @@ import DataRequest from './utils/datarequest';
 import { normalizePrefix, uuid } from './utils/general';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
+import type { NoOp } from './utils/general';
 
 interface Actor {
   actorId: number;
 }
 
-class NoOp {
-  constructor() {}
+interface EventOptions {
+  previous?: Step | null;
+  step?: Step | null;
+  tour: Tour;
 }
-
-const isServerSide = typeof window === 'undefined';
 
 /**
  * The options for the tour
@@ -94,8 +95,8 @@ export class ShepherdPro extends Evented {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
-  Step = isServerSide ? NoOp : Step;
-  Tour = isServerSide ? NoOp : Tour;
+  declare Step: NoOp | Step;
+  declare Tour: NoOp | Tour;
 
   init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
@@ -193,14 +194,30 @@ export class Tour extends Evented {
       this.currentUserId = shepherdProId;
 
       this.trackedEvents.forEach((event) =>
-        this.on(event, (opts: Record<string, unknown>) => {
+        this.on(event, (opts: EventOptions) => {
           const { tour } = opts;
-          const { id, steps } = tour as Tour;
+          const { id, steps } = tour;
+          let position;
+
+          if (event !== 'active') {
+            const { step: currentStep } = opts;
+
+            if (currentStep) {
+              position =
+                steps.findIndex((step) => step.id === currentStep.id) + 1;
+            }
+          }
 
           const data = {
             currentUserId: this.currentUserId,
             eventType: event,
-            tour: { id, numberOfSteps: steps.length }
+            journeyData: {
+              id,
+              currentStep: position,
+              numberOfSteps: steps.length,
+              steps,
+              tourOptions: tour.options
+            }
           };
           this.dataRequester?.sendEvents({ data });
         })
