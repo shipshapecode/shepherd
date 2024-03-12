@@ -2,6 +2,22 @@
 
 
 
+
+## v12.0.0-alpha.3 (2024-03-12)
+
+#### :rocket: Enhancement
+* [#2631](https://github.com/shepherd-pro/shepherd/pull/2631) Add EventOptions interface, tweak data format ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* [#2632](https://github.com/shepherd-pro/shepherd/pull/2632) Move Step and Tour assignment ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2630](https://github.com/shepherd-pro/shepherd/pull/2630) Bump rollup-plugin-license from 3.2.0 to 3.3.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2628](https://github.com/shepherd-pro/shepherd/pull/2628) Bump typescript from 5.3.3 to 5.4.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2625](https://github.com/shepherd-pro/shepherd/pull/2625) Bump astro from 4.4.8 to 4.4.15 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.2 (2024-03-08)
 
 #### :boom: Breaking Change
