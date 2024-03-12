@@ -24,10 +24,6 @@ interface EventOptions {
   tour: Tour;
 }
 
-interface SerializedStep extends Omit<Step, 'tour'> {
-  // This interface includes all properties from Step except for 'tour' for avoiding circular references
-}
-
 /**
  * The options for the tour
  */
@@ -212,12 +208,6 @@ export class Tour extends Evented {
             }
           }
 
-          // Serialize the steps to avoid circular references on Tour
-          (tour.steps as SerializedStep[]) = tour.steps.map((tourStep) => {
-            const { tour, ...serializedStep } = tourStep;
-            return serializedStep as SerializedStep;
-          });
-
           const data = {
             currentUserId: this.currentUserId,
             eventType: event,
@@ -225,7 +215,8 @@ export class Tour extends Evented {
               id,
               currentStep: position,
               numberOfSteps: steps.length,
-              tour
+              steps,
+              tourOptions: tour.options
             }
           };
           this.dataRequester?.sendEvents({ data });
