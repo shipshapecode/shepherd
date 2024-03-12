@@ -17,6 +17,16 @@ interface Actor {
   actorId: number;
 }
 
+interface EventOptions {
+  previous?: Step | null;
+  step?: Step | null;
+  tour: Tour;
+}
+
+interface SerializedStep extends Omit<Step, 'tour'> {
+  // This interface includes all properties from Step except for 'tour' for avoiding circular references
+}
+
 class NoOp {
   constructor() {}
 }
@@ -193,14 +203,35 @@ export class Tour extends Evented {
       this.currentUserId = shepherdProId;
 
       this.trackedEvents.forEach((event) =>
-        this.on(event, (opts: Record<string, unknown>) => {
+        this.on(event, (opts: EventOptions) => {
           const { tour } = opts;
-          const { id, steps } = tour as Tour;
+          const { id, steps } = tour;
+          let position;
+
+          if (event !== 'active') {
+            const { step: currentStep } = opts;
+
+            if (currentStep) {
+              position =
+                steps.findIndex((step) => step.id === currentStep.id) + 1;
+            }
+          }
+
+          // Serialize the steps to avoid circular references on Tour
+          (tour.steps as SerializedStep[]) = tour.steps.map((tourStep) => {
+            const { tour, ...serializedStep } = tourStep;
+            return serializedStep as SerializedStep;
+          });
 
           const data = {
             currentUserId: this.currentUserId,
             eventType: event,
-            tour: { id, numberOfSteps: steps.length }
+            journeyData: {
+              id,
+              currentStep: position,
+              numberOfSteps: steps.length,
+              tour
+            }
           };
           this.dataRequester?.sendEvents({ data });
         })
