@@ -6,48 +6,51 @@ import ShepherdHeader from '../images/shepherd-header.svg';
 const { isHome } = Astro.props;
 ---
 
-<header class="flex justify-center mt-4 w-full">
-  <div class="absolute ml-2 top-0">
-    <Fragment class="shepherd-logo absolute ml-2" set:html={ShepherdHead} />
+<header class='flex justify-center mt-4 w-full'>
+  <div class='absolute ml-2 top-0'>
+    <Fragment class='shepherd-logo absolute ml-2' set:html={ShepherdHead} />
   </div>
 
   <div
-    class="bg-grey-light flex flex-col font-heading justify-center items-center w-full"
+    class='bg-grey-light flex flex-col font-heading justify-center items-center w-full'
   >
     <nav
-      class="flex justify-center p-4 mt-40 max-w-8xl text-xl w-full lg:justify-between lg:mt-0"
+      class='flex justify-center p-4 mt-40 max-w-8xl text-xl w-full lg:justify-between lg:mt-0'
     >
-      <div class="flex lg:p-12">
-        <a class="pr-6 uppercase hover:text-navy-light lg:pr-10" href="/">
-          Demo
-        </a>
+      <div class='flex lg:p-12'>
         <a
-          class="pr-6 uppercase lg:pr-10 hover:text-navy-light"
-          href="https://shepherdjs.dev/docs/"
-        >
-          Docs
-        </a>
-        <a class="pr-6 uppercase hover:text-navy-light lg:pr-0" href="/blog">
-          Blog
-        </a>
-      </div>
-
-      <div class="flex lg:p-12">
-        <a
-          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
-          href="https://github.com/shepherd-pro/shepherd"
+          class='pr-6 uppercase hover:text-navy-light lg:pr-10'
+          href='https://github.com/shepherd-pro/shepherd'
         >
           GitHub
         </a>
         <a
-          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
-          href="/pricing"
+          class='pr-6 uppercase lg:pr-10 hover:text-navy-light'
+          href='https://shepherdjs.dev/docs/'
+        >
+          Docs
+        </a>
+        <a class='pr-6 uppercase hover:text-navy-light lg:pr-0' href='/blog'>
+          Blog
+        </a>
+      </div>
+
+      <div class='flex lg:p-12'>
+        <a
+          class='pr-6 uppercase text-pink-300 hover:text-navy-light lg:pr-10'
+          href='https://shepherdpro.com/'
+        >
+          Pro
+        </a>
+        <a
+          class='pr-6 uppercase hover:text-navy-light lg:pr-10'
+          href='/pricing'
         >
           Pricing
         </a>
         <a
-          class="uppercase hover:text-navy-light"
-          href="mailto:hello@shepherdpro.com"
+          class='uppercase hover:text-navy-light'
+          href='mailto:hello@shepherdpro.com'
         >
           Contact
         </a>
@@ -55,95 +58,95 @@ const { isHome } = Astro.props;
     </nav>
 
     <img
-      class="hero-welcome p-4 w-full lg:mt-4 lg:p-0 lg:w-auto"
+      class='hero-welcome p-4 w-full lg:mt-4 lg:p-0 lg:w-auto'
       src={ShepherdHeader.src}
       alt={SITE_TITLE}
     />
 
-    <h2 class="font-body p-2 text-xl">
+    <h2 class='font-body p-2 text-xl'>
       Guide your users through a tour of your app.
     </h2>
 
-    <div class="flex justify-center w-full">
+    <div class='flex justify-center w-full'>
       {
         isHome && (
-          <div class="flex flex-wrap max-w-6xl p-4 w-full lg:flex-nowrap">
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
+          <div class='flex flex-wrap max-w-6xl p-4 w-full lg:flex-nowrap'>
+            <div class='m-4 relative w-full lg:w-1/3'>
+              <div class='border-4 border-navy w-full'>
                 <img
-                  class="absolute a11y-icon z-20"
-                  src="/img/accessibility.svg"
-                  alt=""
-                  role="presentation"
+                  class='absolute a11y-icon z-20'
+                  src='/img/accessibility.svg'
+                  alt=''
+                  role='presentation'
                 />
 
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
+                <div class='bg-grey-light border-b-4 border-navy h-40 relative w-full z-10' />
 
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
+                <div class='bg-white h-72 p-6 relative z-10'>
+                  <h3 class='p-2 text-2xl text-center uppercase w-full'>
                     Accessibility
                   </h3>
 
-                  <p class="font-body p-2 text-xl">
+                  <p class='font-body p-2 text-xl'>
                     Shepherd has full keyboard navigation support, focus
                     trapping, and a11y compliance via aria attributes.
                   </p>
                 </div>
 
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
+                <div class='absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0' />
               </div>
             </div>
 
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
+            <div class='m-4 relative w-full lg:w-1/3'>
+              <div class='border-4 border-navy w-full'>
                 <img
-                  class="absolute customizable-icon z-20"
-                  src="/img/customizable.svg"
-                  alt=""
-                  role="presentation"
+                  class='absolute customizable-icon z-20'
+                  src='/img/customizable.svg'
+                  alt=''
+                  role='presentation'
                 />
 
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
+                <div class='bg-grey-light border-b-4 border-navy h-40 relative w-full z-10' />
 
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
+                <div class='bg-white h-72 p-6 relative z-10'>
+                  <h3 class='p-2 text-2xl text-center uppercase w-full'>
                     Highly Customizable
                   </h3>
 
-                  <p class="font-body p-2 text-xl">
+                  <p class='font-body p-2 text-xl'>
                     Shepherd's styles are kept minimal, allowing you to easily
                     customize the look and feel, but still give you enough to
                     drop in and be ready to go quickly.
                   </p>
                 </div>
 
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
+                <div class='absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0' />
               </div>
             </div>
 
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
+            <div class='m-4 relative w-full lg:w-1/3'>
+              <div class='border-4 border-navy w-full'>
                 <img
-                  class="absolute framework-icon z-20"
-                  src="/img/framework.svg"
-                  alt=""
-                  role="presentation"
+                  class='absolute framework-icon z-20'
+                  src='/img/framework.svg'
+                  alt=''
+                  role='presentation'
                 />
 
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
+                <div class='bg-grey-light border-b-4 border-navy h-40 relative w-full z-10' />
 
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
+                <div class='bg-white h-72 p-6 relative z-10'>
+                  <h3 class='p-2 text-2xl text-center uppercase w-full'>
                     Framework Ready
                   </h3>
 
-                  <p class="font-body p-2 text-xl">
+                  <p class='font-body p-2 text-xl'>
                     Shepherd is ready to drop into your application using React,
                     Ember, Angular, Vue.js, ES Modules, or plain Javascript!
                   </p>
                 </div>
 
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
+                <div class='absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0' />
               </div>
             </div>
           </div>

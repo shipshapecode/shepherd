@@ -14,7 +14,12 @@ export default {
       'navy-light': '#959FAC',
       grey: '#F3F5F5',
       'grey-light': '#EFF2F3',
-      white: '#FFFFFF'
+      white: '#FFFFFF',
+      pink: {
+        200: '#FFA6F6',
+        300: '#fa8cef',
+        400: '#fa7fee'
+      }
     },
 
     fontFamily: {

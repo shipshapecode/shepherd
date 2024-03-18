@@ -11,14 +11,14 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shepherd-pro%2Fshepherd?ref=badge_shield)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
 [![Test](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shepherd-pro/shepherd/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shepherd-pro/shepherd/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
 <a href="https://shepherdjs.dev/">
   <img 
-    src="https://shepherdjs.dev/landing/assets/img/demo.png" 
+    src="https://shepherdjs.dev/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
@@ -81,15 +81,19 @@ Rails engine that generates and tracks Shepherd tours within an application
 
 ### Websites and Apps
 
-### [SimplePlanner](https://simpleplanner.io)
+### [Shepherd Pro](https://shepherdpro.com/)
+
+[Shepherd Pro](https://shepherdpro.com/) allows you to use the same JS library and add enhanced analytics to your tours while letting you also connect some integrations to deepen the knowledge and effectiveness of those user experiences. 
+
+### [SimplePlanner](https://logseq.com/)
 
 [SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
 You do need to sign up via OAuth or email to see the scheduling tour. 
 Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplus.com/series/building-your-startup-with-php--cms-742) which describes how Simple Planner was built.
 
-### [Brokermate](https://www.brokermate.com/) 
+### [LogSeq](https://logseq.com/) 
 
-[Brokermate](https://www.brokermate.com/) uses Shepherd to guide users through initial setup steps.
+[LogSeq](https://logseq.com/) uses Shepherd to guide users through initial setup steps.
 
 ### [Snapsure](https://snapsure.app)
 
