@@ -215,7 +215,6 @@ export class Tour extends Evented {
               id,
               currentStep: position,
               numberOfSteps: steps.length,
-              steps,
               tourOptions: tour.options
             }
           };
