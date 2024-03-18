@@ -29,8 +29,8 @@ jobs:
         run: |
           pnpm i
           pnpm build
-      - name: Build docs
-        run: pnpm docs
+      # - name: Build docs
+      #   run: pnpm run docs
       - name: Publish site and docs
         uses: peaceiris/actions-gh-pages@v3
         with:
