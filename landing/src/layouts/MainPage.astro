@@ -174,9 +174,10 @@ const shepherdIncludeCode = `
 </Base>
 
 <!-- Welcome page -->
-<script type='module' is:inline>
+<script>
   'use strict';
-  import Shepherd from './dist/shepherd.js';
+  import Shepherd from 'shepherd.js';
+  import type { StepOptionsButton } from 'shepherd.js/step';
 
   (function () {
     function init() {
@@ -187,9 +188,8 @@ const shepherdIncludeCode = `
     }
 
     function setupShepherd() {
-      Shepherd.init(
-        'shp_97943967a5cb84a5ccd46febff8972cd4667e142e5996030130498eebc3f8236'
-      );
+      Shepherd.init(import.meta.env.PUBLIC_SHEPHERD_PUBLIC_KEY);
+      // @ts-ignore
       var shepherd = new Shepherd.Tour({
         defaultStepOptions: {
           cancelIcon: {
@@ -223,7 +223,7 @@ const shepherdIncludeCode = `
                 },
                 text: 'Next'
               }
-            ],
+            ] as StepOptionsButton[],
             id: 'welcome'
           }
         ],
@@ -257,7 +257,7 @@ const shepherdIncludeCode = `
               },
               text: 'Next'
             }
-          ],
+          ] as StepOptionsButton[],
           id: 'including'
         },
         {
@@ -283,7 +283,7 @@ const shepherdIncludeCode = `
               },
               text: 'Next'
             }
-          ],
+          ] as StepOptionsButton[],
           id: 'creating'
         },
         {
@@ -307,7 +307,7 @@ const shepherdIncludeCode = `
               },
               text: 'Next'
             }
-          ],
+          ] as StepOptionsButton[],
           id: 'attaching'
         }
       ];
@@ -332,7 +332,7 @@ const shepherdIncludeCode = `
             },
             text: 'Next'
           }
-        ],
+        ] as StepOptionsButton[],
         id: 'centered-example'
       });
 
@@ -357,7 +357,7 @@ const shepherdIncludeCode = `
             },
             text: 'Done'
           }
-        ],
+        ] as StepOptionsButton[],
         id: 'followup',
         modalOverlayOpeningPadding: '10'
       });
@@ -365,15 +365,7 @@ const shepherdIncludeCode = `
     }
 
     function ready() {
-      if (
-        document.attachEvent
-          ? document.readyState === 'complete'
-          : document.readyState !== 'loading'
-      ) {
-        init();
-      } else {
-        document.addEventListener('DOMContentLoaded', init);
-      }
+      document.addEventListener('DOMContentLoaded', init);
     }
 
     ready();
