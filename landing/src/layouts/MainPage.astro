@@ -10,9 +10,12 @@ const shepherdIncludeCode = `
 	<script type="module" src="shepherd.js/dist/shepherd.js"></script>
   
 `;
+
+const { PUBLIC_SHEPHERD_PUBLIC_KEY, PUBLIC_SHEPHERD_FRONTEND_API } = import.meta
+  .env;
 ---
 
-<Base>
+<Base data-testthing={PUBLIC_SHEPHERD_FRONTEND_API}>
   <Header title={SITE_TITLE} isHome={isHome} />
   <main>
     <div class='font-heading mt-8 text-6xl text-center uppercase w-full'>
@@ -174,10 +177,9 @@ const shepherdIncludeCode = `
 </Base>
 
 <!-- Welcome page -->
-<script>
-  'use strict';
-
-  import Shepherd from 'shepherd.js';
+<script type='module'>
+  import Shepherd from './node_modules/shepherd.js/dist/shepherd.js';
+  console.log(this, import.meta.env);
 
   (function () {
     function init() {
@@ -189,8 +191,7 @@ const shepherdIncludeCode = `
 
     function setupShepherd() {
       Shepherd.init(
-        import.meta.env.PUBLIC_SHEPHERD_PUBLIC_KEY,
-        import.meta.env.PUBLIC_SHEPHERD_FRONTEND_API
+        'shp_97943967a5cb84a5ccd46febff8972cd4667e142e5996030130498eebc3f8236'
       );
       var shepherd = new Shepherd.Tour({
         defaultStepOptions: {
