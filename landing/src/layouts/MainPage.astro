@@ -175,81 +175,45 @@ const shepherdIncludeCode = `
 
 <!-- Welcome page -->
 <script>
-  'use strict';
   import Shepherd from 'shepherd.js';
   import type { StepOptionsButton } from 'shepherd.js/step';
 
-  (function () {
-    function init() {
-      var shepherd = setupShepherd();
-      setTimeout(function () {
-        shepherd.start();
-      }, 400);
-    }
+  function init() {
+    var shepherd = setupShepherd();
+    setTimeout(function () {
+      shepherd.start();
+    }, 400);
+  }
 
-    function setupShepherd() {
-      Shepherd.init(import.meta.env.PUBLIC_SHEPHERD_PUBLIC_KEY);
-      // @ts-ignore
-      var shepherd = new Shepherd.Tour({
-        defaultStepOptions: {
-          cancelIcon: {
-            enabled: true
-          },
-          classes: 'class-1 class-2',
-          scrollTo: {
-            behavior: 'smooth',
-            block: 'center'
-          }
+  function setupShepherd() {
+    Shepherd.init(import.meta.env.PUBLIC_SHEPHERD_PUBLIC_KEY);
+    // @ts-ignore
+    var shepherd = new Shepherd.Tour({
+      defaultStepOptions: {
+        cancelIcon: {
+          enabled: true
         },
-        // This should add the first tour step
-        steps: [
-          {
-            text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://floating-ui.com/" data-test-popper-link>Floating UI</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Floating UI makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n',
-            attachTo: {
-              element: '.hero-welcome',
-              on: 'bottom'
-            },
-            buttons: [
-              {
-                action() {
-                  return this.cancel();
-                },
-                secondary: true,
-                text: 'Exit'
-              },
-              {
-                action() {
-                  return this.next();
-                },
-                text: 'Next'
-              }
-            ] as StepOptionsButton[],
-            id: 'welcome'
-          }
-        ],
-        useModalOverlay: true
-      });
-
-      const element = document.createElement('p');
-      element.innerText =
-        'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
-
-      // These steps should be added via `addSteps`
-      const steps = [
+        classes: 'class-1 class-2',
+        scrollTo: {
+          behavior: 'smooth',
+          block: 'center'
+        }
+      },
+      // This should add the first tour step
+      steps: [
         {
-          title: 'Including',
-          text: element,
+          text: '\n         <p>\n           Shepherd is a JavaScript library for guiding users through your app.\n           It uses <a href="https://floating-ui.com/" data-test-popper-link>Floating UI</a>,\n           another open source library, to render dialogs for each tour "step".\n         </p>\n        \n         <p>\n           Among many things, Floating UI makes sure your steps never end up off screen or cropped by an overflow.\n           (Try resizing your browser to see what we mean.)\n         </p>\n',
           attachTo: {
-            element: '.hero-including',
+            element: '.hero-welcome',
             on: 'bottom'
           },
           buttons: [
             {
               action() {
-                return this.back();
+                return this.cancel();
               },
               secondary: true,
-              text: 'Back'
+              text: 'Exit'
             },
             {
               action() {
@@ -258,66 +222,25 @@ const shepherdIncludeCode = `
               text: 'Next'
             }
           ] as StepOptionsButton[],
-          id: 'including'
-        },
-        {
-          title: 'Creating a Shepherd Tour',
-          text:
-            'Creating a Shepherd tour is easy. too! ' +
-            'Just create a `Tour` instance, and add as many steps as you want.',
-          attachTo: {
-            element: '.hero-example',
-            on: 'right'
-          },
-          buttons: [
-            {
-              action() {
-                return this.back();
-              },
-              secondary: true,
-              text: 'Back'
-            },
-            {
-              action() {
-                return this.next();
-              },
-              text: 'Next'
-            }
-          ] as StepOptionsButton[],
-          id: 'creating'
-        },
-        {
-          title: 'Attaching to Elements',
-          text: 'Your tour steps can target and attach to elements in DOM (like this step).',
-          attachTo: {
-            element: '.hero-example',
-            on: 'left'
-          },
-          buttons: [
-            {
-              action() {
-                return this.back();
-              },
-              secondary: true,
-              text: 'Back'
-            },
-            {
-              action() {
-                return this.next();
-              },
-              text: 'Next'
-            }
-          ] as StepOptionsButton[],
-          id: 'attaching'
+          id: 'welcome'
         }
-      ];
+      ],
+      useModalOverlay: true
+    });
 
-      shepherd.addSteps(steps);
+    const element = document.createElement('p');
+    element.innerText =
+      'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
 
-      // This should add steps after the ones added with `addSteps`
-      shepherd.addStep({
-        title: 'Centered Shepherd Element',
-        text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
+    // These steps should be added via `addSteps`
+    const steps = [
+      {
+        title: 'Including',
+        text: element,
+        attachTo: {
+          element: '.hero-including',
+          on: 'bottom'
+        },
         buttons: [
           {
             action() {
@@ -333,15 +256,16 @@ const shepherdIncludeCode = `
             text: 'Next'
           }
         ] as StepOptionsButton[],
-        id: 'centered-example'
-      });
-
-      shepherd.addStep({
-        title: 'Learn more',
-        text: 'Star Shepherd on Github so you remember it for your next project',
+        id: 'including'
+      },
+      {
+        title: 'Creating a Shepherd Tour',
+        text:
+          'Creating a Shepherd tour is easy. too! ' +
+          'Just create a `Tour` instance, and add as many steps as you want.',
         attachTo: {
-          element: '.hero-followup',
-          on: 'top'
+          element: '.hero-example',
+          on: 'right'
         },
         buttons: [
           {
@@ -355,19 +279,92 @@ const shepherdIncludeCode = `
             action() {
               return this.next();
             },
-            text: 'Done'
+            text: 'Next'
           }
         ] as StepOptionsButton[],
-        id: 'followup',
-        modalOverlayOpeningPadding: '10'
-      });
-      return shepherd;
-    }
+        id: 'creating'
+      },
+      {
+        title: 'Attaching to Elements',
+        text: 'Your tour steps can target and attach to elements in DOM (like this step).',
+        attachTo: {
+          element: '.hero-example',
+          on: 'left'
+        },
+        buttons: [
+          {
+            action() {
+              return this.back();
+            },
+            secondary: true,
+            text: 'Back'
+          },
+          {
+            action() {
+              return this.next();
+            },
+            text: 'Next'
+          }
+        ] as StepOptionsButton[],
+        id: 'attaching'
+      }
+    ];
 
-    function ready() {
-      document.addEventListener('DOMContentLoaded', init);
-    }
+    shepherd.addSteps(steps);
 
-    ready();
-  }).call(void 0);
+    // This should add steps after the ones added with `addSteps`
+    shepherd.addStep({
+      title: 'Centered Shepherd Element',
+      text: 'But attachment is totally optional!\n       Without a target, a tour step will create an element that\'s centered within the view.       Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
+      buttons: [
+        {
+          action() {
+            return this.back();
+          },
+          secondary: true,
+          text: 'Back'
+        },
+        {
+          action() {
+            return this.next();
+          },
+          text: 'Next'
+        }
+      ] as StepOptionsButton[],
+      id: 'centered-example'
+    });
+
+    shepherd.addStep({
+      title: 'Learn more',
+      text: 'Star Shepherd on Github so you remember it for your next project',
+      attachTo: {
+        element: '.hero-followup',
+        on: 'top'
+      },
+      buttons: [
+        {
+          action() {
+            return this.back();
+          },
+          secondary: true,
+          text: 'Back'
+        },
+        {
+          action() {
+            return this.next();
+          },
+          text: 'Done'
+        }
+      ] as StepOptionsButton[],
+      id: 'followup',
+      modalOverlayOpeningPadding: '10'
+    });
+    return shepherd;
+  }
+
+  function ready() {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+
+  ready();
 </script>
