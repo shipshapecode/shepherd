@@ -10,12 +10,9 @@ const shepherdIncludeCode = `
 	<script type="module" src="shepherd.js/dist/shepherd.js"></script>
   
 `;
-
-const { PUBLIC_SHEPHERD_PUBLIC_KEY, PUBLIC_SHEPHERD_FRONTEND_API } = import.meta
-  .env;
 ---
 
-<Base data-testthing={PUBLIC_SHEPHERD_FRONTEND_API}>
+<Base>
   <Header title={SITE_TITLE} isHome={isHome} />
   <main>
     <div class='font-heading mt-8 text-6xl text-center uppercase w-full'>
@@ -177,9 +174,9 @@ const { PUBLIC_SHEPHERD_PUBLIC_KEY, PUBLIC_SHEPHERD_FRONTEND_API } = import.meta
 </Base>
 
 <!-- Welcome page -->
-<script type='module'>
+<script type='module' is:inline>
   'use strict';
-  import Shepherd from './node_modules/shepherd.js/dist/shepherd.js';
+  import Shepherd from './dist/shepherd.js';
 
   (function () {
     function init() {
