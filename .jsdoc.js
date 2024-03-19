@@ -7,10 +7,10 @@ module.exports = {
   },
   source: {
     include: [
-      'package.json',
-      './src/shepherd.ts',
-      './src/step.ts',
-      './src/tour.ts'
+      './shepherd.js/package.json',
+      './shepherd.js/src/shepherd.ts',
+      './shepherd.js/src/step.ts',
+      './shepherd.js/src/tour.ts'
     ],
     includePattern: '\\.(json|js|ts)$'
   },
@@ -23,7 +23,7 @@ module.exports = {
     private: false,
     readme: 'README.md',
     recurse: true,
-    template: './node_modules/jsdoc-template-ship-shape',
+    template: './node_modules/better-docs',
     tutorials: './docs-src/tutorials'
   },
   templates: {
