@@ -35,7 +35,7 @@
     "@release-it-plugins/workspaces": "^4.2.0",
     "autoprefixer": "^10.4.16",
     "better-docs": "^2.7.3",
-    "cypress": "^13.6.2",
+    "cypress": "^13.7.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
