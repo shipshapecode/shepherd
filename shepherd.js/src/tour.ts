@@ -12,7 +12,7 @@ import DataRequest from './utils/datarequest.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
-import type { NoOp } from './utils/general.ts';
+import type { StepNoOp, TourNoOp } from './utils/general.ts';
 
 interface Actor {
   actorId: number;
@@ -95,8 +95,8 @@ export class ShepherdPro extends Evented {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
-  declare Step: NoOp | Step;
-  declare Tour: NoOp | Tour;
+  declare Step: StepNoOp | Step;
+  declare Tour: TourNoOp | Tour;
 
   init(apiKey?: string, apiPath?: string) {
     if (!apiKey) {
