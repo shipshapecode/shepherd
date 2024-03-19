@@ -99,7 +99,7 @@ importers:
         specifier: ^2.0.0
         version: 2.1.1(astro@4.4.15)
       '@astrojs/partytown':
-        specifier: ^2.0.3
+        specifier: ^2.0.4
         version: 2.0.4
       '@astrojs/rss':
         specifier: ^4.0.1

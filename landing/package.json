@@ -13,7 +13,7 @@
   "dependencies": {
     "@astrojs/check": "^0.3.1",
     "@astrojs/mdx": "^2.0.0",
-    "@astrojs/partytown": "^2.0.3",
+    "@astrojs/partytown": "^2.0.4",
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/tailwind": "^5.0.3",
