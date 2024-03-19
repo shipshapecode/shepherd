@@ -1,5 +1,5 @@
-import type { Tour } from '../tour';
-import { isHTMLElement } from './type-check';
+import type { Tour } from '../tour.ts';
+import { isHTMLElement } from './type-check.ts';
 
 /**
  * Cleanup the steps and set pointerEvents back to 'auto'

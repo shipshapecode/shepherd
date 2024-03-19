@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { isUndefined } from './utils/type-check';
+import { isUndefined } from './utils/type-check.ts';
 
 type Bindings = {
   [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;

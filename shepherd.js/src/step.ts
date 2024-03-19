@@ -1,22 +1,22 @@
 import { deepmerge } from 'deepmerge-ts';
-import { Evented } from './evented';
-import autoBind from './utils/auto-bind';
+import { Evented } from './evented.ts';
+import autoBind from './utils/auto-bind.ts';
 import {
   isElement,
   isHTMLElement,
   isFunction,
   isUndefined
-} from './utils/type-check';
-import { bindAdvance } from './utils/bind';
-import { parseAttachTo, normalizePrefix, uuid } from './utils/general';
+} from './utils/type-check.ts';
+import { bindAdvance } from './utils/bind.ts';
+import { parseAttachTo, normalizePrefix, uuid } from './utils/general.ts';
 import {
   setupTooltip,
   destroyTooltip,
   mergeTooltipConfig
-} from './utils/floating-ui';
+} from './utils/floating-ui.ts';
 // @ts-expect-error TODO: not yet typed
 import ShepherdElement from './components/shepherd-element.svelte';
-import { type Tour } from './tour';
+import { type Tour } from './tour.ts';
 
 /**
  * The options for the step

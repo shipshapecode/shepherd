@@ -1,5 +1,5 @@
 <script>
-  import { isFunction } from '../utils/type-check';
+  import { isFunction } from '../utils/type-check.ts';
 
   export let config, step;
   let action, classes, disabled, label, secondary, text;

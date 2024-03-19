@@ -1,5 +1,5 @@
-import { type StepOptionsAttachTo, type Step } from '../step';
-import { isFunction, isString } from './type-check';
+import { type StepOptionsAttachTo, type Step } from '../step.ts';
+import { isFunction, isString } from './type-check.ts';
 
 export class NoOp {
   constructor() {}
