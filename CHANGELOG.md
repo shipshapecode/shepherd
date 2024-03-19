@@ -3,6 +3,22 @@
 
 
 
+
+## v12.0.0-alpha.4 (2024-03-19)
+
+#### :bug: Bug Fix
+* [#2640](https://github.com/shepherd-pro/shepherd/pull/2640) 🐛 Fix issue with full steps being circular dependency ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* [#2613](https://github.com/shepherd-pro/shepherd/pull/2613) Add TS support for JSDoc ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2642](https://github.com/shepherd-pro/shepherd/pull/2642) Bump astro from 4.4.15 to 4.5.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.3 (2024-03-12)
 
 #### :rocket: Enhancement
