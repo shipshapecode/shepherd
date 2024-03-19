@@ -2,7 +2,7 @@
   import ShepherdFooter from './shepherd-footer.svelte';
   import ShepherdHeader from './shepherd-header.svelte';
   import ShepherdText from './shepherd-text.svelte';
-  import { isUndefined } from '../utils/type-check';
+  import { isUndefined } from '../utils/type-check.ts';
 
   export let descriptionId, labelId, step;
 </script>

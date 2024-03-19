@@ -1,17 +1,19 @@
 <script>
   import { afterUpdate } from 'svelte';
-  import { isFunction } from '../utils/type-check';
-  
+  import { isFunction } from '../utils/type-check.ts';
+
   export let labelId, element, title;
-  
+
   afterUpdate(() => {
     if (isFunction(title)) {
       title = title();
     }
-    
+
     element.innerHTML = title;
   });
 </script>
+
+<h3 bind:this={element} id={labelId} class="shepherd-title"></h3>
 
 <style global>
   .shepherd-title {
@@ -24,10 +26,3 @@
     padding: 0;
   }
 </style>
-
-<h3
-  bind:this={element}
-  id="{labelId}"
-  class="shepherd-title"
->
-</h3>

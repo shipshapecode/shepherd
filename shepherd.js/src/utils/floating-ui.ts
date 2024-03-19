@@ -1,5 +1,5 @@
 import { deepmerge } from 'deepmerge-ts';
-import { shouldCenterStep } from './general';
+import { shouldCenterStep } from './general.ts';
 import {
   autoUpdate,
   arrow,
@@ -11,8 +11,8 @@ import {
   type MiddlewareData,
   type Placement
 } from '@floating-ui/dom';
-import type { Step, StepOptions, StepOptionsAttachTo } from '../step';
-import { isHTMLElement } from './type-check';
+import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
+import { isHTMLElement } from './type-check.ts';
 
 /**
  * Determines options for the tooltip and initializes event listeners.

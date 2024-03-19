@@ -10,7 +10,9 @@
     "allowJs": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": false,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
     // --- Lint-style rules
 
     // TypeScript also supplies some lint-style checks; nearly all of them are

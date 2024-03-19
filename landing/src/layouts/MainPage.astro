@@ -174,10 +174,11 @@ const shepherdIncludeCode = `
 </Base>
 
 <!-- Welcome page -->
-<script type="module" is:inline>
+<script>
   'use strict';
 
-  import Shepherd from './node_modules/shepherd.js/dist/shepherd.js';
+  import Shepherd from 'shepherd.js';
+  import type { Tour } from 'shepherd.js/tour';
 
   (function () {
     function init() {
@@ -188,6 +189,7 @@ const shepherdIncludeCode = `
     }
 
     function setupShepherd() {
+      // @ts-expect-error TODO
       var shepherd = new Shepherd.Tour({
         defaultStepOptions: {
           cancelIcon: {
@@ -210,14 +212,14 @@ const shepherdIncludeCode = `
             buttons: [
               {
                 action() {
-                  return this.cancel();
+                  return (this as unknown as Tour).cancel();
                 },
                 secondary: true,
                 text: 'Exit'
               },
               {
                 action() {
-                  return this.next();
+                  return (this as unknown as Tour).next();
                 },
                 text: 'Next'
               }
@@ -244,14 +246,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return this.back();
+                return (this as unknown as Tour).back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return this.next();
+                return (this as unknown as Tour).next();
               },
               text: 'Next'
             }
@@ -270,14 +272,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return this.back();
+                return (this as unknown as Tour).back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return this.next();
+                return (this as unknown as Tour).next();
               },
               text: 'Next'
             }
@@ -294,14 +296,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return this.back();
+                return (this as unknown as Tour).back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return this.next();
+                return (this as unknown as Tour).next();
               },
               text: 'Next'
             }
@@ -319,14 +321,14 @@ const shepherdIncludeCode = `
         buttons: [
           {
             action() {
-              return this.back();
+              return (this as unknown as Tour).back();
             },
             secondary: true,
             text: 'Back'
           },
           {
             action() {
-              return this.next();
+              return (this as unknown as Tour).next();
             },
             text: 'Next'
           }
@@ -344,34 +346,26 @@ const shepherdIncludeCode = `
         buttons: [
           {
             action() {
-              return this.back();
+              return (this as unknown as Tour).back();
             },
             secondary: true,
             text: 'Back'
           },
           {
             action() {
-              return this.next();
+              return (this as unknown as Tour).next();
             },
             text: 'Done'
           }
         ],
         id: 'followup',
-        modalOverlayOpeningPadding: '10'
+        modalOverlayOpeningPadding: 10
       });
       return shepherd;
     }
 
     function ready() {
-      if (
-        document.attachEvent
-          ? document.readyState === 'complete'
-          : document.readyState !== 'loading'
-      ) {
-        init();
-      } else {
-        document.addEventListener('DOMContentLoaded', init);
-      }
+      document.addEventListener('DOMContentLoaded', init);
     }
 
     ready();
