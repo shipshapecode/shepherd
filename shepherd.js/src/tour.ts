@@ -58,6 +58,10 @@ export interface TourOptions {
    */
   exitOnEsc?: boolean;
   /**
+   * Explicitly set the id for the tour. If not set, the id will be a generated uuid.
+   */
+  id?: string;
+  /**
    * Navigating the tour via left and right arrow keys will be enabled
    * unless this is explicitly set to false.
    */
@@ -185,7 +189,7 @@ export class Tour extends Evented {
       })(event);
     });
 
-    this._setTourID();
+    this._setTourID(options.id);
 
     const { apiKey, apiPath } = Shepherd;
     // If we have an API key, then setup Pro features
@@ -529,13 +533,15 @@ export class Tour extends Evented {
   }
 
   /**
-   * Sets this.id to `${tourName}--${uuid}`
+   * Sets this.id to a provided tourName and id or `${tourName}--${uuid}`
+   * @param {string} optionsId - True if we are going forward, false if backward
    * @private
    */
-  _setTourID() {
+  _setTourID(optionsId: string | undefined) {
     const tourName = this.options.tourName || 'tour';
+    const tourId = optionsId || uuid();
 
-    this.id = `${tourName}--${uuid()}`;
+    this.id = `${tourName}--${tourId}`;
   }
 }
 
