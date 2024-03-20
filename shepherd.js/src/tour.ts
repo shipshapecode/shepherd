@@ -24,6 +24,12 @@ interface EventOptions {
   tour: Tour;
 }
 
+type TourConfirmCancel =
+  | boolean
+  | (() => boolean)
+  | Promise<boolean>
+  | (() => Promise<boolean>);
+
 /**
  * The options for the tour
  */
@@ -33,11 +39,7 @@ export interface TourOptions {
    * If it is a function(support Async Function), it will be called and wait for the return value,
    * and will only be cancelled if the value returned is true.
    */
-  confirmCancel?:
-    | boolean
-    | (() => boolean)
-    | Promise<boolean>
-    | (() => Promise<boolean>);
+  confirmCancel?: TourConfirmCancel;
   /**
    * The message to display in the `window.confirm` dialog.
    */
