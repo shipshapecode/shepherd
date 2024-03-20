@@ -5,6 +5,18 @@
 
 
 
+
+## v12.0.0-alpha.6 (2024-03-20)
+
+#### :memo: Documentation
+* [#2647](https://github.com/shepherd-pro/shepherd/pull/2647) Remove webcomponents polyfill ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2635](https://github.com/shepherd-pro/shepherd/pull/2635) Bump rollup from 4.12.0 to 4.13.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.5 (2024-03-20)
 
 #### :memo: Documentation
