@@ -4,6 +4,20 @@
 
 
 
+
+## v12.0.0-alpha.5 (2024-03-20)
+
+#### :memo: Documentation
+* [#2646](https://github.com/shepherd-pro/shepherd/pull/2646) Fix docs build ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2637](https://github.com/shepherd-pro/shepherd/pull/2637) Bump @astrojs/check from 0.3.4 to 0.5.9 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2644](https://github.com/shepherd-pro/shepherd/pull/2644) Bump postcss from 8.4.35 to 8.4.37 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2636](https://github.com/shepherd-pro/shepherd/pull/2636) Bump cypress from 13.6.6 to 13.7.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.4 (2024-03-19)
 
 #### :bug: Bug Fix
