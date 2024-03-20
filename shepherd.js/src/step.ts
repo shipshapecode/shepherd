@@ -18,6 +18,14 @@ import {
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 
+type StepText =
+  | string
+  | ReadonlyArray<string>
+  | HTMLElement
+  | (() => string | ReadonlyArray<string> | HTMLElement);
+
+type StringOrStringFunction = string | (() => string);
+
 /**
  * The options for the step
  */
@@ -154,11 +162,7 @@ export interface StepOptions {
    * - `Function` to be executed when the step is built. It must return one of the three options above.
    * ```
    */
-  text?:
-    | string
-    | ReadonlyArray<string>
-    | HTMLElement
-    | (() => string | ReadonlyArray<string> | HTMLElement);
+  text?: StepText;
 
   /**
    * The step's title. It becomes an `h3` at the top of the step.
@@ -167,7 +171,7 @@ export interface StepOptions {
    * - `Function` to be executed when the step is built. It must return HTML string.
    * ```
    */
-  title?: string | (() => string);
+  title?: StringOrStringFunction;
 
   /**
    * You can define `show`, `hide`, etc events inside `when`. For example:
@@ -238,7 +242,7 @@ export interface StepOptionsButton {
   /**
    * The aria-label text of the button
    */
-  label?: string | (() => string);
+  label?: StringOrStringFunction;
 
   /**
    * A boolean, that when true, adds a `shepherd-button-secondary` class to the button.
@@ -248,7 +252,7 @@ export interface StepOptionsButton {
   /**
    * The HTML text of the button
    */
-  text?: string | (() => string);
+  text?: StringOrStringFunction;
 }
 
 export interface StepOptionsButtonEvent {
@@ -430,7 +434,7 @@ export class Step extends Evented {
 
   /**
    * Returns the target for the step
-   * @return The element instance. undefined if it has never been shown, null if query string has not been found
+   * @return {HTMLElement|null|undefined} The element instance. undefined if it has never been shown, null if query string has not been found
    */
   getTarget() {
     return this.target;
@@ -439,7 +443,7 @@ export class Step extends Evented {
   /**
    * Creates Shepherd element for step based on options
    *
-   * @return {Element} The DOM element for the step tooltip
+   * @return {HTMLElement} The DOM element for the step tooltip
    * @private
    */
   _createTooltipContent() {
