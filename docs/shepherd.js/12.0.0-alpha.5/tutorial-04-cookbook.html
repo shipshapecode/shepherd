@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Cookbook</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-01-install.html">Install</a></li><li><a href="tutorial-02-usage.html">Usage</a></li><li><a href="tutorial-03-styling.html">Theming and Styling</a></li><li><a href="tutorial-04-cookbook.html">Cookbook</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Cookbook</h1>
+                </header>
+                <section>
+
+<article>
+    <h3>Disable Scroll</h3>
+<p>Previously, disabling scrolling was built into Shepherd, but it was buggy
+and bulky, so we opted to remove <a href="https://github.com/willmcpo/body-scroll-lock">body-scroll-lock</a>
+as a dependency, in favor of users installing it directly in their apps. To disable scrolling,
+you can install <code>body-scroll-lock</code> and run <code>bodyScrollLock.disableBodyScroll();</code> before
+starting the tour, then <code>bodyScrollLock.clearAllBodyScrollLocks();</code> after stopping the tour.</p>
+<h3>Highlighting multiple elements</h3>
+<p>The most obvious use case for this, is around a group of elements, or more specifically the column in a TABLE. This can be achieved using CSS to absolutely position the element and give it the width and height you need. e.g.,</p>
+<pre class="prettyprint source lang-html"><code>&lt;colgroup class=&quot;shepherd-step-highlight&quot;>
+</code></pre>
+<p>and setting your CSS to something like:</p>
+<pre class="prettyprint source lang-css"><code>colgroup.shepherd-step-highlight {
+  display: block;
+  height: 100px;
+  position: absolute;
+  width: 200px;
+}
+</code></pre>
+<p>Similar results could be had by adding elements purely for the purpose of exposing more than one element in the overlay and positioning the element absolutely.</p>
+<h3>Offsets</h3>
+<p>By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
+between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.</p>
+<p>For example:</p>
+<pre class="prettyprint source lang-js"><code>import { offset } from '@floating-ui/dom';
+
+const tour = new Shepherd.Tour({
+  steps: [
+    {
+      ...
+      floatingUIOptions: {
+        middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
+      }
+      ...
+    }  
+  ]
+});
+</code></pre>
+<h3>Progress Indicator</h3>
+<p>Using the already exposed API, you could add a progress indicator of your choosing
+for each step to let your users know how far into a tour they may be.</p>
+<p>The example below uses the <a href="https://shepherdjs.dev/docs/Step.html">Step</a> <code>options</code>
+object and adds to <code>when</code> on the <code>show</code> event. Within that, we create an element
+to render in the header with text of what step out of all potential steps is now
+being show.</p>
+<pre class="prettyprint source lang-javascript"><code>when: {
+  show() {
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const header = currentStepElement?.querySelector('.shepherd-header');
+    const progress = document.createElement('span');
+    progress.style['margin-right'] = '315px';
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1}/${Shepherd.activeTour?.steps.length}`;
+    header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
+  }
+}
+</code></pre>
+<p>Another example, for anyone who wants to add progress indicators to the footer. Add the <code>shepherd-progress</code> className and some extra styles.</p>
+<pre class="prettyprint source lang-javascript"><code>when: {
+  show() {
+    const currentStep = Shepherd.activeTour?.getCurrentStep();
+    const currentStepElement = currentStep?.getElement();
+    const footer = currentStepElement?.querySelector('.shepherd-footer');
+    const progress = document.createElement('span');
+    progress.className = 'shepherd-progress';
+    progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1} of ${Shepherd.activeTour?.steps.length}`;
+    footer?.insertBefore(progress, currentStepElement.querySelector('.shepherd-button:last-child'));
+  }
+}
+</code></pre>
+<pre class="prettyprint source lang-scss"><code>.shepherd-footer {
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 .75rem .75rem;
+  
+  .shepherd-button:last-child {
+    margin-right: 0;
+  }
+    
+  .shepherd-progress {
+    font-size: .8rem;
+  }
+}
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
