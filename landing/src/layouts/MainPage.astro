@@ -182,15 +182,22 @@ const shepherdIncludeCode = `
 
   (function () {
     function init() {
-      var shepherd = setupShepherd();
+      // connect to shepherd pro
+      Shepherd.init(
+        import.meta.env.PUBLIC_SHEPHERD_PUBLIC_KEY,
+        import.meta.env.PUBLIC_SHEPHERD_FRONTEND_API
+      );
+      // wait for shepherd to be ready
       setTimeout(function () {
+        const shepherd = setupShepherd();
         shepherd.start();
       }, 400);
     }
 
     function setupShepherd() {
       // @ts-expect-error TODO
-      var shepherd = new Shepherd.Tour({
+      const shepherd = new Shepherd.Tour({
+        id: 'ts4udfrnm7o95ny7e9qbjo3t',
         defaultStepOptions: {
           cancelIcon: {
             enabled: true
