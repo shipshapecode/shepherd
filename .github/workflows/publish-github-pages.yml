@@ -29,6 +29,9 @@ jobs:
         run: |
           pnpm i
           pnpm build
+        env:
+          PUBLIC_SHEPHERD_PUBLIC_KEY: ${{ secrets.PUBLIC_SHEPHERD_PUBLIC_KEY }}
+          PUBLIC_SHEPHERD_FRONTEND_API: ${{ secrets.PUBLIC_SHEPHERD_FRONTEND_API }}
       - name: Build docs
         run: pnpm run docs
       - name: Publish site and docs
