@@ -58,7 +58,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@testing-library/svelte": "^3.2.2",
     "autoprefixer": "^10.4.16",
-    "cssnano": "^6.1.0",
+    "cssnano": "^6.1.1",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
