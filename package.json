@@ -33,7 +33,7 @@
     "@babel/preset-env": "^7.23.5",
     "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@release-it-plugins/workspaces": "^4.2.0",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.19",
     "better-docs": "^2.7.3",
     "cypress": "^13.7.0",
     "cypress-plugin-tab": "^1.0.5",
