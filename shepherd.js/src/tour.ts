@@ -196,8 +196,7 @@ export class Tour extends Evented {
     if (apiKey && apiPath) {
       this.dataRequester = new DataRequest(apiKey, apiPath);
 
-      const shepherdProId = localStorage.getItem('shepherdPro:userId');
-      this.currentUserId = shepherdProId;
+      this.currentUserId = localStorage.getItem(SHEPHERD_USER_ID);
 
       this.trackedEvents.forEach((event) =>
         this.on(event, (opts: EventOptions) => {
@@ -215,7 +214,7 @@ export class Tour extends Evented {
           }
 
           const data = {
-            currentUserId: this.currentUserId,
+            currentUserId: localStorage.getItem(SHEPHERD_USER_ID),
             eventType: event,
             journeyData: {
               id,
