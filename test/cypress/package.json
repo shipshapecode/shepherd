@@ -29,7 +29,7 @@
     "eslint-plugin-svelte3": "^4.0.0",
     "glob": "^10.3.10",
     "http-server": "^14.1.1",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "replace": "^1.2.2",
