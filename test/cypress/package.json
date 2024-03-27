@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
-    "@babel/preset-env": "^7.23.5",
+    "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.23.3",
     "@testing-library/svelte": "^3.2.2",
     "autoprefixer": "^10.4.16",
