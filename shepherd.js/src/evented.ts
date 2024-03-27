@@ -4,6 +4,9 @@ type Bindings = {
   [key: string]: Array<{ handler: () => void; ctx?: unknown; once?: boolean }>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyHandler = (...args: any[]) => void;
+
 export class Evented {
   declare bindings: Bindings;
 
@@ -16,7 +19,7 @@ export class Evented {
    * @param {boolean} once
    * @returns
    */
-  on(event: string, handler: () => void, ctx?: unknown, once = false) {
+  on(event: string, handler: AnyHandler, ctx?: unknown, once = false) {
     if (isUndefined(this.bindings)) {
       this.bindings = {};
     }
@@ -36,7 +39,7 @@ export class Evented {
    * @param ctx
    * @returns
    */
-  once(event: string, handler: () => void, ctx?: unknown) {
+  once(event: string, handler: AnyHandler, ctx?: unknown) {
     return this.on(event, handler, ctx, true);
   }
 
@@ -47,7 +50,7 @@ export class Evented {
    * @param {Function} handler
    * @returns
    */
-  off(event: string, handler: () => void) {
+  off(event: string, handler: AnyHandler) {
     if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return this;
     }
@@ -71,14 +74,15 @@ export class Evented {
    * @param {string} event
    * @returns
    */
-  trigger(event: string, ...args: Array<unknown>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  trigger(event: string, ...args: any[]) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
       this.bindings[event]?.forEach((binding, index) => {
         const { ctx, handler, once } = binding;
 
         const context = ctx || this;
 
-        handler.apply(context, args);
+        handler.apply(context, args as []);
 
         if (once) {
           this.bindings[event]?.splice(index, 1);

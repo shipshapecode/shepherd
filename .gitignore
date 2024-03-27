@@ -2,16 +2,19 @@
 /.idea/
 /.vscode/
 
+.eslintcache
+.nyc_output/
+coverage/
+dist/
+node_modules/
+
 /.log/
-/.nyc_output/
-/coverage/
+
 /cypress/
 /docs/
-/dist/
 /site/
-/node_modules/
 /test/unit/dist
-/.DS_Store
+*.DS_Store
 /.sass-cache
 /npm-debug.log*
 /stats.html
