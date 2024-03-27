@@ -21,8 +21,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0(release-it@17.1.1)
       autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.17(postcss@8.4.37)
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.37)
       better-docs:
         specifier: ^2.7.3
         version: 2.7.3(prop-types@15.8.1)(react-dom@17.0.2)(react@17.0.2)
@@ -164,8 +164,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(svelte@3.59.2)
       autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.17(postcss@8.4.37)
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.37)
       cssnano:
         specifier: ^6.1.0
         version: 6.1.0(postcss@8.4.37)
@@ -263,8 +263,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(svelte@3.59.2)
       autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.17(postcss@8.4.37)
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.37)
       chai:
         specifier: ^4.3.10
         version: 4.4.1
@@ -332,8 +332,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2(svelte@3.59.2)
       autoprefixer:
-        specifier: ^10.4.16
-        version: 10.4.17(postcss@8.4.37)
+        specifier: ^10.4.19
+        version: 10.4.19(postcss@8.4.37)
       babel-jest:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.24.0)
@@ -4477,7 +4477,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001600
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -4485,15 +4485,15 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /autoprefixer@10.4.17(postcss@8.4.37):
-    resolution: {integrity: sha512-/cpVNRLSfhOtcGflT13P2794gVSgmPgTR+erw5ifnMLZb0UnSlkK4tquLmkd3BhA+nLo5tX8Cu0upUsGKvKbmg==}
+  /autoprefixer@10.4.19(postcss@8.4.37):
+    resolution: {integrity: sha512-BaENR2+zBZ8xXhM4pUaKUxlVdxZ0EZhjvbopwnXmxRUfqDmwSpC2lAi/QXvx7NRdPCo1WKEcEF6mV64si1z4Ew==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001600
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -4958,7 +4958,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001600
       electron-to-chromium: 1.4.689
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
@@ -5177,13 +5177,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.23.0
-      caniuse-lite: 1.0.30001591
+      caniuse-lite: 1.0.30001600
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001591:
-    resolution: {integrity: sha512-PCzRMei/vXjJyL5mJtzNiUCKP59dm8Apqc3PH8gJkMnMXZGox93RbE76jHsmLwmIo6/3nsYIpJtx0O7u5PqFuQ==}
+  /caniuse-lite@1.0.30001600:
+    resolution: {integrity: sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==}
 
   /caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}

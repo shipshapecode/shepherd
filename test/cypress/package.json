@@ -20,7 +20,7 @@
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.23.3",
     "@testing-library/svelte": "^3.2.2",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.19",
     "chai": "^4.3.10",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
