@@ -31,27 +31,26 @@ Browsers support
 | Edge| last 2 versions| last 2 versions| last 2 versions
 
 
-Documentation
-----------------------------------------------------------
+## Documentation
 
 [API documentation](https://shepherdjs.dev/docs/)
 
-Demo
-----------------------------------------------------------
+## Demo
 
 [Demo](https://shepherdjs.dev/demo)
 
-Contributing
-----------------------------------------------------------
+## Contributing
 
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
 
-License
-----------------------------------------------------------
-[MIT License](LICENSE)
+## Releasing
 
-Projects Using Shepherd
-----------------------------------------------------------
+Our release process is mostly automated. For more details, see [RELEASE.md](RELEASE.md).
+
+## License
+[MIT License](LICENSE.md)
+
+## Projects Using Shepherd
 
 Here we showcase some of the awesome libraries built using Shepherd.
 
