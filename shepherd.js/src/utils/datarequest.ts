@@ -5,8 +5,13 @@ interface ActorResponse {
 class DataRequest {
   private apiKey: string;
   private apiPath: string;
+  private properties?: { [key: string]: unknown };
 
-  constructor(apiKey?: string, apiPath?: string) {
+  constructor(
+    apiKey?: string,
+    apiPath?: string,
+    properties?: { [key: string]: unknown }
+  ) {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
@@ -16,9 +21,15 @@ class DataRequest {
 
     this.apiKey = apiKey;
     this.apiPath = apiPath;
+    this.properties = properties;
   }
 
   async sendEvents(body: Record<string, unknown>) {
+    // If we have additional, optional properties, tack them on to the body.
+    if (this.properties) {
+      body['properties'] = this.properties;
+    }
+
     try {
       const response = await fetch(`${this.apiPath}/api/v1/actor`, {
         headers: {

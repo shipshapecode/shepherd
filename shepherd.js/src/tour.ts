@@ -97,22 +97,40 @@ const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
 const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
 
 export class ShepherdPro extends Evented {
-  activeTour?: Tour | null;
+  // Shepherd Pro fields
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
+  /**
+   * Extra properties to pass to Shepherd Pro
+   */
+  properties?: { [key: string]: unknown };
+
+  // Vanilla Shepherd
+  activeTour?: Tour | null;
   declare Step: StepNoOp | Step;
   declare Tour: TourNoOp | Tour;
 
-  init(apiKey?: string, apiPath?: string) {
+  /**
+   * Call init to take full advantage of ShepherdPro functionality
+   * @param {string} apiKey The API key for your ShepherdPro account
+   * @param {string} apiPath
+   * @param {object} properties Extra properties to be passed to Shepherd Pro
+   */
+  init(
+    apiKey?: string,
+    apiPath?: string,
+    properties?: { [key: string]: unknown }
+  ) {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
     this.apiKey = apiKey;
     this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
+    this.properties = properties;
 
     if (this.apiKey) {
-      this.dataRequester = new DataRequest(this.apiKey, this.apiPath);
+      this.dataRequester = new DataRequest(this.apiKey, this.apiPath, this.properties);
       // Setup actor before first tour is loaded if none exists
       const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
@@ -191,7 +209,7 @@ export class Tour extends Evented {
 
     this._setTourID(options.id);
 
-    const { apiKey, apiPath } = Shepherd;
+    const { apiKey, apiPath, properties } = Shepherd;
     // If we have an API key, then setup Pro features
     if (apiKey && apiPath) {
       this.dataRequester = new DataRequest(apiKey, apiPath);
