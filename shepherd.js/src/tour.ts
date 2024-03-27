@@ -130,7 +130,11 @@ export class ShepherdPro extends Evented {
     this.properties = properties;
 
     if (this.apiKey) {
-      this.dataRequester = new DataRequest(this.apiKey, this.apiPath, this.properties);
+      this.dataRequester = new DataRequest(
+        this.apiKey,
+        this.apiPath,
+        this.properties
+      );
       // Setup actor before first tour is loaded if none exists
       const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
@@ -212,7 +216,7 @@ export class Tour extends Evented {
     const { apiKey, apiPath, properties } = Shepherd;
     // If we have an API key, then setup Pro features
     if (apiKey && apiPath) {
-      this.dataRequester = new DataRequest(apiKey, apiPath);
+      this.dataRequester = new DataRequest(apiKey, apiPath, properties);
 
       this.currentUserId = localStorage.getItem(SHEPHERD_USER_ID);
 
