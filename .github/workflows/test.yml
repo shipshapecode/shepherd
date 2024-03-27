@@ -3,6 +3,7 @@ name: Lint & Test
 on:
   push:
     branches:
+      - main
       - master
   pull_request: {}
 
@@ -22,7 +23,7 @@ jobs:
         run: pnpm install
 
       - name: Run linting
-        run: pnpm lint:js
+        run: pnpm lint
 
   typecheck:
     name: Type Check

@@ -1,9 +1,7 @@
 <script>
-  import { uuid } from '../utils/general.ts';
   import { makeOverlayPath } from '../utils/overlay-path.ts';
 
   export let element, openingProperties;
-  const guid = uuid();
   let modalIsVisible = false;
   let rafId = undefined;
   let pathDefinition;
@@ -59,7 +57,8 @@
       openingProperties = {
         width: width + modalOverlayOpeningPadding * 2,
         height: height + modalOverlayOpeningPadding * 2,
-        x: (x || left) + modalOverlayOpeningXOffset - modalOverlayOpeningPadding,
+        x:
+          (x || left) + modalOverlayOpeningXOffset - modalOverlayOpeningPadding,
         y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
         r: modalOverlayOpeningRadius
       };
@@ -207,8 +206,7 @@
       if (targetIframe) {
         const targetIframeRect = targetIframe.getBoundingClientRect();
 
-        offset.top +=
-          targetIframeRect.top + (targetIframeRect.scrollTop ?? 0);
+        offset.top += targetIframeRect.top + (targetIframeRect.scrollTop ?? 0);
         offset.left +=
           targetIframeRect.left + (targetIframeRect.scrollLeft ?? 0);
       }
@@ -267,7 +265,10 @@
     pointer-events: none;
     position: fixed;
     top: 0;
-    transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
+    transition:
+      all 0.3s ease-out,
+      height 0ms 0.3s,
+      opacity 0.3s 0ms;
     width: 100vw;
     z-index: 9997;
   }
@@ -275,7 +276,10 @@
   .shepherd-modal-overlay-container.shepherd-modal-is-visible {
     height: 100vh;
     opacity: 0.5;
-    transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+    transition:
+      all 0.3s ease-out,
+      height 0s 0s,
+      opacity 0.3s 0s;
     transform: translateZ(0);
   }
 

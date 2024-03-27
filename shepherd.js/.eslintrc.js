@@ -8,9 +8,7 @@ module.exports = {
   env: {
     browser: true
   },
-  plugins: [
-    'svelte3'
-  ],
+  plugins: ['svelte3'],
   rules: {
     'max-lines': [
       'warn',
@@ -45,16 +43,15 @@ module.exports = {
         '.eslintrc.js',
         '.prettierrc.js',
         'babel.config.js',
-        'jest.config.js',
         'rollup.config.js',
-        'svelte.config.js',
-        'tailwind.config.js'
+        'svelte.config.js'
       ],
       parserOptions: {
         sourceType: 'module',
         ecmaVersion: 2020
       },
       env: {
+        browser: false,
         node: true
       }
     }

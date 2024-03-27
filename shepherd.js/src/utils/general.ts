@@ -7,11 +7,11 @@ import {
 import { isFunction, isString } from './type-check.ts';
 
 export class StepNoOp {
-  constructor(options: StepOptions) {}
+  constructor(_options: StepOptions) {}
 }
 
 export class TourNoOp {
-  constructor(tour: Tour, options: TourOptions) {}
+  constructor(_tour: Tour, _options: TourOptions) {}
 }
 
 /**

@@ -5,7 +5,6 @@
 /.log/
 /.nyc_output/
 /coverage/
-/dist/
 /node_modules/
 /.DS_Store
 /.sass-cache

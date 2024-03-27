@@ -1,5 +1,5 @@
 import type { Step } from '../step.ts';
-import { isHTMLElement, isUndefined } from './type-check.ts';
+import { isUndefined } from './type-check.ts';
 
 /**
  * Sets up the handler to determine if we should advance the tour
