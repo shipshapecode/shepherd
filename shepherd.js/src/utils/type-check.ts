@@ -18,6 +18,7 @@ export function isHTMLElement<T>(value: T | HTMLElement): value is HTMLElement {
  * Checks if `value` is classified as a `Function` object.
  * @param value The param to check if it is a function
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isFunction<T>(value: T | Function): value is Function {
   return typeof value === 'function';
 }

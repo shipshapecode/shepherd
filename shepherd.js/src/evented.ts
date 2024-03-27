@@ -1,8 +1,7 @@
-// @ts-nocheck
 import { isUndefined } from './utils/type-check.ts';
 
 type Bindings = {
-  [key: string]: Array<{ handler: Function; ctx?: unknown; once?: boolean }>;
+  [key: string]: Array<{ handler: () => void; ctx?: unknown; once?: boolean }>;
 };
 
 export class Evented {
@@ -17,14 +16,14 @@ export class Evented {
    * @param {boolean} once
    * @returns
    */
-  on(event: string, handler: Function, ctx?: unknown, once = false) {
+  on(event: string, handler: () => void, ctx?: unknown, once = false) {
     if (isUndefined(this.bindings)) {
       this.bindings = {};
     }
     if (isUndefined(this.bindings[event])) {
       this.bindings[event] = [];
     }
-    this.bindings[event].push({ handler, ctx, once });
+    this.bindings[event]?.push({ handler, ctx, once });
 
     return this;
   }
@@ -37,7 +36,7 @@ export class Evented {
    * @param ctx
    * @returns
    */
-  once(event: string, handler: Function, ctx?: unknown) {
+  once(event: string, handler: () => void, ctx?: unknown) {
     return this.on(event, handler, ctx, true);
   }
 
@@ -48,7 +47,7 @@ export class Evented {
    * @param {Function} handler
    * @returns
    */
-  off(event: string, handler: Function) {
+  off(event: string, handler: () => void) {
     if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return this;
     }
@@ -56,9 +55,9 @@ export class Evented {
     if (isUndefined(handler)) {
       delete this.bindings[event];
     } else {
-      this.bindings[event].forEach((binding, index) => {
+      this.bindings[event]?.forEach((binding, index) => {
         if (binding.handler === handler) {
-          this.bindings[event].splice(index, 1);
+          this.bindings[event]?.splice(index, 1);
         }
       });
     }
@@ -72,9 +71,9 @@ export class Evented {
    * @param {string} event
    * @returns
    */
-  trigger(event: string, ...args: Array<any>) {
+  trigger(event: string, ...args: Array<unknown>) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
-      this.bindings[event].forEach((binding, index) => {
+      this.bindings[event]?.forEach((binding, index) => {
         const { ctx, handler, once } = binding;
 
         const context = ctx || this;
@@ -82,7 +81,7 @@ export class Evented {
         handler.apply(context, args);
 
         if (once) {
-          this.bindings[event].splice(index, 1);
+          this.bindings[event]?.splice(index, 1);
         }
       });
     }

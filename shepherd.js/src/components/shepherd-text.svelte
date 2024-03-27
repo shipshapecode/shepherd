@@ -19,6 +19,8 @@
   });
 </script>
 
+<div bind:this={element} class="shepherd-text" id={descriptionId}></div>
+
 <style global>
   .shepherd-text {
     color: rgba(0, 0, 0, 0.75);
@@ -35,11 +37,3 @@
     margin-bottom: 0;
   }
 </style>
-
-<div
-  bind:this={element}
-  class="shepherd-text"
-  id="{descriptionId}"
->
-</div>
-

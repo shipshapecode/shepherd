@@ -1,6 +1,6 @@
-import { Shepherd, Tour, type TourOptions } from './tour.ts';
+import { Shepherd, Tour } from './tour.ts';
 import { StepNoOp, TourNoOp } from './utils/general.ts';
-import { Step, type StepOptions } from './step.ts';
+import { Step } from './step.ts';
 
 const isServerSide = typeof window === 'undefined';
 

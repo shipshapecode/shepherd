@@ -70,7 +70,7 @@ export interface StepOptions {
    * A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
    */
-  beforeShowPromise?: () => Promise<any>;
+  beforeShowPromise?: () => Promise<unknown>;
 
   /**
    * An array of buttons to add to the step. These will be rendered in a
@@ -275,6 +275,7 @@ export interface StepOptionsWhen {
 export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   classPrefix?: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   declare cleanup: Function | null;
   el?: HTMLElement | null;
   declare id: string;

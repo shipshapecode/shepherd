@@ -24,8 +24,6 @@
     "chai": "^4.3.10",
     "del": "^7.1.0",
     "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-svelte3": "^4.0.0",
     "glob": "^10.3.10",
     "http-server": "^14.1.1",
