@@ -1,6 +1,7 @@
 import { Evented } from './evented.ts';
 import { Step, type StepOptions } from './step.ts';
 import autoBind from './utils/auto-bind.ts';
+import { getContext } from './utils/context.ts';
 import {
   isHTMLElement,
   isFunction,
@@ -97,22 +98,45 @@ const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
 const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
 
 export class ShepherdPro extends Evented {
-  activeTour?: Tour | null;
+  // Shepherd Pro fields
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
+  /**
+   * Extra properties to pass to Shepherd Pro
+   */
+  properties?: { [key: string]: unknown };
+
+  // Vanilla Shepherd
+  activeTour?: Tour | null;
   declare Step: StepNoOp | Step;
   declare Tour: TourNoOp | Tour;
 
-  init(apiKey?: string, apiPath?: string) {
+  /**
+   * Call init to take full advantage of ShepherdPro functionality
+   * @param {string} apiKey The API key for your ShepherdPro account
+   * @param {string} apiPath
+   * @param {object} properties Extra properties to be passed to Shepherd Pro
+   */
+  init(
+    apiKey?: string,
+    apiPath?: string,
+    properties?: { [key: string]: unknown }
+  ) {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
     this.apiKey = apiKey;
     this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
+    this.properties = properties ?? {};
+    this.properties['context'] = getContext(window);
 
     if (this.apiKey) {
-      this.dataRequester = new DataRequest(this.apiKey, this.apiPath);
+      this.dataRequester = new DataRequest(
+        this.apiKey,
+        this.apiPath,
+        this.properties
+      );
       // Setup actor before first tour is loaded if none exists
       const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
@@ -142,10 +166,7 @@ export class ShepherdPro extends Evented {
  * @extends {Evented}
  */
 export class Tour extends Evented {
-  dataRequester;
   trackedEvents = ['active', 'cancel', 'complete', 'show'];
-
-  private currentUserId: string | null = null;
 
   classPrefix: string;
   currentStep?: Step | null;
@@ -191,13 +212,9 @@ export class Tour extends Evented {
 
     this._setTourID(options.id);
 
-    const { apiKey, apiPath } = Shepherd;
+    const { dataRequester } = Shepherd;
     // If we have an API key, then setup Pro features
-    if (apiKey && apiPath) {
-      this.dataRequester = new DataRequest(apiKey, apiPath);
-
-      this.currentUserId = localStorage.getItem(SHEPHERD_USER_ID);
-
+    if (dataRequester) {
       this.trackedEvents.forEach((event) =>
         this.on(event, (opts: EventOptions) => {
           const { tour } = opts;
@@ -223,7 +240,7 @@ export class Tour extends Evented {
               tourOptions: tour.options
             }
           };
-          this.dataRequester?.sendEvents({ data });
+          dataRequester.sendEvents({ data });
         })
       );
     }

@@ -4,7 +4,9 @@ global.fetch = jest.fn();
 
 describe('DataRequest', () => {
   const defaultOptions = [
-    'apiKey_12345', 'https://api.shepherdpro.com'
+    'apiKey_12345',
+    'https://api.shepherdpro.com',
+    { extra: 'stuff' }
   ];
 
   it('exists and creates an instance', () => {
@@ -19,6 +21,7 @@ describe('DataRequest', () => {
       'Shepherd Pro: Missing required apiKey option.'
     );
   });
+
   it('returns an error if no apiPath is passed', () => {
     expect(() => new DataRequest(defaultOptions[0], null)).toThrow(
       'Shepherd Pro: Missing required apiPath option.'
@@ -32,6 +35,9 @@ describe('DataRequest', () => {
     });
     const dataRequester = new DataRequest(...defaultOptions);
 
+    expect(dataRequester.apiKey).toBe(defaultOptions[0]);
+    expect(dataRequester.apiPath).toBe(defaultOptions[1]);
+    expect(dataRequester.properties).toMatchObject(defaultOptions[2]);
     expect(typeof dataRequester.sendEvents).toBe('function');
 
     const data = await dataRequester.sendEvents({});
