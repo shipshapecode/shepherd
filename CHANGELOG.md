@@ -6,6 +6,38 @@
 
 
 
+
+## v12.0.0-alpha.7 (2024-03-28)
+
+#### :rocket: Enhancement
+* [#2664](https://github.com/shepherd-pro/shepherd/pull/2664) Add extra properties bucket to send to Shepherd Pro ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* [#2648](https://github.com/shepherd-pro/shepherd/pull/2648) ✨ Add pro init and explicit ID ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* [#2659](https://github.com/shepherd-pro/shepherd/pull/2659) 🐛 Update user ID ref to be direct from localstorage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* [#2662](https://github.com/shepherd-pro/shepherd/pull/2662) Document release process ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2663](https://github.com/shepherd-pro/shepherd/pull/2663) Update linting and prettier ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* [#2656](https://github.com/shepherd-pro/shepherd/pull/2656) Bump postcss from 8.4.37 to 8.4.38 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2653](https://github.com/shepherd-pro/shepherd/pull/2653) Bump @babel/core from 7.24.0 to 7.24.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2661](https://github.com/shepherd-pro/shepherd/pull/2661) Bump cssnano from 6.1.0 to 6.1.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2658](https://github.com/shepherd-pro/shepherd/pull/2658) Bump release-plan from 0.8.0 to 0.9.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2650](https://github.com/shepherd-pro/shepherd/pull/2650) Bump autoprefixer from 10.4.17 to 10.4.19 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2652](https://github.com/shepherd-pro/shepherd/pull/2652) Bump cypress from 13.7.0 to 13.7.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2657](https://github.com/shepherd-pro/shepherd/pull/2657) Bump @babel/preset-env from 7.24.0 to 7.24.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2654](https://github.com/shepherd-pro/shepherd/pull/2654) Bump astro from 4.5.6 to 4.5.9 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2655](https://github.com/shepherd-pro/shepherd/pull/2655) Bump @astrojs/mdx from 2.2.0 to 2.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2627](https://github.com/shepherd-pro/shepherd/pull/2627) Bump cssnano from 6.0.5 to 6.1.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2629](https://github.com/shepherd-pro/shepherd/pull/2629) Bump @astrojs/mdx from 2.1.1 to 2.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2634](https://github.com/shepherd-pro/shepherd/pull/2634) Bump rollup-plugin-svelte from 7.1.6 to 7.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.6 (2024-03-20)
 
 #### :memo: Documentation
