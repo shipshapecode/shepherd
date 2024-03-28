@@ -25,10 +25,7 @@ class DataRequest {
   }
 
   async sendEvents(body: Record<string, unknown>) {
-    // If we have additional, optional properties, tack them on to the body.
-    if (this.properties) {
-      body['properties'] = this.properties;
-    }
+    body['properties'] = this.properties;
 
     try {
       const response = await fetch(`${this.apiPath}/api/v1/actor`, {
