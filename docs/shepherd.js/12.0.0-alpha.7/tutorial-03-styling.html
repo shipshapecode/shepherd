@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Theming and Styling</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-01-install.html">Install</a></li><li><a href="tutorial-02-usage.html">Usage</a></li><li><a href="tutorial-03-styling.html">Theming and Styling</a></li><li><a href="tutorial-04-cookbook.html">Cookbook</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Theming and Styling</h1>
+                </header>
+                <section>
+
+<article>
+    <h3>Default Styles</h3>
+<p>Shepherd ships with some default styles, but we try to keep it minimal, so you do not have a ton to override.
+You can also opt out of styles entirely, by not including the <code>shepherd.css</code> file.</p>
+<h3>Custom Classes</h3>
+<p>If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance —
+or, as part of the options for each step — and use them as hooks for your own styling rules.</p>
+<pre class="prettyprint source lang-javascript"><code>let tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    classes: 'shepherd-theme-custom'
+  }
+});
+</code></pre>
+<h3>Adding a prefix to the default <code>shepherd-*</code> classes</h3>
+<p>If you have a situation where you are running two Shepherd instances on a page, and they need to be styled
+differently, you may want to prefix the class names. This is now possible with the <code>classPrefix</code> option.</p>
+<pre class="prettyprint source lang-js"><code>const tour = new Shepherd.Tour({
+  classPrefix: 'my-tour-'
+});
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
