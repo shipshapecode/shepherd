@@ -44,8 +44,8 @@ describe('Shepherd Pro', function () {
     expect(proInstance).toBeInstanceOf(Shepherd.Tour);
   });
 
-  it('returns an error if no apiKey is passed', () => {
-    expect(() => Shepherd.init()).toThrow(
+  it('returns an error if no apiKey is passed', async () => {
+    await expect(() => Shepherd.init()).rejects.toThrow(
       'Shepherd Pro: Missing required apiKey option.'
     );
   });
