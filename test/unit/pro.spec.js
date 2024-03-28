@@ -58,20 +58,18 @@ describe('Shepherd Pro', function () {
 
     expect(typeof Shepherd.trigger).toBe('function');
     expect(Shepherd.dataRequester.properties).toMatchObject({
-      context: {
-        $browser: 'Chrome',
-        $browser_version: 123,
-        $current_url: 'https://shepherdjs.dev/',
-        $device: '',
-        $host: 'shepherdjs.dev',
-        $lib: 'js',
-        $os: 'Mac OS X',
-        $pathname: '/',
-        $referrer: '',
-        $referring_domain: '',
-        $screen_height: 1080,
-        $screen_width: 1920
-      },
+      $browser: 'Chrome',
+      $browser_version: 123,
+      $current_url: 'https://shepherdjs.dev/',
+      $device: '',
+      $host: 'shepherdjs.dev',
+      $lib: 'js',
+      $os: 'Mac OS X',
+      $pathname: '/',
+      $referrer: '',
+      $referring_domain: '',
+      $screen_height: 1080,
+      $screen_width: 1920,
       extra: 'stuff'
     });
 

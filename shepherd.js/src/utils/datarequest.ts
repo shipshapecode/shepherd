@@ -25,8 +25,10 @@ class DataRequest {
   }
 
   async sendEvents(body: Record<string, unknown>) {
-    body['properties'] = this.properties;
-
+    const bodyWithProperties = {
+      ...body,
+      properties: this.properties
+    };
     try {
       const response = await fetch(`${this.apiPath}/api/v1/actor`, {
         headers: {
@@ -34,7 +36,7 @@ class DataRequest {
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(body)
+        body: JSON.stringify(bodyWithProperties)
       });
 
       if (!response.ok) {
