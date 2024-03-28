@@ -26,6 +26,8 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
+      - name: Build shepherd.js dependency
+        run: pnpm -F shepherd.js build
       - id: test
         name: Run test
         run: |
