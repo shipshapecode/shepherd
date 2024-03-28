@@ -1,7 +1,8 @@
 {
-  "name": "@shepherdpro/react",
-  "version": "0.0.3",
+  "name": "react-shepherd",
+  "version": "4.3.0",
   "private": false,
+  "license": "MIT",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
