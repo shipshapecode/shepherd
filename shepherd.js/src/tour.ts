@@ -128,11 +128,8 @@ export class ShepherdPro extends Evented {
     }
     this.apiKey = apiKey;
     this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
-    const userProvidedProperties = properties ?? {};
-    this.properties = {
-      ...userProvidedProperties,
-      ...getContext(window)
-    };
+    this.properties = properties ?? {};
+    this.properties['context'] = getContext(window);
 
     if (this.apiKey) {
       this.dataRequester = new DataRequest(
