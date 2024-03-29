@@ -24,8 +24,8 @@ class DataRequest {
     this.properties = properties;
   }
 
-  async sendEvents(body: Record<string, unknown>) {
-    body['properties'] = this.properties;
+  async sendEvents(body: { data: Record<string, unknown> }) {
+    body.data['properties'] = this.properties;
 
     try {
       const response = await fetch(`${this.apiPath}/api/v1/actor`, {
