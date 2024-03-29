@@ -40,7 +40,7 @@ describe('DataRequest', () => {
     expect(dataRequester.properties).toMatchObject(defaultOptions[2]);
     expect(typeof dataRequester.sendEvents).toBe('function');
 
-    const data = await dataRequester.sendEvents({});
+    const data = await dataRequester.sendEvents({ data: {} });
 
     expect(data).toMatchObject({});
   });
