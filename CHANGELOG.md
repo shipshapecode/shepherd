@@ -7,6 +7,22 @@
 
 
 
+
+## v12.0.0-alpha.8 (2024-03-29)
+
+#### :rocket: Enhancement
+* `react`
+  * [#2649](https://github.com/shepherd-pro/shepherd/pull/2649) ✨ Add initial React package from SDK ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* Other
+  * [#2667](https://github.com/shepherd-pro/shepherd/pull/2667) Move `properties` under the `data` object ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :bug: Bug Fix
+* [#2665](https://github.com/shepherd-pro/shepherd/pull/2665) Add async/await for ShepherdPro init ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.7 (2024-03-28)
 
 #### :rocket: Enhancement
