@@ -88,5 +88,5 @@ jobs:
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
-          command: pnpm test:cy:ci:chrome
+          command: pnpm test:cy:ci
           install: false
