@@ -118,7 +118,7 @@ export class ShepherdPro extends Evented {
    * @param {string} apiPath
    * @param {object} properties Extra properties to be passed to Shepherd Pro
    */
-  init(
+  async init(
     apiKey?: string,
     apiPath?: string,
     properties?: { [key: string]: unknown }
@@ -141,7 +141,7 @@ export class ShepherdPro extends Evented {
       const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
       if (!shepherdProId) {
-        this.createNewActor();
+        await this.createNewActor();
       }
     }
   }
