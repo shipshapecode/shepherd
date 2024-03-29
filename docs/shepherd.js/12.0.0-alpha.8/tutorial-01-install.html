@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Install</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-01-install.html">Install</a></li><li><a href="tutorial-02-usage.html">Usage</a></li><li><a href="tutorial-03-styling.html">Theming and Styling</a></li><li><a href="tutorial-04-cookbook.html">Cookbook</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Install</h1>
+                </header>
+                <section>
+
+<article>
+    <h2>JS Framework Wrappers</h2>
+<p>We strive to make it easy to use Shepherd in all the major frameworks, and have written wrappers to facilitate this.</p>
+<ul>
+<li><a href="https://github.com/shepherd-pro/angular-shepherd">angular-shepherd</a></li>
+<li><a href="https://github.com/shepherd-pro/ember-shepherd">ember-shepherd</a></li>
+<li><a href="https://github.com/shepherd-pro/react-shepherd">react-shepherd</a></li>
+<li><a href="https://github.com/shepherd-pro/vue-shepherd">vue-shepherd</a></li>
+</ul>
+<h2>Install Directly</h2>
+<h3>npm</h3>
+<pre class="prettyprint source lang-bash"><code>npm install shepherd.js --save
+</code></pre>
+<h3>yarn</h3>
+<pre class="prettyprint source lang-bash"><code>yarn add shepherd.js
+</code></pre>
+<h3>pnpm</h3>
+<pre class="prettyprint source lang-bash"><code>pnpm add shepherd.js
+</code></pre>
+<h3>bun</h3>
+<pre class="prettyprint source lang-bash"><code>bun add shepherd.js
+</code></pre>
+<h3>styles</h3>
+<p>Don't forget to add your styles</p>
+<pre class="prettyprint source lang-javascript"><code>import 'shepherd.js/dist/css/shepherd.css';
+</code></pre>
+<h3>GitHub Releases</h3>
+<p>Whenever we release a new version, the contents of the <code>dist</code> are uploaded
+to the release in GitHub. You can find those assets <a href="https://github.com/shepherd-pro/shepherd/releases">here</a>.</p>
+<h3>jsDelivr CDN</h3>
+<p>You can use jsDelivr to pull down any release from npm. For example, you could include v10.0.1 with styles in your app
+with:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script type=&quot;module&quot; src=&quot;https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/shepherd.js&quot;>&lt;/script>
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css&quot;/>
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

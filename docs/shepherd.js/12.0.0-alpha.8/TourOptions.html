@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> TourOptions</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Step.html">Step</a></li><li><a href="Tour.html">Tour</a></li></ul><h3>Interfaces</h3><ul><li><a href="StepOptions.html">StepOptions</a></li><li><a href="TourOptions.html">TourOptions</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Interface</p>
+                    <h1>TourOptions</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>TourOptions</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>The options for the tour</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line414">line 414</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="classPrefix">
+    <a class="href-link" href="#classPrefix">#</a>
+    
+    <span class="code-name">
+        classPrefix
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The prefix to add to the <code>shepherd-enabled</code> and <code>shepherd-target</code> class names as well as the <code>data-shepherd-step-id</code>.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line432">line 432</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">TourConfirmCancel</code>
+
+
+    </span>
+
+<h4 class="name" id="confirmCancel">
+    <a class="href-link" href="#confirmCancel">#</a>
+    
+    <span class="code-name">
+        confirmCancel
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>If true, will issue a <code>window.confirm</code> before cancelling.
+If it is a function(support Async Function), it will be called and wait for the return value,
+and will only be cancelled if the value returned is true.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line418">line 418</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="confirmCancelMessage">
+    <a class="href-link" href="#confirmCancelMessage">#</a>
+    
+    <span class="code-name">
+        confirmCancelMessage
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The message to display in the <code>window.confirm</code> dialog.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line426">line 426</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="StepOptions.html">StepOptions</a></code>
+
+
+    </span>
+
+<h4 class="name" id="defaultStepOptions">
+    <a class="href-link" href="#defaultStepOptions">#</a>
+    
+    <span class="code-name">
+        defaultStepOptions
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Default options for Steps (Step#constructor), created through <code>addStep</code>.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line438">line 438</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="exitOnEsc">
+    <a class="href-link" href="#exitOnEsc">#</a>
+    
+    <span class="code-name">
+        exitOnEsc
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Exiting the tour with the escape key will be enabled unless this is explicitly
+set to false.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line444">line 444</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="id">
+    <a class="href-link" href="#id">#</a>
+    
+    <span class="code-name">
+        id
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Explicitly set the id for the tour. If not set, the id will be a generated uuid.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line451">line 451</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="keyboardNavigation">
+    <a class="href-link" href="#keyboardNavigation">#</a>
+    
+    <span class="code-name">
+        keyboardNavigation
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Navigating the tour via left and right arrow keys will be enabled
+unless this is explicitly set to false.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line457">line 457</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">HTMLElement</code>
+
+
+    </span>
+
+<h4 class="name" id="modalContainer">
+    <a class="href-link" href="#modalContainer">#</a>
+    
+    <span class="code-name">
+        modalContainer
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An optional container element for the modal.
+If not set, the modal will be appended to <code>document.body</code>.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line464">line 464</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Array.&lt;<a href="StepOptions.html">StepOptions</a>></code>
+|
+
+<code class="param-type">Array.&lt;<a href="Step.html">Step</a>></code>
+
+
+    </span>
+
+<h4 class="name" id="steps">
+    <a class="href-link" href="#steps">#</a>
+    
+    <span class="code-name">
+        steps
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An array of step options objects or Step instances to initialize the tour with.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line478">line 478</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">HTMLElement</code>
+
+
+    </span>
+
+<h4 class="name" id="stepsContainer">
+    <a class="href-link" href="#stepsContainer">#</a>
+    
+    <span class="code-name">
+        stepsContainer
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An optional container element for the steps.
+If not set, the steps will be appended to <code>document.body</code>.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line471">line 471</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="tourName">
+    <a class="href-link" href="#tourName">#</a>
+    
+    <span class="code-name">
+        tourName
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An optional &quot;name&quot; for the tour. This will be appended to the the tour's
+dynamically generated <code>id</code> property.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line484">line 484</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="useModalOverlay">
+    <a class="href-link" href="#useModalOverlay">#</a>
+    
+    <span class="code-name">
+        useModalOverlay
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Whether or not steps should be placed above a darkened
+modal overlay. If true, the overlay will create an opening around the target element so that it
+can remain interactive</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="tour.ts.html" class="button">View Source</a>
+            <span>
+                <a href="tour.ts.html">tour.ts</a>, <a href="tour.ts.html#line491">line 491</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Step.html">Step</a></li><li><a href="Tour.html">Tour</a></li></ul><h3>Interfaces</h3><ul><li><a href="StepOptions.html">StepOptions</a></li><li><a href="TourOptions.html">TourOptions</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3>shepherd.js 12.0.0-alpha.8</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p align="center">
+  <img 
+    alt="Shepherd.js Logo"
+    src="https://i.imgur.com/cowwtSX.png"/>
+</p>
+<p><a href="http://badge.fury.io/js/shepherd.js"><img src="https://badge.fury.io/js/shepherd.js.svg" alt="npm version"></a>
+<img src="https://img.shields.io/npm/dt/shepherd.js.svg" alt="Download count all time">
+<img src="https://img.shields.io/npm/dm/shepherd.js.svg" alt="npm">
+<a href="https://app.fossa.com/projects/git%2Bgithub.com%25shepherd-pro%2Fshepherd?ref=badge_shield"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield" alt="FOSSA Status"></a>
+<img src="https://img.shields.io/bundlephobia/minzip/shepherd.js.svg" alt="npm bundle size">
+<a href="https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml"><img src="https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml/badge.svg" alt="Test"></a>
+<a href="https://codeclimate.com/github/shipshapecode/shepherd/maintainability"><img src="https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability" alt="Maintainability"></a>
+<a href="https://codeclimate.com/github/shipshapecode/shepherd/test_coverage"><img src="https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage" alt="Test Coverage"></a>
+<a href="https://stackshare.io/shepherd-js"><img src="https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&amp;style=flat" alt="StackShare"></a></p>
+<a href="https://shepherdjs.dev/">
+  <img 
+    src="https://shepherdjs.dev/img/demo.png" 
+    alt="Guide your users through a tour of your app" 
+    style="height: auto; max-width: 800px; width: 100%;"/>
+</a>
+<h2>Browsers support</h2>
+<table>
+<thead>
+<tr>
+<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></a></br>Edge</th>
+<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></a></br>Firefox</th>
+<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /></a></br>Chrome</th>
+<th><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></a></br>Safari</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edge</td>
+<td>last 2 versions</td>
+<td>last 2 versions</td>
+<td>last 2 versions</td>
+</tr>
+</tbody>
+</table>
+<h2>Documentation</h2>
+<p><a href="https://shepherdjs.dev/docs/">API documentation</a></p>
+<h2>Demo</h2>
+<p><a href="https://shepherdjs.dev/demo">Demo</a></p>
+<h2>Contributing</h2>
+<p>We encourage contributions of all kinds. If you would like to contribute in some way, please review our <a href="CONTRIBUTING.md">guidelines for contributing</a>.</p>
+<h2>Releasing</h2>
+<p>Our release process is mostly automated. For more details, see <a href="RELEASE.md">RELEASE.md</a>.</p>
+<h2>License</h2>
+<p><a href="LICENSE.md">MIT License</a></p>
+<h2>Projects Using Shepherd</h2>
+<p>Here we showcase some of the awesome libraries built using Shepherd.</p>
+<h3>JS Framework Wrappers</h3>
+<h3><a href="https://github.com/shepherd-pro/ember-shepherd">ember-shepherd</a></h3>
+<p>Ember addon for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shepherd-pro/angular-shepherd">angular-shepherd</a></h3>
+<p>An Angular wrapper for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shepherd-pro/react-shepherd">react-shepherd</a></h3>
+<p>A React wrapper for the site tour library Shepherd</p>
+<h3><a href="https://github.com/shepherd-pro/vue-shepherd">vue-shepherd</a></h3>
+<p>A Vue wrapper for the site tour library Shepherd</p>
+<h3>Rails gems</h3>
+<h3><a href="https://github.com/actmd/abraham">abraham</a></h3>
+<p>Rails engine that generates and tracks Shepherd tours within an application</p>
+<h3>Websites and Apps</h3>
+<h3><a href="https://shepherdpro.com/">Shepherd Pro</a></h3>
+<p><a href="https://shepherdpro.com/">Shepherd Pro</a> allows you to use the same JS library and add enhanced analytics to your tours while letting you also connect some integrations to deepen the knowledge and effectiveness of those user experiences.</p>
+<h3><a href="https://logseq.com/">SimplePlanner</a></h3>
+<p><a href="https://simpleplanner.io">SimplePlanner</a> uses Shepherd to help new users get familiar with its collaborative scheduling approach.
+You do need to sign up via OAuth or email to see the scheduling tour.
+Check out the <a href="https://code.tutsplus.com/series/building-your-startup-with-php--cms-742">Envato Tuts+ Startup Series on its codebase</a> which describes how Simple Planner was built.</p>
+<h3><a href="https://logseq.com/">LogSeq</a></h3>
+<p><a href="https://logseq.com/">LogSeq</a> uses Shepherd to guide users through initial setup steps.</p>
+<h3><a href="https://snapsure.app">Snapsure</a></h3>
+<p><a href="https://snapsure.app">Snapsure</a> uses Shepherd to help photographers learn how to set up alerts for their desired picture-perfect weather conditions.</p>
+<h3><a href="https://www.drupal.org/docs/8/core/modules/tour/overview">Drupal</a></h3>
+<p>The <a href="https://www.drupal.org/docs/8/core/modules/tour/overview">Drupal</a> CMS uses Shepherd to offer tours of it's core modules, and allows developers to add Tours to their custom and contributed modules.</p>
+<h3><a href="https://github.com/JayP718/tour_shepherd_bb_plugin">Budibase Shepherd Tour Plugin</a></h3>
+<p><a href="https://budibase.com/">Budibase</a> is an open source application which allows you develop low code applications rapidly and efficiently.This <a href="https://budibase.com/">Budibase</a> Shepherd tour plugin allows you to create interative walkthroughs for your application.</p>
+<h3>Your Project Here</h3>
+<p>If you have a cool open-source library built on Shepherd, PR this doc.</p>
+<h2>License</h2>
+<p><a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=large" alt="FOSSA Status"></a></p></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
