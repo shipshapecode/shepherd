@@ -1,0 +1,12 @@
+---
+import { getFormattedStars } from '../lib/github';
+
+const starCount = await getFormattedStars();
+---
+
+<a
+  class="button star bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
+  href="https://github.com/shepherd-pro/shepherd"
+>
+  {starCount} ★ on Github
+</a>
