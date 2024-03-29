@@ -42,31 +42,8 @@ jobs:
       - name: Check types
         run: pnpm types:check
 
-  test-unit:
-    name: Run Unit Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: wyvox/action-setup-pnpm@v3
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      # Run Jest
-      - name: Run Unit Tests
-        run: pnpm test:unit:ci
-
-  #       - name: Publish code coverage
-  #         uses: paambaati/codeclimate-action@v2.7.4
-  #         env:
-  #           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
-  test-integration:
-    name: Run Integration Chrome Tests
+  test:
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -82,11 +59,8 @@ jobs:
       - name: Install Cypress Binary
         run: pnpm cypress install
 
-      - name: Build
-        run: pnpm build
-
       - name: Install dependencies and setup Cypress
         uses: cypress-io/github-action@v6
         with:
-          command: pnpm test:cy:ci:chrome
+          command: pnpm test:ci
           install: false
