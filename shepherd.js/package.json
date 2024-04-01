@@ -21,10 +21,14 @@
   "exports": {
     ".": {
       "types": "./dist/shepherd.d.ts",
+      "require": "./dist/shepherd.js",
+      "import": "./dist/shepherd.mjs",
       "default": "./dist/shepherd.js"
     },
     "./*": {
       "types": "./dist/*.d.ts",
+      "require": "./dist/*.js",
+      "import": "./dist/*.mjs",
       "default": "./dist/*.js"
     }
   },

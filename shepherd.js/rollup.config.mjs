@@ -78,7 +78,14 @@ export default [
     output: [
       {
         dir: 'dist',
+        entryFileNames: '[name].mjs',
         format: 'es',
+        sourcemap: true
+      },
+      {
+        dir: 'dist',
+        entryFileNames: '[name].js',
+        format: 'cjs',
         sourcemap: true
       }
     ],
