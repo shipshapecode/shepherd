@@ -13,6 +13,7 @@ import DataRequest from './utils/datarequest.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
 // @ts-expect-error TODO: not yet typed
 import ShepherdModal from './components/shepherd-modal.svelte';
+import type { StepNoOp, TourNoOp } from './utils/general.ts';
 
 interface Actor {
   actorId: number;
@@ -108,8 +109,8 @@ export class ShepherdPro extends Evented {
 
   // Vanilla Shepherd
   activeTour?: Tour | null;
-  declare Step: Step;
-  declare Tour: Tour;
+  declare Step: StepNoOp | Step;
+  declare Tour: TourNoOp | Tour;
 
   /**
    * Call init to take full advantage of ShepherdPro functionality
