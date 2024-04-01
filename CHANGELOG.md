@@ -8,6 +8,19 @@
 
 
 
+
+## v12.0.0-alpha.9 (2024-04-01)
+
+#### :rocket: Enhancement
+* [#2669](https://github.com/shepherd-pro/shepherd/pull/2669) Ship both cjs and esm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :memo: Documentation
+* [#2668](https://github.com/shepherd-pro/shepherd/pull/2668) ✨ Add dynamic button with stars count from github ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.8 (2024-03-29)
 
 #### :rocket: Enhancement
