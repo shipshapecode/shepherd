@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> StepOptions</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-01-install.html">
+                                Install
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-02-usage.html">
+                                Usage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-03-styling.html">
+                                Theming and Styling
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-04-cookbook.html">
+                                Cookbook
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://shepherdjs.dev/"
+                        >
+                            Demo
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/shepherd-pro/shepherd"
+                        >
+                            GitHub
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Step.html">Step</a></li><li><a href="Tour.html">Tour</a></li></ul><h3>Interfaces</h3><ul><li><a href="StepOptions.html">StepOptions</a></li><li><a href="TourOptions.html">TourOptions</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Interface</p>
+                    <h1>StepOptions</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>StepOptions</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>The options for the step</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line327">line 327</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StepOptionsAdvanceOn</code>
+
+
+    </span>
+
+<h4 class="name" id="advanceOn">
+    <a class="href-link" href="#advanceOn">#</a>
+    
+    <span class="code-name">
+        advanceOn
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An action on the page which should advance shepherd to the next step.
+It should be an object with a string <code>selector</code> and an <code>event</code> name</p>
+<pre class="prettyprint source lang-js"><code>const step = new Step(tour, {
+  advanceOn: { selector: '.some .selector-path', event: 'click' },
+  ...moreOptions
+});
+</code></pre>
+<p><code>event</code> doesn’t have to be an event inside the tour, it can be any event fired on any element on the page.
+You can also always manually advance the Tour by calling <code>myTour.next()</code>.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line349">line 349</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="arrow">
+    <a class="href-link" href="#arrow">#</a>
+    
+    <span class="code-name">
+        arrow
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Whether to display the arrow for the tooltip or not</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line364">line 364</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StepOptionsAttachTo</code>
+
+
+    </span>
+
+<h4 class="name" id="attachTo">
+    <a class="href-link" href="#attachTo">#</a>
+    
+    <span class="code-name">
+        attachTo
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The element the step should be attached to on the page.
+An object with properties <code>element</code> and <code>on</code>.</p>
+<pre class="prettyprint source lang-js"><code>const step = new Step(tour, {
+  attachTo: { element: '.some .selector-path', on: 'left' },
+  ...moreOptions
+});
+</code></pre>
+<p>If you don’t specify an attachTo the element will appear in the middle of the screen.
+If you omit the <code>on</code> portion of <code>attachTo</code>, the element will still be highlighted, but the tooltip will appear
+in the middle of the screen, without an arrow pointing to the target.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line331">line 331</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">function</code>
+
+
+    </span>
+
+<h4 class="name" id="beforeShowPromise">
+    <a class="href-link" href="#beforeShowPromise">#</a>
+    
+    <span class="code-name">
+        beforeShowPromise
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>A function that returns a promise.
+When the promise resolves, the rest of the <code>show</code> code for the step will execute.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line370">line 370</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">ReadonlyArray.&lt;StepOptionsButton></code>
+
+
+    </span>
+
+<h4 class="name" id="buttons">
+    <a class="href-link" href="#buttons">#</a>
+    
+    <span class="code-name">
+        buttons
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An array of buttons to add to the step. These will be rendered in a
+footer below the main body text.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line377">line 377</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="canClickTarget">
+    <a class="href-link" href="#canClickTarget">#</a>
+    
+    <span class="code-name">
+        canClickTarget
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>A boolean, that when set to false, will set <code>pointer-events: none</code> on the target.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line390">line 390</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StepOptionsCancelIcon</code>
+
+
+    </span>
+
+<h4 class="name" id="cancelIcon">
+    <a class="href-link" href="#cancelIcon">#</a>
+    
+    <span class="code-name">
+        cancelIcon
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Should a cancel “✕” be shown in the header of the step?</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line384">line 384</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="classes">
+    <a class="href-link" href="#classes">#</a>
+    
+    <span class="code-name">
+        classes
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>A string of extra classes to add to the step's content element.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line396">line 396</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="floatingUIOptions">
+    <a class="href-link" href="#floatingUIOptions">#</a>
+    
+    <span class="code-name">
+        floatingUIOptions
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Extra <a href="https://floating-ui.com/docs/tutorial/">options to pass to FloatingUI</a></p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line443">line 443</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="highlightClass">
+    <a class="href-link" href="#highlightClass">#</a>
+    
+    <span class="code-name">
+        highlightClass
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An extra class to apply to the <code>attachTo</code> element when it is
+highlighted (that is, when its step is active). You can then target that selector in your CSS.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line402">line 402</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="id">
+    <a class="href-link" href="#id">#</a>
+    
+    <span class="code-name">
+        id
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The string to use as the <code>id</code> for the step.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line409">line 409</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="modalOverlayOpeningPadding">
+    <a class="href-link" href="#modalOverlayOpeningPadding">#</a>
+    
+    <span class="code-name">
+        modalOverlayOpeningPadding
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An amount of padding to add around the modal overlay opening</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line415">line 415</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+|
+
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="modalOverlayOpeningRadius">
+    <a class="href-link" href="#modalOverlayOpeningRadius">#</a>
+    
+    <span class="code-name">
+        modalOverlayOpeningRadius
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An amount of border radius to add around the modal overlay opening</p>
+</div>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>topLeft</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last"></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>bottomLeft</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last"></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>bottomRight</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last"></td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>topRight</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last"></td>
+</tr>
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line421">line 421</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="modalOverlayOpeningXOffset">
+    <a class="href-link" href="#modalOverlayOpeningXOffset">#</a>
+    
+    <span class="code-name">
+        modalOverlayOpeningXOffset
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An amount to offset the modal overlay opening in the x-direction</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line431">line 431</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="modalOverlayOpeningYOffset">
+    <a class="href-link" href="#modalOverlayOpeningYOffset">#</a>
+    
+    <span class="code-name">
+        modalOverlayOpeningYOffset
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>An amount to offset the modal overlay opening in the y-direction</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line437">line 437</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+|
+
+<code class="param-type">ScrollIntoViewOptions</code>
+
+
+    </span>
+
+<h4 class="name" id="scrollTo">
+    <a class="href-link" href="#scrollTo">#</a>
+    
+    <span class="code-name">
+        scrollTo
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>Should the element be scrolled to when this step is shown?</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line449">line 449</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">function</code>
+
+
+    </span>
+
+<h4 class="name" id="scrollToHandler">
+    <a class="href-link" href="#scrollToHandler">#</a>
+    
+    <span class="code-name">
+        scrollToHandler
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>A function that lets you override the default scrollTo behavior and
+define a custom action to do the scrolling, and possibly other logic.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line455">line 455</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">function</code>
+
+
+    </span>
+
+<h4 class="name" id="showOn">
+    <a class="href-link" href="#showOn">#</a>
+    
+    <span class="code-name">
+        showOn
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>A function that, when it returns <code>true</code>, will show the step.
+If it returns <code>false</code>, the step will be skipped.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line462">line 462</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StepText</code>
+
+
+    </span>
+
+<h4 class="name" id="text">
+    <a class="href-link" href="#text">#</a>
+    
+    <span class="code-name">
+        text
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The text in the body of the step. It can be one of four types:</p>
+<pre class="prettyprint source"><code>- HTML string
+- Array of HTML strings
+- `HTMLElement` object
+- `Function` to be executed when the step is built. It must return one of the three options above.
+</code></pre>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line469">line 469</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StringOrStringFunction</code>
+
+
+    </span>
+
+<h4 class="name" id="title">
+    <a class="href-link" href="#title">#</a>
+    
+    <span class="code-name">
+        title
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>The step's title. It becomes an <code>h3</code> at the top of the step.</p>
+<pre class="prettyprint source"><code>- HTML string
+- `Function` to be executed when the step is built. It must return HTML string.
+</code></pre>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line481">line 481</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">StepOptionsWhen</code>
+
+
+    </span>
+
+<h4 class="name" id="when">
+    <a class="href-link" href="#when">#</a>
+    
+    <span class="code-name">
+        when
+    </span>
+    
+        <span class='tag'>Optional</span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <p>You can define <code>show</code>, <code>hide</code>, etc events inside <code>when</code>. For example:</p>
+<pre class="prettyprint source lang-js"><code>when: {
+  show: function() {
+    window.scrollTo(0, 0);
+  }
+}
+</code></pre>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="step.ts.html" class="button">View Source</a>
+            <span>
+                <a href="step.ts.html">step.ts</a>, <a href="step.ts.html#line491">line 491</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
