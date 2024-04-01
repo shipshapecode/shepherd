@@ -10,6 +10,15 @@
 
 
 
+
+## v12.0.0-alpha.11 (2024-04-01)
+
+#### :bug: Bug Fix
+* [#2682](https://github.com/shepherd-pro/shepherd/pull/2682) Simplify rollup config ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.10 (2024-04-01)
 
 #### :house: Internal
