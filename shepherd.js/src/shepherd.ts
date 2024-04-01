@@ -4,7 +4,7 @@ import { Step } from './step.ts';
 
 const isServerSide = typeof window === 'undefined';
 
-Shepherd.Step = isServerSide ? StepNoOp : Step;
-Shepherd.Tour = isServerSide ? TourNoOp : Tour;
+Shepherd.Step = (isServerSide ? StepNoOp : Step) as unknown as typeof Step;
+Shepherd.Tour = (isServerSide ? TourNoOp : Tour) as unknown as typeof Tour;
 
 export default Shepherd;
