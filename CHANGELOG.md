@@ -9,6 +9,15 @@
 
 
 
+
+## v12.0.0-alpha.10 (2024-04-01)
+
+#### :house: Internal
+* [#2670](https://github.com/shepherd-pro/shepherd/pull/2670) Remove NoOp type usage ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.9 (2024-04-01)
 
 #### :rocket: Enhancement
