@@ -1,8 +1,5 @@
 import autoprefixer from 'autoprefixer';
 import fs from 'fs';
-import path from 'node:path';
-import { globSync } from 'glob';
-import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -28,7 +25,7 @@ const plugins = [
     emitCss: true
   }),
   nodeResolve({
-    extensions: ['.js', '.json', '.svelte', '.ts'],
+    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
     modulesOnly: true
   }),
   typescript(),
@@ -57,23 +54,9 @@ if (process.env.DEVELOPMENT) {
   plugins.push(livereload());
 }
 
-const inputFiles = Object.fromEntries(
-  globSync('src/**/*.ts').map((file) => [
-    // This remove `src/` as well as the file extension from each
-    // file, so e.g. src/nested/foo.js becomes nested/foo
-    path.relative(
-      'src',
-      file.slice(0, file.length - path.extname(file).length)
-    ),
-    // This expands the relative paths to absolute paths, so e.g.
-    // src/nested/foo becomes /project/src/nested/foo.js
-    fileURLToPath(new URL(file, import.meta.url))
-  ])
-);
-
 export default [
   {
-    input: inputFiles,
+    input: 'src/shepherd.ts',
 
     output: [
       {

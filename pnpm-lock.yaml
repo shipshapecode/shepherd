@@ -212,9 +212,6 @@ importers:
       del:
         specifier: ^7.1.0
         version: 7.1.0
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
       jsdoc:
         specifier: ^4.0.2
         version: 4.0.2
