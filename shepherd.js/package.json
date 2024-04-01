@@ -68,7 +68,6 @@
     "autoprefixer": "^10.4.19",
     "cssnano": "^6.1.2",
     "del": "^7.1.0",
-    "glob": "^10.3.10",
     "jsdoc": "^4.0.2",
     "jsdoc-template-ship-shape": "^0.1.1",
     "postcss": "^8.4.38",
