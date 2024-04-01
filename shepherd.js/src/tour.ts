@@ -109,8 +109,8 @@ export class ShepherdPro extends Evented {
 
   // Vanilla Shepherd
   activeTour?: Tour | null;
-  declare Step: StepNoOp | Step;
-  declare Tour: TourNoOp | Tour;
+  declare Step: typeof StepNoOp | typeof Step;
+  declare Tour: typeof TourNoOp | typeof Tour;
 
   /**
    * Call init to take full advantage of ShepherdPro functionality
