@@ -1,0 +1,13 @@
+.bd__button {
+  padding: 10px 0;
+  text-align: right;
+}
+.bd__button > a{
+  font-weight: 100;
+  text-decoration: none;
+  color: #BDC3CB;
+  font-family: sans-serif;
+}
+.bd__button > a:hover {
+  color: #798897;
+}
