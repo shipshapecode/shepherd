@@ -1,18 +1,5 @@
-import { type Tour, type TourOptions } from '../tour.ts';
-import {
-  type StepOptionsAttachTo,
-  type Step,
-  type StepOptions
-} from '../step.ts';
+import { type StepOptionsAttachTo, type Step } from '../step.ts';
 import { isFunction, isString } from './type-check.ts';
-
-export class StepNoOp {
-  constructor(_options: StepOptions) {}
-}
-
-export class TourNoOp {
-  constructor(_tour: Tour, _options: TourOptions) {}
-}
 
 /**
  * Ensure class prefix ends in `-`
