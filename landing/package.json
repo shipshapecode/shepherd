@@ -17,7 +17,7 @@
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.3",
     "@astrojs/tailwind": "^5.0.3",
-    "astro": "^4.5.9",
+    "astro": "^4.5.12",
     "shepherd.js": "workspace:*",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.2"
