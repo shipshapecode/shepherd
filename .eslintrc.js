@@ -43,7 +43,6 @@ module.exports = {
         '.prettierrc.js',
         'babel.config.js',
         'jest.config.js',
-        'rollup.config.mjs',
         'svelte.config.js',
         'tailwind.config.js'
       ],

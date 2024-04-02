@@ -215,6 +215,9 @@ importers:
       del:
         specifier: ^7.1.0
         version: 7.1.0
+      eslint-plugin-svelte:
+        specifier: ^2.35.1
+        version: 2.35.1(eslint@8.57.0)(svelte@4.2.12)
       jsdoc:
         specifier: ^4.0.2
         version: 4.0.2
