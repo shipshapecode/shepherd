@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import 'regenerator-runtime/runtime';
 import 'jest-expect-message';
 import '@testing-library/jest-dom/extend-expect';

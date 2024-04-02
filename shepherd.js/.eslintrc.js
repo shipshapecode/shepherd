@@ -4,11 +4,10 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:svelte/recommended'],
   env: {
     browser: true
   },
-  plugins: ['svelte3'],
   rules: {
     'max-lines': [
       'warn',
@@ -21,7 +20,11 @@ module.exports = {
     // svelte files
     {
       files: ['**/*.svelte'],
-      processor: 'svelte3/svelte3'
+      processor: 'svelte/svelte',
+      rules: {
+        'svelte/no-at-html-tags': 'off',
+        'svelte/valid-compile': 'off'
+      }
     },
     // Typescript files
     {
@@ -43,7 +46,7 @@ module.exports = {
         '.eslintrc.js',
         '.prettierrc.js',
         'babel.config.js',
-        'rollup.config.js',
+        'rollup.config.mjs',
         'svelte.config.js'
       ],
       parserOptions: {

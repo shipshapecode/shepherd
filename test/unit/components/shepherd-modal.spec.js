@@ -1,5 +1,5 @@
+import { jest } from '@jest/globals';
 import ShepherdModal from '../../../shepherd.js/src/components/shepherd-modal.svelte';
-import { stub } from 'sinon';
 
 const classPrefix = '';
 
@@ -394,8 +394,8 @@ describe('components/ShepherdModal', () => {
     let hideStub, showStub;
 
     afterEach(() => {
-      hideStub.restore();
-      showStub.restore();
+      hideStub.mockRestore();
+      showStub.mockRestore();
     });
 
     // eslint-disable-next-line jest/no-disabled-tests
@@ -415,12 +415,16 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = stub(modalComponent, 'hide');
-      showStub = stub(modalComponent, 'show');
+      hideStub = jest
+        .spyOn(modalComponent, 'hide')
+        .mockImplementation(() => {});
+      showStub = jest
+        .spyOn(modalComponent, 'show')
+        .mockImplementation(() => {});
       await modalComponent.setupForStep(step);
 
-      expect(hideStub.called).toBe(true);
-      expect(showStub.called).toBe(false);
+      expect(hideStub).toHaveBeenCalled();
+      expect(showStub.called).not.toHaveBeenCalled();
 
       modalComponent.$destroy();
     });
@@ -442,12 +446,16 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = stub(modalComponent, 'hide');
-      showStub = stub(modalComponent, 'show');
+      hideStub = jest
+        .spyOn(modalComponent, 'hide')
+        .mockImplementation(() => {});
+      showStub = jest
+        .spyOn(modalComponent, 'show')
+        .mockImplementation(() => {});
       await modalComponent.setupForStep(step);
 
-      expect(hideStub.called).toBe(false);
-      expect(showStub.called).toBe(true);
+      expect(hideStub).not.toHaveBeenCalled();
+      expect(showStub).toHaveBeenCalled();
 
       modalComponent.$destroy();
     });

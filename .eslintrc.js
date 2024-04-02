@@ -4,13 +4,10 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  extends: ['eslint:recommended'],
+  extends: ['eslint:recommended', 'plugin:svelte/recommended'],
   env: {
     browser: true
   },
-  plugins: [
-    'svelte3'
-  ],
   rules: {
     'max-lines': [
       'warn',
@@ -23,7 +20,7 @@ module.exports = {
     // svelte files
     {
       files: ['**/*.svelte'],
-      processor: 'svelte3/svelte3'
+      processor: 'svelte/svelte'
     },
     // Typescript files
     {
@@ -46,7 +43,6 @@ module.exports = {
         '.prettierrc.js',
         'babel.config.js',
         'jest.config.js',
-        'rollup.config.js',
         'svelte.config.js',
         'tailwind.config.js'
       ],

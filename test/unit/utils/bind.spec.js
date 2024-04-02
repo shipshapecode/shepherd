@@ -1,11 +1,11 @@
+import { jest } from '@jest/globals';
+
 import { bindAdvance } from '../../../shepherd.js/src/utils/bind';
 import { Step } from '../../../shepherd.js/src/step';
-import { spy } from 'sinon';
 
-describe('Bind Utils', function() {
+describe('Bind Utils', function () {
   describe('bindAdvance()', () => {
-    let event,
-      link;
+    let event, link;
     let hasAdvanced = false;
 
     const advanceOnSelector = 'test-selector';
@@ -32,7 +32,10 @@ describe('Bind Utils', function() {
 
     it('triggers the `advanceOn` option via object', () => {
       const step = new Step(tourProto, {
-        advanceOn: { selector: `.${advanceOnSelector}`, event: advanceOnEventName }
+        advanceOn: {
+          selector: `.${advanceOnSelector}`,
+          event: advanceOnEventName
+        }
       });
 
       step.isOpen = () => true;
@@ -78,7 +81,7 @@ describe('Bind Utils', function() {
 
     it('calls `removeEventListener` when destroyed', () => {
       return new Promise((done) => {
-        const bodySpy = spy(document.body, 'removeEventListener');
+        const bodySpy = jest.spyOn(document.body, 'removeEventListener');
         const step = new Step(tourProto, {
           advanceOn: { event: advanceOnEventName }
         });
@@ -88,8 +91,8 @@ describe('Bind Utils', function() {
         bindAdvance(step);
         step.trigger('destroy');
 
-        expect(bodySpy.called).toBe(true);
-        bodySpy.restore();
+        expect(bodySpy).toHaveBeenCalled();
+        bodySpy.mockRestore();
 
         done();
       });
