@@ -1,6 +1,9 @@
-import { spy } from 'sinon';
+import { jest } from '@jest/globals';
 import { Step } from '../../../shepherd.js/src/step';
-import { parseAttachTo, shouldCenterStep } from '../../../shepherd.js//src/utils/general';
+import {
+  parseAttachTo,
+  shouldCenterStep
+} from '../../../shepherd.js//src/utils/general';
 import { getFloatingUIOptions } from '../../../shepherd.js/src/utils/floating-ui';
 
 describe('General Utils', function () {
@@ -30,7 +33,7 @@ describe('General Utils', function () {
     });
 
     it('accepts callback function as element', function () {
-      const callback = spy();
+      const callback = jest.fn();
 
       const step = new Step(
         {},
@@ -40,7 +43,7 @@ describe('General Utils', function () {
       );
 
       parseAttachTo(step);
-      expect(callback.called).toBe(true);
+      expect(callback).toHaveBeenCalled();
     });
 
     it('correctly resolves elements when given function that returns a selector', function () {

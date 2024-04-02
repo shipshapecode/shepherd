@@ -1,7 +1,7 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
-module.exports = {
+export default {
   // Automatically clear mock calls and instances between every test
   clearMocks: true,
 
@@ -17,12 +17,10 @@ module.exports = {
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
 
+  extensionsToTreatAsEsm: ['.svelte', '.ts'],
+
   // An array of file extensions your modules use
   moduleFileExtensions: ['js', 'ts', 'svelte'],
-
-  moduleNameMapper: {
-    sinon: '<rootDir>/node_modules/sinon/pkg/sinon.js'
-  },
 
   // The root directory that Jest should scan for tests and modules within
   rootDir: './',
@@ -41,7 +39,7 @@ module.exports = {
     '^.+\\.svelte$': [
       'svelte-jester',
       {
-        preprocess: "../../shepherd.js/svelte.config.js",
+        preprocess: '../../shepherd.js/svelte.config.js',
         compilerOptions: {
           dev: false
         }

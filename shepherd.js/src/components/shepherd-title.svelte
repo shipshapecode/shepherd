@@ -13,6 +13,7 @@
   });
 </script>
 
+<!-- svelte-ignore a11y-missing-content -->
 <h3 bind:this={element} id={labelId} class="shepherd-title"></h3>
 
 <style global>

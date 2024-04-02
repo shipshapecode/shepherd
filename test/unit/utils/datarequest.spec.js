@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 import DataRequest from '../../../shepherd.js/src/utils//datarequest';
 
 global.fetch = jest.fn();

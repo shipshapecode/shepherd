@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 import Shepherd from '../../shepherd.js/src/shepherd';
 import DataRequest from '../../shepherd.js/src/utils/datarequest';
 

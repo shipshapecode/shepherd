@@ -1,4 +1,4 @@
-import { spy } from 'sinon';
+import { jest } from '@jest/globals';
 import Shepherd from '../../shepherd.js/src/shepherd';
 import { Step } from '../../shepherd.js/src/step';
 import { Tour } from '../../shepherd.js/src/tour';
@@ -646,8 +646,8 @@ describe('Tour | Step', () => {
     // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
     // not it's implementation, only if the callback is called lazily.
     it('lazily evaluates attachTo.element callback', () => {
-      const step1AttachToCallback = spy();
-      const step2AttachToCallback = spy();
+      const step1AttachToCallback = jest.fn();
+      const step2AttachToCallback = jest.fn();
 
       const instance = new Shepherd.Tour({
         steps: [
@@ -663,16 +663,19 @@ describe('Tour | Step', () => {
       });
 
       instance.start();
-      expect(step1AttachToCallback.called).toBe(true);
-      expect(step2AttachToCallback.called).toBe(false);
+
+      expect(step1AttachToCallback).toHaveBeenCalled();
+      expect(step2AttachToCallback).not.toHaveBeenCalled();
+
       instance.next();
-      expect(step2AttachToCallback.called).toBe(true);
-      expect(step1AttachToCallback.callCount).toBe(1);
-      expect(step2AttachToCallback.callCount).toBe(1);
+
+      expect(step2AttachToCallback).toHaveBeenCalled();
+      expect(step1AttachToCallback).toHaveBeenCalledTimes(1);
+      expect(step2AttachToCallback).toHaveBeenCalledTimes(1);
     });
 
     it('lazily evaluates attachTo.element selector', () => {
-      const querySelectorSpy = spy(document, 'querySelector');
+      const querySelectorSpy = jest.spyOn(document, 'querySelector');
 
       const instance = new Shepherd.Tour({
         steps: [
@@ -688,21 +691,21 @@ describe('Tour | Step', () => {
       });
 
       instance.start();
-      expect(querySelectorSpy.calledWith('#step-1-attach-to-element')).toBe(
-        true
+      expect(querySelectorSpy).toHaveBeenCalledWith(
+        '#step-1-attach-to-element'
       );
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
-        false
+      expect(querySelectorSpy).not.toHaveBeenCalledWith(
+        '#step-2-attach-to-element'
       );
       instance.next();
-      expect(querySelectorSpy.calledWith('#step-2-attach-to-element')).toBe(
-        true
+      expect(querySelectorSpy).toHaveBeenCalledWith(
+        '#step-2-attach-to-element'
       );
     });
 
     it('evaluates attachTo on subsequent shows', () => {
-      const step1AttachToCallback = spy();
-      const step2AttachToCallback = spy();
+      const step1AttachToCallback = jest.fn();
+      const step2AttachToCallback = jest.fn();
 
       const instance = new Shepherd.Tour({
         steps: [
@@ -718,10 +721,10 @@ describe('Tour | Step', () => {
       });
 
       instance.start();
-      expect(step1AttachToCallback.callCount).toBe(1);
+      expect(step1AttachToCallback).toHaveBeenCalledTimes(1);
       instance.next();
       instance.back();
-      expect(step1AttachToCallback.callCount).toBe(2);
+      expect(step1AttachToCallback).toHaveBeenCalledTimes(2);
     });
 
     it('evaluates attachTo only once', () => {
