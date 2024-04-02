@@ -35,12 +35,6 @@ importers:
       concurrently:
         specifier: ^8.2.2
         version: 8.2.2
-      cypress:
-        specifier: ^13.7.1
-        version: 13.7.1
-      cypress-plugin-tab:
-        specifier: ^1.0.5
-        version: 1.0.5
       del:
         specifier: ^7.1.0
         version: 7.1.0
@@ -293,6 +287,12 @@ importers:
       chai:
         specifier: ^4.3.10
         version: 4.4.1
+      cypress:
+        specifier: ^13.7.1
+        version: 13.7.1
+      cypress-plugin-tab:
+        specifier: ^1.0.5
+        version: 1.0.5
       del:
         specifier: ^7.1.0
         version: 7.1.0
@@ -3816,7 +3816,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.11.24
+      '@types/node': 20.12.2
     dev: true
     optional: true
 

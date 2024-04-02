@@ -25,6 +25,8 @@ const plugins = [
     emitCss: true
   }),
   nodeResolve({
+    browser: true,
+    exportConditions: ['svelte'],
     extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
     modulesOnly: true
   }),
