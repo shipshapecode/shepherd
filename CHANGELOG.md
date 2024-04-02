@@ -11,6 +11,21 @@
 
 
 
+
+## v12.0.0-alpha.12 (2024-04-02)
+
+#### :boom: Breaking Change
+* [#2683](https://github.com/shepherd-pro/shepherd/pull/2683) Update to Svelte 4, run ESM in tests ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#2679](https://github.com/shepherd-pro/shepherd/pull/2679) Bump @astrojs/mdx from 2.2.1 to 2.2.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2681](https://github.com/shepherd-pro/shepherd/pull/2681) Bump @babel/preset-typescript from 7.23.3 to 7.24.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2680](https://github.com/shepherd-pro/shepherd/pull/2680) Bump rollup from 4.13.0 to 4.13.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#2677](https://github.com/shepherd-pro/shepherd/pull/2677) Bump tailwindcss from 3.4.1 to 3.4.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.11 (2024-04-01)
 
 #### :bug: Bug Fix
