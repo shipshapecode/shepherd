@@ -2,7 +2,6 @@ import { jest } from '@jest/globals';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdElement from '../../../shepherd.js/src/components/shepherd-element.svelte';
 import { Step } from '../../../shepherd.js/src/step';
-import { stub } from 'sinon';
 import { Tour } from '../../../shepherd.js/src/tour';
 
 describe('components/ShepherdElement', () => {
