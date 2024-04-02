@@ -20,7 +20,11 @@ module.exports = {
     // svelte files
     {
       files: ['**/*.svelte'],
-      processor: 'svelte/svelte'
+      processor: 'svelte/svelte',
+      rules: {
+        'svelte/no-at-html-tags': 'off',
+        'svelte/valid-compile': 'off'
+      }
     },
     // Typescript files
     {
