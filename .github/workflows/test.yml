@@ -57,7 +57,7 @@ jobs:
         run: pnpm install
 
       - name: Install Cypress Binary
-        run: pnpm cypress install
+        run: pnpm cypress:install
 
       - name: Run Jest and Cypress Tests
         uses: cypress-io/github-action@v6

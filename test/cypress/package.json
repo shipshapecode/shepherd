@@ -9,6 +9,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "cypress:install": "pnpm cypress install",
     "cy:open": "./node_modules/.bin/cypress open",
     "cy:run:chrome": "cypress run --browser chrome",
     "start-test-server": "http-server -p 9002",

@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "build": "pnpm -F '*' build",
+    "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "lint": "pnpm -F '*' lint",
