@@ -101,6 +101,7 @@ export class ShepherdPro extends Evented {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
+  isProEnabled = false;
   /**
    * Extra properties to pass to Shepherd Pro
    */
@@ -125,6 +126,7 @@ export class ShepherdPro extends Evented {
     if (!apiKey) {
       throw new Error('Shepherd Pro: Missing required apiKey option.');
     }
+
     this.apiKey = apiKey;
     this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
     this.properties = properties ?? {};
@@ -136,12 +138,17 @@ export class ShepherdPro extends Evented {
         this.apiPath,
         this.properties
       );
+      this.isProEnabled = true;
       // Setup actor before first tour is loaded if none exists
       const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
+      const promises = [this.dataRequester.getTourState()];
+
       if (!shepherdProId) {
-        await this.createNewActor();
+        promises.push(this.createNewActor());
       }
+
+      await Promise.all(promises);
     }
   }
 
@@ -157,6 +164,21 @@ export class ShepherdPro extends Evented {
     })) as unknown as Actor;
 
     localStorage.setItem(SHEPHERD_USER_ID, String(response.actorId));
+  }
+
+  /**
+   * Checks if a given tour's id is enabled
+   * @param tourId A string denoting the id of the tour
+   */
+  async isTourEnabled(tourId: string) {
+    if (!this.dataRequester) return;
+
+    const tourState = await this.dataRequester.tourStateDb?.get(
+      'tours',
+      tourId
+    );
+
+    return tourState?.isActive ?? true;
   }
 }
 
@@ -439,7 +461,15 @@ export class Tour extends Evented {
   /**
    * Start the tour
    */
-  start() {
+  async start() {
+    // Check if ShepherdPro is enabled, and if so check if the tour id is active or not.
+    if (
+      Shepherd.isProEnabled &&
+      !(await Shepherd.isTourEnabled(this.options.id as string))
+    ) {
+      return;
+    }
+
     this.trigger('start');
 
     // Save the focused element before the tour opens
