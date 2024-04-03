@@ -35,6 +35,10 @@ describe('Shepherd Pro', function () {
     .spyOn(DataRequest.prototype, 'sendEvents')
     .mockImplementation(() => Promise.resolve({ actorId: 1 }));
 
+  const getTourStateMock = jest
+    .spyOn(DataRequest.prototype, 'getTourState')
+    .mockImplementation(() => Promise.resolve([{ accountId: 1, uniqueId: 'tour-1', isActive: true }]));
+
   afterAll(() => {
     sendEventsMock.mockReset();
   });
