@@ -55,7 +55,7 @@ class DataRequest {
       this.tourStateDb = await openDB<TourStateDb>('TourState', 1, {
         upgrade(db) {
           db.createObjectStore('tours', {
-            keyPath: 'id'
+            keyPath: 'uniqueId'
           });
         }
       });
