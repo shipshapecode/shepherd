@@ -172,6 +172,9 @@ importers:
       deepmerge-ts:
         specifier: ^5.1.0
         version: 5.1.0
+      idb:
+        specifier: ^8.0.0
+        version: 8.0.0
     devDependencies:
       '@babel/core':
         specifier: ^7.24.3
@@ -8336,6 +8339,10 @@ packages:
     dependencies:
       postcss: 8.4.38
     dev: true
+
+  /idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
+    dev: false
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}

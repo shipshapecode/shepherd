@@ -11,7 +11,6 @@ const shepherdIncludeCode = `
 	<script type="module" src="shepherd.js/dist/shepherd.mjs"></script>
   
 `;
-import type { StepOptions } from 'shepherd.js/step';
 ---
 
 <Base>
@@ -175,7 +174,7 @@ import type { StepOptions } from 'shepherd.js/step';
   'use strict';
 
   import Shepherd from 'shepherd.js';
-import type { StepOptions } from 'shepherd.js/step';
+  import type { StepOptions } from 'shepherd.js/step';
   import type { Tour } from 'shepherd.js/tour';
 
   (function () {
