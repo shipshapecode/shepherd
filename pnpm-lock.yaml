@@ -143,8 +143,8 @@ importers:
         specifier: ^1.1.1
         version: 1.4.0(vitest@1.4.0)
       happy-dom:
-        specifier: ^12.10.3
-        version: 12.10.3
+        specifier: ^14.3.9
+        version: 14.3.9
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -162,7 +162,7 @@ importers:
         version: 3.7.3(typescript@5.4.2)(vite@5.1.7)
       vitest:
         specifier: ^1.1.1
-        version: 1.4.0(@vitest/ui@1.4.0)(happy-dom@12.10.3)
+        version: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
 
   shepherd.js:
     dependencies:
@@ -3434,7 +3434,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@12.10.3)
+      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
     dev: true
 
   /@testing-library/react@14.2.2(react-dom@18.2.0)(react@18.2.0):
@@ -4071,7 +4071,7 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@12.10.3)
+      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
     dev: true
 
   /@vitest/utils@1.4.0:
@@ -7794,14 +7794,12 @@ packages:
       duplexer: 0.1.2
     dev: true
 
-  /happy-dom@12.10.3:
-    resolution: {integrity: sha512-JzUXOh0wdNGY54oKng5hliuBkq/+aT1V3YpTM+lrN/GoLQTANZsMaIvmHiHe612rauHvPJnDZkZ+5GZR++1Abg==}
+  /happy-dom@14.3.9:
+    resolution: {integrity: sha512-0kPQchwthekcYpYN8CvCiq+/z5bqFYDLbTxZ+yDLwT8AFRVJDFadShHRxp3VAZRy7a5isOZ1j/LzsU1dtAIZMQ==}
+    engines: {node: '>=16.0.0'}
     dependencies:
-      css.escape: 1.5.1
       entities: 4.5.0
-      iconv-lite: 0.6.3
       webidl-conversions: 7.0.0
-      whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
     dev: true
 
@@ -15698,7 +15696,7 @@ packages:
       vite: 5.1.4
     dev: false
 
-  /vitest@1.4.0(@vitest/ui@1.4.0)(happy-dom@12.10.3):
+  /vitest@1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -15733,7 +15731,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
-      happy-dom: 12.10.3
+      happy-dom: 14.3.9
       local-pkg: 0.5.0
       magic-string: 0.30.7
       pathe: 1.1.2
