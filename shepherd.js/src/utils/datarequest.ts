@@ -7,7 +7,7 @@ interface ActorResponse {
 interface TourStateDb extends DBSchema {
   tours: {
     key: string;
-    value: { id: string; isActive: boolean };
+    value: { isActive: boolean; uniqueId: string };
   };
 }
 
@@ -50,6 +50,7 @@ class DataRequest {
       if (!response.ok) {
         throw new Error('Could not fetch state for tours 🐑');
       }
+
       const { data } = await response.json();
 
       this.tourStateDb = await openDB<TourStateDb>('TourState', 1, {
@@ -70,7 +71,7 @@ class DataRequest {
       }
     } catch (error) {
       throw new Error(
-        'Error fetching data:' +
+        'Error fetching data: ' +
           (error instanceof Error ? error.message : 'Unknown error')
       );
     }
@@ -101,7 +102,7 @@ class DataRequest {
       return data;
     } catch (error) {
       throw new Error(
-        'Error fetching data:' +
+        'Error fetching data: ' +
           (error instanceof Error ? error.message : 'Unknown error')
       );
     }

@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 
+import fetchMock from 'jest-fetch-mock';
+
 import Shepherd from '../../shepherd.js/src/shepherd';
 import DataRequest from '../../shepherd.js/src/utils/datarequest';
 
@@ -35,12 +37,16 @@ describe('Shepherd Pro', function () {
     .spyOn(DataRequest.prototype, 'sendEvents')
     .mockImplementation(() => Promise.resolve({ actorId: 1 }));
 
-  const getTourStateMock = jest
-    .spyOn(DataRequest.prototype, 'getTourState')
-    .mockImplementation(() => Promise.resolve([{ accountId: 1, uniqueId: 'tour-1', isActive: true }]));
+  beforeAll(() => {
+    fetchMock.enableFetchMocks();
+  });
+
+  beforeEach(() => {
+    fetch.resetMocks();
+  });
 
   afterAll(() => {
-    sendEventsMock.mockReset();
+    sendEventsMock.mockRestore();
   });
 
   it('exists and creates an instance', () => {
@@ -103,5 +109,46 @@ describe('Shepherd Pro', function () {
 
     const userStored = window.localStorage.getItem('shepherdPro:userId');
     expect(userStored).toBe('1');
+  });
+
+  it('Shepherd.isTourEnabled is true when isActive is true', async () => {
+    fetch.mockResponse((req) => {
+      console.log(req.url);
+      if (req.url === 'https://shepherdpro.com/api/v1/state') {
+        return Promise.resolve(
+          JSON.stringify({
+            data: [{ uniqueId: 'tour-1', isActive: true }]
+          })
+        );
+      }
+    });
+
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
+    Shepherd.init('api_123');
+    new Shepherd.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await Shepherd.isTourEnabled('tour-1')).toBe(true);
+  });
+
+  it.only('Shepherd.isTourEnabled is false when isActive is false', async () => {
+    fetch.mockResponse((req) => {
+      if (req.url === 'https://shepherdpro.com/api/v1/state') {
+        return Promise.resolve(
+          JSON.stringify({
+            data: [{ uniqueId: 'tour-1', isActive: false }]
+          })
+        );
+      }
+    });
+
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
+    Shepherd.init('api_123');
+    new Shepherd.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await Shepherd.isTourEnabled('tour-1')).toBe(false);
   });
 });
