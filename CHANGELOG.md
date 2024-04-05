@@ -12,6 +12,29 @@
 
 
 
+
+## v12.0.0-alpha.13 (2024-04-05)
+
+#### :rocket: Enhancement
+* [#2684](https://github.com/shepherd-pro/shepherd/pull/2684) Use IndexedDB to store tour data ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `react`
+  * [#2690](https://github.com/shepherd-pro/shepherd/pull/2690) Bump vite from 5.1.7 to 5.2.8 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2675](https://github.com/shepherd-pro/shepherd/pull/2675) Bump happy-dom from 12.10.3 to 14.3.9 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2685](https://github.com/shepherd-pro/shepherd/pull/2685) Bump vite from 5.1.4 to 5.1.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* Other
+  * [#2694](https://github.com/shepherd-pro/shepherd/pull/2694) Bump cypress from 13.7.1 to 13.7.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2692](https://github.com/shepherd-pro/shepherd/pull/2692) Bump @babel/core from 7.24.3 to 7.24.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2693](https://github.com/shepherd-pro/shepherd/pull/2693) Bump @astrojs/mdx from 2.2.2 to 2.2.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2688](https://github.com/shepherd-pro/shepherd/pull/2688) Bump @typescript-eslint/eslint-plugin from 7.4.0 to 7.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2686](https://github.com/shepherd-pro/shepherd/pull/2686) Add tests for `Shepherd.isTourEnabled` ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#2678](https://github.com/shepherd-pro/shepherd/pull/2678) Bump astro from 4.5.9 to 4.5.12 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2676](https://github.com/shepherd-pro/shepherd/pull/2676) Bump @tailwindcss/typography from 0.5.10 to 0.5.12 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## v12.0.0-alpha.12 (2024-04-02)
 
 #### :boom: Breaking Change
