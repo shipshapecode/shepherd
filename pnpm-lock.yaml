@@ -325,6 +325,10 @@ importers:
         version: 5.4.2
 
   test/unit:
+    dependencies:
+      core-js:
+        specifier: ^3.36.1
+        version: 3.36.1
     devDependencies:
       '@babel/core':
         specifier: ^7.24.3
@@ -377,6 +381,9 @@ importers:
       jest-fetch-mock:
         specifier: ^3.0.3
         version: 3.0.3
+      jest-localstorage-mock:
+        specifier: ^2.4.26
+        version: 2.4.26
       jest-transform-css:
         specifier: ^6.0.1
         version: 6.0.1(postcss@8.4.38)
@@ -5860,6 +5867,11 @@ packages:
     requiresBuild: true
     dev: true
 
+  /core-js@3.36.1:
+    resolution: {integrity: sha512-BTvUrwxVBezj5SZ3f10ImnX2oRByMxql3EimVqMysepbC9EeMUOpLwdy6Eoili2x6E4kf+ZUB5k/+Jv55alPfA==}
+    requiresBuild: true
+    dev: false
+
   /core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
     dev: true
@@ -9161,6 +9173,11 @@ packages:
     dependencies:
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+    dev: true
+
+  /jest-localstorage-mock@2.4.26:
+    resolution: {integrity: sha512-owAJrYnjulVlMIXOYQIPRCCn3MmqI3GzgfZCXdD3/pmwrIvFMXcKVWZ+aMc44IzaASapg0Z4SEFxR+v5qxDA2w==}
+    engines: {node: '>=6.16.0'}
     dev: true
 
   /jest-matcher-utils@29.7.0:
