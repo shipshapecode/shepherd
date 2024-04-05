@@ -1,5 +1,7 @@
 import { jest } from '@jest/globals';
 
+import fetchMock from 'jest-fetch-mock';
+
 import Shepherd from '../../shepherd.js/src/shepherd';
 import DataRequest from '../../shepherd.js/src/utils/datarequest';
 
@@ -35,12 +37,26 @@ describe('Shepherd Pro', function () {
     .spyOn(DataRequest.prototype, 'sendEvents')
     .mockImplementation(() => Promise.resolve({ actorId: 1 }));
 
-  const getTourStateMock = jest
-    .spyOn(DataRequest.prototype, 'getTourState')
-    .mockImplementation(() => Promise.resolve([{ accountId: 1, uniqueId: 'tour-1', isActive: true }]));
+  beforeAll(() => {
+    fetchMock.enableFetchMocks();
+  });
+
+  beforeEach(() => {
+    fetch.resetMocks();
+
+    fetch.mockResponse((req) => {
+      if (req.url === 'https://shepherdpro.com/api/v1/state') {
+        return Promise.resolve(
+          JSON.stringify({
+            data: [{ uniqueId: 'tour-1', isActive: true }]
+          })
+        );
+      }
+    });
+  });
 
   afterAll(() => {
-    sendEventsMock.mockReset();
+    sendEventsMock.mockRestore();
   });
 
   it('exists and creates an instance', () => {
@@ -56,11 +72,13 @@ describe('Shepherd Pro', function () {
     );
   });
 
-  it('sends events and passes properties and context', () => {
+  it('sends events and passes properties and context', async () => {
     const windowSpy = jest.spyOn(global, 'window', 'get');
     windowSpy.mockImplementation(() => windowProps);
 
-    Shepherd.init('api_123', 'https://api.shepherdpro.com', { extra: 'stuff' });
+    await Shepherd.init('api_123', 'https://shepherdpro.com', {
+      extra: 'stuff'
+    });
 
     expect(typeof Shepherd.trigger).toBe('function');
     expect(Shepherd.dataRequester.properties).toMatchObject({
@@ -88,20 +106,54 @@ describe('Shepherd Pro', function () {
     windowSpy.mockRestore();
   });
 
-  it('creates a Tour instance', () => {
+  it('creates a Tour instance', async () => {
     const defaultStepOptions = {
       classes: 'class-1 class-2'
     };
-    Shepherd.init('api_123');
+    await Shepherd.init('api_123');
     const tourInstance = new Shepherd.Tour({ defaultStepOptions });
 
     expect(tourInstance instanceof Shepherd.Tour).toBe(true);
   });
 
-  it('sets the userId', () => {
-    Shepherd.init('api_123');
+  it('sets the userId', async () => {
+    await Shepherd.init('api_123');
 
-    const userStored = window.localStorage.getItem('shepherdPro:userId');
+    const userStored = localStorage.getItem('shepherdPro:userId');
     expect(userStored).toBe('1');
+  });
+
+  it('Shepherd.isTourEnabled is true when isActive is true', async () => {
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
+
+    await Shepherd.init('api_123');
+
+    new Shepherd.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await Shepherd.isTourEnabled('tour-1')).toBe(true);
+  });
+
+  it('Shepherd.isTourEnabled is false when isActive is false', async () => {
+    fetch.mockResponseOnce((req) => {
+      if (req.url === 'https://shepherdpro.com/api/v1/state') {
+        return Promise.resolve(
+          JSON.stringify({
+            data: [{ uniqueId: 'tour-1', isActive: false }]
+          })
+        );
+      }
+    });
+
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
+
+    await Shepherd.init('api_123');
+
+    new Shepherd.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await Shepherd.isTourEnabled('tour-1')).toBe(false);
   });
 });

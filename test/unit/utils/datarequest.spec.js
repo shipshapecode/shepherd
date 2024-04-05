@@ -7,7 +7,7 @@ global.fetch = jest.fn();
 describe('DataRequest', () => {
   const defaultOptions = [
     'apiKey_12345',
-    'https://api.shepherdpro.com',
+    'https://shepherdpro.com',
     { extra: 'stuff' }
   ];
 

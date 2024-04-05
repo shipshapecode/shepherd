@@ -22,6 +22,8 @@ export default {
   // An array of file extensions your modules use
   moduleFileExtensions: ['js', 'ts', 'svelte'],
 
+  resetMocks: false,
+
   // The root directory that Jest should scan for tests and modules within
   rootDir: './',
 
