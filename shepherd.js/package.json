@@ -78,7 +78,7 @@
     "prettier-plugin-svelte": "^3.2.2",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
-    "rollup": "^4.13.2",
+    "rollup": "^4.14.0",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.3.1",
