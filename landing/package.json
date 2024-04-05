@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.9",
-    "@astrojs/mdx": "^2.2.2",
+    "@astrojs/mdx": "^2.2.4",
     "@astrojs/partytown": "^2.0.4",
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.0.3",
