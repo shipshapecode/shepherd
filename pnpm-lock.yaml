@@ -325,10 +325,6 @@ importers:
         version: 5.4.2
 
   test/unit:
-    dependencies:
-      core-js:
-        specifier: ^3.36.1
-        version: 3.36.1
     devDependencies:
       '@babel/core':
         specifier: ^7.24.3
@@ -351,6 +347,9 @@ importers:
       babel-jest:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.24.3)
+      core-js:
+        specifier: ^3.36.1
+        version: 3.36.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -5870,7 +5869,7 @@ packages:
   /core-js@3.36.1:
     resolution: {integrity: sha512-BTvUrwxVBezj5SZ3f10ImnX2oRByMxql3EimVqMysepbC9EeMUOpLwdy6Eoili2x6E4kf+ZUB5k/+Jv55alPfA==}
     requiresBuild: true
-    dev: false
+    dev: true
 
   /core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
