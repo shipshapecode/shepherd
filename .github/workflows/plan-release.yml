@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - master
   pull_request:
     types:
       - labeled
@@ -23,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: 'main'
       # This will only cause the `check-plan` job to have a "command" of `release`
       # when the .release-plan.json file was changed on the last commit.
       - id: check-release
@@ -49,7 +48,7 @@ jobs:
         # github-changelog can discover what's changed since the last release
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: 'main'
       - uses: actions/setup-node@v4
         with:
           node-version: 18

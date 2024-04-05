@@ -26,8 +26,8 @@ to contribute, we ask that you take the following steps:
 ## Opening Pull Requests
 
 1. Please Provide a thoughtful commit message and push your changes to your fork using
-   `git push origin master` (assuming your forked project is using `origin` for
-   the remote name and you are on the `master` branch).
+   `git push origin main` (assuming your forked project is using `origin` for
+   the remote name and you are on the `main` branch).
 
 2. Open a Pull Request on GitHub with a description of your changes.
 

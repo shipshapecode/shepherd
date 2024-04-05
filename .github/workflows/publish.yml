@@ -1,4 +1,4 @@
-# For every push to the master branch, this checks if the release-plan was
+# For every push to the main branch, this checks if the release-plan was
 # updated and if it was it will publish stable npm packages based on the
 # release plan
 
@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - master
 
 concurrency:
   group: publish-${{ github.head_ref || github.ref }}
@@ -26,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: 'master'
+          ref: 'main'
       # This will only cause the `check-plan` job to have a result of `success`
       # when the .release-plan.json file was changed on the last commit. This
       # plus the fact that this action only runs on main will be enough of a guard
