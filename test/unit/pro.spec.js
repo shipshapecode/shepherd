@@ -76,7 +76,9 @@ describe('Shepherd Pro', function () {
     const windowSpy = jest.spyOn(global, 'window', 'get');
     windowSpy.mockImplementation(() => windowProps);
 
-    await Shepherd.init('api_123', 'https://api.shepherdpro.com', { extra: 'stuff' });
+    await Shepherd.init('api_123', 'https://shepherdpro.com', {
+      extra: 'stuff'
+    });
 
     expect(typeof Shepherd.trigger).toBe('function');
     expect(Shepherd.dataRequester.properties).toMatchObject({
