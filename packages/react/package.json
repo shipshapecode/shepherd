@@ -3,6 +3,10 @@
   "version": "4.3.0",
   "private": false,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shepherd-pro/react-shepherd.git"
+  },
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,7 +25,8 @@
   "scripts": {
     "build": "vite build",
     "test:ci": "vitest --run",
-    "test:dev": "vitest"
+    "test:dev": "vitest",
+    "release": "release-it"
   },
   "dependencies": {
     "shepherd.js": "workspace:^"
@@ -33,8 +38,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/ui": "^1.1.1",
     "happy-dom": "^14.3.9",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "typescript": "^5.4.2",
     "vite": "^5.2.8",
     "vite-plugin-dts": "^3.7.1",
@@ -44,5 +47,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.0.0"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
   }
 }
