@@ -54,7 +54,7 @@
     },
     "hooks": {
       "after:bump": "pnpm build",
-      "after:release": "pnpm publish"
+      "after:release": "pnpm pack"
     },
     "npm": {
       "publish": false
