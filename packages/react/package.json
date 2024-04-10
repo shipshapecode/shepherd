@@ -51,7 +51,7 @@
   "release-it": {
     "hooks": {
       "after:bump": "pnpm build",
-      "after:release": "pnpm release"
+      "after:release": "pnpm publish"
     },
     "npm": {
       "publish": false
