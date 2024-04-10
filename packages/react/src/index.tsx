@@ -40,7 +40,7 @@ export const ShepherdJourneyProvider: FC<ShepherdProviderProps> = ({
   properties,
   children
 }: ShepherdProviderProps) => {
-  if (typeof window === 'undefined') {
+  if (typeof window !== 'undefined') {
     Shepherd.init(apiKey, apiPath, properties);
   }
 
