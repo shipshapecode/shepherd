@@ -49,8 +49,12 @@
     "typescript": "^5.0.0"
   },
   "release-it": {
-    "github": {
-      "release": true
+    "hooks": {
+      "after:bump": "pnpm build",
+      "after:release": "pnpm release"
+    },
+    "npm": {
+      "publish": false
     }
   }
 }
