@@ -3,6 +3,8 @@ import { createContext, FC, useContext, type ReactNode } from 'react';
 import Shepherd from 'shepherd.js';
 import type ShepherdPro from 'shepherd.js';
 
+// declare const window: Window;
+
 interface ShepherdProviderProps {
   apiKey: string;
   apiPath?: string;
@@ -38,7 +40,9 @@ export const ShepherdJourneyProvider: FC<ShepherdProviderProps> = ({
   properties,
   children
 }: ShepherdProviderProps) => {
-  Shepherd.init(apiKey, apiPath, properties);
+  if (typeof window === 'undefined') {
+    Shepherd.init(apiKey, apiPath, properties);
+  }
 
   return (
     <ShepherdJourneyContext.Provider value={{ Shepherd }}>
