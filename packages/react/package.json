@@ -49,6 +49,9 @@
     "typescript": "^5.0.0"
   },
   "release-it": {
+    "git": {
+      "requireUpstream": false
+    },
     "hooks": {
       "after:bump": "pnpm build",
       "after:release": "pnpm publish"
