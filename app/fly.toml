@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for pro-portal on 2024-02-03T13:25:56-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'pro-portal'
+primary_region = 'dfw'
+
+[build]
+
+[deploy]
+  release_command = '.fly/release.sh'
+
+[env]
+  PORT = '8910'
+  REDWOOD_DISABLE_TELEMETRY = '1'
+
+[http_service]
+  internal_port = 8910
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024

@@ -1,0 +1,174 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+enum JourneyState {
+  ACTIVE
+  CANCEL
+  COMPLETE
+  SHOW
+}
+
+enum IntegrationOptions {
+  AMPLITUDE
+  POSTHOG
+}
+
+enum MetricTypes {
+  EVENT
+  IDENTIFY
+}
+
+enum UserTypes {
+  OWNER
+  ADMIN
+  VIEWER
+}
+
+model Account {
+  id           String        @id @default(cuid())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  apiKey       String        @unique
+  actors       Actor[]
+  integrations Integration[]
+  journeys     Journey[]
+  metrics      Metric[]
+  users        User[]
+  groups       Group[]
+}
+
+model Integration {
+  id        String             @id @default(cuid())
+  createdAt DateTime           @default(now())
+  syncedAt  DateTime?
+  updatedAt DateTime           @updatedAt
+  isActive  Boolean            @default(true)
+  name      String
+  option    IntegrationOptions
+  projectId String?
+  settings  Json
+  Account   Account            @relation(fields: [accountId], references: [id])
+  accountId String
+  cohorts   Json?
+  groups    Group[]
+}
+
+model Metric {
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now())
+  journeyState JourneyState @default(ACTIVE)
+  type         MetricTypes  @default(EVENT)
+  value        Json
+  accountId    String?
+  Account      Account?     @relation(fields: [accountId], references: [id])
+  actorId      Int?
+  Actor        Actor?       @relation(fields: [actorId], references: [id])
+  Journey      Journey?     @relation(fields: [journeyId], references: [id])
+  journeyId    String?
+}
+
+model Actor {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  properties Json?
+  accountId  String
+  Account    Account   @relation(fields: [accountId], references: [id])
+  Group      Group?    @relation(fields: [groupId], references: [id])
+  groupId    String?
+  metrics    Metric[]
+}
+
+model Group {
+  id            String       @id @default(cuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  name          String
+  key           String
+  values        Json
+  actors        Actor[]
+  Account       Account      @relation(fields: [accountId], references: [id])
+  accountId     String
+  Integration   Integration? @relation(fields: [integrationId], references: [id])
+  integrationId String?
+}
+
+model Journey {
+  id                   String   @id @default(cuid())
+  uniqueId             String?  @default(cuid()) // account level id determined by configuration
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  confirmCancel        Boolean  @default(false)
+  confirmCancelMessage String?
+  classPrefix          String?
+  defaultStepOptions   Json?
+  exitOnEsc            Boolean  @default(true)
+  isActive             Boolean  @default(true)
+  keyboardNavigation   Boolean  @default(true)
+  // modalContainer       Json?
+  // stepsContainer       Json?
+  tourName             String?
+  useModalOverlay      Boolean  @default(true)
+  steps                Step[]
+  Account              Account  @relation(fields: [accountId], references: [id])
+  accountId            String
+  Metric               Metric[]
+}
+
+model Step {
+  id                         String   @id @default(cuid())
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+  arrow                      Boolean? @default(true)
+  attachTo                   Json?
+  advanceOn                  Json?
+  beforeShowPromise          String?
+  buttons                    Json?
+  canClickTarget             Boolean? @default(true)
+  cancelIcon                 Json?
+  classes                    String?
+  highlightClass             String?
+  modalOverlayOpeningPadding Int?
+  modalOverlayOpeningRadius  Int?
+  floatingUIOptions          Json?
+  scrollTo                   String?
+  scrollToHandler            String?
+  showOn                     String?
+  text                       String?
+  title                      String?
+  when                       Json?
+  journey                    Journey  @relation(fields: [journeyId], references: [id])
+  journeyId                  String
+}
+
+model User {
+  id                  String           @id @default(cuid())
+  name                String?
+  email               String           @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  webAuthnChallenge   String?          @unique
+  type                UserTypes        @default(OWNER)
+  credentials         UserCredential[]
+  Account             Account?         @relation(fields: [accountId], references: [id])
+  accountId           String?
+}
+
+model UserCredential {
+  id         String  @id
+  userId     String
+  user       User    @relation(fields: [userId], references: [id])
+  publicKey  Json
+  transports String?
+  counter    BigInt
+}

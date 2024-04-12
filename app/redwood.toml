@@ -1,0 +1,39 @@
+# This file contains the configuration settings for your Redwood app.
+# This file is also what makes your Redwood app a Redwood app.
+# If you remove it and try to run `yarn rw dev`, you'll get an error.
+#
+# For the full list of options, see the "App Configuration: redwood.toml" doc:
+# https://redwoodjs.com/docs/app-configuration-redwood-toml
+
+[web]
+  title = "Shepherd Pro"
+  port = 8910
+  apiUrl = "/api/v1" # You can customize graphql and dbauth urls individually too: see https://redwoodjs.com/docs/app-configuration-redwood-toml#api-paths
+  includeEnvironmentVariables = [
+    'POSTHOG_API_KEY'
+  ]
+[api]
+  port = 8911
+[browser]
+  open = false
+[notifications]
+  versionUpdates = ["latest"]
+
+[experimental.studio]
+  # Determines whether the studio should run with an in memory database or persist the data
+  # to a file in your project within `./redwood`
+  enabled = true
+  inMemory = false
+
+[experimental.studio.graphiql]
+  endpoint = 'graphql'
+
+[experimental.studio.graphiql.authImpersonation]
+  authProvider = "dbAuth"
+  jwtSecret = 'secret'
+  # userId = undefined (default value)
+  # email = undefined (default value)
+  # roles = undefined (default value)
+
+[experimental.dockerfile]
+	enabled = true
