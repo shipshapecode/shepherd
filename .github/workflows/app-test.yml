@@ -10,6 +10,10 @@ on:
     paths:
       - 'app/**'
 
+defaults:
+  run:
+    working-directory: ./app
+
 jobs:
   verify:
     runs-on: ubuntu-latest
