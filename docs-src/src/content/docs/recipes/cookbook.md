@@ -1,18 +1,23 @@
+---
+title: Cookbook
+---
+
 ### Disable Scroll
 
 Previously, disabling scrolling was built into Shepherd, but it was buggy
-and bulky, so we opted to remove [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock) 
-as a dependency, in favor of users installing it directly in their apps. To disable scrolling, 
+and bulky, so we opted to remove [body-scroll-lock](https://github.com/willmcpo/body-scroll-lock)
+as a dependency, in favor of users installing it directly in their apps. To disable scrolling,
 you can install `body-scroll-lock` and run `bodyScrollLock.disableBodyScroll();` before
 starting the tour, then `bodyScrollLock.clearAllBodyScrollLocks();` after stopping the tour.
 
 ### Highlighting multiple elements
 
-The most obvious use case for this, is around a group of elements, or more specifically the column in a TABLE. This can be achieved using CSS to absolutely position the element and give it the width and height you need. e.g., 
+The most obvious use case for this, is around a group of elements, or more specifically the column in a TABLE. This can be achieved using CSS to absolutely position the element and give it the width and height you need. e.g.,
 
 ```html
-<colgroup class="shepherd-step-highlight">
+<colgroup class="shepherd-step-highlight"></colgroup>
 ```
+
 and setting your CSS to something like:
 
 ```css
@@ -28,7 +33,7 @@ Similar results could be had by adding elements purely for the purpose of exposi
 
 ### Offsets
 
-By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin 
+By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
 between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.
 
 For example:
@@ -44,20 +49,19 @@ const tour = new Shepherd.Tour({
         middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
       }
       ...
-    }  
+    }
   ]
 });
 ```
 
-
 ### Progress Indicator
 
-Using the already exposed API, you could add a progress indicator of your choosing 
+Using the already exposed API, you could add a progress indicator of your choosing
 for each step to let your users know how far into a tour they may be.
 
-The example below uses the [Step](https://shepherdjs.dev/docs/Step.html) `options` 
-object and adds to `when` on the `show` event. Within that, we create an element 
-to render in the header with text of what step out of all potential steps is now 
+The example below uses the [Step](https://shepherdjs.dev/docs/Step.html) `options`
+object and adds to `when` on the `show` event. Within that, we create an element
+to render in the header with text of what step out of all potential steps is now
 being show.
 
 ```javascript
@@ -69,7 +73,7 @@ when: {
     const progress = document.createElement('span');
     progress.style['margin-right'] = '315px';
     progress.innerText = `${Shepherd.activeTour?.steps.indexOf(currentStep) + 1}/${Shepherd.activeTour?.steps.length}`;
-    header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
+    header?.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));
   }
 }
 ```
@@ -97,14 +101,14 @@ when: {
   border-bottom-right-radius: 5px;
   display: flex;
   justify-content: space-between;
-  padding: 0 .75rem .75rem;
-  
+  padding: 0 0.75rem 0.75rem;
+
   .shepherd-button:last-child {
     margin-right: 0;
   }
-    
+
   .shepherd-progress {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
 }
 ```

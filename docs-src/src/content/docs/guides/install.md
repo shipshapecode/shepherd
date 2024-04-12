@@ -1,11 +1,15 @@
+---
+title: Installation
+---
+
 ## JS Framework Wrappers
 
 We strive to make it easy to use Shepherd in all the major frameworks, and have written wrappers to facilitate this.
 
-* [angular-shepherd](https://github.com/shepherd-pro/angular-shepherd)
-* [ember-shepherd](https://github.com/shepherd-pro/ember-shepherd)
-* [react-shepherd](https://github.com/shepherd-pro/react-shepherd)
-* [vue-shepherd](https://github.com/shepherd-pro/vue-shepherd)
+- [angular-shepherd](https://github.com/shepherd-pro/angular-shepherd)
+- [ember-shepherd](https://github.com/shepherd-pro/ember-shepherd)
+- [react-shepherd](https://github.com/shepherd-pro/react-shepherd)
+- [vue-shepherd](https://github.com/shepherd-pro/vue-shepherd)
 
 ## Install Directly
 
@@ -52,7 +56,12 @@ You can use jsDelivr to pull down any release from npm. For example, you could i
 with:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/shepherd.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css"/>
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/shepherd.js"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css"
+/>
 ```
-

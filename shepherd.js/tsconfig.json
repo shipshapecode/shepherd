@@ -43,5 +43,10 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "typedocOptions": {
+    "entryPoints": "src",
+    "entryPointStrategy": "expand",
+    "includeVersion": true
+  }
 }
