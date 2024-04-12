@@ -9,6 +9,7 @@ export const schema = gql`
     name: String
     subject: String
     title: String
+    description: String
   }
 
   type EmailResponse {

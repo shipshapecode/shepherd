@@ -15,7 +15,7 @@ import {
 } from '@react-email/components';
 import { Tailwind } from '@react-email/tailwind';
 
-export function DemoRequest({ from, name, title, when }) {
+export function DemoRequest({ description, from, name, title, when }) {
   return (
     <Html>
       <Head />
@@ -54,6 +54,9 @@ export function DemoRequest({ from, name, title, when }) {
               <Row>
                 <Text className="text-base">
                   {`new demo request on ${when}`}
+                </Text>
+                <Text className="text-base">
+                  {`Customer needs help with: ${description}`}
                 </Text>
               </Row>
             </Section>
