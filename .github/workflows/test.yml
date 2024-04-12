@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request: {}
+    paths:
+      - '!app/**'
+  pull_request:
+    paths:
+      - '!app/**'
 
 jobs:
   lint:
@@ -58,7 +62,7 @@ jobs:
       - name: Install Cypress Binary
         run: pnpm cypress:install
 
-      - name: Run Jest and Cypress Tests
+      - name: Run Jest/Vitest and Cypress Tests
         uses: cypress-io/github-action@v6
         with:
           command: pnpm test:ci

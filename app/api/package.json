@@ -1,0 +1,27 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@amplitude/analytics-node": "^1.3.5",
+    "@faker-js/faker": "^8.4.1",
+    "@honeybadger-io/js": "^6.8.3",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@react-email/components": "^0.0.14",
+    "@redwoodjs/api": "7.1.3",
+    "@redwoodjs/api-server": "7.1.3",
+    "@redwoodjs/auth-dbauth-api": "7.1.3",
+    "@redwoodjs/graphql-server": "7.1.3",
+    "@redwoodjs/mailer-core": "7.1.3",
+    "@redwoodjs/mailer-handler-nodemailer": "7.1.3",
+    "@redwoodjs/mailer-renderer-react-email": "7.1.3",
+    "@sendgrid/mail": "^8.1.0",
+    "@simplewebauthn/server": "^7",
+    "posthog-node": "^3.6.2",
+    "stream": "^0.0.2"
+  },
+  "devDependencies": {
+    "@redwoodjs/mailer-handler-in-memory": "7.1.3",
+    "@redwoodjs/mailer-handler-studio": "7.1.3"
+  }
+}

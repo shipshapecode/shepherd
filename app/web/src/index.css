@@ -1,0 +1,461 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --primary: 3.6 100% 77.1%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 0 100% 100%;
+    --secondary-foreground: 333 100% 50%;
+
+    --color-shepherd: 248 1% 85%;
+    --color-xyflow: 248 1% 85%;
+    --color-react: 3.6 100% 77.1%;
+    --color-svelte: 15 100% 50%;
+
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20.2% 65.1%;
+
+    --radius: 0;
+
+    --light: 215.4 16.3% 46.9%;
+
+    --neo-shadow: 4px 4px 0px 0px rgba(0,0,0,1)
+  }
+}
+
+@font-face {
+  font-family: 'GT Pressura';
+  src: url('/fonts/GTPressura-Bold.woff2') format('woff2'), url('/fonts/GTPressura-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Founders Grotesk';
+  src: url('/fonts/FoundersGrotesk-Regular.woff2') format('woff2'), url('/fonts/FoundersGrotesk-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body {
+  font-family: "Pier Sans", "proxima-nova", "Helvetica Neue", sans-serif;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+a {
+  transition: 0.25s ease-in-out;
+}
+
+.a11y-icon {
+  left: 50%;
+  transform: translateX(-50%) translateY(10%);
+}
+
+.customizable-icon {
+  left: 50%;
+  transform: translateX(-50%) translateY(25%);
+}
+
+.framework-icon {
+  left: 50%;
+  transform: translateX(-50%) translateY(35%);
+}
+
+.button {
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.25s ease-in-out;
+}
+
+.button:hover {
+  background: #F3F5F5;
+  transform: translateX(-10px) translateY(-10px);
+}
+
+/* .shepherd-logo {
+  height: auto;
+  width: 217px;
+}
+
+.shepherd-logo .lines,
+.shepherd-logo .open-eye,
+.shepherd-logo .wink {
+  transition: visibility 0s, opacity 0.25s ease-in-out;
+}
+
+.shepherd-logo .open-eye {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-logo .lines,
+.shepherd-logo .wink {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shepherd-logo:hover .lines,
+.shepherd-logo:hover .wink {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-logo:hover .open-eye {
+  opacity: 0;
+  visibility: hidden;
+} */
+
+.footer-icon path {
+  fill: #16202D;
+  transition: 0.25s ease-in-out;
+}
+
+.footer-icon:hover path {
+  fill: #959FAC;
+}
+
+.footer-logo {
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.hero-outer .hero-followup {
+  padding-top: 20px;
+}
+
+pre {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  line-height: 1.4em;
+}
+
+.shepherd-button {
+  background: #ffffff;
+  border-top: solid 4px #16202D;
+  border-radius: 0;
+  color: #16202D;
+  display: flex;
+  flex-grow: 1;
+  font-family: "GT Pressura", sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.shepherd-button:hover {
+  background: #16202D;
+  color: #ffffff;
+}
+
+.shepherd-button.shepherd-button-secondary {
+  background: #CAD5D5;
+}
+
+.shepherd-button.shepherd-button-secondary:hover {
+  color: #CAD5D5;
+  background: #16202D;
+}
+
+.shepherd-cancel-icon {
+  font-family: "GT Pressura", sans-serif;
+}
+
+/* .shepherd-element {
+  border: solid 4px #16202D;
+} */
+
+.shepherd-element,
+.shepherd-header,
+.shepherd-footer {
+  border-radius: 0;
+}
+
+.shepherd-element .shepherd-arrow {
+  border-width: 0;
+  height: auto;
+  width: auto;
+}
+
+.shepherd-arrow::before {
+  display: none;
+}
+
+.shepherd-element .shepherd-arrow:after {
+  content: url('../img/arrow.svg');
+  display: inline-block;
+}
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-top .shepherd-arrow {
+  bottom: -35px;
+}
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow:after,
+.shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
+  transform: rotate(270deg);
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
+  top: -35px;
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow:after {
+  transform: rotate(90deg);
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-left .shepherd-arrow {
+  right: -35px;
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow:after,
+.shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
+  transform: rotate(180deg);
+}
+
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-right .shepherd-arrow {
+  left: -35px;
+}
+
+.shepherd-footer {
+  padding: 0;
+}
+
+.shepherd-footer button:not(:last-of-type) {
+  border-right: solid 4px #16202D;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  margin-top: -7px;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+  background: transparent;
+  font-family: "GT Pressura", sans-serif;
+  padding-bottom: 0;
+  padding-left: 2rem;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header .shepherd-title {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.shepherd-text {
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.shepherd-text a, .shepherd-text a:visited,
+.shepherd-text a:active {
+  border-bottom: 1px dotted;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+}
+
+.shepherd-text a:hover, .shepherd-text a:visited:hover,
+.shepherd-text a:active:hover {
+  border-bottom-style: solid;
+}
+
+.shepherd-button{background:#3288e6;border:0;border-radius:3px;color:hsla(0,0%,100%,.75);cursor:pointer;margin-right:.5rem;padding:.5rem 1.5rem;transition:all .5s ease}.shepherd-button:not(:disabled):hover{background:#196fcc;color:hsla(0,0%,100%,.75)}.shepherd-button.shepherd-button-secondary{background:#f1f2f3;color:rgba(0,0,0,.75)}.shepherd-button.shepherd-button-secondary:not(:disabled):hover{background:#d6d9db;color:rgba(0,0,0,.75)}.shepherd-button:disabled{cursor:not-allowed}
+.shepherd-footer{border-bottom-left-radius:5px;border-bottom-right-radius:5px;display:flex;justify-content:flex-end;padding:0 .75rem .75rem}.shepherd-footer .shepherd-button:last-child{margin-right:0}
+.shepherd-cancel-icon{background:transparent;border:none;color:hsla(0,0%,50%,.75);cursor:pointer;font-size:2em;font-weight:400;margin:0;padding:0;transition:color .5s ease}.shepherd-cancel-icon:hover{color:rgba(0,0,0,.75)}.shepherd-has-title .shepherd-content .shepherd-cancel-icon{color:hsla(0,0%,50%,.75)}.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover{color:rgba(0,0,0,.75)}
+.shepherd-title{color:rgba(0,0,0,.75);display:flex;flex:1 0 auto;font-size:1rem;font-weight:400;margin:0;padding:0}
+.shepherd-header{align-items:center;border-top-left-radius:5px;border-top-right-radius:5px;display:flex;justify-content:flex-end;line-height:2em;padding:.75rem .75rem 0}.shepherd-has-title .shepherd-content .shepherd-header{background:#e6e6e6;padding:1em}
+.shepherd-text{color:rgba(0,0,0,.75);font-size:1rem;line-height:1.3em;padding:.75em}.shepherd-text p{margin-top:0}.shepherd-text p:last-child{margin-bottom:0}
+.shepherd-content{border-radius:5px;outline:none;padding:0}
+.shepherd-element{background:#fff;max-width:650px;opacity:0;outline:none;transition:opacity .3s,visibility .3s;visibility:hidden;width:100%;z-index:9999}.shepherd-enabled.shepherd-element{opacity:1;visibility:visible}.shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered){opacity:0;pointer-events:none;visibility:hidden}.shepherd-element,.shepherd-element *,.shepherd-element :after,.shepherd-element :before{box-sizing:border-box}.shepherd-arrow,.shepherd-arrow:before{height:16px;position:absolute;width:16px;z-index:-1}.shepherd-arrow:before{background:#fff;content:"";transform:rotate(45deg)}.shepherd-element[data-popper-placement^=top]>.shepherd-arrow{bottom:-8px}.shepherd-element[data-popper-placement^=bottom]>.shepherd-arrow{top:-8px}.shepherd-element[data-popper-placement^=left]>.shepherd-arrow{right:-8px}.shepherd-element[data-popper-placement^=right]>.shepherd-arrow{left:-8px}.shepherd-element.shepherd-centered>.shepherd-arrow{opacity:0}.shepherd-element.shepherd-has-title[data-popper-placement^=bottom]>.shepherd-arrow:before{background-color:#e6e6e6}.shepherd-target-click-disabled.shepherd-enabled.shepherd-target,.shepherd-target-click-disabled.shepherd-enabled.shepherd-target *{pointer-events:none}
+.shepherd-modal-overlay-container{height:0;left:0;opacity:0;overflow:hidden;pointer-events:none;position:fixed;top:0;transition:all .3s ease-out,height 0ms .3s,opacity .3s 0ms;width:100vw;z-index:9997}.shepherd-modal-overlay-container.shepherd-modal-is-visible{height:100vh;opacity:.5;transform:translateZ(0);transition:all .3s ease-out,height 0s 0s,opacity .3s 0s}.shepherd-modal-overlay-container.shepherd-modal-is-visible path{fill: hsl(var(--primary)); pointer-events:all}
+
+
+.shepherd-logo .lines,
+.shepherd-logo .open-eye,
+.shepherd-logo .wink {
+  transition: visibility 0s, opacity 0.25s ease-in-out;
+}
+
+.shepherd-logo .open-eye {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-logo .lines,
+.shepherd-logo .wink {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shepherd-nav .shepherd-logo:hover .lines,
+.shepherd-nav .shepherd-logo:hover .wink {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-nav .shepherd-logo:hover .open-eye {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.shepherd-button {
+  background: #ffffff;
+  border-top: solid 2px #16202D;
+  border-radius: 0;
+  color: #16202D;
+  display: flex;
+  flex-grow: 1;
+  font-family: "GT Pressura", sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.shepherd-button:hover {
+  background: #16202D;
+  color: #ffffff;
+}
+
+.shepherd-button.shepherd-button-secondary {
+  background: #CAD5D5;
+}
+
+.shepherd-button.shepherd-button-secondary:hover {
+  color: #CAD5D5;
+  background: #16202D;
+}
+
+.shepherd-cancel-icon {
+  font-family: "GT Pressura", sans-serif;
+}
+
+/* .shepherd-element {
+  border: solid 4px #16202D;
+} */
+
+.shepherd-header,
+.shepherd-footer {
+  border-radius: 0;
+}
+
+.shepherd-element .shepherd-arrow {
+  border-width: 0;
+  height: auto;
+  width: auto;
+}
+
+.shepherd-arrow::before {
+  display: none;
+}
+
+/* .shepherd-element .shepherd-arrow:after {
+  content: url('../img/arrow.svg');
+  display: inline-block;
+} */
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-top .shepherd-arrow {
+  bottom: -35px;
+}
+
+.shepherd-element[data-popper-placement^='top'] .shepherd-arrow:after,
+.shepherd-element.shepherd-pinned-top .shepherd-arrow:after {
+  transform: rotate(270deg);
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow {
+  top: -35px;
+}
+
+.shepherd-element[data-popper-placement^='bottom'] .shepherd-arrow:after {
+  transform: rotate(90deg);
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-left .shepherd-arrow {
+  right: -35px;
+}
+
+.shepherd-element[data-popper-placement^='left'] .shepherd-arrow:after,
+.shepherd-element.shepherd-pinned-left .shepherd-arrow:after {
+  transform: rotate(180deg);
+}
+
+.shepherd-element[data-popper-placement^='right'] .shepherd-arrow,
+.shepherd-element.shepherd-pinned-right .shepherd-arrow {
+  left: -35px;
+}
+
+.shepherd-footer {
+  padding: 0;
+}
+
+.shepherd-footer button:not(:last-of-type) {
+  border-right: solid 2px #16202D;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  margin-top: -7px;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+  background: transparent;
+  font-family: "GT Pressura", sans-serif;
+  padding-bottom: 0;
+  padding-left: 2rem;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header .shepherd-title {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.shepherd-text {
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.shepherd-text a, .shepherd-text a:visited,
+.shepherd-text a:active {
+  border-bottom: 1px dotted;
+  border-bottom-color: rgba(0, 0, 0, 0.75);
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+}
+
+.shepherd-text a:hover, .shepherd-text a:visited:hover,
+.shepherd-text a:active:hover {
+  border-bottom-style: solid;
+}

@@ -1,0 +1,59 @@
+name: Run Platform App Tests
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+  pull_request:
+    paths:
+      - 'app/**'
+
+defaults:
+  run:
+    working-directory: ./app
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    services:
+      # Label used to access the service container
+      postgres:
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    env:
+      POSTHOG_API_KEY: 'phc_123456789'
+      TEST_DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/test'
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      # install all the dependencies
+      - run: yarn install
+      # build the redwood app
+      - run: yarn rw build
+      # run the api tests
+      - run: yarn rw test api --no-watch
+      # # run the web tests
+      # - run: yarn rw test web --no-watch
