@@ -16,14 +16,14 @@ export const sendDemoRequest: QueryResolvers['sendDemoRequest'] = async ({
   logger.debug(input, 'creating demo email ...');
 
   try {
-    const { from, name, subject, title } = input;
+    const { description, from, name, subject, title } = input;
     const to = defaultEmail;
     const when = new Date().toLocaleString();
 
     logger.debug({ ...input, to, when }, 'sending email ....');
 
     const data: MailResult = await mailer.send(
-      DemoRequest({ from, name, title, when }),
+      DemoRequest({ description, from, name, title, when }),
       {
         from,
         to,

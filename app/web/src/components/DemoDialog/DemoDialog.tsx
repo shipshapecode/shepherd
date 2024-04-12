@@ -2,6 +2,7 @@ import { useLazyQuery } from '@apollo/client';
 
 import {
   Form,
+  TextAreaField,
   TextField,
   EmailField,
   FieldError,
@@ -65,10 +66,10 @@ const DemoDialog = () => {
                 Name
               </label>
               <TextField
-                className="w-full rounded-lg border border-solid border-gray-300 p-[10px] font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
+                className="w-full border border-solid border-gray-300 p-[10px] font-bold shadow-default outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
                 name="name"
                 placeholder="First Last"
-                errorClassName="w-full rounded-lg border border-solid border-red-500 p-[10px] font-bold outline-none"
+                errorClassName="w-full border border-solid border-red-500 p-[10px] font-bold outline-none"
                 validation={{ required: true }}
               />
               <FieldError
@@ -84,9 +85,9 @@ const DemoDialog = () => {
                 Email
               </label>
               <EmailField
-                className="w-full rounded-lg border border-solid border-gray-300 p-[10px] font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
+                className="w-full border border-solid border-gray-300 p-[10px] font-bold shadow-default outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
                 name="email"
-                errorClassName="w-full rounded-lg border border-solid border-red-500 p-[10px] font-bold outline-none"
+                errorClassName="w-full border border-solid border-red-500 p-[10px] font-bold outline-none"
                 validation={{ required: true }}
               />
               <FieldError
@@ -102,15 +103,28 @@ const DemoDialog = () => {
                 Job Title
               </label>
               <TextField
-                className="w-full rounded-lg border border-solid border-gray-300 p-[10px] font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
+                className="w-full border border-solid border-gray-300 p-[10px] font-bold shadow-default outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
                 name="title"
-                errorClassName="w-full rounded-lg border border-solid border-red-500 p-[10px] font-bold outline-none"
+                errorClassName="w-full border border-solid border-red-500 p-[10px] font-bold outline-none"
                 validation={{ required: true }}
               />
               <FieldError
                 className="pl-2 text-xs italic text-red-500"
                 name="title"
               />
+            </div>
+            <div className="mb-4">
+              <label
+                className="mb-1 block text-md font-bold text-gray-800"
+                htmlFor="description"
+              >
+                How can we help you? What are your goals?
+              </label>
+              <TextAreaField
+                className="w-full border border-solid border-gray-300 p-[10px] font-bold shadow-default outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
+                name="description"
+              />
+
             </div>
             <div className="flex justify-center">
               <button
@@ -119,7 +133,7 @@ const DemoDialog = () => {
               >
                 Cancel
               </button>
-              <Submit className="bg-primary text-primary-foreground hover:bg-primary/80 mt-2 flex cursor-pointer items-center justify-center rounded-md border-2 border-black bg-[#bc95d4] px-10 py-3 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none">
+              <Submit className="bg-primary text-primary-foreground hover:bg-primary/80 mt-2 flex cursor-pointer items-center justify-center rounded-md border-2 border-black bg-[#bc95d4] px-10 py-3 font-bold shadow-default transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none">
                 Submit Info
               </Submit>
             </div>
