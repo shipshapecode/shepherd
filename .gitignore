@@ -25,7 +25,7 @@ node_modules/
 .env
 .env.local
 fly-*.toml
-.redwood/*
+/app/.redwood/*
 !.redwood/README.md
 dev.db*
 dist
