@@ -53,6 +53,9 @@ const SignupPageContact = () => {
         toastOptions={{
           className: 'rounded-none shadow-default border-2 border-black',
           duration: 6000,
+          style: {
+            borderRadius: '0px',
+          },
         }}
       />
 

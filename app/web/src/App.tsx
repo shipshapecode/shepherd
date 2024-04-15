@@ -24,7 +24,10 @@ const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <AuthProvider>
-        <RedwoodApolloProvider useAuth={useAuth}>
+        <RedwoodApolloProvider graphQLClientConfig={{
+            connectToDevTools: process.env.NODE_ENV === 'development' ? true : false,
+            queryDeduplication: true,
+          }} useAuth={useAuth}>
           <PostHogProvider client={posthog}>
             <Routes />
           </PostHogProvider>
