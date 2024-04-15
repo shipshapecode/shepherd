@@ -253,6 +253,7 @@ export type Mutation = {
   deleteJourney: Journey;
   deleteMetric: Metric;
   deleteUser: User;
+  sendDemoRequest: EmailResponse;
   syncIntegrationCohorts: Integration;
   updateAccount: Account;
   updateActor: Actor;
@@ -334,6 +335,11 @@ export type MutationdeleteUserArgs = {
 };
 
 
+export type MutationsendDemoRequestArgs = {
+  input: DemoEmailInput;
+};
+
+
 export type MutationsyncIntegrationCohortsArgs = {
   id: Scalars['String'];
 };
@@ -400,7 +406,6 @@ export type Query = {
   metrics: Array<Metric>;
   /** Fetches the Redwood root schema. */
   redwood?: Maybe<Redwood>;
-  sendDemoRequest: EmailResponse;
   sendEmail: EmailResponse;
   sendWelcomeEmail: EmailResponse;
   user?: Maybe<User>;
@@ -453,12 +458,6 @@ export type QueryjourneyArgs = {
 /** About the Redwood queries. */
 export type QuerymetricArgs = {
   id: Scalars['Int'];
-};
-
-
-/** About the Redwood queries. */
-export type QuerysendDemoRequestArgs = {
-  input: DemoEmailInput;
 };
 
 
@@ -617,7 +616,7 @@ export type SendDemoQueryVariables = Exact<{
 }>;
 
 
-export type SendDemoQuery = { __typename?: 'Query', sendDemoRequest: { __typename?: 'EmailResponse', statusId: string } };
+export type SendDemoQuery = { __typename?: 'Mutation', sendDemoRequest: { __typename?: 'EmailResponse', statusId: string } };
 
 export type EditGroupByIdVariables = Exact<{
   id: Scalars['String'];

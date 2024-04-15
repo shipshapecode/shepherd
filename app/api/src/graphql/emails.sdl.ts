@@ -22,8 +22,11 @@ export const schema = gql`
   }
 
   type Query {
-    sendDemoRequest(input: DemoEmailInput!): EmailResponse! @skipAuth
     sendEmail(input: EmailInput!): EmailResponse! @requireAuth
     sendWelcomeEmail(input: EmailInput!): EmailResponse! @requireAuth
+  }
+
+   type Mutation {
+    sendDemoRequest(input: DemoEmailInput!): EmailResponse! @skipAuth
   }
 `;

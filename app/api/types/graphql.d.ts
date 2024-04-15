@@ -272,6 +272,7 @@ export type Mutation = {
   deleteJourney: Journey;
   deleteMetric: Metric;
   deleteUser: User;
+  sendDemoRequest: EmailResponse;
   syncIntegrationCohorts: Integration;
   updateAccount: Account;
   updateActor: Actor;
@@ -353,6 +354,11 @@ export type MutationdeleteUserArgs = {
 };
 
 
+export type MutationsendDemoRequestArgs = {
+  input: DemoEmailInput;
+};
+
+
 export type MutationsyncIntegrationCohortsArgs = {
   id: Scalars['String'];
 };
@@ -419,7 +425,6 @@ export type Query = {
   metrics: Array<Metric>;
   /** Fetches the Redwood root schema. */
   redwood?: Maybe<Redwood>;
-  sendDemoRequest: EmailResponse;
   sendEmail: EmailResponse;
   sendWelcomeEmail: EmailResponse;
   user?: Maybe<User>;
@@ -472,12 +477,6 @@ export type QueryjourneyArgs = {
 /** About the Redwood queries. */
 export type QuerymetricArgs = {
   id: Scalars['Int'];
-};
-
-
-/** About the Redwood queries. */
-export type QuerysendDemoRequestArgs = {
-  input: DemoEmailInput;
 };
 
 
@@ -1057,6 +1056,7 @@ export type MutationResolvers<ContextType = RedwoodGraphQLContext, ParentType ex
   deleteJourney: Resolver<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationdeleteJourneyArgs, 'id'>>;
   deleteMetric: Resolver<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationdeleteMetricArgs, 'id'>>;
   deleteUser: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationdeleteUserArgs, 'id'>>;
+  sendDemoRequest: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<MutationsendDemoRequestArgs, 'input'>>;
   syncIntegrationCohorts: Resolver<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationsyncIntegrationCohortsArgs, 'id'>>;
   updateAccount: Resolver<ResolversTypes['Account'], ParentType, ContextType, RequireFields<MutationupdateAccountArgs, 'id' | 'input'>>;
   updateActor: Resolver<ResolversTypes['Actor'], ParentType, ContextType, RequireFields<MutationupdateActorArgs, 'id' | 'input'>>;
@@ -1082,6 +1082,7 @@ export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, Paren
   deleteJourney?: RequiredResolverFn<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationdeleteJourneyArgs, 'id'>>;
   deleteMetric?: RequiredResolverFn<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationdeleteMetricArgs, 'id'>>;
   deleteUser?: RequiredResolverFn<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationdeleteUserArgs, 'id'>>;
+  sendDemoRequest?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<MutationsendDemoRequestArgs, 'input'>>;
   syncIntegrationCohorts?: RequiredResolverFn<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationsyncIntegrationCohortsArgs, 'id'>>;
   updateAccount?: RequiredResolverFn<ResolversTypes['Account'], ParentType, ContextType, RequireFields<MutationupdateAccountArgs, 'id' | 'input'>>;
   updateActor?: RequiredResolverFn<ResolversTypes['Actor'], ParentType, ContextType, RequireFields<MutationupdateActorArgs, 'id' | 'input'>>;
@@ -1109,7 +1110,6 @@ export type QueryResolvers<ContextType = RedwoodGraphQLContext, ParentType exten
   metric: Resolver<Maybe<ResolversTypes['Metric']>, ParentType, ContextType, RequireFields<QuerymetricArgs, 'id'>>;
   metrics: OptArgsResolverFn<Array<ResolversTypes['Metric']>, ParentType, ContextType>;
   redwood: OptArgsResolverFn<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
-  sendDemoRequest: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendDemoRequestArgs, 'input'>>;
   sendEmail: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendEmailArgs, 'input'>>;
   sendWelcomeEmail: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendWelcomeEmailArgs, 'input'>>;
   user: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
@@ -1133,7 +1133,6 @@ export type QueryRelationResolvers<ContextType = RedwoodGraphQLContext, ParentTy
   metric?: RequiredResolverFn<Maybe<ResolversTypes['Metric']>, ParentType, ContextType, RequireFields<QuerymetricArgs, 'id'>>;
   metrics?: RequiredResolverFn<Array<ResolversTypes['Metric']>, ParentType, ContextType>;
   redwood?: RequiredResolverFn<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
-  sendDemoRequest?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendDemoRequestArgs, 'input'>>;
   sendEmail?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendEmailArgs, 'input'>>;
   sendWelcomeEmail?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendWelcomeEmailArgs, 'input'>>;
   user?: RequiredResolverFn<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;

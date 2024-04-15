@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { useMutation } from '@redwoodjs/web';
 
 import {
   Form,
@@ -12,7 +12,7 @@ import {
 import { toast } from '@redwoodjs/web/toast';
 
 const SEND_DEMO_REQUEST = gql`
-  query SendDemoQuery($input: DemoEmailInput!) {
+  mutation SendDemoQuery($input: DemoEmailInput!) {
     sendDemoRequest(input: $input) {
       statusId
     }
@@ -21,7 +21,7 @@ const SEND_DEMO_REQUEST = gql`
 
 const DemoDialog = () => {
   const formMethods = useForm();
-  const [requestDemo] = useLazyQuery(SEND_DEMO_REQUEST, {
+  const [requestDemo] = useMutation(SEND_DEMO_REQUEST, {
     fetchPolicy: 'no-cache',
   });
 
