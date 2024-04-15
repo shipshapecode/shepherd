@@ -25,7 +25,7 @@ export const sendDemoRequest: QueryResolvers['sendDemoRequest'] = async ({
     const data: MailResult = await mailer.send(
       DemoRequest({ description, from, name, title, when }),
       {
-        from,
+        from: defaultEmail,
         to,
         subject,
       }
