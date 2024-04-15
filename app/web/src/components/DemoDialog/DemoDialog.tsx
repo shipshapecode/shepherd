@@ -21,7 +21,9 @@ const SEND_DEMO_REQUEST = gql`
 
 const DemoDialog = () => {
   const formMethods = useForm();
-  const [requestDemo] = useLazyQuery(SEND_DEMO_REQUEST);
+  const [requestDemo] = useLazyQuery(SEND_DEMO_REQUEST, {
+    fetchPolicy: 'no-cache',
+  });
 
   const closeDialog = () => {
     const dialog = document.querySelector('dialog');
@@ -30,15 +32,18 @@ const DemoDialog = () => {
   };
 
   const onSubmit = async (data: Record<string, string>) => {
-    const input = {
-      description: data.description,
-      from: data.email,
-      name: data.name,
-      subject: 'Shepherd Demo Request',
-      title: data.title,
-    };
-    const response = await requestDemo({ variables: { input } });
+    // close the dialog and send the request regardless of response
     closeDialog();
+
+    const response = await requestDemo({ variables: { input: {
+          description: data.description,
+          from: data.email,
+          name: data.name,
+          subject: 'Shepherd Demo Request',
+          title: data.title,
+        }
+      }
+    });
     if (response.error) {
       toast(response.error.message);
     } else {
