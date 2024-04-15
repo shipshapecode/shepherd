@@ -48,7 +48,7 @@ const Routes = () => {
         <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
       </Set>
       <Set wrap={SignupLandingLayout}>
-        <Route path="/" page={SignUpContactPage} name="signUpContact" />
+        <Route path="/" page={SignUpContactPage} name="signUpContact" prerender />
       </Set>
       <Set wrap={BaseLayout}>
         <Route notfound page={NotFoundPage} />

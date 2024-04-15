@@ -12,7 +12,7 @@ import { AuthProvider, useAuth } from './auth';
 import './scaffold.css';
 import './index.css';
 
-if (process.env.POSTHOG_API_KEY) {
+if (process.env.POSTHOG_API_KEY && typeof window !== 'undefined') {
   posthog.init(process.env.POSTHOG_API_KEY, {
     loaded: (posthog) => {
       if (process.env.NODE_ENV === 'development') posthog.debug();

@@ -1,4 +1,4 @@
-import type { EmailInput, QueryResolvers } from 'types/graphql';
+import type { EmailInput, MutationResolvers, QueryResolvers } from 'types/graphql';
 
 import { ValidationError } from '@redwoodjs/graphql-server';
 import type { MailResult } from '@redwoodjs/mailer-core';
@@ -10,7 +10,7 @@ import { WelcomeEmail } from 'src/mail/Welcome/Welcome';
 
 const defaultEmail = 'Shepherd Pro <hello@shepherdpro.com>';
 
-export const sendDemoRequest: QueryResolvers['sendDemoRequest'] = async ({
+export const sendDemoRequest: MutationResolvers['sendDemoRequest'] = async ({
   input,
 }) => {
   logger.debug(input, 'creating demo email ...');
