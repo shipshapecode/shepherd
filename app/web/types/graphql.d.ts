@@ -112,6 +112,7 @@ export type CreateUserInput = {
 };
 
 export type DemoEmailInput = {
+  description?: InputMaybe<Scalars['String']>;
   from: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
   subject?: InputMaybe<Scalars['String']>;

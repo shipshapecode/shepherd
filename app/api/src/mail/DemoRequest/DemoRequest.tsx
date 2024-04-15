@@ -53,7 +53,7 @@ export function DemoRequest({ description, from, name, title, when }) {
             <Section>
               <Row>
                 <Text className="text-base">
-                  {`new demo request on ${when}`}
+                  {`New demo request on ${when}`}
                 </Text>
                 <Text className="text-base">
                   {`Customer needs help with: ${description}`}

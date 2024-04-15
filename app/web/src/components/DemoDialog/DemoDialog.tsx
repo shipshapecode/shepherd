@@ -31,17 +31,17 @@ const DemoDialog = () => {
 
   const onSubmit = async (data: Record<string, string>) => {
     const input = {
+      description: data.description,
       from: data.email,
-      title: data.title,
       name: data.name,
       subject: 'Shepherd Demo Request',
+      title: data.title,
     };
     const response = await requestDemo({ variables: { input } });
+    closeDialog();
     if (response.error) {
-      closeDialog();
       toast(response.error.message);
     } else {
-      closeDialog();
       toast.success("Thank you! We'll be in touch soon.");
     }
   };

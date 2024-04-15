@@ -112,7 +112,8 @@ export const send = async ({
       );
     }
 
-    const emailData = { from, to, subject, statusId: data.messageID };
+    const statusId = data.messageID ?? 'unknown'; // value can't be null, but should be sendGrid message id
+    const emailData = { from, to, subject, statusId};
 
     logger.debug(emailData, 'sent email and saving with data');
 
