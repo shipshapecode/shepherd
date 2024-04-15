@@ -93,7 +93,7 @@ const SignupPageContact = () => {
           />
         </div>
       </div>
-      <p className="mr-12 w-full p-4 font-body text-2xl lg:w-1/2">
+      <p className="w-full p-4 font-body text-2xl lg:w-1/2">
         {`Shepherd Pro builds on the openness and expandability of the open
           source library, then adds analytics in order to significantly enhance
           the understanding of user interactions within a journey. Track how

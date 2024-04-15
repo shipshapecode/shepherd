@@ -44,8 +44,8 @@ const DemoDialog = () => {
         }
       }
     });
-    if (response.error) {
-      toast(response.error.message);
+    if (response.errors) {
+      toast(response.errors[0].message);
     } else {
       toast.success("Thank you! We'll be in touch soon.");
     }
