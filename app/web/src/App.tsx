@@ -1,12 +1,12 @@
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
-import { ShepherdJourneyProvider } from 'react-shepherd';
 
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web';
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo';
 
 import FatalErrorPage from 'src/pages/FatalErrorPage';
 import Routes from 'src/Routes';
+import { ShepherdJourneyLoader } from 'src/components/Journey/Loader/Loader';
 
 import { AuthProvider, useAuth } from './auth';
 
@@ -34,9 +34,9 @@ const App = () => (
           useAuth={useAuth}
         >
           <PostHogProvider client={posthog}>
-            <ShepherdJourneyProvider apiKey={process.env.SHEPHERD_PUBLIC_KEY}>
+            <ShepherdJourneyLoader>
               <Routes />
-            </ShepherdJourneyProvider>
+            </ShepherdJourneyLoader>
           </PostHogProvider>
         </RedwoodApolloProvider>
       </AuthProvider>
