@@ -21,27 +21,37 @@ if (process.env.POSTHOG_API_KEY && typeof window !== 'undefined') {
   });
 }
 
-const App = () => (
-  <FatalErrorBoundary page={FatalErrorPage}>
-    <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
-      <AuthProvider>
-        <RedwoodApolloProvider
-          graphQLClientConfig={{
-            connectToDevTools:
-              process.env.NODE_ENV === 'development' ? true : false,
-            queryDeduplication: true,
-          }}
-          useAuth={useAuth}
-        >
-          <PostHogProvider client={posthog}>
-            <ShepherdJourneyProvider apiKey={process.env.SHEPHERD_PUBLIC_KEY}>
-              <Routes />
-            </ShepherdJourneyProvider>
-          </PostHogProvider>
-        </RedwoodApolloProvider>
-      </AuthProvider>
-    </RedwoodProvider>
-  </FatalErrorBoundary>
-);
+const App = () => {
+  const { currentUser } = useAuth();
+
+  return (
+    <FatalErrorBoundary page={FatalErrorPage}>
+      <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
+        <AuthProvider>
+          <RedwoodApolloProvider
+            graphQLClientConfig={{
+              connectToDevTools:
+                process.env.NODE_ENV === 'development' ? true : false,
+              queryDeduplication: true,
+            }}
+            useAuth={useAuth}
+          >
+            <PostHogProvider client={posthog}>
+              <ShepherdJourneyProvider
+                apiKey={process.env.SHEPHERD_PUBLIC_KEY}
+                properties={{
+                  email: currentUser?.email,
+                  id: currentUser?.id,
+                }}
+              >
+                <Routes />
+              </ShepherdJourneyProvider>
+            </PostHogProvider>
+          </RedwoodApolloProvider>
+        </AuthProvider>
+      </RedwoodProvider>
+    </FatalErrorBoundary>
+  );
+};
 
 export default App;
