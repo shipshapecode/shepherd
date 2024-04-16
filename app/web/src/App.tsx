@@ -1,5 +1,6 @@
 import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
+import { ShepherdJourneyProvider } from 'react-shepherd';
 
 import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web';
 import { RedwoodApolloProvider } from '@redwoodjs/web/apollo';
@@ -24,12 +25,18 @@ const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">
       <AuthProvider>
-        <RedwoodApolloProvider graphQLClientConfig={{
-            connectToDevTools: process.env.NODE_ENV === 'development' ? true : false,
+        <RedwoodApolloProvider
+          graphQLClientConfig={{
+            connectToDevTools:
+              process.env.NODE_ENV === 'development' ? true : false,
             queryDeduplication: true,
-          }} useAuth={useAuth}>
+          }}
+          useAuth={useAuth}
+        >
           <PostHogProvider client={posthog}>
-            <Routes />
+            <ShepherdJourneyProvider apiKey={process.env.SHEPHERD_PUBLIC_KEY}>
+              <Routes />
+            </ShepherdJourneyProvider>
           </PostHogProvider>
         </RedwoodApolloProvider>
       </AuthProvider>

@@ -52,7 +52,7 @@ const SignupPageContact = () => {
       <Toaster
         toastOptions={{
           className: 'rounded-none shadow-default border-2 border-black',
-          duration: 6000,
+          duration: 2000,
           style: {
             borderRadius: '0px',
           },

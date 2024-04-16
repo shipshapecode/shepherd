@@ -35,10 +35,14 @@ COPY graphql.config.js .
 FROM dependencies as web_build
 
 ARG POSTHOG_API_KEY
+ARG SHEPHERD_PUBLIC_KEY
 
 COPY web web
 RUN --mount=type=secret,id=POSTHOG_API_KEY \
-    POSTHOG_API_KEY="$(cat /run/secrets/POSTHOG_API_KEY)" yarn rw build web
+    --mount=type=secret,id=SHEPHERD_PUBLIC_KEY \
+    POSTHOG_API_KEY="$(cat /run/secrets/POSTHOG_API_KEY)" \
+    SHEPHERD_PUBLIC_KEY="$(cat /run/secrets/SHEPHERD_PUBLIC_KEY)" \
+    yarn rw build web
 
 FROM dependencies as api_build
 

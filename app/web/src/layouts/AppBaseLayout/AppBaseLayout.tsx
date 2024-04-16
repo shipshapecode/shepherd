@@ -1,8 +1,11 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useShepherd } from 'react-shepherd';
+import { offset } from '@floating-ui/dom';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
+import { useLocation } from '@redwoodjs/router';
 import { Toaster } from '@redwoodjs/web/toast';
 
 import { LogoLabel } from 'src/components/Logo/Logo';
@@ -14,7 +17,151 @@ type AppBaseLayoutProps = {
 };
 
 const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
+  const Shepherd = useShepherd();
+  const { pathname, search, hash } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const hasCompletedIntroJourney = localStorage.getItem(
+    'shepherdTour:introViewed'
+  );
+
+  useEffect(() => {
+    if (hasCompletedIntroJourney) return;
+    const tour = new Shepherd.Tour({
+      defaultStepOptions: {
+        classes: 'border-2 border-navy',
+      },
+      useModalOverlay: true,
+    });
+
+    tour.addSteps([
+      {
+        text: 'Welcome to Shepherd Pro! Here you can get started with setting up your first tour.',
+        buttons: [
+          {
+            action() {
+              return this.cancel();
+            },
+            secondary: true,
+            text: 'Exit',
+          },
+          {
+            action() {
+              return this.next();
+            },
+            text: 'Next',
+          },
+        ],
+      },
+      {
+        text: `First you need to initialize Shepherd Pro with your API Key. <br>Click the pink icon to copy it.`,
+        attachTo: {
+          element: '.journey-intro-1',
+          on: 'right',
+        },
+        floatingUIOptions: {
+          middleware: [offset(24)],
+        },
+        advanceOn: {
+          selector: '.copy-code-to-clipboard:first-of-type',
+          event: 'click',
+        },
+      },
+      {
+        text: `Great! Now you need to use that in your application to initialize Shepherd with this key. If you have the library already installed, just add this bit with your key before creating a new tour instance.`,
+        attachTo: {
+          element: '.journey-intro-2',
+          on: 'bottom',
+        },
+        buttons: [
+          {
+            action() {
+              return this.next();
+            },
+            text: 'Next',
+          },
+        ],
+      },
+      {
+        text: `You're going to need to give your tour instance an ID. If you've got an existing journey in your app, you just need to get an ID and apply it to the settings like shown here.`,
+        attachTo: {
+          element: '.journey-intro-3',
+          on: 'bottom',
+        },
+        buttons: [
+          {
+            action() {
+              return this.next();
+            },
+            text: 'Next',
+          },
+        ],
+      },
+      {
+        text: `Let's go add a journey instance to our admin and take that to the next level with Shepherd Pro. Click the link to get started.`,
+        attachTo: {
+          element: 'a[href*="journeys"]',
+          on: 'right',
+        },
+        advanceOn: {
+          selector: 'a[href*="journeys"]',
+          event: 'click',
+        },
+      },
+      {
+        text: `We just need to create the journey instance and then we can use that ID for our tour. Click the link to create a new journey.`,
+        attachTo: {
+          element: 'a[href*="journeys/new"]',
+          on: 'bottom',
+        },
+        advanceOn: {
+          selector: 'a[href*="journeys/new"]',
+          event: 'click',
+        },
+        beforeShowPromise() {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve({});
+            }, 1000);
+          });
+        },
+        floatingUIOptions: {
+          middleware: [offset(24)],
+        },
+      },
+      {
+        text: `Add a name and you can edit the ID, if you like. It just has to be unique to your account. Make sure you copy it, then click save to create the journey.`,
+        attachTo: {
+          element: '.journey-intro-new-id',
+          on: 'bottom',
+        },
+        advanceOn: {
+          selector: 'button[type="submit"]',
+          event: 'click',
+        },
+        beforeShowPromise() {
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve({});
+            }, 1000);
+          });
+        },
+      },
+      {
+        text: `Now you have what is needed to create a tour or connect an existing one to Shepherd Pro.`,
+        buttons: [
+          {
+            action() {
+              localStorage.setItem('shepherdTour:introViewed', 'true');
+              return this.complete();
+            },
+            text: 'Finish',
+          },
+        ],
+      },
+    ]);
+
+    if (!Shepherd.activeTour && pathname.includes('dashboard')) tour.start();
+  });
 
   return (
     <>
@@ -123,7 +270,10 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
         <Toaster
           toastOptions={{
             className: 'rounded-none shadow-default border-2 border-black',
-            duration: 6000,
+            duration: 2000,
+            style: {
+              borderRadius: '0px',
+            },
           }}
         />
         <main className="max-w-8xl py-10 selection:bg-cyan-50 lg:pl-72">

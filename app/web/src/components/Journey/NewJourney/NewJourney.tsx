@@ -44,14 +44,12 @@ const NewJourney = () => {
   return (
     <>
       <Metadata
-        title="Add Integration"
+        title="Add Journey"
         description="A form to add initial configuration details for a Journey"
       />
-      <Card className="w-full">
+      <Card className="journey-intro-new-id w-full">
         <CardHeader>
-          <CardTitle className="mb-6 font-heading">
-            {'New Integration'}
-          </CardTitle>
+          <CardTitle className="mb-6 font-heading">{'New Journey'}</CardTitle>
         </CardHeader>
         <CardContent>
           <JourneyForm onSave={onSave} loading={loading} error={error} />

@@ -64,11 +64,13 @@ const HomePage = () => {
             of Shepherd Pro`}
           </p>
           {currentUser?.Account && (
-            <CodeBlock
-              language="bash"
-              style={duotoneDark}
-              code={`shp_${currentUser.Account.apiKey}`}
-            />
+            <div className="journey-intro-1">
+              <CodeBlock
+                language="bash"
+                style={duotoneDark}
+                code={`shp_${currentUser.Account.apiKey}`}
+              />
+            </div>
           )}
 
           <div className="mt-4">
@@ -77,11 +79,13 @@ const HomePage = () => {
               to enhance, you can always start from scratch with the following
               import statement and setup code:`}
             </p>
-            <CodeBlock
-              language="javascript"
-              style={duotoneDark}
-              code={initCode}
-            />
+            <div className="journey-intro-2">
+              <CodeBlock
+                language="javascript"
+                style={duotoneDark}
+                code={initCode}
+              />
+            </div>
           </div>
           <div className="mt-4">
             <p className="font-body text-lg">
@@ -89,11 +93,13 @@ const HomePage = () => {
               and not you're setup to start creating tours with Shepherd Pro.
               A simple example of this would be:`}
             </p>
-            <CodeBlock
-              language="javascript"
-              style={duotoneDark}
-              code={setupTourCode}
-            />
+            <div className="journey-intro-3">
+              <CodeBlock
+                language="javascript"
+                style={duotoneDark}
+                code={setupTourCode}
+              />
+            </div>
           </div>
           <div className="mt-4">
             <p className="font-body text-lg">

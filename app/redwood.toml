@@ -10,7 +10,7 @@
   port = 8910
   apiUrl = "/api/v1" # You can customize graphql and dbauth urls individually too: see https://redwoodjs.com/docs/app-configuration-redwood-toml#api-paths
   includeEnvironmentVariables = [
-    'POSTHOG_API_KEY'
+    'POSTHOG_API_KEY', 'SHEPHERD_PUBLIC_KEY'
   ]
 [api]
   port = 8911
