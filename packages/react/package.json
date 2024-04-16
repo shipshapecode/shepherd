@@ -1,6 +1,6 @@
 {
   "name": "react-shepherd",
-  "version": "5.0.0-alpha.3",
+  "version": "5.0.0-alpha.6",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -13,7 +13,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -49,9 +50,12 @@
     "typescript": "^5.0.0"
   },
   "release-it": {
+    "git": {
+      "requireUpstream": false
+    },
     "hooks": {
       "after:bump": "pnpm build",
-      "after:release": "pnpm publish"
+      "after:release": "pnpm pack"
     },
     "npm": {
       "publish": false

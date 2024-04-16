@@ -1,3 +1,4 @@
+import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { ShepherdJourneyProvider, useShepherd } from '../src/index.tsx';
@@ -51,7 +52,7 @@ describe('<ShepherdTour />', () => {
       tour.addSteps(steps);
 
       return (
-        <button className='button dark' type='button' onClick={tour.start}>
+        <button className="button dark" type="button" onClick={tour.start}>
           Start Tour
         </button>
       );
