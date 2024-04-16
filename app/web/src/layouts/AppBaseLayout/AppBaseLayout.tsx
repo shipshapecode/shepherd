@@ -27,6 +27,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
   useEffect(() => {
     if (hasCompletedIntroJourney) return;
     const tour = new Shepherd.Tour({
+      id: 'hqmsgybtv4puot1hrvx3geo4',
       defaultStepOptions: {
         classes: 'border-2 border-navy',
       },
