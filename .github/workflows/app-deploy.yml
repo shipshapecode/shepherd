@@ -16,6 +16,6 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: |
           cd app
-          flyctl deploy --build-secret POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }}
+          flyctl deploy --build-secret POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} --build-secret SHEPHERD_PUBLIC_KEY=${{ secrets.SHEPHERD_PUBLIC_KEY }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

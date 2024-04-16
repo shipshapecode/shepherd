@@ -11,7 +11,7 @@ const CopyButton = ({ code }: { code: string }) => {
     <button className="absolute right-3 top-2">
       <CopyToClipboard text={code} onCopy={() => toast.success('Copied!')}>
         <div>
-          <DocumentDuplicateIcon className="h-4 w-4 text-pink-300 hover:text-pink-100" />
+          <DocumentDuplicateIcon className="copy-code-to-clipboard h-4 w-4 text-pink-300 hover:text-pink-100" />
         </div>
       </CopyToClipboard>
     </button>

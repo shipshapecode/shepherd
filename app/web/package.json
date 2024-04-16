@@ -27,6 +27,7 @@
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
+    "react-shepherd": "5.0.0-alpha.6",
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
