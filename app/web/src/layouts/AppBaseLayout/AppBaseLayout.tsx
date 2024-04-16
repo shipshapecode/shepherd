@@ -16,6 +16,33 @@ type AppBaseLayoutProps = {
   title: string;
 };
 
+function waitForTargetElement(elementSelector, timeout = 200) {
+  return new Promise((res) => {
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver((mut, self) => {
+      const targetEl = document.querySelector(elementSelector);
+
+      if (targetEl) {
+        // give the nav a moment to open
+        setTimeout(() => {
+          // stop observing
+          self.disconnect();
+
+          return res(targetEl);
+        }, timeout);
+      }
+    });
+
+    // Start observing the target node for configured mutations
+    /* eslint-disable-next-line ember/no-observers */
+    observer.observe(document, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+  });
+}
+
 const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
   const Shepherd = useShepherd();
   const { pathname, search, hash } = useLocation();
@@ -119,11 +146,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
           event: 'click',
         },
         beforeShowPromise() {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve({});
-            }, 1000);
-          });
+          return waitForTargetElement('a[href*="journeys/new"]');
         },
         floatingUIOptions: {
           middleware: [offset(24)],
@@ -140,11 +163,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
           event: 'click',
         },
         beforeShowPromise() {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve({});
-            }, 1000);
-          });
+          return waitForTargetElement('.journey-intro-new-id');
         },
       },
       {
