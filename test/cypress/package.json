@@ -32,7 +32,7 @@
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
     "start-server-and-test": "^2.0.3",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   },
   "packageManager": "pnpm@8.15.4",
   "engines": {
