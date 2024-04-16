@@ -40,7 +40,7 @@
     "concurrently": "^8.2.2",
     "del": "^7.1.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-jest": "^27.6.3",
+    "eslint-plugin-jest": "^28.2.0",
     "eslint-plugin-svelte": "^2.35.1",
     "jsdoc": "^4.0.2",
     "jsdoc-template-ship-shape": "^0.1.1",
