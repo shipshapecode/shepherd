@@ -149,8 +149,8 @@ importers:
         specifier: ^1.1.1
         version: 1.4.0(vitest@1.4.0)
       happy-dom:
-        specifier: ^14.3.9
-        version: 14.3.9
+        specifier: ^14.7.1
+        version: 14.7.1
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -162,7 +162,7 @@ importers:
         version: 3.7.3(typescript@5.4.5)(vite@5.2.8)
       vitest:
         specifier: ^1.1.1
-        version: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
+        version: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.7.1)
 
   shepherd.js:
     dependencies:
@@ -3767,7 +3767,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
+      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.7.1)
     dev: true
 
   /@testing-library/react@14.2.2(react-dom@18.2.0)(react@18.2.0):
@@ -4352,7 +4352,7 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9)
+      vitest: 1.4.0(@vitest/ui@1.4.0)(happy-dom@14.7.1)
     dev: true
 
   /@vitest/utils@1.4.0:
@@ -8104,8 +8104,8 @@ packages:
       duplexer: 0.1.2
     dev: true
 
-  /happy-dom@14.3.9:
-    resolution: {integrity: sha512-0kPQchwthekcYpYN8CvCiq+/z5bqFYDLbTxZ+yDLwT8AFRVJDFadShHRxp3VAZRy7a5isOZ1j/LzsU1dtAIZMQ==}
+  /happy-dom@14.7.1:
+    resolution: {integrity: sha512-v60Q0evZ4clvMcrAh5/F8EdxDdfHdFrtffz/CNe10jKD+nFweZVxM91tW+UyY2L4AtpgIaXdZ7TQmiO1pfcwbg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       entities: 4.5.0
@@ -16020,7 +16020,7 @@ packages:
       vite: 5.1.7
     dev: false
 
-  /vitest@1.4.0(@vitest/ui@1.4.0)(happy-dom@14.3.9):
+  /vitest@1.4.0(@vitest/ui@1.4.0)(happy-dom@14.7.1):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -16055,7 +16055,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
-      happy-dom: 14.3.9
+      happy-dom: 14.7.1
       local-pkg: 0.5.0
       magic-string: 0.30.7
       pathe: 1.1.2
