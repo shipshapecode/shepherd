@@ -99,8 +99,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.5
       '@astrojs/sitemap':
-        specifier: ^3.0.3
-        version: 3.1.1
+        specifier: ^3.1.2
+        version: 3.1.2
       '@astrojs/tailwind':
         specifier: ^5.0.3
         version: 5.1.0(astro@4.6.1)(tailwindcss@3.4.3)
@@ -608,8 +608,8 @@ packages:
       kleur: 4.1.5
     dev: false
 
-  /@astrojs/sitemap@3.1.1:
-    resolution: {integrity: sha512-qPgdBIcDUaea98mTtLfi5z9oXZpzSjEn/kes70/Ex8FOZZ+DIHVKRYOLOtvy8p+FTXr/9oc7BjmIbTYmYLLJVg==}
+  /@astrojs/sitemap@3.1.2:
+    resolution: {integrity: sha512-FxOJldIl5ltZ5CNjocQxHkAO9orwHBjqtaU28o4smobp9vowS0nbGp+I9CrPxkzWdl1crSDm9vjL9tnvG1DSug==}
     dependencies:
       sitemap: 7.1.1
       zod: 3.22.4

@@ -15,7 +15,7 @@
     "@astrojs/mdx": "^2.2.4",
     "@astrojs/partytown": "^2.0.4",
     "@astrojs/rss": "^4.0.1",
-    "@astrojs/sitemap": "^3.0.3",
+    "@astrojs/sitemap": "^3.1.2",
     "@astrojs/tailwind": "^5.0.3",
     "astro": "^4.6.1",
     "shepherd.js": "workspace:*",
