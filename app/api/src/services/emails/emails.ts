@@ -1,4 +1,8 @@
-import type { EmailInput, MutationResolvers, QueryResolvers } from 'types/graphql';
+import type {
+  EmailInput,
+  MutationResolvers,
+  QueryResolvers,
+} from 'types/graphql';
 
 import { ValidationError } from '@redwoodjs/graphql-server';
 import type { MailResult } from '@redwoodjs/mailer-core';
@@ -7,6 +11,7 @@ import { logger } from 'src/lib/logger';
 import { mailer } from 'src/lib/mailer';
 import { DemoRequest } from 'src/mail/DemoRequest/DemoRequest';
 import { WelcomeEmail } from 'src/mail/Welcome/Welcome';
+import { ResetPassword } from 'src/mail/ResetPassword/ResetPassword';
 
 const defaultEmail = 'Shepherd Pro <hello@shepherdpro.com>';
 
@@ -66,6 +71,16 @@ export const sendEmail: QueryResolvers['sendEmail'] = async ({ input }) => {
   return emailData;
 };
 
+export const sendResetEmail = async ({ input }) => {
+  logger.debug(input, 'creating email ...');
+
+  const emailData = await send({ input, template: ResetPassword });
+
+  logger.debug(emailData, 'saving sent email ...');
+
+  return emailData;
+};
+
 export const sendWelcomeEmail: QueryResolvers['sendWelcomeEmail'] = async ({
   input,
 }) => {
@@ -83,7 +98,7 @@ export const send = async ({
   template,
 }: {
   input: EmailInput;
-  template: () => JSX.Element;
+  template: (arg?) => JSX.Element;
 }) => {
   try {
     const from = input.from || defaultEmail;
@@ -93,7 +108,7 @@ export const send = async ({
 
     logger.debug({ from, to, subject, when, ...input }, 'sending email ....');
 
-    const data: MailResult = await mailer.send(template(), {
+    const data: MailResult = await mailer.send(template({ ...input }), {
       from,
       to,
       subject,
@@ -113,7 +128,7 @@ export const send = async ({
     }
 
     const statusId = data.messageID ?? 'unknown'; // value can't be null, but should be sendGrid message id
-    const emailData = { from, to, subject, statusId};
+    const emailData = { from, to, subject, statusId };
 
     logger.debug(emailData, 'sent email and saving with data');
 

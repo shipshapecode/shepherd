@@ -9,7 +9,7 @@ import type {
 import { cookieName } from 'src/lib/auth';
 import { db } from 'src/lib/db';
 import { generateAPIKey } from 'src/lib/utils';
-import { sendWelcomeEmail } from 'src/services/emails';
+import { sendResetEmail, sendWelcomeEmail } from 'src/services/emails';
 
 interface UserAttributes {
   name: string;
@@ -20,21 +20,20 @@ export const handler = async (
   context: Context
 ) => {
   const forgotPasswordOptions: DbAuthHandlerOptions['forgotPassword'] = {
-    // handler() is invoked after verifying that a user was found with the given
-    // username. This is where you can send the user an email with a link to
-    // reset their password. With the default dbAuth routes and field names, the
-    // URL to reset the password will be:
-    //
-    // https://example.com/reset-password?resetToken=${user.resetToken}
-    //
-    // Whatever is returned from this function will be returned from
-    // the `forgotPassword()` function that is destructured from `useAuth()`
-    // You could use this return value to, for example, show the email
-    // address in a toast message so the user will know it worked and where
-    // to look for the email.
-    handler: (_user, resetToken) => {
-      // TODO: Send the user an email with a link to reset their password
-      return resetToken;
+    handler: (user, resetToken) => {
+      const url =
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:8910'
+          : 'https://shepherdpro.com';
+      sendResetEmail({
+        input: {
+          to: user.email,
+          subject: 'Reset your password',
+          resetLink: `${url}/reset-password?resetToken=${resetToken}`,
+        },
+      });
+
+      return user;
     },
 
     // How long the resetToken is valid for, in seconds (default is 24 hours)

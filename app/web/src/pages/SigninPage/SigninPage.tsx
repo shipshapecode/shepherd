@@ -100,14 +100,12 @@ const SigninPage = () => {
             name="password"
           />
           <div className="text-light mt-2 text-sm">
-            Having trouble signing in?{' '}
             <Link
               to={routes.forgotPassword()}
-              className="text-primary hover:underline"
+              className="text-light italic hover:underline"
             >
-              Reset your password
+              Forgot your password?
             </Link>
-            .
             {/* or{' '}
                         <Link
                           to="/signin/magic-link"
