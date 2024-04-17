@@ -58,7 +58,7 @@ export function ResetPassword({ resetLink }) {
                   Otherwise, click the link below to reset your password.`}
                 </Text>
                 <Text className="text-base">
-                  <Link>{resetLink}</Link>
+                  <Link href={resetLink}>{resetLink}</Link>
                 </Text>
               </Row>
             </Section>
