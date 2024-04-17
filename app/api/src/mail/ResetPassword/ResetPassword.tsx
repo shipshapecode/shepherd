@@ -16,11 +16,11 @@ import {
 } from '@react-email/components';
 import { Tailwind } from '@react-email/tailwind';
 
-export function WelcomeEmail() {
+export function ResetPassword({ resetLink }) {
   return (
     <Html>
       <Head />
-      <Preview>Shepherd Pro, Welcome</Preview>
+      <Preview>Shepherd Pro Reset Password</Preview>
       <Tailwind
         config={{
           theme: {
@@ -48,32 +48,21 @@ export function WelcomeEmail() {
           />
           <Container className="p-45 bg-white">
             <Heading className="my-0 text-center leading-8">
-              Welcome to Shepherd Pro
+              {`Shepherd Pro Reset Password`}
             </Heading>
 
             <Section>
               <Row>
                 <Text className="text-base">
-                  {`Thank you! We're building a way to ensure your users have the
-                  best experience whether they are onboarding, you're
-                  introducing new features, gathering feedback, and more.`}
+                  {`If you did not request to reset your password, please ignore this email. 
+                  Otherwise, click the link below to reset your password.`}
                 </Text>
-
                 <Text className="text-base">
-                  {`We are excited to begin this journey (pun intended) with you in creating great
-                  experiences for your users and getting to the aha of your application. 
-                  Please feel free to reach out to us if you have any questions or need help at `}
-                  <Link href="mailto:hello@shepherdpro.com">
-                    hello@shepherdpro.com
-                  </Link>
-                  {` or open an issue in our 
-                  Github repo at `}
-                  <Link href="https://github.com/shepherd-pro/shepherd">
-                    https://github.com/shepherd-pro/shepherd
-                  </Link>
+                  <Link>{resetLink}</Link>
                 </Text>
               </Row>
             </Section>
+
             <Section className="mt-45">
               <Row>
                 <Column>
