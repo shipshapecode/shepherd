@@ -56,6 +56,9 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
     const tour = new Shepherd.Tour({
       id: 'hqmsgybtv4puot1hrvx3geo4',
       defaultStepOptions: {
+        cancelIcon: {
+          enabled: true,
+        },
         classes: 'border-2 border-navy',
       },
       useModalOverlay: true,
@@ -84,7 +87,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
         text: `First you need to initialize Shepherd Pro with your API Key. <br>Click the pink icon to copy it.`,
         attachTo: {
           element: '.journey-intro-1',
-          on: 'right',
+          on: 'bottom',
         },
         floatingUIOptions: {
           middleware: [offset(24)],
