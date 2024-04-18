@@ -1,5 +1,3 @@
-import { Link } from '@redwoodjs/router';
-
 import { Logo } from 'src/components/Logo/Logo';
 
 const categories = [
@@ -92,13 +90,13 @@ export default function Footer({
                     {category.title}
                   </span>
                   {category.items.map((item) => (
-                    <Link
-                      to={item.route}
+                    <a
+                      href={item.route}
                       className="block text-slate-500"
                       key={item.title}
                     >
                       {item.title}
-                    </Link>
+                    </a>
                   ))}
                 </div>
               ))}
