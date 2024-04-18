@@ -126,7 +126,7 @@ const SignupPageContact = () => {
       <div className="mt-8 flex w-full justify-center">
         <div className="flex w-full max-w-6xl flex-wrap p-4">
           <Benefits
-            description="Shepherd has full keyboard navigation support, focus trapping, and a11y compliance via aria attributes."
+            description="Advanced tooling to gain visibility into your user journeys and pinpoint where users might disengage or need extra help."
             imageSrc="img/accessibility.svg"
             title="Analytics"
           />
