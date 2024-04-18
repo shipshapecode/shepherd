@@ -2,37 +2,22 @@ import { Link } from '@redwoodjs/router';
 
 import { Logo } from 'src/components/Logo/Logo';
 
-const FooterHeading = (props: React.PropsWithChildren) => (
-  <div className="my-6 font-bold" {...props} />
-);
-
-const FooterLink = ({
-  isExternal = false,
-  href,
-  ...rest
-}: React.PropsWithChildren & { isExternal?: boolean; href: string }) => (
-  <div>
-    {isExternal ? <a href={href} {...rest} /> : <Link to={href} {...rest} />}
-  </div>
-);
-
 const categories = [
-  // {
-  //   title: 'Shepherd Pro',
-  //   items: [
-  //     { route: '/', title: 'Dashboard' },
-  //     { route: '/signin', title: 'Sign In' },
-  //     { route: '/signup', title: 'Sign Up' },
-  //     { route: '/reset-password', title: 'Reset Password' },
-  //   ],
-  // },
   {
-    title: 'Shepherd.js',
+    title: 'Shepherd Pro',
     items: [
-      { route: 'https://shepherdjs.dev', title: 'Demo' },
-      { route: 'https://shepherdjs.dev/signin', title: 'Docs' },
-      { route: 'https://shepherdjs.dev/signup', title: 'Blog' },
+      { route: '/', title: 'Home' },
+      { route: '/signin', title: 'Sign In' },
+      { route: '/signup', title: 'Sign Up' },
+    ],
+  },
+  {
+    title: 'Shepherd',
+    items: [
       { route: 'https://github.com/shepherd-pro/shepherd', title: 'Github' },
+      { route: 'https://shepherdjs.dev', title: 'Open Source Demo' },
+      { route: 'https://shepherdjs.dev/signin', title: 'Open Source Docs' },
+      { route: 'https://shepherdjs.dev/signup', title: 'Blog' },
     ],
   },
   // {
@@ -48,9 +33,9 @@ const categories = [
   //   ],
   // },
   {
-    title: 'Polychrome',
+    title: 'Our Friends @ Polychrome',
     items: [
-      { route: 'https://www.polychrome.com/#contact', title: 'Contact Us' },
+      // { route: 'https://www.polychrome.com/#contact', title: 'Contact Us' },
       { route: 'https://www.polychrome.com/blog', title: 'Blog' },
       { route: 'https://www.polychrome.com/#team', title: 'About' },
       { route: 'https://www.polychrome.com/#portfolio', title: 'Portfolio' },
@@ -61,17 +46,17 @@ const categories = [
   //   items: [
   //     {
   //       title: 'Terms of Use',
-  //       route: 'https://xyflow.com/terms-of-use',
+  //       route: 'https://example.com/terms-of-use',
   //     },
   //     {
   //       title: 'Ethical Standards',
-  //       route: 'https://xyflow.com/ethical-standards',
+  //       route: 'https://example.com/ethical-standards',
   //     },
   //     {
   //       title: 'Privacy Policy',
-  //       route: 'https://xyflow.com/privacy',
+  //       route: 'https://example.com/privacy',
   //     },
-  //     { title: 'Imprint', route: 'https://xyflow.com/imprint' },
+  //     { title: 'Imprint', route: 'https://example.com/imprint' },
   //   ],
   // },
 ];
@@ -91,7 +76,7 @@ export default function Footer({
         <div className="shrink-0 md:max-w-[600px] lg:mr-24 lg:max-w-[300px]">
           {message && (
             <>
-              {/* <Logo alt={message.title} /> */}
+              <Logo alt={message.title} />
               <div className="mb-6 font-heading text-2xl leading-none tracking-tight lg:mb-10">
                 {message.text}
               </div>
@@ -100,20 +85,24 @@ export default function Footer({
         </div>
         <div className="grow">
           <div className="flex h-[100%] grow flex-col">
-            {/* <div className="grid-gap-4 grid grid-cols-2 lg:grid-cols-4">
+            <div className="grid-gap-4 grid grid-cols-2 lg:grid-cols-4">
               {categories.map((category) => (
                 <div key={category.title} className="mt-4 lg:mt-0">
-                  <span className="text-light mb-2 text-gray-800 font-bold">
+                  <span className="text-light mb-2 font-bold text-gray-800">
                     {category.title}
                   </span>
                   {category.items.map((item) => (
-                    <a href={item.route} className="text-slate-500 block" key={item.title}>
+                    <Link
+                      to={item.route}
+                      className="block text-slate-500"
+                      key={item.title}
+                    >
                       {item.title}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               ))}
-            </div> */}
+            </div>
 
             <span className="mt-auto pt-6 text-sm text-gray-300">
               <a href="mailto:hello@shepherdpro.com">hello@shepherdpro.com</a>

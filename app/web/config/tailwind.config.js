@@ -154,9 +154,14 @@ const config = {
           '0%': { opacity: '0%' },
           '100%': { opacity: '100%' },
         },
+        marqueeLeft: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.5s ease-in-out',
+        marqueeLeft: 'marqueeLeft 30s linear infinite',
       },
       // fontSize: {
       //   xs: '0.75rem',
