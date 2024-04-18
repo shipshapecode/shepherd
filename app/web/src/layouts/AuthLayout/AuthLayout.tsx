@@ -26,9 +26,9 @@ const AuthLayout = ({ children }: BaseLayoutProps) => {
             <div className="mx-auto mb-20 max-w-6xl pt-10">
               <div className="mt-10 flex">
                 <div className="relative mt-6 hidden max-w-xl flex-1 p-4 md:block">
-                  <h1 className="leading mb-4 font-heading text-5xl font-black tracking-[-0.02rem] lg:text-6xl">
+                  <h1 className="mb-4 font-heading text-5xl font-black leading-tight tracking-[-0.02rem] lg:text-6xl">
                     Build Better User Journeys with{' '}
-                    <span className="text-react">Shepherd Pro</span>
+                    <span className="text-pink-400">Shepherd Pro</span>
                   </h1>
                   <p className="text-lg leading-tight">
                     By subscribing to Shepherd Pro you are learning more about
