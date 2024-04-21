@@ -23,14 +23,17 @@ const Benefits = ({
       <div
         className={cn(
           'w-full',
-          reverse && 'col-start-2',
+          reverse && 'md:col-start-2',
           !reverse && 'flex items-baseline justify-center'
         )}
       >
         <img className={imageClass} src={imageSrc} alt="" role="presentation" />
       </div>
       <div
-        className={cn('h-72 bg-white p-6 text-left', reverse && 'row-start-1')}
+        className={cn(
+          'h-72 bg-white p-6 text-left',
+          reverse && 'md:row-start-1'
+        )}
       >
         <h3 className="w-full p-2 font-heading text-2xl uppercase">{title}</h3>
 
@@ -98,7 +101,7 @@ const SignupPageContact = () => {
                 Brands that use Shepherd
               </h3>
               <div className="mx-auto overflow-hidden border-b-2 border-navy bg-white p-6 px-8 lg:px-20 2xl:px-0">
-                <div className="flex items-center justify-center gap-4 whitespace-nowrap py-12">
+                <div className="flex animate-marqueeLeft items-center justify-center gap-4 whitespace-nowrap py-12">
                   <img className="mr-8 w-16" src="users/ally.svg" alt="logo" />
                   <img
                     className="mr-8 w-32"
