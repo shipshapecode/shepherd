@@ -291,8 +291,8 @@ importers:
         specifier: ^4.3.10
         version: 4.4.1
       cypress:
-        specifier: ^13.7.2
-        version: 13.7.2
+        specifier: ^13.8.0
+        version: 13.8.0
       cypress-plugin-tab:
         specifier: ^1.0.5
         version: 1.0.5
@@ -6634,8 +6634,8 @@ packages:
       ally.js: 1.4.1
     dev: true
 
-  /cypress@13.7.2:
-    resolution: {integrity: sha512-FF5hFI5wlRIHY8urLZjJjj/YvfCBrRpglbZCLr/cYcL9MdDe0+5usa8kTIrDHthlEc9lwihbkb5dmwqBDNS2yw==}
+  /cypress@13.8.0:
+    resolution: {integrity: sha512-Qau//mtrwEGOU9cn2YjavECKyDUwBh8J2tit+y9s1wsv6C3BX+rlv6I9afmQnL8PmEEzJ6be7nppMHacFzZkTw==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     requiresBuild: true
