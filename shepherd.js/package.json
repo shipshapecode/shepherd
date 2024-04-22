@@ -75,7 +75,7 @@
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
-    "prettier-plugin-svelte": "^3.2.2",
+    "prettier-plugin-svelte": "^3.2.3",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.14.3",
