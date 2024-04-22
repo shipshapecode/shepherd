@@ -99,8 +99,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.5
       '@astrojs/sitemap':
-        specifier: ^3.1.2
-        version: 3.1.2
+        specifier: ^3.1.4
+        version: 3.1.4
       '@astrojs/tailwind':
         specifier: ^5.0.3
         version: 5.1.0(astro@4.6.1)(tailwindcss@3.4.3)
@@ -611,10 +611,11 @@ packages:
       kleur: 4.1.5
     dev: false
 
-  /@astrojs/sitemap@3.1.2:
-    resolution: {integrity: sha512-FxOJldIl5ltZ5CNjocQxHkAO9orwHBjqtaU28o4smobp9vowS0nbGp+I9CrPxkzWdl1crSDm9vjL9tnvG1DSug==}
+  /@astrojs/sitemap@3.1.4:
+    resolution: {integrity: sha512-po8CqDCK14O6phU1mB5C8SyVLyQEa+7pJM8oXxs1mVh8DgvxxaA5E7lak1vzOmBcyyyHBW32jakGqNYc66sBRw==}
     dependencies:
       sitemap: 7.1.1
+      stream-replace-string: 2.0.0
       zod: 3.22.4
     dev: false
 
@@ -15021,6 +15022,10 @@ packages:
     dependencies:
       duplexer: 0.1.2
     dev: true
+
+  /stream-replace-string@2.0.0:
+    resolution: {integrity: sha512-TlnjJ1C0QrmxRNrON00JvaFFlNh5TTG00APw23j74ET7gkQpTASi6/L2fuiav8pzK715HXtUeClpBTw2NPSn6w==}
+    dev: false
 
   /streamx@2.16.1:
     resolution: {integrity: sha512-m9QYj6WygWyWa3H1YY69amr4nVgy61xfjys7xO7kviL5rfIEc2naf+ewFiOA+aEJD7y0JO3h2GoiUv4TDwEGzQ==}
