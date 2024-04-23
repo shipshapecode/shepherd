@@ -4,3 +4,4 @@ packages:
   - "shepherd.js"
   - "test/cypress"
   - "test/unit"
+  - 'docs-src'

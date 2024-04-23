@@ -8,26 +8,31 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'My Docs',
+      title: 'Documentation',
+      description:
+        'Shepherd is a way for guiding users through your app to that moment of "aha!".',
+      logo: {
+        src: './src/assets/Shepherd-Lamb.svg'
+      },
+      favicon: '/favicon.ico',
       social: {
-        github: 'https://github.com/withastro/starlight'
+        github: 'https://github.com/shepherd-pro/shepherd'
       },
       plugins: [
-        // Generate the documentation.
         starlightTypeDoc({
-          entryPoints: ['../shepherd/shepherd.js/src'],
-          tsconfig: '../shepherd/shepherd.js/tsconfig.json'
+          entryPoints: ['./node_modules/shepherd.js/src/*.ts'],
+          tsconfig: './node_modules/shepherd.js/tsconfig.json',
+          typeDoc: {
+            entryPointStrategy: 'expand',
+            excludeExternals: true,
+            includeVersion: true
+          }
         })
       ],
       sidebar: [
         {
           label: 'Guides',
           items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Example Guide',
-              link: '/guides/example/'
-            },
             {
               label: 'Install',
               link: '/guides/install/'
@@ -45,7 +50,6 @@ export default defineConfig({
         {
           label: 'Recipes',
           items: [
-            // Each item here is one entry in the navigation menu.
             {
               label: 'Cookbook',
               link: '/recipes/cookbook/'
@@ -55,7 +59,6 @@ export default defineConfig({
         {
           label: 'Shepherd Pro',
           items: [
-            // Each item here is one entry in the navigation menu.
             {
               label: 'Example Guide',
               link: '/guides/example/'

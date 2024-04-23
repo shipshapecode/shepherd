@@ -44,9 +44,5 @@
     }
   },
   "include": ["src/**/*"],
-  "typedocOptions": {
-    "entryPoints": "src",
-    "entryPointStrategy": "expand",
-    "includeVersion": true
-  }
+  "exclude": ["node_modules", "dist"]
 }
