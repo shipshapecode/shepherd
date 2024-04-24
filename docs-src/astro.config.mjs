@@ -24,7 +24,6 @@ export default defineConfig({
           tsconfig: './node_modules/shepherd.js/tsconfig.json',
           typeDoc: {
             entryPointStrategy: 'expand',
-            excludeExternals: true,
             includeVersion: true
           }
         })
