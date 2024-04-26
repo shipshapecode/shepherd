@@ -1,0 +1,36 @@
+services:
+  redwood:
+    build:
+      context: .
+    volumes:
+      - .:/app
+      - yarn_cache:/root/.yarn/berry/cache
+      - node_cache:/root/.cache
+    ports:
+      - "8910:8910"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://redwood:redwood@db:5432/redwood
+      DIRECT_URL: postgresql://redwood:redwood@db:5432/redwood
+      TEST_DATABASE_URL: postgresql://redwood:redwood@db:5432/redwood_test
+      SESSION_SECRET: super_secret_session_key_change_me_in_production_please
+      POSTHOG_API_KEY: "POSTHOG_API_KEY"
+      SHEPHERD_PUBLIC_KEY: "SHEPHERD_PUBLIC_KEY"
+      NODE_ENV: production
+
+  db:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_USER: redwood
+      POSTGRES_PASSWORD: redwood
+      POSTGRES_DB: redwood
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  yarn_cache:
+  node_cache:
+  postgres:

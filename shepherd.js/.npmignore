@@ -3,7 +3,6 @@ cypress/
 docs-src/
 docs/
 esdoc/
-jsdoc-template/
 landing/
 site/
 test/

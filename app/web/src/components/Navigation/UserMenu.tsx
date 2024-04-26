@@ -1,4 +1,9 @@
-import { DocumentDuplicateIcon, PowerIcon, CogIcon, UserIcon } from '@heroicons/react/24/solid';
+import {
+  DocumentDuplicateIcon,
+  PowerIcon,
+  CogIcon,
+  UserIcon,
+} from '@heroicons/react/24/solid';
 
 import { NavLink, routes } from '@redwoodjs/router';
 
@@ -11,8 +16,8 @@ export default function UserMenu() {
     <ul className="space-y-1">
       <li>
         <a
-          href='https://shepherdjs.dev/docs'
-          target='_blank'
+          href="https://docs.shepherdpro.com/"
+          target="_blank"
           className="group flex w-full gap-x-3 rounded-md p-2 px-6 text-sm font-semibold leading-6 hover:bg-violet-50 hover:text-violet-600"
         >
           <DocumentDuplicateIcon className="h-6 w-6 group-hover:text-violet-600" />{' '}

@@ -1,0 +1,37 @@
+---
+title: Using Shepherd Pro
+description: A guide to using the Pro feature of Shepherd.
+---
+
+## Upgrade your tours to full user journeys
+
+To take your tours further and have more informed experiences, you can unlock event tracking with a Pro account. After signing up at [https://shepherdpro.com](https://shepherdpro.com), you will take your API key to initialize and connect events to your account.
+
+Before you create a new `Tour` instance, add your key via the `init` method:
+
+```javascript
+import Shepherd from 'shepherd.js';
+
+Shepherd.init({YOUR API KEY});
+
+const journey = new Shepherd.Tour({
+  ...
+});
+```
+
+The second thing needed is to create an instance in the Pro portal, which will give you an ID to add to the tour.
+
+```javascript
+const journey = new Shepherd.Tour({
+  id: 'custom-123',
+  defaultStepOptions: {
+    cancelIcon: {
+      enabled: true
+    },
+    classes: 'my-custom-class'
+  },
+  useModalOverlay: true
+});
+```
+
+Then you just need to add steps to the journey instance and trigger the start method to begin. Shepherd Pro will take care of the rest and capture events in the portal.

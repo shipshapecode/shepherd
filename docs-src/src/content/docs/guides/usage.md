@@ -1,3 +1,7 @@
+---
+title: Usage
+---
+
 ### Rollup/Webpack Based Builds
 
 The latest versions of Rollup and Webpack support ES6 imports. Shepherd ships as an ES module
