@@ -22,9 +22,8 @@ const Benefits = ({
     <div className="grid w-full grid-cols-1 lg:grid-cols-2">
       <div
         className={cn(
-          'w-full',
-          reverse && 'md:col-start-2',
-          !reverse && 'flex items-baseline justify-center'
+          'w-full flex items-baseline justify-center',
+          reverse && 'md:col-start-2'
         )}
       >
         <img className={imageClass} src={imageSrc} alt="" role="presentation" />
@@ -101,10 +100,10 @@ const SignupPageContact = () => {
                 Brands that use Shepherd
               </h3>
               <div className="mx-auto overflow-hidden border-b-2 border-navy bg-white p-6 px-8 lg:px-20 2xl:px-0">
-                <div className="flex animate-marqueeLeft items-center justify-center gap-4 whitespace-nowrap py-12">
+                <div className="flex animate-marqueeLeft justify-end gap-4 whitespace-nowrap py-12">
                   <img className="mr-8 w-16" src="users/ally.svg" alt="logo" />
                   <img
-                    className="mr-8 w-32"
+                    className="mt-2 mr-8 w-32 h-6"
                     src="users/bonsai.png"
                     alt="logo"
                   />
