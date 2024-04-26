@@ -59,8 +59,8 @@ export default defineConfig({
           label: 'Shepherd Pro',
           items: [
             {
-              label: 'Example Guide',
-              link: '/guides/example/'
+              label: 'Setup Guide',
+              link: '/guides/setup/'
             }
           ]
         },
