@@ -100,7 +100,7 @@ importers:
         version: link:../shepherd.js
       starlight-typedoc:
         specifier: ^0.10.1
-        version: 0.10.1(@astrojs/starlight@0.21.5)(astro@4.6.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13)
+        version: 0.10.1(@astrojs/starlight@0.21.5)(astro@4.6.3)(typedoc-plugin-markdown@4.0.0-next.59)(typedoc@0.25.13)
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.3
@@ -108,8 +108,8 @@ importers:
         specifier: ^0.25.13
         version: 0.25.13(typescript@5.4.5)
       typedoc-plugin-markdown:
-        specifier: 4.0.0-next.55
-        version: 4.0.0-next.55(typedoc@0.25.13)
+        specifier: 4.0.0-next.59
+        version: 4.0.0-next.59(typedoc@0.25.13)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -15056,7 +15056,7 @@ packages:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
     dev: true
 
-  /starlight-typedoc@0.10.1(@astrojs/starlight@0.21.5)(astro@4.6.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13):
+  /starlight-typedoc@0.10.1(@astrojs/starlight@0.21.5)(astro@4.6.3)(typedoc-plugin-markdown@4.0.0-next.59)(typedoc@0.25.13):
     resolution: {integrity: sha512-pcL7ZLODLXzPJAU5v6WFnP+SEk1JRC7ZBYlFoNIwnyFOKkDo+5pT37NoJs6cWwk6e2jN/fKjiSmgR/ylIyqhQw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -15069,7 +15069,7 @@ packages:
       astro: 4.6.3(typescript@5.4.5)
       github-slugger: 2.0.0
       typedoc: 0.25.13(typescript@5.4.5)
-      typedoc-plugin-markdown: 4.0.0-next.55(typedoc@0.25.13)
+      typedoc-plugin-markdown: 4.0.0-next.59(typedoc@0.25.13)
     dev: false
 
   /start-server-and-test@2.0.3:
@@ -15839,8 +15839,8 @@ packages:
       is-typedarray: 1.0.0
     dev: true
 
-  /typedoc-plugin-markdown@4.0.0-next.55(typedoc@0.25.13):
-    resolution: {integrity: sha512-bwEEBkAP0kHnjE10QzPBXAri5yHYmgb+vZP+xn9GirBLCk3lt7SMUiUx0fj7lEtTmbgIH0rv20f3xP+JWxCPHg==}
+  /typedoc-plugin-markdown@4.0.0-next.59(typedoc@0.25.13):
+    resolution: {integrity: sha512-UXnC5xnsGAd4ZIG7LsEh3RESWMy0ve9eDC+51Ql1B0D5byVp++aPonUzqSNGZylim+ee+OgSdrqx0mfnsXBLIQ==}
     peerDependencies:
       typedoc: 0.25.x
     dependencies:
