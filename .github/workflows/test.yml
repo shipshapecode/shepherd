@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
-  pull_request: {}
+    paths-ignore:
+      - 'app/**'
+  pull_request:
+    paths-ignore:
+      - 'app/**'
 
 jobs:
   lint:
