@@ -23,7 +23,9 @@
 
 <button
   aria-label={label ? label : null}
-  class={`${classes || ''} shepherd-button ${secondary ? 'shepherd-button-secondary' : ''}`}
+  class={`${classes || ''} shepherd-button ${
+    secondary ? 'shepherd-button-secondary' : ''
+  }`}
   {disabled}
   on:click={action}
   tabindex="0"
