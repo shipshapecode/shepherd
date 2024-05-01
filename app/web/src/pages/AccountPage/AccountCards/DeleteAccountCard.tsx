@@ -36,7 +36,7 @@ export const DeleteAccountCard = () => {
   };
 
   return (
-    <Card className="w-1/3 border-red-500 shadow-none">
+    <Card className="order-2 flex flex-col border-2 border-black border-red-500 pt-2 shadow-default shadow-none">
       <CardHeader>
         <CardTitle className="mb-6 font-heading">{'Delete Account'}</CardTitle>
       </CardHeader>

@@ -150,7 +150,7 @@ const HomePage = () => {
             ]}
             button={{
               label: 'Schedule Call',
-              href: 'https://cal.com/team/shepherd-pro',
+              href: 'https://cal.com/shepherd-pro/30min',
             }}
           />
           {/* <SubscriptionFeature
@@ -165,7 +165,7 @@ const HomePage = () => {
             plans={[SubscriptionPlan.STARTER]}
             button={{
               label: 'Schedule Support Call',
-              href: 'https://cal.com/team/shepherd-pro',
+              href: 'https://cal.com/shepherd-pro/30min',
             }}
             requireAdminSubscription
           />

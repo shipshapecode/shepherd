@@ -1,5 +1,6 @@
+import DemoDialog from 'src/components/DemoDialog';
 import Footer from 'src/components/Footer';
-import { LogoLabel } from 'src/components/Logo/Logo';
+import UnAuthNav from 'src/components/Navigation/UnAuthNav';
 
 type BaseLayoutProps = {
   children?: React.ReactNode;
@@ -8,17 +9,7 @@ type BaseLayoutProps = {
 const AuthLayout = ({ children }: BaseLayoutProps) => {
   return (
     <>
-      <div className="shepherd-nav relative top-0 border-b border-navy bg-white px-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between py-3">
-          <LogoLabel
-            label={
-              <span className="text-primary bg-pink-100 p-2 text-xs text-pink-400">
-                Pro
-              </span>
-            }
-          />
-        </div>
-      </div>
+      <UnAuthNav />
       <div className="relative min-h-[calc(100vh-200px)] overflow-hidden p-4">
         <div className="-m-4 h-full overflow-hidden">
           <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-[70vw] w-[100vw] -translate-x-1/2 -translate-y-1/2 bg-gradient-secondary opacity-10" />
@@ -44,6 +35,7 @@ const AuthLayout = ({ children }: BaseLayoutProps) => {
           </div>
         </div>
       </div>
+      <DemoDialog />
       <Footer />
     </>
   );

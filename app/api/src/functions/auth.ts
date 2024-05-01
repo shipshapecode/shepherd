@@ -9,10 +9,15 @@ import type {
 import { cookieName } from 'src/lib/auth';
 import { db } from 'src/lib/db';
 import { generateAPIKey } from 'src/lib/utils';
+import {
+  createSubscription,
+  getSubscriptionCheckoutUrl,
+} from 'src/services/subscriptions/subscriptions';
 import { sendResetEmail, sendWelcomeEmail } from 'src/services/emails';
 
 interface UserAttributes {
   name: string;
+  plan?: string;
 }
 
 export const handler = async (
@@ -121,12 +126,7 @@ export const handler = async (
     //
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
-    handler: async ({
-      username,
-      hashedPassword,
-      salt,
-      userAttributes: _userAttributes,
-    }) => {
+    handler: async ({ username, hashedPassword, salt, userAttributes }) => {
       const newAccount = await db.account.create({
         data: {
           apiKey: generateAPIKey(32),
@@ -138,11 +138,16 @@ export const handler = async (
           email: username,
           hashedPassword: hashedPassword,
           salt: salt,
-          name: _userAttributes.name,
+          name: userAttributes?.name,
           type: 'OWNER',
           accountId: newAccount.id,
         },
       });
+
+      const userPlan =
+        userAttributes?.plan === 'alpha-annual'
+          ? 'Early-Alpha-USD-Annual'
+          : 'Early-Alpha-USD-Monthly';
 
       if (newUser) {
         sendWelcomeEmail({
@@ -151,6 +156,23 @@ export const handler = async (
             subject: 'Welcome to Shepherd Pro',
           },
         });
+
+        createSubscription({
+          input: {
+            status: 'IN_TRIAL',
+            type: userPlan,
+            userId: newUser.id,
+          },
+        });
+
+        const { url } = await getSubscriptionCheckoutUrl({
+          planId: userPlan,
+        });
+
+        if (url) {
+          return url;
+        }
+
         return newUser;
       }
     },

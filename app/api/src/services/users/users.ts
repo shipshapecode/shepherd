@@ -18,7 +18,9 @@ export const user: QueryResolvers['user'] = ({ id }) => {
   });
 };
 
-export const createUser: MutationResolvers['createUser'] = ({ input }) => {
+export const createUser: MutationResolvers['createUser'] = async ({
+  input,
+}) => {
   return db.user.create({
     data: input,
   });

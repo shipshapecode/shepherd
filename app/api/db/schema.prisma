@@ -26,6 +26,16 @@ enum MetricTypes {
   IDENTIFY
 }
 
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  FREE_TRIAL
+  FUTURE
+  IN_TRIAL
+  NON_RENEWING
+  PAUSED
+}
+
 enum UserTypes {
   OWNER
   ADMIN
@@ -113,8 +123,6 @@ model Journey {
   exitOnEsc            Boolean  @default(true)
   isActive             Boolean  @default(true)
   keyboardNavigation   Boolean  @default(true)
-  // modalContainer       Json?
-  // stepsContainer       Json?
   tourName             String?
   useModalOverlay      Boolean  @default(true)
   steps                Step[]
@@ -162,6 +170,8 @@ model User {
   credentials         UserCredential[]
   Account             Account?         @relation(fields: [accountId], references: [id])
   accountId           String?
+  Subscription        Subscription?    @relation(fields: [subscriptionId], references: [id])
+  subscriptionId      String?
 }
 
 model UserCredential {
@@ -171,4 +181,18 @@ model UserCredential {
   publicKey  Json
   transports String?
   counter    BigInt
+}
+
+model Subscription {
+  id                  String             @id @default(cuid())
+  chargeBeeCustomerId String?
+  createdAt           DateTime           @default(now())
+  startDate           DateTime?
+  updatedAt           DateTime           @updatedAt
+  trailEnds           DateTime?
+  status              SubscriptionStatus
+  type                String
+  data                Json?
+  userId              String
+  User                User[]
 }

@@ -99,6 +99,12 @@ export type CreateMetricInput = {
   value: Scalars['String'];
 };
 
+export type CreateSubscriptionInput = {
+  status: SubscriptionStatus;
+  type: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type CreateUserInput = {
   accountId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
@@ -147,6 +153,12 @@ export type Group = {
   providerId: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   values: Scalars['JSON'];
+};
+
+export type HostedPage = {
+  __typename?: 'HostedPage';
+  id: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type Integration = {
@@ -245,6 +257,7 @@ export type Mutation = {
   createIntegration: Integration;
   createJourney: Journey;
   createMetric: Metric;
+  createSubscription: Subscription;
   createUser: User;
   deleteAccount: Account;
   deleteActor: Actor;
@@ -292,6 +305,11 @@ export type MutationcreateJourneyArgs = {
 
 export type MutationcreateMetricArgs = {
   input: CreateMetricInput;
+};
+
+
+export type MutationcreateSubscriptionArgs = {
+  input: CreateSubscriptionInput;
 };
 
 
@@ -386,6 +404,12 @@ export type MutationupdateUserArgs = {
   input: UpdateUserInput;
 };
 
+export type PortalPage = {
+  __typename?: 'PortalPage';
+  access_url: Scalars['String'];
+  id: Scalars['String'];
+};
+
 /** About the Redwood queries. */
 export type Query = {
   __typename?: 'Query';
@@ -396,6 +420,8 @@ export type Query = {
   actorsByJourney: ActorsByJourneyList;
   actorsListPaginated: ActorsList;
   actorsWithMetrics: Array<Actor>;
+  getSubscriptionCheckoutUrl: HostedPage;
+  getSubscriptionPortalSesion: PortalPage;
   group?: Maybe<Group>;
   groups: Array<Group>;
   integration?: Maybe<Integration>;
@@ -434,6 +460,12 @@ export type QueryactorsByJourneyArgs = {
 /** About the Redwood queries. */
 export type QueryactorsListPaginatedArgs = {
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** About the Redwood queries. */
+export type QuerygetSubscriptionCheckoutUrlArgs = {
+  planId: Scalars['String'];
 };
 
 
@@ -492,6 +524,29 @@ export type Redwood = {
   /** The version of Redwood. */
   version?: Maybe<Scalars['String']>;
 };
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  User?: Maybe<Array<Maybe<User>>>;
+  chargeBeeCustomerId?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  data?: Maybe<Scalars['JSON']>;
+  id: Scalars['String'];
+  startDate?: Maybe<Scalars['DateTime']>;
+  status: SubscriptionStatus;
+  trailEnds?: Maybe<Scalars['DateTime']>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type SubscriptionStatus =
+  | 'ACTIVE'
+  | 'CANCELLED'
+  | 'FREE_TRIAL'
+  | 'FUTURE'
+  | 'IN_TRIAL'
+  | 'NON_RENEWING'
+  | 'PAUSED';
 
 export type UpdateAccountInput = {
   apiKey?: InputMaybe<Scalars['String']>;
@@ -776,3 +831,8 @@ export type DeleteUserAccountMutationVariables = Exact<{
 
 
 export type DeleteUserAccountMutation = { __typename?: 'Mutation', deleteUser: { __typename?: 'User', id: string } };
+
+export type GetPortalUrlVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPortalUrl = { __typename?: 'Query', getSubscriptionPortalSesion: { __typename?: 'PortalPage', id: string, access_url: string } };

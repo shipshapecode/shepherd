@@ -17,6 +17,7 @@
     "@redwoodjs/mailer-renderer-react-email": "7.4.3",
     "@sendgrid/mail": "^8.1.0",
     "@simplewebauthn/server": "^7",
+    "chargebee": "^2.34.1",
     "posthog-node": "^3.6.2",
     "stream": "^0.0.2"
   },

@@ -19,21 +19,19 @@
 [notifications]
   versionUpdates = ["latest"]
 
-[experimental.studio]
+[studio]
   # Determines whether the studio should run with an in memory database or persist the data
   # to a file in your project within `./redwood`
   enabled = true
   inMemory = false
 
-[experimental.studio.graphiql]
+[studio.graphiql]
   endpoint = 'graphql'
 
-[experimental.studio.graphiql.authImpersonation]
+[studio.graphiql.authImpersonation]
   authProvider = "dbAuth"
-  jwtSecret = 'secret'
-  # userId = undefined (default value)
-  # email = undefined (default value)
-  # roles = undefined (default value)
+  email = "user@example.com"
+  userId = "clszeou1j0002dupcll40eiwq"
 
 [experimental.dockerfile]
 	enabled = true
