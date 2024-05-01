@@ -50,10 +50,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # install all the dependencies
-      - run: yarn install
+      - run: pnpm i
       # build the redwood app
-      - run: yarn rw build
+      - run: pnpm rw build
       # run the api tests
-      - run: yarn rw test api --no-watch
+      - run: pnpm rw test api --no-watch
       # # run the web tests
-      # - run: yarn rw test web --no-watch
+      # - run: pnpm rw test web --no-watch

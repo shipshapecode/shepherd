@@ -8,8 +8,8 @@ import { hashPassword } from '@redwoodjs/auth-dbauth-api';
 export default async () => {
   try {
     //
-    // Manually seed via `yarn rw prisma db seed`
-    // Seeds automatically with `yarn rw prisma migrate dev` and `yarn rw prisma migrate reset`
+    // Manually seed via `pnpm rw prisma db seed`
+    // Seeds automatically with `pnpm rw prisma migrate dev` and `pnpm rw prisma migrate reset`
     //
     // Update "const data = []" to match your data model and seeding needs
     //

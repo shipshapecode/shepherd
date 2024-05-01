@@ -1,5 +1,5 @@
 # Static Assets
-Use this folder to add static files directly to your app. All included files and folders will be copied directly into the `/dist` folder (created when Vite builds for production). They will also be available during development when you run `yarn rw dev`.
+Use this folder to add static files directly to your app. All included files and folders will be copied directly into the `/dist` folder (created when Vite builds for production). They will also be available during development when you run `pnpm rw dev`.
 >Note: files will *not* hot reload while the development server is running. You'll need to manually stop/start to access file changes.
 
 ### Example Use

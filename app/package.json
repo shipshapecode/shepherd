@@ -22,7 +22,7 @@
     "node": ">=20.x"
   },
   "prisma": {
-    "seed": "yarn rw exec seed"
+    "seed": "pnpm rw exec seed"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "pnpm@8.15.4"
 }

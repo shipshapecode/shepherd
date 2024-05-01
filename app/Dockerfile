@@ -42,12 +42,12 @@ RUN --mount=type=secret,id=POSTHOG_API_KEY \
     --mount=type=secret,id=SHEPHERD_PUBLIC_KEY \
     POSTHOG_API_KEY="$(cat /run/secrets/POSTHOG_API_KEY)" \
     SHEPHERD_PUBLIC_KEY="$(cat /run/secrets/SHEPHERD_PUBLIC_KEY)" \
-    yarn rw build web
+    pnpm rw build web
 
 FROM dependencies as api_build
 
 COPY api api
-RUN yarn rw build api
+RUN pnpm rw build api
 
 FROM dependencies
 
