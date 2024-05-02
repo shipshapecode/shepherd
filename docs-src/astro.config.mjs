@@ -61,6 +61,10 @@ export default defineConfig({
             {
               label: 'Setup Guide',
               link: '/guides/setup/'
+            },
+            {
+              label: 'Analytics',
+              link: '/guides/analytics/'
             }
           ]
         },
