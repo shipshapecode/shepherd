@@ -18,6 +18,10 @@ export default defineConfig({
       social: {
         github: 'https://github.com/shepherd-pro/shepherd'
       },
+      components: {
+        // Override the default `Head` component.
+        Head: './src/components/HeadWithPosthog.astro'
+      },
       plugins: [
         starlightTypeDoc({
           entryPoints: ['./node_modules/shepherd.js/src/*.ts'],
