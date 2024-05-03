@@ -1,0 +1,8 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Head.astro';
+import PostHog from './Posthog.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+<PostHog />
