@@ -67,7 +67,7 @@
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
-    "cssnano": "^6.1.2",
+    "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
     "postcss": "^8.4.38",
