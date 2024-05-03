@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client"
 import { MergePrismaWithSdlTypes, MakeRelationsOptional } from '@redwoodjs/api'
-import { Account as PrismaAccount, Integration as PrismaIntegration, Metric as PrismaMetric, Actor as PrismaActor, Group as PrismaGroup, Journey as PrismaJourney, Step as PrismaStep, User as PrismaUser, UserCredential as PrismaUserCredential } from '@prisma/client'
+import { Account as PrismaAccount, Integration as PrismaIntegration, Metric as PrismaMetric, Actor as PrismaActor, Group as PrismaGroup, Journey as PrismaJourney, Step as PrismaStep, User as PrismaUser, UserCredential as PrismaUserCredential, Subscription as PrismaSubscription } from '@prisma/client'
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { RedwoodGraphQLContext } from '@redwoodjs/graphql-server/dist/types';
 export type Maybe<T> = T | null;
@@ -118,6 +118,12 @@ export type CreateMetricInput = {
   value: Scalars['String'];
 };
 
+export type CreateSubscriptionInput = {
+  status: SubscriptionStatus;
+  type: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type CreateUserInput = {
   accountId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
@@ -166,6 +172,12 @@ export type Group = {
   providerId: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   values: Scalars['JSON'];
+};
+
+export type HostedPage = {
+  __typename?: 'HostedPage';
+  id: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export type Integration = {
@@ -264,6 +276,7 @@ export type Mutation = {
   createIntegration: Integration;
   createJourney: Journey;
   createMetric: Metric;
+  createSubscription: Subscription;
   createUser: User;
   deleteAccount: Account;
   deleteActor: Actor;
@@ -311,6 +324,11 @@ export type MutationcreateJourneyArgs = {
 
 export type MutationcreateMetricArgs = {
   input: CreateMetricInput;
+};
+
+
+export type MutationcreateSubscriptionArgs = {
+  input: CreateSubscriptionInput;
 };
 
 
@@ -405,6 +423,12 @@ export type MutationupdateUserArgs = {
   input: UpdateUserInput;
 };
 
+export type PortalPage = {
+  __typename?: 'PortalPage';
+  access_url: Scalars['String'];
+  id: Scalars['String'];
+};
+
 /** About the Redwood queries. */
 export type Query = {
   __typename?: 'Query';
@@ -415,6 +439,8 @@ export type Query = {
   actorsByJourney: ActorsByJourneyList;
   actorsListPaginated: ActorsList;
   actorsWithMetrics: Array<Actor>;
+  getSubscriptionCheckoutUrl: HostedPage;
+  getSubscriptionPortalSesion: PortalPage;
   group?: Maybe<Group>;
   groups: Array<Group>;
   integration?: Maybe<Integration>;
@@ -453,6 +479,12 @@ export type QueryactorsByJourneyArgs = {
 /** About the Redwood queries. */
 export type QueryactorsListPaginatedArgs = {
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** About the Redwood queries. */
+export type QuerygetSubscriptionCheckoutUrlArgs = {
+  planId: Scalars['String'];
 };
 
 
@@ -511,6 +543,29 @@ export type Redwood = {
   /** The version of Redwood. */
   version?: Maybe<Scalars['String']>;
 };
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  User?: Maybe<Array<Maybe<User>>>;
+  chargeBeeCustomerId?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  data?: Maybe<Scalars['JSON']>;
+  id: Scalars['String'];
+  startDate?: Maybe<Scalars['DateTime']>;
+  status: SubscriptionStatus;
+  trailEnds?: Maybe<Scalars['DateTime']>;
+  type?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type SubscriptionStatus =
+  | 'ACTIVE'
+  | 'CANCELLED'
+  | 'FREE_TRIAL'
+  | 'FUTURE'
+  | 'IN_TRIAL'
+  | 'NON_RENEWING'
+  | 'PAUSED';
 
 export type UpdateAccountInput = {
   apiKey?: InputMaybe<Scalars['String']>;
@@ -588,7 +643,7 @@ export type UserTypes =
   | 'VIEWER';
 
 type MaybeOrArrayOfMaybe<T> = T | Maybe<T> | Maybe<T>[];
-type AllMappedModels = MaybeOrArrayOfMaybe<Account | Actor | Group | Integration | Journey | Metric | User>
+type AllMappedModels = MaybeOrArrayOfMaybe<Account | Actor | Group | Integration | Journey | Metric | Subscription | User>
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -662,6 +717,7 @@ export type ResolversTypes = {
   CreateIntegrationInput: CreateIntegrationInput;
   CreateJourneyInput: CreateJourneyInput;
   CreateMetricInput: CreateMetricInput;
+  CreateSubscriptionInput: CreateSubscriptionInput;
   CreateUserInput: CreateUserInput;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -669,6 +725,7 @@ export type ResolversTypes = {
   EmailInput: EmailInput;
   EmailResponse: ResolverTypeWrapper<EmailResponse>;
   Group: ResolverTypeWrapper<MergePrismaWithSdlTypes<PrismaGroup, MakeRelationsOptional<Group, AllMappedModels>, AllMappedModels>>;
+  HostedPage: ResolverTypeWrapper<HostedPage>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Integration: ResolverTypeWrapper<MergePrismaWithSdlTypes<PrismaIntegration, MakeRelationsOptional<Integration, AllMappedModels>, AllMappedModels>>;
   IntegrationCohort: ResolverTypeWrapper<IntegrationCohort>;
@@ -680,9 +737,12 @@ export type ResolversTypes = {
   Metric: ResolverTypeWrapper<MergePrismaWithSdlTypes<PrismaMetric, MakeRelationsOptional<Metric, AllMappedModels>, AllMappedModels>>;
   MetricTypes: MetricTypes;
   Mutation: ResolverTypeWrapper<{}>;
+  PortalPage: ResolverTypeWrapper<PortalPage>;
   Query: ResolverTypeWrapper<{}>;
   Redwood: ResolverTypeWrapper<Redwood>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Subscription: ResolverTypeWrapper<{}>;
+  SubscriptionStatus: SubscriptionStatus;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   UpdateAccountInput: UpdateAccountInput;
   UpdateActorInput: UpdateActorInput;
@@ -710,6 +770,7 @@ export type ResolversParentTypes = {
   CreateIntegrationInput: CreateIntegrationInput;
   CreateJourneyInput: CreateJourneyInput;
   CreateMetricInput: CreateMetricInput;
+  CreateSubscriptionInput: CreateSubscriptionInput;
   CreateUserInput: CreateUserInput;
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
@@ -717,6 +778,7 @@ export type ResolversParentTypes = {
   EmailInput: EmailInput;
   EmailResponse: EmailResponse;
   Group: MergePrismaWithSdlTypes<PrismaGroup, MakeRelationsOptional<Group, AllMappedModels>, AllMappedModels>;
+  HostedPage: HostedPage;
   Int: Scalars['Int'];
   Integration: MergePrismaWithSdlTypes<PrismaIntegration, MakeRelationsOptional<Integration, AllMappedModels>, AllMappedModels>;
   IntegrationCohort: IntegrationCohort;
@@ -725,9 +787,11 @@ export type ResolversParentTypes = {
   Journey: MergePrismaWithSdlTypes<PrismaJourney, MakeRelationsOptional<Journey, AllMappedModels>, AllMappedModels>;
   Metric: MergePrismaWithSdlTypes<PrismaMetric, MakeRelationsOptional<Metric, AllMappedModels>, AllMappedModels>;
   Mutation: {};
+  PortalPage: PortalPage;
   Query: {};
   Redwood: Redwood;
   String: Scalars['String'];
+  Subscription: {};
   Time: Scalars['Time'];
   UpdateAccountInput: UpdateAccountInput;
   UpdateActorInput: UpdateActorInput;
@@ -882,6 +946,18 @@ export type GroupRelationResolvers<ContextType = RedwoodGraphQLContext, ParentTy
   providerId?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: RequiredResolverFn<ResolversTypes['DateTime'], ParentType, ContextType>;
   values?: RequiredResolverFn<ResolversTypes['JSON'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HostedPageResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['HostedPage'] = ResolversParentTypes['HostedPage']> = {
+  id: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  url: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HostedPageRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['HostedPage'] = ResolversParentTypes['HostedPage']> = {
+  id?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  url?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1048,6 +1124,7 @@ export type MutationResolvers<ContextType = RedwoodGraphQLContext, ParentType ex
   createIntegration: Resolver<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationcreateIntegrationArgs, 'input'>>;
   createJourney: Resolver<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationcreateJourneyArgs, 'input'>>;
   createMetric: Resolver<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationcreateMetricArgs, 'input'>>;
+  createSubscription: Resolver<ResolversTypes['Subscription'], ParentType, ContextType, RequireFields<MutationcreateSubscriptionArgs, 'input'>>;
   createUser: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationcreateUserArgs, 'input'>>;
   deleteAccount: Resolver<ResolversTypes['Account'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id'>>;
   deleteActor: Resolver<ResolversTypes['Actor'], ParentType, ContextType, RequireFields<MutationdeleteActorArgs, 'id'>>;
@@ -1074,6 +1151,7 @@ export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, Paren
   createIntegration?: RequiredResolverFn<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationcreateIntegrationArgs, 'input'>>;
   createJourney?: RequiredResolverFn<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationcreateJourneyArgs, 'input'>>;
   createMetric?: RequiredResolverFn<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationcreateMetricArgs, 'input'>>;
+  createSubscription?: RequiredResolverFn<ResolversTypes['Subscription'], ParentType, ContextType, RequireFields<MutationcreateSubscriptionArgs, 'input'>>;
   createUser?: RequiredResolverFn<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationcreateUserArgs, 'input'>>;
   deleteAccount?: RequiredResolverFn<ResolversTypes['Account'], ParentType, ContextType, RequireFields<MutationdeleteAccountArgs, 'id'>>;
   deleteActor?: RequiredResolverFn<ResolversTypes['Actor'], ParentType, ContextType, RequireFields<MutationdeleteActorArgs, 'id'>>;
@@ -1093,6 +1171,18 @@ export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, Paren
   updateUser?: RequiredResolverFn<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationupdateUserArgs, 'id' | 'input'>>;
 };
 
+export type PortalPageResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['PortalPage'] = ResolversParentTypes['PortalPage']> = {
+  access_url: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  id: OptArgsResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PortalPageRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['PortalPage'] = ResolversParentTypes['PortalPage']> = {
+  access_url?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  id?: RequiredResolverFn<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   account: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType, RequireFields<QueryaccountArgs, 'id'>>;
   accounts: OptArgsResolverFn<Array<ResolversTypes['Account']>, ParentType, ContextType>;
@@ -1101,6 +1191,8 @@ export type QueryResolvers<ContextType = RedwoodGraphQLContext, ParentType exten
   actorsByJourney: Resolver<ResolversTypes['ActorsByJourneyList'], ParentType, ContextType, RequireFields<QueryactorsByJourneyArgs, 'journeyId'>>;
   actorsListPaginated: Resolver<ResolversTypes['ActorsList'], ParentType, ContextType, Partial<QueryactorsListPaginatedArgs>>;
   actorsWithMetrics: OptArgsResolverFn<Array<ResolversTypes['Actor']>, ParentType, ContextType>;
+  getSubscriptionCheckoutUrl: Resolver<ResolversTypes['HostedPage'], ParentType, ContextType, RequireFields<QuerygetSubscriptionCheckoutUrlArgs, 'planId'>>;
+  getSubscriptionPortalSesion: OptArgsResolverFn<ResolversTypes['PortalPage'], ParentType, ContextType>;
   group: Resolver<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QuerygroupArgs, 'id'>>;
   groups: OptArgsResolverFn<Array<ResolversTypes['Group']>, ParentType, ContextType>;
   integration: Resolver<Maybe<ResolversTypes['Integration']>, ParentType, ContextType, RequireFields<QueryintegrationArgs, 'id'>>;
@@ -1124,6 +1216,8 @@ export type QueryRelationResolvers<ContextType = RedwoodGraphQLContext, ParentTy
   actorsByJourney?: RequiredResolverFn<ResolversTypes['ActorsByJourneyList'], ParentType, ContextType, RequireFields<QueryactorsByJourneyArgs, 'journeyId'>>;
   actorsListPaginated?: RequiredResolverFn<ResolversTypes['ActorsList'], ParentType, ContextType, Partial<QueryactorsListPaginatedArgs>>;
   actorsWithMetrics?: RequiredResolverFn<Array<ResolversTypes['Actor']>, ParentType, ContextType>;
+  getSubscriptionCheckoutUrl?: RequiredResolverFn<ResolversTypes['HostedPage'], ParentType, ContextType, RequireFields<QuerygetSubscriptionCheckoutUrlArgs, 'planId'>>;
+  getSubscriptionPortalSesion?: RequiredResolverFn<ResolversTypes['PortalPage'], ParentType, ContextType>;
   group?: RequiredResolverFn<Maybe<ResolversTypes['Group']>, ParentType, ContextType, RequireFields<QuerygroupArgs, 'id'>>;
   groups?: RequiredResolverFn<Array<ResolversTypes['Group']>, ParentType, ContextType>;
   integration?: RequiredResolverFn<Maybe<ResolversTypes['Integration']>, ParentType, ContextType, RequireFields<QueryintegrationArgs, 'id'>>;
@@ -1151,6 +1245,32 @@ export type RedwoodRelationResolvers<ContextType = RedwoodGraphQLContext, Parent
   prismaVersion?: RequiredResolverFn<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   version?: RequiredResolverFn<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type SubscriptionResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  User: SubscriptionResolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, "User", ParentType, ContextType>;
+  chargeBeeCustomerId: SubscriptionResolver<Maybe<ResolversTypes['String']>, "chargeBeeCustomerId", ParentType, ContextType>;
+  createdAt: SubscriptionResolver<ResolversTypes['DateTime'], "createdAt", ParentType, ContextType>;
+  data: SubscriptionResolver<Maybe<ResolversTypes['JSON']>, "data", ParentType, ContextType>;
+  id: SubscriptionResolver<ResolversTypes['String'], "id", ParentType, ContextType>;
+  startDate: SubscriptionResolver<Maybe<ResolversTypes['DateTime']>, "startDate", ParentType, ContextType>;
+  status: SubscriptionResolver<ResolversTypes['SubscriptionStatus'], "status", ParentType, ContextType>;
+  trailEnds: SubscriptionResolver<Maybe<ResolversTypes['DateTime']>, "trailEnds", ParentType, ContextType>;
+  type: SubscriptionResolver<Maybe<ResolversTypes['String']>, "type", ParentType, ContextType>;
+  updatedAt: SubscriptionResolver<ResolversTypes['DateTime'], "updatedAt", ParentType, ContextType>;
+};
+
+export type SubscriptionRelationResolvers<ContextType = RedwoodGraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  User: SubscriptionResolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, "User", ParentType, ContextType>;
+  chargeBeeCustomerId: SubscriptionResolver<Maybe<ResolversTypes['String']>, "chargeBeeCustomerId", ParentType, ContextType>;
+  createdAt: SubscriptionResolver<ResolversTypes['DateTime'], "createdAt", ParentType, ContextType>;
+  data: SubscriptionResolver<Maybe<ResolversTypes['JSON']>, "data", ParentType, ContextType>;
+  id: SubscriptionResolver<ResolversTypes['String'], "id", ParentType, ContextType>;
+  startDate: SubscriptionResolver<Maybe<ResolversTypes['DateTime']>, "startDate", ParentType, ContextType>;
+  status: SubscriptionResolver<ResolversTypes['SubscriptionStatus'], "status", ParentType, ContextType>;
+  trailEnds: SubscriptionResolver<Maybe<ResolversTypes['DateTime']>, "trailEnds", ParentType, ContextType>;
+  type: SubscriptionResolver<Maybe<ResolversTypes['String']>, "type", ParentType, ContextType>;
+  updatedAt: SubscriptionResolver<ResolversTypes['DateTime'], "updatedAt", ParentType, ContextType>;
 };
 
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
@@ -1198,6 +1318,7 @@ export type Resolvers<ContextType = RedwoodGraphQLContext> = {
   DateTime: GraphQLScalarType;
   EmailResponse: EmailResponseResolvers<ContextType>;
   Group: GroupResolvers<ContextType>;
+  HostedPage: HostedPageResolvers<ContextType>;
   Integration: IntegrationResolvers<ContextType>;
   IntegrationCohort: IntegrationCohortResolvers<ContextType>;
   JSON: GraphQLScalarType;
@@ -1205,8 +1326,10 @@ export type Resolvers<ContextType = RedwoodGraphQLContext> = {
   Journey: JourneyResolvers<ContextType>;
   Metric: MetricResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
+  PortalPage: PortalPageResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
   Redwood: RedwoodResolvers<ContextType>;
+  Subscription: SubscriptionResolvers<ContextType>;
   Time: GraphQLScalarType;
   User: UserResolvers<ContextType>;
 };

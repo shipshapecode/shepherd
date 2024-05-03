@@ -57,10 +57,10 @@ function SubscriptionFeature({
         {isActive ? (
           <>
             {button && (
-              <Link to={button.href} className="text-md br font-bold">
+              <a href={button.href} className="text-md br font-bold">
                 {button.label}
                 <ArrowLongRightIcon className="ml-2 inline-block h-4 w-4" />
-              </Link>
+              </a>
             )}
           </>
         ) : isTeamSubscribed ? (

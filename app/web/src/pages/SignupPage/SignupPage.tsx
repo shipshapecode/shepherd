@@ -8,7 +8,7 @@ import {
   FieldError,
   Submit,
 } from '@redwoodjs/forms';
-import { Link, navigate, routes } from '@redwoodjs/router';
+import { Link, navigate, routes, useParams } from '@redwoodjs/router';
 import { Metadata } from '@redwoodjs/web';
 import { toast, Toaster } from '@redwoodjs/web/toast';
 
@@ -22,12 +22,13 @@ import {
 
 const SignupPage = () => {
   const { isAuthenticated, signUp } = useAuth();
+  const { plan } = useParams();
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate(routes.home());
     }
-  }, [isAuthenticated]);
+  });
 
   // focus on email box on page load
   const emailRef = useRef<HTMLInputElement>(null);
@@ -39,14 +40,23 @@ const SignupPage = () => {
     const response = await signUp({
       username: data.email,
       password: data.password,
+      userAttributes: { plan },
     });
+    console.log(response, 'response 🍻');
 
     if (response.message) {
+      const urlRegex =
+        /^https?:\/\/(?:[a-zA-Z0-9-]+\.)?chargebee\.com(?:\/[\w-]+)*\/?$/;
+      const isValidUrl = urlRegex.test(response.message);
+
+      if (isValidUrl) {
+        return window.location.assign(response.message);
+      }
+
       toast(response.message);
     } else if (response.error) {
       toast.error(response.error);
     } else {
-      // user is signed in automatically
       toast.success('Welcome!');
     }
   };

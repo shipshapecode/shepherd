@@ -40,9 +40,9 @@ export const ChangeEmailCard = () => {
   };
 
   return (
-    <Card className="w-1/3">
+    <Card className="order-2 flex flex-col border-2 border-black pt-2 shadow-default">
       <CardHeader>
-        <CardTitle className="font-heading">{'Change Email'}</CardTitle>
+        <CardTitle className="mb-6 font-heading">{'Change Email'}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form

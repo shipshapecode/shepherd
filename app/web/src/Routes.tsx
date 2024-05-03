@@ -49,6 +49,7 @@ const Routes = () => {
       </Set>
       <Set wrap={SignupLandingLayout}>
         <Route path="/" page={SignUpContactPage} name="signUpContact" prerender />
+        <Route path="/pricing" page={PricingPage} name="pricing" prerender />
       </Set>
       <Set wrap={BaseLayout}>
         <Route notfound page={NotFoundPage} />
