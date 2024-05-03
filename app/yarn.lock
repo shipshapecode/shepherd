@@ -22224,13 +22224,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"posthog-js@npm:^1.116.2":
-  version: 1.116.2
-  resolution: "posthog-js@npm:1.116.2"
+"posthog-js@npm:^1.130.2":
+  version: 1.130.2
+  resolution: "posthog-js@npm:1.130.2"
   dependencies:
     fflate: "npm:^0.4.8"
     preact: "npm:^10.19.3"
-  checksum: 10c0/95d02bbac2e224cba95a3deecf76e4c77268c27cd1723a5a4997d4838f7ceb14a68c5342a38784df6d9a26fcc4daa71fe0fdf741ead4bd0e95dd6aee26e634b6
+  checksum: 10c0/92c6e66818f71e12265fb86268985b8d2e1f101f495f44940ff76c4cbf76468a2a531c734c8caa473aee88b810b15b8176f41b54f70fd95b0fecc071e62158a3
   languageName: node
   linkType: hard
 
@@ -27033,7 +27033,7 @@ __metadata:
     humanize-string: "npm:3.0.0"
     postcss: "npm:^8.4.33"
     postcss-loader: "npm:^7.3.4"
-    posthog-js: "npm:^1.116.2"
+    posthog-js: "npm:^1.130.2"
     react: "npm:18.2.0"
     react-copy-to-clipboard: "npm:^5.1.0"
     react-dom: "npm:18.2.0"

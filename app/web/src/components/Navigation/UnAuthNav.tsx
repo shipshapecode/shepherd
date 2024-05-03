@@ -1,8 +1,13 @@
+import { useFeatureFlagEnabled } from 'posthog-js/react';
 import { routes, Link } from '@redwoodjs/router';
 
 import { LogoLabel } from 'src/components/Logo/Logo';
 
 export default function UnAuthNav() {
+  const isPricingEnabled = useFeatureFlagEnabled(
+    'subscription-management-signup'
+  );
+
   return (
     <div className="shepherd-nav bg-lila-500 sticky top-0 z-10 mx-auto w-full justify-center border-b border-black bg-white px-4">
       <div className="mx-auto flex max-w-7xl items-center justify-between py-3">
@@ -39,14 +44,16 @@ export default function UnAuthNav() {
                     Sign In
                   </Link>
                 </li>
-                <li className="mb-6">
-                  <Link
-                    to={routes.pricing()}
-                    className="button w-full whitespace-nowrap border-2 border-navy bg-white p-4 text-navy"
-                  >
-                    Pricing
-                  </Link>
-                </li>
+                {isPricingEnabled && (
+                  <li className="mb-6">
+                    <Link
+                      to={routes.pricing()}
+                      className="button w-full whitespace-nowrap border-2 border-navy bg-white p-4 text-navy"
+                    >
+                      Pricing
+                    </Link>
+                  </li>
+                )}
                 <li className="mb-6">
                   <button
                     className="button w-full whitespace-nowrap border-2 border-navy bg-white p-4 text-left text-navy"
@@ -92,14 +99,16 @@ export default function UnAuthNav() {
               Book a Demo
             </button>
           </div>
-          <div className="mb-4 inline-block bg-navy lg:mr-4">
-            <Link
-              to={routes.pricing()}
-              className="w-full whitespace-nowrap border-none bg-white p-4"
-            >
-              Pricing
-            </Link>
-          </div>
+          {isPricingEnabled && (
+            <div className="mb-4 inline-block bg-navy lg:mr-4">
+              <Link
+                to={routes.pricing()}
+                className="w-full whitespace-nowrap border-none bg-white p-4"
+              >
+                Pricing
+              </Link>
+            </div>
+          )}
           <div className="mb-4 inline-block bg-navy lg:mr-4">
             <Link
               to={routes.signup()}

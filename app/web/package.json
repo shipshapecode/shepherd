@@ -23,7 +23,7 @@
     "@tremor/react": "^3.14.0",
     "clsx": "^2.1.0",
     "humanize-string": "3.0.0",
-    "posthog-js": "^1.116.2",
+    "posthog-js": "^1.130.2",
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
