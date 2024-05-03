@@ -42,8 +42,8 @@ importers:
         specifier: ^8.57.0
         version: 8.57.0
       eslint-plugin-jest:
-        specifier: ^28.2.0
-        version: 28.2.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5)
+        specifier: ^28.4.0
+        version: 28.4.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5)
       eslint-plugin-svelte:
         specifier: ^2.35.1
         version: 2.38.0(eslint@8.57.0)(svelte@4.2.15)
@@ -391,8 +391,8 @@ importers:
         specifier: ^8.57.0
         version: 8.57.0
       eslint-plugin-jest:
-        specifier: ^28.2.0
-        version: 28.2.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5)
+        specifier: ^28.4.0
+        version: 28.4.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5)
       fake-indexeddb:
         specifier: ^5.0.2
         version: 5.0.2
@@ -7407,8 +7407,8 @@ packages:
       semver: 7.6.0
     dev: true
 
-  /eslint-plugin-jest@28.2.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-yRDti/a+f+SMSmNTiT9/M/MzXGkitl8CfzUxnpoQcTyfq8gUrXMriVcWU36W1X6BZSUoyUCJrDAWWUA2N4hE5g==}
+  /eslint-plugin-jest@28.4.0(@typescript-eslint/eslint-plugin@7.7.1)(eslint@8.57.0)(jest@29.7.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-ORVHiFPC8RQxHLyQJ37MxNilK9k+cPzjHz65T8gAbpYZunGutXvKqwfM3WXBCvFDF1QBeYJJu9LB/i5cuXBs+g==}
     engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^6.0.0 || ^7.0.0
