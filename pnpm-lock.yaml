@@ -367,8 +367,8 @@ importers:
         specifier: ^5.17.0
         version: 5.17.0
       '@testing-library/svelte':
-        specifier: 4.1.x
-        version: 4.1.0(svelte@4.2.15)
+        specifier: 5.1.x
+        version: 5.1.0(svelte@4.2.15)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -4017,11 +4017,18 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: true
 
-  /@testing-library/svelte@4.1.0(svelte@4.2.15):
-    resolution: {integrity: sha512-MJqe7x9WowkiAVdk9mvazEC2ktFZdmK2OqFVoO557PC37aBemQ4ozqdK3yrG34Zg9kuln3qgTVeLSh08e69AMw==}
+  /@testing-library/svelte@5.1.0(svelte@4.2.15):
+    resolution: {integrity: sha512-8GW+rBR72U7Qql0Glxl4CtVTr6GPotYf/MB7MamIH6ZpV45i7IJIOm3oHWH4Wr6ZULdUs37F9recegQygLbC0g==}
     engines: {node: '>= 10'}
     peerDependencies:
-      svelte: ^3 || ^4
+      svelte: ^3 || ^4 || ^5
+      vite: '*'
+      vitest: '*'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+      vitest:
+        optional: true
     dependencies:
       '@testing-library/dom': 9.3.4
       svelte: 4.2.15
