@@ -190,7 +190,7 @@ model Subscription {
   startDate           DateTime?
   updatedAt           DateTime           @updatedAt
   trailEnds           DateTime?
-  status              SubscriptionStatus
+  status              SubscriptionStatus @default(FREE_TRIAL)
   type                String
   data                Json?
   userId              String
