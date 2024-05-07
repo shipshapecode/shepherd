@@ -165,13 +165,14 @@ export const handler = async (
           },
         });
 
-        const { url } = await getSubscriptionCheckoutUrl({
-          planId: userPlan,
-        });
+        // TODO: Uncomment this when we are ready to start charging users
+        // const { url } = await getSubscriptionCheckoutUrl({
+        //   planId: userPlan,
+        // });
 
-        if (url) {
-          return url;
-        }
+        // if (url) {
+        //   return url;
+        // }
 
         return newUser;
       }
