@@ -1,5 +1,27 @@
 # Changelog
 
+## Release (2024-05-10)
+
+shepherd-docs 0.0.3 (patch)
+react-shepherd 5.0.1 (patch)
+shepherd.js 12.0.1 (patch)
+
+#### :bug: Bug Fix
+* `react-shepherd`, `shepherd.js`
+  * [#2789](https://github.com/shepherd-pro/shepherd/pull/2789) Add prepack scripts ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `react-shepherd`
+  * [#2781](https://github.com/shepherd-pro/shepherd/pull/2781) Bump vite-plugin-dts from 3.9.0 to 3.9.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#2783](https://github.com/shepherd-pro/shepherd/pull/2783) Bump @babel/core from 7.24.4 to 7.24.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* Other
+  * [#2786](https://github.com/shepherd-pro/shepherd/pull/2786) App: 🚑️ Fix to disable post for checkout url ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2024-05-06)
 
 shepherd-docs 0.0.2 (patch)
