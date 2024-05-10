@@ -192,8 +192,8 @@ importers:
         specifier: ^5.2.10
         version: 5.2.10
       vite-plugin-dts:
-        specifier: ^3.9.0
-        version: 3.9.0(typescript@5.4.5)(vite@5.2.10)
+        specifier: ^3.9.1
+        version: 3.9.1(typescript@5.4.5)(vite@5.2.10)
       vitest:
         specifier: ^1.5.2
         version: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
@@ -16445,8 +16445,8 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-dts@3.9.0(typescript@5.4.5)(vite@5.2.10):
-    resolution: {integrity: sha512-pwFIEYQ3LZvMafkEGvNnileb6af5JuyZsBfYQrTDYxdeGEy0OS4B4hCsLPo5YGnhK5k9EzyO6BXVO6y+Lt5T2A==}
+  /vite-plugin-dts@3.9.1(typescript@5.4.5)(vite@5.2.10):
+    resolution: {integrity: sha512-rVp2KM9Ue22NGWB8dNtWEr+KekN3rIgz1tWD050QnRGlriUCmaDwa7qA5zDEjbXg5lAXhYMSBJtx3q3hQIJZSg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       typescript: '*'
