@@ -2,32 +2,24 @@
   "solution": {
     "shepherd-docs": {
       "impact": "patch",
-      "oldVersion": "0.0.1",
-      "newVersion": "0.0.2",
+      "oldVersion": "0.0.2",
+      "newVersion": "0.0.3",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./docs-src/package.json"
     },
     "react-shepherd": {
-      "impact": "major",
-      "oldVersion": "5.0.0-alpha.6",
-      "newVersion": "5.0.0",
+      "impact": "patch",
+      "oldVersion": "5.0.0",
+      "newVersion": "5.0.1",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         },
         {
           "impact": "patch",
@@ -38,12 +30,12 @@
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "12.0.0-alpha.13",
-      "newVersion": "12.0.0",
+      "oldVersion": "12.0.0",
+      "newVersion": "12.0.1",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         },
         {
           "impact": "patch",
@@ -53,5 +45,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-05-06)\n\nshepherd-docs 0.0.2 (patch)\nreact-shepherd 5.0.0 (major)\nshepherd.js 12.0.0 (patch)\n\n#### :boom: Breaking Change\n* `react-shepherd`\n  * [#2707](https://github.com/shepherd-pro/shepherd/pull/2707) React: ✨ Adding improved provider for v5 release ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :memo: Documentation\n* `shepherd-docs`\n  * [#2768](https://github.com/shepherd-pro/shepherd/pull/2768) Docs: 📝 Add page for pro analytics ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`, `shepherd.js`\n  * [#2717](https://github.com/shepherd-pro/shepherd/pull/2717) Docs: 📝 Move docs generator to Starlight and typedoc ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`\n  * [#2735](https://github.com/shepherd-pro/shepherd/pull/2735) 🚚 Move copy of main README to lib ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `react-shepherd`\n  * [#2755](https://github.com/shepherd-pro/shepherd/pull/2755) Bump vite-plugin-dts from 3.8.3 to 3.9.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2772](https://github.com/shepherd-pro/shepherd/pull/2772) Bump @testing-library/react from 15.0.4 to 15.0.6 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2774](https://github.com/shepherd-pro/shepherd/pull/2774) Bump @vitest/ui from 1.5.0 to 1.6.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2759](https://github.com/shepherd-pro/shepherd/pull/2759) Bump @types/react from 18.2.79 to 18.3.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2753](https://github.com/shepherd-pro/shepherd/pull/2753) Bump @testing-library/react from 14.2.2 to 15.0.4 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2754](https://github.com/shepherd-pro/shepherd/pull/2754) Bump vitest from 1.4.0 to 1.5.2 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2742](https://github.com/shepherd-pro/shepherd/pull/2742) Bump vite from 5.2.8 to 5.2.10 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2750](https://github.com/shepherd-pro/shepherd/pull/2750) Bump @vitest/ui from 1.4.0 to 1.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2718](https://github.com/shepherd-pro/shepherd/pull/2718) Bump vite-plugin-dts from 3.7.3 to 3.8.3 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2704](https://github.com/shepherd-pro/shepherd/pull/2704) Bump happy-dom from 14.3.9 to 14.7.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2726](https://github.com/shepherd-pro/shepherd/pull/2726) Bump @types/react from 18.2.70 to 18.2.79 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2776](https://github.com/shepherd-pro/shepherd/pull/2776) App: ✨ Add initial Chargebee integration, under feature flag ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2751](https://github.com/shepherd-pro/shepherd/pull/2751) App: ⬆ Upgrade redwood to 7.4.3 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2741](https://github.com/shepherd-pro/shepherd/pull/2741) App: 💄 Fix benefits layout on mobile ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2740](https://github.com/shepherd-pro/shepherd/pull/2740) App: 💄 Add mobile menu and styling for landing page ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2739](https://github.com/shepherd-pro/shepherd/pull/2739) App: 🐛 Update footer links to not use component link ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2738](https://github.com/shepherd-pro/shepherd/pull/2738) App: 📝 Update analytics text on landing page ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2737](https://github.com/shepherd-pro/shepherd/pull/2737) App: 💄 Update main landing page ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2732](https://github.com/shepherd-pro/shepherd/pull/2732) Update README.md ([@malthauser](https://github.com/malthauser))\n  * [#2733](https://github.com/shepherd-pro/shepherd/pull/2733) App: 🐛 Add href to reset email link ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2730](https://github.com/shepherd-pro/shepherd/pull/2730) App: ✨ Add email for forgot password flow ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2731](https://github.com/shepherd-pro/shepherd/pull/2731) App: 🐛 Fix position of second step to allow click on smaller screens ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2728](https://github.com/shepherd-pro/shepherd/pull/2728) App: ✨ Add user properties to tour setup ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2714](https://github.com/shepherd-pro/shepherd/pull/2714) Bump jose from 4.15.4 to 4.15.5 in /app ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2727](https://github.com/shepherd-pro/shepherd/pull/2727) App: 🐛 Update before show of tour to wait for element to render ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2724](https://github.com/shepherd-pro/shepherd/pull/2724) App: 🐛 Fix some TS errors from emails fix and prerender landing page ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2723](https://github.com/shepherd-pro/shepherd/pull/2723) App: ⬆ Update Redwood to v7.4.1 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2716](https://github.com/shepherd-pro/shepherd/pull/2716) App: ✨ Add description field to demo request form ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2713](https://github.com/shepherd-pro/shepherd/pull/2713) App: ⬆ Update Redwood to v7.3.2 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2706](https://github.com/shepherd-pro/shepherd/pull/2706) 🚚 Move platform application files to main repo ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`, `landing`\n  * [#2775](https://github.com/shepherd-pro/shepherd/pull/2775) Docs: ➕ Add posthog for analytics to both docs and landing ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`\n  * [#2763](https://github.com/shepherd-pro/shepherd/pull/2763) Bump sharp from 0.32.6 to 0.33.3 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`\n  * [#2764](https://github.com/shepherd-pro/shepherd/pull/2764) Bump cssnano from 6.1.2 to 7.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2722](https://github.com/shepherd-pro/shepherd/pull/2722) Bump rollup from 4.13.2 to 4.14.3 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `unit-tests`\n  * [#2770](https://github.com/shepherd-pro/shepherd/pull/2770) Bump eslint-plugin-jest from 28.2.0 to 28.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2703](https://github.com/shepherd-pro/shepherd/pull/2703) Bump eslint-plugin-jest from 27.9.0 to 28.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2725](https://github.com/shepherd-pro/shepherd/pull/2725) App: ✨ Add intro tour to admin portal ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`, `unit-tests`\n  * [#2765](https://github.com/shepherd-pro/shepherd/pull/2765) Revert CI changes ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `landing`\n  * [#2736](https://github.com/shepherd-pro/shepherd/pull/2736) Blog: 🐛 Add sharp for pnpm based md image processing ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2734](https://github.com/shepherd-pro/shepherd/pull/2734) Blog: 📝 Add alpha launch blog post ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2687](https://github.com/shepherd-pro/shepherd/pull/2687) Bump @astrojs/check from 0.5.9 to 0.5.10 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2698](https://github.com/shepherd-pro/shepherd/pull/2698) Bump @astrojs/sitemap from 3.1.1 to 3.1.2 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2719](https://github.com/shepherd-pro/shepherd/pull/2719) Bump astro from 4.5.12 to 4.6.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2715](https://github.com/shepherd-pro/shepherd/pull/2715) Landing: 💬 Add codepen as OSS user ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `landing`, `react-shepherd`, `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2721](https://github.com/shepherd-pro/shepherd/pull/2721) Bump typescript from 5.4.2 to 5.4.5 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### Committers: 3\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Matt Althauser ([@malthauser](https://github.com/malthauser))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2024-05-10)\n\nshepherd-docs 0.0.3 (patch)\nreact-shepherd 5.0.1 (patch)\nshepherd.js 12.0.1 (patch)\n\n#### :bug: Bug Fix\n* `react-shepherd`, `shepherd.js`\n  * [#2789](https://github.com/shepherd-pro/shepherd/pull/2789) Add prepack scripts ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `react-shepherd`\n  * [#2781](https://github.com/shepherd-pro/shepherd/pull/2781) Bump vite-plugin-dts from 3.9.0 to 3.9.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2783](https://github.com/shepherd-pro/shepherd/pull/2783) Bump @babel/core from 7.24.4 to 7.24.5 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2786](https://github.com/shepherd-pro/shepherd/pull/2786) App: 🚑️ Fix to disable post for checkout url ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
