@@ -17,7 +17,7 @@
     "test:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.4",
+    "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
     "chai": "^4.3.10",
