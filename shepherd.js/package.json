@@ -49,6 +49,7 @@
     "lint:js:fix": "eslint . --fix",
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
+    "prepack": "pnpm build",
     "types:check": "pnpm tsc",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },

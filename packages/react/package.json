@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "build": "vite build",
+    "prepack": "pnpm build",
     "test:ci": "vitest --run",
     "test:dev": "vitest",
     "release": "release-it"
