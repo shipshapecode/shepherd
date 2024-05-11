@@ -293,6 +293,7 @@ export type Mutation = {
   updateIntegration: Integration;
   updateJourney: Journey;
   updateMetric: Metric;
+  updateSubscriptionViaWebhook: Subscription;
   updateUser: User;
 };
 
@@ -418,6 +419,11 @@ export type MutationupdateMetricArgs = {
 };
 
 
+export type MutationupdateSubscriptionViaWebhookArgs = {
+  input: UpdateSubscriptionInput;
+};
+
+
 export type MutationupdateUserArgs = {
   id: Scalars['String'];
   input: UpdateUserInput;
@@ -453,6 +459,8 @@ export type Query = {
   redwood?: Maybe<Redwood>;
   sendEmail: EmailResponse;
   sendWelcomeEmail: EmailResponse;
+  subscription?: Maybe<Subscription>;
+  subscriptions: Array<Subscription>;
   user?: Maybe<User>;
   users: Array<User>;
 };
@@ -521,6 +529,12 @@ export type QuerysendEmailArgs = {
 /** About the Redwood queries. */
 export type QuerysendWelcomeEmailArgs = {
   input: EmailInput;
+};
+
+
+/** About the Redwood queries. */
+export type QuerysubscriptionArgs = {
+  chargeBeeCustomerId: Scalars['String'];
 };
 
 
@@ -608,6 +622,12 @@ export type UpdateMetricInput = {
   journeyId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<MetricTypes>;
   value?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateSubscriptionInput = {
+  chargeBeeCustomerId: Scalars['String'];
+  status: SubscriptionStatus;
+  type: Scalars['String'];
 };
 
 export type UpdateUserInput = {
@@ -750,6 +770,7 @@ export type ResolversTypes = {
   UpdateIntegrationInput: UpdateIntegrationInput;
   UpdateJourneyInput: UpdateJourneyInput;
   UpdateMetricInput: UpdateMetricInput;
+  UpdateSubscriptionInput: UpdateSubscriptionInput;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<MergePrismaWithSdlTypes<PrismaUser, MakeRelationsOptional<User, AllMappedModels>, AllMappedModels>>;
   UserTypes: UserTypes;
@@ -799,6 +820,7 @@ export type ResolversParentTypes = {
   UpdateIntegrationInput: UpdateIntegrationInput;
   UpdateJourneyInput: UpdateJourneyInput;
   UpdateMetricInput: UpdateMetricInput;
+  UpdateSubscriptionInput: UpdateSubscriptionInput;
   UpdateUserInput: UpdateUserInput;
   User: MergePrismaWithSdlTypes<PrismaUser, MakeRelationsOptional<User, AllMappedModels>, AllMappedModels>;
 };
@@ -1141,6 +1163,7 @@ export type MutationResolvers<ContextType = RedwoodGraphQLContext, ParentType ex
   updateIntegration: Resolver<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationupdateIntegrationArgs, 'id' | 'input'>>;
   updateJourney: Resolver<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationupdateJourneyArgs, 'id' | 'input'>>;
   updateMetric: Resolver<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationupdateMetricArgs, 'id' | 'input'>>;
+  updateSubscriptionViaWebhook: Resolver<ResolversTypes['Subscription'], ParentType, ContextType, RequireFields<MutationupdateSubscriptionViaWebhookArgs, 'input'>>;
   updateUser: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationupdateUserArgs, 'id' | 'input'>>;
 };
 
@@ -1168,6 +1191,7 @@ export type MutationRelationResolvers<ContextType = RedwoodGraphQLContext, Paren
   updateIntegration?: RequiredResolverFn<ResolversTypes['Integration'], ParentType, ContextType, RequireFields<MutationupdateIntegrationArgs, 'id' | 'input'>>;
   updateJourney?: RequiredResolverFn<ResolversTypes['Journey'], ParentType, ContextType, RequireFields<MutationupdateJourneyArgs, 'id' | 'input'>>;
   updateMetric?: RequiredResolverFn<ResolversTypes['Metric'], ParentType, ContextType, RequireFields<MutationupdateMetricArgs, 'id' | 'input'>>;
+  updateSubscriptionViaWebhook?: RequiredResolverFn<ResolversTypes['Subscription'], ParentType, ContextType, RequireFields<MutationupdateSubscriptionViaWebhookArgs, 'input'>>;
   updateUser?: RequiredResolverFn<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationupdateUserArgs, 'id' | 'input'>>;
 };
 
@@ -1204,6 +1228,8 @@ export type QueryResolvers<ContextType = RedwoodGraphQLContext, ParentType exten
   redwood: OptArgsResolverFn<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
   sendEmail: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendEmailArgs, 'input'>>;
   sendWelcomeEmail: Resolver<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendWelcomeEmailArgs, 'input'>>;
+  subscription: Resolver<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<QuerysubscriptionArgs, 'chargeBeeCustomerId'>>;
+  subscriptions: OptArgsResolverFn<Array<ResolversTypes['Subscription']>, ParentType, ContextType>;
   user: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
   users: OptArgsResolverFn<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
@@ -1229,6 +1255,8 @@ export type QueryRelationResolvers<ContextType = RedwoodGraphQLContext, ParentTy
   redwood?: RequiredResolverFn<Maybe<ResolversTypes['Redwood']>, ParentType, ContextType>;
   sendEmail?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendEmailArgs, 'input'>>;
   sendWelcomeEmail?: RequiredResolverFn<ResolversTypes['EmailResponse'], ParentType, ContextType, RequireFields<QuerysendWelcomeEmailArgs, 'input'>>;
+  subscription?: RequiredResolverFn<Maybe<ResolversTypes['Subscription']>, ParentType, ContextType, RequireFields<QuerysubscriptionArgs, 'chargeBeeCustomerId'>>;
+  subscriptions?: RequiredResolverFn<Array<ResolversTypes['Subscription']>, ParentType, ContextType>;
   user?: RequiredResolverFn<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserArgs, 'id'>>;
   users?: RequiredResolverFn<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
