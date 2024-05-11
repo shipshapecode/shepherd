@@ -146,8 +146,8 @@ export const handler = async (
 
       const userPlan =
         userAttributes?.plan === 'alpha-annual'
-          ? 'Early-Alpha-USD-Annual'
-          : 'Early-Alpha-USD-Monthly';
+          ? 'alpha-usd-yearly'
+          : 'alpha-usd-monthly';
 
       if (newUser) {
         sendWelcomeEmail({

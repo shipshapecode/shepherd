@@ -37,12 +37,23 @@ export const schema = gql`
     access_url: String!
   }
 
+  input UpdateSubscriptionInput {
+    chargeBeeCustomerId: String!
+    status: SubscriptionStatus!
+    type: String!
+  }
+
   type Query {
     getSubscriptionCheckoutUrl(planId: String!): HostedPage! @skipAuth
     getSubscriptionPortalSesion: PortalPage! @requireAuth
+    subscriptions: [Subscription!]! @requireAuth
+    subscription(chargeBeeCustomerId: String!): Subscription @requireAuth
   }
 
   type Mutation {
     createSubscription(input: CreateSubscriptionInput!): Subscription! @skipAuth
+    updateSubscriptionViaWebhook(
+      input: UpdateSubscriptionInput!
+    ): Subscription! @requireAuth
   }
 `;

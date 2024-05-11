@@ -1,21 +1,30 @@
 import type {
-  // QueryResolvers,
+  QueryResolvers,
   MutationResolvers,
+  SubscriptionStatus,
 } from 'types/graphql';
 import chargebee from 'chargebee';
 
 import { db } from 'src/lib/db';
 import { logger } from 'src/lib/logger';
 
-// export const subscriptions: QueryResolvers['subscriptions'] = () => {
-//   return db.subscription.findMany();
-// };
+type UpdateSubscriptionInput = {
+  chargeBeeCustomerId: string;
+  status: SubscriptionStatus;
+  type: string;
+};
 
-// export const subscription: QueryResolvers['subscription'] = ({ id }) => {
-//   return db.subscription.findUnique({
-//     where: { id },
-//   });
-// };
+export const subscriptions: QueryResolvers['subscriptions'] = () => {
+  return db.subscription.findMany();
+};
+
+export const subscription: QueryResolvers['subscription'] = ({
+  chargeBeeCustomerId,
+}) => {
+  return db.subscription.findFirst({
+    where: { chargeBeeCustomerId },
+  });
+};
 
 export const createSubscription: MutationResolvers['createSubscription'] =
   async ({ input }) => {
@@ -44,15 +53,23 @@ export const createSubscription: MutationResolvers['createSubscription'] =
     });
   };
 
-// export const updateSubscription: MutationResolvers['updateSubscription'] = ({
-//   id,
-//   input,
-// }) => {
-//   return db.subscription.update({
-//     data: input,
-//     where: { id },
-//   });
-// };
+export const updateSubscriptionViaWebhook: MutationResolvers['updateSubscriptionViaWebhook'] =
+  async ({ input }: { input: UpdateSubscriptionInput }) => {
+    try {
+      const subscription = await db.subscription.findFirst({
+        where: { chargeBeeCustomerId: input.chargeBeeCustomerId },
+      });
+
+      if (subscription) {
+        return db.subscription.update({
+          data: { status: input.status, type: input.type },
+          where: { id: subscription.id },
+        });
+      }
+    } catch (error) {
+      logger.error(`Error updating subscription from event: ${error.message}`);
+    }
+  };
 
 // export const deleteSubscription: MutationResolvers['deleteSubscription'] = ({
 //   id,

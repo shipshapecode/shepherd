@@ -274,6 +274,7 @@ export type Mutation = {
   updateIntegration: Integration;
   updateJourney: Journey;
   updateMetric: Metric;
+  updateSubscriptionViaWebhook: Subscription;
   updateUser: User;
 };
 
@@ -399,6 +400,11 @@ export type MutationupdateMetricArgs = {
 };
 
 
+export type MutationupdateSubscriptionViaWebhookArgs = {
+  input: UpdateSubscriptionInput;
+};
+
+
 export type MutationupdateUserArgs = {
   id: Scalars['String'];
   input: UpdateUserInput;
@@ -434,6 +440,8 @@ export type Query = {
   redwood?: Maybe<Redwood>;
   sendEmail: EmailResponse;
   sendWelcomeEmail: EmailResponse;
+  subscription?: Maybe<Subscription>;
+  subscriptions: Array<Subscription>;
   user?: Maybe<User>;
   users: Array<User>;
 };
@@ -502,6 +510,12 @@ export type QuerysendEmailArgs = {
 /** About the Redwood queries. */
 export type QuerysendWelcomeEmailArgs = {
   input: EmailInput;
+};
+
+
+/** About the Redwood queries. */
+export type QuerysubscriptionArgs = {
+  chargeBeeCustomerId: Scalars['String'];
 };
 
 
@@ -589,6 +603,12 @@ export type UpdateMetricInput = {
   journeyId?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<MetricTypes>;
   value?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateSubscriptionInput = {
+  chargeBeeCustomerId: Scalars['String'];
+  status: SubscriptionStatus;
+  type: Scalars['String'];
 };
 
 export type UpdateUserInput = {
