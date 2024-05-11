@@ -29,6 +29,7 @@
   {disabled}
   on:click={action}
   tabindex="0"
+  type="button"
 >
   {@html text}
 </button>
