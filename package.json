@@ -34,7 +34,7 @@
     "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@release-it-plugins/workspaces": "^4.2.0",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
+    "@typescript-eslint/parser": "^7.8.0",
     "autoprefixer": "^10.4.19",
     "better-docs": "^2.7.3",
     "concurrently": "^8.2.2",
