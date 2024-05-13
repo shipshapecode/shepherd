@@ -172,10 +172,10 @@ importers:
         version: 6.4.2(vitest@1.5.2)
       '@testing-library/react':
         specifier: ^15.0.6
-        version: 15.0.6(@types/react@18.3.1)(react-dom@18.2.0)(react@18.2.0)
+        version: 15.0.6(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
       '@types/react':
-        specifier: ^18.3.1
-        version: 18.3.1
+        specifier: ^18.3.2
+        version: 18.3.2
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.2.1(vite@5.2.11)
@@ -4236,7 +4236,7 @@ packages:
       vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
     dev: true
 
-  /@testing-library/react@15.0.6(@types/react@18.3.1)(react-dom@18.2.0)(react@18.2.0):
+  /@testing-library/react@15.0.6(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-UlbazRtEpQClFOiYp+1BapMT+xyqWMnE+hh9tn5DQ6gmlE7AIZWcGpzZukmDZuFk3By01oiqOf8lRedLS4k6xQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -4249,7 +4249,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.24.4
       '@testing-library/dom': 10.0.0
-      '@types/react': 18.3.1
+      '@types/react': 18.3.2
       '@types/react-dom': 18.2.25
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -4491,11 +4491,11 @@ packages:
   /@types/react-dom@18.2.25:
     resolution: {integrity: sha512-o/V48vf4MQh7juIKZU2QGDfli6p1+OOi5oXx36Hffpc9adsHeXjVp8rHuPkjd8VT8sOJ2Zp05HR7CdpGTIUFUA==}
     dependencies:
-      '@types/react': 18.3.1
+      '@types/react': 18.3.2
     dev: true
 
-  /@types/react@18.3.1:
-    resolution: {integrity: sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==}
+  /@types/react@18.3.2:
+    resolution: {integrity: sha512-Btgg89dAnqD4vV7R3hlwOxgqobUQKgx3MmrQRi0yYbs/P0ym8XozIAlkqVilPqHQwXs4e9Tf63rrCgl58BcO4w==}
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
