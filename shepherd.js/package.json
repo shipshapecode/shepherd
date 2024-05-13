@@ -18,20 +18,19 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
+  "main": "dist/shepherd.js",
+  "module": "dist/shepherd.mjs",
   "exports": {
     ".": {
-      "types": "./dist/shepherd.d.ts",
-      "require": "./dist/shepherd.js",
       "import": "./dist/shepherd.mjs",
-      "default": "./dist/shepherd.js"
+      "require": "./dist/shepherd.js"
     },
     "./*": {
-      "types": "./dist/*.d.ts",
-      "require": "./dist/*.js",
       "import": "./dist/*.mjs",
-      "default": "./dist/*.js"
+      "require": "./dist/*.js"
     }
   },
+  "types": "shepherd.d.ts",
   "typesVersions": {
     "*": {
       "*": [
@@ -40,7 +39,7 @@
     }
   },
   "scripts": {
-    "build": "pnpm clean && rollup -c",
+    "build": "pnpm clean && rollup -c && node scripts/postprocess.js",
     "clean": "rimraf ./dist",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
@@ -56,7 +55,8 @@
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
     "deepmerge-ts": "^5.1.0",
-    "idb": "^8.0.0"
+    "idb": "^8.0.0",
+    "rollup-plugin-dts": "^6.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",

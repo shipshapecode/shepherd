@@ -209,6 +209,9 @@ importers:
       idb:
         specifier: ^8.0.0
         version: 8.0.0
+      rollup-plugin-dts:
+        specifier: ^6.1.0
+        version: 6.1.0(rollup@4.17.2)(typescript@5.4.5)
     devDependencies:
       '@babel/core':
         specifier: ^7.24.5
@@ -14570,6 +14573,20 @@ packages:
     resolution: {integrity: sha512-LL9GEt3bkXp6Wa19SNR5MWcvHNMvuTFYg+eYBZN2OIFhSWN+pEJUQXEKu5BsOeABob3x9PDaLKW7w5iOJnsESQ==}
     engines: {node: '>=8.0.0'}
     dev: true
+
+  /rollup-plugin-dts@6.1.0(rollup@4.17.2)(typescript@5.4.5):
+    resolution: {integrity: sha512-ijSCPICkRMDKDLBK9torss07+8dl9UpY9z1N/zTeA1cIqdzMlpkV3MOOC7zukyvQfDyxa1s3Dl2+DeiP/G6DOw==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      rollup: ^3.29.4 || ^4
+      typescript: ^4.5 || ^5.0
+    dependencies:
+      magic-string: 0.30.10
+      rollup: 4.17.2
+      typescript: 5.4.5
+    optionalDependencies:
+      '@babel/code-frame': 7.24.2
+    dev: false
 
   /rollup-plugin-filesize@10.0.0:
     resolution: {integrity: sha512-JAYYhzCcmGjmCzo3LEHSDE3RAPHKIeBdpqRhiyZSv5o/3wFhktUOzYAWg/uUKyEu5dEaVaql6UOmaqHx1qKrZA==}

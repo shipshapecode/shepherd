@@ -2,6 +2,7 @@ import autoprefixer from 'autoprefixer';
 import fs from 'fs';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
+import dts from 'rollup-plugin-dts';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import filesize from 'rollup-plugin-filesize';
@@ -71,9 +72,35 @@ export default [
         dir: 'dist',
         entryFileNames: '[name].js',
         format: 'cjs',
-        sourcemap: true
+        sourcemap: true,
+        exports: 'auto'
       }
     ],
     plugins
+  },
+  {
+    input: 'src/shepherd.ts',
+    output: { file: 'dist/shepherd.d.mts', format: 'es' },
+    plugins: [
+      dts({
+        compilerOptions: {
+          emitDeclarationOnly: true
+        }
+      })
+    ]
+  },
+  {
+    input: 'src/shepherd.ts',
+    output: { file: 'dist/shepherd.d.ts', format: 'cjs' },
+    plugins: [
+      dts({
+        compilerOptions: {
+          emitDeclarationOnly: true,
+          module: 'CommonJS',
+          esModuleInterop: false,
+          verbatimModuleSyntax: false,
+        }
+      })
+    ]
   }
 ];

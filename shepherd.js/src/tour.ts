@@ -193,7 +193,7 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
-  modal?: ShepherdModal;
+  modal?: Record<string, unknown> | null;
   options: TourOptions;
   steps: Array<Step>;
 
@@ -502,6 +502,7 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
+      // @ts-expect-error TODO: investigate once Svelte is typed
       this.modal.hide();
     }
 
