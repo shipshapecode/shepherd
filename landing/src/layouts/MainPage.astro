@@ -182,8 +182,8 @@ const shepherdIncludeCode = `
   'use strict';
 
   import Shepherd from 'shepherd.js';
-  import type { StepOptions } from 'shepherd.js/step';
-  import type { Tour } from 'shepherd.js/tour';
+  import type { StepOptions } from 'shepherd.js/dist/step';
+  import type { Tour } from 'shepherd.js/dist/tour';
 
   (function () {
     async function init() {
@@ -246,7 +246,7 @@ const shepherdIncludeCode = `
         'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
 
       // These steps should be added via `addSteps`
-      const steps: Array<StepOptions> = [
+      const steps = [
         {
           title: 'Including',
           text: element,
@@ -321,8 +321,8 @@ const shepherdIncludeCode = `
           ],
           id: 'attaching'
         }
-      ];
-
+      ] as StepOptions[];
+      // @ts-ignore
       shepherd.addSteps(steps);
 
       // This should add steps after the ones added with `addSteps`
