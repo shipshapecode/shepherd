@@ -2,8 +2,8 @@
   "solution": {
     "shepherd-docs": {
       "impact": "patch",
-      "oldVersion": "0.0.2",
-      "newVersion": "0.0.3",
+      "oldVersion": "0.0.3",
+      "newVersion": "0.0.4",
       "constraints": [
         {
           "impact": "patch",
@@ -14,13 +14,9 @@
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "5.0.0",
-      "newVersion": "5.0.1",
+      "oldVersion": "5.0.1",
+      "newVersion": "5.0.2",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -30,8 +26,8 @@
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "12.0.0",
-      "newVersion": "12.0.1",
+      "oldVersion": "12.0.1",
+      "newVersion": "12.0.2",
       "constraints": [
         {
           "impact": "patch",
@@ -45,5 +41,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-05-10)\n\nshepherd-docs 0.0.3 (patch)\nreact-shepherd 5.0.1 (patch)\nshepherd.js 12.0.1 (patch)\n\n#### :bug: Bug Fix\n* `react-shepherd`, `shepherd.js`\n  * [#2789](https://github.com/shepherd-pro/shepherd/pull/2789) Add prepack scripts ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `react-shepherd`\n  * [#2781](https://github.com/shepherd-pro/shepherd/pull/2781) Bump vite-plugin-dts from 3.9.0 to 3.9.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2783](https://github.com/shepherd-pro/shepherd/pull/2783) Bump @babel/core from 7.24.4 to 7.24.5 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2786](https://github.com/shepherd-pro/shepherd/pull/2786) App: 🚑️ Fix to disable post for checkout url ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2024-05-14)\n\nshepherd-docs 0.0.4 (patch)\nreact-shepherd 5.0.2 (patch)\nshepherd.js 12.0.2 (patch)\n\n#### :bug: Bug Fix\n* `landing`, `shepherd.js`\n  * [#2805](https://github.com/shepherd-pro/shepherd/pull/2805) 🐛 Fixes import issues reported in 2785 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`\n  * [#2794](https://github.com/shepherd-pro/shepherd/pull/2794) 🐛  Add missing required type attribute for button ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2793](https://github.com/shepherd-pro/shepherd/pull/2793) 🐛  Add fix for modal reshow from 2436 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* Other\n  * [#2784](https://github.com/shepherd-pro/shepherd/pull/2784) Bump release-it from 17.2.0 to 17.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2790](https://github.com/shepherd-pro/shepherd/pull/2790) App: ✨ Add webhook for subscription management ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2788](https://github.com/shepherd-pro/shepherd/pull/2788) App: 🗃️  Add migration to give all users a subscription ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`\n  * [#2782](https://github.com/shepherd-pro/shepherd/pull/2782) Bump rollup from 4.14.3 to 4.17.2 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `react-shepherd`\n  * [#2778](https://github.com/shepherd-pro/shepherd/pull/2778) Bump vite from 5.2.10 to 5.2.11 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
