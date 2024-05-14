@@ -198,6 +198,10 @@ const shepherdIncludeCode = `
     }
 
     function setupShepherd() {
+      const element = document.createElement('p');
+      element.innerText =
+        'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
+
       const shepherd = new Shepherd.Tour({
         id: 'ts4udfrnm7o95ny7e9qbjo3t',
         defaultStepOptions: {
@@ -312,10 +316,6 @@ const shepherdIncludeCode = `
         ],
         useModalOverlay: true
       });
-
-      const element = document.createElement('p');
-      element.innerText =
-        'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.';
 
       // This should add steps after the ones added with `addSteps`
       shepherd.addStep({
