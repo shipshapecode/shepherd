@@ -1,9 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es2021",
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
     // We don't want to include types dependencies in our compiled output, so tell TypeScript
     // to enforce using `import type` instead of `import` for Types.
     "verbatimModuleSyntax": true,
@@ -43,6 +43,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.svelte"],
   "exclude": ["node_modules", "dist"]
 }

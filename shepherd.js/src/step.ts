@@ -355,6 +355,7 @@ export class Step extends Evented {
    * Hide the step
    */
   hide() {
+    // @ts-expect-error TODO: investigate once Svelte is typed to use Modal component
     this.tour.modal?.hide();
 
     this.trigger('before-hide');
@@ -580,7 +581,7 @@ export class Step extends Evented {
     if (!this.tour.modal) {
       this.tour.setupModal();
     }
-
+    // @ts-expect-error TODO: investigate once Svelte is typed to use Modal component
     this.tour.modal?.setupForStep(this);
     this._styleTargetElementForStep(this);
 
