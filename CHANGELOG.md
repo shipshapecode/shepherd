@@ -1,5 +1,31 @@
 # Changelog
 
+## Release (2024-05-14)
+
+shepherd-docs 0.0.4 (patch)
+react-shepherd 5.0.2 (patch)
+shepherd.js 12.0.2 (patch)
+
+#### :bug: Bug Fix
+* `landing`, `shepherd.js`
+  * [#2805](https://github.com/shepherd-pro/shepherd/pull/2805) 🐛 Fixes import issues reported in 2785 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd.js`
+  * [#2794](https://github.com/shepherd-pro/shepherd/pull/2794) 🐛  Add missing required type attribute for button ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2793](https://github.com/shepherd-pro/shepherd/pull/2793) 🐛  Add fix for modal reshow from 2436 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* Other
+  * [#2784](https://github.com/shepherd-pro/shepherd/pull/2784) Bump release-it from 17.2.0 to 17.2.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2790](https://github.com/shepherd-pro/shepherd/pull/2790) App: ✨ Add webhook for subscription management ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2788](https://github.com/shepherd-pro/shepherd/pull/2788) App: 🗃️  Add migration to give all users a subscription ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd.js`
+  * [#2782](https://github.com/shepherd-pro/shepherd/pull/2782) Bump rollup from 4.14.3 to 4.17.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `react-shepherd`
+  * [#2778](https://github.com/shepherd-pro/shepherd/pull/2778) Bump vite from 5.2.10 to 5.2.11 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-05-10)
 
 shepherd-docs 0.0.3 (patch)
