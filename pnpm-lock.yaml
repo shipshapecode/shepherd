@@ -171,8 +171,8 @@ importers:
         specifier: ^6.2.0
         version: 6.4.2(vitest@1.5.2)
       '@testing-library/react':
-        specifier: ^15.0.6
-        version: 15.0.6(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^15.0.7
+        version: 15.0.7(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0)
       '@types/react':
         specifier: ^18.3.2
         version: 18.3.2
@@ -4175,8 +4175,8 @@ packages:
       vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
     dev: true
 
-  /@testing-library/react@15.0.6(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-UlbazRtEpQClFOiYp+1BapMT+xyqWMnE+hh9tn5DQ6gmlE7AIZWcGpzZukmDZuFk3By01oiqOf8lRedLS4k6xQ==}
+  /@testing-library/react@15.0.7(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-cg0RvEdD1TIhhkm1IeYMQxrzy0MtUNfa3minv4MjbgcYzJAZ7yD0i0lwoPOTPr+INtiXFezt2o8xMSnyHhEn2Q==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/react': ^18.0.0
