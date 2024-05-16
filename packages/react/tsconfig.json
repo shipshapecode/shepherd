@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["dom", "esnext"],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "bundler",
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
     "moduleDetection": "force",
     "allowImportingTsExtensions": true,
     "noEmit": true,
@@ -15,10 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "baseUrl": ".",
-    "paths": {
-      "@shepherdpro/pro-js": ["node_modules/@shepherdpro/pro-js/dist"]
-    },
+    "baseUrl": "."
   },
   "exclude": ["node_modules", "test", "vite.config.ts", "vitest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx"],

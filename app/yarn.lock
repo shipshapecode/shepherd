@@ -24383,13 +24383,13 @@ __metadata:
   linkType: hard
 
 "shepherd.js@npm:^12.0.0-alpha.13":
-  version: 12.0.0-alpha.13
-  resolution: "shepherd.js@npm:12.0.0-alpha.13"
+  version: 12.0.2
+  resolution: "shepherd.js@npm:12.0.2"
   dependencies:
     "@floating-ui/dom": "npm:^1.5.3"
     deepmerge-ts: "npm:^5.1.0"
     idb: "npm:^8.0.0"
-  checksum: 10c0/61edf2ed08374c1e59731e950bfd13918566020f8c8eab1a9d92770703dc71817afcb57cfe03c6ded201edc145ae0733ed7f2117c80ca5b5e8f64ac7a4d4962e
+  checksum: 10c0/15d3bbd02053e75791e608960e58df57792d6572084174efeb9be1b2a2ac8eae31d4b322e1c9218e25f9d533db7076bfaac69b4d156d5da387098478c23f2e2f
   languageName: node
   linkType: hard
 

@@ -31,7 +31,7 @@
     "release": "release-it"
   },
   "dependencies": {
-    "shepherd.js": "workspace:^"
+    "shepherd.js": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
