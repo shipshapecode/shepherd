@@ -22,7 +22,7 @@
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.12",
+    "@tailwindcss/typography": "^0.5.13",
     "sharp": "^0.33.3"
   }
 }
