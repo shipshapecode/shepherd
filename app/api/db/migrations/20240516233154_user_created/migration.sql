@@ -1,5 +1,8 @@
 -- AlterTable
-ALTER TABLE "Subscription" ALTER COLUMN "status" SET DEFAULT 'FREE_TRIAL';
+ALTER TABLE "Subscription" ALTER COLUMN "status" SET DEFAULT 'IN_TRIAL';
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;
 
 DO
 $$
