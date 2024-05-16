@@ -159,6 +159,7 @@ model Step {
 
 model User {
   id                  String           @id @default(cuid())
+  createdAt           DateTime?        @default(now())
   name                String?
   email               String           @unique
   hashedPassword      String
@@ -190,7 +191,7 @@ model Subscription {
   startDate           DateTime?
   updatedAt           DateTime           @updatedAt
   trailEnds           DateTime?
-  status              SubscriptionStatus @default(FREE_TRIAL)
+  status              SubscriptionStatus @default(IN_TRIAL)
   type                String
   data                Json?
   userId              String
