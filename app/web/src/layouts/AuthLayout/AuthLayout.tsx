@@ -12,7 +12,7 @@ const AuthLayout = ({ children }: BaseLayoutProps) => {
       <UnAuthNav />
       <div className="relative min-h-[calc(100vh-200px)] overflow-hidden p-4">
         <div className="-m-4 h-full overflow-hidden">
-          <div className="z-8 pointer-events-none absolute left-1/2 top-1/2 h-[70vw] w-[100vw] -translate-x-1/2 -translate-y-1/2 bg-gradient-secondary opacity-10" />
+          <div className="-z-1 pointer-events-none absolute left-1/2 top-1/2 h-[70vw] w-[100vw] -translate-x-1/2 -translate-y-1/2 bg-gradient-secondary opacity-10" />
           <div className="mx-auto mb-20 max-w-6xl pt-10">
             <div className="mx-auto mb-20 max-w-6xl pt-10">
               <div className="mt-10 flex">
@@ -27,7 +27,7 @@ const AuthLayout = ({ children }: BaseLayoutProps) => {
                     interactions.
                   </p>
                 </div>
-                <div className="z-9 flex flex-1 flex-col items-center">
+                <div className="flex flex-1 flex-col items-center">
                   {children}
                 </div>
               </div>

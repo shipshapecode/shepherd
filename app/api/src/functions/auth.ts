@@ -144,10 +144,7 @@ export const handler = async (
         },
       });
 
-      const userPlan =
-        userAttributes?.plan === 'alpha-annual'
-          ? 'alpha-usd-yearly'
-          : 'alpha-usd-monthly';
+      const userPlan = 'alpha-usd-monthly';
 
       if (newUser) {
         sendWelcomeEmail({
