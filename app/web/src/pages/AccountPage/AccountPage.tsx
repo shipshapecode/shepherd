@@ -1,4 +1,3 @@
-import { useFeatureFlagEnabled } from 'posthog-js/react';
 import { Metadata, useQuery } from '@redwoodjs/web';
 
 import { ChangeEmailCard } from './AccountCards/ChangeEmailCard';
@@ -22,9 +21,6 @@ export const ACCOUNT_MANAGEMENT_QUERY = gql`
 `;
 
 const AccountPage = () => {
-  const isPricingEnabled = useFeatureFlagEnabled(
-    'subscription-management-signup'
-  );
   const { loading, error, data } = useQuery(ACCOUNT_MANAGEMENT_QUERY);
 
   const onClickPortalButton = async () => {
@@ -47,30 +43,28 @@ const AccountPage = () => {
           <ChangePasswordCard />
           <DeleteAccountCard />
         </div>
-        {isPricingEnabled && (
-          <Card className="w-full border-2 border-black pt-2 shadow-default">
-            <CardHeader>
-              <CardTitle className="mb-6 font-heading">
-                {'Billing & Subscription'}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>
-                Open the Chargebee customer portal to download your invoices,
-                change your billing details and change or cancel your
-                subscription plan.
-              </p>
-              {!error && (
-                <button
-                  onClick={onClickPortalButton}
-                  className="bg-primary text-primary-foreground hover:bg-primary/80 mt-2 flex w-full cursor-pointer items-center justify-center rounded-md border-2 border-black bg-[#bc95d4] px-10 py-3 font-bold shadow-default transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
-                >
-                  {loading ? 'Loading...' : 'Open Chargebee Portal'}
-                </button>
-              )}
-            </CardContent>
-          </Card>
-        )}
+        <Card className="w-full border-2 border-black pt-2 shadow-default">
+          <CardHeader>
+            <CardTitle className="mb-6 font-heading">
+              {'Billing & Subscription'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>
+              Open the Chargebee customer portal to download your invoices,
+              change your billing details and change or cancel your subscription
+              plan.
+            </p>
+            {!error && (
+              <button
+                onClick={onClickPortalButton}
+                className="bg-primary text-primary-foreground hover:bg-primary/80 mt-2 flex w-full cursor-pointer items-center justify-center rounded-md border-2 border-black bg-[#bc95d4] px-10 py-3 font-bold shadow-default transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
+              >
+                {loading ? 'Loading...' : 'Open Chargebee Portal'}
+              </button>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </>
   );

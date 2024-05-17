@@ -7,8 +7,8 @@ const pricingPlans = [
   {
     id: 'alpha',
     name: 'Alpha',
-    monthlyPrice: '20',
-    annualPrice: '204',
+    monthlyPrice: '0',
+    annualPrice: '0',
     description:
       'Get started with our basic plan, take your journeys to the next level!',
     features: [
@@ -76,14 +76,14 @@ const PricingPage = () => {
 
       <section className="relative mx-auto mb-20 flex w-full flex-col items-center 2xl:max-w-7xl">
         <div className="mx-auto w-full border-b-2 border-black">
-          <div className="relative mx-auto max-w-3xl items-center justify-center p-8 text-center lg:p-20 2xl:px-0">
+          <div className="relative mx-auto max-w-3xl items-center justify-center p-8 text-center lg:p-12 2xl:px-0">
             <h1 className="font-heading text-3xl tracking-tight text-black lg:text-5xl">
               Pricing options and packages
             </h1>
             <p className="mx-auto mt-4 max-w-lg text-lg text-black xl:text-xl">
               Come grow with us! Choose the plan that best suits your needs.
             </p>
-            <div className="mx-auto mt-8 max-w-xs">
+            {/* <div className="mx-auto mt-8 max-w-xs">
               <div className="z-0 mb-4 inline-flex w-full gap-1 overflow-hidden border-2 border-black bg-white p-1 text-lg font-semibold text-black shadow">
                 <button
                   className={cn(
@@ -107,7 +107,7 @@ const PricingPage = () => {
                 </button>
               </div>
               <span className="italic">{`(15% discounts on annual)`}</span>
-            </div>
+            </div> */}
           </div>
           <div className="grid grid-cols-1 gap-0.5 border-2 border-black bg-black lg:grid-cols-2">
             {pricingPlans.map((plan, index) => (
@@ -167,10 +167,7 @@ const PricingPage = () => {
                 <button
                   className="focus:ring-lila-700 hover:text-lila-800 inline-flex h-16 w-full transform items-center justify-center rounded-lg border-2 border-black bg-white px-6 py-3 text-center text-lg font-semibold text-black transition-all duration-100 ease-in-out focus:translate-y-1 focus:bg-black focus:text-white focus:shadow-none focus:outline-none sm:w-auto"
                   onClick={() => {
-                    const pricingPlan = annual
-                      ? 'alpha-annual'
-                      : 'alpha-monthly';
-                    plan.buttonLink(pricingPlan);
+                    plan.buttonLink('alpha-monthly');
                   }}
                 >
                   {plan.buttonText}

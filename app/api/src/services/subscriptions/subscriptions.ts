@@ -32,15 +32,36 @@ export const createSubscription: MutationResolvers['createSubscription'] =
       process.env.CHARGEBEE_SITE && process.env.CHARGEBEE_API_KEY;
     let chargeBeeCustomerId;
     try {
+      logger.info(`Creating subscription for user ${input.userId}`);
       if (usingChargebee) {
         chargebee.configure({
           site: process.env.CHARGEBEE_SITE,
           api_key: process.env.CHARGEBEE_API_KEY,
         });
 
-        const chargbeeCustomer = await chargebee.customer.create().request();
+        const user = await db.user.findFirst({
+          where: { id: input.userId },
+        });
+
+        const chargbeeCustomer = await chargebee.customer
+          .create({
+            email: user.email,
+          })
+          .request();
 
         chargeBeeCustomerId = chargbeeCustomer.customer.id;
+        const newSub = await chargebee.subscription
+          .create_with_items(chargeBeeCustomerId, {
+            subscription_items: [
+              {
+                item_price_id: input.type,
+                quantity: 1,
+              },
+            ],
+            discounts: [],
+          })
+          .request();
+        logger.info(`Has ChargeBee Sub: ${newSub.subscription.id}`);
       }
     } catch (error) {
       logger.error(`Error creating subscription: ${error.message}`);
