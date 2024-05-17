@@ -1,0 +1,20 @@
+name: Landing CD Deploy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'landing/**'
+
+jobs:
+  deploy:
+    name: Deploy Landing Site
+    runs-on: ubuntu-latest
+    concurrency: deploy-group # optional: ensure only one action runs at a time
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: |
+          flyctl deploy --config landing/fly.toml --dockerfile landing/Dockerfile
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

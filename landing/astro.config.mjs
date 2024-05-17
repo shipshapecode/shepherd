@@ -11,6 +11,5 @@ export default defineConfig({
     mdx(),
     sitemap(),
     tailwind()
-  ],
-  outDir: '../site'
+  ]
 });
