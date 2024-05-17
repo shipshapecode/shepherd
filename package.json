@@ -13,7 +13,7 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
-    "build": "pnpm -F '*' build",
+    "build": "pnpm --filter=!landing build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",

@@ -33,7 +33,7 @@ Browsers support
 
 ## Documentation
 
-[API documentation](https://shepherdjs.dev/docs/)
+[API documentation](https://docs.shepherdpro.com/)
 
 ## Demo
 

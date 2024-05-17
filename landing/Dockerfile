@@ -35,7 +35,9 @@ COPY --link ./landing ./landing
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build application
-RUN pnpm -F landing run build
+RUN --mount=type=secret,id=PUBLIC_SHEPHERD_PUBLIC_KEY \
+    SHEPHERD_PUBLIC_KEY="$(cat /run/secrets/PUBLIC_SHEPHERD_PUBLIC_KEY)" \
+    pnpm -F landing run build
 
 # Remove development dependencies
 RUN pnpm prune --prod
