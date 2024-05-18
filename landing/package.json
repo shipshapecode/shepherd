@@ -16,12 +16,20 @@
     "@astrojs/rss": "^4.0.1",
     "@astrojs/sitemap": "^3.1.2",
     "@astrojs/tailwind": "^5.0.3",
+    "@payloadcms/db-postgres": "^0.x",
+    "@payloadcms/richtext-slate": "^1.0.0",
     "astro": "^4.8.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
+    "@payloadcms/bundler-vite": "^0.1.7",
     "@tailwindcss/typography": "^0.5.13",
+    "@types/express": "^4.17.9",
+    "@types/node": "18.11.3",
+    "payload": "^2.18.3",
     "sharp": "^0.33.3"
   }
 }
