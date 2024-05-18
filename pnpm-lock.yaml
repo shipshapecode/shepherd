@@ -138,9 +138,6 @@ importers:
       astro:
         specifier: ^4.8.4
         version: 4.8.4(typescript@5.4.5)
-      shepherd.js:
-        specifier: workspace:*
-        version: link:../shepherd.js
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.3

@@ -6,11 +6,9 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://shepherdjs.dev',
   integrations: [
     mdx(),
     sitemap(),
     tailwind()
-  ],
-  outDir: '../site'
+  ]
 });
