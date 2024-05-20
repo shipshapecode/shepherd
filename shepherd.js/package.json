@@ -18,19 +18,20 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "main": "dist/shepherd.js",
-  "module": "dist/shepherd.mjs",
   "exports": {
     ".": {
+      "types": "./dist/shepherd.d.ts",
+      "require": "./dist/shepherd.js",
       "import": "./dist/shepherd.mjs",
-      "require": "./dist/shepherd.js"
+      "default": "./dist/shepherd.js"
     },
     "./*": {
+      "types": "./dist/*.d.ts",
+      "require": "./dist/*.js",
       "import": "./dist/*.mjs",
-      "require": "./dist/*.js"
+      "default": "./dist/*.js"
     }
   },
-  "types": "shepherd.d.ts",
   "typesVersions": {
     "*": {
       "*": [
@@ -39,7 +40,7 @@
     }
   },
   "scripts": {
-    "build": "pnpm clean && rollup -c && node scripts/postprocess.js",
+    "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
@@ -78,7 +79,6 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.3.1",
     "rollup-plugin-livereload": "^2.0.5",

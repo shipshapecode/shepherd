@@ -2,7 +2,6 @@ import autoprefixer from 'autoprefixer';
 import fs from 'fs';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
-import copy from 'rollup-plugin-copy';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import filesize from 'rollup-plugin-filesize';
@@ -46,18 +45,7 @@ const plugins = [
     banner
   }),
   filesize(),
-  visualizer(),
-  copy({
-    targets: [
-      {
-        src: 'dist/shepherd.d.ts',
-        dest: 'dist',
-        rename: 'shepherd.d.mts'
-      }
-    ],
-    copySync: true,
-    hook: 'writeBundle' // Ensure copying happens after the build is complete
-  })
+  visualizer()
 ];
 
 // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
@@ -83,8 +71,7 @@ export default [
         dir: 'dist',
         entryFileNames: '[name].js',
         format: 'cjs',
-        sourcemap: true,
-        exports: 'auto'
+        sourcemap: true
       }
     ],
     plugins
