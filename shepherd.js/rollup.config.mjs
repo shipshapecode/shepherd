@@ -77,7 +77,7 @@ export default [
 
     output: {
       dir: 'dist/cjs',
-      entryFileNames: '[name].js',
+      entryFileNames: '[name].cjs',
       format: 'cjs',
       sourcemap: true
     },

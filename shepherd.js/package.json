@@ -18,28 +18,27 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
+  "main": "./dist/cjs/shepherd.cjs",
+  "module": "./dist/esm/shepherd.mjs",
   "exports": {
     ".": {
       "require": {
         "types": "./dist/cjs/shepherd.d.ts",
-        "default": "./dist/cjs/shepherd.js"
+        "default": "./dist/cjs/shepherd.cjs"
       },
       "import": {
         "types": "./dist/esm/shepherd.d.ts",
         "default": "./dist/esm/shepherd.mjs"
       },
-      "default": "./dist/cjs/shepherd.js"
+      "default": "./dist/cjs/shepherd.cjs"
     },
     "./*": {
       "require": {
-        "types": "./dist/cjs/shepherd.d.ts",
-        "default": "./dist/cjs/*.js"
+        "types": "./dist/cjs/*.d.ts"
       },
       "import": {
-        "types": "./dist/esm/shepherd.d.ts",
-        "default": "./dist/esm/*.mjs"
-      },
-      "default": "./dist/cjs/*.js"
+        "types": "./dist/esm/*.d.ts"
+      }
     }
   },
   "type": "module",
