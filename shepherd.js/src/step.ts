@@ -14,8 +14,7 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-// @ts-expect-error TODO: not yet typed
-import ShepherdElement from './components/shepherd-element.svelte';
+import { ShepherdElement } from './components/index.ts';
 import { type Tour } from './tour.ts';
 
 type StepText =

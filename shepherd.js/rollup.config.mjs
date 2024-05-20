@@ -98,16 +98,16 @@ export default [
       sourcemap: true
     },
     plugins: getPlugins(true)
-  },
-  {
-    input: inputFiles,
-
-    output: {
-      dir: 'dist/cjs',
-      entryFileNames: '[name].cjs',
-      format: 'cjs',
-      sourcemap: true
-    },
-    plugins: getPlugins(false)
   }
+  // {
+  //   input: inputFiles,
+
+  //   output: {
+  //     dir: 'dist/cjs',
+  //     entryFileNames: '[name].cjs',
+  //     format: 'cjs',
+  //     sourcemap: true
+  //   },
+  //   plugins: getPlugins(false)
+  // }
 ];
