@@ -20,23 +20,33 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/shepherd.d.ts",
-      "require": "./dist/shepherd.js",
-      "import": "./dist/shepherd.mjs",
-      "default": "./dist/shepherd.js"
+      "require": {
+        "types": "./dist/cjs/shepherd.d.ts",
+        "default": "./dist/cjs/shepherd.js"
+      },
+      "import": {
+        "types": "./dist/esm/shepherd.d.ts",
+        "default": "./dist/esm/shepherd.mjs"
+      },
+      "default": "./dist/cjs/shepherd.js"
     },
     "./*": {
-      "types": "./dist/*.d.ts",
-      "require": "./dist/*.js",
-      "import": "./dist/*.mjs",
-      "default": "./dist/*.js"
+      "require": {
+        "types": "./dist/cjs/shepherd.d.ts",
+        "default": "./dist/cjs/*.js"
+      },
+      "import": {
+        "types": "./dist/esm/shepherd.d.ts",
+        "default": "./dist/esm/*.mjs"
+      },
+      "default": "./dist/cjs/*.js"
     }
   },
   "type": "module",
   "typesVersions": {
     "*": {
       "*": [
-        "./dist/*"
+        "./dist/esm/*"
       ]
     }
   },

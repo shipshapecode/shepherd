@@ -19,61 +19,68 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
-const plugins = [
-  svelte({
-    preprocess: sveltePreprocess({ typescript: true }),
-    emitCss: true
-  }),
-  nodeResolve({
-    browser: true,
-    exportConditions: ['svelte'],
-    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-    modulesOnly: true
-  }),
-  typescript(),
-  replace({
-    'process.env.NODE_ENV': JSON.stringify(env)
-  }),
-  babel({
-    extensions: ['.js', '.mjs', '.html', '.svelte']
-  }),
-  postcss({
-    plugins: [autoprefixer, cssnanoPlugin],
-    extract: 'css/shepherd.css'
-  }),
-  license({
-    banner
-  }),
-  filesize(),
-  visualizer()
-];
+function getPlugins(declarationDir) {
+  const plugins = [
+    svelte({
+      preprocess: sveltePreprocess({ typescript: true }),
+      emitCss: true
+    }),
+    nodeResolve({
+      browser: true,
+      exportConditions: ['svelte'],
+      extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
+      modulesOnly: true
+    }),
+    typescript({ compilerOptions: { declarationDir: declarationDir } }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(env)
+    }),
+    babel({
+      extensions: ['.js', '.mjs', '.html', '.svelte']
+    }),
+    postcss({
+      plugins: [autoprefixer, cssnanoPlugin],
+      extract: 'css/shepherd.css'
+    }),
+    license({
+      banner
+    }),
+    filesize(),
+    visualizer()
+  ];
 
-// If we are running with --environment DEVELOPMENT, serve via browsersync for local development
-if (process.env.DEVELOPMENT) {
-  plugins.push(
-    serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
-  );
-  plugins.push(livereload());
+  // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
+  if (process.env.DEVELOPMENT) {
+    plugins.push(
+      serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
+    );
+    plugins.push(livereload());
+  }
+
+  return plugins;
 }
 
 export default [
   {
     input: 'src/shepherd.ts',
 
-    output: [
-      {
-        dir: 'dist',
-        entryFileNames: '[name].mjs',
-        format: 'es',
-        sourcemap: true
-      },
-      {
-        dir: 'dist',
-        entryFileNames: '[name].js',
-        format: 'cjs',
-        sourcemap: true
-      }
-    ],
-    plugins
+    output: {
+      dir: 'dist/esm',
+      entryFileNames: '[name].mjs',
+      format: 'es',
+      sourcemap: true
+    },
+    plugins: getPlugins('dist/esm')
+  },
+  {
+    input: 'src/shepherd.ts',
+
+    output: {
+      dir: 'dist/cjs',
+      entryFileNames: '[name].js',
+      format: 'cjs',
+      sourcemap: true
+    },
+    plugins: getPlugins('dist/cjs')
   }
 ];
