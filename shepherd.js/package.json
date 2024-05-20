@@ -29,8 +29,7 @@
       "import": {
         "types": "./dist/esm/shepherd.d.ts",
         "default": "./dist/esm/shepherd.mjs"
-      },
-      "default": "./dist/cjs/shepherd.cjs"
+      }
     },
     "./*": {
       "require": {
