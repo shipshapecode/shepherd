@@ -10,6 +10,7 @@
     "allowJs": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
+    "allowArbitraryExtensions": true,
     "allowSyntheticDefaultImports": false,
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
@@ -32,7 +33,7 @@
     // If you were to change this to `true`, it could lead to accidentally
     // generating code with `tsc` instead of Babel, and could thereby
     // result in broken code at runtime.
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true,
     "declarationDir": "dist/esm",

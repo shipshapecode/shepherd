@@ -1,6 +1,12 @@
-// vscode configuration
-const sveltePreprocess = require('svelte-preprocess');
+import preprocess from 'svelte-preprocess';
 
-module.exports = {
-  preprocess: sveltePreprocess()
+/**
+ * This will add autocompletion if you're working with SvelteKit
+ *
+ * @type {import('@sveltejs/kit').Config}
+ */
+const config = {
+  preprocess: preprocess({})
 };
+
+export default config;

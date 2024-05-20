@@ -61,10 +61,10 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "concurrently \"npm:types:check:*\" --names \"types:check:\"",
+    "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack .",
-    "types:check:bundler": "pnpm tsc --module esnext --moduleResolution bundler",
-    "types:check:node16": "pnpm tsc --module node16 --moduleResolution node16",
+    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false",
+    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -75,13 +75,12 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.3",
     "@babel/core": "^7.24.5",
+    "@babel/plugin-transform-typescript": "^7.24.5",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
     "del": "^7.1.0",

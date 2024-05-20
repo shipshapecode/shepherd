@@ -15,21 +15,18 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
-import typescript from '@rollup/plugin-typescript';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
-/**
- * Configures plugins to use for rollup
- * @param {boolean} esm Set to true to output in ESM format or false for CJS
- */
-function getPlugins(esm = true) {
+function getPlugins() {
   const plugins = [
     svelte({
-      preprocess: sveltePreprocess({ typescript: true }),
+      preprocess: sveltePreprocess({
+        typescript: true
+      }),
       emitCss: true
     }),
     nodeResolve({
@@ -38,18 +35,11 @@ function getPlugins(esm = true) {
       extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
       modulesOnly: true
     }),
-    typescript({
-      compilerOptions: {
-        declarationDir: esm ? 'dist/esm' : 'dist/cjs',
-        module: esm ? 'esnext' : 'commonjs',
-        moduleResolution: esm ? 'bundler' : 'node10'
-      }
-    }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
     babel({
-      extensions: ['.js', '.mjs', '.html', '.svelte']
+      extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
     }),
     postcss({
       plugins: [autoprefixer, cssnanoPlugin],
@@ -74,7 +64,7 @@ function getPlugins(esm = true) {
 }
 
 const inputFiles = Object.fromEntries(
-  globSync('src/**/*.ts').map((file) => [
+  globSync('src/**/*.{svelte,ts}').map((file) => [
     // This remove `src/` as well as the file extension from each
     // file, so e.g. src/nested/foo.js becomes nested/foo
     path.relative(
@@ -93,21 +83,27 @@ export default [
 
     output: {
       dir: 'dist/esm',
-      entryFileNames: '[name].mjs',
+      entryFileNames: (chunkInfo) => {
+        const isSvelte = chunkInfo.facadeModuleId.endsWith('svelte');
+        return `${chunkInfo.name}${isSvelte ? '.svelte' : '.mjs'}`;
+      },
       format: 'es',
       sourcemap: true
     },
     plugins: getPlugins(true)
-  }
-  // {
-  //   input: inputFiles,
+  },
+  {
+    input: inputFiles,
 
-  //   output: {
-  //     dir: 'dist/cjs',
-  //     entryFileNames: '[name].cjs',
-  //     format: 'cjs',
-  //     sourcemap: true
-  //   },
-  //   plugins: getPlugins(false)
-  // }
+    output: {
+      dir: 'dist/cjs',
+      entryFileNames: (chunkInfo) => {
+        const isSvelte = chunkInfo.facadeModuleId.endsWith('svelte');
+        return `${chunkInfo.name}${isSvelte ? '.svelte' : '.cjs'}`;
+      },
+      format: 'cjs',
+      sourcemap: true
+    },
+    plugins: getPlugins(false)
+  }
 ];
