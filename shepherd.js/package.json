@@ -61,7 +61,10 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "pnpm tsc",
+    "types:check": "concurrently \"npm:types:check:*\" --names \"types:check:\"",
+    "types:check:attw": "pnpm attw --pack .",
+    "types:check:bundler": "pnpm tsc --module esnext --moduleResolution bundler",
+    "types:check:node16": "pnpm tsc --module node16 --moduleResolution node16",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -70,6 +73,7 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.3",
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
