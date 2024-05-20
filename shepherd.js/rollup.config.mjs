@@ -21,46 +21,42 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
-function getPlugins() {
-  const plugins = [
-    svelte({
-      preprocess: sveltePreprocess({
-        typescript: true
-      }),
-      emitCss: true
+const plugins = [
+  svelte({
+    preprocess: sveltePreprocess({
+      typescript: true
     }),
-    nodeResolve({
-      browser: true,
-      exportConditions: ['svelte'],
-      extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-      modulesOnly: true
-    }),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify(env)
-    }),
-    babel({
-      extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
-    }),
-    postcss({
-      plugins: [autoprefixer, cssnanoPlugin],
-      extract: 'css/shepherd.css'
-    }),
-    license({
-      banner
-    }),
-    filesize(),
-    visualizer()
-  ];
+    emitCss: true
+  }),
+  nodeResolve({
+    browser: true,
+    exportConditions: ['svelte'],
+    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
+    modulesOnly: true
+  }),
+  replace({
+    'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  babel({
+    extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
+  }),
+  postcss({
+    plugins: [autoprefixer, cssnanoPlugin],
+    extract: 'css/shepherd.css'
+  }),
+  license({
+    banner
+  }),
+  filesize(),
+  visualizer()
+];
 
-  // If we are running with --environment DEVELOPMENT, serve via browsersync for local development
-  if (process.env.DEVELOPMENT) {
-    plugins.push(
-      serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
-    );
-    plugins.push(livereload());
-  }
-
-  return plugins;
+// If we are running with --environment DEVELOPMENT, serve via browsersync for local development
+if (process.env.DEVELOPMENT) {
+  plugins.push(
+    serve({ contentBase: ['.', 'dist', '../test/cypress/dummy'], open: true })
+  );
+  plugins.push(livereload());
 }
 
 const inputFiles = Object.fromEntries(
@@ -90,7 +86,7 @@ export default [
       format: 'es',
       sourcemap: true
     },
-    plugins: getPlugins(true)
+    plugins
   },
   {
     input: inputFiles,
@@ -104,6 +100,6 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    plugins: getPlugins(false)
+    plugins
   }
 ];
