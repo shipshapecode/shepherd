@@ -52,6 +52,7 @@
   },
   "scripts": {
     "build": "pnpm clean && rollup -c",
+    "postbuild":"pnpm types:check:cjs && pnpm types:check:esm", 
     "clean": "rimraf ./dist",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
@@ -61,7 +62,7 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
+    "types:check": "pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack .",
     "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false",
     "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm",
