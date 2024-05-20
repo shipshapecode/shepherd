@@ -33,10 +33,12 @@
     },
     "./*": {
       "require": {
-        "types": "./dist/cjs/*.d.ts"
+        "types": "./dist/cjs/*.d.ts",
+        "default": "./dist/cjs/*.cjs"
       },
       "import": {
-        "types": "./dist/esm/*.d.ts"
+        "types": "./dist/esm/*.d.ts",
+        "default": "./dist/esm/*.mjs"
       }
     }
   },
@@ -84,6 +86,7 @@
     "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
+    "glob": "^10.3.15",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",

@@ -1,5 +1,8 @@
 import autoprefixer from 'autoprefixer';
 import fs from 'fs';
+import path from 'node:path';
+import { globSync } from 'glob';
+import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -19,7 +22,11 @@ const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
 
-function getPlugins(declarationDir) {
+/**
+ * Configures plugins to use for rollup
+ * @param {boolean} esm Set to true to output in ESM format or false for CJS
+ */
+function getPlugins(esm = true) {
   const plugins = [
     svelte({
       preprocess: sveltePreprocess({ typescript: true }),
@@ -31,7 +38,13 @@ function getPlugins(declarationDir) {
       extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
       modulesOnly: true
     }),
-    typescript({ compilerOptions: { declarationDir: declarationDir } }),
+    typescript({
+      compilerOptions: {
+        declarationDir: esm ? 'dist/esm' : 'dist/cjs',
+        module: esm ? 'esnext' : 'commonjs',
+        moduleResolution: esm ? 'bundler' : 'node10'
+      }
+    }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
@@ -60,9 +73,23 @@ function getPlugins(declarationDir) {
   return plugins;
 }
 
+const inputFiles = Object.fromEntries(
+  globSync('src/**/*.ts').map((file) => [
+    // This remove `src/` as well as the file extension from each
+    // file, so e.g. src/nested/foo.js becomes nested/foo
+    path.relative(
+      'src',
+      file.slice(0, file.length - path.extname(file).length)
+    ),
+    // This expands the relative paths to absolute paths, so e.g.
+    // src/nested/foo becomes /project/src/nested/foo.js
+    fileURLToPath(new URL(file, import.meta.url))
+  ])
+);
+
 export default [
   {
-    input: 'src/shepherd.ts',
+    input: inputFiles,
 
     output: {
       dir: 'dist/esm',
@@ -70,10 +97,10 @@ export default [
       format: 'es',
       sourcemap: true
     },
-    plugins: getPlugins('dist/esm')
+    plugins: getPlugins(true)
   },
   {
-    input: 'src/shepherd.ts',
+    input: inputFiles,
 
     output: {
       dir: 'dist/cjs',
@@ -81,6 +108,6 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    plugins: getPlugins('dist/cjs')
+    plugins: getPlugins(false)
   }
 ];
