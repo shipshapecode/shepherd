@@ -1,6 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import fs from 'fs';
-// import path from 'node:path';
+import path from 'node:path';
 // import { globSync } from 'glob';
 // import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
@@ -15,6 +15,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { emitDts } from 'svelte2tsx';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -87,7 +88,20 @@ export default [
       format: 'es',
       sourcemap: true
     },
-    plugins
+    plugins: [
+      ...plugins,
+      {
+        name: 'Build Declarations',
+        closeBundle: async () => {
+          await emitDts({
+            svelteShimsPath: import.meta.resolve(
+              'svelte2tsx/svelte-shims-v4.d.ts'
+            ),
+            declarationDir: 'dist/esm'
+          });
+        }
+      }
+    ]
   },
   {
     input: 'src/shepherd.ts', // inputFiles,
@@ -101,6 +115,19 @@ export default [
       format: 'cjs',
       sourcemap: true
     },
-    plugins
+    plugins: [
+      ...plugins,
+      {
+        name: 'Build Declarations',
+        closeBundle: async () => {
+          await emitDts({
+            svelteShimsPath: import.meta.resolve(
+              'svelte2tsx/svelte-shims-v4.d.ts'
+            ),
+            declarationDir: 'dist/cjs'
+          });
+        }
+      }
+    ]
   }
 ];
