@@ -302,6 +302,10 @@ importers:
         version: 5.4.5
 
   test/cypress:
+    dependencies:
+      shepherd.js:
+        specifier: workspace:*
+        version: link:../../shepherd.js
     devDependencies:
       '@babel/core':
         specifier: ^7.24.5
@@ -342,9 +346,6 @@ importers:
       replace:
         specifier: ^1.2.2
         version: 1.2.2
-      shepherd.js:
-        specifier: workspace:*
-        version: link:../../shepherd.js
       start-server-and-test:
         specifier: ^2.0.3
         version: 2.0.3

@@ -59,6 +59,7 @@ if (process.env.DEVELOPMENT) {
   plugins.push(livereload());
 }
 
+// TODO: one day try to ship multiple files instead of one big one
 // const inputFiles = Object.fromEntries(
 //   globSync('src/**/*.{svelte,ts}').map((file) => [
 //     // This remove `src/` as well as the file extension from each
