@@ -11,7 +11,8 @@ import {
 import { cleanupSteps } from './utils/cleanup.ts';
 import DataRequest from './utils/datarequest.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
-import { ShepherdModal } from './components/index.ts';
+// @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
+import ShepherdModal from './components/shepherd-modal.svelte';
 
 interface Actor {
   actorId: number;
@@ -192,7 +193,7 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
-  modal?: ShepherdModal;
+  modal?: ShepherdModal | null;
   options: TourOptions;
   steps: Array<Step>;
 

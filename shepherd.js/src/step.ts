@@ -14,7 +14,8 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-import { ShepherdElement } from './components/index.ts';
+// @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
+import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 
 type StepText =
