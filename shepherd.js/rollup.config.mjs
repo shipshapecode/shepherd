@@ -1,9 +1,9 @@
 import autoprefixer from 'autoprefixer';
 import { execaCommand } from 'execa';
 import fs from 'fs';
-// import path from 'node:path';
+import path from 'node:path';
 // import { globSync } from 'glob';
-// import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -145,6 +145,22 @@ export default [
             ),
             declarationDir: 'dist/cjs'
           });
+
+          console.log('Fix CJS export default -> export =');
+
+          const __filename = fileURLToPath(import.meta.url);
+          const __dirname = path.dirname(__filename);
+          const declarationFile = path.join(
+            __dirname,
+            'dist/cjs',
+            'shepherd.d.ts'
+          );
+          let content = fs.readFileSync(declarationFile, 'utf8');
+          content = content.replace(
+            /export default Shepherd/g,
+            'export = Shepherd'
+          );
+          fs.writeFileSync(declarationFile, content);
 
           console.log('Renaming .ts files to .cts');
 
