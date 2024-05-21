@@ -1,4 +1,5 @@
 import autoprefixer from 'autoprefixer';
+import { execaCommand } from 'execa';
 import fs from 'fs';
 // import path from 'node:path';
 // import { globSync } from 'glob';
@@ -93,6 +94,15 @@ export default [
       {
         name: 'Build Declarations',
         closeBundle: async () => {
+          console.log('Generating TSC declarations for ESM');
+
+          await execaCommand(
+            `pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm`,
+            { stdio: 'inherit' }
+          );
+
+          console.log('Generating Svelte declarations for ESM');
+
           await emitDts({
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
@@ -120,11 +130,26 @@ export default [
       {
         name: 'Build Declarations',
         closeBundle: async () => {
+          console.log('Generating TSC declarations for CJS');
+
+          await execaCommand(
+            `pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false`,
+            { stdio: 'inherit' }
+          );
+
+          console.log('Generating Svelte declarations for CJS');
+
           await emitDts({
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
             declarationDir: 'dist/cjs'
+          });
+
+          console.log('Renaming .ts files to .cts');
+
+          await execaCommand(`renamer --find .ts --replace .cts dist/cjs/**`, {
+            stdio: 'inherit'
           });
         }
       }

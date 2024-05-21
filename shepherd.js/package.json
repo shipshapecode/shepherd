@@ -23,7 +23,7 @@
   "exports": {
     ".": {
       "require": {
-        "types": "./dist/cjs/shepherd.d.ts",
+        "types": "./dist/cjs/shepherd.d.cts",
         "default": "./dist/cjs/shepherd.cjs"
       },
       "import": {
@@ -33,7 +33,7 @@
     },
     "./*": {
       "require": {
-        "types": "./dist/cjs/*.d.ts",
+        "types": "./dist/cjs/*.d.cts",
         "default": "./dist/cjs/*.cjs"
       },
       "import": {
@@ -51,7 +51,7 @@
     }
   },
   "scripts": {
-    "build": "pnpm clean && rollup -c && pnpm types:check:cjs && pnpm types:check:esm",
+    "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
@@ -61,10 +61,10 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "pnpm types:check:attw",
+    "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack .",
-    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false",
-    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm",
+    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false --noEmit true",
+    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm --noEmit true",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -85,11 +85,13 @@
     "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
+    "execa": "^9.1.0",
     "glob": "^10.3.15",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.2",
+    "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",
