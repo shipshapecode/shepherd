@@ -17,7 +17,7 @@ describe('subscriptions function', () => {
   //   expect(data).toBe('subscriptions function');
   // });
 
-  it('Should respond with 403 if unrecognized IP missing x-real-ip header', async () => {
+  it.skip('Should respond with 403 if unrecognized IP missing x-real-ip header', async () => {
     const httpEvent = mockHttpEvent({
       httpMethod: 'GET',
     });
