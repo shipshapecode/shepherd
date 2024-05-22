@@ -8,7 +8,9 @@ import { SITE_TITLE } from '../consts';
 const { isHome } = Astro.props;
 const shepherdIncludeCode = `
 	<link rel="stylesheet" href="shepherd.js/dist/esm/css/shepherd.css"/>
-	<script type="module" src="shepherd.js/dist/esm/shepherd.mjs"></script>
+	<script type="module">
+    import Shepherd from 'shepherd.js';
+  </script>
   
 `;
 ---
@@ -182,8 +184,8 @@ const shepherdIncludeCode = `
   'use strict';
 
   import Shepherd from 'shepherd.js';
-  import type { StepOptions } from 'shepherd.js/step';
-  import type { Tour } from 'shepherd.js/tour';
+  import type { StepOptions } from 'shepherd.js';
+  import type { Tour } from 'shepherd.js';
 
   (function () {
     async function init() {

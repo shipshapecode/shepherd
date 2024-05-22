@@ -14,17 +14,17 @@ import { normalizePrefix, uuid } from './utils/general.ts';
 // @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdModal from './components/shepherd-modal.svelte';
 
-interface Actor {
+export interface Actor {
   actorId: number;
 }
 
-interface EventOptions {
+export interface EventOptions {
   previous?: Step | null;
   step?: Step | null;
   tour: Tour;
 }
 
-type TourConfirmCancel =
+export type TourConfirmCancel =
   | boolean
   | (() => boolean)
   | Promise<boolean>
@@ -591,6 +591,9 @@ export class Tour extends Evented {
   }
 }
 
+/**
+ * @public
+ */
 const Shepherd = new ShepherdPro();
 
 export { Shepherd };

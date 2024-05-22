@@ -300,7 +300,7 @@
      */
     "tsdocMessageReporting": {
       "default": {
-        "logLevel": "warning"
+        "logLevel": "none"
         // "addToApiReportFile": false
       }
 

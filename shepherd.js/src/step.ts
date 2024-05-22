@@ -18,13 +18,13 @@ import {
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 
-type StepText =
+export type StepText =
   | string
   | ReadonlyArray<string>
   | HTMLElement
   | (() => string | ReadonlyArray<string> | HTMLElement);
 
-type StringOrStringFunction = string | (() => string);
+export type StringOrStringFunction = string | (() => string);
 
 /**
  * The options for the step
@@ -186,7 +186,7 @@ export interface StepOptions {
   when?: StepOptionsWhen;
 }
 
-type PopperPlacement =
+export type PopperPlacement =
   | 'top'
   | 'top-start'
   | 'top-end'
