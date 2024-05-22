@@ -117,7 +117,9 @@ export default [
               `pnpm api-extractor run --config ./api-extractor-esm.json --verbose`,
               { stdio: 'inherit' }
             );
-          } catch {}
+          } catch {
+            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
+          }
         }
       }
     ]
@@ -178,7 +180,9 @@ export default [
               `pnpm api-extractor run --config ./api-extractor-cjs.json --verbose`,
               { stdio: 'inherit' }
             );
-          } catch {}
+          } catch {
+            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
+          }
         }
       }
     ]
