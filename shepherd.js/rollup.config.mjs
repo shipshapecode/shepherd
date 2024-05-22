@@ -114,7 +114,7 @@ export default [
 
           try {
             await execaCommand(
-              `pnpm api-extractor run --config ./api-extractor-esm.json --verbose`,
+              `pnpm api-extractor run --config ./api-extractor-esm.json`,
               { stdio: 'inherit' }
             );
           } catch {
@@ -157,14 +157,25 @@ export default [
             declarationDir: 'tmp/cjs'
           });
 
+          console.log('Rolling up types to one declaration file');
+
+          try {
+            await execaCommand(
+              `pnpm api-extractor run --config ./api-extractor-cjs.json`,
+              { stdio: 'inherit' }
+            );
+          } catch {
+            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
+          }
+
           console.log('Fix CJS export default -> export =');
 
           const __filename = fileURLToPath(import.meta.url);
           const __dirname = path.dirname(__filename);
           const declarationFile = path.join(
             __dirname,
-            'tmp/cjs',
-            'shepherd.d.ts'
+            'dist/cjs',
+            'shepherd.d.cts'
           );
           let content = fs.readFileSync(declarationFile, 'utf8');
           content = content.replace(
@@ -172,17 +183,6 @@ export default [
             'export = Shepherd'
           );
           fs.writeFileSync(declarationFile, content);
-
-          console.log('Rolling up types to one declaration file');
-
-          try {
-            await execaCommand(
-              `pnpm api-extractor run --config ./api-extractor-cjs.json --verbose`,
-              { stdio: 'inherit' }
-            );
-          } catch {
-            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
-          }
         }
       }
     ]
