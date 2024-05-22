@@ -22,6 +22,8 @@ const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const plugins = [
   svelte({
@@ -94,32 +96,27 @@ export default [
       {
         name: 'Build Declarations',
         closeBundle: async () => {
-          console.log('Generating TSC declarations for ESM');
-
-          await execaCommand(
-            `pnpm tsc --module esnext --moduleResolution bundler --declarationDir tmp/esm`,
-            { stdio: 'inherit' }
-          );
-
           console.log('Generating Svelte declarations for ESM');
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'tmp/esm'
+            declarationDir: 'tmp/svelte'
           });
 
-          console.log('Rolling up types to one declaration file');
+          console.log('Generating TSC declarations for ESM');
 
-          try {
-            await execaCommand(
-              `pnpm api-extractor run --config ./api-extractor-esm.json`,
-              { stdio: 'inherit' }
-            );
-          } catch {
-            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
-          }
+          await execaCommand(
+            `pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm`,
+            { stdio: 'inherit' }
+          );
+
+          fs.cpSync(
+            path.join(__dirname, 'tmp/svelte/components'),
+            path.join(__dirname, 'dist/esm/components'),
+            { recursive: true }
+          );
         }
       }
     ]
@@ -141,37 +138,38 @@ export default [
       {
         name: 'Build Declarations',
         closeBundle: async () => {
-          console.log('Generating TSC declarations for CJS');
-
-          await execaCommand(
-            `pnpm tsc --module commonjs --moduleResolution node10 --declarationDir tmp/cjs --verbatimModuleSyntax false`,
-            { stdio: 'inherit' }
-          );
-
           console.log('Generating Svelte declarations for CJS');
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'tmp/cjs'
+            declarationDir: 'tmp/svelte'
           });
 
-          console.log('Rolling up types to one declaration file');
+          console.log('Generating TSC declarations for CJS');
 
-          try {
-            await execaCommand(
-              `pnpm api-extractor run --config ./api-extractor-cjs.json`,
-              { stdio: 'inherit' }
-            );
-          } catch {
-            // api-extractor exits with a non-zero code, for some reason, but it still works, so just leaving an empty catch block here
-          }
+          await execaCommand(
+            `pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false`,
+            { stdio: 'inherit' }
+          );
+
+          console.log('Copy over Svelte declaration files');
+
+          fs.cpSync(
+            path.join(__dirname, 'tmp/svelte/components'),
+            path.join(__dirname, 'dist/cjs/components'),
+            { recursive: true }
+          );
+
+          console.log('Rename .d.ts to .d.cts');
+
+          await execaCommand(`renamer --find .ts --replace .cts dist/cjs/**`, {
+            stdio: 'inherit'
+          });
 
           console.log('Fix CJS export default -> export =');
 
-          const __filename = fileURLToPath(import.meta.url);
-          const __dirname = path.dirname(__filename);
           const declarationFile = path.join(
             __dirname,
             'dist/cjs',
