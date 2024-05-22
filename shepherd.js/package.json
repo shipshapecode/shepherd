@@ -30,16 +30,6 @@
         "types": "./dist/esm/shepherd.d.ts",
         "default": "./dist/esm/shepherd.mjs"
       }
-    },
-    "./*": {
-      "require": {
-        "types": "./dist/cjs/*.d.cts",
-        "default": "./dist/cjs/*.cjs"
-      },
-      "import": {
-        "types": "./dist/esm/*.d.ts",
-        "default": "./dist/esm/*.mjs"
-      }
     }
   },
   "type": "module",
