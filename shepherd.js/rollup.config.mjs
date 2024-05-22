@@ -14,7 +14,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
-import typescript from '@rollup/plugin-typescript';
+import ts from 'rollup-plugin-ts';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -24,24 +24,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const plugins = [
-  svelte({
-    preprocess: sveltePreprocess({
-      typescript: true
-    }),
-    emitCss: true
-  }),
   nodeResolve({
     browser: true,
     exportConditions: ['svelte'],
     extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
     modulesOnly: true
   }),
-  typescript(),
+  ts({
+    browserslist: false,
+    transpiler: 'babel',
+    exclude: ['**/*.css', '**/*.svelte']
+  }),
+  svelte({
+    preprocess: sveltePreprocess({
+      typescript: true
+    }),
+    emitCss: true
+  }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
-  }),
-  babel({
-    extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
   }),
   postcss({
     plugins: [autoprefixer, cssnanoPlugin],
@@ -90,11 +91,7 @@ export default [
         closeBundle: async () => {
           console.log('Fix CJS export default -> export =');
 
-          const declarationFile = path.join(
-            __dirname,
-            'dist',
-            'shepherd.d.ts'
-          );
+          const declarationFile = path.join(__dirname, 'dist', 'shepherd.d.ts');
           let content = fs.readFileSync(declarationFile, 'utf8');
           content = content.replace(
             /export default Shepherd/g,

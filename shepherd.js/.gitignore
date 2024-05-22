@@ -6,7 +6,6 @@
 /.nyc_output/
 /coverage/
 /node_modules/
-/tmp/
 /.DS_Store
 /.sass-cache
 /npm-debug.log*

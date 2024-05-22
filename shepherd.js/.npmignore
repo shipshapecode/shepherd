@@ -7,14 +7,11 @@ landing/
 site/
 test/
 tests/
-tmp/
 
 .codeclimate.yml
 .eslintrc.js
 .gitignore
 .stylelintrc.js
-api-extractor-cjs.json
-api-extractor-esm.json
 index.html
 pnpm-lock.yaml
 stats.html
