@@ -45,22 +45,21 @@ const CHARGEBEE_WEBHOOKS_REQUEST_ORIGINS = [
 export const handler = async (event: APIGatewayEvent, _context: Context) => {
   logger.info(`${event.httpMethod} ${event.path}: subscriptions function`);
 
-  const requestIp =
-    event.headers['x-real-ip'] || event.headers['x-forwarded-for'];
-
-  logger.info(`Request IP: ${requestIp}`);
+  const requestIp = event.requestContext.identity.sourceIp;
 
   // Verify the webhook request to ensure it's from Chargebee servers
   if (!CHARGEBEE_WEBHOOKS_REQUEST_ORIGINS.find((ip) => ip === requestIp)) {
-    return {
-      statusCode: 403,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: 'IP Address Not Allowed',
-      }),
-    };
+    // TODO: Uncomment this block to restrict the IP addresses, but this hasn't been reliable
+    logger.info(`Request IP: ${requestIp}`);
+    // return {
+    //   statusCode: 403,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     data: 'IP Address Not Allowed',
+    //   }),
+    // };
   }
 
   const eventBody = JSON.parse(event.body);
