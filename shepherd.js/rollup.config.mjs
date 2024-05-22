@@ -97,7 +97,7 @@ export default [
           console.log('Generating TSC declarations for ESM');
 
           await execaCommand(
-            `pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm`,
+            `pnpm tsc --module esnext --moduleResolution bundler --declarationDir tmp/esm`,
             { stdio: 'inherit' }
           );
 
@@ -107,8 +107,17 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/esm'
+            declarationDir: 'tmp/esm'
           });
+
+          console.log('Rolling up types to one declaration file');
+
+          try {
+            await execaCommand(
+              `pnpm api-extractor run --config ./api-extractor-esm.json --verbose`,
+              { stdio: 'inherit' }
+            );
+          } catch {}
         }
       }
     ]
@@ -133,7 +142,7 @@ export default [
           console.log('Generating TSC declarations for CJS');
 
           await execaCommand(
-            `pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false`,
+            `pnpm tsc --module commonjs --moduleResolution node10 --declarationDir tmp/cjs --verbatimModuleSyntax false`,
             { stdio: 'inherit' }
           );
 
@@ -143,7 +152,7 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/cjs'
+            declarationDir: 'tmp/cjs'
           });
 
           console.log('Fix CJS export default -> export =');
@@ -152,7 +161,7 @@ export default [
           const __dirname = path.dirname(__filename);
           const declarationFile = path.join(
             __dirname,
-            'dist/cjs',
+            'tmp/cjs',
             'shepherd.d.ts'
           );
           let content = fs.readFileSync(declarationFile, 'utf8');
@@ -162,11 +171,14 @@ export default [
           );
           fs.writeFileSync(declarationFile, content);
 
-          console.log('Renaming .ts files to .cts');
+          console.log('Rolling up types to one declaration file');
 
-          await execaCommand(`renamer --find .ts --replace .cts dist/cjs/**`, {
-            stdio: 'inherit'
-          });
+          try {
+            await execaCommand(
+              `pnpm api-extractor run --config ./api-extractor-cjs.json --verbose`,
+              { stdio: 'inherit' }
+            );
+          } catch {}
         }
       }
     ]

@@ -43,16 +43,9 @@
     }
   },
   "type": "module",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/esm/*"
-      ]
-    }
-  },
   "scripts": {
     "build": "pnpm clean && rollup -c",
-    "clean": "rimraf ./dist",
+    "clean": "rimraf ./dist ./tmp",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
@@ -62,7 +55,7 @@
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
     "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
-    "types:check:attw": "pnpm attw --pack . --ignore-rules no-resolution internal-resolution-error",
+    "types:check:attw": "pnpm attw --pack .",
     "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
     "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm --noEmit true --emitDeclarationOnly false",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
@@ -78,6 +71,7 @@
     "@babel/plugin-transform-typescript": "^7.24.5",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
+    "@microsoft/api-extractor": "^7.43.7",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
@@ -91,7 +85,6 @@
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.2",
-    "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",
