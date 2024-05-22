@@ -18,21 +18,26 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "main": "./dist/cjs/shepherd.cjs",
-  "module": "./dist/esm/shepherd.mjs",
+  "main": "dist/shepherd.js",
+  "module": "dist/shepherd.mjs",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/cjs/shepherd.d.cts",
-        "default": "./dist/cjs/shepherd.cjs"
-      },
-      "import": {
-        "types": "./dist/esm/shepherd.d.ts",
-        "default": "./dist/esm/shepherd.mjs"
-      }
+      "import": "./dist/shepherd.mjs",
+      "require": "./dist/shepherd.js"
+    },
+    "./*": {
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.js"
     }
   },
-  "type": "module",
+  "types": "shepherd.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
   "scripts": {
     "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist ./tmp",
@@ -46,8 +51,8 @@
     "prepack": "pnpm build",
     "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack .",
-    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --declarationDir dist/cjs --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
-    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --declarationDir dist/esm --noEmit true --emitDeclarationOnly false",
+    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
+    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --noEmit true --emitDeclarationOnly false",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -64,17 +69,16 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
-    "execa": "^9.1.0",
     "glob": "^10.3.15",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.2",
-    "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",

@@ -36,7 +36,7 @@
     "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist/esm",
+    "declarationDir": "dist",
     "inlineSourceMap": true,
     "inlineSources": true,
     "skipLibCheck": true,

@@ -193,7 +193,7 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
-  modal?: ShepherdModal | null;
+  modal?: any | null;
   options: TourOptions;
   steps: Array<Step>;
 
