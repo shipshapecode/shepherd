@@ -95,7 +95,7 @@ Our release process is mostly automated. For more details, see [RELEASE.md](RELE
 
 ## Projects Already Using Shepherd
 
-### [SimplePlanner](https://logseq.com/)
+### [SimplePlanner](https://simpleplanner.io)
 
 [SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
 You do need to sign up via OAuth or email to see the scheduling tour. 
