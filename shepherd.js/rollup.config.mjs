@@ -24,25 +24,25 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const plugins = [
-  nodeResolve({
-    browser: true,
-    exportConditions: ['svelte'],
-    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-    modulesOnly: true
-  }),
-  ts({
-    browserslist: false,
-    transpiler: 'babel',
-    exclude: ['**/*.css', '**/*.svelte']
-  }),
   svelte({
     preprocess: sveltePreprocess({
       typescript: true
     }),
     emitCss: true
   }),
+  nodeResolve({
+    browser: true,
+    exportConditions: ['svelte'],
+    extensions: ['.js', '.json', '.mjs', '.mts', '.svelte', '.ts'],
+    modulesOnly: true
+  }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
+  }),
+  ts({
+    browserslist: false,
+    transpiler: 'babel',
+    exclude: ['**/*.css', '**/*.svelte']
   }),
   postcss({
     plugins: [autoprefixer, cssnanoPlugin],
