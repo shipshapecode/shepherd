@@ -22,13 +22,23 @@
   "module": "./dist/esm/shepherd.mjs",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/cjs/shepherd.d.cts",
-        "default": "./dist/cjs/shepherd.cjs"
-      },
       "import": {
         "types": "./dist/esm/shepherd.d.ts",
         "default": "./dist/esm/shepherd.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/shepherd.d.cts",
+        "default": "./dist/cjs/shepherd.cjs"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./dist/esm/*.d.ts",
+        "default": "./dist/esm/*.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/*.d.cts",
+        "default": "./dist/cjs/*.cjs"
       }
     }
   },

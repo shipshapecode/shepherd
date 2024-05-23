@@ -184,8 +184,8 @@ const shepherdIncludeCode = `
   'use strict';
 
   import Shepherd from 'shepherd.js';
-  import type { StepOptions } from 'shepherd.js';
-  import type { Tour } from 'shepherd.js';
+  import type { StepOptions } from 'shepherd.js/step';
+  import type { Tour } from 'shepherd.js/tour';
 
   (function () {
     async function init() {
@@ -225,14 +225,14 @@ const shepherdIncludeCode = `
             buttons: [
               {
                 action() {
-                  return (this as unknown as Tour).cancel();
+                  return this.cancel();
                 },
                 secondary: true,
                 text: 'Exit'
               },
               {
                 action() {
-                  return (this as unknown as Tour).next();
+                  return this.next();
                 },
                 text: 'Next'
               }
@@ -259,14 +259,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return (this as unknown as Tour).back();
+                return this.back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return (this as unknown as Tour).next();
+                return this.next();
               },
               text: 'Next'
             }
@@ -285,14 +285,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return (this as unknown as Tour).back();
+                return this.back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return (this as unknown as Tour).next();
+                return this.next();
               },
               text: 'Next'
             }
@@ -309,14 +309,14 @@ const shepherdIncludeCode = `
           buttons: [
             {
               action() {
-                return (this as unknown as Tour).back();
+                return this.back();
               },
               secondary: true,
               text: 'Back'
             },
             {
               action() {
-                return (this as unknown as Tour).next();
+                return this.next();
               },
               text: 'Next'
             }
@@ -334,14 +334,14 @@ const shepherdIncludeCode = `
         buttons: [
           {
             action() {
-              return (this as unknown as Tour).back();
+              return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
             action() {
-              return (this as unknown as Tour).next();
+              return this.next();
             },
             text: 'Next'
           }
@@ -359,14 +359,14 @@ const shepherdIncludeCode = `
         buttons: [
           {
             action() {
-              return (this as unknown as Tour).back();
+              return this.back();
             },
             secondary: true,
             text: 'Back'
           },
           {
             action() {
-              return (this as unknown as Tour).next();
+              return this.next();
             },
             text: 'Done'
           }
