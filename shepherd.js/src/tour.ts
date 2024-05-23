@@ -193,6 +193,7 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   modal?: any | null;
   options: TourOptions;
   steps: Array<Step>;
