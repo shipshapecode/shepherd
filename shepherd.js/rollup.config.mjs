@@ -65,7 +65,7 @@ if (process.env.DEVELOPMENT) {
 
 export default [
   {
-    input: 'src/shepherd.ts', // inputFiles,
+    input: 'src/shepherd.ts',
 
     output: {
       dir: 'dist/esm',
@@ -100,11 +100,11 @@ export default [
     ]
   },
   {
-    input: 'src/shepherd.ts', // inputFiles,
+    input: 'src/shepherd.ts',
 
     output: {
       dir: 'dist/cjs',
-      entryFileNames: '[name].js',
+      entryFileNames: '[name].cjs',
       format: 'cjs',
       sourcemap: true
     },
@@ -122,10 +122,10 @@ export default [
             declarationDir: 'dist/cjs'
           });
 
-          console.log('Rename .svelte.d.ts to .d.svelte.ts');
+          console.log('Rename .svelte.d.ts to .d.svelte.cts');
 
           await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.cts dist/cjs/**`,
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/cjs/**`,
             {
               stdio: 'inherit'
             }
