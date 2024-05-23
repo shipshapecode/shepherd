@@ -1,6 +1,8 @@
 import autoprefixer from 'autoprefixer';
+import { execaCommand } from 'execa';
 import fs from 'fs';
 import path from 'node:path';
+// import { globSync } from 'glob';
 import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
@@ -14,7 +16,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import sveltePreprocess from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
-import ts from 'rollup-plugin-ts';
+import { emitDts } from 'svelte2tsx';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
@@ -33,16 +35,14 @@ const plugins = [
   nodeResolve({
     browser: true,
     exportConditions: ['svelte'],
-    extensions: ['.js', '.json', '.mjs', '.mts', '.svelte', '.ts'],
+    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
     modulesOnly: true
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env)
   }),
-  ts({
-    browserslist: false,
-    transpiler: 'babel',
-    exclude: ['**/*.css', '**/*.svelte']
+  babel({
+    extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
   }),
   postcss({
     plugins: [autoprefixer, cssnanoPlugin],
@@ -68,18 +68,42 @@ export default [
     input: 'src/shepherd.ts', // inputFiles,
 
     output: {
-      dir: 'dist',
+      dir: 'dist/esm',
       entryFileNames: '[name].mjs',
       format: 'es',
       sourcemap: true
     },
-    plugins
+    plugins: [
+      ...plugins,
+      {
+        name: 'Build Declarations',
+        closeBundle: async () => {
+          console.log('Generating Svelte declarations for ESM');
+
+          await emitDts({
+            svelteShimsPath: import.meta.resolve(
+              'svelte2tsx/svelte-shims-v4.d.ts'
+            ),
+            declarationDir: 'dist/esm'
+          });
+
+          console.log('Rename .svelte.d.ts to .d.svelte.ts');
+
+          await execaCommand(
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/esm/**`,
+            {
+              stdio: 'inherit'
+            }
+          );
+        }
+      }
+    ]
   },
   {
     input: 'src/shepherd.ts', // inputFiles,
 
     output: {
-      dir: 'dist',
+      dir: 'dist/cjs',
       entryFileNames: '[name].js',
       format: 'cjs',
       sourcemap: true
@@ -89,9 +113,37 @@ export default [
       {
         name: 'Build Declarations',
         closeBundle: async () => {
+          console.log('Generating Svelte declarations for CJS');
+
+          await emitDts({
+            svelteShimsPath: import.meta.resolve(
+              'svelte2tsx/svelte-shims-v4.d.ts'
+            ),
+            declarationDir: 'dist/cjs'
+          });
+
+          console.log('Rename .svelte.d.ts to .d.svelte.ts');
+
+          await execaCommand(
+            `renamer --find .svelte.d.ts --replace .d.svelte.cts dist/cjs/**`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Rename .d.ts to .d.cts');
+
+          await execaCommand(`renamer --find .ts --replace .cts dist/cjs/**`, {
+            stdio: 'inherit'
+          });
+
           console.log('Fix CJS export default -> export =');
 
-          const declarationFile = path.join(__dirname, 'dist', 'shepherd.d.ts');
+          const declarationFile = path.join(
+            __dirname,
+            'dist/cjs',
+            'shepherd.d.cts'
+          );
           let content = fs.readFileSync(declarationFile, 'utf8');
           content = content.replace(
             /export default Shepherd/g,

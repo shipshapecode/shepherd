@@ -18,26 +18,21 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "main": "dist/shepherd.js",
-  "module": "dist/shepherd.mjs",
+  "main": "./dist/cjs/shepherd.cjs",
+  "module": "./dist/esm/shepherd.mjs",
   "exports": {
     ".": {
-      "import": "./dist/shepherd.mjs",
-      "require": "./dist/shepherd.js"
-    },
-    "./*": {
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.js"
+      "require": {
+        "types": "./dist/cjs/shepherd.d.cts",
+        "default": "./dist/cjs/shepherd.cjs"
+      },
+      "import": {
+        "types": "./dist/esm/shepherd.d.ts",
+        "default": "./dist/esm/shepherd.mjs"
+      }
     }
   },
-  "types": "shepherd.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*"
-      ]
-    }
-  },
+  "type": "module",
   "scripts": {
     "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist",
@@ -71,11 +66,11 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
+    "execa": "^9.1.0",
     "glob": "^10.3.15",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
@@ -91,7 +86,6 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-svelte": "^7.2.0",
-    "rollup-plugin-ts": "^3.4.5",
     "rollup-plugin-visualizer": "^5.11.0",
     "svelte": "^4.2.12",
     "svelte-preprocess": "^5.1.3",
