@@ -213,9 +213,6 @@ importers:
       '@babel/core':
         specifier: ^7.24.5
         version: 7.24.5
-      '@babel/plugin-transform-runtime':
-        specifier: ^7.24.3
-        version: 7.24.3(@babel/core@7.24.5)
       '@babel/plugin-transform-typescript':
         specifier: ^7.24.5
         version: 7.24.5(@babel/core@7.24.5)
@@ -225,9 +222,6 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.24.1
         version: 7.24.1(@babel/core@7.24.5)
-      '@babel/runtime':
-        specifier: ^7.24.5
-        version: 7.24.5
       '@rollup/plugin-babel':
         specifier: ^6.0.4
         version: 6.0.4(@babel/core@7.24.5)(rollup@4.17.2)
@@ -1758,23 +1752,6 @@ packages:
     dependencies:
       '@babel/core': 7.24.5
       '@babel/helper-plugin-utils': 7.24.0
-    dev: true
-
-  /@babel/plugin-transform-runtime@7.24.3(@babel/core@7.24.5):
-    resolution: {integrity: sha512-J0BuRPNlNqlMTRJ72eVptpt9VcInbxO6iP3jaxr+1NPhC0UkKL+6oeX6VXMEYdADnuqmMmsBspt4d5w8Y/TCbQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.24.5
-      '@babel/helper-module-imports': 7.24.3
-      '@babel/helper-plugin-utils': 7.24.5
-      babel-plugin-polyfill-corejs2: 0.4.11(@babel/core@7.24.5)
-      babel-plugin-polyfill-corejs3: 0.10.4(@babel/core@7.24.5)
-      babel-plugin-polyfill-regenerator: 0.6.2(@babel/core@7.24.5)
-      semver: 6.3.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@babel/plugin-transform-shorthand-properties@7.24.1(@babel/core@7.24.5):
