@@ -32,7 +32,6 @@ COPY --link ./shepherd.js ./shepherd.js
 
 # Copy application code
 COPY --link ./landing ./landing
-RUN pnpm -F shepherd.js build
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build application
