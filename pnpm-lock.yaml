@@ -183,8 +183,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.5.2)
       happy-dom:
-        specifier: ^14.7.1
-        version: 14.7.1
+        specifier: ^14.11.0
+        version: 14.11.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -196,7 +196,7 @@ importers:
         version: 3.9.1(typescript@5.4.5)(vite@5.2.11)
       vitest:
         specifier: ^1.5.2
-        version: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
+        version: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.11.0)
 
   shepherd.js:
     dependencies:
@@ -4235,7 +4235,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
+      vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.11.0)
     dev: true
 
   /@testing-library/react@15.0.7(@types/react@18.3.2)(react-dom@18.2.0)(react@18.2.0):
@@ -4827,7 +4827,7 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       sirv: 2.0.4
-      vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1)
+      vitest: 1.5.2(@vitest/ui@1.6.0)(happy-dom@14.11.0)
     dev: true
 
   /@vitest/utils@1.5.2:
@@ -8702,8 +8702,8 @@ packages:
       duplexer: 0.1.2
     dev: true
 
-  /happy-dom@14.7.1:
-    resolution: {integrity: sha512-v60Q0evZ4clvMcrAh5/F8EdxDdfHdFrtffz/CNe10jKD+nFweZVxM91tW+UyY2L4AtpgIaXdZ7TQmiO1pfcwbg==}
+  /happy-dom@14.11.0:
+    resolution: {integrity: sha512-vu25dY7YJqLuTG/3ADC0FZRRF0yNBp3q2K0YTN08opXdZi8V/YzIJDNJWFiCnDIuyc+RrCIE093+H5fa9Trlxg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       entities: 4.5.0
@@ -16766,7 +16766,7 @@ packages:
       vite: 5.2.11
     dev: false
 
-  /vitest@1.5.2(@vitest/ui@1.6.0)(happy-dom@14.7.1):
+  /vitest@1.5.2(@vitest/ui@1.6.0)(happy-dom@14.11.0):
     resolution: {integrity: sha512-l9gwIkq16ug3xY7BxHwcBQovLZG75zZL0PlsiYQbf76Rz6QGs54416UWMtC0jXeihvHvcHrf2ROEjkQRVpoZYw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -16801,7 +16801,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
-      happy-dom: 14.7.1
+      happy-dom: 14.11.0
       local-pkg: 0.5.0
       magic-string: 0.30.10
       pathe: 1.1.2
