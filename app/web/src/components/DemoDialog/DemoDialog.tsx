@@ -35,14 +35,16 @@ const DemoDialog = () => {
     // close the dialog and send the request regardless of response
     closeDialog();
 
-    const response = await requestDemo({ variables: { input: {
+    const response = await requestDemo({
+      variables: {
+        input: {
           description: data.description,
           from: data.email,
           name: data.name,
           subject: 'Shepherd Demo Request',
           title: data.title,
-        }
-      }
+        },
+      },
     });
     if (response.errors) {
       toast(response.errors[0].message);
@@ -120,7 +122,7 @@ const DemoDialog = () => {
             </div>
             <div className="mb-4">
               <label
-                className="mb-1 block text-md font-bold text-gray-800"
+                className="text-md mb-1 block font-bold text-gray-800"
                 htmlFor="description"
               >
                 How can we help you? What are your goals?
@@ -128,8 +130,8 @@ const DemoDialog = () => {
               <TextAreaField
                 className="w-full border border-solid border-gray-300 p-[10px] font-bold shadow-default outline-none transition-all focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-none"
                 name="description"
+                validation={{ required: true }}
               />
-
             </div>
             <div className="flex justify-center">
               <button

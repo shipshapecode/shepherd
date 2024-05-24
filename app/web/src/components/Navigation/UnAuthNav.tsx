@@ -67,6 +67,14 @@ export default function UnAuthNav() {
                     ★ on Github
                   </a>
                 </li>
+                <li>
+                  <a
+                    className="button w-full whitespace-nowrap border-2 border-navy bg-white p-4 text-navy"
+                    href="https://blog.shepherdpro.com"
+                  >
+                    Blog
+                  </a>
+                </li>
               </menu>
             </div>
           </div>
@@ -79,6 +87,15 @@ export default function UnAuthNav() {
               href="https://github.com/shepherd-pro/shepherd"
             >
               ★ on Github
+            </a>
+          </div>
+
+          <div className="mb-4 inline-block bg-navy lg:mr-4">
+            <a
+              className="star w-full whitespace-nowrap border-none bg-white p-4"
+              href="https://blog.shepherdpro.com"
+            >
+              Blog
             </a>
           </div>
 

@@ -1,5 +1,5 @@
 import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
-
+import { PostHog } from 'posthog-node';
 import { DbAuthHandler } from '@redwoodjs/auth-dbauth-api';
 import type {
   DbAuthHandlerOptions,
@@ -11,7 +11,7 @@ import { db } from 'src/lib/db';
 import { generateAPIKey } from 'src/lib/utils';
 import {
   createSubscription,
-  getSubscriptionCheckoutUrl,
+  // getSubscriptionCheckoutUrl,
 } from 'src/services/subscriptions/subscriptions';
 import { sendResetEmail, sendWelcomeEmail } from 'src/services/emails';
 
@@ -19,6 +19,10 @@ interface UserAttributes {
   name: string;
   plan?: string;
 }
+
+const phDefaultClient = new PostHog(process.env.POSTHOG_API_KEY, {
+  host: 'https://us.posthog.com',
+});
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -144,7 +148,11 @@ export const handler = async (
         },
       });
 
-      const userPlan = 'alpha-usd-monthly';
+      // Chargebee plan ID for test site defaulted to caps and can't be edited
+      const userPlan =
+        process.env.NODE_ENV === 'development'
+          ? 'Alpha-USD-Monthly'
+          : 'alpha-usd-monthly';
 
       if (newUser) {
         sendWelcomeEmail({
@@ -159,6 +167,21 @@ export const handler = async (
             status: 'IN_TRIAL',
             type: userPlan,
             userId: newUser.id,
+          },
+        });
+
+        phDefaultClient.capture({
+          distinctId: `shepherd-user-${newUser.id}`,
+          event: `Shepherd Signup`,
+          properties: {
+            $set: {
+              email: username,
+              name: userAttributes?.name,
+              plan: userPlan,
+            },
+          },
+          groups: {
+            account: newAccount.id,
           },
         });
 

@@ -39,7 +39,7 @@ export function DemoRequest({ description, from, name, title, when }) {
       >
         <Body className="bg-offwhite font-sans text-base">
           <Img
-            src={`https://shepherdjs.dev/_astro/shepherd-head-wink.4Hb0MKKJ.svg`}
+            src={`https://blog.shepherdpro.com/_astro/shepherd-head-wink.4Hb0MKKJ.svg`}
             width="184"
             height="75"
             alt="Shepherd Pro logo"

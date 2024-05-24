@@ -16,9 +16,9 @@
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
-<a href="https://shepherdjs.dev/">
+<a href="https://blog.shepherdpro.com/">
   <img 
-    src="https://shepherdjs.dev/img/demo.png" 
+    src="https://blog.shepherdpro.com/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
