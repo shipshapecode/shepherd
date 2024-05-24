@@ -2,13 +2,9 @@
   "solution": {
     "shepherd-docs": {
       "impact": "patch",
-      "oldVersion": "0.0.5",
-      "newVersion": "0.0.6",
+      "oldVersion": "0.0.6",
+      "newVersion": "0.0.7",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
@@ -18,32 +14,28 @@
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "5.0.3",
-      "newVersion": "5.0.4",
+      "oldVersion": "5.0.4",
+      "newVersion": "5.0.5",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "12.0.3",
-      "newVersion": "12.0.4",
+      "oldVersion": "12.0.4",
+      "newVersion": "12.0.5",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-05-24)\n\nshepherd-docs 0.0.6 (patch)\nreact-shepherd 5.0.4 (patch)\nshepherd.js 12.0.4 (patch)\n\n#### :bug: Bug Fix\n* `shepherd-docs`, `landing`, `shepherd.js`, `cypress-tests`\n  * [#2820](https://github.com/shepherd-pro/shepherd/pull/2820) Fix TS issues, more correctly ship CJS and ESM ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `unit-tests`\n  * [#2814](https://github.com/shepherd-pro/shepherd/pull/2814) Bump eslint-plugin-jest from 28.4.0 to 28.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `react-shepherd`\n  * [#2819](https://github.com/shepherd-pro/shepherd/pull/2819) Bump happy-dom from 14.7.1 to 14.11.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2024-05-24)\n\nshepherd-docs 0.0.7 (patch)\nreact-shepherd 5.0.5 (patch)\nshepherd.js 12.0.5 (patch)\n\n#### :house: Internal\n* Other\n  * [#2836](https://github.com/shepherd-pro/shepherd/pull/2836) App: ⬆ Upgrade RW version to v7.6 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`\n  * [#2835](https://github.com/shepherd-pro/shepherd/pull/2835) Landing: ➕ Update node version for deployment action ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }

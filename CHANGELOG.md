@@ -2,6 +2,21 @@
 
 ## Release (2024-05-24)
 
+shepherd-docs 0.0.7 (patch)
+react-shepherd 5.0.5 (patch)
+shepherd.js 12.0.5 (patch)
+
+#### :house: Internal
+* Other
+  * [#2836](https://github.com/shepherd-pro/shepherd/pull/2836) App: ⬆ Upgrade RW version to v7.6 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd.js`
+  * [#2835](https://github.com/shepherd-pro/shepherd/pull/2835) Landing: ➕ Update node version for deployment action ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+## Release (2024-05-24)
+
 shepherd-docs 0.0.6 (patch)
 react-shepherd 5.0.4 (patch)
 shepherd.js 12.0.4 (patch)
