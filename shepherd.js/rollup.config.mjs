@@ -8,6 +8,7 @@ import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import copy from 'rollup-plugin-copy';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -74,10 +75,9 @@ export default [
       sourcemap: true
     },
     plugins: [
-      ...plugins,
       {
         name: 'Build Declarations',
-        closeBundle: async () => {
+        buildStart: async () => {
           console.log('Generating Svelte declarations for ESM');
 
           await emitDts({
@@ -96,7 +96,8 @@ export default [
             }
           );
         }
-      }
+      },
+      ...plugins
     ]
   },
   {
@@ -109,10 +110,9 @@ export default [
       sourcemap: true
     },
     plugins: [
-      ...plugins,
       {
         name: 'Build Declarations',
-        closeBundle: async () => {
+        buildStart: async () => {
           console.log('Generating Svelte declarations for CJS');
 
           await emitDts({
@@ -130,13 +130,21 @@ export default [
               stdio: 'inherit'
             }
           );
-
-          console.log('Rename .d.ts to .d.cts');
-
-          await execaCommand(`renamer --find .ts --replace .cts dist/cjs/**`, {
-            stdio: 'inherit'
-          });
-
+        }
+      },
+      copy({
+        targets: [
+          {
+            src: 'dist/cjs/*.d.ts',
+            dest: 'dist/cjs',
+            rename: (name) => `${name}.cts`
+          }
+        ]
+      }),
+      ...plugins,
+      {
+        name: 'Build Declarations',
+        closeBundle: async () => {
           console.log('Fix CJS export default -> export =');
 
           const declarationFile = path.join(
