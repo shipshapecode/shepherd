@@ -1,5 +1,46 @@
 # Changelog
 
+## Release (2024-05-24)
+
+shepherd-docs 0.0.5 (patch)
+react-shepherd 5.0.3 (patch)
+shepherd.js 12.0.3 (patch)
+
+#### :bug: Bug Fix
+* `react-shepherd`
+  * [#2828](https://github.com/shepherd-pro/shepherd/pull/2828) React: 🐛 Fix init to be optional ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2809](https://github.com/shepherd-pro/shepherd/pull/2809) React: 👷 Update tsc target to match lowest compatibility ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`
+  * [#2821](https://github.com/shepherd-pro/shepherd/pull/2821) Landing: 🐛 Fix config for canonicalURL ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* [#2824](https://github.com/shepherd-pro/shepherd/pull/2824) Update README.md for incorrect URL ([@pranshugupta54](https://github.com/pranshugupta54))
+
+#### :house: Internal
+* `landing`
+  * [#2827](https://github.com/shepherd-pro/shepherd/pull/2827) Landing: 🐛 Update action to build js lib before docker copys it ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2826](https://github.com/shepherd-pro/shepherd/pull/2826) Landing: 🐛 Update Dockerfile to build JS lib before copy ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2804](https://github.com/shepherd-pro/shepherd/pull/2804) Bump @tailwindcss/typography from 0.5.12 to 0.5.13 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `shepherd-docs`, `landing`, `react-shepherd`, `shepherd.js`
+  * [#2825](https://github.com/shepherd-pro/shepherd/pull/2825) Landing: 🚚 Move blog to index page and update URLs ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* Other
+  * [#2822](https://github.com/shepherd-pro/shepherd/pull/2822) App: 🐛 Fix IP address check for webhook ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2811](https://github.com/shepherd-pro/shepherd/pull/2811) App: ✨ Remove FF for pricing and edit signup flow ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2810](https://github.com/shepherd-pro/shepherd/pull/2810) App: 🗃️  Add created at for users and subscription defaults ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`, `shepherd.js`
+  * [#2812](https://github.com/shepherd-pro/shepherd/pull/2812) Landing: 👷 Add fly.io deployment ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd-docs`
+  * [#2808](https://github.com/shepherd-pro/shepherd/pull/2808) Bump @astrojs/starlight from 0.21.5 to 0.22.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `react-shepherd`
+  * [#2798](https://github.com/shepherd-pro/shepherd/pull/2798) Bump @testing-library/react from 15.0.6 to 15.0.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2797](https://github.com/shepherd-pro/shepherd/pull/2797) Bump @types/react from 18.3.1 to 18.3.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `shepherd-docs`, `landing`
+  * [#2806](https://github.com/shepherd-pro/shepherd/pull/2806) Bump astro from 4.6.3 to 4.8.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Pranshu Gupta ([@pranshugupta54](https://github.com/pranshugupta54))
+
 ## Release (2024-05-14)
 
 shepherd-docs 0.0.4 (patch)
