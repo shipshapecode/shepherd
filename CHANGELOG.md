@@ -2,6 +2,25 @@
 
 ## Release (2024-05-24)
 
+shepherd-docs 0.0.6 (patch)
+react-shepherd 5.0.4 (patch)
+shepherd.js 12.0.4 (patch)
+
+#### :bug: Bug Fix
+* `shepherd-docs`, `landing`, `shepherd.js`, `cypress-tests`
+  * [#2820](https://github.com/shepherd-pro/shepherd/pull/2820) Fix TS issues, more correctly ship CJS and ESM ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `unit-tests`
+  * [#2814](https://github.com/shepherd-pro/shepherd/pull/2814) Bump eslint-plugin-jest from 28.4.0 to 28.5.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `react-shepherd`
+  * [#2819](https://github.com/shepherd-pro/shepherd/pull/2819) Bump happy-dom from 14.7.1 to 14.11.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+## Release (2024-05-24)
+
 shepherd-docs 0.0.5 (patch)
 react-shepherd 5.0.3 (patch)
 shepherd.js 12.0.3 (patch)
