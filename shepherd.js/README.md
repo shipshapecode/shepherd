@@ -84,7 +84,7 @@ Rails engine that generates and tracks Shepherd tours within an application
 
 [Shepherd Pro](https://shepherdpro.com/) allows you to use the same JS library and add enhanced analytics to your tours while letting you also connect some integrations to deepen the knowledge and effectiveness of those user experiences. 
 
-### [SimplePlanner](https://logseq.com/)
+### [SimplePlanner](https://simpleplanner.io)
 
 [SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
 You do need to sign up via OAuth or email to see the scheduling tour. 
