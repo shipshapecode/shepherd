@@ -79,7 +79,6 @@
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
     "execa": "^9.1.0",
-    "glob": "^10.3.15",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",

@@ -2,7 +2,6 @@ import autoprefixer from 'autoprefixer';
 import { execaCommand } from 'execa';
 import fs from 'fs';
 import path from 'node:path';
-// import { globSync } from 'glob';
 import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';

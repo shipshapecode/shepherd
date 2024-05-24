@@ -249,9 +249,6 @@ importers:
       execa:
         specifier: ^9.1.0
         version: 9.1.0
-      glob:
-        specifier: ^10.3.15
-        version: 10.3.15
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
