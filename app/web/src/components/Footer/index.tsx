@@ -13,9 +13,9 @@ const categories = [
     title: 'Shepherd',
     items: [
       { route: 'https://github.com/shepherd-pro/shepherd', title: 'Github' },
-      { route: 'https://shepherdjs.dev', title: 'Open Source Demo' },
+      { route: 'https://blog.shepherdpro.com/demo', title: 'Open Source Demo' },
       { route: 'https://docs.shepherdpro.com/', title: 'Open Source Docs' },
-      { route: 'https://shepherdjs.dev/blog', title: 'Blog' },
+      { route: 'https://blog.shepherdpro.com', title: 'Blog' },
     ],
   },
   // {

@@ -74,7 +74,7 @@ const PricingPage = () => {
     <>
       <Metadata title="Pricing" description="Pricing for Shepherd Pro" />
 
-      <section className="relative mx-auto mb-20 flex w-full flex-col items-center 2xl:max-w-7xl">
+      <section className="relative mx-auto mb-20 flex w-full flex-col items-center 2xl:max-w-5xl">
         <div className="mx-auto w-full border-b-2 border-black">
           <div className="relative mx-auto max-w-3xl items-center justify-center p-8 text-center lg:p-12 2xl:px-0">
             <h1 className="font-heading text-3xl tracking-tight text-black lg:text-5xl">
@@ -109,11 +109,11 @@ const PricingPage = () => {
               <span className="italic">{`(15% discounts on annual)`}</span>
             </div> */}
           </div>
-          <div className="grid grid-cols-1 gap-0.5 border-2 border-black bg-black lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
-                className={`flex flex-col justify-start ${plan.backgroundColor} gap-12 p-8 lg:p-12`}
+                className={`flex flex-col justify-start ${plan.backgroundColor} gap-12 border-2 border-black p-8 lg:p-12`}
               >
                 <div className="h-full rounded-3xl border-2 border-black bg-white p-8 shadow">
                   <div className="inline-flex w-full items-center justify-between font-semibold">
@@ -129,16 +129,21 @@ const PricingPage = () => {
                           {annual ? plan.annualPrice : plan.monthlyPrice}
                         </span>
                         <span className="text-base font-medium tracking-wide">
-                          {annual ? '(billed annually)' : '/m'}
+                          {annual ? '(billed annually)' : '/month'}
                         </span>
                       </>
                     ) : (
                       <span>Custom</span>
                     )}
                   </div>
-                  <p className="mt-8 text-sm tracking-wide lg:text-xl">
-                    {plan.description}
-                  </p>
+                  <button
+                    className="focus:ring-lila-700 hover:text-lila-800 inline-flex h-16 w-full transform items-center justify-center rounded-lg border-2 border-black bg-white px-6 py-3 text-center text-lg font-semibold text-black transition-all duration-100 ease-in-out focus:translate-y-1 focus:bg-black focus:text-white focus:shadow-none focus:outline-none sm:w-auto"
+                    onClick={() => {
+                      plan.buttonLink('alpha-monthly');
+                    }}
+                  >
+                    {plan.buttonText}
+                  </button>
                 </div>
                 <ul className="mt-2 space-y-8 text-base leading-6 tracking-wide">
                   {plan.features.map((feature, idx) => (
@@ -163,15 +168,9 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-
-                <button
-                  className="focus:ring-lila-700 hover:text-lila-800 inline-flex h-16 w-full transform items-center justify-center rounded-lg border-2 border-black bg-white px-6 py-3 text-center text-lg font-semibold text-black transition-all duration-100 ease-in-out focus:translate-y-1 focus:bg-black focus:text-white focus:shadow-none focus:outline-none sm:w-auto"
-                  onClick={() => {
-                    plan.buttonLink('alpha-monthly');
-                  }}
-                >
-                  {plan.buttonText}
-                </button>
+                <p className="mt-8 text-sm tracking-wide lg:text-xl">
+                  {plan.description}
+                </p>
               </div>
             ))}
           </div>

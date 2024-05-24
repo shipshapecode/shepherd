@@ -46,9 +46,9 @@ Unlock additional capabilities and more full featured Journeys.
 
 # Demo
 See Shepherd Live on our docs website by clicking on the image:
-<a href="https://shepherdjs.dev/demo">
+<a href="https://blog.shepherdpro.com/demo">
   <img 
-    src="https://shepherdjs.dev/img/demo.png" 
+    src="https://blog.shepherdpro.com/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
@@ -60,7 +60,7 @@ See Shepherd Live on our docs website by clicking on the image:
 You can try our hosted version for free at [https://shepherdpro.com/](https://shepherdpro.com)
 
 The Entire Shepherd Service that powers Shepherd Pro is the newest iteration of Shepherd and includes the features of Shepherd Pro. 
-You can set that up on your own infrastructure by using our Docker File, located here: [https://github.com/shepherd-pro/shepherd/blob/main/app/Dockerfile]
+You can set that up on your own infrastructure by using our Docker File, located [here](https://github.com/shepherd-pro/shepherd/blob/main/app/Dockerfile).
 
 
 ### Shepherd Library (MIT License)
@@ -82,8 +82,8 @@ If you have an idea or project in mind and would like to engage our team to buil
 ## Resources
 
 - [Website](https://shepherdpro.com/)
-- [Documentation](https://shepherdjs.dev/docs/)
-- [Demo](https://shepherdjs.dev/demo/)
+- [Documentation](https://docs.shepherdpro.com/)
+- [Demo](https://blog.shepherdpro.com/demo/)
 - If you have any questions about our projects you can email [hello@shepherdpro.com](mailto:hello@shepherdpro.com)
 
 
@@ -95,7 +95,7 @@ Our release process is mostly automated. For more details, see [RELEASE.md](RELE
 
 ## Projects Already Using Shepherd
 
-### [SimplePlanner](https://logseq.com/)
+### [SimplePlanner](https://simpleplanner.io)
 
 [SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
 You do need to sign up via OAuth or email to see the scheduling tour. 
