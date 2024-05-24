@@ -66,10 +66,19 @@ export const createSubscription: MutationResolvers['createSubscription'] =
     } catch (error) {
       logger.error(`Error creating subscription: ${error.message}`);
     }
-    return db.subscription.create({
+    const newSub = await db.subscription.create({
       data: {
         ...input,
         chargeBeeCustomerId,
+      },
+    });
+
+    return db.user.update({
+      data: {
+        subscriptionId: newSub.id,
+      },
+      where: {
+        id: input.userId,
       },
     });
   };

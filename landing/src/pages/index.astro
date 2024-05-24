@@ -1,5 +1,40 @@
 ---
+import { getCollection } from 'astro:content';
 import MainPage from '@layouts/MainPage.astro';
+
+import Base from '@layouts/Base.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+import FormattedDate from '@components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 ---
 
-<MainPage isHome={true} />
+<MainPage>
+  <section class="my-10 text-2xl w-full" slot="content">
+    <ul class="list-square text-left">
+      {
+        posts.map((post) => (
+          <li class="grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-3 md:gap-2 items-start">
+            <div class="before:float-left before:leading-7 before:text-red-300 before:text-sm before:mr-2 before:content-['>>']">
+              <a
+                href={`/blog/${post.slug}`}
+                class="unset hover:text-navy-light"
+              >
+                <h4 class="font-bold font-title">{post.data.title}</h4>
+              </a>
+            </div>
+            <div class="text-text-muted text-md italic">
+              <time datetime={post.data.pubDate.toISOString()}>
+                <FormattedDate date={post.data.pubDate} />
+              </time>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</MainPage>

@@ -2,8 +2,6 @@
 import { SITE_TITLE } from '../consts';
 import ShepherdHead from '../images/shepherd-head.svg?raw';
 import ShepherdHeader from '../images/shepherd-header.svg';
-
-const { isHome } = Astro.props;
 ---
 
 <header class="flex justify-center mt-4 w-full">
@@ -30,8 +28,8 @@ const { isHome } = Astro.props;
         >
           Docs
         </a>
-        <a class="pr-6 uppercase hover:text-navy-light lg:pr-0" href="/blog">
-          Blog
+        <a class="pr-6 uppercase hover:text-navy-light lg:pr-0" href="/demo">
+          Demo
         </a>
       </div>
 
@@ -42,11 +40,8 @@ const { isHome } = Astro.props;
         >
           Pro
         </a>
-        <a
-          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
-          href="/pricing"
-        >
-          Pricing
+        <a class="pr-6 uppercase hover:text-navy-light lg:pr-10" href="/">
+          Blog
         </a>
         <a
           class="uppercase hover:text-navy-light"
@@ -64,94 +59,7 @@ const { isHome } = Astro.props;
     />
 
     <h2 class="font-body p-2 text-xl">
-      Guide your users through a tour of your app.
+      Guide your users through a tour of your app
     </h2>
-
-    <div class="flex justify-center w-full">
-      {
-        isHome && (
-          <div class="flex flex-wrap max-w-6xl p-4 w-full lg:flex-nowrap">
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
-                <img
-                  class="absolute a11y-icon z-20"
-                  src="/img/accessibility.svg"
-                  alt=""
-                  role="presentation"
-                />
-
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
-
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
-                    Accessibility
-                  </h3>
-
-                  <p class="font-body p-2 text-xl">
-                    Shepherd has full keyboard navigation support, focus
-                    trapping, and a11y compliance via aria attributes.
-                  </p>
-                </div>
-
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
-              </div>
-            </div>
-
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
-                <img
-                  class="absolute customizable-icon z-20"
-                  src="/img/customizable.svg"
-                  alt=""
-                  role="presentation"
-                />
-
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
-
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
-                    Highly Customizable
-                  </h3>
-
-                  <p class="font-body p-2 text-xl">
-                    Shepherd's styles are kept minimal, allowing you to easily
-                    customize the look and feel, but still give you enough to
-                    drop in and be ready to go quickly.
-                  </p>
-                </div>
-
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
-              </div>
-            </div>
-
-            <div class="m-4 relative w-full lg:w-1/3">
-              <div class="border-4 border-navy w-full">
-                <img
-                  class="absolute framework-icon z-20"
-                  src="/img/framework.svg"
-                  alt=""
-                  role="presentation"
-                />
-
-                <div class="bg-grey-light border-b-4 border-navy h-40 relative w-full z-10" />
-
-                <div class="bg-white h-72 p-6 relative z-10">
-                  <h3 class="p-2 text-2xl text-center uppercase w-full">
-                    Framework Ready
-                  </h3>
-
-                  <p class="font-body p-2 text-xl">
-                    Shepherd is ready to drop into your application using React,
-                    Ember, Angular, Vue.js, ES Modules, or plain Javascript!
-                  </p>
-                </div>
-
-                <div class="absolute bg-navy h-full -ml-3 mt-3 top-0 w-full z-0" />
-              </div>
-            </div>
-          </div>
-        )
-      }
-    </div>
   </div>
 </header>
