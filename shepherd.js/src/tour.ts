@@ -11,20 +11,20 @@ import {
 import { cleanupSteps } from './utils/cleanup.ts';
 import DataRequest from './utils/datarequest.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
-// @ts-expect-error TODO: not yet typed
+// @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdModal from './components/shepherd-modal.svelte';
 
-interface Actor {
+export interface Actor {
   actorId: number;
 }
 
-interface EventOptions {
+export interface EventOptions {
   previous?: Step | null;
   step?: Step | null;
   tour: Tour;
 }
 
-type TourConfirmCancel =
+export type TourConfirmCancel =
   | boolean
   | (() => boolean)
   | Promise<boolean>
@@ -193,7 +193,8 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
-  modal?: Record<string, unknown> | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  modal?: any | null;
   options: TourOptions;
   steps: Array<Step>;
 
@@ -502,7 +503,6 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
-      // @ts-expect-error TODO: investigate once Svelte is typed
       this.modal.hide();
     }
 
@@ -592,6 +592,9 @@ export class Tour extends Evented {
   }
 }
 
+/**
+ * @public
+ */
 const Shepherd = new ShepherdPro();
 
 export { Shepherd };

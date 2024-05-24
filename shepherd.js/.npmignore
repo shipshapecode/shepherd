@@ -12,9 +12,7 @@ tests/
 .eslintrc.js
 .gitignore
 .stylelintrc.js
-cypress.config.js
 index.html
-jest.config.js
 pnpm-lock.yaml
 stats.html
 yarn.lock

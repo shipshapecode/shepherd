@@ -18,28 +18,33 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "main": "dist/shepherd.js",
-  "module": "dist/shepherd.mjs",
+  "main": "./dist/cjs/shepherd.cjs",
+  "module": "./dist/esm/shepherd.mjs",
   "exports": {
     ".": {
-      "import": "./dist/shepherd.mjs",
-      "require": "./dist/shepherd.js"
+      "import": {
+        "types": "./dist/esm/shepherd.d.ts",
+        "default": "./dist/esm/shepherd.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/shepherd.d.cts",
+        "default": "./dist/cjs/shepherd.cjs"
+      }
     },
     "./*": {
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.js"
+      "import": {
+        "types": "./dist/esm/*.d.ts",
+        "default": "./dist/esm/*.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/*.d.cts",
+        "default": "./dist/cjs/*.cjs"
+      }
     }
   },
-  "types": "shepherd.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*"
-      ]
-    }
-  },
+  "type": "module",
   "scripts": {
-    "build": "pnpm clean && rollup -c && node scripts/postprocess.js",
+    "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
@@ -49,7 +54,10 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "pnpm tsc",
+    "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
+    "types:check:attw": "pnpm attw --pack .",
+    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
+    "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --noEmit true --emitDeclarationOnly false",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -58,22 +66,24 @@
     "idb": "^8.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.15.3",
     "@babel/core": "^7.24.5",
-    "@babel/preset-env": "^7.24.3",
+    "@babel/plugin-transform-typescript": "^7.24.5",
+    "@babel/preset-env": "^7.24.4",
     "@babel/preset-typescript": "^7.24.1",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@rollup/plugin-typescript": "^11.1.6",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
     "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.35.1",
+    "execa": "^9.1.0",
     "postcss": "^8.4.38",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.2",
+    "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",
@@ -88,6 +98,7 @@
     "rollup-plugin-visualizer": "^5.11.0",
     "svelte": "^4.2.12",
     "svelte-preprocess": "^5.1.3",
+    "svelte2tsx": "^0.7.8",
     "typescript": "^5.4.5"
   },
   "packageManager": "pnpm@8.15.4",

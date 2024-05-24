@@ -14,17 +14,17 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-// @ts-expect-error TODO: not yet typed
+// @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 
-type StepText =
+export type StepText =
   | string
   | ReadonlyArray<string>
   | HTMLElement
   | (() => string | ReadonlyArray<string> | HTMLElement);
 
-type StringOrStringFunction = string | (() => string);
+export type StringOrStringFunction = string | (() => string);
 
 /**
  * The options for the step
@@ -186,7 +186,7 @@ export interface StepOptions {
   when?: StepOptionsWhen;
 }
 
-type PopperPlacement =
+export type PopperPlacement =
   | 'top'
   | 'top-start'
   | 'top-end'
@@ -355,7 +355,6 @@ export class Step extends Evented {
    * Hide the step
    */
   hide() {
-    // @ts-expect-error TODO: investigate once Svelte is typed to use Modal component
     this.tour.modal?.hide();
 
     this.trigger('before-hide');
@@ -581,7 +580,7 @@ export class Step extends Evented {
     if (!this.tour.modal) {
       this.tour.setupModal();
     }
-    // @ts-expect-error TODO: investigate once Svelte is typed to use Modal component
+
     this.tour.modal?.setupForStep(this);
     this._styleTargetElementForStep(this);
 

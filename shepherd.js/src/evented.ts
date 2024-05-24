@@ -1,11 +1,11 @@
 import { isUndefined } from './utils/type-check.ts';
 
-type Bindings = {
+export type Bindings = {
   [key: string]: Array<{ handler: () => void; ctx?: unknown; once?: boolean }>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyHandler = (...args: any[]) => void;
+export type AnyHandler = (...args: any[]) => void;
 
 export class Evented {
   declare bindings: Bindings;

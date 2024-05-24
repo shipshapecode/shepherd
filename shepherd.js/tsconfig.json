@@ -1,15 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
-    "moduleResolution": "node",
+    "target": "es2021",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     // We don't want to include types dependencies in our compiled output, so tell TypeScript
     // to enforce using `import type` instead of `import` for Types.
     "verbatimModuleSyntax": true,
     "allowJs": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
+    "allowArbitraryExtensions": true,
     "allowSyntheticDefaultImports": false,
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
@@ -32,7 +33,7 @@
     // If you were to change this to `true`, it could lead to accidentally
     // generating code with `tsc` instead of Babel, and could thereby
     // result in broken code at runtime.
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true,
     "declarationDir": "dist",
@@ -43,6 +44,6 @@
       "src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.svelte"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
