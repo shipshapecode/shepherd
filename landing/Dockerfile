@@ -32,6 +32,7 @@ COPY --link ./shepherd.js ./shepherd.js
 
 # Copy application code
 COPY --link ./landing ./landing
+RUN pnpm -F shepherd.js build
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build application
@@ -41,7 +42,6 @@ RUN --mount=type=secret,id=PUBLIC_SHEPHERD_PUBLIC_KEY \
 
 # Remove development dependencies
 RUN pnpm prune --prod
-
 
 # Final stage for app image
 FROM nginx
