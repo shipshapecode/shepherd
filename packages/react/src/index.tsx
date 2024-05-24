@@ -4,7 +4,7 @@ import Shepherd from 'shepherd.js';
 import type ShepherdPro from 'shepherd.js';
 
 interface ShepherdProviderProps {
-  apiKey: string;
+  apiKey?: string;
   apiPath?: string;
   properties?: Record<string, unknown>;
   children?: ReactNode;
@@ -39,7 +39,7 @@ export const ShepherdJourneyProvider: FC<ShepherdProviderProps> = ({
   children
 }: ShepherdProviderProps) => {
   if (typeof window !== 'undefined') {
-    Shepherd.init(apiKey, apiPath, properties);
+    if (apiKey) Shepherd.init(apiKey, apiPath, properties);
   }
 
   return (

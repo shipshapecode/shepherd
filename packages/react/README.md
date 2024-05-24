@@ -11,7 +11,7 @@ that can be passed into props for dynamic interactivity.
 Use this simple NPM command or whatever package manager is your favorite.
 
 ```bash
-npm install --save @shepherdpro/react
+npm install --save react-shepherd
 ```
 
 ## Usage
@@ -33,8 +33,8 @@ const tourOptions = {
 };
 
 function Button() {
-  const shepherd = useShepherd(ShepherdTourContext);
-  const tour = shepherd.Tour({
+  const Shepherd = useShepherd();
+  const tour = new Shepherd.Tour({
     ...tourOptions,
     steps: newSteps
   });
