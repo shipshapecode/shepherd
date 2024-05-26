@@ -31,6 +31,10 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
+    "./dist/css/shepherd.css": {
+      "import": "./dist/css/shepherd.css",
+      "require": "./dist/css/shepherd.css"
+    },
     "./*": {
       "import": {
         "types": "./dist/esm/*.d.ts",
