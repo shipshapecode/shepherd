@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.3",
-    "deepmerge-ts": "^5.1.0",
+    "deepmerge-ts": "^7.0.1",
     "idb": "^8.0.0"
   },
   "devDependencies": {
