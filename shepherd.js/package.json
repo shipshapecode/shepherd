@@ -31,6 +31,10 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
+    "./dist/css/shepherd.css": {
+      "import": "./dist/css/shepherd.css",
+      "require": "./dist/css/shepherd.css"
+    },
     "./*": {
       "import": {
         "types": "./dist/esm/*.d.ts",
@@ -55,7 +59,7 @@
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
     "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
-    "types:check:attw": "pnpm attw --pack .",
+    "types:check:attw": "pnpm attw --pack . --exclude-entrypoints ./dist/css/shepherd.css",
     "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
     "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --noEmit true --emitDeclarationOnly false",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
