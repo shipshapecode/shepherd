@@ -1,5 +1,29 @@
 # Changelog
 
+## Release (2024-05-29)
+
+react-shepherd 5.0.5 (patch)
+shepherd.js 12.0.5 (patch)
+
+#### :bug: Bug Fix
+* `shepherd-docs`, `shepherd.js`, `cypress-tests`
+  * [#2839](https://github.com/shepherd-pro/shepherd/pull/2839) Export CSS and just create one file ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `shepherd-docs`, `landing`
+  * [#2840](https://github.com/shepherd-pro/shepherd/pull/2840) Bump @astrojs/check from 0.5.10 to 0.7.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `shepherd.js`
+  * [#2818](https://github.com/shepherd-pro/shepherd/pull/2818) Bump eslint-plugin-svelte from 2.38.0 to 2.39.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2835](https://github.com/shepherd-pro/shepherd/pull/2835) Landing: ➕ Update node version for deployment action ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `cypress-tests`
+  * [#2841](https://github.com/shepherd-pro/shepherd/pull/2841) Bump chai from 4.4.1 to 5.1.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* Other
+  * [#2836](https://github.com/shepherd-pro/shepherd/pull/2836) App: ⬆ Upgrade RW version to v7.6 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2024-05-24)
 
 shepherd-docs 0.0.6 (patch)
