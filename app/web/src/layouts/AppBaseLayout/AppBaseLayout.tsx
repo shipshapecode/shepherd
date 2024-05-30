@@ -56,9 +56,6 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
     const tour = new Shepherd.Tour({
       id: 'hqmsgybtv4puot1hrvx3geo4',
       defaultStepOptions: {
-        cancelIcon: {
-          enabled: true,
-        },
         classes: 'border-2 border-navy',
       },
       useModalOverlay: true,
@@ -66,7 +63,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
 
     tour.addSteps([
       {
-        text: 'Welcome to Shepherd Pro! Here you can get started with setting up your first tour.',
+        text: `Welcome to Shepherd Pro! Here you can get started with setting up your first tour. We <strong class="font-black">REALLY</strong> suggest completing this journey to get started.`,
         buttons: [
           {
             action() {
@@ -166,6 +163,7 @@ const AppBaseLayout = ({ children, title }: AppBaseLayoutProps) => {
           event: 'click',
         },
         beforeShowPromise() {
+          localStorage.setItem('shepherdTour:introViewed', 'true');
           return waitForTargetElement('.journey-intro-new-id');
         },
       },
