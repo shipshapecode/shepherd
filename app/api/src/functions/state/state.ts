@@ -49,6 +49,7 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
     include: {
       journeys: {
         select: {
+          id: true,
           isActive: true,
           uniqueId: true,
         },

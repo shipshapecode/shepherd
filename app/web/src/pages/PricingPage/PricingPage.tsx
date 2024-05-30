@@ -136,15 +136,18 @@ const PricingPage = () => {
                       <span>Custom</span>
                     )}
                   </div>
-                  <button
-                    className="focus:ring-lila-700 hover:text-lila-800 inline-flex h-16 w-full transform items-center justify-center rounded-lg border-2 border-black bg-white px-6 py-3 text-center text-lg font-semibold text-black transition-all duration-100 ease-in-out focus:translate-y-1 focus:bg-black focus:text-white focus:shadow-none focus:outline-none sm:w-auto"
-                    onClick={() => {
-                      plan.buttonLink('alpha-monthly');
-                    }}
-                  >
-                    {plan.buttonText}
-                  </button>
                 </div>
+                <button
+                  className="focus:ring-lila-700 hover:text-lila-800 inline-flex h-16 w-full transform items-center justify-center rounded-lg border-2 border-black bg-white px-6 py-3 text-center text-lg font-semibold text-black transition-all duration-100 ease-in-out focus:translate-y-1 focus:bg-black focus:text-white focus:shadow-none focus:outline-none sm:w-auto"
+                  onClick={() => {
+                    plan.buttonLink('alpha-monthly');
+                  }}
+                >
+                  {plan.buttonText}
+                </button>
+                <p className="mt-8 text-sm tracking-wide lg:text-xl">
+                  {plan.description}
+                </p>
                 <ul className="mt-2 space-y-8 text-base leading-6 tracking-wide">
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
@@ -168,9 +171,6 @@ const PricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-8 text-sm tracking-wide lg:text-xl">
-                  {plan.description}
-                </p>
               </div>
             ))}
           </div>
