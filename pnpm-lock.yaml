@@ -115,8 +115,8 @@ importers:
         version: 5.4.5
     devDependencies:
       '@flydotio/dockerfile':
-        specifier: ^0.5.6
-        version: 0.5.6
+        specifier: ^0.5.7
+        version: 0.5.7
 
   landing:
     dependencies:
@@ -2599,8 +2599,8 @@ packages:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
 
-  /@flydotio/dockerfile@0.5.6:
-    resolution: {integrity: sha512-zqoXp1cFh0A+LQLKpGz4kSA0CctPL/Ze4mALrCQkQaU89zIWYy6dePzlVN+ujOcXTKyR+ZU+fzLjdWV6Uwje1A==}
+  /@flydotio/dockerfile@0.5.7:
+    resolution: {integrity: sha512-BVkXM2K/jLLYBFos1gT/bYv0YPJue8L4j0dkIsskJI4JRn6rPA9bZjT4sJzkzhdubZuwRGG9cgxj4Cfgt4lHlw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
