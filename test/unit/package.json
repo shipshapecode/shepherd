@@ -23,7 +23,7 @@
     "@testing-library/svelte": "4.1.x",
     "autoprefixer": "^10.4.19",
     "babel-jest": "^29.7.0",
-    "core-js": "^3.36.1",
+    "core-js": "^3.37.1",
     "cross-env": "^7.0.3",
     "del": "^7.1.0",
     "eslint": "^8.57.0",

@@ -389,8 +389,8 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.24.5)
       core-js:
-        specifier: ^3.36.1
-        version: 3.37.0
+        specifier: ^3.37.1
+        version: 3.37.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -6491,8 +6491,8 @@ packages:
     requiresBuild: true
     dev: true
 
-  /core-js@3.37.0:
-    resolution: {integrity: sha512-fu5vHevQ8ZG4og+LXug8ulUtVxjOcEYvifJr7L5Bfq9GOztVqsKd9/59hUk2ZSbCrS3BqUr3EpaYGIYzq7g3Ug==}
+  /core-js@3.37.1:
+    resolution: {integrity: sha512-Xn6qmxrQZyB0FFY8E3bgRXei3lWDJHhvI+u0q9TKIYM49G8pAr0FgnnrFRAmsbptZL1yxRADVXn+x5AGsbBfyw==}
     requiresBuild: true
     dev: true
 
