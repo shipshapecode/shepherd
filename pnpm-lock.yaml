@@ -201,8 +201,8 @@ importers:
   shepherd.js:
     dependencies:
       '@floating-ui/dom':
-        specifier: ^1.5.3
-        version: 1.6.3
+        specifier: ^1.6.5
+        version: 1.6.5
       deepmerge-ts:
         specifier: ^5.1.0
         version: 5.1.0
@@ -2588,8 +2588,8 @@ packages:
       '@floating-ui/utils': 0.2.1
     dev: false
 
-  /@floating-ui/dom@1.6.3:
-    resolution: {integrity: sha512-RnDthu3mzPlQ31Ss/BTwQ1zjzIhr3lk1gZB1OC56h/1vEtaXkESrOqL5fQVMfXpwGtRwX+YsZBdyHtJMQnkArw==}
+  /@floating-ui/dom@1.6.5:
+    resolution: {integrity: sha512-Nsdud2X65Dz+1RHjAIP0t8z5e2ff/IRbei6BqFrl1urT8sDVzM1HMQ+R0XcU5ceRfyO3I6ayeqIfh+6Wb8LGTw==}
     dependencies:
       '@floating-ui/core': 1.6.0
       '@floating-ui/utils': 0.2.1
