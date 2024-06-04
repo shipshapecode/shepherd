@@ -32,8 +32,9 @@
       }
     },
     "./dist/css/shepherd.css": {
-      "import": "./dist/css/shepherd.css",
-      "require": "./dist/css/shepherd.css"
+      "import": "./dist/esm/css/shepherd.css",
+      "require": "./dist/cjs/css/shepherd.css",
+      "default": "./dist/css/shepherd.css"
     },
     "./*": {
       "import": {

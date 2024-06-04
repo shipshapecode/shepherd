@@ -30,7 +30,7 @@ const plugins = [
     preprocess: sveltePreprocess({
       typescript: true
     }),
-    emitCss: false
+    emitCss: true
   }),
   nodeResolve({
     browser: true,
@@ -43,6 +43,10 @@ const plugins = [
   }),
   babel({
     extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
+  }),
+  postcss({
+    plugins: [autoprefixer, cssnanoPlugin],
+    extract: 'css/shepherd.css'
   }),
   license({
     banner
@@ -60,41 +64,6 @@ if (process.env.DEVELOPMENT) {
 }
 
 export default [
-  // This first build is just to generate the CSS
-  {
-    input: 'src/shepherd.ts',
-
-    output: {
-      dir: 'dist',
-      entryFileNames: '[name].mjs',
-      format: 'es',
-      sourcemap: true
-    },
-    plugins: [
-      svelte({
-        preprocess: sveltePreprocess({
-          typescript: true
-        }),
-        emitCss: true
-      }),
-      nodeResolve({
-        browser: true,
-        exportConditions: ['svelte'],
-        extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-        modulesOnly: true
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify(env)
-      }),
-      babel({
-        extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
-      }),
-      postcss({
-        plugins: [autoprefixer, cssnanoPlugin],
-        extract: 'css/shepherd.css'
-      })
-    ]
-  },
   {
     input: 'src/shepherd.ts',
 
@@ -190,6 +159,22 @@ export default [
           fs.writeFileSync(declarationFile, content);
         }
       }
+    ]
+  },
+  {
+    /* Some users may need a module-agnostic version of the CSS bundle.
+     * For instance, if their tooling doesn't support export maps and they
+     * need to explicitly import by path, or if a bundler plugin doesn't
+     * recognize either ESM or CJS and needs to use a `default` option. */
+    input: 'dist/esm/css/shepherd.css',
+    output: {
+      file: 'dist/css/shepherd.css',
+      format: 'es'
+    },
+    plugins: [
+      postcss({
+        extract: true
+      })
     ]
   }
 ];
