@@ -31,11 +31,7 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
-    "./dist/css/shepherd.css": {
-      "import": "./dist/esm/css/shepherd.css",
-      "require": "./dist/cjs/css/shepherd.css",
-      "default": "./dist/css/shepherd.css"
-    },
+    "./dist/css/shepherd.css": "./dist/css/shepherd.css",
     "./*": {
       "import": {
         "types": "./dist/esm/*.d.ts",
@@ -94,6 +90,7 @@
     "rollup": "^4.17.2",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.3.1",
     "rollup-plugin-livereload": "^2.0.5",

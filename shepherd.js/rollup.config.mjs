@@ -8,6 +8,7 @@ import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import copy from 'rollup-plugin-copy';
+import del from 'rollup-plugin-delete';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -175,6 +176,17 @@ export default [
       postcss({
         extract: true
       })
+    ]
+  },
+  {
+    /* We don't want to ship separate ESM/CJS copies of the CSS file. */
+    input: 'dist/esm/shepherd.mjs',
+    output: {
+      dir: 'dist',
+      format: 'es'
+    },
+    plugins: [
+      del({ targets: 'dist/{esm,cjs}/css' })
     ]
   }
 ];
