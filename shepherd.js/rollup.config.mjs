@@ -8,7 +8,6 @@ import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import copy from 'rollup-plugin-copy';
-import del from 'rollup-plugin-delete';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -143,7 +142,7 @@ export default [
       }),
       ...plugins,
       {
-        name: 'Build Declarations',
+        name: 'Fix CJS exports',
         closeBundle: async () => {
           console.log('Fix CJS export default -> export =');
 
@@ -159,34 +158,30 @@ export default [
           );
           fs.writeFileSync(declarationFile, content);
         }
+      },
+      {
+        name: 'Fix CSS',
+        closeBundle: async () => {
+          console.log('Copying CSS to the root');
+
+          await execaCommand(`mkdir ./dist/css`, {
+            stdio: 'inherit'
+          });
+
+          await execaCommand(
+            `cp ./dist/esm/css/shepherd.css ./dist/css/shepherd.css`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Deleting extra CSS files');
+
+          await execaCommand(`rimraf ./dist/esm/css ./dist/cjs/css`, {
+            stdio: 'inherit'
+          });
+        }
       }
-    ]
-  },
-  {
-    /* Some users may need a module-agnostic version of the CSS bundle.
-     * For instance, if their tooling doesn't support export maps and they
-     * need to explicitly import by path, or if a bundler plugin doesn't
-     * recognize either ESM or CJS and needs to use a `default` option. */
-    input: 'dist/esm/css/shepherd.css',
-    output: {
-      file: 'dist/css/shepherd.css',
-      format: 'es'
-    },
-    plugins: [
-      postcss({
-        extract: true
-      })
-    ]
-  },
-  {
-    /* We don't want to ship separate ESM/CJS copies of the CSS file. */
-    input: 'dist/esm/shepherd.mjs',
-    output: {
-      dir: 'dist',
-      format: 'es'
-    },
-    plugins: [
-      del({ targets: 'dist/{esm,cjs}/css' })
     ]
   }
 ];
