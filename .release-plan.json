@@ -2,8 +2,8 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "5.0.4",
-      "newVersion": "5.0.5",
+      "oldVersion": "5.0.5",
+      "newVersion": "5.0.6",
       "constraints": [
         {
           "impact": "patch",
@@ -14,8 +14,8 @@
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "12.0.4",
-      "newVersion": "12.0.5",
+      "oldVersion": "12.0.5",
+      "newVersion": "12.0.6",
       "constraints": [
         {
           "impact": "patch",
@@ -29,5 +29,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-05-29)\n\nreact-shepherd 5.0.5 (patch)\nshepherd.js 12.0.5 (patch)\n\n#### :bug: Bug Fix\n* `shepherd-docs`, `shepherd.js`, `cypress-tests`\n  * [#2839](https://github.com/shepherd-pro/shepherd/pull/2839) Export CSS and just create one file ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `shepherd-docs`, `landing`\n  * [#2840](https://github.com/shepherd-pro/shepherd/pull/2840) Bump @astrojs/check from 0.5.10 to 0.7.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`\n  * [#2818](https://github.com/shepherd-pro/shepherd/pull/2818) Bump eslint-plugin-svelte from 2.38.0 to 2.39.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2835](https://github.com/shepherd-pro/shepherd/pull/2835) Landing: ➕ Update node version for deployment action ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `cypress-tests`\n  * [#2841](https://github.com/shepherd-pro/shepherd/pull/2841) Bump chai from 4.4.1 to 5.1.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2836](https://github.com/shepherd-pro/shepherd/pull/2836) App: ⬆ Upgrade RW version to v7.6 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2024-06-07)\n\nreact-shepherd 5.0.6 (patch)\nshepherd.js 12.0.6 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`, `cypress-tests`\n  * [#2853](https://github.com/shepherd-pro/shepherd/pull/2853) fix: reconfigure CSS bundling ([@Kenneth-Sills](https://github.com/Kenneth-Sills))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#2848](https://github.com/shepherd-pro/shepherd/pull/2848) Bump @floating-ui/dom from 1.6.3 to 1.6.5 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2851](https://github.com/shepherd-pro/shepherd/pull/2851) Bump rollup-plugin-license from 3.3.1 to 3.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2849](https://github.com/shepherd-pro/shepherd/pull/2849) Bump @babel/core from 7.24.5 to 7.24.6 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2850](https://github.com/shepherd-pro/shepherd/pull/2850) Bump release-it from 17.2.1 to 17.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2846](https://github.com/shepherd-pro/shepherd/pull/2846) App: 🔥 Remove app as it is not part of a workspace ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2844](https://github.com/shepherd-pro/shepherd/pull/2844) App: ⬆ Upgrade Shepherd lib in the app to v5 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`\n  * [#2852](https://github.com/shepherd-pro/shepherd/pull/2852) Bump @astrojs/starlight from 0.22.4 to 0.23.2 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2799](https://github.com/shepherd-pro/shepherd/pull/2799) Bump @flydotio/dockerfile from 0.5.6 to 0.5.7 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `unit-tests`\n  * [#2816](https://github.com/shepherd-pro/shepherd/pull/2816) Bump core-js from 3.37.0 to 3.37.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Kenneth Sills ([@Kenneth-Sills](https://github.com/Kenneth-Sills))\n"
 }

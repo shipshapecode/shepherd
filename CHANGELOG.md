@@ -1,5 +1,34 @@
 # Changelog
 
+## Release (2024-06-07)
+
+react-shepherd 5.0.6 (patch)
+shepherd.js 12.0.6 (patch)
+
+#### :bug: Bug Fix
+* `shepherd.js`, `cypress-tests`
+  * [#2853](https://github.com/shepherd-pro/shepherd/pull/2853) fix: reconfigure CSS bundling ([@Kenneth-Sills](https://github.com/Kenneth-Sills))
+
+#### :house: Internal
+* `shepherd.js`
+  * [#2848](https://github.com/shepherd-pro/shepherd/pull/2848) Bump @floating-ui/dom from 1.6.3 to 1.6.5 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2851](https://github.com/shepherd-pro/shepherd/pull/2851) Bump rollup-plugin-license from 3.3.1 to 3.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#2849](https://github.com/shepherd-pro/shepherd/pull/2849) Bump @babel/core from 7.24.5 to 7.24.6 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* Other
+  * [#2850](https://github.com/shepherd-pro/shepherd/pull/2850) Bump release-it from 17.2.1 to 17.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2846](https://github.com/shepherd-pro/shepherd/pull/2846) App: 🔥 Remove app as it is not part of a workspace ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2844](https://github.com/shepherd-pro/shepherd/pull/2844) App: ⬆ Upgrade Shepherd lib in the app to v5 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd-docs`
+  * [#2852](https://github.com/shepherd-pro/shepherd/pull/2852) Bump @astrojs/starlight from 0.22.4 to 0.23.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+  * [#2799](https://github.com/shepherd-pro/shepherd/pull/2799) Bump @flydotio/dockerfile from 0.5.6 to 0.5.7 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* `unit-tests`
+  * [#2816](https://github.com/shepherd-pro/shepherd/pull/2816) Bump core-js from 3.37.0 to 3.37.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Kenneth Sills ([@Kenneth-Sills](https://github.com/Kenneth-Sills))
+
 ## Release (2024-05-29)
 
 react-shepherd 5.0.5 (patch)
