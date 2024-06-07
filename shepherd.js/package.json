@@ -31,10 +31,7 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
-    "./dist/css/shepherd.css": {
-      "import": "./dist/css/shepherd.css",
-      "require": "./dist/css/shepherd.css"
-    },
+    "./dist/css/shepherd.css": "./dist/css/shepherd.css",
     "./*": {
       "import": {
         "types": "./dist/esm/*.d.ts",
@@ -80,7 +77,6 @@
     "@rollup/plugin-replace": "^5.0.5",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
-    "del": "^7.1.0",
     "eslint-plugin-svelte": "^2.39.0",
     "execa": "^9.1.0",
     "postcss": "^8.4.38",

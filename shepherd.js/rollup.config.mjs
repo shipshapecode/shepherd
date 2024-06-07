@@ -30,7 +30,7 @@ const plugins = [
     preprocess: sveltePreprocess({
       typescript: true
     }),
-    emitCss: false
+    emitCss: true
   }),
   nodeResolve({
     browser: true,
@@ -43,6 +43,10 @@ const plugins = [
   }),
   babel({
     extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
+  }),
+  postcss({
+    plugins: [autoprefixer, cssnanoPlugin],
+    extract: 'css/shepherd.css'
   }),
   license({
     banner
@@ -60,41 +64,6 @@ if (process.env.DEVELOPMENT) {
 }
 
 export default [
-  // This first build is just to generate the CSS
-  {
-    input: 'src/shepherd.ts',
-
-    output: {
-      dir: 'dist',
-      entryFileNames: '[name].mjs',
-      format: 'es',
-      sourcemap: true
-    },
-    plugins: [
-      svelte({
-        preprocess: sveltePreprocess({
-          typescript: true
-        }),
-        emitCss: true
-      }),
-      nodeResolve({
-        browser: true,
-        exportConditions: ['svelte'],
-        extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-        modulesOnly: true
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify(env)
-      }),
-      babel({
-        extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
-      }),
-      postcss({
-        plugins: [autoprefixer, cssnanoPlugin],
-        extract: 'css/shepherd.css'
-      })
-    ]
-  },
   {
     input: 'src/shepherd.ts',
 
@@ -173,7 +142,7 @@ export default [
       }),
       ...plugins,
       {
-        name: 'Build Declarations',
+        name: 'Fix CJS exports',
         closeBundle: async () => {
           console.log('Fix CJS export default -> export =');
 
@@ -188,6 +157,29 @@ export default [
             'export = Shepherd'
           );
           fs.writeFileSync(declarationFile, content);
+        }
+      },
+      {
+        name: 'Fix CSS',
+        closeBundle: async () => {
+          console.log('Copying CSS to the root');
+
+          await execaCommand(`mkdir ./dist/css`, {
+            stdio: 'inherit'
+          });
+
+          await execaCommand(
+            `cp ./dist/esm/css/shepherd.css ./dist/css/shepherd.css`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Deleting extra CSS files');
+
+          await execaCommand(`rimraf ./dist/esm/css ./dist/cjs/css`, {
+            stdio: 'inherit'
+          });
         }
       }
     ]
