@@ -29,7 +29,7 @@
     "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.5",
+    "@babel/core": "^7.24.6",
     "@babel/preset-env": "^7.24.3",
     "@release-it-plugins/lerna-changelog": "^6.1.0",
     "@release-it-plugins/workspaces": "^4.2.0",
