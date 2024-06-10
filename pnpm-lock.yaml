@@ -304,8 +304,8 @@ importers:
         specifier: ^5.1.3
         version: 5.1.4(@babel/core@7.24.6)(postcss@8.4.38)(svelte@4.2.15)(typescript@5.4.5)
       svelte2tsx:
-        specifier: ^0.7.8
-        version: 0.7.8(svelte@4.2.15)(typescript@5.4.5)
+        specifier: ^0.7.9
+        version: 0.7.9(svelte@4.2.15)(typescript@5.4.5)
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -15925,8 +15925,8 @@ packages:
       typescript: 5.4.5
     dev: true
 
-  /svelte2tsx@0.7.8(svelte@4.2.15)(typescript@5.4.5):
-    resolution: {integrity: sha512-ABK3RDFcy59AqAiU1N5Kxu1RnKrb1GDMrQjLgNgJfE8Q+coCKpjCAPtUVKQM2HnmuqeNWcT3NqfXbE+ZmN5Pow==}
+  /svelte2tsx@0.7.9(svelte@4.2.15)(typescript@5.4.5):
+    resolution: {integrity: sha512-Rm+0LAwg9wT4H2IsR8EaM9EWErTzi9LmuZKxkH5b1ua94XjQmwHstBP4VabLgA9AE6XmwBg+xK7Cjzwfm6ustQ==}
     peerDependencies:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
