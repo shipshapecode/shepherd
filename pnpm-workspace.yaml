@@ -1,7 +1,7 @@
 packages:
   - "shepherd.js"
   - "landing"
-  - "packages/react"
+  - "packages/*"
   - "test/cypress"
   - "test/unit"
   - 'docs-src'

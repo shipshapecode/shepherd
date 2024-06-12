@@ -1,0 +1,39 @@
+{
+  "name": "@shepherdpro/pro-js",
+  "version": "0.0.3",
+  "private": false,
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest --run",
+    "test:dev": "vitest"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^1.1.1",
+    "happy-dom": "^12.10.3",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.1",
+    "vitest": "^1.1.1"
+  },
+  "dependencies": {
+    "shepherd.js": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
