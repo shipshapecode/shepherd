@@ -9,9 +9,35 @@ import {
 } from 'vitest';
 import ShepherdPro from '../src/index.ts';
 import DataRequest from '../src/DataRequest';
-import Shepherd from 'shepherd.js';
 
 global.fetch = vi.fn();
+
+const windowProps = {
+  document: {
+    referrer: ''
+  },
+  location: {
+    ancestorOrigins: {},
+    href: 'https://shepherdjs.dev/',
+    origin: 'https://shepherdjs.dev',
+    protocol: 'https:',
+    host: 'shepherdjs.dev',
+    hostname: 'shepherdjs.dev',
+    port: '',
+    pathname: '/',
+    search: '',
+    hash: ''
+  },
+  navigator: {
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+    vendor: 'Google Inc.'
+  },
+  screen: {
+    height: 1080,
+    width: 1920
+  }
+} as Window & typeof globalThis;
 
 describe('ShepherdPro', () => {
   const dataRequesterMock = vi
@@ -39,15 +65,22 @@ describe('ShepherdPro', () => {
     );
   });
 
-  it.skip('adds the event listeners expected', () => {
-    ShepherdPro.init('api_123');
+  // it.skip('adds the event listeners expected', () => {
+  //   ShepherdPro.init('api_123');
 
-    expect(ShepherdPro.trigger).to.be.a('function');
+  //   expect(ShepherdPro.trigger).to.be.a('function');
 
-    ShepherdPro.trigger('show');
+  //   ShepherdPro.trigger('show');
 
-    expect(consoleMock).toHaveBeenCalledOnce();
-    expect(consoleMock).toHaveBeenLastCalledWith('Event triggered: show');
+  //   expect(consoleMock).toHaveBeenCalledOnce();
+  //   expect(consoleMock).toHaveBeenLastCalledWith('Event triggered: show');
+  // });
+
+  it('sets the userId', async () => {
+    await ShepherdPro.init('api_123');
+
+    const userStored = localStorage.getItem('shepherdPro:userId');
+    expect(userStored).toBe('1');
   });
 
   it('creates a Tour instance', () => {
@@ -57,20 +90,74 @@ describe('ShepherdPro', () => {
     ShepherdPro.init('api_123');
     const tourInstance = new ShepherdPro.Tour({ defaultStepOptions });
 
-    expect(tourInstance instanceof Shepherd.Tour).toBe(true);
+    expect(tourInstance instanceof ShepherdPro.Tour).toBe(true);
   });
 
-  it('can use the dataRequester to sendEvents()', async () => {
-    ShepherdPro.init('api_123');
+  it('Shepherd.isTourEnabled is true when isActive is true', async () => {
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
 
-    expect(ShepherdPro.dataRequester?.sendEvents).to.be.a('function');
-    (fetch as Mock).mockResolvedValue({
-      ok: true,
-      json: () => new Promise((resolve) => resolve(null))
+    await ShepherdPro.init('api_123');
+
+    new ShepherdPro.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await ShepherdPro.isTourEnabled('tour-1')).toBe(true);
+  });
+
+  it('Shepherd.isTourEnabled is false when isActive is false', async () => {
+    (fetch as Mock).mockResolvedValue((req) => {
+      if (req.url === 'https://shepherdpro.com/api/v1/state') {
+        return Promise.resolve(
+          JSON.stringify({
+            data: [{ uniqueId: 'tour-1', isActive: false }]
+          })
+        );
+      }
     });
 
-    const data = await ShepherdPro.dataRequester?.sendEvents({});
+    const defaultStepOptions = {
+      classes: 'class-1 class-2'
+    };
 
-    expect(data).toMatchObject({});
+    await ShepherdPro.init('api_123');
+
+    new ShepherdPro.Tour({ defaultStepOptions, id: 'tour-1' });
+
+    expect(await ShepherdPro.isTourEnabled('tour-1')).toBe(false);
+  });
+
+  it('sends events and passes properties and context', async () => {
+    const windowSpy = vi.spyOn(global, 'window', 'get');
+    windowSpy.mockImplementation(() => windowProps);
+
+    await ShepherdPro.init('api_123', 'https://shepherdpro.com', {
+      extra: 'stuff'
+    });
+
+    expect(typeof ShepherdPro.trigger).toBe('function');
+    expect(ShepherdPro.dataRequester?.getConfig().properties).toMatchObject({
+      context: {
+        $browser: 'Chrome',
+        $browser_version: 123,
+        $current_url: 'https://shepherdjs.dev/',
+        $device: '',
+        $host: 'shepherdjs.dev',
+        $lib: 'js',
+        $os: 'Mac OS X',
+        $pathname: '/',
+        $referrer: '',
+        $referring_domain: '',
+        $screen_height: 1080,
+        $screen_width: 1920
+      },
+      extra: 'stuff'
+    });
+
+    ShepherdPro.trigger('show');
+
+    expect(dataRequesterMock).toHaveBeenCalled();
+
+    windowSpy.mockRestore();
   });
 });

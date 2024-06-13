@@ -36,7 +36,6 @@
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
     "autoprefixer": "^10.4.19",
-    "better-docs": "^2.7.3",
     "concurrently": "^8.2.2",
     "del": "^7.1.0",
     "eslint": "^8.57.0",

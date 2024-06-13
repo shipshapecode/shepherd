@@ -1,7 +1,6 @@
 import { Evented } from './evented.ts';
 import { Step, type StepOptions } from './step.ts';
 import autoBind from './utils/auto-bind.ts';
-import { getContext } from './utils/context.ts';
 import {
   isHTMLElement,
   isFunction,
@@ -9,14 +8,9 @@ import {
   isUndefined
 } from './utils/type-check.ts';
 import { cleanupSteps } from './utils/cleanup.ts';
-import DataRequest from './utils/datarequest.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
 // @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdModal from './components/shepherd-modal.svelte';
-
-export interface Actor {
-  actorId: number;
-}
 
 export interface EventOptions {
   previous?: Step | null;
@@ -93,92 +87,15 @@ export interface TourOptions {
   useModalOverlay?: boolean;
 }
 
-const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
-const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
-
-export class ShepherdPro extends Evented {
-  // Shepherd Pro fields
-  apiKey?: string;
-  apiPath?: string;
-  dataRequester?: DataRequest;
-  isProEnabled = false;
-  /**
-   * Extra properties to pass to Shepherd Pro
-   */
-  properties?: { [key: string]: unknown };
-
-  // Vanilla Shepherd
+export class ShepherdBase extends Evented {
   activeTour?: Tour | null;
   declare Step: typeof Step;
   declare Tour: typeof Tour;
 
-  /**
-   * Call init to take full advantage of ShepherdPro functionality
-   * @param {string} apiKey The API key for your ShepherdPro account
-   * @param {string} apiPath
-   * @param {object} properties Extra properties to be passed to Shepherd Pro
-   */
-  async init(
-    apiKey?: string,
-    apiPath?: string,
-    properties?: { [key: string]: unknown }
-  ) {
-    if (!apiKey) {
-      throw new Error('Shepherd Pro: Missing required apiKey option.');
-    }
+  constructor() {
+    super();
 
-    this.apiKey = apiKey;
-    this.apiPath = apiPath ?? SHEPHERD_DEFAULT_API;
-    this.properties = properties ?? {};
-    this.properties['context'] = getContext(window);
-
-    if (this.apiKey) {
-      this.dataRequester = new DataRequest(
-        this.apiKey,
-        this.apiPath,
-        this.properties
-      );
-      this.isProEnabled = true;
-      // Setup actor before first tour is loaded if none exists
-      const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
-
-      const promises = [this.dataRequester.getTourState()];
-
-      if (!shepherdProId) {
-        promises.push(this.createNewActor());
-      }
-
-      await Promise.all(promises);
-    }
-  }
-
-  async createNewActor() {
-    if (!this.dataRequester) return;
-
-    // Setup type returns an actor
-    const response = (await this.dataRequester.sendEvents({
-      data: {
-        currentUserId: null,
-        eventType: 'setup'
-      }
-    })) as unknown as Actor;
-
-    localStorage.setItem(SHEPHERD_USER_ID, String(response.actorId));
-  }
-
-  /**
-   * Checks if a given tour's id is enabled
-   * @param tourId A string denoting the id of the tour
-   */
-  async isTourEnabled(tourId: string) {
-    if (!this.dataRequester) return;
-
-    const tourState = await this.dataRequester.tourStateDb?.get(
-      'tours',
-      tourId
-    );
-
-    return tourState?.isActive ?? true;
+    autoBind(this);
   }
 }
 
@@ -233,39 +150,6 @@ export class Tour extends Evented {
     });
 
     this._setTourID(options.id);
-
-    const { dataRequester } = Shepherd;
-    // If we have an API key, then setup Pro features
-    if (dataRequester) {
-      this.trackedEvents.forEach((event) =>
-        this.on(event, (opts: EventOptions) => {
-          const { tour } = opts;
-          const { id, steps } = tour;
-          let position;
-
-          if (event !== 'active') {
-            const { step: currentStep } = opts;
-
-            if (currentStep) {
-              position =
-                steps.findIndex((step) => step.id === currentStep.id) + 1;
-            }
-          }
-
-          const data = {
-            currentUserId: localStorage.getItem(SHEPHERD_USER_ID),
-            eventType: event,
-            journeyData: {
-              id,
-              currentStep: position,
-              numberOfSteps: steps.length,
-              tourOptions: tour.options
-            }
-          };
-          dataRequester.sendEvents({ data });
-        })
-      );
-    }
 
     return this;
   }
@@ -463,14 +347,6 @@ export class Tour extends Evented {
    * Start the tour
    */
   async start() {
-    // Check if ShepherdPro is enabled, and if so check if the tour id is active or not.
-    if (
-      Shepherd.isProEnabled &&
-      !(await Shepherd.isTourEnabled(this.options.id as string))
-    ) {
-      return;
-    }
-
     this.trigger('start');
 
     // Save the focused element before the tour opens
@@ -595,6 +471,6 @@ export class Tour extends Evented {
 /**
  * @public
  */
-const Shepherd = new ShepherdPro();
+const Shepherd = new ShepherdBase();
 
 export { Shepherd };
