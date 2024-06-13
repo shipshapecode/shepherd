@@ -1,9 +1,6 @@
 import Shepherd from 'shepherd.js';
-import {
-  ShepherdBase,
-  type TourOptions,
-  type EventOptions
-} from 'shepherd.js/dist/cjs/tour';
+import { ShepherdBase } from 'shepherd.js';
+import type { TourOptions, EventOptions } from 'shepherd.js/tour';
 
 import DataRequest from './DataRequest';
 import { getContext } from './utils/context.ts';

@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "test": "vitest --run",
+    "test:ci": "vitest --run",
     "test:dev": "vitest"
   },
   "devDependencies": {

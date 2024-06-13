@@ -1,8 +1,7 @@
 import { createContext, FC, useContext, type ReactNode } from 'react';
 
-import ShepherdPro from '@shepherdpro/pro-js';
 import Shepherd from 'shepherd.js';
-import type ShepherdPro from '@shepherdpro/pro-js';
+import ShepherdPro from '@shepherdpro/pro-js';
 
 interface ShepherdProviderProps {
   apiKey?: string;

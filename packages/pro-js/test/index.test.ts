@@ -40,16 +40,12 @@ const windowProps = {
 } as Window & typeof globalThis;
 
 describe('ShepherdPro', () => {
-  const dataRequesterMock = vi
+  const dataRequesterEventMock = vi
     .spyOn(DataRequest.prototype, 'sendEvents')
-    .mockImplementation(() => Promise.resolve({}));
-
-  beforeAll(() => {
-    localStorage.setItem('shepherdPro:userId', JSON.stringify(true));
-  });
+    .mockImplementation(() => Promise.resolve({ actorId: 1 }));
 
   afterAll(() => {
-    dataRequesterMock.mockReset();
+    dataRequesterEventMock.mockReset();
   });
   it('exists and creates an instance', () => {
     const proInstance = new ShepherdPro.Tour();
@@ -59,8 +55,7 @@ describe('ShepherdPro', () => {
   });
 
   it('returns an error if no apiKey is passed', () => {
-    // @ts-ignore - This is a test to make sure that the error is thrown
-    expect(() => ShepherdPro.init()).toThrowError(
+    expect(() => ShepherdPro.init()).rejects.toThrowError(
       'Shepherd Pro: Missing required apiKey option.'
     );
   });
@@ -77,6 +72,15 @@ describe('ShepherdPro', () => {
   // });
 
   it('sets the userId', async () => {
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [{ uniqueId: 'tour-1', isActive: true }]
+          })
+        )
+    });
     await ShepherdPro.init('api_123');
 
     const userStored = localStorage.getItem('shepherdPro:userId');
@@ -94,6 +98,15 @@ describe('ShepherdPro', () => {
   });
 
   it('Shepherd.isTourEnabled is true when isActive is true', async () => {
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [{ uniqueId: 'tour-1', isActive: true }]
+          })
+        )
+    });
     const defaultStepOptions = {
       classes: 'class-1 class-2'
     };
@@ -106,16 +119,15 @@ describe('ShepherdPro', () => {
   });
 
   it('Shepherd.isTourEnabled is false when isActive is false', async () => {
-    (fetch as Mock).mockResolvedValue((req) => {
-      if (req.url === 'https://shepherdpro.com/api/v1/state') {
-        return Promise.resolve(
-          JSON.stringify({
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
             data: [{ uniqueId: 'tour-1', isActive: false }]
           })
-        );
-      }
+        )
     });
-
     const defaultStepOptions = {
       classes: 'class-1 class-2'
     };
@@ -156,7 +168,7 @@ describe('ShepherdPro', () => {
 
     ShepherdPro.trigger('show');
 
-    expect(dataRequesterMock).toHaveBeenCalled();
+    expect(dataRequesterEventMock).toHaveBeenCalled();
 
     windowSpy.mockRestore();
   });
