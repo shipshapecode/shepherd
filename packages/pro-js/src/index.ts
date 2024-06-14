@@ -1,5 +1,4 @@
-import Shepherd from 'shepherd.js';
-import { ShepherdBase } from 'shepherd.js';
+import Shepherd, { ShepherdBase } from 'shepherd.js';
 import type { TourOptions, EventOptions } from 'shepherd.js/tour';
 
 import DataRequest from './DataRequest';
@@ -147,7 +146,3 @@ export class ShepherdPro extends ShepherdBase {
 const ShepherdProInstance = new ShepherdPro();
 
 export default Object.assign(ShepherdProInstance, Shepherd) as ShepherdPro;
-
-// export type { default as Shepherd } from 'shepherd.js';
-// export type { default as Step } from 'shepherd.js/step';
-// export type { default as Tour } from 'shepherd.js/tour';
