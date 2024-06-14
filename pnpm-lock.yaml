@@ -276,6 +276,9 @@ importers:
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
+      rollup-plugin-dts:
+        specifier: ^6.1.1
+        version: 6.1.1(rollup@4.17.2)(typescript@5.4.5)
       rollup-plugin-filesize:
         specifier: ^10.0.0
         version: 10.0.0
@@ -14840,6 +14843,20 @@ packages:
       fs-extra: 8.1.0
       globby: 10.0.1
       is-plain-object: 3.0.1
+    dev: true
+
+  /rollup-plugin-dts@6.1.1(rollup@4.17.2)(typescript@5.4.5):
+    resolution: {integrity: sha512-aSHRcJ6KG2IHIioYlvAOcEq6U99sVtqDDKVhnwt70rW6tsz3tv5OSjEiWcgzfsHdLyGXZ/3b/7b/+Za3Y6r1XA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      rollup: ^3.29.4 || ^4
+      typescript: ^4.5 || ^5.0
+    dependencies:
+      magic-string: 0.30.10
+      rollup: 4.17.2
+      typescript: 5.4.5
+    optionalDependencies:
+      '@babel/code-frame': 7.24.6
     dev: true
 
   /rollup-plugin-filesize@10.0.0:

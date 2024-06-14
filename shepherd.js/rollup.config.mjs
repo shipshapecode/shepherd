@@ -8,6 +8,7 @@ import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import copy from 'rollup-plugin-copy';
+import dts from 'rollup-plugin-dts';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -68,7 +69,7 @@ export default [
     input: 'src/shepherd.ts',
 
     output: {
-      dir: 'dist/esm',
+      dir: 'tmp/esm',
       entryFileNames: '[name].mjs',
       format: 'es',
       sourcemap: true
@@ -83,13 +84,13 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/esm'
+            declarationDir: 'tmp/esm'
           });
 
           console.log('Rename .svelte.d.ts to .d.svelte.ts');
 
           await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/esm/**`,
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/esm/**`,
             {
               stdio: 'inherit'
             }
@@ -103,7 +104,7 @@ export default [
     input: 'src/shepherd.ts',
 
     output: {
-      dir: 'dist/cjs',
+      dir: 'tmp/cjs',
       entryFileNames: '[name].cjs',
       format: 'cjs',
       sourcemap: true
@@ -118,29 +119,75 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/cjs'
+            declarationDir: 'tmp/cjs'
           });
 
-          console.log('Rename .svelte.d.ts to .d.svelte.cts');
+          console.log('Rename .svelte.d.ts to .d.svelte.ts');
 
           await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/cjs/**`,
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/cjs/**`,
             {
               stdio: 'inherit'
             }
           );
         }
       },
+      ...plugins,
+      {
+        name: 'Fix CSS',
+        closeBundle: async () => {
+          console.log('Copying CSS to the root');
+
+          await execaCommand(`mkdir -p ./dist/css`, {
+            stdio: 'inherit'
+          });
+
+          await execaCommand(
+            `cp ./tmp/esm/css/shepherd.css ./dist/css/shepherd.css`,
+            {
+              stdio: 'inherit'
+            }
+          );
+        }
+      }
+    ]
+  },
+  {
+    input: './tmp/esm/shepherd.d.ts',
+    output: [{ file: 'dist/esm/shepherd.d.mts', format: 'es' }],
+    plugins: [
+      dts(),
       copy({
         targets: [
           {
-            src: 'dist/cjs/*.d.ts',
-            dest: 'dist/cjs',
-            rename: (name) => `${name}.cts`
+            src: 'tmp/esm/shepherd.mjs',
+            dest: 'dist/esm'
+          },
+          {
+            src: 'tmp/esm/shepherd.mjs.map',
+            dest: 'dist/esm'
+          }
+        ]
+      })
+    ]
+  },
+  {
+    input: './tmp/cjs/shepherd.d.ts',
+    output: [{ file: 'dist/cjs/shepherd.d.cts', format: 'cjs' }],
+    plugins: [
+      dts(),
+      copy({
+        targets: [
+          {
+            src: 'tmp/cjs/shepherd.cjs',
+            dest: 'dist/cjs'
+          },
+          {
+            src: 'tmp/cjs/shepherd.cjs.map',
+            dest: 'dist/cjs'
           }
         ]
       }),
-      ...plugins,
       {
         name: 'Fix CJS exports',
         closeBundle: async () => {
@@ -153,33 +200,10 @@ export default [
           );
           let content = fs.readFileSync(declarationFile, 'utf8');
           content = content.replace(
-            /export default Shepherd/g,
+            /export { Shepherd as default }/g,
             'export = Shepherd'
           );
           fs.writeFileSync(declarationFile, content);
-        }
-      },
-      {
-        name: 'Fix CSS',
-        closeBundle: async () => {
-          console.log('Copying CSS to the root');
-
-          await execaCommand(`mkdir ./dist/css`, {
-            stdio: 'inherit'
-          });
-
-          await execaCommand(
-            `cp ./dist/esm/css/shepherd.css ./dist/css/shepherd.css`,
-            {
-              stdio: 'inherit'
-            }
-          );
-
-          console.log('Deleting extra CSS files');
-
-          await execaCommand(`rimraf ./dist/esm/css ./dist/cjs/css`, {
-            stdio: 'inherit'
-          });
         }
       }
     ]
