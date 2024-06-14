@@ -12,9 +12,9 @@ interface TourStateDb extends DBSchema {
 }
 
 class DataRequest {
-  private apiKey: string;
-  private apiPath: string;
-  private properties?: { [key: string]: unknown };
+  apiKey: string;
+  apiPath: string;
+  properties?: { [key: string]: unknown };
   tourStateDb?: IDBPDatabase<TourStateDb>;
 
   constructor(

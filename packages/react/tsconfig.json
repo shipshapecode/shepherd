@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["dom", "esnext"],
-    "target": "es2020",
-    "module": "es2020",
-    "moduleResolution": "node",
+    "target": "es2021",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
     "allowImportingTsExtensions": true,
     "noEmit": true,
