@@ -8,3 +8,7 @@ Shepherd.Step = (isServerSide ? StepNoOp : Step) as unknown as typeof Step;
 Shepherd.Tour = (isServerSide ? TourNoOp : Tour) as unknown as typeof Tour;
 
 export default Shepherd;
+// Reexport types so they can be more easily used.
+export type * from './evented.ts';
+export type * from './step.ts';
+export type * from './tour.ts';
