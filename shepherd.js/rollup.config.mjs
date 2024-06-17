@@ -7,7 +7,6 @@ import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import copy from 'rollup-plugin-copy';
 import filesize from 'rollup-plugin-filesize';
 import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
@@ -68,7 +67,7 @@ export default [
     input: 'src/shepherd.ts',
 
     output: {
-      dir: 'dist/esm',
+      dir: 'tmp/esm',
       entryFileNames: '[name].mjs',
       format: 'es',
       sourcemap: true
@@ -83,27 +82,62 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/esm'
+            declarationDir: 'tmp/esm'
           });
 
           console.log('Rename .svelte.d.ts to .d.svelte.ts');
 
           await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/esm/**`,
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/esm/**`,
             {
               stdio: 'inherit'
             }
           );
         }
       },
-      ...plugins
+      ...plugins,
+      {
+        name: 'After build tweaks',
+        closeBundle: async () => {
+          console.log('Copying CSS to the root');
+
+          await execaCommand(`mkdir -p ./dist/css`, {
+            stdio: 'inherit'
+          });
+
+          await execaCommand(
+            `cp ./tmp/esm/css/shepherd.css ./dist/css/shepherd.css`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Rollup TS declarations to one file');
+
+          await execaCommand(
+            `pnpm dts-bundle-generator --no-check -o ./dist/esm/shepherd.d.mts ./tmp/esm/shepherd.d.ts`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Move shepherd.js from tmp to dist');
+
+          await execaCommand(
+            `mv ./tmp/esm/shepherd.mjs ./tmp/esm/shepherd.mjs.map ./dist/esm/`,
+            {
+              stdio: 'inherit'
+            }
+          );
+        }
+      }
     ]
   },
   {
     input: 'src/shepherd.ts',
 
     output: {
-      dir: 'dist/cjs',
+      dir: 'tmp/cjs',
       entryFileNames: '[name].cjs',
       format: 'cjs',
       sourcemap: true
@@ -118,32 +152,41 @@ export default [
             svelteShimsPath: import.meta.resolve(
               'svelte2tsx/svelte-shims-v4.d.ts'
             ),
-            declarationDir: 'dist/cjs'
+            declarationDir: 'tmp/cjs'
           });
 
-          console.log('Rename .svelte.d.ts to .d.svelte.cts');
+          console.log('Rename .svelte.d.ts to .d.svelte.ts');
 
           await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts dist/cjs/**`,
+            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/cjs/**`,
             {
               stdio: 'inherit'
             }
           );
         }
       },
-      copy({
-        targets: [
-          {
-            src: 'dist/cjs/*.d.ts',
-            dest: 'dist/cjs',
-            rename: (name) => `${name}.cts`
-          }
-        ]
-      }),
       ...plugins,
       {
-        name: 'Fix CJS exports',
+        name: 'After build tweaks',
         closeBundle: async () => {
+          console.log('Rollup TS declarations to one file');
+
+          await execaCommand(
+            `pnpm dts-bundle-generator --no-check -o ./dist/cjs/shepherd.d.cts ./tmp/cjs/shepherd.d.ts`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Move shepherd.js from tmp to dist');
+
+          await execaCommand(
+            `mv ./tmp/cjs/shepherd.cjs ./tmp/cjs/shepherd.cjs.map ./dist/cjs/`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
           console.log('Fix CJS export default -> export =');
 
           const declarationFile = path.join(
@@ -153,33 +196,10 @@ export default [
           );
           let content = fs.readFileSync(declarationFile, 'utf8');
           content = content.replace(
-            /export default Shepherd/g,
-            'export = Shepherd'
+            /export {[\n\r]+[ \t]+Shepherd as default,[\n\r]};/g,
+            'export = Shepherd;'
           );
           fs.writeFileSync(declarationFile, content);
-        }
-      },
-      {
-        name: 'Fix CSS',
-        closeBundle: async () => {
-          console.log('Copying CSS to the root');
-
-          await execaCommand(`mkdir ./dist/css`, {
-            stdio: 'inherit'
-          });
-
-          await execaCommand(
-            `cp ./dist/esm/css/shepherd.css ./dist/css/shepherd.css`,
-            {
-              stdio: 'inherit'
-            }
-          );
-
-          console.log('Deleting extra CSS files');
-
-          await execaCommand(`rimraf ./dist/esm/css ./dist/cjs/css`, {
-            stdio: 'inherit'
-          });
         }
       }
     ]

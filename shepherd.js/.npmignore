@@ -3,10 +3,7 @@ cypress/
 docs-src/
 docs/
 esdoc/
-landing/
-site/
-test/
-tests/
+tmp/
 
 .codeclimate.yml
 .eslintrc.js

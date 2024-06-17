@@ -23,7 +23,7 @@
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/esm/shepherd.d.ts",
+        "types": "./dist/esm/shepherd.d.mts",
         "default": "./dist/esm/shepherd.mjs"
       },
       "require": {
@@ -31,22 +31,12 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
-    "./dist/css/shepherd.css": "./dist/css/shepherd.css",
-    "./*": {
-      "import": {
-        "types": "./dist/esm/*.d.ts",
-        "default": "./dist/esm/*.mjs"
-      },
-      "require": {
-        "types": "./dist/cjs/*.d.cts",
-        "default": "./dist/cjs/*.cjs"
-      }
-    }
+    "./dist/css/shepherd.css": "./dist/css/shepherd.css"
   },
   "type": "module",
   "scripts": {
     "build": "pnpm clean && rollup -c",
-    "clean": "rimraf ./dist",
+    "clean": "rimraf ./dist ./tmp",
     "esdoc": "esdoc",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
@@ -77,6 +67,7 @@
     "@rollup/plugin-replace": "^5.0.5",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.1",
+    "dts-bundle-generator": "^9.5.1",
     "eslint-plugin-svelte": "^2.39.0",
     "execa": "^9.1.0",
     "postcss": "^8.4.38",
@@ -88,7 +79,6 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.17.2",
     "rollup-plugin-analyzer": "^4.0.0",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.4.0",
     "rollup-plugin-livereload": "^2.0.5",
