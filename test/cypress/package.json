@@ -20,7 +20,7 @@
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.6",
+    "@babel/core": "^7.24.7",
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
     "chai": "^5.1.1",
