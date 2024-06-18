@@ -93,8 +93,8 @@ importers:
         specifier: workspace:*
         version: link:../shepherd.js
       starlight-typedoc:
-        specifier: ^0.10.1
-        version: 0.10.1(@astrojs/starlight@0.23.4)(astro@4.10.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13)
+        specifier: ^0.12.2
+        version: 0.12.2(@astrojs/starlight@0.23.4)(astro@4.10.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13)
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.4
@@ -14489,14 +14489,14 @@ packages:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
     dev: true
 
-  /starlight-typedoc@0.10.1(@astrojs/starlight@0.23.4)(astro@4.10.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13):
-    resolution: {integrity: sha512-pcL7ZLODLXzPJAU5v6WFnP+SEk1JRC7ZBYlFoNIwnyFOKkDo+5pT37NoJs6cWwk6e2jN/fKjiSmgR/ylIyqhQw==}
+  /starlight-typedoc@0.12.2(@astrojs/starlight@0.23.4)(astro@4.10.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13):
+    resolution: {integrity: sha512-DBO0VUFTgw2JiLryou8hV7HHiwtuiw1/nnigClmJq8nCEbjOYtT02E03UqY/NB7cuHi0xyhmgqNKlBwkL1LZIQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       '@astrojs/starlight': '>=0.15.0'
       astro: '>=4.0.0'
       typedoc: '>=0.25.0'
-      typedoc-plugin-markdown: '>=4.0.0-next.45'
+      typedoc-plugin-markdown: '>=4.0.0-next.59'
     dependencies:
       '@astrojs/starlight': 0.23.4(astro@4.10.3)
       astro: 4.10.3(typescript@5.4.5)
