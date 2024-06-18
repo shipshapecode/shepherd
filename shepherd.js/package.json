@@ -53,8 +53,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.5",
-    "deepmerge-ts": "^5.1.0",
-    "idb": "^8.0.0"
+    "deepmerge-ts": "^5.1.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.3",
@@ -71,7 +70,6 @@
     "eslint-plugin-svelte": "^2.39.0",
     "execa": "^9.1.0",
     "postcss": "^8.4.38",
-    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.1.1",
     "prettier-plugin-svelte": "^3.2.2",
     "renamer": "^5.0.0",

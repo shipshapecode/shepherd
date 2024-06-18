@@ -1,7 +1,7 @@
 import { createContext, FC, useContext, type ReactNode } from 'react';
 
 import Shepherd from 'shepherd.js';
-import type ShepherdPro from 'shepherd.js';
+import ShepherdPro from '@shepherdpro/pro-js';
 
 interface ShepherdProviderProps {
   apiKey?: string;
@@ -11,7 +11,7 @@ interface ShepherdProviderProps {
 }
 
 interface ShepherdContextType {
-  Shepherd: typeof ShepherdPro;
+  Shepherd: typeof ShepherdPro | typeof Shepherd;
 }
 
 const ShepherdJourneyContext = createContext<ShepherdContextType | undefined>(
@@ -27,9 +27,9 @@ export const useShepherd = () => {
     );
   }
 
-  const { Shepherd: shepherd } = context;
+  const { Shepherd: ShepherdInsance } = context;
 
-  return shepherd;
+  return ShepherdInsance;
 };
 
 export const ShepherdJourneyProvider: FC<ShepherdProviderProps> = ({
@@ -38,12 +38,16 @@ export const ShepherdJourneyProvider: FC<ShepherdProviderProps> = ({
   properties,
   children
 }: ShepherdProviderProps) => {
+  let JourneyLibrary = Shepherd;
   if (typeof window !== 'undefined') {
-    if (apiKey) Shepherd.init(apiKey, apiPath, properties);
+    if (apiKey) {
+      JourneyLibrary = ShepherdPro;
+      ShepherdPro.init(apiKey, apiPath, properties);
+    }
   }
 
   return (
-    <ShepherdJourneyContext.Provider value={{ Shepherd }}>
+    <ShepherdJourneyContext.Provider value={{ Shepherd: JourneyLibrary }}>
       {children}
     </ShepherdJourneyContext.Provider>
   );

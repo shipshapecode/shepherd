@@ -12,9 +12,9 @@ interface TourStateDb extends DBSchema {
 }
 
 class DataRequest {
-  apiKey: string;
-  apiPath: string;
-  properties?: { [key: string]: unknown };
+  #apiKey: string;
+  #apiPath: string;
+  #properties?: { [key: string]: unknown };
   tourStateDb?: IDBPDatabase<TourStateDb>;
 
   constructor(
@@ -29,9 +29,17 @@ class DataRequest {
       throw new Error('Shepherd Pro: Missing required apiPath option.');
     }
 
-    this.apiKey = apiKey;
-    this.apiPath = apiPath;
-    this.properties = properties;
+    this.#apiKey = apiKey;
+    this.#apiPath = apiPath;
+    this.#properties = properties;
+  }
+
+  getConfig() {
+    return {
+      apiKey: this.#apiKey,
+      apiPath: this.#apiPath,
+      properties: this.#properties
+    };
   }
 
   /**
@@ -39,9 +47,9 @@ class DataRequest {
    */
   async getTourState() {
     try {
-      const response = await fetch(`${this.apiPath}/api/v1/state`, {
+      const response = await fetch(`${this.#apiPath}/api/v1/state`, {
         headers: {
-          Authorization: `ApiKey ${this.apiKey}`,
+          Authorization: `ApiKey ${this.#apiKey}`,
           'Content-Type': 'application/json'
         },
         method: 'GET'
@@ -82,12 +90,12 @@ class DataRequest {
    * @param body The data to send for the event
    */
   async sendEvents(body: { data: Record<string, unknown> }) {
-    body.data['properties'] = this.properties;
+    body.data['properties'] = this.#properties;
 
     try {
-      const response = await fetch(`${this.apiPath}/api/v1/actor`, {
+      const response = await fetch(`${this.#apiPath}/api/v1/actor`, {
         headers: {
-          Authorization: `ApiKey ${this.apiKey}`,
+          Authorization: `ApiKey ${this.#apiKey}`,
           'Content-Type': 'application/json'
         },
         method: 'POST',
