@@ -118,8 +118,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(prettier@3.1.1)(typescript@5.4.5)
       '@astrojs/mdx':
-        specifier: ^2.2.4
-        version: 2.3.1(astro@4.10.3)
+        specifier: ^3.1.1
+        version: 3.1.1(astro@4.10.3)
       '@astrojs/rss':
         specifier: ^4.0.1
         version: 4.0.6
@@ -595,32 +595,6 @@ packages:
       unist-util-remove-position: 5.0.0
       unist-util-visit: 5.0.0
       unist-util-visit-parents: 6.0.1
-      vfile: 6.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@astrojs/mdx@2.3.1(astro@4.10.3):
-    resolution: {integrity: sha512-BOQFKD2Pi9cRntNQJlpF2fh4xV8doNpmVy9NKI95r4jsitrY4X5aTOhAowi+fkQgP/zW1A4HwCyQ6Pdam6z8zQ==}
-    engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0}
-    peerDependencies:
-      astro: ^4.0.0
-    dependencies:
-      '@astrojs/markdown-remark': 5.1.0
-      '@mdx-js/mdx': 3.0.1
-      acorn: 8.12.0
-      astro: 4.10.3(typescript@5.4.5)
-      es-module-lexer: 1.5.3
-      estree-util-visit: 2.0.0
-      github-slugger: 2.0.0
-      gray-matter: 4.0.3
-      hast-util-to-html: 9.0.1
-      kleur: 4.1.5
-      rehype-raw: 7.0.0
-      remark-gfm: 4.0.0
-      remark-smartypants: 2.1.0
-      source-map: 0.7.4
-      unist-util-visit: 5.0.0
       vfile: 6.0.1
     transitivePeerDependencies:
       - supports-color
