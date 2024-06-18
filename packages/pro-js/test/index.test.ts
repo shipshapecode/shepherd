@@ -1,12 +1,4 @@
-import {
-  type Mock,
-  afterAll,
-  describe,
-  expect,
-  it,
-  vi,
-  beforeAll
-} from 'vitest';
+import { type Mock, afterAll, describe, expect, it, vi } from 'vitest';
 import ShepherdPro from '../src/index.ts';
 import DataRequest from '../src/DataRequest';
 
