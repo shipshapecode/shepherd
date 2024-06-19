@@ -1,5 +1,29 @@
 # Changelog
 
+## Release (2024-06-19)
+
+@shepherdpro/pro-js 1.0.0 (major)
+react-shepherd 6.0.0 (major)
+shepherd.js 13.0.0 (major)
+
+#### :boom: Breaking Change
+* `shepherd-docs`, `@shepherdpro/pro-js`, `react-shepherd`, `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#2870](https://github.com/shepherd-pro/shepherd/pull/2870) ✨ Add new package specific to Pro features ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* `shepherd-docs`, `react-shepherd`, `shepherd.js`
+  * [#2871](https://github.com/shepherd-pro/shepherd/pull/2871) Simplify dist to only include one TS file ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `landing`
+  * [#2877](https://github.com/shepherd-pro/shepherd/pull/2877) 👷 Add correct token to publish all packages ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2838](https://github.com/shepherd-pro/shepherd/pull/2838) tweak: prevents header links overflow in small screens ([@ArnavK-09](https://github.com/ArnavK-09))
+
+#### Committers: 3
+- Arnav K ([@ArnavK-09](https://github.com/ArnavK-09))
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2024-06-07)
 
 react-shepherd 5.0.6 (patch)
