@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2024-06-20)
+
+@shepherdpro/pro-js 1.0.1 (patch)
+react-shepherd 6.0.1 (patch)
+
+#### :bug: Bug Fix
+* `@shepherdpro/pro-js`
+  * [#2878](https://github.com/shepherd-pro/shepherd/pull/2878) 👷 Add prepack script to pro-js ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-06-19)
 
 @shepherdpro/pro-js 1.0.0 (major)
