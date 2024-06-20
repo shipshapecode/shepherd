@@ -1,33 +1,61 @@
 {
   "solution": {
-    "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "5.0.5",
-      "newVersion": "5.0.6",
+    "@shepherdpro/pro-js": {
+      "impact": "major",
+      "oldVersion": "0.0.3",
+      "newVersion": "1.0.0",
       "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "pkgJSONPath": "./packages/pro-js/package.json"
     },
-    "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "12.0.5",
-      "newVersion": "12.0.6",
+    "react-shepherd": {
+      "impact": "major",
+      "oldVersion": "5.0.6",
+      "newVersion": "6.0.0",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on @shepherdpro/pro-js"
+        },
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         },
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Has dependency `workspace:*` on shepherd.js"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./packages/react/package.json"
+    },
+    "shepherd.js": {
+      "impact": "major",
+      "oldVersion": "12.0.6",
+      "newVersion": "13.0.0",
+      "constraints": [
+        {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-06-07)\n\nreact-shepherd 5.0.6 (patch)\nshepherd.js 12.0.6 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`, `cypress-tests`\n  * [#2853](https://github.com/shepherd-pro/shepherd/pull/2853) fix: reconfigure CSS bundling ([@Kenneth-Sills](https://github.com/Kenneth-Sills))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#2848](https://github.com/shepherd-pro/shepherd/pull/2848) Bump @floating-ui/dom from 1.6.3 to 1.6.5 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2851](https://github.com/shepherd-pro/shepherd/pull/2851) Bump rollup-plugin-license from 3.3.1 to 3.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2849](https://github.com/shepherd-pro/shepherd/pull/2849) Bump @babel/core from 7.24.5 to 7.24.6 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* Other\n  * [#2850](https://github.com/shepherd-pro/shepherd/pull/2850) Bump release-it from 17.2.1 to 17.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2846](https://github.com/shepherd-pro/shepherd/pull/2846) App: 🔥 Remove app as it is not part of a workspace ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2844](https://github.com/shepherd-pro/shepherd/pull/2844) App: ⬆ Upgrade Shepherd lib in the app to v5 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`\n  * [#2852](https://github.com/shepherd-pro/shepherd/pull/2852) Bump @astrojs/starlight from 0.22.4 to 0.23.2 ([@dependabot[bot]](https://github.com/apps/dependabot))\n  * [#2799](https://github.com/shepherd-pro/shepherd/pull/2799) Bump @flydotio/dockerfile from 0.5.6 to 0.5.7 ([@dependabot[bot]](https://github.com/apps/dependabot))\n* `unit-tests`\n  * [#2816](https://github.com/shepherd-pro/shepherd/pull/2816) Bump core-js from 3.37.0 to 3.37.1 ([@dependabot[bot]](https://github.com/apps/dependabot))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Kenneth Sills ([@Kenneth-Sills](https://github.com/Kenneth-Sills))\n"
+  "description": "## Release (2024-06-19)\n\n@shepherdpro/pro-js 1.0.0 (major)\nreact-shepherd 6.0.0 (major)\nshepherd.js 13.0.0 (major)\n\n#### :boom: Breaking Change\n* `shepherd-docs`, `@shepherdpro/pro-js`, `react-shepherd`, `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2870](https://github.com/shepherd-pro/shepherd/pull/2870) ✨ Add new package specific to Pro features ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd-docs`, `react-shepherd`, `shepherd.js`\n  * [#2871](https://github.com/shepherd-pro/shepherd/pull/2871) Simplify dist to only include one TS file ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `landing`\n  * [#2877](https://github.com/shepherd-pro/shepherd/pull/2877) 👷 Add correct token to publish all packages ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2838](https://github.com/shepherd-pro/shepherd/pull/2838) tweak: prevents header links overflow in small screens ([@ArnavK-09](https://github.com/ArnavK-09))\n\n#### Committers: 3\n- Arnav K ([@ArnavK-09](https://github.com/ArnavK-09))\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
