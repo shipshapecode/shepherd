@@ -1,61 +1,32 @@
 {
   "solution": {
     "@shepherdpro/pro-js": {
-      "impact": "major",
-      "oldVersion": "0.0.3",
-      "newVersion": "1.0.0",
+      "impact": "patch",
+      "oldVersion": "1.0.0",
+      "newVersion": "1.0.1",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
-      "impact": "major",
-      "oldVersion": "5.0.6",
-      "newVersion": "6.0.0",
+      "impact": "patch",
+      "oldVersion": "6.0.0",
+      "newVersion": "6.0.1",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @shepherdpro/pro-js"
-        },
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "major",
-      "oldVersion": "12.0.6",
-      "newVersion": "13.0.0",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "13.0.0"
     }
   },
-  "description": "## Release (2024-06-19)\n\n@shepherdpro/pro-js 1.0.0 (major)\nreact-shepherd 6.0.0 (major)\nshepherd.js 13.0.0 (major)\n\n#### :boom: Breaking Change\n* `shepherd-docs`, `@shepherdpro/pro-js`, `react-shepherd`, `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#2870](https://github.com/shepherd-pro/shepherd/pull/2870) ✨ Add new package specific to Pro features ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd-docs`, `react-shepherd`, `shepherd.js`\n  * [#2871](https://github.com/shepherd-pro/shepherd/pull/2871) Simplify dist to only include one TS file ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `landing`\n  * [#2877](https://github.com/shepherd-pro/shepherd/pull/2877) 👷 Add correct token to publish all packages ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2838](https://github.com/shepherd-pro/shepherd/pull/2838) tweak: prevents header links overflow in small screens ([@ArnavK-09](https://github.com/ArnavK-09))\n\n#### Committers: 3\n- Arnav K ([@ArnavK-09](https://github.com/ArnavK-09))\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2024-06-20)\n\n@shepherdpro/pro-js 1.0.1 (patch)\nreact-shepherd 6.0.1 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`\n  * [#2878](https://github.com/shepherd-pro/shepherd/pull/2878) 👷 Add prepack script to pro-js ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
