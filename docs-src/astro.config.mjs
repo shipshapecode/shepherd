@@ -72,12 +72,12 @@ export default defineConfig({
             }
           ]
         },
-        {
-          label: 'Reference',
-          autogenerate: {
-            directory: 'reference'
-          }
-        },
+        // {
+        //   label: 'Reference',
+        //   autogenerate: {
+        //     directory: 'reference'
+        //   }
+        // },
         typeDocSidebarGroup
       ]
     }),

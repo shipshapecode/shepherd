@@ -84,6 +84,7 @@ If you have an idea or project in mind and would like to engage our team to buil
 - [Website](https://shepherdpro.com/)
 - [Documentation](https://docs.shepherdpro.com/)
 - [Demo](https://blog.shepherdpro.com/demo/)
+- [Discord](https://discord.gg/EGcDW5NSud)
 - If you have any questions about our projects you can email [hello@shepherdpro.com](mailto:hello@shepherdpro.com)
 
 
