@@ -12,14 +12,14 @@ const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
 const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
 
 class ProTour extends Shepherd.Tour {
-  public events = ['active', 'cancel', 'complete', 'show'];
+  static trackedEvents = ['active', 'cancel', 'complete', 'show'];
 
-  private currentUserId: string | null = null;
+  #currentUserId: string | null = null;
 
   constructor(options?: TourOptions) {
     super(options);
 
-    this.currentUserId = localStorage.getItem(SHEPHERD_USER_ID);
+    this.#currentUserId = localStorage.getItem(SHEPHERD_USER_ID);
 
     const { dataRequester } = ShepherdProInstance;
 
@@ -40,7 +40,7 @@ class ProTour extends Shepherd.Tour {
           }
 
           const data = {
-            currentUserId: this.currentUserId,
+            currentUserId: this.#currentUserId,
             eventType: event,
             journeyData: {
               id,
@@ -61,7 +61,6 @@ export class ShepherdPro extends ShepherdBase {
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
-  isProEnabled = false;
   /**
    * Extra properties to pass to Shepherd Pro App
    */
