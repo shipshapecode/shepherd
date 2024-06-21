@@ -2,6 +2,18 @@
 
 ## Release (2024-06-21)
 
+@shepherdpro/pro-js 1.0.3 (patch)
+react-shepherd 6.0.3 (patch)
+
+#### :bug: Bug Fix
+* `@shepherdpro/pro-js`, `react-shepherd`
+  * [#2885](https://github.com/shepherd-pro/shepherd/pull/2885) 🐛 Fix missing tour active check ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+## Release (2024-06-21)
+
 @shepherdpro/pro-js 1.0.2 (patch)
 react-shepherd 6.0.2 (patch)
 
