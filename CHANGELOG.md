@@ -2,6 +2,26 @@
 
 ## Release (2024-06-21)
 
+@shepherdpro/pro-js 1.0.2 (patch)
+react-shepherd 6.0.2 (patch)
+
+#### :bug: Bug Fix
+* `@shepherdpro/pro-js`
+  * [#2883](https://github.com/shepherd-pro/shepherd/pull/2883) 🐛 Fix bug where events fail to fire due to naming ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* `shepherd-docs`, `landing`
+  * [#2880](https://github.com/shepherd-pro/shepherd/pull/2880) 📝 Add updated documentation for pro package and updated CDN links ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* [#2881](https://github.com/shepherd-pro/shepherd/pull/2881) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
+## Release (2024-06-21)
+
 
 
 #### :memo: Documentation
