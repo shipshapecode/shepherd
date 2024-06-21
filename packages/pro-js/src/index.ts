@@ -54,6 +54,18 @@ class ProTour extends Shepherd.Tour {
       );
     }
   }
+
+  /**
+   * Start the tour, if enabled
+   */
+  async start() {
+    // Check if the tour id is active or not
+    if (!(await ShepherdProInstance.isTourEnabled(this.options.id as string))) {
+      return;
+    }
+
+    super.start();
+  }
 }
 
 export class ShepherdPro extends ShepherdBase {
