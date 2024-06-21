@@ -1,32 +1,14 @@
 {
   "solution": {
     "@shepherdpro/pro-js": {
-      "impact": "patch",
-      "oldVersion": "1.0.0",
-      "newVersion": "1.0.1",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./packages/pro-js/package.json"
+      "oldVersion": "1.0.1"
     },
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "6.0.0",
-      "newVersion": "6.0.1",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on @shepherdpro/pro-js"
-        }
-      ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "oldVersion": "6.0.1"
     },
     "shepherd.js": {
       "oldVersion": "13.0.0"
     }
   },
-  "description": "## Release (2024-06-20)\n\n@shepherdpro/pro-js 1.0.1 (patch)\nreact-shepherd 6.0.1 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`\n  * [#2878](https://github.com/shepherd-pro/shepherd/pull/2878) 👷 Add prepack script to pro-js ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-06-21)\n\n\n\n#### :memo: Documentation\n* `shepherd-docs`, `landing`\n  * [#2880](https://github.com/shepherd-pro/shepherd/pull/2880) 📝 Add updated documentation for pro package and updated CDN links ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }

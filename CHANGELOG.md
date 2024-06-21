@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-06-21)
+
+
+
+#### :memo: Documentation
+* `shepherd-docs`, `landing`
+  * [#2880](https://github.com/shepherd-pro/shepherd/pull/2880) 📝 Add updated documentation for pro package and updated CDN links ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-06-20)
 
 @shepherdpro/pro-js 1.0.1 (patch)
