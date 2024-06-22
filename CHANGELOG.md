@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2024-06-22)
+
+@shepherdpro/pro-js 1.0.4 (patch)
+react-shepherd 6.0.4 (patch)
+
+#### :bug: Bug Fix
+* `@shepherdpro/pro-js`
+  * [#2887](https://github.com/shepherd-pro/shepherd/pull/2887) 🐛 Fix issue with object merge to push events to pro app ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-06-21)
 
 @shepherdpro/pro-js 1.0.3 (patch)

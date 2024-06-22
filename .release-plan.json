@@ -2,8 +2,8 @@
   "solution": {
     "@shepherdpro/pro-js": {
       "impact": "patch",
-      "oldVersion": "1.0.2",
-      "newVersion": "1.0.3",
+      "oldVersion": "1.0.3",
+      "newVersion": "1.0.4",
       "constraints": [
         {
           "impact": "patch",
@@ -14,16 +14,12 @@
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.0.2",
-      "newVersion": "6.0.3",
+      "oldVersion": "6.0.3",
+      "newVersion": "6.0.4",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @shepherdpro/pro-js"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
@@ -32,5 +28,5 @@
       "oldVersion": "13.0.0"
     }
   },
-  "description": "## Release (2024-06-21)\n\n@shepherdpro/pro-js 1.0.3 (patch)\nreact-shepherd 6.0.3 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`, `react-shepherd`\n  * [#2885](https://github.com/shepherd-pro/shepherd/pull/2885) 🐛 Fix missing tour active check ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-06-22)\n\n@shepherdpro/pro-js 1.0.4 (patch)\nreact-shepherd 6.0.4 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`\n  * [#2887](https://github.com/shepherd-pro/shepherd/pull/2887) 🐛 Fix issue with object merge to push events to pro app ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
