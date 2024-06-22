@@ -65,6 +65,7 @@ class ProTour extends Shepherd.Tour {
     }
 
     super.start();
+    ShepherdProInstance.activeTour = Shepherd.activeTour;
   }
 }
 
@@ -82,6 +83,7 @@ export class ShepherdPro extends ShepherdBase {
     super();
 
     this.Tour = ProTour;
+    this.Step = Shepherd.Step;
   }
 
   /**
@@ -156,4 +158,4 @@ export class ShepherdPro extends ShepherdBase {
 
 const ShepherdProInstance = new ShepherdPro();
 
-export default Object.assign(ShepherdProInstance, Shepherd) as ShepherdPro;
+export default ShepherdProInstance;
