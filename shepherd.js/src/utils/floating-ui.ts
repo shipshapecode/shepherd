@@ -191,7 +191,12 @@ export function getFloatingUIOptions(
     );
 
     if (arrowEl) {
-      options.middleware.push(arrow({ element: arrowEl }));
+      const hasEdgeAlignment =
+        attachToOptions?.on?.includes('-start') ||
+        attachToOptions?.on?.includes('-end');
+      options.middleware.push(
+        arrow({ element: arrowEl, padding: hasEdgeAlignment ? 4 : 0 })
+      );
     }
 
     options.placement = attachToOptions.on;
