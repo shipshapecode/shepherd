@@ -4,6 +4,18 @@ import DataRequest from '../src/DataRequest';
 
 global.fetch = vi.fn();
 
+const tourData = {
+  confirmCancel: false,
+  exitOnEsc: true,
+  id: 'clxw6cez30005qheo5w7s3gph',
+  isActive: true,
+  isAutoStart: false,
+  keyboardNavigation: true,
+  rules: [],
+  uniqueId: 'tour-1',
+  useModalOverlay: true
+};
+
 const windowProps = {
   document: {
     referrer: ''
@@ -69,7 +81,7 @@ describe('ShepherdPro', () => {
       json: () =>
         new Promise((resolve) =>
           resolve({
-            data: [{ uniqueId: 'tour-1', isActive: true }]
+            data: [tourData]
           })
         )
     });
@@ -95,7 +107,7 @@ describe('ShepherdPro', () => {
       json: () =>
         new Promise((resolve) =>
           resolve({
-            data: [{ uniqueId: 'tour-1', isActive: true }]
+            data: [tourData]
           })
         )
     });
@@ -105,18 +117,22 @@ describe('ShepherdPro', () => {
 
     await ShepherdPro.init('api_123');
 
-    new ShepherdPro.Tour({ defaultStepOptions, id: 'tour-1' });
+    new ShepherdPro.Tour({ defaultStepOptions, id: tourData.id });
 
-    expect(await ShepherdPro.isTourEnabled('tour-1')).toBe(true);
+    expect(await ShepherdPro.isTourEnabled(tourData.id)).toBe(true);
   });
 
   it('Shepherd.isTourEnabled is false when isActive is false', async () => {
+    const tourDataFalse = {
+      ...tourData,
+      isActive: false
+    };
     (fetch as Mock).mockResolvedValue({
       ok: true,
       json: () =>
         new Promise((resolve) =>
           resolve({
-            data: [{ uniqueId: 'tour-1', isActive: false }]
+            data: [tourDataFalse]
           })
         )
     });
@@ -126,9 +142,9 @@ describe('ShepherdPro', () => {
 
     await ShepherdPro.init('api_123');
 
-    new ShepherdPro.Tour({ defaultStepOptions, id: 'tour-1' });
+    new ShepherdPro.Tour({ defaultStepOptions, id: tourData.id });
 
-    expect(await ShepherdPro.isTourEnabled('tour-1')).toBe(false);
+    expect(await ShepherdPro.isTourEnabled(tourData.id)).toBe(false);
   });
 
   it('sends events and passes properties and context', async () => {

@@ -36,6 +36,42 @@ describe('DataRequest', () => {
     );
   });
 
+  it('can use the dataRequester to getTourState()', async () => {
+    const tourData = {
+      confirmCancel: false,
+      exitOnEsc: true,
+      id: 'clxw6cez30005qheo5w7s3gph',
+      isActive: true,
+      isAutoStart: false,
+      keyboardNavigation: true,
+      rules: [],
+      uniqueId: 'tour-1',
+      useModalOverlay: true
+    };
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [tourData]
+          })
+        )
+    });
+    const dataRequester = new DataRequest(
+      'apiKey_12345',
+      'https://shepherdpro.com',
+      { extra: 'stuff' }
+    );
+
+    expect(typeof dataRequester.getTourState).toBe('function');
+
+    await dataRequester.getTourState();
+
+    expect(
+      await dataRequester.tourStateDb?.get('tours', tourData.id)
+    ).toMatchObject(tourData);
+  });
+
   it('can use the dataRequester to sendEvents()', async () => {
     (fetch as Mock).mockResolvedValue({
       ok: true,
