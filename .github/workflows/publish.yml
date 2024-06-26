@@ -43,15 +43,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: wyvox/action-setup-pnpm@v3
         with:
-          node-version: 18
           # This creates an .npmrc that reads the NODE_AUTH_TOKEN environment variable
           registry-url: 'https://registry.npmjs.org'
-      
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 8
       - run: pnpm install --frozen-lockfile
       - name: npm publish
         run: pnpm release-plan publish
