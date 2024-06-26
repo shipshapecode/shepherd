@@ -41,7 +41,7 @@
     "start-server-and-test": "^2.0.3",
     "svelte": "^4.2.12",
     "svelte-jester": "^3.0.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
   "packageManager": "pnpm@8.15.4",
   "engines": {
