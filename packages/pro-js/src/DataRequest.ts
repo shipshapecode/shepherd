@@ -4,10 +4,29 @@ interface ActorResponse {
   data: Record<string, unknown>;
 }
 
+interface Rule {
+  value: RuleValue[];
+}
+interface RuleValue {
+  field: string;
+  operator: string;
+  value: string;
+}
+
 interface TourStateDb extends DBSchema {
   tours: {
     key: string;
-    value: { isActive: boolean; uniqueId: string };
+    value: {
+      id: string;
+      isActive: boolean;
+      isAutoStart: boolean;
+      confirmCancel: boolean;
+      exitOnEsc: boolean;
+      keyboardNavigation: boolean;
+      useModalOverlay: boolean;
+      rules: Rule[];
+      uniqueId: string;
+    };
   };
 }
 
@@ -50,7 +69,8 @@ class DataRequest {
       const response = await fetch(`${this.#apiPath}/api/v1/state`, {
         headers: {
           Authorization: `ApiKey ${this.#apiKey}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Shepherd-Properties': JSON.stringify(this.#properties)
         },
         method: 'GET'
       });
@@ -64,7 +84,7 @@ class DataRequest {
       this.tourStateDb = await openDB<TourStateDb>('TourState', 1, {
         upgrade(db) {
           db.createObjectStore('tours', {
-            keyPath: 'uniqueId'
+            keyPath: 'id'
           });
         }
       });

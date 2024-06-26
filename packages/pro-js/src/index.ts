@@ -8,8 +8,8 @@ interface Actor {
   actorId: number;
 }
 
-const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
-const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
+export const SHEPHERD_DEFAULT_API = 'https://shepherdpro.com' as const;
+export const SHEPHERD_USER_ID = 'shepherdPro:userId' as const;
 
 class ProTour extends Shepherd.Tour {
   static trackedEvents = ['active', 'cancel', 'complete', 'show'];
@@ -52,6 +52,8 @@ class ProTour extends Shepherd.Tour {
           dataRequester?.sendEvents({ data });
         })
       );
+
+      this.isTourAutoStart(this.options.id as string);
     }
   }
 
@@ -64,8 +66,24 @@ class ProTour extends Shepherd.Tour {
       return;
     }
 
-    super.start();
+    await super.start();
     ShepherdProInstance.activeTour = Shepherd.activeTour;
+  }
+
+  /**
+   * Checks if a given tour's rules are met
+   * @param tourId A string denoting the id of the tour
+   */
+  async isTourAutoStart(tourId: string) {
+    const { dataRequester } = ShepherdProInstance;
+    if (!dataRequester) return;
+
+    const tourState = await dataRequester.tourStateDb?.get('tours', tourId);
+
+    // result of parsed rules from the application
+    if (tourState?.isAutoStart) {
+      this.start();
+    }
   }
 }
 
@@ -107,14 +125,14 @@ export class ShepherdPro extends ShepherdBase {
     this.properties['context'] = getContext(window);
 
     if (this.apiKey) {
+      // Setup actor before first tour is loaded if none exists
+      const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
+      this.properties['actorId'] = shepherdProId;
       this.dataRequester = new DataRequest(
         this.apiKey,
         this.apiPath,
         this.properties
       );
-
-      // Setup actor before first tour is loaded if none exists
-      const shepherdProId = localStorage.getItem(SHEPHERD_USER_ID);
 
       const promises = [this.dataRequester.getTourState()];
 
