@@ -1,32 +1,49 @@
 {
   "solution": {
     "@shepherdpro/pro-js": {
-      "impact": "patch",
-      "oldVersion": "1.0.3",
-      "newVersion": "1.0.4",
+      "impact": "minor",
+      "oldVersion": "1.0.4",
+      "newVersion": "1.1.0",
       "constraints": [
         {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
       "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.0.3",
-      "newVersion": "6.0.4",
+      "oldVersion": "6.0.4",
+      "newVersion": "6.0.5",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on @shepherdpro/pro-js"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "oldVersion": "13.0.0"
+      "impact": "patch",
+      "oldVersion": "13.0.0",
+      "newVersion": "13.0.1",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-06-22)\n\n@shepherdpro/pro-js 1.0.4 (patch)\nreact-shepherd 6.0.4 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`\n  * [#2887](https://github.com/shepherd-pro/shepherd/pull/2887) 🐛 Fix issue with object merge to push events to pro app ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-06-28)\n\n@shepherdpro/pro-js 1.1.0 (minor)\nreact-shepherd 6.0.5 (patch)\nshepherd.js 13.0.1 (patch)\n\n#### :rocket: Enhancement\n* `@shepherdpro/pro-js`\n  * [#2895](https://github.com/shepherd-pro/shepherd/pull/2895) ✨ Add reading for isAutoStart value sent from app ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#2900](https://github.com/shepherd-pro/shepherd/pull/2900) 🐛 Add small padding to arrow if edge alignment is used ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* [#2898](https://github.com/shepherd-pro/shepherd/pull/2898) 👷 Fix changelog error on merges ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
