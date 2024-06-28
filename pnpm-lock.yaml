@@ -78,8 +78,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(prettier@3.1.1)(typescript@5.5.2)
       '@astrojs/starlight':
-        specifier: ^0.23.2
-        version: 0.23.4(astro@4.11.3)
+        specifier: ^0.24.4
+        version: 0.24.4(astro@4.11.3)
       '@astrojs/tailwind':
         specifier: ^5.1.0
         version: 5.1.0(astro@4.11.3)(tailwindcss@3.4.4)
@@ -94,7 +94,7 @@ importers:
         version: link:../shepherd.js
       starlight-typedoc:
         specifier: ^0.10.1
-        version: 0.10.1(@astrojs/starlight@0.23.4)(astro@4.11.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13)
+        version: 0.10.1(@astrojs/starlight@0.24.4)(astro@4.11.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13)
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.4
@@ -699,8 +699,8 @@ packages:
       zod: 3.23.8
     dev: false
 
-  /@astrojs/starlight@0.23.4(astro@4.11.3):
-    resolution: {integrity: sha512-EHsjFfnvv+m2bHGJCwFoCLrbW1kfCPnHaPIbqCTMW+NWU8xO/bwtz6MgK6ant5wqjf0DqUkwHY6Esn72kmc9jQ==}
+  /@astrojs/starlight@0.24.4(astro@4.11.3):
+    resolution: {integrity: sha512-rED8LPQwsXlgclfdHO+okUGcirof1prrxZLuKWp380xC/T7u2qQ5b1gnKqpM+92x+vhs8GYT7mHGKz9VctwdUg==}
     peerDependencies:
       astro: ^4.8.6
     dependencies:
@@ -715,7 +715,7 @@ packages:
       hast-util-from-html: 2.0.1
       hast-util-select: 6.0.2
       hast-util-to-string: 3.0.0
-      hastscript: 8.0.0
+      hastscript: 9.0.0
       mdast-util-directive: 3.0.0
       mdast-util-to-markdown: 2.1.0
       pagefind: 1.1.0
@@ -4186,7 +4186,6 @@ packages:
     resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
 
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
@@ -4222,7 +4221,7 @@ packages:
   /@types/sax@1.2.7:
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 20.14.9
     dev: false
 
   /@types/semver@7.5.8:
@@ -14562,7 +14561,7 @@ packages:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
     dev: true
 
-  /starlight-typedoc@0.10.1(@astrojs/starlight@0.23.4)(astro@4.11.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13):
+  /starlight-typedoc@0.10.1(@astrojs/starlight@0.24.4)(astro@4.11.3)(typedoc-plugin-markdown@4.0.0-next.55)(typedoc@0.25.13):
     resolution: {integrity: sha512-pcL7ZLODLXzPJAU5v6WFnP+SEk1JRC7ZBYlFoNIwnyFOKkDo+5pT37NoJs6cWwk6e2jN/fKjiSmgR/ylIyqhQw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
@@ -14571,7 +14570,7 @@ packages:
       typedoc: '>=0.25.0'
       typedoc-plugin-markdown: '>=4.0.0-next.45'
     dependencies:
-      '@astrojs/starlight': 0.23.4(astro@4.11.3)
+      '@astrojs/starlight': 0.24.4(astro@4.11.3)
       astro: 4.11.3(typescript@5.5.2)
       github-slugger: 2.0.0
       typedoc: 0.25.13(typescript@5.5.2)
@@ -15399,7 +15398,6 @@ packages:
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
-    dev: true
 
   /unherit@3.0.1:
     resolution: {integrity: sha512-akOOQ/Yln8a2sgcLj4U0Jmx0R5jpIg2IUyRrWOzmEbjBtGzBdHtSeFKgoEcoH4KYIG/Pb8GQ/BwtYm0GCq1Sqg==}
