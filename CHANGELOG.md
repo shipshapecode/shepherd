@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2024-06-28)
+
+@shepherdpro/pro-js 1.1.0 (minor)
+react-shepherd 6.0.5 (patch)
+shepherd.js 13.0.1 (patch)
+
+#### :rocket: Enhancement
+* `@shepherdpro/pro-js`
+  * [#2895](https://github.com/shepherd-pro/shepherd/pull/2895) ✨ Add reading for isAutoStart value sent from app ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#2900](https://github.com/shepherd-pro/shepherd/pull/2900) 🐛 Add small padding to arrow if edge alignment is used ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* [#2898](https://github.com/shepherd-pro/shepherd/pull/2898) 👷 Fix changelog error on merges ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-06-22)
 
 @shepherdpro/pro-js 1.0.4 (patch)
