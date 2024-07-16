@@ -1,7 +1,14 @@
 import Shepherd, { ShepherdBase } from 'shepherd.js';
-import type { TourOptions, EventOptions } from 'shepherd.js';
+import type {
+  Tour as ITour,
+  TourOptions,
+  EventOptions,
+  StepOptions,
+  StepOptionsButton
+} from 'shepherd.js';
 
 import DataRequest from './DataRequest';
+import type { StateResponse, ProStepOptionsButton } from './DataRequest';
 import { getContext } from './utils/context.ts';
 
 interface Actor {
@@ -88,7 +95,7 @@ class ProTour extends Shepherd.Tour {
 }
 
 export class ShepherdPro extends ShepherdBase {
-  // Shepherd Pro fields
+  loadedJourneys: StateResponse[] | undefined = undefined;
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
@@ -141,6 +148,12 @@ export class ShepherdPro extends ShepherdBase {
       }
 
       await Promise.all(promises);
+
+      const tourDbData: StateResponse[] | undefined =
+        await this.dataRequester.tourStateDb?.getAll('tours');
+      this.loadedJourneys = tourDbData;
+
+      return this;
     }
   }
 
@@ -171,6 +184,82 @@ export class ShepherdPro extends ShepherdBase {
     );
 
     return tourState?.isActive ?? true;
+  }
+
+  #makeButton(button: ProStepOptionsButton): StepOptionsButton {
+    const {
+      classes,
+      disabled,
+      label,
+      secondary,
+      text,
+      action: actionText
+    } = button;
+    const builtInButtonTypes = ['back', 'cancel', 'next'];
+
+    if (!actionText || !builtInButtonTypes.includes(actionText)) {
+      return button as unknown as StepOptionsButton;
+    }
+
+    const action = function () {
+      // @ts-ignore
+      (this as ITour)[actionText]();
+    };
+
+    return {
+      action,
+      classes,
+      disabled,
+      label,
+      secondary,
+      text
+    };
+  }
+
+  startJourney(journeyId: string) {
+    const journeyData = this.loadedJourneys?.find(
+      (loaded) => loaded.id?.includes(journeyId)
+    );
+
+    if (!journeyData) return;
+
+    journeyData.steps.forEach((step) => {
+      if (step.buttons) {
+        return ((step.buttons as StepOptionsButton[]) = step.buttons.map(
+          (button) => {
+            return this.#makeButton(button);
+          }
+        ));
+      }
+
+      return step;
+    });
+    const { id, steps, rules, useModalOverlay, ...defaultStepOptions } =
+      journeyData;
+    const tourOptions = {
+      id,
+      defaultStepOptions: {
+        scrollTo: {
+          behavior: 'smooth',
+          block: 'center'
+        },
+        cancelIcon: {
+          enabled: true
+        },
+        ...defaultStepOptions
+      },
+      useModalOverlay
+    } as TourOptions;
+
+    const journey = new this.Tour(tourOptions);
+    // Need to filter out returned null values so that they don't break defaultStepOptions
+    const filteredNullValuesFromSteps = (steps: StepOptions[]) =>
+      steps.map((obj) =>
+        Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
+      );
+    journey.addSteps(filteredNullValuesFromSteps(steps as StepOptions[]));
+
+    journey.start();
   }
 }
 
