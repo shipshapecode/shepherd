@@ -95,7 +95,6 @@ class ProTour extends Shepherd.Tour {
 }
 
 export class ShepherdPro extends ShepherdBase {
-  loadedJourneys: StateResponse[] | undefined = undefined;
   apiKey?: string;
   apiPath?: string;
   dataRequester?: DataRequest;
@@ -148,10 +147,6 @@ export class ShepherdPro extends ShepherdBase {
       }
 
       await Promise.all(promises);
-
-      const tourDbData: StateResponse[] | undefined =
-        await this.dataRequester.tourStateDb?.getAll('tours');
-      this.loadedJourneys = tourDbData;
 
       return this;
     }
@@ -216,10 +211,9 @@ export class ShepherdPro extends ShepherdBase {
     };
   }
 
-  startJourney(journeyId: string) {
-    const journeyData = this.loadedJourneys?.find(
-      (loaded) => loaded.id?.includes(journeyId)
-    );
+  async startJourney(journeyId: string) {
+    const journeyData: StateResponse | undefined =
+      await this.dataRequester?.tourStateDb?.get('tours', journeyId);
 
     if (!journeyData) return;
 
