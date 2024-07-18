@@ -73,8 +73,8 @@ class ProTour extends Shepherd.Tour {
       return;
     }
 
+    ShepherdProInstance.activeTour = this;
     await super.start();
-    ShepherdProInstance.activeTour = Shepherd.activeTour;
   }
 
   /**
@@ -253,7 +253,9 @@ export class ShepherdPro extends ShepherdBase {
       );
     journey.addSteps(filteredNullValuesFromSteps(steps as StepOptions[]));
 
-    journey.start();
+    await journey.start();
+
+    return Promise.resolve(journey);
   }
 }
 

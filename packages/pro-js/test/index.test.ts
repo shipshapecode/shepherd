@@ -12,6 +12,7 @@ const tourData = {
   isAutoStart: false,
   keyboardNavigation: true,
   rules: [],
+  steps: [],
   uniqueId: 'tour-1',
   useModalOverlay: true
 };
@@ -64,16 +65,25 @@ describe('ShepherdPro', () => {
     );
   });
 
-  // it.skip('adds the event listeners expected', () => {
-  //   ShepherdPro.init('api_123');
+  it('adds the event listeners expected', () => {
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [tourData]
+          })
+        )
+    });
+    const tourShowMock = vi.spyOn(ShepherdPro.Tour.prototype, 'on');
+    ShepherdPro.init('api_123');
 
-  //   expect(ShepherdPro.trigger).to.be.a('function');
+    const journey = new ShepherdPro.Tour({});
+    journey.trigger('show', journey);
 
-  //   ShepherdPro.trigger('show');
-
-  //   expect(consoleMock).toHaveBeenCalledOnce();
-  //   expect(consoleMock).toHaveBeenLastCalledWith('Event triggered: show');
-  // });
+    expect(journey.trigger).to.be.a('function');
+    expect(tourShowMock).toHaveBeenCalled();
+  });
 
   it('sets the userId', async () => {
     (fetch as Mock).mockResolvedValue({
@@ -179,5 +189,52 @@ describe('ShepherdPro', () => {
     expect(dataRequesterEventMock).toHaveBeenCalled();
 
     windowSpy.mockRestore();
+  });
+
+  it('converts button type strings to methods', async () => {
+    const tourWithButtons = {
+      ...tourData,
+      steps: [
+        {
+          buttons: [
+            {
+              action: 'next'
+            }
+          ]
+        }
+      ]
+    };
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [tourWithButtons]
+          })
+        )
+    });
+
+    await ShepherdPro.init('api_123');
+    const journey = await ShepherdPro.startJourney('clxw6cez30005qheo5w7s3gph');
+    const button = journey?.steps[0].options.buttons?.[0];
+    expect(button?.action).to.be.a('function');
+  });
+
+  it('starts a journey in indexDB by passed ID', async () => {
+    (fetch as Mock).mockResolvedValue({
+      ok: true,
+      json: () =>
+        new Promise((resolve) =>
+          resolve({
+            data: [tourData]
+          })
+        )
+    });
+
+    await ShepherdPro.init('api_123');
+    await ShepherdPro.startJourney('clxw6cez30005qheo5w7s3gph');
+    const proId = ShepherdPro.activeTour?.id?.split('--')[1];
+
+    expect(proId).toEqual(tourData.id);
   });
 });
