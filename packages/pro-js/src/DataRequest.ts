@@ -1,4 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
+import type { StepOptions, StepOptionsButton } from 'shepherd.js';
 
 interface ActorResponse {
   data: Record<string, unknown>;
@@ -13,20 +14,31 @@ interface RuleValue {
   value: string;
 }
 
+export type StateResponse = {
+  id: string;
+  isActive: boolean;
+  isAutoStart: boolean;
+  confirmCancel: boolean;
+  exitOnEsc: boolean;
+  keyboardNavigation: boolean;
+  useModalOverlay: boolean;
+  rules: Rule[];
+  steps: ProStepOptions[];
+  uniqueId: string;
+};
+
+export interface ProStepOptions extends Omit<StepOptions, 'buttons'> {
+  buttons?: ProStepOptionsButton[];
+}
+export interface ProStepOptionsButton
+  extends Omit<StepOptionsButton, 'action'> {
+  action?: string;
+}
+
 interface TourStateDb extends DBSchema {
   tours: {
     key: string;
-    value: {
-      id: string;
-      isActive: boolean;
-      isAutoStart: boolean;
-      confirmCancel: boolean;
-      exitOnEsc: boolean;
-      keyboardNavigation: boolean;
-      useModalOverlay: boolean;
-      rules: Rule[];
-      uniqueId: string;
-    };
+    value: StateResponse;
   };
 }
 

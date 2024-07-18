@@ -45,6 +45,7 @@ describe('DataRequest', () => {
       isAutoStart: false,
       keyboardNavigation: true,
       rules: [],
+      steps: [],
       uniqueId: 'tour-1',
       useModalOverlay: true
     };
