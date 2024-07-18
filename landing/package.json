@@ -11,18 +11,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
+    "@astrojs/check": "^0.8.2",
     "@astrojs/mdx": "^3.1.2",
-    "@astrojs/rss": "^4.0.1",
-    "@astrojs/sitemap": "^3.1.2",
-    "@astrojs/tailwind": "^5.0.3",
-    "astro": "^4.8.4",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.12.0",
     "shepherd.js": "workspace:*",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.3"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",
-    "sharp": "^0.33.3"
+    "sharp": "^0.33.4"
   }
 }
