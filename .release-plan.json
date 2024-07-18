@@ -2,24 +2,20 @@
   "solution": {
     "@shepherdpro/pro-js": {
       "impact": "minor",
-      "oldVersion": "1.0.4",
-      "newVersion": "1.1.0",
+      "oldVersion": "1.1.0",
+      "newVersion": "1.2.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
       "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.0.4",
-      "newVersion": "6.0.5",
+      "oldVersion": "6.0.5",
+      "newVersion": "6.0.6",
       "constraints": [
         {
           "impact": "patch",
@@ -27,23 +23,14 @@
         },
         {
           "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "13.0.0",
-      "newVersion": "13.0.1",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "13.0.1"
     }
   },
-  "description": "## Release (2024-06-28)\n\n@shepherdpro/pro-js 1.1.0 (minor)\nreact-shepherd 6.0.5 (patch)\nshepherd.js 13.0.1 (patch)\n\n#### :rocket: Enhancement\n* `@shepherdpro/pro-js`\n  * [#2895](https://github.com/shepherd-pro/shepherd/pull/2895) ✨ Add reading for isAutoStart value sent from app ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#2900](https://github.com/shepherd-pro/shepherd/pull/2900) 🐛 Add small padding to arrow if edge alignment is used ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* [#2898](https://github.com/shepherd-pro/shepherd/pull/2898) 👷 Fix changelog error on merges ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-07-18)\n\n@shepherdpro/pro-js 1.2.0 (minor)\nreact-shepherd 6.0.6 (patch)\n\n#### :rocket: Enhancement\n* `@shepherdpro/pro-js`\n  * [#2911](https://github.com/shepherd-pro/shepherd/pull/2911) ✨ Pro: Add functions to pro for taking config from API ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `shepherd-docs`, `landing`\n  * [#2912](https://github.com/shepherd-pro/shepherd/pull/2912) ⬆ Update of Astro to v4.12 and related deps upgrades ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `react-shepherd`\n  * [#2882](https://github.com/shepherd-pro/shepherd/pull/2882) ➖ Remove release-it package and configs ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
