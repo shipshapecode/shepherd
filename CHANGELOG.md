@@ -1,5 +1,23 @@
 # Changelog
 
+## Release (2024-07-18)
+
+@shepherdpro/pro-js 1.2.0 (minor)
+react-shepherd 6.0.6 (patch)
+
+#### :rocket: Enhancement
+* `@shepherdpro/pro-js`
+  * [#2911](https://github.com/shepherd-pro/shepherd/pull/2911) ✨ Pro: Add functions to pro for taking config from API ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* `shepherd-docs`, `landing`
+  * [#2912](https://github.com/shepherd-pro/shepherd/pull/2912) ⬆ Update of Astro to v4.12 and related deps upgrades ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `react-shepherd`
+  * [#2882](https://github.com/shepherd-pro/shepherd/pull/2882) ➖ Remove release-it package and configs ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-06-28)
 
 @shepherdpro/pro-js 1.1.0 (minor)
