@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2024-07-22)
+
+@shepherdpro/pro-js 1.2.1 (patch)
+react-shepherd 6.0.7 (patch)
+
+#### :bug: Bug Fix
+* `@shepherdpro/pro-js`, `react-shepherd`
+  * [#2920](https://github.com/shepherd-pro/shepherd/pull/2920) 👷 Fix package for correct release plan build ordering ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-07-18)
 
 @shepherdpro/pro-js 1.2.0 (minor)
