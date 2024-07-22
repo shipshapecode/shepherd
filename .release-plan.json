@@ -1,21 +1,21 @@
 {
   "solution": {
     "@shepherdpro/pro-js": {
-      "impact": "minor",
-      "oldVersion": "1.1.0",
-      "newVersion": "1.2.0",
+      "impact": "patch",
+      "oldVersion": "1.2.0",
+      "newVersion": "1.2.1",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.0.5",
-      "newVersion": "6.0.6",
+      "oldVersion": "6.0.6",
+      "newVersion": "6.0.7",
       "constraints": [
         {
           "impact": "patch",
@@ -23,7 +23,7 @@
         },
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
@@ -32,5 +32,5 @@
       "oldVersion": "13.0.1"
     }
   },
-  "description": "## Release (2024-07-18)\n\n@shepherdpro/pro-js 1.2.0 (minor)\nreact-shepherd 6.0.6 (patch)\n\n#### :rocket: Enhancement\n* `@shepherdpro/pro-js`\n  * [#2911](https://github.com/shepherd-pro/shepherd/pull/2911) ✨ Pro: Add functions to pro for taking config from API ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `shepherd-docs`, `landing`\n  * [#2912](https://github.com/shepherd-pro/shepherd/pull/2912) ⬆ Update of Astro to v4.12 and related deps upgrades ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `react-shepherd`\n  * [#2882](https://github.com/shepherd-pro/shepherd/pull/2882) ➖ Remove release-it package and configs ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-07-22)\n\n@shepherdpro/pro-js 1.2.1 (patch)\nreact-shepherd 6.0.7 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`, `react-shepherd`\n  * [#2920](https://github.com/shepherd-pro/shepherd/pull/2920) 👷 Fix package for correct release plan build ordering ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
