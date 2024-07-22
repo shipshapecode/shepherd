@@ -4,4 +4,4 @@ packages:
   - "packages/*"
   - "test/cypress"
   - "test/unit"
-  - 'docs-src'
+  - "docs-src"

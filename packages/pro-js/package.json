@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "prepack": "pnpm -F shepherd.js build && pnpm build",
+    "prepack": "pnpm build",
     "test:ci": "vitest --run",
     "test:dev": "vitest"
   },

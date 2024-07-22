@@ -13,6 +13,7 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
+    "prepare": "pnpm build",
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
