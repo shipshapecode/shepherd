@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2024-07-24)
+
+@shepherdpro/pro-js 1.2.2 (patch)
+react-shepherd 6.0.8 (patch)
+shepherd.js 13.0.2 (patch)
+
+#### :house: Internal
+* `@shepherdpro/pro-js`, `react-shepherd`, `shepherd.js`
+  * [#2922](https://github.com/shepherd-pro/shepherd/pull/2922) 👷 Add publish config and scarf paackage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-07-22)
 
 @shepherdpro/pro-js 1.2.1 (patch)

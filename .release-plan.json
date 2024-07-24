@@ -2,20 +2,24 @@
   "solution": {
     "@shepherdpro/pro-js": {
       "impact": "patch",
-      "oldVersion": "1.2.0",
-      "newVersion": "1.2.1",
+      "oldVersion": "1.2.1",
+      "newVersion": "1.2.2",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
       "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.0.6",
-      "newVersion": "6.0.7",
+      "oldVersion": "6.0.7",
+      "newVersion": "6.0.8",
       "constraints": [
         {
           "impact": "patch",
@@ -23,14 +27,27 @@
         },
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
+        },
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on shepherd.js"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "oldVersion": "13.0.1"
+      "impact": "patch",
+      "oldVersion": "13.0.1",
+      "newVersion": "13.0.2",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-07-22)\n\n@shepherdpro/pro-js 1.2.1 (patch)\nreact-shepherd 6.0.7 (patch)\n\n#### :bug: Bug Fix\n* `@shepherdpro/pro-js`, `react-shepherd`\n  * [#2920](https://github.com/shepherd-pro/shepherd/pull/2920) 👷 Fix package for correct release plan build ordering ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2024-07-24)\n\n@shepherdpro/pro-js 1.2.2 (patch)\nreact-shepherd 6.0.8 (patch)\nshepherd.js 13.0.2 (patch)\n\n#### :house: Internal\n* `@shepherdpro/pro-js`, `react-shepherd`, `shepherd.js`\n  * [#2922](https://github.com/shepherd-pro/shepherd/pull/2922) 👷 Add publish config and scarf paackage ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }
