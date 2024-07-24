@@ -2,6 +2,16 @@
 
 ## Release (2024-07-24)
 
+
+
+#### :house: Internal
+* [#2924](https://github.com/shepherd-pro/shepherd/pull/2924) Update publish.yml to have node-registry-url ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
+## Release (2024-07-24)
+
 @shepherdpro/pro-js 1.2.2 (patch)
 react-shepherd 6.0.8 (patch)
 shepherd.js 13.0.2 (patch)
