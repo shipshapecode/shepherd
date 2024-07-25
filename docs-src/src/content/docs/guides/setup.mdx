@@ -1,6 +1,6 @@
 ---
 title: Using Shepherd Pro
-description: A guide to using the Pro feature of Shepherd.
+description: A guide to using Shepherd Pro
 ---
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
@@ -35,31 +35,36 @@ First, you'll need to install the Pro package:
 </Tabs>
 
 
-Before you create a new `Tour` instance, add your key via the `init` method:
+To get started, add your key via the `init` method:
 
 ```javascript
 import Shepherd from '@shepherdpro/pro-js';
 
 Shepherd.init({YOUR API KEY});
-
-const journey = new Shepherd.Tour({
-  ...
-});
 ```
 
-The second thing needed is to create an instance in the Pro portal, which will give you an ID to add to the tour.
+Then, if you've created journeys in the application and added targeting that is 
+met, a journey will be shown to your user. Otherwise, you can also still programmatically 
+start a journey in your application by using the `startJourney` method and passing the ID
+of the journey. 
 
 ```javascript
-const journey = new Shepherd.Tour({
-  id: 'custom-123',
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true
-    },
-    classes: 'my-custom-class'
-  },
-  useModalOverlay: true
-});
+Shepherd.`startJourney`('custom-UUID');
 ```
 
-Then you just need to add steps to the journey instance and trigger the start method to begin. Shepherd Pro will take care of the rest and capture events in the portal.
+### startJourney()
+
+> **startJourney**(`id`): `Promise`\<`Tour | undefined`\>
+
+Start the journey by ID, if found
+
+#### Parameters
+
+• **id**: `string`
+
+#### Returns
+
+`Promise`\<`Tour | undefined`\>
+
+
+***
