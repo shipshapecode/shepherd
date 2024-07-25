@@ -58,7 +58,7 @@ describe('<ShepherdTour />', () => {
       );
     };
     const TestApp = () => (
-      <ShepherdJourneyProvider apiKey={'sh_thisIsAnAmazingKey123'}>
+      <ShepherdJourneyProvider>
         <Button />
       </ShepherdJourneyProvider>
     );
