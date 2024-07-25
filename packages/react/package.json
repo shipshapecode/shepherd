@@ -30,7 +30,6 @@
     "test:dev": "vitest"
   },
   "dependencies": {
-    "@shepherdpro/pro-js": "workspace:*",
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
