@@ -1,14 +1,32 @@
 {
   "solution": {
     "@shepherdpro/pro-js": {
-      "oldVersion": "1.2.2"
+      "impact": "minor",
+      "oldVersion": "1.2.2",
+      "newVersion": "1.3.0",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        }
+      ],
+      "pkgJSONPath": "./packages/pro-js/package.json"
     },
     "react-shepherd": {
-      "oldVersion": "6.0.8"
+      "impact": "minor",
+      "oldVersion": "6.0.8",
+      "newVersion": "6.1.0",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        }
+      ],
+      "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
       "oldVersion": "13.0.2"
     }
   },
-  "description": "## Release (2024-07-24)\n\n\n\n#### :house: Internal\n* [#2924](https://github.com/shepherd-pro/shepherd/pull/2924) Update publish.yml to have node-registry-url ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 1\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2024-07-25)\n\n@shepherdpro/pro-js 1.3.0 (minor)\nreact-shepherd 6.1.0 (minor)\n\n#### :rocket: Enhancement\n* `@shepherdpro/pro-js`, `react-shepherd`\n  * [#2929](https://github.com/shepherd-pro/shepherd/pull/2929) ➖ React: Remove extra pro specific setup ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :memo: Documentation\n* `shepherd-docs`\n  * [#2928](https://github.com/shepherd-pro/shepherd/pull/2928) 📝 Docs updates for pro beta setup/usage ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `shepherd-docs`\n  * [#2928](https://github.com/shepherd-pro/shepherd/pull/2928) 📝 Docs updates for pro beta setup/usage ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* Other\n  * [#2925](https://github.com/shepherd-pro/shepherd/pull/2925) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#2924](https://github.com/shepherd-pro/shepherd/pull/2924) Update publish.yml to have node-registry-url ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 3\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }

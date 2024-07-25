@@ -1,5 +1,30 @@
 # Changelog
 
+## Release (2024-07-25)
+
+@shepherdpro/pro-js 1.3.0 (minor)
+react-shepherd 6.1.0 (minor)
+
+#### :rocket: Enhancement
+* `@shepherdpro/pro-js`, `react-shepherd`
+  * [#2929](https://github.com/shepherd-pro/shepherd/pull/2929) ➖ React: Remove extra pro specific setup ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* `shepherd-docs`
+  * [#2928](https://github.com/shepherd-pro/shepherd/pull/2928) 📝 Docs updates for pro beta setup/usage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* `shepherd-docs`
+  * [#2928](https://github.com/shepherd-pro/shepherd/pull/2928) 📝 Docs updates for pro beta setup/usage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* Other
+  * [#2925](https://github.com/shepherd-pro/shepherd/pull/2925) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#2924](https://github.com/shepherd-pro/shepherd/pull/2924) Update publish.yml to have node-registry-url ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 3
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
 ## Release (2024-07-24)
 
 
