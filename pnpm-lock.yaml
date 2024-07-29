@@ -66,8 +66,8 @@ importers:
   docs-src:
     dependencies:
       '@astrojs/check':
-        specifier: ^0.8.2
-        version: 0.8.2(prettier@3.3.3)(typescript@5.5.4)
+        specifier: ^0.8.3
+        version: 0.8.3(prettier@3.3.3)(typescript@5.5.4)
       '@astrojs/starlight':
         specifier: ^0.25.1
         version: 0.25.2(astro@4.12.2)
@@ -106,8 +106,8 @@ importers:
   landing:
     dependencies:
       '@astrojs/check':
-        specifier: ^0.8.2
-        version: 0.8.2(prettier@3.3.3)(typescript@5.5.4)
+        specifier: ^0.8.3
+        version: 0.8.3(prettier@3.3.3)(typescript@5.5.4)
       '@astrojs/mdx':
         specifier: ^3.1.2
         version: 3.1.3(astro@4.12.2)
@@ -508,13 +508,13 @@ packages:
       validate-npm-package-name: 5.0.1
     dev: true
 
-  /@astrojs/check@0.8.2(prettier@3.3.3)(typescript@5.5.4):
-    resolution: {integrity: sha512-L0V9dGb2PGvK9Mf3kby99Y+qm7EqxaC9tN1MVCvaqp/3pPPZBadR4XAySHipxXqQsxwJS25WQow8/1kMl1e25g==}
+  /@astrojs/check@0.8.3(prettier@3.3.3)(typescript@5.5.4):
+    resolution: {integrity: sha512-ajcSe+ezX5jCc3dreQlWzbknzXgSGnDETNe3C1mawUOtGpO4t5z2YGaD0y+wzB84lmgPWaWZa0fKSPwLq/wUHw==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
     dependencies:
-      '@astrojs/language-server': 2.12.1(prettier@3.3.3)(typescript@5.5.4)
+      '@astrojs/language-server': 2.12.8(prettier@3.3.3)(typescript@5.5.4)
       chokidar: 3.6.0
       fast-glob: 3.3.2
       kleur: 4.1.5
@@ -533,8 +533,8 @@ packages:
     resolution: {integrity: sha512-bMf9jFihO8YP940uD70SI/RDzIhUHJAolWVcO1v5PUivxGKvfLZTLTVVxEYzGYyPsA3ivdLNqMnL5VgmQySa+g==}
     dev: false
 
-  /@astrojs/language-server@2.12.1(prettier@3.3.3)(typescript@5.5.4):
-    resolution: {integrity: sha512-CCibE6XwSmrZEKlPDr48LZJN7NWxOurOJK1yOzqZFMNV8Y6DIqF6s1e60gbNNHMZkthWYBNTPno4Ni/XyviinQ==}
+  /@astrojs/language-server@2.12.8(prettier@3.3.3)(typescript@5.5.4):
+    resolution: {integrity: sha512-aUppjqbCdFkd2Cdr8tDtd9id7lAZAmpwpYTQrOm69z8P4NaGUE/ksMIhd0Q99zXfSBjDVC7HlxSjPg8Y7xakfg==}
     hasBin: true
     peerDependencies:
       prettier: ^3.0.0
