@@ -4,7 +4,6 @@ import sitemap from '@astrojs/sitemap';
 import storyblok from '@storyblok/astro';
 import tailwind from '@astrojs/tailwind';
 import { loadEnv } from 'vite';
-import basicSsl from '@vitejs/plugin-basic-ssl';
 
 const { STORYBLOK_TOKEN } = loadEnv(process.env.NODE_ENV, process.cwd(), '');
 
@@ -26,13 +25,4 @@ export default defineConfig({
     }),
     tailwind()
   ],
-  // vite: {
-  //   plugins: [basicSsl()],
-  //   server: {
-  //     https: true
-  //   }
-  // }
-  // redirects: {
-  //   '/blog': '/'
-  // }
 });
