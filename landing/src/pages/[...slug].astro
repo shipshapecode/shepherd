@@ -1,0 +1,46 @@
+---
+import { useStoryblokApi } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import { Image } from 'astro:assets';
+import BlogPost from '@layouts/BlogPost.astro';
+import Base from '@layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const storyblokApi = useStoryblokApi();
+
+  const links = await storyblokApi.getAll('cdn/links', {
+    version: 'published'
+  });
+
+  return links
+    .filter((link) => !link.is_folder)
+    .map((link) => {
+      return {
+        params: {
+          slug: link.slug === 'home' ? undefined : link.slug
+        }
+      };
+    });
+}
+
+const { slug } = Astro.params;
+
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get(
+  `cdn/stories/${slug === undefined ? 'home' : slug}`,
+  {
+    version: 'published',
+    resolve_relations: ['all-articles.articles']
+  }
+);
+
+const story = data.story;
+---
+
+<BlogPost {...story}>
+  <div class="section flex flex-wrap justify-center">
+    <div class="max-w-4xl w-full">
+      <StoryblokComponent blok={story.content} />
+    </div>
+  </div>
+</BlogPost>
