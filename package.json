@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "prepare": "pnpm -F shepherd.js build",
-    "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' build",
+    "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
