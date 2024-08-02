@@ -21,6 +21,7 @@ jobs:
         run: pnpm -F shepherd.js build
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: |
-          flyctl deploy --config landing/fly.toml --dockerfile landing/Dockerfile --build-secret PUBLIC_SHEPHERD_PUBLIC_KEY=${{ secrets.PUBLIC_SHEPHERD_PUBLIC_KEY }}
+          flyctl deploy --config landing/fly.toml --dockerfile landing/Dockerfile --build-secret STORYBLOK_TOKEN=${{ secrets.STORYBLOK_TOKEN }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          STORYBLOK_TOKEN: ${{ secrets.STORYBLOK_TOKEN }}
