@@ -1,0 +1,53 @@
+---
+import { storyblokEditable, useStoryblokApi } from '@storyblok/astro';
+import FormattedDate from '@components/FormattedDate.astro';
+
+type ArticleContent = {
+  slug: String;
+  title: String;
+};
+
+export type Article = {
+  content: ArticleContent;
+  created_at: Date;
+  slug: String;
+};
+
+const { blok } = Astro.props;
+
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get(`cdn/stories`, {
+  version: 'draft', // or 'published'
+  starts_with: 'blog/',
+  is_startpage: false
+});
+
+const articles = data.stories;
+---
+
+<ul class="list-square text-left" {...storyblokEditable(blok)}>
+  {
+    articles?.length &&
+      articles.map((article: Article) => {
+        article.content.slug = article.slug;
+        const created = new Date(article.created_at);
+        return (
+          <li class="grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-3 md:gap-2 items-start">
+            <div class="before:float-left before:leading-7 before:text-red-300 before:text-sm before:mr-2 before:content-['>>']">
+              <a
+                href={`/blog/${article.slug}`}
+                class="unset hover:text-navy-light"
+              >
+                <h4 class="font-bold font-title">{article.content.title}</h4>
+              </a>
+            </div>
+            <div class="text-text-muted text-md italic">
+              <time datetime={created.toISOString()}>
+                <FormattedDate date={created} />
+              </time>
+            </div>
+          </li>
+        );
+      })
+  }
+</ul>

@@ -1,12 +1,28 @@
 ---
+import { useStoryblokApi } from '@storyblok/astro';
 import { getCollection } from 'astro:content';
 import MainPage from '@layouts/MainPage.astro';
 
-import Base from '@layouts/Base.astro';
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import { SITE_TITLE } from '../consts';
+import AllArticles from '@storyblok/AllArticles.astro';
 import FormattedDate from '@components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+  const storyblokApi = useStoryblokApi();
+
+  const links = await storyblokApi.getAll('cdn/links', {
+    version: 'published'
+  });
+
+  return links
+    .filter((link) => !link.is_folder)
+    .map((link) => {
+      return {
+        params: {
+          slug: link.slug === 'home' ? undefined : link.slug
+        }
+      };
+    });
+}
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -15,13 +31,14 @@ const posts = (await getCollection('blog')).sort(
 
 <MainPage>
   <section class="my-10 text-2xl w-full" slot="content">
+    <AllArticles />
     <ul class="list-square text-left">
       {
         posts.map((post) => (
           <li class="grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-3 md:gap-2 items-start">
             <div class="before:float-left before:leading-7 before:text-red-300 before:text-sm before:mr-2 before:content-['>>']">
               <a
-                href={`/blog/${post.slug}`}
+                href={`/old-blog/${post.slug}`}
                 class="unset hover:text-navy-light"
               >
                 <h4 class="font-bold font-title">{post.data.title}</h4>

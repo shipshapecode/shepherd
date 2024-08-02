@@ -1,0 +1,28 @@
+---
+import { storyblokEditable, renderRichText } from '@storyblok/astro';
+
+const { blok } = Astro.props;
+const renderedRichText = renderRichText(blok.content);
+---
+
+<div class="container mx-auto mb-12" {...storyblokEditable(blok)}>
+  <h1 class="font-heading m-auto max-w-3xl my-8 text-5xl" itemprop="headline">
+    {blok.title}
+  </h1>
+  <figure>
+    <img
+      class="w-full h-[360px] lg:h-[450px] object-cover"
+      alt={blok.image.alt}
+      src={`${blok.image.filename}/m/1600x0`}
+    />
+
+    <figcaption class="italic mb-12 text-gray-700">
+      {blok.image.title}
+    </figcaption>
+  </figure>
+
+  <div
+    class="prose max-w-none m-auto prose-headings:font-heading prose-headings:text-navy prose-p:font-body prose-p:text-gray-600 md:prose-lg lg:prose-xl"
+    set:html={renderedRichText}
+  />
+</div>

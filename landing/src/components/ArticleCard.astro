@@ -1,0 +1,26 @@
+---
+const { article } = Astro.props;
+---
+
+<article class="column feature bg-gray-100 rounded">
+  <img
+    class="object-cover object-center w-full lg:h-48 md:h-36 rounded"
+    src={`${article.image.filename}/m/360x240`}
+    alt={article.image.alt}
+  />
+  <div class="p-4">
+    <h1 class="text-2xl font-semibold lg:text-3xl">
+      {article.title}
+    </h1>
+    <p class="leading-relaxed text-gray-700 line-clamp-2 my-4">
+      {article.teaser}
+    </p>
+    <a
+      href={`/blog/${article.slug}`}
+      class="font-semibold text-blue-600 hover:underline"
+      title="read more"
+    >
+      Read More »
+    </a>
+  </div>
+</article>

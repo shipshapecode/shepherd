@@ -13,8 +13,8 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "scripts": {
-    "prepare": "pnpm build",
-    "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' build",
+    "prepare": "pnpm -F shepherd.js build",
+    "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
     "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
@@ -49,7 +49,7 @@
     "svelte": "^4.2.12",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@9.2.0",
   "engines": {
     "node": "18.* || >= 20"
   }

@@ -90,7 +90,7 @@
     "svelte2tsx": "^0.7.8",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@9.2.0",
   "engines": {
     "node": "18.* || >= 20"
   },

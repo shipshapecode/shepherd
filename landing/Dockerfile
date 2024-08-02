@@ -35,8 +35,8 @@ COPY --link ./landing ./landing
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build application
-RUN --mount=type=secret,id=PUBLIC_SHEPHERD_PUBLIC_KEY \
-    SHEPHERD_PUBLIC_KEY="$(cat /run/secrets/PUBLIC_SHEPHERD_PUBLIC_KEY)" \
+RUN --mount=type=secret,id=STORYBLOK_TOKEN \
+    STORYBLOK_TOKEN="$(cat /run/secrets/STORYBLOK_TOKEN)" \
     pnpm -F landing run build
 
 # Remove development dependencies
