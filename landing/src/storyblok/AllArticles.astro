@@ -2,6 +2,17 @@
 import { storyblokEditable, useStoryblokApi } from '@storyblok/astro';
 import FormattedDate from '@components/FormattedDate.astro';
 
+type ArticleContent = {
+  slug: String;
+  title: String;
+};
+
+export type Article = {
+  content: ArticleContent;
+  created_at: Date;
+  slug: String;
+};
+
 const { blok } = Astro.props;
 
 const storyblokApi = useStoryblokApi();
@@ -17,7 +28,7 @@ const articles = data.stories;
 <ul class="list-square text-left" {...storyblokEditable(blok)}>
   {
     articles?.length &&
-      articles.map((article) => {
+      articles.map((article: Article) => {
         article.content.slug = article.slug;
         const created = new Date(article.created_at);
         return (

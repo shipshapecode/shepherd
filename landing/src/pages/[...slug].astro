@@ -1,9 +1,7 @@
 ---
 import { useStoryblokApi } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
-import { Image } from 'astro:assets';
 import BlogPost from '@layouts/BlogPost.astro';
-import Base from '@layouts/Base.astro';
 
 export async function getStaticPaths() {
   const storyblokApi = useStoryblokApi();
