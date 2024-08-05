@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2024-08-05)
+
+@shepherdpro/pro-js 1.3.1 (patch)
+react-shepherd 6.1.1 (patch)
+shepherd.js 13.0.3 (patch)
+
+#### :house: Internal
+* `shepherd-docs`, `landing`
+  * [#2944](https://github.com/shepherd-pro/shepherd/pull/2944) 🐛 Fix pnpm version in Dockerfiles ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`, `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#2938](https://github.com/shepherd-pro/shepherd/pull/2938) ✨ Landing: Add storyblok CMS ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2024-07-25)
 
 @shepherdpro/pro-js 1.3.0 (minor)
