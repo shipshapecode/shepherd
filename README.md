@@ -55,12 +55,11 @@ See Shepherd Live on our docs website by clicking on the image:
 
 # Using Shepherd
 
-### Shepherd Pro hosted SaaS (Alpha)
+### Shepherd Pro hosted SaaS
 
 You can try our hosted version for free at [https://shepherdpro.com/](https://shepherdpro.com)
 
 The Entire Shepherd Service that powers Shepherd Pro is the newest iteration of Shepherd and includes the features of Shepherd Pro. 
-You can set that up on your own infrastructure by using our Docker File, located [here](https://github.com/shepherd-pro/shepherd/blob/main/app/Dockerfile).
 
 
 ### Shepherd Library (MIT License)
