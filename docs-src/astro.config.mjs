@@ -59,19 +59,19 @@ export default defineConfig({
             }
           ]
         },
-        {
-          label: 'Shepherd Pro',
-          items: [
-            {
-              label: 'Setup Guide',
-              link: '/guides/setup/'
-            },
-            {
-              label: 'Analytics',
-              link: '/guides/analytics/'
-            }
-          ]
-        },
+        // {
+        //   label: 'Shepherd Pro',
+        //   items: [
+        //     {
+        //       label: 'Setup Guide',
+        //       link: '/guides/setup/'
+        //     },
+        //     {
+        //       label: 'Analytics',
+        //       link: '/guides/analytics/'
+        //     }
+        //   ]
+        // },
         // {
         //   label: 'Reference',
         //   autogenerate: {
