@@ -11,10 +11,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.8.2",
-    "@astrojs/starlight": "^0.25.1",
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/starlight": "^0.27.1",
     "@astrojs/tailwind": "^5.1.0",
-    "astro": "^4.12.0",
+    "astro": "^4.15.4",
     "sharp": "^0.33.4",
     "shepherd.js": "workspace:*",
     "starlight-typedoc": "^0.13.1",
