@@ -2,13 +2,10 @@
 title: Analytics
 ---
 
-import { Image } from 'astro:assets';
-import integrations from '../../../assets/pro-integrations.png';
-
-With Shepherd, you can track the progress of your users through your journey. This can be useful for understanding how users are interacting with your site, and where they might be getting stuck. 
+With Shepherd, you can track the progress of your users through your app journey. e.g., This can be useful for understanding how users are interacting with your site, and where they might be getting stuck. 
 
 ## Tracking
-Events occur at each step of the journey, and can be tracked using the `on` event handler. Automatically, Shepherd Pro will track the following events: `active`, `cancel`, `complete`, `show`.
+Events occur at each step of the journey, and can be tracked using the `on` method of a `Tour` instance. The most obvious way to track is with the following events: `active`, `cancel`, `complete`, `show`.
 
 ### Active
 This event triggers when the tour itself becomes active. This means that the tour is ready and not necessarily that the first step is shown.
@@ -23,16 +20,13 @@ When the user completes the tour, this event will trigger. This means that the u
 This event triggers when a step is shown to the user.
 
 
-## Viewing Analytics
-This will then be shown within the Pro portal under the Journey tab. Here you can see the number of times each Journey has been shown, and the number of times it has either been completed or cancelled.
+## Exposing the Analytics
+In order to start tracking, just tell Shepherd what you want to do when one of the events is fired.
 
-## Integrations
-Shepherd Pro integrates with Amplitude and Posthog (with more to come). This allows you to track your Shepherd events alongside your other analytics data to get a more complete picture of interactions with your users. 
+```javascript
+const shepherd = new Shepherd.Tour();
+const trackedEvents = ['active', 'cancel', 'complete', 'show'];
 
-<Image src={integrations} alt="The Shepherd Pro integrations create form" />
-
-### Amplitude
-To enable this, you will need to add your Amplitude API key and secret key to the Shepherd Pro integrations in your dashboard.
-
-### Posthog
-To setup Posthog, you will need to add your Posthog API key to the Shepherd Pro integrations in your dashboard.
+shepherd.on('start', (eventOptions) => { ... });
+shepherd.start(); //the above will fire and run the function
+```
