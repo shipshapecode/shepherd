@@ -56,22 +56,17 @@ export default defineConfig({
             {
               label: 'Cookbook',
               link: '/recipes/cookbook/'
+            },
+            {
+              label: 'Analytics',
+              link: '/guides/analytics/'
+            },
+            {
+              label: 'React',
+              link: '/recipes/react/'
             }
           ]
         },
-        // {
-        //   label: 'Shepherd Pro',
-        //   items: [
-        //     {
-        //       label: 'Setup Guide',
-        //       link: '/guides/setup/'
-        //     },
-        //     {
-        //       label: 'Analytics',
-        //       link: '/guides/analytics/'
-        //     }
-        //   ]
-        // },
         // {
         //   label: 'Reference',
         //   autogenerate: {
