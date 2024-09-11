@@ -35,9 +35,7 @@ COPY --link ./landing ./landing
 RUN pnpm install --frozen-lockfile --prod=false
 
 # Build application
-RUN --mount=type=secret,id=STORYBLOK_TOKEN \
-    STORYBLOK_TOKEN="$(cat /run/secrets/STORYBLOK_TOKEN)" \
-    pnpm -F landing run build
+RUN pnpm -F landing run build
 
 # Remove development dependencies
 RUN pnpm prune --prod

@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import storyblok from '@storyblok/astro';
 import tailwind from '@astrojs/tailwind';
 import { loadEnv } from 'vite';
 
@@ -13,16 +12,6 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap(),
-    storyblok({
-      accessToken: STORYBLOK_TOKEN,
-      apiOptions: {
-        region: 'us'
-      },
-      components: {
-        'all-articles': 'storyblok/AllArticles',
-        article: 'storyblok/Article'
-      }
-    }),
     tailwind()
   ],
 });
