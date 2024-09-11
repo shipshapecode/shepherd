@@ -4,48 +4,48 @@ import ShepherdHead from '../images/shepherd-head.svg?raw';
 import ShepherdHeader from '../images/shepherd-header.svg';
 ---
 
-<header class="flex justify-center mt-4 w-full">
-  <div class="absolute ml-2 top-0">
-    <Fragment class="shepherd-logo absolute ml-2" set:html={ShepherdHead} />
+<header class='flex justify-center mt-4 w-full'>
+  <div class='absolute ml-2 top-0'>
+    <Fragment class='shepherd-logo absolute ml-2' set:html={ShepherdHead} />
   </div>
 
   <div
-    class="bg-grey-light flex flex-col font-heading justify-center items-center w-full"
+    class='bg-grey-light flex flex-col font-heading justify-center items-center w-full'
   >
     <nav
-      class="flex flex-wrap justify-center p-4 mt-40 max-w-8xl text-xl w-full lg:justify-between lg:mt-0"
+      class='flex flex-wrap justify-center p-4 mt-40 max-w-8xl text-xl w-full lg:justify-between lg:mt-0'
     >
-      <div class="flex lg:p-12">
+      <div class='flex lg:p-12'>
         <a
-          class="pr-6 uppercase hover:text-navy-light lg:pr-10"
-          href="https://github.com/shepherd-pro/shepherd"
+          class='pr-6 uppercase hover:text-navy-light lg:pr-10'
+          href='https://github.com/shepherd-pro/shepherd'
         >
           GitHub
         </a>
         <a
-          class="pr-6 uppercase lg:pr-10 hover:text-navy-light"
-          href="https://docs.shepherdpro.com/"
+          class='pr-6 uppercase lg:pr-10 hover:text-navy-light'
+          href='https://docs.shepherdpro.com/'
         >
           Docs
         </a>
-        <a class="pr-6 uppercase hover:text-navy-light lg:pr-0" href="/demo">
+        <a class='pr-6 uppercase hover:text-navy-light lg:pr-0' href='/demo'>
           Demo
         </a>
       </div>
 
-      <div class="flex lg:p-12">
-        <a
-          class="pr-6 uppercase text-pink-300 hover:text-navy-light lg:pr-10"
-          href="https://shepherdpro.com/"
+      <div class='flex lg:p-12'>
+        <!-- <a
+          class='pr-6 uppercase hover:text-navy-light lg:pr-10'
+          href='/pricing'
         >
-          Pro
-        </a>
-        <a class="pr-6 uppercase hover:text-navy-light lg:pr-10" href="/">
+          Pricing
+        </a> -->
+        <a class='pr-6 uppercase hover:text-navy-light lg:pr-10' href='/blog'>
           Blog
         </a>
         <a
-          class="uppercase hover:text-navy-light"
-          href="mailto:hello@shepherdpro.com"
+          class='uppercase hover:text-navy-light'
+          href='mailto:hello@shepherdpro.com'
         >
           Contact
         </a>
@@ -53,12 +53,12 @@ import ShepherdHeader from '../images/shepherd-header.svg';
     </nav>
 
     <img
-      class="hero-welcome p-4 w-full lg:mt-4 lg:p-0 lg:w-auto"
+      class='hero-welcome p-4 w-full lg:mt-4 lg:p-0 lg:w-auto'
       src={ShepherdHeader.src}
       alt={SITE_TITLE}
     />
 
-    <h2 class="font-body p-2 text-xl">
+    <h2 class='font-body p-2 text-xl'>
       Guide your users through a tour of your app
     </h2>
   </div>
