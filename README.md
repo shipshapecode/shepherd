@@ -15,7 +15,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
-[Shepherd](https://shepherdpro.com/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service. Use our
+[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service. Use our
 hosted SaaS or deploy to your own infrastructure to run on-premise.
 
 Supported Browsers
@@ -31,22 +31,9 @@ Shepherd makes it simple to create custom user on-boarding tours, trainings and 
 
 Shepherd enables you to guide users through a custom tour or journey within your app or website. Highly customizable with minimal styles, Shepherd allows for powerful customization while being easy to use. Various frameworks supported including React, Ember, Angular, Vue.js, ES Modules, or plain JavaScript. 
 
-# Shepherd Pro 
-
-Unlock additional capabilities and more full featured Journeys.
-
-* **Customizable Tour Templates**: Pre-designed templates for different types of software that can be easily customized.
-* **Analytics Integration**: To track user engagement and effectiveness of the tours.
-* **Multi-Language Support**: For global reach and accessibility.
-* **User Behavior Tracking**: To understand how users interact with the tours and optimize accordingly.
-* **Integration Capabilities**: Easy integration with a wide range of web applications and software.
-* **Responsive Design**: Ensuring tours work seamlessly on all devices.
-* **Feedback Mechanisms**: Allowing users to provide feedback directly within the tours.
-* **Advanced Branching Logic**: For personalized tour experiences based on user actions or profiles.
-
 # Demo
-See Shepherd Live on our docs website by clicking on the image:
-<a href="https://blog.shepherdpro.com/demo">
+See Shepherd Live on our website by clicking on the image:
+<a href="https://shepherdjs.dev">
   <img 
     src="https://blog.shepherdpro.com/img/demo.png" 
     alt="Guide your users through a tour of your app" 
@@ -55,34 +42,29 @@ See Shepherd Live on our docs website by clicking on the image:
 
 # Using Shepherd
 
-### Shepherd Pro hosted SaaS
-
-You can try our hosted version for free at [https://shepherdpro.com/](https://shepherdpro.com)
-
-The Entire Shepherd Service that powers Shepherd Pro is the newest iteration of Shepherd and includes the features of Shepherd Pro. 
-
-
-### Shepherd Library (MIT License)
+### Shepherd Open Source Library
 
 The Shepherd Standalone Library has been open source since the very beginning. Check out our tutorials here:
 
-#### [React Shepherd Wrapper](https://github.com/shepherd-pro/react-shepherd)
-#### [Angular Shepherd Wrapper](https://github.com/shepherd-pro/angular-shepherd)
-#### [Vue Shepherd Wrapper](https://github.com/shepherd-pro/vue-shepherd)
+#### [React Shepherd Wrapper](packages/react)
+#### [Angular Shepherd Wrapper](https://github.com/shipshapecode/angular-shepherd)
+#### [Vue Shepherd Wrapper](https://github.com/shipshapecode/vue-shepherd)
 #### [Ember Shepherd Wrapper](https://github.com/shepherd-pro/ember-shepherd)
 
+### Commercial license
+
+If you want to use Shepherd for a commercial application, theme or plugin the commercial license is the appropriate license. With this option, your source code is kept proprietary. Purchase a commercial license at [shepherdjs.dev](http://shepherdjs.dev/pricing)
 
 # White Glove Services
 
-If you have an idea or project in mind and would like to engage our team to build a custom tour, training or on-boarding experience, get in touch! [hello@shepherdpro.com](mailto:hello@shepherdpro.com) 
-
+If you have an idea or project in mind and would like to engage our team to build a custom tour, training or on-boarding experience, [get in touch](mailto:ahoy@shipshape.io)! 
 
 
 ## Resources
 
-- [Website](https://shepherdpro.com/)
+- [Website](https://shepherdjs.dev/)
 - [Documentation](https://docs.shepherdpro.com/)
-- [Demo](https://blog.shepherdpro.com/demo/)
+- [Demo](https://shepherdjs.dev/)
 - [Discord](https://discord.gg/EGcDW5NSud)
 - If you have any questions about our projects you can email [hello@shepherdpro.com](mailto:hello@shepherdpro.com)
 
