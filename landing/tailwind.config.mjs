@@ -2,6 +2,20 @@
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
+    extend: {
+      animation: {
+        'ellipsis1': 'ellipsis 1s infinite',
+        'ellipsis2': 'ellipsis 1s infinite 0.333s',
+        'ellipsis3': 'ellipsis 1s infinite 0.666s',
+      },
+      keyframes: {
+        ellipsis: {
+          '0%': { transform: 'scale(0)' },
+          '50%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        }
+      }
+    },
     boxShadow: {
       default: '0 10px 30px 0 rgba(0, 0, 0, 1), 0 10px 20px 0 rgba(0, 0, 0, 1)'
     },
@@ -81,7 +95,7 @@ export default {
       72: '18rem',
       80: '20rem',
       140: '36rem'
-    }
+    },
   },
   plugins: [require('@tailwindcss/typography')],
   corePlugins: {

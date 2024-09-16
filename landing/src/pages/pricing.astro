@@ -3,9 +3,6 @@ import BaseHead from '@components/BaseHead.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
-
-import { actions } from 'astro:actions';
-import { navigate } from 'astro:transitions/client';
 ---
 
 <!doctype html>
@@ -357,6 +354,19 @@ import { navigate } from 'astro:transitions/client';
         if (!(event.target instanceof HTMLButtonElement)) {
           return;
         }
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `
+        <span class="inline-flex items-center">
+          <span class="mr-2">Loading</span>
+          <span class="flex space-x-1">
+            <span class="w-2 h-2 bg-navy-light rounded-full animate-ellipsis1"></span>
+            <span class="w-2 h-2 bg-navy-light rounded-full animate-ellipsis2"></span>
+            <span class="w-2 h-2 bg-navy-light rounded-full animate-ellipsis3"></span>
+          </span>
+        </span>
+      `;
 
         const productPriceId = event.target?.dataset.pricingId;
 
@@ -375,9 +385,13 @@ import { navigate } from 'astro:transitions/client';
           if (!error) {
             navigate(data);
           } else {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
             console.error('Checkout error:', error);
           }
         } catch (error) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
           console.error('An error occurred during checkout:', error);
         }
       });
