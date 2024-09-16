@@ -4,14 +4,18 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import { loadEnv } from 'vite';
 
-const { STORYBLOK_TOKEN } = loadEnv(process.env.NODE_ENV, process.cwd(), '');
+import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://blog.shepherdpro.com',
+
   integrations: [
     mdx(),
     sitemap(),
     tailwind()
   ],
+
+  output: 'hybrid',
+  adapter: vercel(),
 });
