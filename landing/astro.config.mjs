@@ -8,7 +8,7 @@ import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://blog.shepherdpro.com',
+  site: 'https://shepherdjs.dev',
 
   integrations: [
     mdx(),

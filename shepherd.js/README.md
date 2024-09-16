@@ -16,9 +16,9 @@
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 
-<a href="https://blog.shepherdpro.com/">
+<a href="https://shepherdjs.dev/">
   <img 
-    src="https://blog.shepherdpro.com/img/demo.png" 
+    src="https://shepherdjs.dev/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
@@ -33,7 +33,7 @@ Browsers support
 
 ## Documentation
 
-[API documentation](https://docs.shepherdpro.com/)
+[API documentation](https://docs.shepherdjs.dev/)
 
 ## Demo
 
@@ -79,10 +79,6 @@ A Vue wrapper for the site tour library Shepherd
 Rails engine that generates and tracks Shepherd tours within an application
 
 ### Websites and Apps
-
-### [Shepherd Pro](https://shepherdpro.com/)
-
-[Shepherd Pro](https://shepherdpro.com/) allows you to use the same JS library and add enhanced analytics to your tours while letting you also connect some integrations to deepen the knowledge and effectiveness of those user experiences. 
 
 ### [SimplePlanner](https://simpleplanner.io)
 

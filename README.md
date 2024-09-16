@@ -35,7 +35,7 @@ Shepherd enables you to guide users through a custom tour or journey within your
 See Shepherd Live on our website by clicking on the image:
 <a href="https://shepherdjs.dev">
   <img 
-    src="https://blog.shepherdpro.com/img/demo.png" 
+    src="https://shepherdjs.dev/img/demo.png" 
     alt="Guide your users through a tour of your app" 
     style="height: auto; max-width: 800px; width: 100%;"/>
 </a>
@@ -63,10 +63,9 @@ If you have an idea or project in mind and would like to engage our team to buil
 ## Resources
 
 - [Website](https://shepherdjs.dev/)
-- [Documentation](https://docs.shepherdpro.com/)
+- [Documentation](https://docs.shepherdjs.dev/)
 - [Demo](https://shepherdjs.dev/)
 - [Discord](https://discord.gg/EGcDW5NSud)
-- If you have any questions about our projects you can email [hello@shepherdpro.com](mailto:hello@shepherdpro.com)
 
 
 ## Contributing
