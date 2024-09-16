@@ -59,16 +59,7 @@ export default function App() {
 
 ## Configuration
 
-The following configuration options for a tour can be set on the `useShepherd` hook to control the way that Shepherd is used. This is simply a POJO passed to Shepherd to use the options noted in the Shepherd Tour [options](https://docs.shepherdpro.com/api/tour/classes/tour/). You can also pass an API Key to use [Shepherd Pro](https://shepherdpro.com) features for analytics related events tracking.
-
-### apiKey
-
-`PropTypes.string`
-Used to connect your tours to a Pro instance to get additional user information and feedback.
-
-## Steps
-
-The options are the same as Shepherd [options](https://docs.shepherdpro.com/api/step/classes/step/).
+The following configuration options for a tour can be set on the `useShepherd` hook to control the way that Shepherd is used. This is simply a POJO passed to Shepherd to use the options noted in the Shepherd Tour [options](https://docs.shepherdjs.dev/api/tour/classes/tour/). 
 
 ## License
 
