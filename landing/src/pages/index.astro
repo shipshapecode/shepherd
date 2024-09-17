@@ -1,39 +1,43 @@
 ---
 import { Code } from 'astro:components';
 import MainPage from '@layouts/MainPage.astro';
-const shepherdIncludeCode = `
-	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-	<script type="module" src="shepherd.js/dist/shepherd.mjs"></script>
-  
-`;
 ---
 
 <MainPage isHome={true}>
   <div
-    class='font-heading mt-8 text-6xl text-center uppercase w-full'
-    slot='hero-heading'
+    class="font-heading mt-8 text-6xl text-center uppercase w-full"
+    slot="hero-heading"
   >
     <img
-      class='inline p-4 w-full lg:mt-4 lg:p-0 lg:w-auto'
-      src='/img/demo.svg'
-      alt='Demo'
+      class="inline p-4 w-full lg:mt-4 lg:p-0 lg:w-auto"
+      src="/img/demo.svg"
+      alt="Demo"
     />
   </div>
 
-  <div slot='content'>
-    <div class='hero-including mt-8'>
-      <h3 class='demo-heading font-heading text-2xl uppercase'>
+  <div slot="content">
+    <div class="hero-including mt-8">
+      <h3 class="demo-heading font-heading text-2xl uppercase">
         01. How to Include
       </h3>
-      <div class='hero-example-code text-left'>
-        <Code code={shepherdIncludeCode} lang='js' theme='nord' wrap />
+      <div class="hero-example-code text-left">
+        <Code
+          code={`
+	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
+	<script type="module" src="shepherd.js/dist/shepherd.mjs"></script>
+  
+`}
+          lang="js"
+          theme="nord"
+          wrap
+        />
       </div>
     </div>
 
-    <div class='hero-example mt-8'>
-      <h3 class='demo-heading font-heading text-2xl uppercase'>02. Example</h3>
+    <div class="hero-example mt-8">
+      <h3 class="demo-heading font-heading text-2xl uppercase">02. Example</h3>
 
-      <div class='hero-example-code text-left'>
+      <div class="hero-example-code text-left">
         <Code
           code={`
 	const tour = new Shepherd.Tour({
@@ -73,8 +77,8 @@ const shepherdIncludeCode = `
 
 	tour.start();
 					`}
-          lang='js'
-          theme='nord'
+          lang="js"
+          theme="nord"
           wrap
         />
       </div>
