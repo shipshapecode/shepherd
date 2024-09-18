@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/shepherd-pro/shepherd.git"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "authors": [
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
