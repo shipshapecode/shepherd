@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/shepherd-pro/shepherd.git"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "authors": [
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
@@ -49,7 +49,7 @@
     "svelte": "^4.2.12",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.9.0",
   "engines": {
     "node": "18.* || >= 20"
   }
