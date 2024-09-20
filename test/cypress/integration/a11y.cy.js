@@ -75,7 +75,7 @@ describe('a11y', () => {
 
       cy.document().then(() => {
         cy.wait(1000);
-        cy.get('.shepherd-element').tab().tab().tab().tab().tab().tab();
+        cy.get('.shepherd-content').tab().tab();
         cy.get('[data-test-popper-link]').should('have.focus');
       });
     });
