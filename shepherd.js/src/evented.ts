@@ -50,7 +50,7 @@ export class Evented {
    * @param {Function} handler
    * @returns
    */
-  off(event: string, handler: AnyHandler) {
+  off(event: string, handler?: AnyHandler) {
     if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
       return this;
     }
