@@ -59,7 +59,7 @@ const tour = new Shepherd.Tour({
 Using the already exposed API, you could add a progress indicator of your choosing
 for each step to let your users know how far into a tour they may be.
 
-The example below uses the [Step](https://docs.shepherdpro.com/api/step/classes/step/) `options`
+The example below uses the [Step](https://docs.shepherdjs.dev/api/step/classes/step/) `options`
 object and adds to `when` on the `show` event. Within that, we create an element
 to render in the header with text of what step out of all potential steps is now
 being show.

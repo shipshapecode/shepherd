@@ -332,12 +332,12 @@ export class Tour extends Evented {
       if (shouldSkipStep) {
         this._skipStep(step, forward);
       } else {
+        this.currentStep = step;
         this.trigger('show', {
           step,
           previous: this.currentStep
         });
 
-        this.currentStep = step;
         step.show();
       }
     }
