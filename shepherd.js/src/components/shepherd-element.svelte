@@ -132,7 +132,7 @@
   };
 </script>
 
-<div
+<dialog
   aria-describedby={!isUndefined(step.options.text) ? descriptionId : null}
   aria-labelledby={step.options.title ? labelId : null}
   bind:this={element}
@@ -141,20 +141,20 @@
   class:shepherd-element={true}
   {...dataStepId}
   on:keydown={handleKeyDown}
-  role="dialog"
-  tabindex="0"
+  open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
     <div class="shepherd-arrow" data-popper-arrow></div>
   {/if}
   <ShepherdContent {descriptionId} {labelId} {step} />
-</div>
+</dialog>
 
 <style global>
   .shepherd-element {
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    margin: 0;
     max-width: 400px;
     opacity: 0;
     outline: none;
