@@ -7,7 +7,7 @@
   export let descriptionId, labelId, step;
 </script>
 
-<div class="shepherd-content">
+<div class="shepherd-content" tabindex="0">
   {#if !isUndefined(step.options.title) || (step.options.cancelIcon && step.options.cancelIcon.enabled)}
     <ShepherdHeader {labelId} {step} />
   {/if}
