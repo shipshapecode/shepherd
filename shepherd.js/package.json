@@ -70,7 +70,7 @@
     "dts-bundle-generator": "^9.5.1",
     "eslint-plugin-svelte": "^2.39.0",
     "execa": "^9.3.1",
-    "postcss": "^8.4.38",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-svelte": "^3.2.2",
     "renamer": "^5.0.0",
