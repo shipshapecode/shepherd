@@ -5,6 +5,14 @@ module.exports = {
   proseWrap: 'always',
   trailingComma: 'none',
   singleQuote: true,
-  plugins: ['prettier-plugin-svelte'],
-  overrides: [{ files: '*.svelte', options: { parser: 'svelte' } }]
+  plugins: ['prettier-plugin-astro', 'prettier-plugin-svelte'],
+  overrides: [
+    {
+      files: '*.astro',
+      options: {
+        parser: 'astro'
+      }
+    },
+    { files: '*.svelte', options: { parser: 'svelte' } }
+  ]
 };
