@@ -320,8 +320,8 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1
       cypress:
-        specifier: ^13.7.2
-        version: 13.13.1
+        specifier: ^13.14.2
+        version: 13.14.2
       cypress-plugin-tab:
         specifier: ^1.0.5
         version: 1.0.5
@@ -3463,8 +3463,8 @@ packages:
   cypress-plugin-tab@1.0.5:
     resolution: {integrity: sha512-QtTJcifOVwwbeMP3hsOzQOKf3EqKsLyjtg9ZAGlYDntrCRXrsQhe4ZQGIthRMRLKpnP6/tTk6G0gJ2sZUfRliQ==}
 
-  cypress@13.13.1:
-    resolution: {integrity: sha512-8F9UjL5MDUdgC/S5hr8CGLHbS5gGht5UOV184qc2pFny43fnkoaKxlzH/U6//zmGu/xRTaKimNfjknLT8+UDFg==}
+  cypress@13.14.2:
+    resolution: {integrity: sha512-lsiQrN17vHMB2fnvxIrKLAjOr9bPwsNbPZNrWf99s4u+DVmCY6U+w7O3GGG9FvP4EUVYaDu+guWeNLiUzBrqvA==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -8501,7 +8501,7 @@ snapshots:
       '@babel/traverse': 7.24.8
       '@babel/types': 7.24.9
       convert-source-map: 2.0.0
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -10862,7 +10862,7 @@ snapshots:
       '@typescript-eslint/types': 7.17.0
       '@typescript-eslint/typescript-estree': 7.17.0(typescript@5.5.4)
       '@typescript-eslint/visitor-keys': 7.17.0
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
       eslint: 8.57.0
     optionalDependencies:
       typescript: 5.5.4
@@ -12178,7 +12178,7 @@ snapshots:
     dependencies:
       ally.js: 1.4.1
 
-  cypress@13.13.1:
+  cypress@13.14.2:
     dependencies:
       '@cypress/request': 3.0.1
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
@@ -12196,7 +12196,7 @@ snapshots:
       commander: 6.2.1
       common-tags: 1.8.2
       dayjs: 1.11.12
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.6(supports-color@8.1.1)
       enquirer: 2.4.1
       eventemitter2: 6.4.7
       execa: 4.1.0
@@ -12253,11 +12253,9 @@ snapshots:
     optionalDependencies:
       supports-color: 8.1.1
 
-  debug@4.3.5(supports-color@8.1.1):
+  debug@4.3.5:
     dependencies:
       ms: 2.1.2
-    optionalDependencies:
-      supports-color: 8.1.1
 
   debug@4.3.6(supports-color@8.1.1):
     dependencies:
@@ -12603,7 +12601,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -12885,7 +12883,7 @@ snapshots:
 
   follow-redirects@1.15.6(debug@4.3.5):
     optionalDependencies:
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
 
   for-each@0.3.3:
     dependencies:
@@ -16909,7 +16907,7 @@ snapshots:
       arg: 5.0.2
       bluebird: 3.7.2
       check-more-types: 2.24.0
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
       execa: 5.1.1
       lazy-ass: 1.6.0
       ps-tree: 1.2.0
@@ -17533,7 +17531,7 @@ snapshots:
       '@microsoft/api-extractor': 7.43.0(@types/node@20.14.12)
       '@rollup/pluginutils': 5.1.0(rollup@4.20.0)
       '@vue/language-core': 1.8.27(typescript@5.5.4)
-      debug: 4.3.5(supports-color@8.1.1)
+      debug: 4.3.5
       kolorist: 1.8.0
       magic-string: 0.30.10
       typescript: 5.5.4
