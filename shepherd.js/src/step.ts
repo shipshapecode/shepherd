@@ -8,7 +8,12 @@ import {
   isUndefined
 } from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
-import { parseAttachTo, normalizePrefix, uuid } from './utils/general.ts';
+import {
+  parseAttachTo,
+  normalizePrefix,
+  uuid,
+  parseExtraHighlights
+} from './utils/general.ts';
 import {
   setupTooltip,
   destroyTooltip,
@@ -184,6 +189,18 @@ export interface StepOptions {
    * ```
    */
   when?: StepOptionsWhen;
+
+  /**
+   * An array of extra element selectors to highlight when the overlay is shown
+   * The tooltip won't be fixed to these elements, but they will be highlighted
+   * just like the `attachTo` element.
+   * ```js
+   * const step = new Step(tour, {
+   *   extraHighlights: [ '.pricing', '#docs' ],
+   *   ...moreOptions
+   * });
+   */
+  extraHighlights?: ReadonlyArray<string>;
 }
 
 export type PopperPlacement =
@@ -274,6 +291,7 @@ export interface StepOptionsWhen {
  */
 export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
+  _resolvedExtraHighlightElements?: HTMLElement[];
   classPrefix?: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   declare cleanup: Function | null;
@@ -366,6 +384,15 @@ export class Step extends Evented {
     this._updateStepTargetOnHide();
 
     this.trigger('hide');
+  }
+
+  /**
+   * Resolves attachTo options.
+   * @returns {{}|{element, on}}
+   */
+  _resolveExtraHiglightElements() {
+    this._resolvedExtraHighlightElements = parseExtraHighlights(this);
+    return this._resolvedExtraHighlightElements;
   }
 
   /**
@@ -575,6 +602,7 @@ export class Step extends Evented {
 
     // Force resolve to make sure the options are updated on subsequent shows.
     this._resolveAttachToOptions();
+    this._resolveExtraHiglightElements();
     this._setupElements();
 
     if (!this.tour.modal) {

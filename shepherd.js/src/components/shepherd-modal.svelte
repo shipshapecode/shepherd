@@ -13,13 +13,15 @@
   export const getElement = () => element;
 
   export function closeModalOpening() {
-    openingProperties = {
-      width: 0,
-      height: 0,
-      x: 0,
-      y: 0,
-      r: 0
-    };
+    openingProperties = [
+      {
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0,
+        r: 0
+      }
+    ];
   }
 
   /**
@@ -47,21 +49,39 @@
     modalOverlayOpeningXOffset = 0,
     modalOverlayOpeningYOffset = 0,
     scrollParent,
-    targetElement
+    targetElement,
+    extraHighlights
   ) {
     if (targetElement) {
-      const { y, height } = _getVisibleHeight(targetElement, scrollParent);
-      const { x, width, left } = targetElement.getBoundingClientRect();
+      const elementsToHighlight = [targetElement, ...(extraHighlights || [])];
+      openingProperties = [];
 
-      // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-      openingProperties = {
-        width: width + modalOverlayOpeningPadding * 2,
-        height: height + modalOverlayOpeningPadding * 2,
-        x:
-          (x || left) + modalOverlayOpeningXOffset - modalOverlayOpeningPadding,
-        y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
-        r: modalOverlayOpeningRadius
-      };
+      for (const element of elementsToHighlight) {
+        if (!element) continue;
+
+        // Skip duplicate elements
+        if (
+          elementsToHighlight.indexOf(element) !==
+          elementsToHighlight.lastIndexOf(element)
+        ) {
+          continue;
+        }
+
+        const { y, height } = _getVisibleHeight(element, scrollParent);
+        const { x, width, left } = element.getBoundingClientRect();
+
+        // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
+        openingProperties.push({
+          width: width + modalOverlayOpeningPadding * 2,
+          height: height + modalOverlayOpeningPadding * 2,
+          x:
+            (x || left) +
+            modalOverlayOpeningXOffset -
+            modalOverlayOpeningPadding,
+          y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
+          r: modalOverlayOpeningRadius
+        });
+      }
     } else {
       closeModalOpening();
     }
@@ -149,7 +169,8 @@
         modalOverlayOpeningXOffset + iframeOffset.left,
         modalOverlayOpeningYOffset + iframeOffset.top,
         scrollParent,
-        step.target
+        step.target,
+        step._resolvedExtraHighlightElements
       );
       rafId = requestAnimationFrame(rafLoop);
     };

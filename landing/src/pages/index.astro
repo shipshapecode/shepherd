@@ -143,6 +143,32 @@ import MainPage from '@layouts/MainPage.astro';
             id: 'welcome'
           },
           {
+            title: 'Multiple Highlight',
+            text: 'You can highlight multiple elements at once by passing an array of selectors to the `attachTo` option.',
+            extraHighlights: ['#box-1', '#box-3'],
+            attachTo: {
+              element: '#box-2',
+              tooltipTarget: true,
+              on: 'bottom'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                secondary: true,
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                text: 'Next'
+              }
+            ],
+            id: 'multiple-highlight'
+          },
+          {
             title: 'Including',
             text: element,
             attachTo: {
