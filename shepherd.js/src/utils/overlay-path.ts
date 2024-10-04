@@ -55,5 +55,5 @@ export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
     V0\
     H${w}\
     V${h}\
-    ${openings}`;
+    ${openings}`.replace(/\s/g, '');
 }
