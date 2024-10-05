@@ -632,9 +632,17 @@ export class Step extends Evented {
     // @ts-expect-error TODO: get types for Svelte components
     const content = this.shepherdElementComponent.getElement();
     const target = this.target || document.body;
+    const extraHighlightElements = this._resolvedExtraHighlightElements;
+
     target.classList.add(`${this.classPrefix}shepherd-enabled`);
     target.classList.add(`${this.classPrefix}shepherd-target`);
     content.classList.add('shepherd-enabled');
+
+    extraHighlightElements &&
+      extraHighlightElements.forEach((el) => {
+        el.classList.add(`${this.classPrefix}shepherd-enabled`);
+        el.classList.add(`${this.classPrefix}shepherd-target`);
+      });
 
     this.trigger('show');
   }
@@ -648,6 +656,7 @@ export class Step extends Evented {
    */
   _styleTargetElementForStep(step: Step) {
     const targetElement = step.target;
+    const extraHighlightElements = step._resolvedExtraHighlightElements;
 
     if (!targetElement) {
       return;
@@ -658,9 +667,17 @@ export class Step extends Evented {
     }
 
     targetElement.classList.remove('shepherd-target-click-disabled');
+    extraHighlightElements &&
+      extraHighlightElements.forEach((el) =>
+        el.classList.remove('shepherd-target-click-disabled')
+      );
 
     if (step.options.canClickTarget === false) {
       targetElement.classList.add('shepherd-target-click-disabled');
+      extraHighlightElements &&
+        extraHighlightElements.forEach((el) =>
+          el.classList.add('shepherd-target-click-disabled')
+        );
     }
   }
 
@@ -671,6 +688,7 @@ export class Step extends Evented {
    */
   _updateStepTargetOnHide() {
     const target = this.target || document.body;
+    const extraHighlightElements = this._resolvedExtraHighlightElements;
 
     if (this.options.highlightClass) {
       target.classList.remove(this.options.highlightClass);
@@ -681,5 +699,13 @@ export class Step extends Evented {
       `${this.classPrefix}shepherd-enabled`,
       `${this.classPrefix}shepherd-target`
     );
+    extraHighlightElements &&
+      extraHighlightElements.forEach((el) => {
+        el.classList.remove(
+          'shepherd-target-click-disabled',
+          `${this.classPrefix}shepherd-enabled`,
+          `${this.classPrefix}shepherd-target`
+        );
+      });
   }
 }

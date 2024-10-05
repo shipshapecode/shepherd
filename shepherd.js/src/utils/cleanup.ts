@@ -18,6 +18,11 @@ export function cleanupSteps(tour: Tour) {
         if (isHTMLElement(step.target)) {
           step.target.classList.remove('shepherd-target-click-disabled');
         }
+        for (const el in step._resolvedExtraHighlightElements) {
+          if (isHTMLElement(el)) {
+            el.classList.remove('shepherd-target-click-disabled');
+          }
+        }
       }
     });
   }
