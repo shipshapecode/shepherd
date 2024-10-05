@@ -638,11 +638,10 @@ export class Step extends Evented {
     target.classList.add(`${this.classPrefix}shepherd-target`);
     content.classList.add('shepherd-enabled');
 
-    extraHighlightElements &&
-      extraHighlightElements.forEach((el) => {
-        el.classList.add(`${this.classPrefix}shepherd-enabled`);
-        el.classList.add(`${this.classPrefix}shepherd-target`);
-      });
+    extraHighlightElements?.forEach((el) => {
+      el.classList.add(`${this.classPrefix}shepherd-enabled`);
+      el.classList.add(`${this.classPrefix}shepherd-target`);
+    });
 
     this.trigger('show');
   }
@@ -662,22 +661,22 @@ export class Step extends Evented {
       return;
     }
 
-    if (step.options.highlightClass) {
-      targetElement.classList.add(step.options.highlightClass);
+    const highlightClass = step.options.highlightClass;
+    if (highlightClass) {
+      targetElement.classList.add(highlightClass);
+      extraHighlightElements?.forEach((el) => el.classList.add(highlightClass));
     }
 
     targetElement.classList.remove('shepherd-target-click-disabled');
-    extraHighlightElements &&
-      extraHighlightElements.forEach((el) =>
-        el.classList.remove('shepherd-target-click-disabled')
-      );
+    extraHighlightElements?.forEach((el) =>
+      el.classList.remove('shepherd-target-click-disabled')
+    );
 
     if (step.options.canClickTarget === false) {
       targetElement.classList.add('shepherd-target-click-disabled');
-      extraHighlightElements &&
-        extraHighlightElements.forEach((el) =>
-          el.classList.add('shepherd-target-click-disabled')
-        );
+      extraHighlightElements?.forEach((el) =>
+        el.classList.add('shepherd-target-click-disabled')
+      );
     }
   }
 
@@ -690,8 +689,12 @@ export class Step extends Evented {
     const target = this.target || document.body;
     const extraHighlightElements = this._resolvedExtraHighlightElements;
 
-    if (this.options.highlightClass) {
-      target.classList.remove(this.options.highlightClass);
+    const highlightClass = this.options.highlightClass;
+    if (highlightClass) {
+      target.classList.remove(highlightClass);
+      extraHighlightElements?.forEach((el) =>
+        el.classList.remove(highlightClass)
+      );
     }
 
     target.classList.remove(
@@ -699,13 +702,12 @@ export class Step extends Evented {
       `${this.classPrefix}shepherd-enabled`,
       `${this.classPrefix}shepherd-target`
     );
-    extraHighlightElements &&
-      extraHighlightElements.forEach((el) => {
-        el.classList.remove(
-          'shepherd-target-click-disabled',
-          `${this.classPrefix}shepherd-enabled`,
-          `${this.classPrefix}shepherd-target`
-        );
-      });
+    extraHighlightElements?.forEach((el) => {
+      el.classList.remove(
+        'shepherd-target-click-disabled',
+        `${this.classPrefix}shepherd-enabled`,
+        `${this.classPrefix}shepherd-target`
+      );
+    });
   }
 }
