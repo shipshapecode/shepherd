@@ -38,8 +38,7 @@ export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
       ? { topLeft: r, topRight: r, bottomRight: r, bottomLeft: r }
       : r;
 
-    openings += `Z\
-      M${x + topLeft},${y}\
+    openings += `M${x + topLeft},${y}\
       a${topLeft},${topLeft},0,0,0-${topLeft},${topLeft}\
       V${height + y - bottomLeft}\
       a${bottomLeft},${bottomLeft},0,0,0,${bottomLeft},${bottomLeft}\
@@ -51,9 +50,10 @@ export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
   });
 
   return `M${w},${h}\
-    H0\
-    V0\
-    H${w}\
-    V${h}\
-    ${openings}`.replace(/\s/g, '');
+          H0\
+          V0\
+          H${w}\
+          V${h}\
+          Z\
+          ${openings}`.replace(/\s/g, '');
 }
