@@ -1,5 +1,56 @@
 # Changelog
 
+## Release (2024-10-08)
+
+react-shepherd 6.1.2 (patch)
+shepherd.js 14.0.0 (major)
+
+#### :boom: Breaking Change
+* `shepherd.js`
+  * [#2976](https://github.com/shipshapecode/shepherd/pull/2976) Update license to AGPL-3.0 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* Other
+  * [#2969](https://github.com/shipshapecode/shepherd/pull/2969) 📄 Update license for commercial use cases ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :rocket: Enhancement
+* `landing`, `shepherd.js`, `cypress-tests`
+  * [#2982](https://github.com/shipshapecode/shepherd/pull/2982) ✨ Update shepherd element to use html dialog ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* `landing`, `react-shepherd`
+  * [#2988](https://github.com/shipshapecode/shepherd/pull/2988) 🐛 Landing: Fix checkout issue with correct PAT ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd.js`
+  * [#2979](https://github.com/shipshapecode/shepherd/pull/2979) Fix handler type for Evented.off() ([@joeldomke](https://github.com/joeldomke))
+* `shepherd-docs`, `landing`, `shepherd.js`
+  * [#2980](https://github.com/shipshapecode/shepherd/pull/2980) 🐛 Fix event timing issue and add button for demo start ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :memo: Documentation
+* `landing`
+  * [#2974](https://github.com/shipshapecode/shepherd/pull/2974) Update some various styles ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#2972](https://github.com/shipshapecode/shepherd/pull/2972) ✨ Add updated pricing page and commerical benefits ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`, `react-shepherd`, `shepherd.js`
+  * [#2973](https://github.com/shipshapecode/shepherd/pull/2973) 📝 Update documentation for correct url ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd-docs`
+  * [#2967](https://github.com/shipshapecode/shepherd/pull/2967) 📝 Add docs for analytics and react usage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* Other
+  * [#2960](https://github.com/shipshapecode/shepherd/pull/2960) 📝 Remove docker info on README ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* Other
+  * [#2981](https://github.com/shipshapecode/shepherd/pull/2981) 🔥 Pro: Remove deprecated pro package ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`
+  * [#2975](https://github.com/shipshapecode/shepherd/pull/2975) 🐛 Landing: Remove import string from frontmatter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2968](https://github.com/shipshapecode/shepherd/pull/2968) Landing: 🔥 Remove and upgrade dependencies ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `landing`, `react-shepherd`, `shepherd.js`
+  * [#2973](https://github.com/shipshapecode/shepherd/pull/2973) 📝 Update documentation for correct url ([@chuckcarpenter](https://github.com/chuckcarpenter))
+* `shepherd-docs`
+  * [#2967](https://github.com/shipshapecode/shepherd/pull/2967) 📝 Add docs for analytics and react usage ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#2966](https://github.com/shipshapecode/shepherd/pull/2966) ⬆ Update Astro to v14.15 ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 3
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Joel Domke ([@joeldomke](https://github.com/joeldomke))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2024-08-05)
 
 @shepherdpro/pro-js 1.3.1 (patch)
