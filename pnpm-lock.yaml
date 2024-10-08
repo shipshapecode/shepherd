@@ -204,8 +204,8 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0
       deepmerge-ts:
-        specifier: ^5.1.0
-        version: 5.1.0
+        specifier: ^7.1.1
+        version: 7.1.1
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.15.3
@@ -3545,8 +3545,8 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  deepmerge-ts@5.1.0:
-    resolution: {integrity: sha512-eS8dRJOckyo9maw9Tu5O5RUi/4inFLrnoLkBe3cPfDMx3WZioXtmOew4TXQaxq7Rhl4xjDtR7c6x8nNTxOvbFw==}
+  deepmerge-ts@7.1.1:
+    resolution: {integrity: sha512-M27OAbyR/XgJujhAd6ZlYvZGzejbzvGPSZWwuzezPCdKLT9VMtK0kpRNDc5LeUDYqFN3e254gWG1yKpjidCtow==}
     engines: {node: '>=16.0.0'}
 
   deepmerge@4.3.1:
@@ -3820,6 +3820,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -12284,7 +12285,7 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  deepmerge-ts@5.1.0: {}
+  deepmerge-ts@7.1.1: {}
 
   deepmerge@4.3.1: {}
 
