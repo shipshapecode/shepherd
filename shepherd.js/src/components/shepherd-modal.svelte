@@ -70,6 +70,20 @@
         const { y, height } = _getVisibleHeight(element, scrollParent);
         const { x, width, left } = element.getBoundingClientRect();
 
+        // Check if the element is contained by another element
+        const isContained = elementsToHighlight.some((otherElement) => {
+          if (otherElement === element) return false;
+          const otherRect = otherElement.getBoundingClientRect();
+          return (
+            x >= otherRect.left &&
+            x + width <= otherRect.right &&
+            y >= otherRect.top &&
+            y + height <= otherRect.bottom
+          );
+        });
+
+        if (isContained) continue;
+
         // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
         openingProperties.push({
           width: width + modalOverlayOpeningPadding * 2,
