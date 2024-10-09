@@ -37,7 +37,7 @@ importers:
         version: 28.6.0(@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0)(jest@29.7.0(@types/node@20.14.12))(typescript@5.5.4)
       eslint-plugin-svelte:
         specifier: ^2.39.0
-        version: 2.43.0(eslint@8.57.0)(svelte@4.2.18)
+        version: 2.43.0(eslint@8.57.0)(svelte@4.2.19)
       postcss:
         specifier: ^8.4.38
         version: 8.4.40
@@ -49,7 +49,7 @@ importers:
         version: 0.14.1
       prettier-plugin-svelte:
         specifier: ^3.2.2
-        version: 3.2.6(prettier@3.3.3)(svelte@4.2.18)
+        version: 3.2.6(prettier@3.3.3)(svelte@4.2.19)
       release-plan:
         specifier: ^0.9.0
         version: 0.9.2(encoding@0.1.13)
@@ -60,8 +60,8 @@ importers:
         specifier: workspace:*
         version: link:shepherd.js
       svelte:
-        specifier: ^4.2.12
-        version: 4.2.18
+        specifier: ^4.2.19
+        version: 4.2.19
       typescript:
         specifier: ^5.4.5
         version: 5.5.4
@@ -242,7 +242,7 @@ importers:
         version: 9.5.1
       eslint-plugin-svelte:
         specifier: ^2.39.0
-        version: 2.43.0(eslint@8.57.0)(svelte@4.2.18)
+        version: 2.43.0(eslint@8.57.0)(svelte@4.2.19)
       execa:
         specifier: ^9.3.1
         version: 9.3.1
@@ -254,7 +254,7 @@ importers:
         version: 3.3.3
       prettier-plugin-svelte:
         specifier: ^3.2.2
-        version: 3.2.6(prettier@3.3.3)(svelte@4.2.18)
+        version: 3.2.6(prettier@3.3.3)(svelte@4.2.19)
       renamer:
         specifier: ^5.0.0
         version: 5.0.2
@@ -287,19 +287,19 @@ importers:
         version: 2.0.3
       rollup-plugin-svelte:
         specifier: ^7.2.0
-        version: 7.2.2(rollup@4.22.4)(svelte@4.2.18)
+        version: 7.2.2(rollup@4.22.4)(svelte@4.2.19)
       rollup-plugin-visualizer:
         specifier: ^5.11.0
         version: 5.12.0(rollup@4.22.4)
       svelte:
-        specifier: ^4.2.12
-        version: 4.2.18
+        specifier: ^4.2.19
+        version: 4.2.19
       svelte-preprocess:
         specifier: ^6.0.3
-        version: 6.0.3(@babel/core@7.24.9)(postcss-load-config@4.0.2(postcss@8.4.40))(postcss@8.4.40)(svelte@4.2.18)(typescript@5.5.4)
+        version: 6.0.3(@babel/core@7.24.9)(postcss-load-config@4.0.2(postcss@8.4.40))(postcss@8.4.40)(svelte@4.2.19)(typescript@5.5.4)
       svelte2tsx:
         specifier: ^0.7.8
-        version: 0.7.13(svelte@4.2.18)(typescript@5.5.4)
+        version: 0.7.13(svelte@4.2.19)(typescript@5.5.4)
       typescript:
         specifier: ^5.4.5
         version: 5.5.4
@@ -369,7 +369,7 @@ importers:
         version: 5.17.0
       '@testing-library/svelte':
         specifier: 4.1.x
-        version: 4.1.0(svelte@4.2.18)
+        version: 4.1.0(svelte@4.2.19)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.40)
@@ -425,11 +425,11 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       svelte:
-        specifier: ^4.2.12
-        version: 4.2.18
+        specifier: ^4.2.19
+        version: 4.2.19
       svelte-jester:
         specifier: ^3.0.0
-        version: 3.0.0(jest@29.7.0(@types/node@20.14.12))(svelte@4.2.18)
+        version: 3.0.0(jest@29.7.0(@types/node@20.14.12))(svelte@4.2.19)
       typescript:
         specifier: ^5.4.5
         version: 5.5.4
@@ -7238,8 +7238,8 @@ packages:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
 
-  svelte@4.2.18:
-    resolution: {integrity: sha512-d0FdzYIiAePqRJEb90WlJDkjUEx42xhivxN8muUBmfZnP+tzUgz12DJ2hRJi8sIHCME7jeK1PTMgKPSfTd8JrA==}
+  svelte@4.2.19:
+    resolution: {integrity: sha512-IY1rnGr6izd10B0A8LqsBfmlT5OILVuZ7XsI0vdGPEvuonFV7NYEUK4dAkm9Zg2q0Um92kYjTpS1CAP3Nh/KWw==}
     engines: {node: '>=16'}
 
   svgo@2.8.0:
@@ -10478,10 +10478,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.3
 
-  '@testing-library/svelte@4.1.0(svelte@4.2.18)':
+  '@testing-library/svelte@4.1.0(svelte@4.2.19)':
     dependencies:
       '@testing-library/dom': 9.3.4
-      svelte: 4.2.18
+      svelte: 4.2.19
 
   '@tootallnate/once@1.1.2': {}
 
@@ -12336,7 +12336,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-svelte@2.43.0(eslint@8.57.0)(svelte@4.2.18):
+  eslint-plugin-svelte@2.43.0(eslint@8.57.0)(svelte@4.2.19):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -12349,9 +12349,9 @@ snapshots:
       postcss-safe-parser: 6.0.0(postcss@8.4.40)
       postcss-selector-parser: 6.1.1
       semver: 7.6.3
-      svelte-eslint-parser: 0.41.0(svelte@4.2.18)
+      svelte-eslint-parser: 0.41.0(svelte@4.2.19)
     optionalDependencies:
-      svelte: 4.2.18
+      svelte: 4.2.19
     transitivePeerDependencies:
       - ts-node
 
@@ -15782,10 +15782,10 @@ snapshots:
       prettier: 3.3.3
       sass-formatter: 0.7.9
 
-  prettier-plugin-svelte@3.2.6(prettier@3.3.3)(svelte@4.2.18):
+  prettier-plugin-svelte@3.2.6(prettier@3.3.3)(svelte@4.2.19):
     dependencies:
       prettier: 3.3.3
-      svelte: 4.2.18
+      svelte: 4.2.19
 
   prettier@2.8.7:
     optional: true
@@ -16277,12 +16277,12 @@ snapshots:
       mime: 3.0.0
       opener: 1.5.2
 
-  rollup-plugin-svelte@7.2.2(rollup@4.22.4)(svelte@4.2.18):
+  rollup-plugin-svelte@7.2.2(rollup@4.22.4)(svelte@4.2.19):
     dependencies:
       '@rollup/pluginutils': 4.2.1
       resolve.exports: 2.0.2
       rollup: 4.22.4
-      svelte: 4.2.18
+      svelte: 4.2.19
 
   rollup-plugin-visualizer@5.12.0(rollup@4.22.4):
     dependencies:
@@ -16789,7 +16789,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-eslint-parser@0.41.0(svelte@4.2.18):
+  svelte-eslint-parser@0.41.0(svelte@4.2.19):
     dependencies:
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
@@ -16797,30 +16797,30 @@ snapshots:
       postcss: 8.4.45
       postcss-scss: 4.0.9(postcss@8.4.45)
     optionalDependencies:
-      svelte: 4.2.18
+      svelte: 4.2.19
 
-  svelte-jester@3.0.0(jest@29.7.0(@types/node@20.14.12))(svelte@4.2.18):
+  svelte-jester@3.0.0(jest@29.7.0(@types/node@20.14.12))(svelte@4.2.19):
     dependencies:
       jest: 29.7.0(@types/node@20.14.12)
-      svelte: 4.2.18
+      svelte: 4.2.19
 
-  svelte-preprocess@6.0.3(@babel/core@7.24.9)(postcss-load-config@4.0.2(postcss@8.4.40))(postcss@8.4.40)(svelte@4.2.18)(typescript@5.5.4):
+  svelte-preprocess@6.0.3(@babel/core@7.24.9)(postcss-load-config@4.0.2(postcss@8.4.40))(postcss@8.4.40)(svelte@4.2.19)(typescript@5.5.4):
     dependencies:
-      svelte: 4.2.18
+      svelte: 4.2.19
     optionalDependencies:
       '@babel/core': 7.24.9
       postcss: 8.4.40
       postcss-load-config: 4.0.2(postcss@8.4.40)
       typescript: 5.5.4
 
-  svelte2tsx@0.7.13(svelte@4.2.18)(typescript@5.5.4):
+  svelte2tsx@0.7.13(svelte@4.2.19)(typescript@5.5.4):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
-      svelte: 4.2.18
+      svelte: 4.2.19
       typescript: 5.5.4
 
-  svelte@4.2.18:
+  svelte@4.2.19:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -16834,7 +16834,7 @@ snapshots:
       estree-walker: 3.0.3
       is-reference: 3.0.2
       locate-character: 3.0.0
-      magic-string: 0.30.10
+      magic-string: 0.30.11
       periscopic: 3.1.0
 
   svgo@2.8.0:
