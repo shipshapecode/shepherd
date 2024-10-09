@@ -1,57 +1,11 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "6.1.1",
-      "newVersion": "6.1.2",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "oldVersion": "6.1.2"
     },
     "shepherd.js": {
-      "impact": "major",
-      "oldVersion": "13.0.3",
-      "newVersion": "14.0.0",
-      "constraints": [
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "14.0.0"
     }
   },
-  "description": "## Release (2024-10-08)\n\nreact-shepherd 6.1.2 (patch)\nshepherd.js 14.0.0 (major)\n\n#### :boom: Breaking Change\n* `shepherd.js`\n  * [#2976](https://github.com/shipshapecode/shepherd/pull/2976) Update license to AGPL-3.0 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* Other\n  * [#2969](https://github.com/shipshapecode/shepherd/pull/2969) 📄 Update license for commercial use cases ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :rocket: Enhancement\n* `landing`, `shepherd.js`, `cypress-tests`\n  * [#2982](https://github.com/shipshapecode/shepherd/pull/2982) ✨ Update shepherd element to use html dialog ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `landing`, `react-shepherd`\n  * [#2988](https://github.com/shipshapecode/shepherd/pull/2988) 🐛 Landing: Fix checkout issue with correct PAT ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd.js`\n  * [#2979](https://github.com/shipshapecode/shepherd/pull/2979) Fix handler type for Evented.off() ([@joeldomke](https://github.com/joeldomke))\n* `shepherd-docs`, `landing`, `shepherd.js`\n  * [#2980](https://github.com/shipshapecode/shepherd/pull/2980) 🐛 Fix event timing issue and add button for demo start ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :memo: Documentation\n* `landing`\n  * [#2974](https://github.com/shipshapecode/shepherd/pull/2974) Update some various styles ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#2972](https://github.com/shipshapecode/shepherd/pull/2972) ✨ Add updated pricing page and commerical benefits ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `landing`, `react-shepherd`, `shepherd.js`\n  * [#2973](https://github.com/shipshapecode/shepherd/pull/2973) 📝 Update documentation for correct url ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`\n  * [#2967](https://github.com/shipshapecode/shepherd/pull/2967) 📝 Add docs for analytics and react usage ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* Other\n  * [#2960](https://github.com/shipshapecode/shepherd/pull/2960) 📝 Remove docker info on README ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* Other\n  * [#2981](https://github.com/shipshapecode/shepherd/pull/2981) 🔥 Pro: Remove deprecated pro package ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `landing`\n  * [#2975](https://github.com/shipshapecode/shepherd/pull/2975) 🐛 Landing: Remove import string from frontmatter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2968](https://github.com/shipshapecode/shepherd/pull/2968) Landing: 🔥 Remove and upgrade dependencies ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `landing`, `react-shepherd`, `shepherd.js`\n  * [#2973](https://github.com/shipshapecode/shepherd/pull/2973) 📝 Update documentation for correct url ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* `shepherd-docs`\n  * [#2967](https://github.com/shipshapecode/shepherd/pull/2967) 📝 Add docs for analytics and react usage ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#2966](https://github.com/shipshapecode/shepherd/pull/2966) ⬆ Update Astro to v14.15 ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 3\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Joel Domke ([@joeldomke](https://github.com/joeldomke))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "\n\n\n\n"
 }
