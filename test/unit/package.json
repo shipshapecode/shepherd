@@ -39,7 +39,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "shepherd.js": "workspace:*",
     "start-server-and-test": "^2.0.3",
-    "svelte": "^4.2.12",
+    "svelte": "^4.2.19",
     "svelte-jester": "^3.0.0",
     "typescript": "^5.4.5"
   },

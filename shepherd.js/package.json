@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "13.0.3",
+  "version": "14.0.0",
   "description": "Guide your users through a tour of your app.",
   "keywords": [
     "site tour",
@@ -54,7 +54,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.6.5",
     "@scarf/scarf": "^1.3.0",
-    "deepmerge-ts": "^5.1.0"
+    "deepmerge-ts": "^7.1.1"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.3",
@@ -76,7 +76,7 @@
     "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^6.0.1",
-    "rollup": "^4.20.0",
+    "rollup": "^4.22.4",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.4.0",
@@ -85,8 +85,8 @@
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-svelte": "^7.2.0",
     "rollup-plugin-visualizer": "^5.11.0",
-    "svelte": "^4.2.12",
-    "svelte-preprocess": "^5.1.3",
+    "svelte": "^4.2.19",
+    "svelte-preprocess": "^6.0.3",
     "svelte2tsx": "^0.7.8",
     "typescript": "^5.4.5"
   },

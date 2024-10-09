@@ -1,58 +1,57 @@
 ---
+import { Image } from 'astro:assets';
+
+import GitHubLogo from '../images/github.svg?raw';
+import LinkedInLogo from '../images/linkedin.svg?raw';
+import TwitterLogo from '../images/twitter.svg?raw';
 import ShepherdWink from '../images/shepherd-head-wink.svg';
 ---
 
-<footer class='flex justify-center mt-auto w-full'>
-  <img
-    class='footer-logo absolute w-48'
-    src={ShepherdWink.src}
-    alt='Shepherd Winking'
-    role='presentation'
+<footer class="flex justify-center mt-auto w-full">
+  <Image
+    class="footer-logo absolute w-48"
+    src={ShepherdWink}
+    alt="An adorable, retro looking sheep that is winking and smiling."
+    role="presentation"
   />
 
   <div
-    class='bg-grey border-4 border-navy flex flex-wrap items-center justify-center md:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8'
+    class="bg-grey border-4 border-navy flex flex-wrap items-center justify-center md:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8"
   >
     <div
-      class='flex items-center justify-center w-full md:justify-between md:w-auto'
+      class="flex items-center justify-center w-full md:justify-between md:w-auto"
     >
       <img
-        class='inline mr-2 w-8'
-        src='/img/ship-shape-logo.svg'
-        alt='Ship Shape Logo'
+        class="inline mr-2 w-8"
+        src="/img/ship-shape-logo.svg"
+        alt="Ship Shape Logo"
       />
 
-      <span class='font-heading text-xl uppercase'>
+      <span class="font-heading text-xl uppercase">
         Library by
-        <a class='underline hover:text-navy-light' href='https://shipshape.io'
-          >Ship Shape</a
-        >
+        <a class="underline hover:text-navy-light" href="https://shipshape.io">
+          Ship Shape
+        </a>
       </span>
     </div>
 
-    <div class='flex items-center'>
-      <a href='https://github.com/shipshapecode/shepherd'>
-        <img
-          class='footer-icon mr-4 w-6'
-          src='/img/github.svg'
-          alt='GitHub Logo'
-        />
+    <div class="flex items-center">
+      <a
+        class="footer-icon mr-4 w-6"
+        href="https://github.com/shipshapecode/shepherd"
+      >
+        <Fragment set:html={GitHubLogo} />
       </a>
 
-      <a href='https://twitter.com/whiskeywebfm'>
-        <img
-          class='footer-icon mr-4 w-6'
-          src='/img/twitter.svg'
-          alt='Twitter Logo'
-        />
+      <a class="footer-icon mr-4 w-6" href="https://twitter.com/whiskeywebfm">
+        <Fragment set:html={TwitterLogo} />
       </a>
 
-      <a href='https://www.linkedin.com/company/ship-shape/'>
-        <img
-          class='footer-icon mr-4 w-6'
-          src='/img/linkedin.svg'
-          alt='LinkedIn Logo'
-        />
+      <a
+        class="footer-icon mr-4 w-6"
+        href="https://www.linkedin.com/company/ship-shape/"
+      >
+        <Fragment set:html={LinkedInLogo} />
       </a>
     </div>
   </div>
