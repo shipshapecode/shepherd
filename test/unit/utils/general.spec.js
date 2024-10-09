@@ -76,7 +76,7 @@ describe('General Utils', function () {
   });
 
   describe('floatingUIOptions', function () {
-    it('middleware can be overridden', function () {
+    it('middleware options are passed in last', function () {
       const step = new Step(
         {},
         {
@@ -98,7 +98,8 @@ describe('General Utils', function () {
         step.options.attachTo,
         step
       );
-      expect(floatingUIOptions.middleware[0].options.altAxis).toBe(false);
+      // Shepherd pushes in flip and shift by default, so this is 3rd
+      expect(floatingUIOptions.middleware[2].options.altAxis).toBe(false);
     });
 
     it('positioning strategy is explicitly set', function () {
