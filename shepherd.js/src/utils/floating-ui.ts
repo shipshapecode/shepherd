@@ -202,7 +202,7 @@ export function getFloatingUIOptions(
     options.placement = attachToOptions.on;
   }
 
-  return deepmerge(step.options.floatingUIOptions || {}, options);
+  return deepmerge(options, step.options.floatingUIOptions || {});
 }
 
 function addArrow(step: Step) {
