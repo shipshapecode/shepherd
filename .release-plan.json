@@ -1,11 +1,29 @@
 {
   "solution": {
     "react-shepherd": {
-      "oldVersion": "6.1.2"
+      "impact": "patch",
+      "oldVersion": "6.1.2",
+      "newVersion": "6.1.3",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on shepherd.js"
+        }
+      ],
+      "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "oldVersion": "14.0.0"
+      "impact": "patch",
+      "oldVersion": "14.0.0",
+      "newVersion": "14.0.1",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "\n\n\n\n"
+  "description": "## Release (2024-10-10)\n\nreact-shepherd 6.1.3 (patch)\nshepherd.js 14.0.1 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`, `unit-tests`\n  * [#3005](https://github.com/shipshapecode/shepherd/pull/3005) 🐛 Fix issue where passed in custom middleware is overridden ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* [#3003](https://github.com/shipshapecode/shepherd/pull/3003) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }

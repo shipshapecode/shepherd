@@ -1,5 +1,21 @@
 # Changelog
 
+## Release (2024-10-10)
+
+react-shepherd 6.1.3 (patch)
+shepherd.js 14.0.1 (patch)
+
+#### :bug: Bug Fix
+* `shepherd.js`, `unit-tests`
+  * [#3005](https://github.com/shipshapecode/shepherd/pull/3005) 🐛 Fix issue where passed in custom middleware is overridden ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* [#3003](https://github.com/shipshapecode/shepherd/pull/3003) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
 
 
 
