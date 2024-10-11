@@ -5,6 +5,7 @@ import {
   type StepOptions
 } from '../step.ts';
 import { isFunction, isString } from './type-check.ts';
+import type { ComputePositionConfig } from '@floating-ui/dom';
 
 export class StepNoOp {
   constructor(_options: StepOptions) {}
@@ -88,4 +89,18 @@ export function uuid() {
     d = Math.floor(d / 16);
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
+}
+
+export function dedupeMiddlewares(
+  defaultMiddlewares?: ComputePositionConfig['middleware'],
+  stepMiddlewares?: ComputePositionConfig['middleware']
+) {
+  return defaultMiddlewares?.filter(
+    (defaultMiddleware) =>
+      !defaultMiddleware ||
+      !stepMiddlewares?.some(
+        (stepMiddleware) =>
+          stepMiddleware && stepMiddleware.name === defaultMiddleware.name
+      )
+  );
 }
