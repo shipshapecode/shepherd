@@ -342,7 +342,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
   import { actions } from 'astro:actions';
   import { navigate } from 'astro:transitions/client';
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('button');
 
     buttons.forEach((button) => {
