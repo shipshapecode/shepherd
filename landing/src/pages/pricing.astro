@@ -378,6 +378,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           console.log('Checkout result:', data, error, productPriceId);
 
           if (!error) {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
             navigate(data);
           } else {
             btn.disabled = false;
