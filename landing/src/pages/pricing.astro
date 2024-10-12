@@ -341,7 +341,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 <script>
   import { actions } from 'astro:actions';
   import { navigate } from 'astro:transitions/client';
-
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('button');
 
@@ -389,6 +388,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           btn.disabled = false;
           btn.innerHTML = originalText;
           console.error('An error occurred during checkout:', error);
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
         }
       });
     });
