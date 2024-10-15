@@ -63,7 +63,7 @@ export function setupTooltip(step: Step): ComputePositionConfig {
 export function mergeTooltipConfig(
   tourOptions: StepOptions,
   options: StepOptions
-) {
+): { floatingUIOptions: ComputePositionConfig } {
   return {
     floatingUIOptions: deepmerge(
       tourOptions.floatingUIOptions || {},
