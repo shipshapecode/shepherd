@@ -17,6 +17,7 @@ import {
 // @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
+import type { ComputePositionConfig } from '@floating-ui/dom';
 
 export type StepText =
   | string
@@ -134,7 +135,7 @@ export interface StepOptions {
   /**
    * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
    */
-  floatingUIOptions?: object;
+  floatingUIOptions?: ComputePositionConfig;
 
   /**
    * Should the element be scrolled to when this step is shown?
