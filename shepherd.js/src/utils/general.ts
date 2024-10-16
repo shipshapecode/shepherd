@@ -94,7 +94,7 @@ export function uuid() {
 export function dedupeMiddlewares(
   defaultMiddlewares?: ComputePositionConfig['middleware'],
   stepMiddlewares?: ComputePositionConfig['middleware']
-) {
+): ComputePositionConfig['middleware'] {
   return defaultMiddlewares?.filter(
     (defaultMiddleware) =>
       !defaultMiddleware ||
