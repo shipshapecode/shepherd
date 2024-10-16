@@ -724,4 +724,85 @@ describe('Tour | Top-Level Class', function () {
       expect(modalContainer.contains(modalElement)).toBe(true);
     });
   });
+
+  describe('disableDefaultMiddlewares', () => {
+    it('removes default middlewares', () => {
+      instance = new Shepherd.Tour();
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        disableDefaultMiddlewares: true
+      });
+
+      instance.start();
+
+      const floatingUIOptions = setupTooltip(step);
+      expect(floatingUIOptions.middleware.length).toBe(0);
+    });
+
+    it('adds middlewares from defaultStepOptions', () => {
+      instance = new Shepherd.Tour({ defaultStepOptions });
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        disableDefaultMiddlewares: true
+      });
+
+      instance.start();
+
+      const floatingUIOptions = setupTooltip(step);
+
+      const middlewareNames = floatingUIOptions.middleware.map(
+        ({ name }) => name
+      );
+      const defaultMiddlewareNames =
+        defaultStepOptions.floatingUIOptions.middleware.map(({ name }) => name);
+
+      expect(
+        middlewareNames.every((middleware) =>
+          defaultMiddlewareNames.includes(middleware)
+        )
+      ).toBe(true);
+    });
+
+    it('adds step middlewares', () => {
+      instance = new Shepherd.Tour();
+
+      const step1 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        disableDefaultMiddlewares: true,
+        floatingUIOptions: {
+          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
+        }
+      });
+
+      const step2 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        disableDefaultMiddlewares: true,
+        floatingUIOptions: {
+          middleware: [
+            { name: 'foo', options: 'bar', fn: (args) => args },
+            { name: 'bar', options: 'baz', fn: (args) => args }
+          ]
+        }
+      });
+
+      instance.start();
+
+      const step1FloatingUIOptions = setupTooltip(step1);
+      expect(step1FloatingUIOptions.middleware.length).toBe(1);
+      expect(step1FloatingUIOptions.middleware[0].name).toBe('foo');
+
+      instance.next();
+
+      const step2FloatingUIOptions = setupTooltip(step2);
+      expect(step2FloatingUIOptions.middleware.length).toBe(2);
+      expect(step2FloatingUIOptions.middleware[0].name).toBe('foo');
+      expect(step2FloatingUIOptions.middleware[1].name).toBe('bar');
+    });
+  });
 });

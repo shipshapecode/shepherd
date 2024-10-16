@@ -138,6 +138,13 @@ export interface StepOptions {
   floatingUIOptions?: ComputePositionConfig;
 
   /**
+   * Shepherd adds default middlewares (flip, shift)
+   * which get merged with step options defined in `floatingUIOptions.middleware`.
+   * You can disable this behavior by passing true
+   */
+  disableDefaultMiddlewares?: boolean;
+
+  /**
    * Should the element be scrolled to when this step is shown?
    */
   scrollTo?: boolean | ScrollIntoViewOptions;
