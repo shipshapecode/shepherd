@@ -1,5 +1,5 @@
 import { deepmerge } from 'deepmerge-ts';
-import { shouldCenterStep } from './general.ts';
+import { dedupeMiddlewares, shouldCenterStep } from './general.ts';
 import {
   autoUpdate,
   arrow,
@@ -201,6 +201,11 @@ export function getFloatingUIOptions(
 
     options.placement = attachToOptions.on;
   }
+
+  options.middleware = dedupeMiddlewares(
+    options.middleware,
+    step.options.floatingUIOptions?.middleware
+  );
 
   return deepmerge(options, step.options.floatingUIOptions || {});
 }

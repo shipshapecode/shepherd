@@ -666,6 +666,45 @@ describe('Tour | Top-Level Class', function () {
 
       expect(stepsContainer.contains(stepElement)).toBe(true);
     });
+
+    it.only('deduplicates middlewares', () => {
+      instance = new Shepherd.Tour({
+        defaultStepOptions: {
+          floatingUIOptions: {
+            middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
+          }
+        }
+      });
+
+      const step = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        floatingUIOptions: {
+          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
+        }
+      });
+
+      const step2 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        floatingUIOptions: {
+          middleware: [
+            { name: 'foo', options: 'bar', fn: (args) => args },
+            { name: 'bar', options: 'bar', fn: (args) => args }
+          ]
+        }
+      });
+
+      instance.start();
+
+      const step1FloatingUIOptions = setupTooltip(step);
+      expect(step1FloatingUIOptions.middleware.length).toBe(1);
+
+      instance.next();
+
+      const step2FloatingUIOptions = setupTooltip(step2);
+      expect(step2FloatingUIOptions.middleware.length).toBe(2);
+    });
   });
 
   describe('shepherdModalOverlayContainer', function () {
