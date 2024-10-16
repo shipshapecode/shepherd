@@ -32,7 +32,7 @@
     "postcss": "^8.4.38",
     "prettier": "^3.3.3",
     "replace": "^1.2.2",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^2.0.8",
     "typescript": "^5.4.5"
   },
   "packageManager": "pnpm@9.2.0",
