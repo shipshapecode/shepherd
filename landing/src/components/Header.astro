@@ -8,7 +8,9 @@ const { isHome } = Astro.props;
 
 <header class="flex justify-center mt-4 w-full">
   <div class="absolute ml-2 top-0">
-    <Fragment class="shepherd-logo absolute ml-2" set:html={ShepherdHead} />
+    <a href="/">
+      <Fragment class="shepherd-logo absolute ml-2" set:html={ShepherdHead} />
+    </a>
   </div>
 
   <div
@@ -36,7 +38,7 @@ const { isHome } = Astro.props;
           type="button"
         >
           Demo
-      </button>
+        </button>
       </div>
 
       <div class="flex lg:p-12">

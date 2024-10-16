@@ -342,7 +342,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
   import { actions } from 'astro:actions';
   import { navigate } from 'astro:transitions/client';
   document.addEventListener('astro:page-load', () => {
-    const buttons = document.querySelectorAll('button');
+    const buttons = document.querySelectorAll('[data-pricing-id]');
 
     buttons.forEach((button) => {
       button.addEventListener('click', async (event) => {
@@ -378,17 +378,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           console.log('Checkout result:', data, error, productPriceId);
 
           if (!error) {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
             navigate(data);
           } else {
-            btn.disabled = false;
-            btn.innerHTML = originalText;
             console.error('Checkout error:', error);
           }
         } catch (error) {
-          btn.disabled = false;
-          btn.innerHTML = originalText;
           console.error('An error occurred during checkout:', error);
         } finally {
           btn.disabled = false;
