@@ -188,6 +188,9 @@ export interface StepOptions {
 }
 
 export type PopperPlacement =
+  | 'auto'
+  | 'auto-start'
+  | 'auto-end'
   | 'top'
   | 'top-start'
   | 'top-end'

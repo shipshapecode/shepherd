@@ -5,11 +5,13 @@ import {
   arrow,
   computePosition,
   flip,
+  autoPlacement,
   limitShift,
   shift,
   type ComputePositionConfig,
   type MiddlewareData,
-  type Placement
+  type Placement,
+  type Alignment
 } from '@floating-ui/dom';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
 import { isHTMLElement } from './type-check.ts';
@@ -180,9 +182,27 @@ export function getFloatingUIOptions(
 
   const shouldCenter = shouldCenterStep(attachToOptions);
 
+  const hasAutoPlacement = attachToOptions.on?.includes('auto');
+
+  const hasEdgeAlignment =
+    attachToOptions?.on?.includes('-start') ||
+    attachToOptions?.on?.includes('-end');
+
   if (!shouldCenter) {
+    if (hasAutoPlacement) {
+      options.middleware.push(
+        autoPlacement({
+          crossAxis: true,
+          alignment: hasEdgeAlignment
+            ? (attachToOptions?.on?.split('-').pop() as Alignment)
+            : null
+        })
+      );
+    } else {
+      options.middleware.push(flip());
+    }
+
     options.middleware.push(
-      flip(),
       // Replicate PopperJS default behavior.
       shift({
         limiter: limitShift(),
@@ -191,15 +211,12 @@ export function getFloatingUIOptions(
     );
 
     if (arrowEl) {
-      const hasEdgeAlignment =
-        attachToOptions?.on?.includes('-start') ||
-        attachToOptions?.on?.includes('-end');
       options.middleware.push(
         arrow({ element: arrowEl, padding: hasEdgeAlignment ? 4 : 0 })
       );
     }
 
-    options.placement = attachToOptions.on;
+    if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
   }
 
   return deepmerge(options, step.options.floatingUIOptions || {});
