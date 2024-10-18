@@ -8,7 +8,12 @@ import {
   isUndefined
 } from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
-import { parseAttachTo, normalizePrefix, uuid } from './utils/general.ts';
+import {
+  parseAttachTo,
+  normalizePrefix,
+  uuid,
+  dedupeMiddlewares
+} from './utils/general.ts';
 import {
   setupTooltip,
   destroyTooltip,
@@ -521,6 +526,13 @@ export class Step extends Evented {
       this.tour && this.tour.options && this.tour.options.defaultStepOptions;
 
     tourOptions = deepmerge({}, tourOptions || {});
+
+    if (tourOptions.floatingUIOptions?.middleware) {
+      tourOptions.floatingUIOptions.middleware = dedupeMiddlewares(
+        [...tourOptions.floatingUIOptions.middleware],
+        options.floatingUIOptions?.middleware
+      );
+    }
 
     this.options = Object.assign(
       {

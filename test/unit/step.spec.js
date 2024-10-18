@@ -88,8 +88,8 @@ describe('Tour | Step', () => {
     });
 
     const stepWithoutNameWithoutIdOffsetMiddleware = offset({
-      mainAxis: 0,
-      crossAxis: -32
+      mainAxis: 32,
+      crossAxis: 0
     });
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
@@ -181,16 +181,11 @@ describe('Tour | Step', () => {
         stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(
           ({ name }) => name === 'offset'
         );
-      const offsetResult = offsetMiddleware.reduce(
-        (agg, current) => {
-          agg.mainAxis += current.options.mainAxis;
-          agg.crossAxis += current.options.crossAxis;
-          return agg;
-        },
-        { mainAxis: 0, crossAxis: 0 }
-      );
-
-      expect(offsetResult).toEqual({ mainAxis: 0, crossAxis: 0 });
+      expect(offsetMiddleware.length).toBe(1);
+      expect(offsetMiddleware[0].options).toEqual({
+        mainAxis: 32,
+        crossAxis: 0
+      });
     });
 
     describe('.hide()', () => {
