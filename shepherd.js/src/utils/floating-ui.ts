@@ -9,7 +9,8 @@ import {
   shift,
   type ComputePositionConfig,
   type MiddlewareData,
-  type Placement
+  type Placement,
+  autoPlacement
 } from '@floating-ui/dom';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
 import { isHTMLElement } from './type-check.ts';
@@ -181,14 +182,16 @@ export function getFloatingUIOptions(
   const shouldCenter = shouldCenterStep(attachToOptions);
 
   if (!shouldCenter) {
-    options.middleware.push(
-      flip(),
-      // Replicate PopperJS default behavior.
-      shift({
-        limiter: limitShift(),
-        crossAxis: true
-      })
-    );
+    if (!step.options.disableDefaultMiddlewares) {
+      options.middleware.push(
+        flip(),
+        // Replicate PopperJS default behavior.
+        shift({
+          limiter: limitShift(),
+          crossAxis: true
+        })
+      );
+    }
 
     if (arrowEl) {
       const hasEdgeAlignment =
