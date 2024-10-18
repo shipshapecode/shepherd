@@ -176,7 +176,7 @@ created.
 - `attachTo`: The element the step should be attached to on the page. An object with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function (returning a selector, a DOM element, `null` or `undefined`).
   - `on`: The optional direction to place the Floating UI tooltip relative to the element.
-    - Possible string values: 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
+    - Possible string values: 'auto', 'auto-start', 'auto-end', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right', 'right-start', 'right-end', 'left', 'left-start', 'left-end'
 
 ```js
 const new Step(tour, {
