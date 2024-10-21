@@ -1,5 +1,35 @@
 # Changelog
 
+## Release (2024-10-21)
+
+react-shepherd 6.1.4 (patch)
+shepherd.js 14.1.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd-docs`, `landing`, `shepherd.js`, `unit-tests`
+  * [#2995](https://github.com/shipshapecode/shepherd/pull/2995) Implement multiple element highlighting feature ([@YuunsGit](https://github.com/YuunsGit))
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3011](https://github.com/shipshapecode/shepherd/pull/3011) Fix options type for `options.floatingUIOptions` ([@patrikholcak](https://github.com/patrikholcak))
+
+#### :memo: Documentation
+* `landing`
+  * [#3025](https://github.com/shipshapecode/shepherd/pull/3025) Fix loading on button, add link to root page on logo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `landing`
+  * [#3025](https://github.com/shipshapecode/shepherd/pull/3025) Fix loading on button, add link to root page on logo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3015](https://github.com/shipshapecode/shepherd/pull/3015) State Fix for Pricing ([@Naman-B-Parlecha](https://github.com/Naman-B-Parlecha))
+  * [#3013](https://github.com/shipshapecode/shepherd/pull/3013) 🐛 Change check for DOMContentLoaded to astro:page-load ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 5
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- Naman-Parlecha ([@Naman-B-Parlecha](https://github.com/Naman-B-Parlecha))
+- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- Yunus Emre ([@YuunsGit](https://github.com/YuunsGit))
+
 ## Release (2024-10-10)
 
 react-shepherd 6.1.3 (patch)
