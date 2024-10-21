@@ -99,6 +99,18 @@ export interface StepOptions {
   classes?: string;
 
   /**
+   * An array of extra element selectors to highlight when the overlay is shown
+   * The tooltip won't be fixed to these elements, but they will be highlighted
+   * just like the `attachTo` element.
+   * ```js
+   * const step = new Step(tour, {
+   *   extraHighlights: [ '.pricing', '#docs' ],
+   *   ...moreOptions
+   * });
+   */
+  extraHighlights?: ReadonlyArray<string>;
+
+  /**
    * An extra class to apply to the `attachTo` element when it is
    * highlighted (that is, when its step is active). You can then target that selector in your CSS.
    */
@@ -189,18 +201,6 @@ export interface StepOptions {
    * ```
    */
   when?: StepOptionsWhen;
-
-  /**
-   * An array of extra element selectors to highlight when the overlay is shown
-   * The tooltip won't be fixed to these elements, but they will be highlighted
-   * just like the `attachTo` element.
-   * ```js
-   * const step = new Step(tour, {
-   *   extraHighlights: [ '.pricing', '#docs' ],
-   *   ...moreOptions
-   * });
-   */
-  extraHighlights?: ReadonlyArray<string>;
 }
 
 export type PopperPlacement =
