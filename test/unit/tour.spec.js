@@ -666,6 +666,60 @@ describe('Tour | Top-Level Class', function () {
 
       expect(stepsContainer.contains(stepElement)).toBe(true);
     });
+
+    it('adds autoPlacement middleware when attachTo.on is set to auto', () => {
+      const div = document.createElement('div');
+      div.classList.add('modifiers-test');
+      document.body.appendChild(div);
+      instance = new Shepherd.Tour();
+
+      const step1 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        attachTo: { element: '.modifiers-test', on: 'auto' }
+      });
+
+      const step2 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        attachTo: { element: '.modifiers-test', on: 'auto-start' }
+      });
+
+      const step3 = instance.addStep({
+        id: 'test',
+        title: 'This is a test step for our tour',
+        attachTo: { element: '.modifiers-test', on: 'auto-end' }
+      });
+
+      instance.start();
+
+      const step1FloatingUIOptions = setupTooltip(step1);
+      const step1MiddlewareNames = step1FloatingUIOptions.middleware.map(
+        ({ name }) => name
+      );
+      const step1PlacementMiddleware = step1FloatingUIOptions.middleware.find(
+        ({ name }) => name === 'autoPlacement'
+      );
+      expect(step1MiddlewareNames.includes('autoPlacement')).toBe(true);
+      expect(step1MiddlewareNames.includes('flip')).toBe(false);
+      expect(step1PlacementMiddleware.options.alignment).toBe(null);
+
+      instance.next();
+
+      const step2FloatingUIOptions = setupTooltip(step2);
+      const step2PlacementMiddleware = step2FloatingUIOptions.middleware.find(
+        ({ name }) => name === 'autoPlacement'
+      );
+      expect(step2PlacementMiddleware.options.alignment).toBe('start');
+
+      instance.next();
+
+      const step3FloatingUIOptions = setupTooltip(step3);
+      const step3PlacementMiddleware = step3FloatingUIOptions.middleware.find(
+        ({ name }) => name === 'autoPlacement'
+      );
+      expect(step3PlacementMiddleware.options.alignment).toBe('end');
+    });
   });
 
   describe('shepherdModalOverlayContainer', function () {
