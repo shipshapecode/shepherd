@@ -43,7 +43,7 @@
     "postcss": "^8.4.38",
     "prettier": "3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-svelte": "^3.2.2",
+    "prettier-plugin-svelte": "^3.2.7",
     "release-plan": "^0.9.0",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
