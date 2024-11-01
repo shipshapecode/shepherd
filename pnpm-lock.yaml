@@ -124,8 +124,8 @@ importers:
         specifier: ^5.1.2
         version: 5.1.2(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(tailwindcss@3.4.11)
       '@astrojs/vercel':
-        specifier: ^7.8.1
-        version: 7.8.1(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(encoding@0.1.13)(react@18.3.1)
+        specifier: ^7.8.2
+        version: 7.8.2(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(encoding@0.1.13)(react@18.3.1)
       '@polar-sh/sdk':
         specifier: ^0.10.0
         version: 0.10.0(zod@3.23.8)
@@ -533,8 +533,8 @@ packages:
     resolution: {integrity: sha512-/ca/+D8MIKEC8/A9cSaPUqQNZm+Es/ZinRv0ZAzvu2ios7POQSsVD+VOj7/hypWNsNM3T7RpfgNq7H2TU1KEHA==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0}
 
-  '@astrojs/vercel@7.8.1':
-    resolution: {integrity: sha512-2PIVmv2/nI527DQsaZnf2jeUr+ddJjaQLXwqnVPXQn0LfIE8mi8BgYC5SUU9hJWIaFwEWTwJh90POaA2L3RpWQ==}
+  '@astrojs/vercel@7.8.2':
+    resolution: {integrity: sha512-U2JsfN0LzFMX5CPrcb+5bAAyqyYURP6Dk/mUIXX87r5x4baQy+juU+ntvf926YA0tR7u6jPRXHymE2axQ/l3NQ==}
     peerDependencies:
       astro: ^4.2.0
 
@@ -8570,7 +8570,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/vercel@7.8.1(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(encoding@0.1.13)(react@18.3.1)':
+  '@astrojs/vercel@7.8.2(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(encoding@0.1.13)(react@18.3.1)':
     dependencies:
       '@astrojs/internal-helpers': 0.4.1
       '@vercel/analytics': 1.3.1(react@18.3.1)
