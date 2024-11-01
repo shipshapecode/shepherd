@@ -61,7 +61,7 @@
     "@babel/core": "^7.24.6",
     "@babel/plugin-transform-typescript": "^7.25.7",
     "@babel/preset-env": "^7.25.8",
-    "@babel/preset-typescript": "^7.24.1",
+    "@babel/preset-typescript": "^7.26.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
