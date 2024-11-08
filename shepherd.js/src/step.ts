@@ -68,9 +68,9 @@ export interface StepOptions {
   advanceOn?: StepOptionsAdvanceOn;
 
   /**
-   * Whether to display the arrow for the tooltip or not
+   * Whether to display the arrow for the tooltip or not, or options for the arrow.
    */
-  arrow?: boolean;
+  arrow?: boolean | StepOptionsArrow;
 
   /**
    * A function that returns a promise.
@@ -220,6 +220,14 @@ export type PopperPlacement =
   | 'left'
   | 'left-start'
   | 'left-end';
+
+export interface StepOptionsArrow {
+  /*
+   * The padding from the edge for the arrow.
+   * Not used if this is not a -start or -end placement.
+   */
+  padding?: number
+}
 
 export interface StepOptionsAttachTo {
   element?:
