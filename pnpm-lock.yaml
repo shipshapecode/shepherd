@@ -127,8 +127,8 @@ importers:
         specifier: ^7.8.2
         version: 7.8.2(astro@4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4))(encoding@0.1.13)(react@18.3.1)
       '@polar-sh/sdk':
-        specifier: ^0.10.0
-        version: 0.10.0(zod@3.23.8)
+        specifier: ^0.15.1
+        version: 0.15.1(zod@3.23.8)
       astro:
         specifier: ^4.16.1
         version: 4.16.1(@types/node@20.14.12)(rollup@4.24.0)(terser@5.31.3)(typescript@5.5.4)
@@ -2074,8 +2074,8 @@ packages:
     resolution: {integrity: sha512-UA91GwWPhFExt3IizW6bOeY/pQ0BkuNwKjk9iQW9KqxluGCrg4VenZ0/L+2Y0+ZOtme72EVvg6v0zo3AMQRCeA==}
     engines: {node: '>=12'}
 
-  '@polar-sh/sdk@0.10.0':
-    resolution: {integrity: sha512-NnVPGdYqTpraHLIg7E9LBWF8OXKQTVr+UHzSh3Id0A1oSx3LC5wWz05Jhw/vEpXnDKGB5mMN97oncrZWGx1VCQ==}
+  '@polar-sh/sdk@0.15.1':
+    resolution: {integrity: sha512-Xll/nd6wc0tSak9DiRFuIKTD2E5afyA2pLkDkajg7kszVqUgQ3MqAy0ZRTSvSWN/EAxPLATJsSRK/IOVeJ5K4w==}
     peerDependencies:
       zod: '>= 3'
 
@@ -10559,7 +10559,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@polar-sh/sdk@0.10.0(zod@3.23.8)':
+  '@polar-sh/sdk@0.15.1(zod@3.23.8)':
     dependencies:
       zod: 3.23.8
 
