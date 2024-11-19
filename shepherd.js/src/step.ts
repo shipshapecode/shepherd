@@ -108,6 +108,7 @@ export interface StepOptions {
    *   extraHighlights: [ '.pricing', '#docs' ],
    *   ...moreOptions
    * });
+   * ```
    */
   extraHighlights?: ReadonlyArray<string>;
 
