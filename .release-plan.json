@@ -2,8 +2,8 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.1.3",
-      "newVersion": "6.1.4",
+      "oldVersion": "6.1.4",
+      "newVersion": "6.1.5",
       "constraints": [
         {
           "impact": "patch",
@@ -14,20 +14,16 @@
     },
     "shepherd.js": {
       "impact": "minor",
-      "oldVersion": "14.0.1",
-      "newVersion": "14.1.0",
+      "oldVersion": "14.1.0",
+      "newVersion": "14.2.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-10-21)\n\nreact-shepherd 6.1.4 (patch)\nshepherd.js 14.1.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd-docs`, `landing`, `shepherd.js`, `unit-tests`\n  * [#2995](https://github.com/shipshapecode/shepherd/pull/2995) Implement multiple element highlighting feature ([@YuunsGit](https://github.com/YuunsGit))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3011](https://github.com/shipshapecode/shepherd/pull/3011) Fix options type for `options.floatingUIOptions` ([@patrikholcak](https://github.com/patrikholcak))\n\n#### :memo: Documentation\n* `landing`\n  * [#3025](https://github.com/shipshapecode/shepherd/pull/3025) Fix loading on button, add link to root page on logo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `landing`\n  * [#3025](https://github.com/shipshapecode/shepherd/pull/3025) Fix loading on button, add link to root page on logo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3015](https://github.com/shipshapecode/shepherd/pull/3015) State Fix for Pricing ([@Naman-B-Parlecha](https://github.com/Naman-B-Parlecha))\n  * [#3013](https://github.com/shipshapecode/shepherd/pull/3013) 🐛 Change check for DOMContentLoaded to astro:page-load ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 5\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- Naman-Parlecha ([@Naman-B-Parlecha](https://github.com/Naman-B-Parlecha))\n- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n- Yunus Emre ([@YuunsGit](https://github.com/YuunsGit))\n"
+  "description": "## Release (2024-11-19)\n\nreact-shepherd 6.1.5 (patch)\nshepherd.js 14.2.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd-docs`, `shepherd.js`, `unit-tests`\n  * [#3009](https://github.com/shipshapecode/shepherd/pull/3009) Add 'auto' as placement option ([@patrikholcak](https://github.com/patrikholcak))\n\n#### Committers: 1\n- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))\n"
 }
