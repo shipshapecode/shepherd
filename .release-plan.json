@@ -2,28 +2,36 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "6.1.4",
-      "newVersion": "6.1.5",
+      "oldVersion": "6.1.5",
+      "newVersion": "6.1.6",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
       "impact": "minor",
-      "oldVersion": "14.1.0",
-      "newVersion": "14.2.0",
+      "oldVersion": "14.2.0",
+      "newVersion": "14.3.0",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2024-11-19)\n\nreact-shepherd 6.1.5 (patch)\nshepherd.js 14.2.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd-docs`, `shepherd.js`, `unit-tests`\n  * [#3009](https://github.com/shipshapecode/shepherd/pull/3009) Add 'auto' as placement option ([@patrikholcak](https://github.com/patrikholcak))\n\n#### Committers: 1\n- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))\n"
+  "description": "## Release (2024-11-19)\n\nreact-shepherd 6.1.6 (patch)\nshepherd.js 14.3.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd-docs`, `shepherd.js`, `unit-tests`\n  * [#3009](https://github.com/shipshapecode/shepherd/pull/3009) Add 'auto' as placement option ([@patrikholcak](https://github.com/patrikholcak))\n\n#### :house: Internal\n* `react-shepherd`, `shepherd.js`\n  * [#3035](https://github.com/shipshapecode/shepherd/pull/3035) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n\n#### Committers: 2\n- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }
