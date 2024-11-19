@@ -20,3 +20,7 @@ Warning: unknown package "landing"
 Warning: unknown package "unit-tests"
 Warning: unknown package "landing"
 Warning: unknown package "landing"
+(node:2262) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Warning: unknown package "shepherd-docs"
+Warning: unknown package "unit-tests"

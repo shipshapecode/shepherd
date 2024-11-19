@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2024-11-19)
+
+react-shepherd 6.1.5 (patch)
+shepherd.js 14.2.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd-docs`, `shepherd.js`, `unit-tests`
+  * [#3009](https://github.com/shipshapecode/shepherd/pull/3009) Add 'auto' as placement option ([@patrikholcak](https://github.com/patrikholcak))
+
+#### Committers: 1
+- Patrik Holčák ([@patrikholcak](https://github.com/patrikholcak))
+
 ## Release (2024-10-21)
 
 react-shepherd 6.1.4 (patch)
