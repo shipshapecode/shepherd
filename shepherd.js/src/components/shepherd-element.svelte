@@ -150,6 +150,18 @@
 </dialog>
 
 <style global>
+  /* <dialog> reset needed for positioning */
+  dialog.shepherd-element {
+    padding: 0;
+    border: none;
+    margin: 0;
+    background: none;
+    position: static;
+    width: auto;
+    height: auto;
+    color: inherit;
+    font: inherit;
+  }
   .shepherd-element {
     background: #fff;
     border-radius: 5px;
