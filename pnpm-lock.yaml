@@ -298,8 +298,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(@babel/core@7.24.9)(postcss-load-config@4.0.2(postcss@8.4.40))(postcss@8.4.40)(svelte@4.2.19)(typescript@5.6.3)
       svelte2tsx:
-        specifier: ^0.7.8
-        version: 0.7.13(svelte@4.2.19)(typescript@5.6.3)
+        specifier: ^0.7.26
+        version: 0.7.26(svelte@4.2.19)(typescript@5.6.3)
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -7495,8 +7495,8 @@ packages:
       typescript:
         optional: true
 
-  svelte2tsx@0.7.13:
-    resolution: {integrity: sha512-aObZ93/kGAiLXA/I/kP+x9FriZM+GboB/ReOIGmLNbVGEd2xC+aTCppm3mk1cc9I/z60VQf7b2QDxC3jOXu3yw==}
+  svelte2tsx@0.7.26:
+    resolution: {integrity: sha512-cBGGZ3Hejuh9gYICQcGKg1zyYhrzZR04iTUdP5pD+CIbjoZiyzS4cpCi4IHh0PA2Vf6cFuwVRmDs9wnOfJotJA==}
     peerDependencies:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
@@ -17437,7 +17437,7 @@ snapshots:
       postcss-load-config: 4.0.2(postcss@8.4.40)
       typescript: 5.6.3
 
-  svelte2tsx@0.7.13(svelte@4.2.19)(typescript@5.6.3):
+  svelte2tsx@0.7.26(svelte@4.2.19)(typescript@5.6.3):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
