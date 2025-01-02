@@ -16,7 +16,7 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.6",
+    "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.25.8",
     "@babel/preset-typescript": "^7.26.0",
     "@testing-library/jest-dom": "^5.17.0",
