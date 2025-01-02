@@ -1,5 +1,25 @@
 # Changelog
 
+## Release (2025-01-02)
+
+react-shepherd 6.1.7 (patch)
+shepherd.js 14.4.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd.js`
+  * [#3068](https://github.com/shipshapecode/shepherd/pull/3068) 💄 Add reset for dialog element ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* `shepherd.js`, `cypress-tests`
+  * [#3083](https://github.com/shipshapecode/shepherd/pull/3083) ♿ Remove tabindex to reduce tabs for modal trap ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* [#3066](https://github.com/shipshapecode/shepherd/pull/3066) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+
+#### Committers: 2
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- [@github-actions[bot]](https://github.com/apps/github-actions)
+
 
 
 
