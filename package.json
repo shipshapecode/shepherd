@@ -30,7 +30,7 @@
     "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.6",
+    "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.25.8",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
