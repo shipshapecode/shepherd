@@ -1,11 +1,33 @@
 {
   "solution": {
     "react-shepherd": {
-      "oldVersion": "6.1.6"
+      "impact": "patch",
+      "oldVersion": "6.1.6",
+      "newVersion": "6.1.7",
+      "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Has dependency `workspace:*` on shepherd.js"
+        }
+      ],
+      "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "oldVersion": "14.3.0"
+      "impact": "minor",
+      "oldVersion": "14.3.0",
+      "newVersion": "14.4.0",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        }
+      ],
+      "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "\n\n\n\n"
+  "description": "## Release (2025-01-13)\n\nreact-shepherd 6.1.7 (patch)\nshepherd.js 14.4.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3068](https://github.com/shipshapecode/shepherd/pull/3068) 💄 Add reset for dialog element ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd.js`, `cypress-tests`\n  * [#3083](https://github.com/shipshapecode/shepherd/pull/3083) ♿ Remove tabindex to reduce tabs for modal trap ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `landing`\n  * [#3089](https://github.com/shipshapecode/shepherd/pull/3089) ⬆ Update Polar SDK and use new API ([@chuckcarpenter](https://github.com/chuckcarpenter))\n* Other\n  * [#3066](https://github.com/shipshapecode/shepherd/pull/3066) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n\n#### Committers: 2\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- [@github-actions[bot]](https://github.com/apps/github-actions)\n"
 }
