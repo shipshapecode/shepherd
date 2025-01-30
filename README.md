@@ -8,9 +8,9 @@
 [![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 ![npm](https://img.shields.io/npm/dm/shepherd.js.svg)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shepherd-pro%2Fshepherd?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shipshapecode%2Fshepherd?ref=badge_shield)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
-[![Test](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml)
+[![Test](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
@@ -49,7 +49,7 @@ The Shepherd Standalone Library has been open source since the very beginning. C
 #### [React Shepherd Wrapper](packages/react)
 #### [Angular Shepherd Wrapper](https://github.com/shipshapecode/angular-shepherd)
 #### [Vue Shepherd Wrapper](https://github.com/shipshapecode/vue-shepherd)
-#### [Ember Shepherd Wrapper](https://github.com/shepherd-pro/ember-shepherd)
+#### [Ember Shepherd Wrapper](https://github.com/RobbieTheWagner/ember-shepherd)
 
 ### Commercial license
 
