@@ -92,7 +92,7 @@
   },
   "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": ">= 20"
+    "node": "18.* || >= 20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
