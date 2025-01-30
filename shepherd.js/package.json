@@ -90,9 +90,9 @@
     "svelte2tsx": "^0.7.8",
     "typescript": "^5.6.3"
   },
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": "18.* || >= 20"
+    "node": ">= 20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
