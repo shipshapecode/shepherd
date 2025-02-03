@@ -24,6 +24,6 @@
     "typescript": "^5.6.3"
   },
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.5.7"
+    "@flydotio/dockerfile": "^0.7.4"
   }
 }
