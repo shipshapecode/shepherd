@@ -38,7 +38,7 @@
     "concurrently": "^9.0.1",
     "del": "^7.1.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-jest": "^28.10.0",
+    "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-svelte": "^2.46.1",
     "postcss": "^8.5.1",
     "prettier": "3.3.3",
