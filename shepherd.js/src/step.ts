@@ -226,7 +226,7 @@ export interface StepOptionsArrow {
    * The padding from the edge for the arrow.
    * Not used if this is not a -start or -end placement.
    */
-  padding?: number
+  padding?: number;
 }
 
 export interface StepOptionsAttachTo {

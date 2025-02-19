@@ -531,6 +531,53 @@ describe('Shepherd Acceptance Tests', () => {
           });
       });
     });
+
+    describe("arrow padding", () => {
+      it('uses provided arrow padding', () => {
+        const tour = setupTour(Shepherd, {}, () => [
+          {
+            text: 'Test',
+            attachTo: {
+              element: '.hero-example',
+              on: 'left-end'
+            },
+            arrow: true,
+            classes: 'shepherd-step-element shepherd-transparent-text first-step',
+            id: 'welcome'
+          }
+        ]);
+
+        tour.start();
+        cy.wait(250);
+
+        cy.get('[data-shepherd-step-id="welcome"] .shepherd-arrow').then((arrowElement) => {
+          const finalPosition = arrowElement.css(['top']);
+          expect(finalPosition).to.deep.equal({ top: "4px" });
+        });
+      });
+
+      it('uses a default arrow padding if not provided', () => {
+        const tour = setupTour(Shepherd, {}, () => [
+          {
+            text: 'Test',
+            attachTo: {
+              element: '.hero-example',
+              on: 'left-end'
+            },
+            arrow: { padding: 10 },
+            classes: 'shepherd-step-element shepherd-transparent-text first-step',
+            id: 'welcome'
+          }
+        ]);
+        tour.start();
+        cy.wait(250);
+
+        cy.get('[data-shepherd-step-id="welcome"] .shepherd-arrow').then((arrowElement) => {
+          const finalPosition = arrowElement.css(['top']);
+          expect(finalPosition).to.deep.equal({ top: "10px" });
+        });
+      });
+    });
   });
 
   describe('Steps: rendering', () => {
