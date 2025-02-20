@@ -44,6 +44,44 @@ describe('components/ShepherdElement', () => {
         container.querySelectorAll('.shepherd-element .shepherd-arrow').length
       ).toBe(0);
     });
+
+    it('arrow: object with padding shows arrow', async () => {
+      const testElement = document.createElement('div');
+      const tour = new Tour();
+      const step = new Step(tour, {
+        arrow: { padding: 10 },
+        attachTo: { element: testElement, on: 'top' }
+      });
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step
+        }
+      });
+
+      expect(
+        container.querySelectorAll('.shepherd-element .shepherd-arrow').length
+      ).toBe(1);
+    });
+    
+    it('arrow: empty object shows arrow', async () => {
+      const testElement = document.createElement('div');
+      const tour = new Tour();
+      const step = new Step(tour, {
+        arrow: {},
+        attachTo: { element: testElement, on: 'top' }
+      });
+
+      const { container } = render(ShepherdElement, {
+        props: {
+          step
+        }
+      });
+
+      expect(
+        container.querySelectorAll('.shepherd-element .shepherd-arrow').length
+      ).toBe(1);
+    });
   });
 
   describe('handleKeyDown', () => {

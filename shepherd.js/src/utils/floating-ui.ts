@@ -211,8 +211,16 @@ export function getFloatingUIOptions(
     );
 
     if (arrowEl) {
+      const arrowOptions =
+        typeof step.options.arrow === 'object'
+          ? step.options.arrow
+          : { padding: 4 };
+
       options.middleware.push(
-        arrow({ element: arrowEl, padding: hasEdgeAlignment ? 4 : 0 })
+        arrow({
+          element: arrowEl,
+          padding: hasEdgeAlignment ? arrowOptions.padding : 0
+        })
       );
     }
 
