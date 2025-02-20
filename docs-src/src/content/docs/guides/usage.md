@@ -297,4 +297,14 @@ myTour.addStep({
 });
 ```
 
+You can also provide an options object, to configure the arrow's [padding](https://floating-ui.com/docs/arrow#padding). The padding is the closest the arrow will get to the edge of the step.
+
+```js
+myTour.addStep({
+  id: 'Step 1',
+  arrow: { padding: 10 }
+});
+```
+
+
 Furthermore, while Shepherd provides some basic arrow styling, you can style it as you wish by targeting the `.shepherd-arrow` element.
