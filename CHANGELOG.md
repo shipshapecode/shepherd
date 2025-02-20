@@ -1,5 +1,22 @@
 # Changelog
 
+## Release (2025-02-20)
+
+react-shepherd 6.1.8 (patch)
+shepherd.js 14.5.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd-docs`, `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#3051](https://github.com/shipshapecode/shepherd/pull/3051) Allow arrow padding to be configured for a step. ([@JakeThurman](https://github.com/JakeThurman))
+
+#### :house: Internal
+* `shepherd-docs`, `landing`, `shepherd.js`, `cypress-tests`, `unit-tests`
+  * [#3111](https://github.com/shipshapecode/shepherd/pull/3111) Update to Astro 5.x ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Jake Thurman ([@JakeThurman](https://github.com/JakeThurman))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2025-01-13)
 
 react-shepherd 6.1.7 (patch)
