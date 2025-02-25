@@ -21,7 +21,7 @@
     "tailwindcss": "^3.4.17",
     "typedoc": "^0.26.7",
     "typedoc-plugin-markdown": "4.2.9",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.7.4"
