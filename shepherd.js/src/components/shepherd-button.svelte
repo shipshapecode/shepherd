@@ -1,17 +1,16 @@
 <script>
   import { isFunction } from '../utils/type-check.ts';
 
-  export let config, step;
-  let action, classes, disabled, label, secondary, text;
+  const { config, step } = $props();
 
-  $: {
-    action = config.action ? config.action.bind(step.tour) : null;
-    classes = config.classes;
-    disabled = config.disabled ? getConfigOption(config.disabled) : false;
-    label = config.label ? getConfigOption(config.label) : null;
-    secondary = config.secondary;
-    text = config.text ? getConfigOption(config.text) : null;
-  }
+  let action = $derived(config.action ? config.action.bind(step.tour) : null);
+  let classes = $derived(config.classes);
+  let disabled = $derived(
+    config.disabled ? getConfigOption(config.disabled) : false
+  );
+  let label = $derived(config.label ? getConfigOption(config.label) : null);
+  let secondary = $derived(config.secondary);
+  let text = $derived(config.text ? getConfigOption(config.text) : null);
 
   function getConfigOption(option) {
     if (isFunction(option)) {
@@ -27,7 +26,7 @@
     secondary ? 'shepherd-button-secondary' : ''
   }`}
   {disabled}
-  on:click={action}
+  onclick={action}
   tabindex="0"
   type="button"
 >

@@ -2,13 +2,10 @@
   import ShepherdCancelIcon from './shepherd-cancel-icon.svelte';
   import ShepherdTitle from './shepherd-title.svelte';
 
-  export let labelId, step;
-  let title, cancelIcon;
+const { labelId, step } = $props();
 
-  $: {
-    title = step.options.title;
-    cancelIcon = step.options.cancelIcon;
-  }
+let title = $derived(step.options.title);
+let cancelIcon = $derived(step.options.cancelIcon);
 </script>
 
 <header class="shepherd-header">

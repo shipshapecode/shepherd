@@ -1,12 +1,11 @@
 <script>
   import { makeOverlayPath } from '../utils/overlay-path.ts';
 
-  export let element, openingProperties;
+  let { element, openingProperties } = $props();
   let modalIsVisible = false;
   let rafId = undefined;
-  let pathDefinition;
 
-  $: pathDefinition = makeOverlayPath(openingProperties);
+  let pathDefinition = $derived(makeOverlayPath(openingProperties));
 
   closeModalOpening();
 

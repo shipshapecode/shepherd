@@ -1,20 +1,27 @@
 <script>
-  import { afterUpdate } from 'svelte';
-  import { isHTMLElement, isFunction } from '../utils/type-check.ts';
+  import { effect } from 'svelte';
+  import { isFunction, isHTMLElement } from '../utils/type-check.ts';
 
-  export let descriptionId, element, step;
+  let { descriptionId, element, step } = $props();
 
-  afterUpdate(() => {
-    let { text } = step.options;
+  $effect(() => {
+    let text = step.options.text;
 
     if (isFunction(text)) {
       text = text.call(step);
     }
 
+    // Clear existing content
+    while (element?.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+
     if (isHTMLElement(text)) {
-      element.appendChild(text);
+      element?.appendChild(text);
     } else {
-      element.innerHTML = text;
+      if (element) {
+        element.innerHTML = text;
+      }
     }
   });
 </script>

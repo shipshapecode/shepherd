@@ -1,19 +1,18 @@
 <script>
-  import { afterUpdate } from 'svelte';
   import { isFunction } from '../utils/type-check.ts';
 
-  export let labelId, element, title;
+  let { labelId, element, title } = $props();
 
-  afterUpdate(() => {
-    if (isFunction(title)) {
-      title = title();
+  $effect(() => {
+    let currentTitle = title;
+    if (isFunction(currentTitle)) {
+      currentTitle = currentTitle();
     }
-
-    element.innerHTML = title;
+    element.innerHTML = currentTitle;
   });
 </script>
 
-<!-- svelte-ignore a11y-missing-content -->
+<!-- svelte-ignore a11y_missing_content -->
 <h3 bind:this={element} id={labelId} class="shepherd-title"></h3>
 
 <style global>
