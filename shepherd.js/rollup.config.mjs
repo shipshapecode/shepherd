@@ -29,7 +29,11 @@ const plugins = [
     preprocess: sveltePreprocess({
       typescript: true
     }),
-    emitCss: true
+    emitCss: true,
+    compilerOptions: {
+      runes: true,
+      legacy: false
+    }
   }),
   nodeResolve({
     browser: true,
@@ -80,7 +84,7 @@ export default [
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
+            'svelte2tsx/svelte-shims-v5.d.ts'
             ),
             declarationDir: 'tmp/esm'
           });
@@ -150,7 +154,7 @@ export default [
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
+            'svelte2tsx/svelte-shims-v5.d.ts'
             ),
             declarationDir: 'tmp/cjs'
           });
