@@ -1,0 +1,18 @@
+/**
+* shepherd.css
+* These are the styles for shepherd.js
+*/
+
+/* Component Styles */
+@import './components/shepherd-button.css';
+@import './components/shepherd-cancel-icon.css';
+@import './components/shepherd-content.css';
+@import './components/shepherd-element.css';
+@import './components/shepherd-footer.css';
+@import './components/shepherd-header.css';
+@import './components/shepherd-modal.css';
+@import './components/shepherd-text.css';
+@import './components/shepherd-title.css';
+
+/* Note: Each component's styles are in their respective CSS files in the components directory */
+

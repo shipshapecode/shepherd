@@ -109,13 +109,6 @@ export default [
             stdio: 'inherit'
           });
 
-          await execaCommand(
-            `cp ./tmp/esm/css/shepherd.css ./dist/css/shepherd.css`,
-            {
-              stdio: 'inherit'
-            }
-          );
-
           console.log('Rollup TS declarations to one file');
 
           await execaCommand(

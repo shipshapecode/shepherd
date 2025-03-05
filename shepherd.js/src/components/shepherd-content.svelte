@@ -20,10 +20,3 @@ const { descriptionId, labelId, step } = $props();
   {/if}
 </div>
 
-<style global>
-  .shepherd-content {
-    border-radius: 5px;
-    outline: none;
-    padding: 0;
-  }
-</style>

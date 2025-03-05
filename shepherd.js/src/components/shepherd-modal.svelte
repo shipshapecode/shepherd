@@ -285,39 +285,7 @@
   class={`${
     modalIsVisible ? 'shepherd-modal-is-visible' : ''
   } shepherd-modal-overlay-container`}
-  on:touchmove={_preventModalOverlayTouch}
+  ontouchmove={_preventModalOverlayTouch}
 >
   <path d={pathDefinition} />
 </svg>
-
-<style global>
-  .shepherd-modal-overlay-container {
-    height: 0;
-    left: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-    position: fixed;
-    top: 0;
-    transition:
-      all 0.3s ease-out,
-      height 0ms 0.3s,
-      opacity 0.3s 0ms;
-    width: 100vw;
-    z-index: 9997;
-  }
-
-  .shepherd-modal-overlay-container.shepherd-modal-is-visible {
-    height: 100vh;
-    opacity: 0.5;
-    transition:
-      all 0.3s ease-out,
-      height 0s 0s,
-      opacity 0.3s 0s;
-    transform: translateZ(0);
-  }
-
-  .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
-    pointer-events: all;
-  }
-</style>
