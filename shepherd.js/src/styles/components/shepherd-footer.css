@@ -1,0 +1,12 @@
+.shepherd-footer {
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;
+display: flex;
+justify-content: flex-end;
+padding: 0 0.75rem 0.75rem;
+}
+
+.shepherd-footer .shepherd-button:last-child {
+margin-right: 0;
+}
+

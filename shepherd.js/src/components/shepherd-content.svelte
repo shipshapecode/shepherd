@@ -1,11 +1,10 @@
 <script>
-  import ShepherdFooter from './shepherd-footer.svelte';
-  import ShepherdHeader from './shepherd-header.svelte';
-  import ShepherdText from './shepherd-text.svelte';
-  import { isUndefined } from '../utils/type-check.ts';
+import ShepherdFooter from './shepherd-footer.svelte';
+import ShepherdHeader from './shepherd-header.svelte'; 
+import ShepherdText from './shepherd-text.svelte';
+import { isUndefined } from '../utils/type-check.ts';
 
-  export let descriptionId, labelId, step;
-</script>
+const { descriptionId, labelId, step } = $props();
 
 <div class="shepherd-content">
   {#if !isUndefined(step.options.title) || (step.options.cancelIcon && step.options.cancelIcon.enabled)}
@@ -21,10 +20,3 @@
   {/if}
 </div>
 
-<style global>
-  .shepherd-content {
-    border-radius: 5px;
-    outline: none;
-    padding: 0;
-  }
-</style>

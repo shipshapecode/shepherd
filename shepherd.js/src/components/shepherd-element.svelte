@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { effect } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -8,7 +8,8 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  export let classPrefix,
+  let {
+    classPrefix,
     element,
     descriptionId,
     firstFocusableElement,
@@ -16,21 +17,16 @@
     labelId,
     lastFocusableElement,
     step,
-    dataStepId;
+    dataStepId
+  } = $props();
 
-  let hasCancelIcon, hasTitle, classes;
-
-  $: {
-    hasCancelIcon =
-      step.options &&
-      step.options.cancelIcon &&
-      step.options.cancelIcon.enabled;
-    hasTitle = step.options && step.options.title;
-  }
+  let classes;
+  const hasCancelIcon = $derived(step.options?.cancelIcon?.enabled ?? false);
+  const hasTitle = $derived(step.options?.title ?? false);
 
   export const getElement = () => element;
 
-  onMount(() => {
+  $effect(() => {
     // Get all elements that are focusable
     dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
     focusableElements = element.querySelectorAll(
@@ -40,7 +36,7 @@
     lastFocusableElement = focusableElements[focusableElements.length - 1];
   });
 
-  afterUpdate(() => {
+  $effect(() => {
     if (classes !== step.options.classes) {
       updateDynamicClasses();
     }
@@ -140,7 +136,7 @@
   class:shepherd-has-title={hasTitle}
   class:shepherd-element={true}
   {...dataStepId}
-  on:keydown={handleKeyDown}
+  onkeydown={handleKeyDown}
   open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
@@ -149,87 +145,3 @@
   <ShepherdContent {descriptionId} {labelId} {step} />
 </dialog>
 
-<style global>
-  .shepherd-element {
-    background: #fff;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    margin: 0;
-    max-width: 400px;
-    opacity: 0;
-    outline: none;
-    padding: 0;
-    transition:
-      opacity 0.3s,
-      visibility 0.3s;
-    visibility: hidden;
-    width: 100%;
-    z-index: 9999;
-  }
-
-  .shepherd-enabled.shepherd-element {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-  }
-
-  .shepherd-element,
-  .shepherd-element *,
-  .shepherd-element *:after,
-  .shepherd-element *:before {
-    box-sizing: border-box;
-  }
-
-  .shepherd-arrow,
-  .shepherd-arrow::before {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    z-index: -1;
-  }
-
-  .shepherd-arrow:before {
-    content: '';
-    transform: rotate(45deg);
-    background: #fff;
-  }
-
-  .shepherd-element[data-popper-placement^='top'] > .shepherd-arrow {
-    bottom: -8px;
-  }
-
-  .shepherd-element[data-popper-placement^='bottom'] > .shepherd-arrow {
-    top: -8px;
-  }
-
-  .shepherd-element[data-popper-placement^='left'] > .shepherd-arrow {
-    right: -8px;
-  }
-
-  .shepherd-element[data-popper-placement^='right'] > .shepherd-arrow {
-    left: -8px;
-  }
-
-  .shepherd-element.shepherd-centered > .shepherd-arrow {
-    opacity: 0;
-  }
-
-  /**
-  * Arrow on top of tooltip centered horizontally, with title color
-  */
-  .shepherd-element.shepherd-has-title[data-popper-placement^='bottom']
-    > .shepherd-arrow::before {
-    background-color: #e6e6e6;
-  }
-
-  .shepherd-target-click-disabled.shepherd-enabled.shepherd-target,
-  .shepherd-target-click-disabled.shepherd-enabled.shepherd-target * {
-    pointer-events: none;
-  }
-</style>
