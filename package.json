@@ -21,6 +21,8 @@
     "lint": "pnpm -F '*' lint",
     "lint:fix": "pnpm -F '*' lint:fix",
     "lint:js": "pnpm -F '*' lint:js",
+    "lint:prettier": "pnpm -F '*' lint:prettier",
+    "lint:prettier:fix": "pnpm -F '*' lint:prettier:fix",
     "start": "pnpm watch",
     "test:ci": "pnpm build && pnpm -F '*' test:ci",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",

@@ -5,7 +5,8 @@
   import ShepherdTitle from './shepherd-title.svelte';
 
   let { labelId, step } = $props();
-  let title = $state(), cancelIcon = $state();
+  let title = $state(),
+    cancelIcon = $state();
 
   run(() => {
     title = step.options.title;

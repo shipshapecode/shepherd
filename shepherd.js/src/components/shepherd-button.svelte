@@ -4,8 +4,12 @@
   import { isFunction } from '../utils/type-check.ts';
 
   let { config, step } = $props();
-  let action = $state(), classes = $state(), disabled = $state(), label = $state(), secondary = $state(), text = $state();
-
+  let action = $state(),
+    classes = $state(),
+    disabled = $state(),
+    label = $state(),
+    secondary = $state(),
+    text = $state();
 
   function getConfigOption(option) {
     if (isFunction(option)) {
