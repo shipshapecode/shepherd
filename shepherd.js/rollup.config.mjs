@@ -12,7 +12,7 @@ import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import sveltePreprocess from 'svelte-preprocess';
+import { sveltePreprocess } from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { emitDts } from 'svelte2tsx';
@@ -27,6 +27,7 @@ const __dirname = path.dirname(__filename);
 const plugins = [
   svelte({
     preprocess: sveltePreprocess({
+      globalStyle: true,
       typescript: true
     }),
     emitCss: true
@@ -78,7 +79,7 @@ export default [
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
+              'svelte2tsx/svelte-shims.d.ts'
             ),
             declarationDir: 'tmp/esm'
           });
@@ -148,7 +149,7 @@ export default [
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
+              'svelte2tsx/svelte-shims.d.ts'
             ),
             declarationDir: 'tmp/cjs'
           });

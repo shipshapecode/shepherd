@@ -11,6 +11,7 @@ import { cleanupSteps } from './utils/cleanup.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
 // @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdModal from './components/shepherd-modal.svelte';
+import { mount } from 'svelte';
 
 export interface EventOptions {
   previous?: Step | null;
@@ -414,7 +415,7 @@ export class Tour extends Evented {
    * setupModal create the modal container and instance
    */
   setupModal() {
-    this.modal = new ShepherdModal({
+    this.modal = mount(ShepherdModal, {
       target: this.options.modalContainer || document.body,
       props: {
         // @ts-expect-error TODO: investigate where styles comes from
