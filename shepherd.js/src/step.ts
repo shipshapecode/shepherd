@@ -23,6 +23,7 @@ import {
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from '@floating-ui/dom';
+import { mount } from 'svelte';
 
 export type StepText =
   | string
@@ -492,7 +493,7 @@ export class Step extends Evented {
     const labelId = `${this.id}-label`;
 
     // @ts-expect-error TODO: get types for Svelte components
-    this.shepherdElementComponent = new ShepherdElement({
+    this.shepherdElementComponent = mount(ShepherdElement, {
       target: this.tour.options.stepsContainer || document.body,
       props: {
         classPrefix: this.classPrefix,

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -8,25 +8,22 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  export let classPrefix,
-    element,
+  let {
+    classPrefix,
+    element = $bindable(),
     descriptionId,
     firstFocusableElement,
     focusableElements,
     labelId,
     lastFocusableElement,
     step,
-    dataStepId;
+    dataStepId
+  } = $props();
 
-  let hasCancelIcon, hasTitle, classes;
+  let classes;
 
-  $: {
-    hasCancelIcon =
-      step.options &&
-      step.options.cancelIcon &&
-      step.options.cancelIcon.enabled;
-    hasTitle = step.options && step.options.title;
-  }
+  const hasCancelIcon = $derived(step.options?.cancelIcon?.enabled ?? false);
+  const hasTitle = $derived(step.options?.title ?? false);
 
   export const getElement = () => element;
 
@@ -40,7 +37,7 @@
     lastFocusableElement = focusableElements[focusableElements.length - 1];
   });
 
-  afterUpdate(() => {
+  $effect(() => {
     if (classes !== step.options.classes) {
       updateDynamicClasses();
     }
@@ -140,7 +137,7 @@
   class:shepherd-has-title={hasTitle}
   class:shepherd-element={true}
   {...dataStepId}
-  on:keydown={handleKeyDown}
+  onkeydown={handleKeyDown}
   open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
