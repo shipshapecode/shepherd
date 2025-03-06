@@ -1,9 +1,9 @@
 <script>
   import ShepherdButton from './shepherd-button.svelte';
 
-  export let step;
+  let { step } = $props();
 
-  $: buttons = step.options.buttons;
+  let buttons = $derived(step.options.buttons);
 </script>
 
 <footer class="shepherd-footer">

@@ -1,10 +1,9 @@
 <script>
-  import { afterUpdate } from 'svelte';
   import { isHTMLElement, isFunction } from '../utils/type-check.ts';
 
-  export let descriptionId, element, step;
+  let { descriptionId, element = $bindable(), step } = $props();
 
-  afterUpdate(() => {
+  $effect(() => {
     let { text } = step.options;
 
     if (isFunction(text)) {

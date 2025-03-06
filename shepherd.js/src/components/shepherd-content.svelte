@@ -4,7 +4,7 @@
   import ShepherdText from './shepherd-text.svelte';
   import { isUndefined } from '../utils/type-check.ts';
 
-  export let descriptionId, labelId, step;
+  let { descriptionId, labelId, step } = $props();
 </script>
 
 <div class="shepherd-content">
