@@ -47,7 +47,7 @@
     <!-- Welcome docs styles -->
     <link
       rel="stylesheet"
-      href="../node_modules/shepherd.js/dist/css/shepherd.css"
+      href="/css/shepherd.css"
     />
     <link rel="stylesheet" href="./css/fonts.css" />
     <link rel="stylesheet" href="./css/prism.css" />
@@ -120,18 +120,12 @@
         <div>
           <img src="sheep.svg" />
         </div>
-
-        <div id="complex-attach-to" tabindex="0">
-          <button id="nested-button-1">Button 1</button>
-          <input id="nested-input" type="text" placeholder="Input" />
-          <button id="nested-button-2">Button 2</button>
-        </div>
       </div>
     </div>
 
     <!-- Shepherd -->
     <script type="module">
-      import Shepherd from '../node_modules/shepherd.js/dist/js/shepherd.mjs';
+      import Shepherd from '/js/shepherd.mjs';
       window.Shepherd = Shepherd;
     </script>
 
