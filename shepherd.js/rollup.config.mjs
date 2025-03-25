@@ -1,8 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import { execaCommand } from 'execa';
 import fs from 'fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -21,8 +19,6 @@ const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
 const env = process.env.DEVELOPMENT ? 'development' : 'production';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const plugins = [
   svelte({
