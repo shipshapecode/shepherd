@@ -81,7 +81,7 @@ export default [
 
           await emitDts({
             svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims.d.ts'
+              'svelte2tsx/svelte-shims-v4.d.ts'
             ),
             declarationDir: 'tmp/js'
           });
@@ -117,14 +117,14 @@ export default [
             }
           );
 
-          // console.log('Rollup TS declarations to one file');
+          console.log('Rollup TS declarations to one file');
 
-          // await execaCommand(
-          //   `pnpm dts-bundle-generator --no-check -o ./dist/js/shepherd.d.mts ./tmp/js/shepherd.d.ts`,
-          //   {
-          //     stdio: 'inherit'
-          //   }
-          // );
+          await execaCommand(
+            `pnpm dts-bundle-generator --no-check -o ./dist/js/shepherd.d.mts ./tmp/js/shepherd.d.ts`,
+            {
+              stdio: 'inherit'
+            }
+          );
 
           console.log('Move shepherd.js from tmp to dist');
 

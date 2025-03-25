@@ -292,7 +292,7 @@ importers:
         specifier: ^5.14.0
         version: 5.14.0(rollup@4.52.5)
       svelte:
-        specifier: ^5.22.4
+        specifier: ^5.25.3
         version: 5.43.4
       svelte-preprocess:
         specifier: ^6.0.3

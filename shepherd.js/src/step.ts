@@ -19,11 +19,10 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-// @ts-expect-error TODO: we don't have Svelte .d.ts files until we generate the dist
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from '@floating-ui/dom';
-import { mount } from 'svelte';
+import { createClassComponent } from 'svelte/legacy';
 
 export type StepText =
   | string
@@ -493,7 +492,8 @@ export class Step extends Evented {
     const labelId = `${this.id}-label`;
 
     // @ts-expect-error TODO: get types for Svelte components
-    this.shepherdElementComponent = mount(ShepherdElement, {
+    this.shepherdElementComponent = createClassComponent({
+      component: ShepherdElement,
       target: this.tour.options.stepsContainer || document.body,
       props: {
         classPrefix: this.classPrefix,
