@@ -8,26 +8,21 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  let {
-    attachToElement,
-    attachTofocusableDialogElements,
-    classPrefix,
-    element = $bindable(),
-    descriptionId,
-    // Focusable attachTo elements
-    focusableAttachToElements,
-    firstFocusableAttachToElement,
-    lastFocusableAttachToElement,
-    // Focusable dialog elements
-    firstFocusableDialogElement,
-    focusableDialogElements,
-    lastFocusableDialogElement,
-    labelId,
-    step,
-    dataStepId
-  } = $props();
+  let { attachToElement, classPrefix, descriptionId, labelId, step } = $props();
 
-  let classes;
+  let classes = $state();
+  let dataStepId = $state();
+  let element = $state();
+
+  // Focusable attachTo elements
+  let focusableAttachToElements = $state();
+  let firstFocusableAttachToElement = $state();
+  let lastFocusableAttachToElement = $state();
+
+  // Focusable dialog elements
+  let firstFocusableDialogElement = $state();
+  let focusableDialogElements = $state();
+  let lastFocusableDialogElement = $state();
 
   const hasCancelIcon = $derived(step.options?.cancelIcon?.enabled ?? false);
   const hasTitle = $derived(step.options?.title ?? false);

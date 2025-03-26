@@ -1,9 +1,10 @@
 <script>
   import { makeOverlayPath } from '../utils/overlay-path.ts';
 
-  let { element = $bindable(), openingProperties = $bindable() } = $props();
+  let { openingProperties = $bindable() } = $props();
+  let element = $state();
   let modalIsVisible = $state(false);
-  let rafId = undefined;
+  let rafId = $state();
   let pathDefinition = $derived(makeOverlayPath(openingProperties));
 
   closeModalOpening();
