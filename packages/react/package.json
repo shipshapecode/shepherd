@@ -35,7 +35,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^16.0.1",
-    "@types/react": "^18.3.3",
+    "@types/react": "^19.0.12",
     "@vitejs/plugin-react": "^4.3.3",
     "@vitest/ui": "^2.1.5",
     "happy-dom": "^15.10.2",
