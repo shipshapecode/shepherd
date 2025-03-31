@@ -23,7 +23,7 @@
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.25.8",
     "@babel/preset-typescript": "^7.26.0",
-    "chai": "^5.1.1",
+    "chai": "^5.2.0",
     "cypress": "^13.15.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^7.1.0",
