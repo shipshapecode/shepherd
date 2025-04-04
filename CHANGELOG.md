@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2025-02-20)
 
 react-shepherd 6.1.8 (patch)
