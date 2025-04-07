@@ -289,8 +289,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.2(rollup@4.34.8)(svelte@4.2.19)
       rollup-plugin-visualizer:
-        specifier: ^5.11.0
-        version: 5.12.0(rollup@4.34.8)
+        specifier: ^5.14.0
+        version: 5.14.0(rollup@4.34.8)
       svelte:
         specifier: ^4.2.19
         version: 4.2.19
@@ -7627,13 +7627,16 @@ packages:
       rollup: '>=2.0.0'
       svelte: '>=3.5.0'
 
-  rollup-plugin-visualizer@5.12.0:
-    resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
-    engines: {node: '>=14'}
+  rollup-plugin-visualizer@5.14.0:
+    resolution: {integrity: sha512-VlDXneTDaKsHIw8yzJAFWtrzguoJ/LnQ+lMpoVfYJ3jJF4Ihe5oYLAqLklIK/35lgUY+1yEzCkHyZ1j4A5w5fA==}
+    engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
+      rolldown: 1.x
       rollup: 2.x || 3.x || 4.x
     peerDependenciesMeta:
+      rolldown:
+        optional: true
       rollup:
         optional: true
 
@@ -17951,10 +17954,10 @@ snapshots:
       rollup: 4.34.8
       svelte: 4.2.19
 
-  rollup-plugin-visualizer@5.12.0(rollup@4.34.8):
+  rollup-plugin-visualizer@5.14.0(rollup@4.34.8):
     dependencies:
       open: 8.4.2
-      picomatch: 2.3.1
+      picomatch: 4.0.2
       source-map: 0.7.4
       yargs: 17.7.2
     optionalDependencies:
