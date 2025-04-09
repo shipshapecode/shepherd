@@ -1,33 +1,11 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "6.1.7",
-      "newVersion": "6.1.8",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
-        }
-      ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "oldVersion": "6.1.8"
     },
     "shepherd.js": {
-      "impact": "minor",
-      "oldVersion": "14.4.0",
-      "newVersion": "14.5.0",
-      "constraints": [
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "14.5.0"
     }
   },
-  "description": "## Release (2025-02-20)\n\nreact-shepherd 6.1.8 (patch)\nshepherd.js 14.5.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd-docs`, `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#3051](https://github.com/shipshapecode/shepherd/pull/3051) Allow arrow padding to be configured for a step. ([@JakeThurman](https://github.com/JakeThurman))\n\n#### :house: Internal\n* `shepherd-docs`, `landing`, `shepherd.js`, `cypress-tests`, `unit-tests`\n  * [#3111](https://github.com/shipshapecode/shepherd/pull/3111) Update to Astro 5.x ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 2\n- Jake Thurman ([@JakeThurman](https://github.com/JakeThurman))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "\n\n\n\n"
 }
