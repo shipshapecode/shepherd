@@ -40,7 +40,7 @@
     "@vitest/ui": "^2.1.5",
     "happy-dom": "^15.10.2",
     "typescript": "^5.7.3",
-    "vite": "^6.2.4",
+    "vite": "^6.2.5",
     "vite-plugin-dts": "^3.9.1",
     "vitest": "^2.1.9"
   },
