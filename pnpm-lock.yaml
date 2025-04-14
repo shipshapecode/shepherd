@@ -298,8 +298,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(@babel/core@7.26.0)(postcss-load-config@4.0.2(postcss@8.5.1))(postcss@8.5.1)(svelte@4.2.19)(typescript@5.7.3)
       svelte2tsx:
-        specifier: ^0.7.8
-        version: 0.7.13(svelte@4.2.19)(typescript@5.7.3)
+        specifier: ^0.7.36
+        version: 0.7.36(svelte@4.2.19)(typescript@5.7.3)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -8121,8 +8121,8 @@ packages:
       typescript:
         optional: true
 
-  svelte2tsx@0.7.13:
-    resolution: {integrity: sha512-aObZ93/kGAiLXA/I/kP+x9FriZM+GboB/ReOIGmLNbVGEd2xC+aTCppm3mk1cc9I/z60VQf7b2QDxC3jOXu3yw==}
+  svelte2tsx@0.7.36:
+    resolution: {integrity: sha512-nBlERuCZRwmpebC8m0vDqZ9oaKsqW8frQS2l3zwFQW1voQIkItYtHxh1F5OTZEmE0meDIH6cxU36eIOQVOxlCw==}
     peerDependencies:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
@@ -16528,7 +16528,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   node-emoji@2.1.3:
     dependencies:
@@ -16889,7 +16889,7 @@ snapshots:
   pascal-case@3.1.2:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   path-browserify@1.0.1: {}
 
@@ -18554,7 +18554,7 @@ snapshots:
       postcss-load-config: 4.0.2(postcss@8.5.1)
       typescript: 5.7.3
 
-  svelte2tsx@0.7.13(svelte@4.2.19)(typescript@5.7.3):
+  svelte2tsx@0.7.36(svelte@4.2.19)(typescript@5.7.3):
     dependencies:
       dedent-js: 1.0.1
       pascal-case: 3.1.2
