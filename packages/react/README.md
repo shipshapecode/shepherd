@@ -11,7 +11,7 @@ that can be passed into props for dynamic interactivity.
 Use this simple NPM command or whatever package manager is your favorite.
 
 ```bash
-npm install --save react-shepherd
+npm install --save @shepherdpro/react
 ```
 
 ## Usage
