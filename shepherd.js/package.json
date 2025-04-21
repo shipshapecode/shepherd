@@ -52,7 +52,7 @@
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.6.12",
+    "@floating-ui/dom": "^1.6.13",
     "@scarf/scarf": "^1.4.0",
     "deepmerge-ts": "^7.1.1"
   },
