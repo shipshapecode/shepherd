@@ -44,7 +44,7 @@
     "prettier": "3.3.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.3.3",
-    "release-plan": "^0.9.0",
+    "release-plan": "^0.16.0",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
     "svelte": "^4.2.19",
