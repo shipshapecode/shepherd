@@ -73,13 +73,13 @@ importers:
         version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.3.3)(typescript@5.7.3)
       '@astrojs/starlight':
         specifier: ^0.31.1
-        version: 0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))
+        version: 0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))
       '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.0(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)
+        specifier: ^6.0.2
+        version: 6.0.2(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))(tailwindcss@3.4.17)
       astro:
         specifier: ^5.2.4
-        version: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
+        version: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
       sharp:
         specifier: ^0.34.0
         version: 0.34.0
@@ -88,7 +88,7 @@ importers:
         version: link:../shepherd.js
       starlight-typedoc:
         specifier: ^0.18.0
-        version: 0.18.0(@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)))(typedoc-plugin-markdown@4.2.9(typedoc@0.26.7(typescript@5.7.3)))(typedoc@0.26.7(typescript@5.7.3))
+        version: 0.18.0(@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)))(typedoc-plugin-markdown@4.2.9(typedoc@0.26.7(typescript@5.7.3)))(typedoc@0.26.7(typescript@5.7.3))
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17
@@ -113,7 +113,7 @@ importers:
         version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.3.3)(typescript@5.7.3)
       '@astrojs/mdx':
         specifier: ^4.0.8
-        version: 4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))
+        version: 4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))
       '@astrojs/rss':
         specifier: ^4.0.11
         version: 4.0.11
@@ -121,17 +121,17 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.0(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)
+        specifier: ^6.0.2
+        version: 6.0.2(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))(tailwindcss@3.4.17)
       '@astrojs/vercel':
         specifier: ^8.0.7
-        version: 8.0.7(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))(encoding@0.1.13)(react@18.3.1)(rollup@4.40.2)(svelte@4.2.19)
+        version: 8.0.7(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))(encoding@0.1.13)(react@18.3.1)(rollup@4.40.2)(svelte@4.2.19)
       '@polar-sh/sdk':
         specifier: ^0.20.2
         version: 0.20.2(zod@3.24.1)
       astro:
         specifier: ^5.2.4
-        version: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
+        version: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
       shepherd.js:
         specifier: workspace:*
         version: link:../shepherd.js
@@ -150,7 +150,7 @@ importers:
         version: 0.34.0
       vite:
         specifier: ^6.3.5
-        version: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
+        version: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
 
   packages/react:
     dependencies:
@@ -175,7 +175,7 @@ importers:
         version: 19.1.0
       '@vitejs/plugin-react':
         specifier: ^4.3.4
-        version: 4.3.4(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0))
+        version: 4.3.4(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1))
       '@vitest/ui':
         specifier: ^2.1.5
         version: 2.1.5(vitest@2.1.9)
@@ -187,10 +187,10 @@ importers:
         version: 5.7.3
       vite:
         specifier: ^6.3.5
-        version: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
+        version: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
       vite-plugin-dts:
         specifier: ^4.5.3
-        version: 4.5.3(@types/node@22.15.12)(rollup@4.40.2)(typescript@5.7.3)(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0))
+        version: 4.5.3(@types/node@22.15.12)(rollup@4.40.2)(typescript@5.7.3)(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1))
       vitest:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@22.15.12)(@vitest/ui@2.1.5)(happy-dom@15.10.2)(jsdom@24.1.1)(terser@5.31.3)
@@ -514,8 +514,8 @@ packages:
     peerDependencies:
       astro: ^5.1.5
 
-  '@astrojs/tailwind@6.0.0':
-    resolution: {integrity: sha512-GbEK2/h0nvY8i6g1GZT5ddHAgj71lQIf34/j7+jPLhUti3xDxKcWElApDe2jWvqAaKl2oKEh045ITSm8mU9BVQ==}
+  '@astrojs/tailwind@6.0.2':
+    resolution: {integrity: sha512-j3mhLNeugZq6A8dMNXVarUa8K6X9AW+QHU9u3lKNrPLMHhOQ0S7VeWhHwEeJFpEK1BTKEUY1U78VQv2gN6hNGg==}
     peerDependencies:
       astro: ^3.0.0 || ^4.0.0 || ^5.0.0
       tailwindcss: ^3.0.24
@@ -3367,8 +3367,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  autoprefixer@10.4.20:
-    resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==}
+  autoprefixer@10.4.21:
+    resolution: {integrity: sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
@@ -3507,8 +3507,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
-  browserslist@4.24.4:
-    resolution: {integrity: sha512-KDi1Ny1gSePi1vm0q4oxSF8b4DR44GF4BbmS2YdhPLOEqd8pDviZOGH/GsmRwoWJ2+5Lr085X7naowMwKHDG1A==}
+  browserslist@4.24.5:
+    resolution: {integrity: sha512-FDToo4Wo82hIdgc1CQ+NQD0hEhmpPjrZ3hiUgwgOG6IuTdlpr8jdjyG24P6cNP1yJpTLzS5OcGgSw0xmDU1/Tw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
@@ -3582,11 +3582,8 @@ packages:
   caniuse-lite@1.0.30001643:
     resolution: {integrity: sha512-ERgWGNleEilSrHM6iUz/zJNSQTP8Mr21wDWpdgvRwcTXGAq6jMtOUPP4dqFPTdKqZ2wKTdtB+uucZ3MRpAUSmg==}
 
-  caniuse-lite@1.0.30001668:
-    resolution: {integrity: sha512-nWLrdxqCdblixUO+27JtGJJE/txpJlyUy5YN1u53wLZkP0emYCo5zgS6QYft7VUYR42LGgi/S5hdLZTrnyIddw==}
-
-  caniuse-lite@1.0.30001713:
-    resolution: {integrity: sha512-wCIWIg+A4Xr7NfhTuHdX+/FKh3+Op3LBbSp2N5Pfx6T/LhdQy3GTyoTg48BReaW/MyMNZAkTadsBtai3ldWK0Q==}
+  caniuse-lite@1.0.30001717:
+    resolution: {integrity: sha512-auPpttCq6BDEG8ZAuHJIplGw6GODhjw+/11e7IjpnYCxZcW/ONgPs0KVBJ0d1bY3e2+7PRe5RCLyP+PfwVgkYw==}
 
   cardinal@2.1.1:
     resolution: {integrity: sha512-JSr5eOgoEymtYHBjNWyjrMqet9Am2miJhlfKNdqLp6zoeAh0KN5dRAcxlecj5mAJrmQomgiOBj35xHLrFjqBpw==}
@@ -4268,8 +4265,8 @@ packages:
   electron-to-chromium@1.5.1:
     resolution: {integrity: sha512-FKbOCOQ5QRB3VlIbl1LZQefWIYwszlBloaXcY2rbfpu9ioJnNh3TK03YtIDKDo3WKBi8u+YV4+Fn2CkEozgf4w==}
 
-  electron-to-chromium@1.5.136:
-    resolution: {integrity: sha512-kL4+wUTD7RSA5FHx5YwWtjDnEEkIIikFgWHR4P6fqjw1PPLlqYkxeOb++wAauAssat0YClCy8Y3C5SxgSkjibQ==}
+  electron-to-chromium@1.5.151:
+    resolution: {integrity: sha512-Rl6uugut2l9sLojjS4H4SAr3A4IgACMLgpuEMPYCVcKydzfyPrn5absNRju38IhQOf/NwjJY8OGWjlteqYeBCA==}
 
   electron-to-chromium@1.5.37:
     resolution: {integrity: sha512-u7000ZB/X0K78TaQqXZ5ktoR7J79B9US7IkE4zyvcILYwOGY2Tx9GRPYstn7HmuPcMxZ+BDGqIsyLpZQi9ufPw==}
@@ -9119,6 +9116,11 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
+  yaml@2.7.1:
+    resolution: {integrity: sha512-10ULxpnOCQXxJvBgxsn9ptjq6uviG/htZKk9veJGhlqn3w/DxQ631zFF+nlQXLwmImeS5amR2dl2U8sg6U9jsQ==}
+    engines: {node: '>= 14'}
+    hasBin: true
+
   yargs-parser@18.1.3:
     resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}
     engines: {node: '>=6'}
@@ -9294,12 +9296,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))':
+  '@astrojs/mdx@4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.1.0
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       acorn: 8.14.0
-      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
+      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
       es-module-lexer: 1.6.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.4
@@ -9328,16 +9330,16 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.23.8
 
-  '@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))':
+  '@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))':
     dependencies:
-      '@astrojs/mdx': 4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))
+      '@astrojs/mdx': 4.0.8(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))
       '@astrojs/sitemap': 3.2.1
       '@pagefind/default-ui': 1.3.0
       '@types/hast': 3.0.4
       '@types/js-yaml': 4.0.9
       '@types/mdast': 4.0.4
-      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
-      astro-expressive-code: 0.40.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))
+      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
+      astro-expressive-code: 0.40.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.2
@@ -9358,12 +9360,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/tailwind@6.0.0(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)':
+  '@astrojs/tailwind@6.0.2(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))(tailwindcss@3.4.17)':
     dependencies:
-      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
-      autoprefixer: 10.4.20(postcss@8.5.1)
-      postcss: 8.5.1
-      postcss-load-config: 4.0.2(postcss@8.5.1)
+      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
+      autoprefixer: 10.4.21(postcss@8.5.3)
+      postcss: 8.5.3
+      postcss-load-config: 4.0.2(postcss@8.5.3)
       tailwindcss: 3.4.17
     transitivePeerDependencies:
       - ts-node
@@ -9380,14 +9382,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/vercel@8.0.7(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))(encoding@0.1.13)(react@18.3.1)(rollup@4.40.2)(svelte@4.2.19)':
+  '@astrojs/vercel@8.0.7(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))(encoding@0.1.13)(react@18.3.1)(rollup@4.40.2)(svelte@4.2.19)':
     dependencies:
       '@astrojs/internal-helpers': 0.5.1
       '@vercel/analytics': 1.5.0(react@18.3.1)(svelte@4.2.19)
       '@vercel/edge': 1.2.1
       '@vercel/nft': 0.29.1(encoding@0.1.13)(rollup@4.40.2)
       '@vercel/routing-utils': 5.0.4
-      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
+      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
       esbuild: 0.24.2
       fast-glob: 3.3.3
     transitivePeerDependencies:
@@ -9404,7 +9406,7 @@ snapshots:
 
   '@astrojs/yaml2ts@0.2.2':
     dependencies:
-      yaml: 2.5.1
+      yaml: 2.7.1
 
   '@babel/code-frame@7.26.0':
     dependencies:
@@ -9517,7 +9519,7 @@ snapshots:
     dependencies:
       '@babel/compat-data': 7.26.8
       '@babel/helper-validator-option': 7.25.9
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -12151,14 +12153,14 @@ snapshots:
     optionalDependencies:
       ajv: 6.12.6
 
-  '@vitejs/plugin-react@4.3.4(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0))':
+  '@vitejs/plugin-react@4.3.4(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1))':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/plugin-transform-react-jsx-self': 7.25.9(@babel/core@7.26.10)
       '@babel/plugin-transform-react-jsx-source': 7.25.9(@babel/core@7.26.10)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
+      vite: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -12503,12 +12505,12 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.40.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)):
+  astro-expressive-code@0.40.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)):
     dependencies:
-      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)
+      astro: 5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)
       rehype-expressive-code: 0.40.1
 
-  astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0):
+  astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.5.1
@@ -12560,8 +12562,8 @@ snapshots:
       unist-util-visit: 5.0.0
       unstorage: 1.14.4
       vfile: 6.0.3
-      vite: 6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
-      vitefu: 1.0.5(vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0))
+      vite: 6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
+      vitefu: 1.0.5(vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1))
       which-pm: 3.0.1
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
@@ -12627,14 +12629,14 @@ snapshots:
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
-  autoprefixer@10.4.20(postcss@8.5.1):
+  autoprefixer@10.4.21(postcss@8.5.3):
     dependencies:
-      browserslist: 4.24.0
-      caniuse-lite: 1.0.30001668
+      browserslist: 4.24.5
+      caniuse-lite: 1.0.30001717
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
-      postcss: 8.5.1
+      postcss: 8.5.3
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.7:
@@ -12852,17 +12854,17 @@ snapshots:
 
   browserslist@4.24.0:
     dependencies:
-      caniuse-lite: 1.0.30001668
+      caniuse-lite: 1.0.30001717
       electron-to-chromium: 1.5.37
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.24.0)
 
-  browserslist@4.24.4:
+  browserslist@4.24.5:
     dependencies:
-      caniuse-lite: 1.0.30001713
-      electron-to-chromium: 1.5.136
+      caniuse-lite: 1.0.30001717
+      electron-to-chromium: 1.5.151
       node-releases: 2.0.19
-      update-browserslist-db: 1.1.3(browserslist@4.24.4)
+      update-browserslist-db: 1.1.3(browserslist@4.24.5)
 
   bser@2.1.1:
     dependencies:
@@ -12972,16 +12974,14 @@ snapshots:
 
   caniuse-api@3.0.0:
     dependencies:
-      browserslist: 4.24.4
-      caniuse-lite: 1.0.30001668
+      browserslist: 4.24.5
+      caniuse-lite: 1.0.30001717
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
   caniuse-lite@1.0.30001643: {}
 
-  caniuse-lite@1.0.30001668: {}
-
-  caniuse-lite@1.0.30001713: {}
+  caniuse-lite@1.0.30001717: {}
 
   cardinal@2.1.1:
     dependencies:
@@ -13746,7 +13746,7 @@ snapshots:
 
   electron-to-chromium@1.5.1: {}
 
-  electron-to-chromium@1.5.136: {}
+  electron-to-chromium@1.5.151: {}
 
   electron-to-chromium@1.5.37: {}
 
@@ -17259,7 +17259,7 @@ snapshots:
 
   postcss-colormin@5.3.1(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       colord: 2.9.3
       postcss: 8.5.1
@@ -17267,7 +17267,7 @@ snapshots:
 
   postcss-colormin@7.0.2(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       colord: 2.9.3
       postcss: 8.5.1
@@ -17275,13 +17275,13 @@ snapshots:
 
   postcss-convert-values@5.1.3(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
   postcss-convert-values@7.0.4(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
@@ -17347,16 +17347,24 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.4.47):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.5.1
+      yaml: 2.7.1
     optionalDependencies:
       postcss: 8.4.47
 
   postcss-load-config@4.0.2(postcss@8.5.1):
     dependencies:
       lilconfig: 3.1.3
-      yaml: 2.5.1
+      yaml: 2.7.1
     optionalDependencies:
       postcss: 8.5.1
+    optional: true
+
+  postcss-load-config@4.0.2(postcss@8.5.3):
+    dependencies:
+      lilconfig: 3.1.3
+      yaml: 2.7.1
+    optionalDependencies:
+      postcss: 8.5.3
 
   postcss-merge-longhand@5.1.7(postcss@8.5.1):
     dependencies:
@@ -17372,7 +17380,7 @@ snapshots:
 
   postcss-merge-rules@5.1.4(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       cssnano-utils: 3.1.0(postcss@8.5.1)
       postcss: 8.5.1
@@ -17380,7 +17388,7 @@ snapshots:
 
   postcss-merge-rules@7.0.4(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       cssnano-utils: 5.0.0(postcss@8.5.1)
       postcss: 8.5.1
@@ -17412,14 +17420,14 @@ snapshots:
 
   postcss-minify-params@5.1.4(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       cssnano-utils: 3.1.0(postcss@8.5.1)
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
   postcss-minify-params@7.0.2(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       cssnano-utils: 5.0.0(postcss@8.5.1)
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
@@ -17538,13 +17546,13 @@ snapshots:
 
   postcss-normalize-unicode@5.1.1(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
   postcss-normalize-unicode@7.0.2(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-value-parser: 4.2.0
 
@@ -17583,13 +17591,13 @@ snapshots:
 
   postcss-reduce-initial@5.1.2(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       postcss: 8.5.1
 
   postcss-reduce-initial@7.0.2(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.0
+      browserslist: 4.24.5
       caniuse-api: 3.0.0
       postcss: 8.5.1
 
@@ -18666,9 +18674,9 @@ snapshots:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
 
-  starlight-typedoc@0.18.0(@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0)))(typedoc-plugin-markdown@4.2.9(typedoc@0.26.7(typescript@5.7.3)))(typedoc@0.26.7(typescript@5.7.3)):
+  starlight-typedoc@0.18.0(@astrojs/starlight@0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1)))(typedoc-plugin-markdown@4.2.9(typedoc@0.26.7(typescript@5.7.3)))(typedoc@0.26.7(typescript@5.7.3)):
     dependencies:
-      '@astrojs/starlight': 0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.0))
+      '@astrojs/starlight': 0.31.1(astro@5.2.4(@types/node@22.15.12)(jiti@1.21.6)(rollup@4.40.2)(terser@5.31.3)(typescript@5.7.3)(yaml@2.7.1))
       github-slugger: 2.0.0
       typedoc: 0.26.7(typescript@5.7.3)
       typedoc-plugin-markdown: 4.2.9(typedoc@0.26.7(typescript@5.7.3))
@@ -18774,13 +18782,13 @@ snapshots:
 
   stylehacks@5.1.1(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-selector-parser: 6.1.2
 
   stylehacks@7.0.4(postcss@8.5.1):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       postcss: 8.5.1
       postcss-selector-parser: 6.1.2
 
@@ -19254,9 +19262,9 @@ snapshots:
       escalade: 3.1.2
       picocolors: 1.1.1
 
-  update-browserslist-db@1.1.3(browserslist@4.24.4):
+  update-browserslist-db@1.1.3(browserslist@4.24.5):
     dependencies:
-      browserslist: 4.24.4
+      browserslist: 4.24.5
       escalade: 3.2.0
       picocolors: 1.1.1
 
@@ -19327,7 +19335,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-dts@4.5.3(@types/node@22.15.12)(rollup@4.40.2)(typescript@5.7.3)(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)):
+  vite-plugin-dts@4.5.3(@types/node@22.15.12)(rollup@4.40.2)(typescript@5.7.3)(vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)):
     dependencies:
       '@microsoft/api-extractor': 7.52.3(@types/node@22.15.12)
       '@rollup/pluginutils': 5.1.4(rollup@4.40.2)
@@ -19340,7 +19348,7 @@ snapshots:
       magic-string: 0.30.17
       typescript: 5.7.3
     optionalDependencies:
-      vite: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
+      vite: 6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
@@ -19356,19 +19364,19 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.31.3
 
-  vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0):
+  vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1):
     dependencies:
       esbuild: 0.24.2
-      postcss: 8.5.1
+      postcss: 8.5.3
       rollup: 4.40.2
     optionalDependencies:
       '@types/node': 22.15.12
       fsevents: 2.3.3
       jiti: 1.21.6
       terser: 5.31.3
-      yaml: 2.7.0
+      yaml: 2.7.1
 
-  vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0):
+  vite@6.3.5(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1):
     dependencies:
       esbuild: 0.25.3
       fdir: 6.4.4(picomatch@4.0.2)
@@ -19381,11 +19389,11 @@ snapshots:
       fsevents: 2.3.3
       jiti: 1.21.6
       terser: 5.31.3
-      yaml: 2.7.0
+      yaml: 2.7.1
 
-  vitefu@1.0.5(vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)):
+  vitefu@1.0.5(vite@6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)):
     optionalDependencies:
-      vite: 6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.0)
+      vite: 6.0.11(@types/node@22.15.12)(jiti@1.21.6)(terser@5.31.3)(yaml@2.7.1)
 
   vitest@2.1.9(@types/node@22.15.12)(@vitest/ui@2.1.5)(happy-dom@15.10.2)(jsdom@24.1.1)(terser@5.31.3):
     dependencies:
@@ -19741,6 +19749,8 @@ snapshots:
   yaml@2.5.1: {}
 
   yaml@2.7.0: {}
+
+  yaml@2.7.1: {}
 
   yargs-parser@18.1.3:
     dependencies:
