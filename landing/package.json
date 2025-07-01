@@ -16,7 +16,7 @@
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^6.0.0",
-    "@astrojs/vercel": "^8.0.7",
+    "@astrojs/vercel": "^8.2.0",
     "@polar-sh/sdk": "^0.20.2",
     "astro": "^5.2.4",
     "shepherd.js": "workspace:*",
