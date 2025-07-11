@@ -83,12 +83,19 @@
    */
   const handleKeyDown = (e) => {
     const { tour } = step;
+    console.log('tour', e, focusableElements, document.activeElement);
+    
     switch (e.keyCode) {
       case KEY_TAB:
         if (focusableElements.length === 0) {
           e.preventDefault();
+          // If no focusable elements in dialog, focus the highlighted element
+          if (step.target) {
+            step.target.focus();
+          }
           break;
         }
+        
         // Backward tab
         if (e.shiftKey) {
           if (
@@ -101,9 +108,17 @@
         } else {
           if (document.activeElement === lastFocusableElement) {
             e.preventDefault();
+            // Focus target element when tabbing forward from last element
+            if (step.target) {
+              step.target.focus();
+            } else {
+              firstFocusableElement.focus();
+            }
+          } else if (document.activeElement === step.target) {
+            e.preventDefault();
             firstFocusableElement.focus();
           }
-        }
+        } 
         break;
       case KEY_ESC:
         if (tour.options.exitOnEsc) {
