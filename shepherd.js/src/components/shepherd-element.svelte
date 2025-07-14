@@ -38,6 +38,7 @@
     );
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
+    window.addEventListener("keydown", handleKeyDown, false);
   });
 
   afterUpdate(() => {
@@ -101,6 +102,14 @@
         } else {
           if (document.activeElement === lastFocusableElement) {
             e.preventDefault();
+            // Focus target element when tabbing forward from last element
+            if (step.target) {
+              step.target.focus();
+            } else {
+              firstFocusableElement.focus();
+            }
+          } else if (document.activeElement === step.target) {
+            e.preventDefault();
             firstFocusableElement.focus();
           }
         }
@@ -140,7 +149,6 @@
   class:shepherd-has-title={hasTitle}
   class:shepherd-element={true}
   {...dataStepId}
-  on:keydown={handleKeyDown}
   open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
