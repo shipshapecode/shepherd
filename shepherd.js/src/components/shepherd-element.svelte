@@ -74,7 +74,11 @@
   function getClassesArray(classes) {
     return classes.split(' ').filter((className) => !!className.length);
   }
-
+  /**
+   * Handle tab focus within the dialog and the target element
+   * 
+   * @private
+   */
   function handleFocus(e) {
     if (e.keyCode === KEY_TAB) {
       if (focusableElements.length === 0) {

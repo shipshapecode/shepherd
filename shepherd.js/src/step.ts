@@ -649,7 +649,10 @@ export class Step extends Evented {
 
     target.classList.add(`${this.classPrefix}shepherd-enabled`);
     target.classList.add(`${this.classPrefix}shepherd-target`);
-    target.setAttribute('tabindex', '0');
+    // adds the target element to the focus trap (if not body), but not for document.body
+    if (target !== document.body) {
+      target.setAttribute('tabindex', '0');
+    }
     content.classList.add('shepherd-enabled');
 
     extraHighlightElements?.forEach((el) => {
