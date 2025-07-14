@@ -38,7 +38,7 @@
     );
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
-    window.addEventListener("keydown", handleKeyDown, false);
+    window.addEventListener('keydown', handleFocus, false);
   });
 
   afterUpdate(() => {
@@ -75,6 +75,37 @@
     return classes.split(' ').filter((className) => !!className.length);
   }
 
+  function handleFocus(e) {
+    if (e.keyCode === KEY_TAB) {
+      if (focusableElements.length === 0) {
+        e.preventDefault();
+      }
+      // Backward tab
+      if (e.shiftKey) {
+        if (
+          document.activeElement === firstFocusableElement ||
+          document.activeElement.classList.contains('shepherd-element')
+        ) {
+          e.preventDefault();
+          lastFocusableElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusableElement) {
+          e.preventDefault();
+          // Focus target element when tabbing forward from last element
+          if (step.target) {
+            step.target.focus();
+          } else {
+            firstFocusableElement.focus();
+          }
+        } else if (document.activeElement === step.target) {
+          e.preventDefault();
+          firstFocusableElement.focus();
+        }
+      }
+    }
+  }
+
   /**
    * Setup keydown events to allow closing the modal with ESC
    *
@@ -85,35 +116,6 @@
   const handleKeyDown = (e) => {
     const { tour } = step;
     switch (e.keyCode) {
-      case KEY_TAB:
-        if (focusableElements.length === 0) {
-          e.preventDefault();
-          break;
-        }
-        // Backward tab
-        if (e.shiftKey) {
-          if (
-            document.activeElement === firstFocusableElement ||
-            document.activeElement.classList.contains('shepherd-element')
-          ) {
-            e.preventDefault();
-            lastFocusableElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastFocusableElement) {
-            e.preventDefault();
-            // Focus target element when tabbing forward from last element
-            if (step.target) {
-              step.target.focus();
-            } else {
-              firstFocusableElement.focus();
-            }
-          } else if (document.activeElement === step.target) {
-            e.preventDefault();
-            firstFocusableElement.focus();
-          }
-        }
-        break;
       case KEY_ESC:
         if (tour.options.exitOnEsc) {
           e.preventDefault();
@@ -149,6 +151,7 @@
   class:shepherd-has-title={hasTitle}
   class:shepherd-element={true}
   {...dataStepId}
+  on:keydown={handleKeyDown}
   open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}
