@@ -76,7 +76,7 @@
   }
   /**
    * Handle tab focus within the dialog and the target element
-   * 
+   *
    * @private
    */
   function handleFocus(e) {
