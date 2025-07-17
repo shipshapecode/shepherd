@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onDestroy, onMount, afterUpdate } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -44,6 +44,7 @@
   onDestroy(() => {
     window.removeEventListener('keydown', handleFocus, false);
   });
+
   afterUpdate(() => {
     if (classes !== step.options.classes) {
       updateDynamicClasses();
