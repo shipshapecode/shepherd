@@ -75,8 +75,9 @@ describe('a11y', () => {
 
       cy.document().then(() => {
         cy.wait(1000);
-        // Tabbing out of the modal should not be possible and we test this by tabbing from the body
-        cy.get('body').tab().tab().tab().tab().tab().tab();
+        // Tabbing out of the shepherd context (this should include the highlighted element) 
+        // should not be possible and we test this by tabbing from the body
+        cy.get('body').tab().tab().tab().tab().tab().tab().tab().tab();
         cy.get('[data-test-popper-link]').should('have.focus');
       });
     });

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onDestroy, onMount, afterUpdate } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -38,6 +38,11 @@
     );
     firstFocusableElement = focusableElements[0];
     lastFocusableElement = focusableElements[focusableElements.length - 1];
+    window.addEventListener('keydown', handleFocus, false);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener('keydown', handleFocus, false);
   });
 
   afterUpdate(() => {
@@ -73,6 +78,41 @@
   function getClassesArray(classes) {
     return classes.split(' ').filter((className) => !!className.length);
   }
+  /**
+   * Handle tab focus within the dialog and the target element
+   *
+   * @private
+   */
+  function handleFocus(e) {
+    if (e.keyCode === KEY_TAB) {
+      if (focusableElements.length === 0) {
+        e.preventDefault();
+      }
+      // Backward tab
+      if (e.shiftKey) {
+        if (
+          document.activeElement === firstFocusableElement ||
+          document.activeElement.classList.contains('shepherd-element')
+        ) {
+          e.preventDefault();
+          lastFocusableElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusableElement) {
+          e.preventDefault();
+          // Focus target element when tabbing forward from last element
+          if (step.target) {
+            step.target.focus();
+          } else {
+            firstFocusableElement.focus();
+          }
+        } else if (document.activeElement === step.target) {
+          e.preventDefault();
+          firstFocusableElement.focus();
+        }
+      }
+    }
+  }
 
   /**
    * Setup keydown events to allow closing the modal with ESC
@@ -84,27 +124,6 @@
   const handleKeyDown = (e) => {
     const { tour } = step;
     switch (e.keyCode) {
-      case KEY_TAB:
-        if (focusableElements.length === 0) {
-          e.preventDefault();
-          break;
-        }
-        // Backward tab
-        if (e.shiftKey) {
-          if (
-            document.activeElement === firstFocusableElement ||
-            document.activeElement.classList.contains('shepherd-element')
-          ) {
-            e.preventDefault();
-            lastFocusableElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastFocusableElement) {
-            e.preventDefault();
-            firstFocusableElement.focus();
-          }
-        }
-        break;
       case KEY_ESC:
         if (tour.options.exitOnEsc) {
           e.preventDefault();
