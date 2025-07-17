@@ -17,7 +17,7 @@
     "astro": "^5.2.4",
     "sharp": "^0.34.0",
     "shepherd.js": "workspace:*",
-    "starlight-typedoc": "^0.18.0",
+    "starlight-typedoc": "^0.21.3",
     "tailwindcss": "^3.4.17",
     "typedoc": "^0.26.7",
     "typedoc-plugin-markdown": "4.2.9",
