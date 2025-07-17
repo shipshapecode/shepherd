@@ -41,6 +41,9 @@
     window.addEventListener('keydown', handleFocus, false);
   });
 
+  onDestroy(() => {
+    window.removeEventListener('keydown', handleFocus, false);
+  });
   afterUpdate(() => {
     if (classes !== step.options.classes) {
       updateDynamicClasses();
