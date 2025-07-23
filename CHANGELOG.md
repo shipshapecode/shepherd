@@ -1,5 +1,21 @@
 # Changelog
 
+## Release (2025-07-23)
+
+* react-shepherd 6.1.9 (patch)
+* shepherd.js 14.5.1 (patch)
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3230](https://github.com/shipshapecode/shepherd/pull/3230) Add attachTo elements to the keyboard focus flow ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `shepherd.js`
+  * [#3229](https://github.com/shipshapecode/shepherd/pull/3229) Add dummy app back for development ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2025-02-20)
 
 react-shepherd 6.1.8 (patch)
