@@ -2,6 +2,7 @@
 /cypress/dummy/js/prism.js
 /dist/
 /docs/
+/dummy/
 /landing/
 /site/
 /test/cypress/dummy/
