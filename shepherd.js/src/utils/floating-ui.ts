@@ -106,6 +106,7 @@ function setPosition(
       // Replaces focusAfterRender modifier.
       .then((step: Step) => {
         if (step?.el) {
+          step.el.tabIndex = 0;
           step.el.focus({ preventScroll: true });
         }
       })

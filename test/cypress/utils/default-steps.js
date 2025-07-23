@@ -20,11 +20,11 @@ export default function(shepherd) {
       buttons: [
         {
           action: shepherd.cancel,
-          classes: 'shepherd-button-secondary',
+          classes: 'shepherd-button-secondary cancel-button',
           text: 'Exit'
         }, {
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary',
+          classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
         }
       ],
@@ -40,11 +40,11 @@ export default function(shepherd) {
       buttons: [
         {
           action: shepherd.back,
-          classes: 'shepherd-button-secondary',
+          classes: 'shepherd-button-secondary back-button',
           text: 'Back'
         }, {
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary',
+          classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
         }
       ],
@@ -61,11 +61,11 @@ export default function(shepherd) {
       buttons: [
         {
           action: shepherd.back,
-          classes: 'shepherd-button-secondary',
+          classes: 'shepherd-button-secondary back-button',
           text: 'Back'
         }, {
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary',
+          classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
         }
       ],
@@ -82,11 +82,11 @@ export default function(shepherd) {
       buttons: [
         {
           action: shepherd.back,
-          classes: 'shepherd-button-secondary',
+          classes: 'shepherd-button-secondary back-button',
           text: 'Back'
         }, {
           action: shepherd.next,
-          classes: 'shepherd-button-example-primary',
+          classes: 'shepherd-button-example-primary next-button',
           text: 'Done'
         }
       ],
