@@ -1,5 +1,5 @@
 <script>
-  import { onMount, afterUpdate } from 'svelte';
+  import { onDestroy, onMount, afterUpdate } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -8,13 +8,20 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  export let classPrefix,
+  export let attachToElement,
+    attachTofocusableDialogElements,
+    classPrefix,
     element,
     descriptionId,
-    firstFocusableElement,
-    focusableElements,
+    // Focusable attachTo elements
+    focusableAttachToElements,
+    firstFocusableAttachToElement,
+    lastFocusableAttachToElement,
+    // Focusable dialog elements
+    firstFocusableDialogElement,
+    focusableDialogElements,
+    lastFocusableDialogElement,
     labelId,
-    lastFocusableElement,
     step,
     dataStepId;
 
@@ -33,11 +40,35 @@
   onMount(() => {
     // Get all elements that are focusable
     dataStepId = { [`data-${classPrefix}shepherd-step-id`]: step.id };
-    focusableElements = element.querySelectorAll(
-      'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
-    );
-    firstFocusableElement = focusableElements[0];
-    lastFocusableElement = focusableElements[focusableElements.length - 1];
+    focusableDialogElements = [
+      ...element.querySelectorAll(
+        'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
+      )
+    ];
+    firstFocusableDialogElement = focusableDialogElements[0];
+    lastFocusableDialogElement =
+      focusableDialogElements[focusableDialogElements.length - 1];
+
+    const attachTo = step._getResolvedAttachToOptions();
+    if (attachTo?.element) {
+      attachToElement = attachTo.element;
+      attachToElement.tabIndex = 0;
+      focusableAttachToElements = [
+        attachToElement,
+        ...attachToElement.querySelectorAll(
+          'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]'
+        )
+      ];
+      firstFocusableAttachToElement = focusableAttachToElements[0];
+      lastFocusableAttachToElement =
+        focusableAttachToElements[focusableAttachToElements.length - 1];
+      // Add keydown listener to attachTo element
+      attachToElement.addEventListener('keydown', handleKeyDown);
+    }
+  });
+
+  onDestroy(() => {
+    attachToElement?.removeEventListener('keydown', handleKeyDown);
   });
 
   afterUpdate(() => {
@@ -85,23 +116,42 @@
     const { tour } = step;
     switch (e.keyCode) {
       case KEY_TAB:
-        if (focusableElements.length === 0) {
+        if (
+          focusableAttachToElements.length === 0 &&
+          focusableDialogElements.length === 0
+        ) {
           e.preventDefault();
           break;
         }
         // Backward tab
         if (e.shiftKey) {
+          // If at the beginning of elements in the dialog, go to last element in attachTo
+          // If attachToElement is undefined, circle around to the last element in the dialog.
           if (
-            document.activeElement === firstFocusableElement ||
+            document.activeElement === firstFocusableDialogElement ||
             document.activeElement.classList.contains('shepherd-element')
           ) {
             e.preventDefault();
-            lastFocusableElement.focus();
+            (
+              lastFocusableAttachToElement ?? lastFocusableDialogElement
+            ).focus();
+          }
+          // If at the beginning of elements in attachTo
+          else if (document.activeElement === firstFocusableAttachToElement) {
+            e.preventDefault();
+            lastFocusableDialogElement.focus();
           }
         } else {
-          if (document.activeElement === lastFocusableElement) {
+          if (document.activeElement === lastFocusableDialogElement) {
             e.preventDefault();
-            firstFocusableElement.focus();
+            (
+              firstFocusableAttachToElement ?? firstFocusableDialogElement
+            ).focus();
+          }
+          // If at the end of elements in attachTo
+          else if (document.activeElement === lastFocusableAttachToElement) {
+            e.preventDefault();
+            firstFocusableDialogElement.focus();
           }
         }
         break;
