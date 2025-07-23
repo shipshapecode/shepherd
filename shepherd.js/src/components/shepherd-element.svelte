@@ -117,7 +117,8 @@
     switch (e.keyCode) {
       case KEY_TAB:
         if (
-          focusableAttachToElements.length === 0 &&
+          (!focusableAttachToElements ||
+            focusableAttachToElements.length === 0) &&
           focusableDialogElements.length === 0
         ) {
           e.preventDefault();
