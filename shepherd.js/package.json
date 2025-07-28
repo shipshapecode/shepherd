@@ -57,7 +57,7 @@
     "deepmerge-ts": "^7.1.1"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.15.3",
+    "@arethetypeswrong/cli": "^0.18.2",
     "@babel/core": "^7.26.0",
     "@babel/plugin-transform-typescript": "^7.27.0",
     "@babel/preset-env": "^7.25.8",
