@@ -8,69 +8,73 @@
 [![npm version](https://badge.fury.io/js/shepherd.js.svg)](http://badge.fury.io/js/shepherd.js)
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 ![npm](https://img.shields.io/npm/dm/shepherd.js.svg)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shepherd-pro%2Fshepherd?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shipshapecode%2Fshepherd?ref=badge_shield)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
-[![Test](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shepherd-pro/shepherd/actions/workflows/test.yml)
+[![Test](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
+[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service. Use our
+hosted SaaS or deploy to your own infrastructure to run on-premise.
 
-<a href="https://shepherdjs.dev/">
-  <img 
-    src="https://shepherdjs.dev/img/demo.png" 
-    alt="Guide your users through a tour of your app" 
-    style="height: auto; max-width: 800px; width: 100%;"/>
-</a>
-
-Browsers support
+Supported Browsers
 ----------------------------------------------------------
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
 | Edge| last 2 versions| last 2 versions| last 2 versions
 
+# Shepherd
 
-## Documentation
+Shepherd makes it simple to create custom user on-boarding tours, trainings and announcements to drive user adoption. 
 
-[API documentation](https://docs.shepherdjs.dev/)
+Shepherd enables you to guide users through a custom tour or journey within your app or website. Highly customizable with minimal styles, Shepherd allows for powerful customization while being easy to use. Various frameworks supported including React, Ember, Angular, Vue.js, ES Modules, or plain JavaScript. 
 
-## Demo
+# Demo
+See Shepherd Live on our website by clicking on the image:
+<a href="https://shepherdjs.dev">
+  <img 
+    src="https://shepherdjs.dev/img/demo.png" 
+    alt="Guide your users through a tour of your app" 
+    style="height: auto; max-width: 800px; width: 100%;"/>
+</a>
 
-[Demo](https://shepherdjs.dev/demo)
+# Using Shepherd
+
+### Shepherd Open Source Library
+
+The Shepherd Standalone Library has been open source since the very beginning. Check out our tutorials here:
+
+#### [React Shepherd Wrapper](packages/react)
+#### [Angular Shepherd Wrapper](https://github.com/shipshapecode/angular-shepherd)
+#### [Vue Shepherd Wrapper](https://github.com/shipshapecode/vue-shepherd)
+#### [Ember Shepherd Wrapper](https://github.com/RobbieTheWagner/ember-shepherd)
+
+### Commercial license
+
+If you want to use Shepherd for a commercial application, theme or plugin the commercial license is the appropriate license. With this option, your source code is kept proprietary. Purchase a commercial license at [shepherdjs.dev](http://shepherdjs.dev/pricing)
+
+# White Glove Services
+
+If you have an idea or project in mind and would like to engage our team to build a custom tour, training or on-boarding experience, [get in touch](mailto:ahoy@shipshape.io)! 
+
+
+## Resources
+
+- [Website](https://shepherdjs.dev/)
+- [Documentation](https://docs.shepherdjs.dev/)
+- [Demo](https://shepherdjs.dev/)
+- [Discord](https://discord.gg/EGcDW5NSud)
+
 
 ## Contributing
 
 We encourage contributions of all kinds. If you would like to contribute in some way, please review our [guidelines for contributing](CONTRIBUTING.md).
-
-## Releasing
-
 Our release process is mostly automated. For more details, see [RELEASE.md](RELEASE.md).
 
-## License
-[MIT License](LICENSE.md)
 
-## Projects Using Shepherd
-
-Here we showcase some of the awesome libraries built using Shepherd.
-
-### JS Framework Wrappers
-
-### [ember-shepherd](https://github.com/shepherd-pro/ember-shepherd)
-
-Ember addon for the site tour library Shepherd
-
-### [angular-shepherd](https://github.com/shepherd-pro/angular-shepherd)
-
-An Angular wrapper for the site tour library Shepherd
-
-### [react-shepherd](https://github.com/shepherd-pro/react-shepherd)
-
-A React wrapper for the site tour library Shepherd
-
-### [vue-shepherd](https://github.com/shepherd-pro/vue-shepherd)
-
-A Vue wrapper for the site tour library Shepherd
+## Projects Already Using Shepherd
 
 ### Rails gems
 
@@ -93,7 +97,6 @@ Check out the [Envato Tuts+ Startup Series on its codebase](https://code.tutsplu
 ### [Snapsure](https://snapsure.app)
 
 [Snapsure](https://snapsure.app) uses Shepherd to help photographers learn how to set up alerts for their desired picture-perfect weather conditions.
-
 
 ### [Drupal](https://www.drupal.org/docs/8/core/modules/tour/overview)
 

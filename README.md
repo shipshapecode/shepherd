@@ -76,6 +76,14 @@ Our release process is mostly automated. For more details, see [RELEASE.md](RELE
 
 ## Projects Already Using Shepherd
 
+### Rails gems
+
+### [abraham](https://github.com/actmd/abraham)
+
+Rails engine that generates and tracks Shepherd tours within an application
+
+### Websites and Apps
+
 ### [SimplePlanner](https://simpleplanner.io)
 
 [SimplePlanner](https://simpleplanner.io) uses Shepherd to help new users get familiar with its collaborative scheduling approach. 
