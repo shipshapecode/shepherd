@@ -76,7 +76,7 @@
     "renamer": "^5.0.0",
     "replace": "^1.2.2",
     "rimraf": "^6.0.1",
-    "rollup": "^4.40.2",
+    "rollup": "^4.46.2",
     "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-filesize": "^10.0.0",
     "rollup-plugin-license": "^3.5.3",
