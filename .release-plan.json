@@ -1,35 +1,11 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "6.1.8",
-      "newVersion": "6.1.9",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
-        }
-      ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "oldVersion": "6.1.9"
     },
     "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "14.5.0",
-      "newVersion": "14.5.1",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "14.5.1"
     }
   },
-  "description": "## Release (2025-07-23)\n\n* react-shepherd 6.1.9 (patch)\n* shepherd.js 14.5.1 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3230](https://github.com/shipshapecode/shepherd/pull/3230) Add attachTo elements to the keyboard focus flow ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#3229](https://github.com/shipshapecode/shepherd/pull/3229) Add dummy app back for development ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "\n\n\n\n"
 }
