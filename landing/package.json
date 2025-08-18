@@ -20,7 +20,7 @@
     "@polar-sh/sdk": "^0.20.2",
     "astro": "^5.12.9",
     "shepherd.js": "workspace:*",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.12",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
