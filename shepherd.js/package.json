@@ -60,6 +60,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
     "dts-bundle-generator": "^9.5.1",

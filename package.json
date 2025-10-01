@@ -39,7 +39,6 @@
     "concurrently": "^9.2.1",
     "del": "^7.1.0",
     "eslint": "^8.57.1",
-    "eslint-plugin-jest": "^28.14.0",
     "eslint-plugin-svelte": "^2.46.1",
     "postcss": "^8.5.6",
     "prettier": "3.3.3",
@@ -51,7 +50,7 @@
     "svelte": "^5.39.7",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": "18.* || >= 20"
   }
