@@ -4,7 +4,7 @@
   "description": "The monorepo for Shepherd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "AGPL-3.0",
   "authors": [

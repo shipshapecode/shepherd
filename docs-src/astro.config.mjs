@@ -16,7 +16,7 @@ export default defineConfig({
       },
       favicon: '/favicon.ico',
       social: {
-        github: 'https://github.com/shepherd-pro/shepherd'
+        github: 'https://github.com/shipshapecode/shepherd'
       },
       components: {
         // Override the default `Head` component.

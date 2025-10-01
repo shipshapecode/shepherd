@@ -4,7 +4,7 @@
   "description": "Jest unit tests for Shepherd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "MIT",
   "type": "module",

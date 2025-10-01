@@ -14,11 +14,13 @@ import { sveltePreprocess } from 'svelte-preprocess';
 import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { emitDts } from 'svelte2tsx';
+import terser from '@rollup/plugin-terser';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const banner = ['/*!', pkg.name, pkg.version, '*/\n'].join(' ');
 
-const env = process.env.DEVELOPMENT ? 'development' : 'production';
+const isDev = process.env.DEVELOPMENT;
+const env = isDev ? 'development' : 'production';
 
 const plugins = [
   svelte({
@@ -32,16 +34,18 @@ const plugins = [
     browser: true,
     exportConditions: ['svelte'],
     extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-    modulesOnly: true
+    modulesOnly: true,
+    preferBuiltins: false
   }),
   replace({
-    'process.env.NODE_ENV': JSON.stringify(env)
+    'process.env.NODE_ENV': JSON.stringify(env),
+    preventAssignment: true
   }),
   babel({
     extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
   }),
   postcss({
-    plugins: [autoprefixer, cssnanoPlugin],
+    plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
     extract: 'css/shepherd.css'
   }),
   license({
@@ -57,6 +61,19 @@ if (process.env.DEVELOPMENT) {
     serve({ contentBase: ['.', 'dist', 'dev', 'dummy'], open: true })
   );
   plugins.push(livereload());
+} else {
+  plugins.push(
+    terser({
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.debug']
+      },
+      mangle: {
+        properties: false
+      }
+    })
+  );
 }
 
 export default [
@@ -68,6 +85,12 @@ export default [
       entryFileNames: '[name].mjs',
       format: 'es',
       sourcemap: true
+    },
+    // More aggressive tree shaking
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      unknownGlobalSideEffects: false
     },
     plugins: [
       {
