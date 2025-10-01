@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdElement from '../../../shepherd.js/src/components/shepherd-element.svelte';
 import { Step } from '../../../shepherd.js/src/step';
@@ -90,7 +90,7 @@ describe('components/ShepherdElement', () => {
     it('exitOnEsc: true - ESC cancels the tour', async () => {
       const tour = new Tour();
       const step = new Step(tour, {});
-      const stepCancelSpy = jest.spyOn(step, 'cancel');
+      const stepCancelSpy = vi.spyOn(step, 'cancel');
 
       const { container } = render(ShepherdElement, {
         props: {
@@ -106,7 +106,7 @@ describe('components/ShepherdElement', () => {
     it('exitOnEsc: false - ESC does not cancel the tour', async () => {
       const tour = new Tour({ exitOnEsc: false });
       const step = new Step(tour, {});
-      const stepCancelSpy = jest.spyOn(step, 'cancel');
+      const stepCancelSpy = vi.spyOn(step, 'cancel');
 
       const { container } = render(ShepherdElement, {
         props: {

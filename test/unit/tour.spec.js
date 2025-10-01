@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import Shepherd from '../../shepherd.js/src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
@@ -207,7 +207,7 @@ describe('Tour | Top-Level Class', function () {
     describe('.hide()', function () {
       it('hides the current step', () => {
         const [firstStep] = instance.steps;
-        const hideStepSpy = jest.spyOn(firstStep, 'hide');
+        const hideStepSpy = vi.spyOn(firstStep, 'hide');
 
         expect(firstStep.isOpen()).toBe(false);
 
@@ -279,7 +279,7 @@ describe('Tour | Top-Level Class', function () {
           inactiveFired = true;
         });
 
-        const windowConfirmStub = jest
+        const windowConfirmStub = vi
           .spyOn(window, 'confirm')
           .mockImplementation(() => false);
 
@@ -346,7 +346,7 @@ describe('Tour | Top-Level Class', function () {
         }
       ].map(({ status, title }) => {
         it('when confirmCancel is function, ' + title, async function () {
-          const myMock = jest.fn();
+          const myMock = vi.fn();
           if (status === 'async') {
             myMock
               .mockImplementationOnce(() => Promise.resolve(false))
@@ -420,7 +420,7 @@ describe('Tour | Top-Level Class', function () {
       });
 
       it('calls `done()`', () => {
-        const doneSpy = jest.spyOn(instance, '_done');
+        const doneSpy = vi.spyOn(instance, '_done');
 
         expect(doneSpy).toHaveBeenCalledTimes(0);
 
@@ -553,7 +553,7 @@ describe('Tour | Top-Level Class', function () {
       });
 
       it("sets the instance on `Shepherd.activeTour` if it's not already set", function () {
-        const setupFuncSpy = jest.spyOn(instance, '_setupActiveTour');
+        const setupFuncSpy = vi.spyOn(instance, '_setupActiveTour');
         Shepherd.activeTour = null;
 
         expect(setupFuncSpy).toHaveBeenCalledTimes(0);

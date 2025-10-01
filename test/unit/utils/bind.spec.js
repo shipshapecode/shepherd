@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 
 import { bindAdvance } from '../../../shepherd.js/src/utils/bind';
 import { Step } from '../../../shepherd.js/src/step';
@@ -81,7 +81,7 @@ describe('Bind Utils', function () {
 
     it('calls `removeEventListener` when destroyed', () => {
       return new Promise((done) => {
-        const bodySpy = jest.spyOn(document.body, 'removeEventListener');
+        const bodySpy = vi.spyOn(document.body, 'removeEventListener');
         const step = new Step(tourProto, {
           advanceOn: { event: advanceOnEventName }
         });

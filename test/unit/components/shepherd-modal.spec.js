@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import ShepherdModal from '../../../shepherd.js/src/components/shepherd-modal.svelte';
 import { mount, unmount } from "svelte";
 
