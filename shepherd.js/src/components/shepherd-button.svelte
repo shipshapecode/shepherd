@@ -1,15 +1,7 @@
 <script>
-  import { run } from 'svelte/legacy';
-
   import { isFunction } from '../utils/type-check.ts';
 
   let { config, step } = $props();
-  let action = $state(),
-    classes = $state(),
-    disabled = $state(),
-    label = $state(),
-    secondary = $state(),
-    text = $state();
 
   function getConfigOption(option) {
     if (isFunction(option)) {
@@ -17,14 +9,15 @@
     }
     return option;
   }
-  run(() => {
-    action = config.action ? config.action.bind(step.tour) : null;
-    classes = config.classes;
-    disabled = config.disabled ? getConfigOption(config.disabled) : false;
-    label = config.label ? getConfigOption(config.label) : null;
-    secondary = config.secondary;
-    text = config.text ? getConfigOption(config.text) : null;
-  });
+
+  const action = $derived(config.action ? config.action.bind(step.tour) : null);
+  const classes = $derived(config.classes);
+  const disabled = $derived(
+    config.disabled ? getConfigOption(config.disabled) : false
+  );
+  const label = $derived(config.label ? getConfigOption(config.label) : null);
+  const secondary = $derived(config.secondary);
+  const text = $derived(config.text ? getConfigOption(config.text) : null);
 </script>
 
 <button

@@ -1,17 +1,11 @@
 <script>
-  import { run } from 'svelte/legacy';
-
   import ShepherdCancelIcon from './shepherd-cancel-icon.svelte';
   import ShepherdTitle from './shepherd-title.svelte';
 
   let { labelId, step } = $props();
-  let title = $state(),
-    cancelIcon = $state();
 
-  run(() => {
-    title = step.options.title;
-    cancelIcon = step.options.cancelIcon;
-  });
+  const title = $derived(step.options.title);
+  const cancelIcon = $derived(step.options.cancelIcon);
 </script>
 
 <header class="shepherd-header">
