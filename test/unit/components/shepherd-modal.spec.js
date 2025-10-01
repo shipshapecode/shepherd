@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import ShepherdModal from '../../../shepherd.js/src/components/shepherd-modal.svelte';
-import { mount, unmount } from "svelte";
+import { mount, unmount } from 'svelte';
 
 const classPrefix = '';
 
@@ -8,8 +8,8 @@ describe('components/ShepherdModal', () => {
   describe('closeModalOpening()', function () {
     it('sets values back to 0', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body
-            });
+        target: document.body
+      });
 
       await modalComponent.positionModal(0, 0, 0, 0, null, {
         getBoundingClientRect() {
@@ -43,12 +43,13 @@ describe('components/ShepherdModal', () => {
   describe('positionModal()', function () {
     it('sets the correct attributes when positioning modal opening', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
@@ -85,11 +86,12 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes with padding', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
 
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
@@ -119,11 +121,12 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes when positioning modal opening with border radius as number', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
 
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
@@ -161,11 +164,12 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes when positioning modal opening with border radius as object', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
 
       let modalPath = modalComponent.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
@@ -210,11 +214,11 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes when target is overflowing from scroll parent', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       await modalComponent.positionModal(
         0,
@@ -254,11 +258,11 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes when target fits inside scroll parent', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       await modalComponent.positionModal(
         0,
@@ -298,11 +302,13 @@ describe('components/ShepherdModal', () => {
 
     it('allows setting an x-axis offset', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
 
       modalComponent.positionModal(0, 0, 50, 0, null, {
         getBoundingClientRect() {
@@ -315,7 +321,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      let modalPath = await modalComponent.getElement().querySelector('path');
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for DOM update
+      let modalPath = modalComponent.getElement().querySelector('path');
 
       expect(modalPath).toHaveAttribute(
         'd',
@@ -333,7 +340,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      modalPath = await modalComponent.getElement().querySelector('path');
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for DOM update
+      modalPath = modalComponent.getElement().querySelector('path');
 
       expect(modalPath).toHaveAttribute(
         'd',
@@ -345,11 +353,13 @@ describe('components/ShepherdModal', () => {
 
     it('allows setting a y-axis offset', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for mount
 
       modalComponent.positionModal(0, 0, 0, 35, null, {
         getBoundingClientRect() {
@@ -362,7 +372,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      let modalPath = await modalComponent.getElement().querySelector('path');
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for DOM update
+      let modalPath = modalComponent.getElement().querySelector('path');
 
       expect(modalPath).toHaveAttribute(
         'd',
@@ -380,7 +391,8 @@ describe('components/ShepherdModal', () => {
         }
       });
 
-      modalPath = await modalComponent.getElement().querySelector('path');
+      await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for DOM update
+      modalPath = modalComponent.getElement().querySelector('path');
 
       expect(modalPath).toHaveAttribute(
         'd',
@@ -392,11 +404,11 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes with extraHighlights', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       await modalComponent.positionModal(
         0,
@@ -439,11 +451,11 @@ describe('components/ShepherdModal', () => {
 
     it('sets the correct attributes with multiple extraHighlights', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       await modalComponent.positionModal(
         0,
@@ -506,11 +518,11 @@ describe('components/ShepherdModal', () => {
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: false, hides modal', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       const step = {
         options: {},
@@ -537,11 +549,11 @@ describe('components/ShepherdModal', () => {
     // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: true, shows modal', async () => {
       const modalComponent = mount(ShepherdModal, {
-              target: document.body,
-              props: {
-                classPrefix
-              }
-            });
+        target: document.body,
+        props: {
+          classPrefix
+        }
+      });
 
       const step = {
         options: {},
@@ -568,11 +580,11 @@ describe('components/ShepherdModal', () => {
 
   describe('show/hide', function () {
     const modalComponent = mount(ShepherdModal, {
-          target: document.body,
-          props: {
-            classPrefix
-          }
-        });
+      target: document.body,
+      props: {
+        classPrefix
+      }
+    });
 
     it('show adds classes', async () => {
       await modalComponent.show();

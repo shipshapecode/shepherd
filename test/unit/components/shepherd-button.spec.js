@@ -1,4 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
+import { tick } from 'svelte';
 import ShepherdButton from '../../../shepherd.js/src/components/shepherd-button.svelte';
 
 describe('component/ShepherdButton', () => {
@@ -93,7 +94,7 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
-    it('label - funtion', () => {
+    it('label - funtion', async () => {
       let label = 'Test';
       const labelFunction = () => label;
       const config = {
@@ -112,10 +113,10 @@ describe('component/ShepherdButton', () => {
       label = 'Test 2';
 
       rerender({
-        props: {
-          config
-        }
+        config: { label: () => label }
       });
+
+      await tick();
 
       const buttonUpdated = container.querySelector('.shepherd-button');
       expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
@@ -164,7 +165,7 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveTextContent('Test');
     });
 
-    it('text - function', () => {
+    it('text - function', async () => {
       let text = 'Test';
       const textFunction = () => text;
       const config = {
@@ -183,10 +184,10 @@ describe('component/ShepherdButton', () => {
       text = 'Test 2';
 
       rerender({
-        props: {
-          config
-        }
+        config: { text: () => text }
       });
+
+      await tick();
 
       const buttonUpdated = container.querySelector('.shepherd-button');
       expect(buttonUpdated).toHaveTextContent('Test 2');

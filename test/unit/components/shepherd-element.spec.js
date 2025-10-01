@@ -124,10 +124,10 @@ describe('components/ShepherdElement', () => {
       const step = new Step(tour, {});
       let propagateValue = 0;
 
-      const tourBackStub = jest
+      const tourBackStub = vi
         .spyOn(tour, 'back')
         .mockImplementation(() => {});
-      const tourNextStub = jest
+      const tourNextStub = vi
         .spyOn(tour, 'next')
         .mockImplementation(() => {});
 
@@ -170,10 +170,10 @@ describe('components/ShepherdElement', () => {
       const step = new Step(tour, {});
       let propagateValue = 0;
 
-      const tourBackStub = jest
+      const tourBackStub = vi
         .spyOn(tour, 'back')
         .mockImplementation(() => {});
-      const tourNextStub = jest
+      const tourNextStub = vi
         .spyOn(tour, 'next')
         .mockImplementation(() => {});
 
