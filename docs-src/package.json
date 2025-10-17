@@ -14,7 +14,7 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/starlight": "^0.31.1",
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.13.10",
+    "astro": "^5.14.3",
     "sharp": "^0.34.3",
     "shepherd.js": "workspace:*",
     "starlight-typedoc": "^0.18.0",
