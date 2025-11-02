@@ -26,6 +26,6 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
     "sharp": "^0.34.3",
-    "vite": "^7.1.5"
+    "vite": "^7.1.12"
   }
 }
