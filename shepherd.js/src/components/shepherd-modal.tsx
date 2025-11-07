@@ -1,18 +1,58 @@
-<script>
-  import { makeOverlayPath } from '../utils/overlay-path.ts';
+import { createSignal, createMemo } from 'solid-js';
+import { makeOverlayPath } from '../utils/overlay-path';
+import type { Step } from '../step';
 
-  let { openingProperties = $bindable() } = $props();
-  let element = $state();
-  let modalIsVisible = $state(false);
-  let rafId = $state();
-  let pathDefinition = $derived(makeOverlayPath(openingProperties));
+export interface ShepherdModalProps {
+  // No props needed as we control this externally
+}
 
-  closeModalOpening();
+interface OpeningProperty {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+  r: number | { topLeft: number; bottomLeft: number; bottomRight: number; topRight: number };
+}
 
-  export const getElement = () => element;
+type ModalRadiusType = number | { topLeft?: number; bottomLeft?: number; bottomRight?: number; topRight?: number };
 
-  export function closeModalOpening() {
-    openingProperties = [
+export interface ShepherdModalRef {
+  closeModalOpening: () => void;
+  hide: () => void;
+  positionModal: (
+    modalOverlayOpeningPadding: number,
+    modalOverlayOpeningRadius: ModalRadiusType,
+    modalOverlayOpeningXOffset: number,
+    modalOverlayOpeningYOffset: number,
+    scrollParent: HTMLElement | null,
+    targetElement: HTMLElement | null,
+    extraHighlights?: HTMLElement[]
+  ) => void;
+  setupForStep: (step: Step) => void;
+  show: () => void;
+  getElement: () => SVGSVGElement | undefined;
+}
+
+export default function ShepherdModal(): [() => any, ShepherdModalRef] {
+  let element: SVGSVGElement | undefined;
+  const [modalIsVisible, setModalIsVisible] = createSignal(false);
+  const [openingProperties, setOpeningProperties] = createSignal<OpeningProperty[]>([
+    {
+      width: 0,
+      height: 0,
+      x: 0,
+      y: 0,
+      r: 0
+    }
+  ]);
+  let rafId: number | undefined;
+
+  const pathDefinition = createMemo(() => makeOverlayPath(openingProperties()));
+
+  const getElement = () => element;
+
+  const closeModalOpening = () => {
+    setOpeningProperties([
       {
         width: 0,
         height: 0,
@@ -20,40 +60,26 @@
         y: 0,
         r: 0
       }
-    ];
-  }
+    ]);
+  };
 
-  /**
-   * Hide the modal overlay
-   */
-  export function hide() {
-    modalIsVisible = false;
-
-    // Ensure we cleanup all event listeners when we hide the modal
+  const hide = () => {
+    setModalIsVisible(false);
     _cleanupStepEventListeners();
-  }
+  };
 
-  /**
-   * Uses the bounds of the element we want the opening overtop of to set the dimensions of the opening and position it
-   * @param {Number} modalOverlayOpeningPadding An amount of padding to add around the modal overlay opening
-   * @param {Number | { topLeft: Number, bottomLeft: Number, bottomRight: Number, topRight: Number }} modalOverlayOpeningRadius An amount of border radius to add around the modal overlay opening
-   * @param {Number} modalOverlayOpeningXOffset An amount to offset the modal overlay opening in the x-direction
-   * @param {Number} modalOverlayOpeningYOffset An amount to offset the modal overlay opening in the y-direction
-   * @param {HTMLElement} scrollParent The scrollable parent of the target element
-   * @param {HTMLElement} targetElement The element the opening will expose
-   */
-  export function positionModal(
+  const positionModal = (
     modalOverlayOpeningPadding = 0,
-    modalOverlayOpeningRadius = 0,
+    modalOverlayOpeningRadius: ModalRadiusType = 0,
     modalOverlayOpeningXOffset = 0,
     modalOverlayOpeningYOffset = 0,
-    scrollParent,
-    targetElement,
-    extraHighlights
-  ) {
+    scrollParent: HTMLElement | null,
+    targetElement: HTMLElement | null,
+    extraHighlights?: HTMLElement[]
+  ) => {
     if (targetElement) {
       const elementsToHighlight = [targetElement, ...(extraHighlights || [])];
-      openingProperties = [];
+      const newOpenings: OpeningProperty[] = [];
 
       for (const element of elementsToHighlight) {
         if (!element) continue;
@@ -83,8 +109,21 @@
 
         if (isContained) continue;
 
+        // Normalize radius to full object if partial
+        let normalizedRadius: number | { topLeft: number; bottomLeft: number; bottomRight: number; topRight: number };
+        if (typeof modalOverlayOpeningRadius === 'number') {
+          normalizedRadius = modalOverlayOpeningRadius;
+        } else {
+          normalizedRadius = {
+            topLeft: modalOverlayOpeningRadius.topLeft ?? 0,
+            bottomLeft: modalOverlayOpeningRadius.bottomLeft ?? 0,
+            bottomRight: modalOverlayOpeningRadius.bottomRight ?? 0,
+            topRight: modalOverlayOpeningRadius.topRight ?? 0
+          };
+        }
+
         // getBoundingClientRect is not consistent. Some browsers use x and y, while others use left and top
-        openingProperties.push({
+        newOpenings.push({
           width: width + modalOverlayOpeningPadding * 2,
           height: height + modalOverlayOpeningPadding * 2,
           x:
@@ -92,19 +131,17 @@
             modalOverlayOpeningXOffset -
             modalOverlayOpeningPadding,
           y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
-          r: modalOverlayOpeningRadius
+          r: normalizedRadius
         });
       }
+
+      setOpeningProperties(newOpenings);
     } else {
       closeModalOpening();
     }
-  }
+  };
 
-  /**
-   * If modal is enabled, setup the svg mask opening and modal overlay for the step
-   * @param {Step} step The step instance
-   */
-  export function setupForStep(step) {
+  const setupForStep = (step: Step) => {
     // Ensure we move listeners from the previous step, before we setup new ones
     _cleanupStepEventListeners();
 
@@ -114,27 +151,20 @@
     } else {
       hide();
     }
-  }
+  };
 
-  /**
-   * Show the modal overlay
-   */
-  export function show() {
-    modalIsVisible = true;
-  }
+  const show = () => {
+    setModalIsVisible(true);
+  };
 
-  const _preventModalBodyTouch = (e) => {
+  const _preventModalBodyTouch = (e: TouchEvent) => {
     e.preventDefault();
   };
 
-  const _preventModalOverlayTouch = (e) => {
+  const _preventModalOverlayTouch = (e: TouchEvent) => {
     e.stopPropagation();
   };
 
-  /**
-   * Add touchmove event listener
-   * @private
-   */
   function _addStepEventListeners() {
     // Prevents window from moving on touch.
     window.addEventListener('touchmove', _preventModalBodyTouch, {
@@ -142,10 +172,6 @@
     });
   }
 
-  /**
-   * Cancel the requestAnimationFrame loop and remove touchmove event listeners
-   * @private
-   */
   function _cleanupStepEventListeners() {
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -154,15 +180,10 @@
 
     window.removeEventListener('touchmove', _preventModalBodyTouch, {
       passive: false
-    });
+    } as any);
   }
 
-  /**
-   * Style the modal for the step
-   * @param {Step} step The step to style the opening for
-   * @private
-   */
-  function _styleForStep(step) {
+  function _styleForStep(step: Step) {
     const {
       modalOverlayOpeningPadding,
       modalOverlayOpeningRadius,
@@ -177,12 +198,12 @@
     const rafLoop = () => {
       rafId = undefined;
       positionModal(
-        modalOverlayOpeningPadding,
-        modalOverlayOpeningRadius,
+        modalOverlayOpeningPadding || 0,
+        modalOverlayOpeningRadius || 0,
         modalOverlayOpeningXOffset + iframeOffset.left,
         modalOverlayOpeningYOffset + iframeOffset.top,
         scrollParent,
-        step.target,
+        step.target || null,
         step._resolvedExtraHighlightElements
       );
       rafId = requestAnimationFrame(rafLoop);
@@ -193,13 +214,7 @@
     _addStepEventListeners();
   }
 
-  /**
-   * Find the closest scrollable parent element
-   * @param {HTMLElement} element The target element
-   * @returns {HTMLElement}
-   * @private
-   */
-  function _getScrollParent(element) {
+  function _getScrollParent(element: HTMLElement | null | undefined): HTMLElement | null {
     if (!element) {
       return null;
     }
@@ -216,13 +231,7 @@
     return _getScrollParent(element.parentElement);
   }
 
-  /**
-   * Get the top and left offset required to position the modal overlay cutout
-   * when the target element is within an iframe
-   * @param {HTMLElement} element The target element
-   * @private
-   */
-  function _getIframeOffset(element) {
+  function _getIframeOffset(element: HTMLElement | null | undefined) {
     let offset = {
       top: 0,
       left: 0
@@ -232,35 +241,26 @@
       return offset;
     }
 
-    let targetWindow = element.ownerDocument.defaultView;
+    let targetWindow: Window | null = element.ownerDocument.defaultView;
 
-    while (targetWindow !== window.top) {
+    while (targetWindow && targetWindow !== window.top) {
       const targetIframe = targetWindow?.frameElement;
 
       if (targetIframe) {
         const targetIframeRect = targetIframe.getBoundingClientRect();
 
-        offset.top += targetIframeRect.top + (targetIframeRect.scrollTop ?? 0);
+        offset.top += targetIframeRect.top + ((targetIframeRect as any).scrollTop ?? 0);
         offset.left +=
-          targetIframeRect.left + (targetIframeRect.scrollLeft ?? 0);
+          targetIframeRect.left + ((targetIframeRect as any).scrollLeft ?? 0);
       }
 
-      targetWindow = targetWindow.parent;
+      targetWindow = targetWindow?.parent;
     }
 
     return offset;
   }
 
-  /**
-   * Get the visible height of the target element relative to its scrollParent.
-   * If there is no scroll parent, the height of the element is returned.
-   *
-   * @param {HTMLElement} element The target element
-   * @param {HTMLElement} [scrollParent] The scrollable parent element
-   * @returns {{y: number, height: number}}
-   * @private
-   */
-  function _getVisibleHeight(element, scrollParent) {
+  function _getVisibleHeight(element: HTMLElement, scrollParent: HTMLElement | null) {
     const elementRect = element.getBoundingClientRect();
     let top = elementRect.y || elementRect.top;
     let bottom = elementRect.bottom || top + elementRect.height;
@@ -278,46 +278,27 @@
 
     return { y: top, height };
   }
-</script>
 
-<svg
-  bind:this={element}
-  class={`${
-    modalIsVisible ? 'shepherd-modal-is-visible' : ''
-  } shepherd-modal-overlay-container`}
-  ontouchmove={_preventModalOverlayTouch}
->
-  <path d={pathDefinition} />
-</svg>
+  const Component = () => (
+    <svg
+      ref={element}
+      class={`${
+        modalIsVisible() ? 'shepherd-modal-is-visible' : ''
+      } shepherd-modal-overlay-container`}
+      onTouchMove={_preventModalOverlayTouch}
+    >
+      <path d={pathDefinition()} />
+    </svg>
+  );
 
-<style global>
-  .shepherd-modal-overlay-container {
-    height: 0;
-    left: 0;
-    opacity: 0;
-    overflow: hidden;
-    pointer-events: none;
-    position: fixed;
-    top: 0;
-    transition:
-      all 0.3s ease-out,
-      height 0ms 0.3s,
-      opacity 0.3s 0ms;
-    width: 100vw;
-    z-index: 9997;
-  }
+  const ref: ShepherdModalRef = {
+    closeModalOpening,
+    hide,
+    positionModal,
+    setupForStep,
+    show,
+    getElement
+  };
 
-  .shepherd-modal-overlay-container.shepherd-modal-is-visible {
-    height: 100vh;
-    opacity: 0.5;
-    transition:
-      all 0.3s ease-out,
-      height 0s 0s,
-      opacity 0.3s 0s;
-    transform: translateZ(0);
-  }
-
-  .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
-    pointer-events: all;
-  }
-</style>
+  return [Component, ref];
+}

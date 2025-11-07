@@ -1,29 +1,25 @@
 import { defineConfig } from 'vitest/config';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import preprocess from 'svelte-preprocess';
+import solid from 'vite-plugin-solid';
+import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      preprocess: preprocess({}),
-      compilerOptions: {
-        dev: false
-      },
-      hot: false,
-      emitCss: false
-    })
-  ],
+  plugins: [solid()],
   test: {
     globals: true,
     environment: 'happy-dom',
     setupFiles: ['./setupTests.js'],
     coverage: {
+      provider: 'v8',
       include: [
-        '../../shepherd.js/src/*.ts',
-        '../../shepherd.js/src/*.svelte',
-        '../../shepherd.js/src/components/**/*.svelte',
-        '../../shepherd.js/src/utils/*.ts',
-        '../../shepherd.js/src/utils/*.svelte'
+        '../../shepherd.js/src/**/*.ts',
+        '../../shepherd.js/src/**/*.tsx'
+      ],
+      exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/tmp/**',
+        '**/*.spec.*',
+        '**/*.test.*'
       ],
       reporter: ['text', 'lcov', 'html']
     }
@@ -39,6 +35,6 @@ export default defineConfig({
     'import.meta.env.SSR': false
   },
   optimizeDeps: {
-    include: ['svelte']
+    include: ['solid-js']
   }
 });

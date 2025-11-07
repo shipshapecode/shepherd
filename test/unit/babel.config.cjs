@@ -16,6 +16,7 @@ module.exports = function (api) {
       test: {
         presets: [
           ['@babel/preset-env', { targets: { node: 'current' } }],
+          'babel-preset-solid',
           ['@babel/preset-typescript', { allowDeclareFields: true }]
         ]
       }
