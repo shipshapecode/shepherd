@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Shepherd — Guide your users through a tour of your app.</title>
+    <meta
+      name="description"
+      content="Guide your users through a tour of your app."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+
+    <!--favicons-->
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="assets/favicons/manifest.json" />
+    <link
+      rel="mask-icon"
+      href="assets/favicons/safari-pinned-tab.svg"
+      color="#426170"
+    />
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico" />
+    <meta
+      name="msapplication-config"
+      content="assets/favicons/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Welcome docs styles -->
+    <link rel="stylesheet" href="/css/shepherd.css" />
+    <link rel="stylesheet" href="./css/fonts.css" />
+    <link rel="stylesheet" href="./css/prism.css" />
+    <link rel="stylesheet" href="./css/welcome.css" />
+  </head>
+
+  <body>
+    <div class="hero-outer" data-test-hero-outer>
+      <div class="hero-inner">
+        <div class="hero-welcome" data-test-hero-welcome>
+          <h1>Shepherd</h1>
+
+          <h2>Guide your users through a tour of your app.</h2>
+        </div>
+
+        <div class="hero-including" data-test-hero-including>
+          <h3>Including</h3>
+
+          <script
+            type="text/plain"
+            class="language-markup"
+            id="hero-including-code"
+          >
+            <script type="module" src="shepherd.min.js">&lt;/script>
+          </script>
+        </div>
+
+        <div class="hero-example">
+          <h3>Example</h3>
+
+          <pre id="hero-example-code">
+          <code class="language-javascript">
+            const tour = new Shepherd.Tour({
+              defaultStepOptions: {
+                classes: 'shadow-md bg-purple-dark',
+                scrollTo: true
+              }
+            });
+
+            tour.addStep({
+              title: 'Example Shepherd',
+              text: 'Creating a Shepherd is easy too! Just create ...',
+              attachTo: {
+                element: '.hero-example',
+                on: 'bottom'
+              },
+              advanceOn: {
+                selector: '.docs-link',
+                event: 'click'
+              },
+              id: 'example'
+            });
+
+            tour.start();
+          </code>
+        </pre>
+        </div>
+
+        <div class="hero-followup">
+          <p>
+            <a
+              class="button star"
+              href="https://github.com/shipshapecode/shepherd"
+              >★ on Github</a
+            >
+            &nbsp;&nbsp;
+            <a class="button" href="https://shepherdjs.dev/docs/">View Docs</a>
+          </p>
+        </div>
+        <div>
+          <img src="sheep.svg" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Shepherd -->
+    <script type="module">
+      import Shepherd from '/js/shepherd.mjs';
+      const tour = new Shepherd.Tour({
+        defaultStepOptions: {
+          cancelIcon: { enabled: true }
+        },
+        useModalOverlay: true,
+        steps: [
+          {
+            text: `
+         <p>
+           Shepherd is a JavaScript library for guiding users through your app.
+           It uses <a href="https://floating-ui.com/" data-test-popper-link>Floating UI</a>,
+           another open source library, to render dialogs for each tour "step".
+         </p>
+        
+         <p>
+           Among many things, Floating UI makes sure your steps never end up off screen or cropped by an overflow.
+           (Try resizing your browser to see what we mean.)
+         </p>`,
+            attachTo: {
+              element: '.hero-welcome',
+              on: 'bottom'
+            },
+            classes:
+              'shepherd-step-element shepherd-transparent-text first-step',
+            buttons: [
+              {
+                action() {
+                  return this.cancel();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Exit'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                classes: 'shepherd-button-example-primary',
+                text: 'Next'
+              }
+            ],
+            id: 'welcome'
+          },
+          {
+            title: 'Including',
+            text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
+            attachTo: {
+              element: '.hero-including',
+              on: 'bottom'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                classes: 'shepherd-button-example-primary',
+                text: 'Next'
+              }
+            ],
+            id: 'including',
+            classes: 'shepherd-step-element second-step'
+          },
+          {
+            title: 'Example Shepherd',
+            text: 'Creating a Shepherd is easy too! Just create Shepherd and add as many steps as you want. Check out the <a href="https://shepherdjs.dev/docs/">documentation</a> to learn more.',
+            attachTo: {
+              element: '.hero-example',
+              on: 'bottom'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                classes: 'shepherd-button-example-primary',
+                text: 'Next'
+              }
+            ],
+            id: 'example',
+            classes: 'shepherd-step-element third-step'
+          },
+          {
+            title: 'Learn more',
+            text: 'Star Shepherd on Github so you remember it for your next project',
+            attachTo: {
+              element: '.hero-followup',
+              on: 'left'
+            },
+            buttons: [
+              {
+                action() {
+                  return this.back();
+                },
+                classes: 'shepherd-button-secondary',
+                text: 'Back'
+              },
+              {
+                action() {
+                  return this.next();
+                },
+                classes: 'shepherd-button-example-primary',
+                text: 'Done'
+              }
+            ],
+            id: 'followup',
+            classes: 'shepherd-step-element fourth-step'
+          }
+        ]
+      });
+
+      tour.start();
+    </script>
+
+    <!-- Welcome page -->
+    <script src="js/prism.js"></script>
+  </body>
+</html>

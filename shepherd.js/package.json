@@ -11,7 +11,7 @@
   "homepage": "https://shepherdjs.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "AGPL-3.0",
   "authors": [
@@ -19,16 +19,12 @@
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
   "main": "./dist/cjs/shepherd.cjs",
-  "module": "./dist/esm/shepherd.mjs",
+  "module": "./dist/js/shepherd.mjs",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/esm/shepherd.d.mts",
-        "default": "./dist/esm/shepherd.mjs"
-      },
-      "require": {
-        "types": "./dist/cjs/shepherd.d.cts",
-        "default": "./dist/cjs/shepherd.cjs"
+        "types": "./dist/js/shepherd.d.mts",
+        "default": "./dist/js/shepherd.mjs"
       }
     },
     "./dist/css/shepherd.css": "./dist/css/shepherd.css"
@@ -45,9 +41,8 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
-    "types:check": "pnpm types:check:cjs && pnpm types:check:esm && pnpm types:check:attw",
+    "types:check": "pnpm types:check:esm && pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack . --exclude-entrypoints ./dist/css/shepherd.css",
-    "types:check:cjs": "pnpm tsc --module commonjs --moduleResolution node10 --verbatimModuleSyntax false --noEmit true --emitDeclarationOnly false",
     "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --noEmit true --emitDeclarationOnly false",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
@@ -65,6 +60,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
     "dts-bundle-generator": "^9.5.1",
@@ -83,11 +79,11 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-serve": "^2.0.2",
-    "rollup-plugin-svelte": "^7.2.0",
+    "rollup-plugin-svelte": "^7.2.2",
     "rollup-plugin-visualizer": "^5.14.0",
-    "svelte": "^4.2.19",
+    "svelte": "^5.25.3",
     "svelte-preprocess": "^6.0.3",
-    "svelte2tsx": "^0.7.8",
+    "svelte2tsx": "0.7.13",
     "typescript": "^5.7.3"
   },
   "packageManager": "pnpm@9.15.4",

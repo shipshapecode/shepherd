@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import { Step } from '../../../shepherd.js/src/step';
 import {
   parseAttachTo,
@@ -34,7 +34,7 @@ describe('General Utils', function () {
     });
 
     it('accepts callback function as element', function () {
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       const step = new Step(
         {},

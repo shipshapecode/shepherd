@@ -1,12 +1,11 @@
 <script>
   import { makeOverlayPath } from '../utils/overlay-path.ts';
 
-  export let element, openingProperties;
-  let modalIsVisible = false;
-  let rafId = undefined;
-  let pathDefinition;
-
-  $: pathDefinition = makeOverlayPath(openingProperties);
+  let { openingProperties = $bindable() } = $props();
+  let element = $state();
+  let modalIsVisible = $state(false);
+  let rafId = $state();
+  let pathDefinition = $derived(makeOverlayPath(openingProperties));
 
   closeModalOpening();
 
@@ -286,7 +285,7 @@
   class={`${
     modalIsVisible ? 'shepherd-modal-is-visible' : ''
   } shepherd-modal-overlay-container`}
-  on:touchmove={_preventModalOverlayTouch}
+  ontouchmove={_preventModalOverlayTouch}
 >
   <path d={pathDefinition} />
 </svg>

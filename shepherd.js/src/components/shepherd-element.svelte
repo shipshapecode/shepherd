@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy, onMount, afterUpdate } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import ShepherdContent from './shepherd-content.svelte';
   import { isUndefined, isString } from '../utils/type-check.ts';
 
@@ -8,32 +8,24 @@
   const LEFT_ARROW = 37;
   const RIGHT_ARROW = 39;
 
-  export let attachToElement,
-    attachTofocusableDialogElements,
-    classPrefix,
-    element,
-    descriptionId,
-    // Focusable attachTo elements
-    focusableAttachToElements,
-    firstFocusableAttachToElement,
-    lastFocusableAttachToElement,
-    // Focusable dialog elements
-    firstFocusableDialogElement,
-    focusableDialogElements,
-    lastFocusableDialogElement,
-    labelId,
-    step,
-    dataStepId;
+  let { attachToElement, classPrefix, descriptionId, labelId, step } = $props();
 
-  let hasCancelIcon, hasTitle, classes;
+  let classes = $state();
+  let dataStepId = $state();
+  let element = $state();
 
-  $: {
-    hasCancelIcon =
-      step.options &&
-      step.options.cancelIcon &&
-      step.options.cancelIcon.enabled;
-    hasTitle = step.options && step.options.title;
-  }
+  // Focusable attachTo elements
+  let focusableAttachToElements = $state();
+  let firstFocusableAttachToElement = $state();
+  let lastFocusableAttachToElement = $state();
+
+  // Focusable dialog elements
+  let firstFocusableDialogElement = $state();
+  let focusableDialogElements = $state();
+  let lastFocusableDialogElement = $state();
+
+  const hasCancelIcon = $derived(step.options?.cancelIcon?.enabled ?? false);
+  const hasTitle = $derived(step.options?.title ?? false);
 
   export const getElement = () => element;
 
@@ -71,7 +63,7 @@
     attachToElement?.removeEventListener('keydown', handleKeyDown);
   });
 
-  afterUpdate(() => {
+  $effect(() => {
     if (classes !== step.options.classes) {
       updateDynamicClasses();
     }
@@ -191,7 +183,7 @@
   class:shepherd-has-title={hasTitle}
   class:shepherd-element={true}
   {...dataStepId}
-  on:keydown={handleKeyDown}
+  onkeydown={handleKeyDown}
   open="true"
 >
   {#if step.options.arrow && step.options.attachTo && step.options.attachTo.element && step.options.attachTo.on}

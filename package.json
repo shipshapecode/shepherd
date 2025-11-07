@@ -1,11 +1,10 @@
 {
   "name": "shepherd-monorepo",
   "private": "true",
-  "version": "12.0.0-alpha.13",
   "description": "The monorepo for Shepherd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "AGPL-3.0",
   "authors": [
@@ -21,6 +20,8 @@
     "lint": "pnpm -F '*' lint",
     "lint:fix": "pnpm -F '*' lint:fix",
     "lint:js": "pnpm -F '*' lint:js",
+    "lint:prettier": "pnpm -F '*' lint:prettier",
+    "lint:prettier:fix": "pnpm -F '*' lint:prettier:fix",
     "start": "pnpm watch",
     "test:ci": "pnpm build && pnpm -F '*' test:ci",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",
@@ -30,27 +31,26 @@
     "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.25.8",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "autoprefixer": "^10.4.21",
-    "concurrently": "^9.0.1",
+    "concurrently": "^9.2.1",
     "del": "^7.1.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-jest": "^28.11.0",
+    "eslint": "^8.57.1",
     "eslint-plugin-svelte": "^2.46.1",
     "postcss": "^8.5.6",
     "prettier": "3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-svelte": "^3.3.3",
-    "release-plan": "^0.17.0",
+    "prettier-plugin-svelte": "^3.4.0",
+    "release-plan": "^0.17.2",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
-    "svelte": "^4.2.19",
-    "typescript": "^5.7.3"
+    "svelte": "^5.39.7",
+    "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": "18.* || >= 20"
   }

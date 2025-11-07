@@ -4,7 +4,7 @@
   "description": "Cypress tests for Shepherd",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shepherd-pro/shepherd.git"
+    "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "MIT",
   "type": "module",
@@ -20,20 +20,20 @@
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.25.8",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
     "@babel/preset-typescript": "^7.27.1",
     "chai": "^6.2.0",
-    "cypress": "^14.4.1",
+    "cypress": "^14.5.4",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^7.1.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.1",
     "http-server": "^14.1.1",
     "postcss": "^8.5.6",
-    "prettier": "^3.3.3",
+    "prettier": "^3.6.2",
     "replace": "^1.2.2",
-    "start-server-and-test": "^2.0.10",
-    "typescript": "^5.7.3"
+    "start-server-and-test": "^2.1.2",
+    "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@9.15.4",
   "engines": {

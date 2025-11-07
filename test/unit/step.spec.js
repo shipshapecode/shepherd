@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import Shepherd from '../../shepherd.js/src/shepherd';
 import { Step } from '../../shepherd.js/src/step';
 import { Tour } from '../../shepherd.js/src/tour';
@@ -209,7 +209,7 @@ describe('Tour | Step', () => {
 
     describe('.show()', () => {
       it('beforeShowPromise called before `show`', () => {
-        console.log = jest.fn();
+        console.log = vi.fn();
         const promise = beforeShowPromiseTestStep.show();
 
         return promise.then(() => {
@@ -485,7 +485,7 @@ describe('Tour | Step', () => {
       let resHandlerCalled = false;
       resTester.classList.add('post-res-scroll-test');
       resTester.scrollIntoView = () => (resHandlerCalled = true);
-      const resSpy = jest.spyOn(resTester, 'scrollIntoView');
+      const resSpy = vi.spyOn(resTester, 'scrollIntoView');
       document.body.appendChild(resTester);
 
       const beforeShowPromise = new Promise((resolve) => {
@@ -521,7 +521,7 @@ describe('Tour | Step', () => {
         }
       });
 
-      const resSpy = jest.spyOn(step.options, 'scrollToHandler');
+      const resSpy = vi.spyOn(step.options, 'scrollToHandler');
 
       step.show();
 
@@ -646,8 +646,8 @@ describe('Tour | Step', () => {
     // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
     // not it's implementation, only if the callback is called lazily.
     it('lazily evaluates attachTo.element callback', () => {
-      const step1AttachToCallback = jest.fn();
-      const step2AttachToCallback = jest.fn();
+      const step1AttachToCallback = vi.fn();
+      const step2AttachToCallback = vi.fn();
 
       const instance = new Shepherd.Tour({
         steps: [
@@ -675,7 +675,7 @@ describe('Tour | Step', () => {
     });
 
     it('lazily evaluates attachTo.element selector', () => {
-      const querySelectorSpy = jest.spyOn(document, 'querySelector');
+      const querySelectorSpy = vi.spyOn(document, 'querySelector');
 
       const instance = new Shepherd.Tour({
         steps: [
@@ -704,8 +704,8 @@ describe('Tour | Step', () => {
     });
 
     it('evaluates attachTo on subsequent shows', () => {
-      const step1AttachToCallback = jest.fn();
-      const step2AttachToCallback = jest.fn();
+      const step1AttachToCallback = vi.fn();
+      const step2AttachToCallback = vi.fn();
 
       const instance = new Shepherd.Tour({
         steps: [

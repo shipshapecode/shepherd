@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdHeader from '../../../shepherd.js/src/components/shepherd-header.svelte';
 import { Tour } from '../../../shepherd.js/src/tour';
@@ -77,7 +77,7 @@ describe('components/ShepherdHeader', () => {
         enabled: true
       }
     });
-    const stepCancelSpy = jest.spyOn(step, 'cancel');
+    const stepCancelSpy = vi.spyOn(step, 'cancel');
 
     const { container } = render(ShepherdHeader, {
       props: {

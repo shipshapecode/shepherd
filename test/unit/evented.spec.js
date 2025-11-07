@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { vi } from 'vitest';
 
 import { Evented } from '../../shepherd.js/src/evented';
 
@@ -27,7 +27,7 @@ describe('Evented', () => {
     });
 
     it('passes arguments to handler functions', () => {
-      const handlerSpy = jest.fn();
+      const handlerSpy = vi.fn();
       testEvent.on('myEvent', handlerSpy);
       testEvent.trigger('myEvent', {
         step: { id: 'test', text: 'A step' },

@@ -42,7 +42,6 @@ module.exports = {
         '.eslintrc.js',
         '.prettierrc.js',
         'babel.config.js',
-        'jest.config.js',
         'svelte.config.js',
         'tailwind.config.js'
       ],
