@@ -16,7 +16,10 @@ module.exports = function (api) {
       test: {
         presets: [
           ['@babel/preset-env', { targets: { node: 'current' } }],
-          ['@babel/preset-typescript', { allowDeclareFields: true }]
+          ['@babel/preset-typescript', { allowDeclareFields: true, isTSX: true, allExtensions: true }]
+        ],
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { pragma: 'h' }]
         ]
       }
     }

@@ -1,3 +1,4 @@
+import './components/shepherd.css';
 import { Shepherd, Tour } from './tour.ts';
 import { StepNoOp, TourNoOp } from './utils/general.ts';
 import { Step } from './step.ts';

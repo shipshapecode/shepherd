@@ -10,10 +10,7 @@ import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { sveltePreprocess } from 'svelte-preprocess';
-import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { emitDts } from 'svelte2tsx';
 import terser from '@rollup/plugin-terser';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -23,26 +20,29 @@ const isDev = process.env.DEVELOPMENT;
 const env = isDev ? 'development' : 'production';
 
 const plugins = [
-  svelte({
-    preprocess: sveltePreprocess({
-      globalStyle: true,
-      typescript: true
-    }),
-    emitCss: true
-  }),
   nodeResolve({
     browser: true,
-    exportConditions: ['svelte'],
-    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-    modulesOnly: true,
+    extensions: ['.js', '.json', '.mjs', '.jsx', '.ts', '.tsx'],
     preferBuiltins: false
+  }),
+  babel({
+    extensions: ['.cjs', '.js', '.ts', '.mjs', '.jsx', '.tsx'],
+    babelHelpers: 'bundled',
+    presets: [
+      ['@babel/preset-typescript', { jsxPragma: 'h' }],
+      ['@babel/preset-env', { modules: false }]
+    ],
+    plugins: [
+      ['@babel/plugin-transform-react-jsx', {
+        pragma: 'h',
+        pragmaFrag: 'Fragment'
+      }]
+    ],
+    exclude: 'node_modules/**'
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(env),
     preventAssignment: true
-  }),
-  babel({
-    extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
   }),
   postcss({
     plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
@@ -93,28 +93,6 @@ export default [
       unknownGlobalSideEffects: false
     },
     plugins: [
-      {
-        name: 'Build Declarations',
-        buildStart: async () => {
-          console.log('Generating Svelte declarations for ESM');
-
-          await emitDts({
-            svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
-            ),
-            declarationDir: 'tmp/js'
-          });
-
-          console.log('Rename .svelte.d.ts to .d.svelte.ts');
-
-          await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/js/**`,
-            {
-              stdio: 'inherit'
-            }
-          );
-        }
-      },
       ...plugins,
       {
         name: 'After build tweaks',
@@ -131,6 +109,15 @@ export default [
 
           await execaCommand(
             `cp ./tmp/js/css/shepherd.css ./dist/css/shepherd.css`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Generating TypeScript declarations');
+
+          await execaCommand(
+            `npx tsc --declaration --emitDeclarationOnly --declarationDir tmp/js --skipLibCheck`,
             {
               stdio: 'inherit'
             }

@@ -1,8 +1,9 @@
-import { cleanup, render } from '@testing-library/svelte';
-import ShepherdText from '../../../shepherd.js/src/components/shepherd-text.svelte';
+import { cleanup, render } from '@testing-library/preact';
+import { h } from 'preact';
+import ShepherdText from '../../../shepherd.js/src/components/shepherd-text';
 
 describe('components/ShepherdText', () => {
-  beforeEach(cleanup);
+  afterEach(cleanup);
 
   it('adds plain text to the content', () => {
     const step = {
@@ -11,11 +12,9 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const { container } = render(ShepherdText, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdText descriptionId="test-desc" step={step} />
+    );
 
     expect(container.querySelector('.shepherd-text')).toHaveTextContent('I am some test text.');
   });
@@ -27,11 +26,9 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const { container } = render(ShepherdText, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdText descriptionId="test-desc" step={step} />
+    );
 
     expect(container.querySelector('.shepherd-text')).toContainHTML('<p>I am some test text.</p>');
   });
@@ -43,11 +40,9 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const { container } = render(ShepherdText, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdText descriptionId="test-desc" step={step} />
+    );
 
     expect(container.querySelector('.shepherd-text')).toHaveTextContent('I am some test text.');
   });

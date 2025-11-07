@@ -19,10 +19,10 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-import ShepherdElement from './components/shepherd-element.svelte';
+import ShepherdElement from './components/shepherd-element';
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from '@floating-ui/dom';
-import { createClassComponent } from 'svelte/legacy';
+import { render, h } from 'preact';
 
 export type StepText =
   | string
@@ -311,6 +311,7 @@ export class Step extends Evented {
   el?: HTMLElement | null;
   declare id: string;
   declare options: StepOptions;
+  shepherdElementComponent?: any;
   target?: HTMLElement | null;
   tour: Tour;
 
@@ -363,6 +364,13 @@ export class Step extends Evented {
    */
   destroy() {
     destroyTooltip(this);
+
+    // Cleanup Preact component
+    if (this.shepherdElementComponent) {
+      render(null, this.shepherdElementComponent);
+      this.shepherdElementComponent.remove();
+      this.shepherdElementComponent = undefined;
+    }
 
     if (isHTMLElement(this.el)) {
       this.el.remove();
@@ -458,10 +466,19 @@ export class Step extends Evented {
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
-    // @ts-expect-error TODO: get types for Svelte components
-    if (this.shepherdElementComponent) {
-      // @ts-expect-error TODO: get types for Svelte components
-      this.shepherdElementComponent.$set({ step: this });
+    // With Preact, we need to re-render the component
+    if (this.shepherdElementComponent && this.el) {
+      // Re-render with updated options
+      render(
+        h(ShepherdElement, {
+          classPrefix: this.classPrefix,
+          descriptionId: `${this.id}-description`,
+          labelId: `${this.id}-label`,
+          step: this,
+          key: Date.now() // Force re-render
+        }),
+        this.shepherdElementComponent
+      );
     }
   }
 
@@ -491,22 +508,27 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    // @ts-expect-error TODO: get types for Svelte components
-    this.shepherdElementComponent = createClassComponent({
-      component: ShepherdElement,
-      target: this.tour.options.stepsContainer || document.body,
-      props: {
+    // Create a container for the Preact component
+    const container = document.createElement('div');
+    const target = this.tour.options.stepsContainer || document.body;
+    target.appendChild(container);
+
+    // Render the Preact component
+    render(
+      h(ShepherdElement, {
         classPrefix: this.classPrefix,
         descriptionId,
         labelId,
-        step: this,
-        // @ts-expect-error TODO: investigate where styles comes from
-        styles: this.styles
-      }
-    });
+        step: this
+      }),
+      container
+    );
 
-    // @ts-expect-error TODO: get types for Svelte components
-    return this.shepherdElementComponent.getElement();
+    // Store reference for cleanup
+    this.shepherdElementComponent = container;
+
+    // Return the dialog element
+    return container.querySelector('dialog') as HTMLDialogElement;
   }
 
   /**
@@ -643,8 +665,7 @@ export class Step extends Evented {
       this.el.hidden = false;
     }
 
-    // @ts-expect-error TODO: get types for Svelte components
-    const content = this.shepherdElementComponent.getElement();
+    const content = this.shepherdElementComponent.querySelector('dialog');
     const target = this.target || document.body;
     const extraHighlightElements = this._resolvedExtraHighlightElements;
 

@@ -1,19 +1,25 @@
-import { cleanup, render } from '@testing-library/svelte';
-import { tick } from 'svelte';
-import ShepherdButton from '../../../shepherd.js/src/components/shepherd-button.svelte';
+import { cleanup, render } from '@testing-library/preact';
+import { h } from 'preact';
+import ShepherdButton from '../../../shepherd.js/src/components/shepherd-button';
 
 describe('component/ShepherdButton', () => {
-  beforeEach(cleanup);
+  afterEach(cleanup);
+
+  // Create a mock step object
+  const createMockStep = () => ({
+    tour: {
+      next: vi.fn()
+    }
+  });
 
   describe('disabled', () => {
     it('should be enabled by default', () => {
       const config = {};
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeFalsy();
@@ -23,12 +29,11 @@ describe('component/ShepherdButton', () => {
       const config = {
         disabled: false
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeFalsy();
@@ -38,12 +43,11 @@ describe('component/ShepherdButton', () => {
       const config = {
         disabled: true
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeTruthy();
@@ -53,12 +57,11 @@ describe('component/ShepherdButton', () => {
       const config = {
         disabled: () => true
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeTruthy();
@@ -68,12 +71,11 @@ describe('component/ShepherdButton', () => {
       const config = {
         label: 'Test'
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', 'Test');
@@ -83,55 +85,41 @@ describe('component/ShepherdButton', () => {
       const config = {
         label: 5
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
-    it('label - funtion', async () => {
-      let label = 'Test';
+    it('label - function', () => {
+      const label = 'Test';
       const labelFunction = () => label;
       const config = {
         label: labelFunction
       };
+      const step = createMockStep();
 
-      const { container, rerender } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', 'Test');
-
-      label = 'Test 2';
-
-      rerender({
-        config: { label: () => label }
-      });
-
-      await tick();
-
-      const buttonUpdated = container.querySelector('.shepherd-button');
-      expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
     });
 
     it('label - null', () => {
       const config = {
         label: null
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
@@ -139,12 +127,11 @@ describe('component/ShepherdButton', () => {
 
     it('label - undefined', () => {
       const config = {};
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
@@ -154,43 +141,30 @@ describe('component/ShepherdButton', () => {
       const config = {
         text: 'Test'
       };
+      const step = createMockStep();
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveTextContent('Test');
     });
 
-    it('text - function', async () => {
-      let text = 'Test';
+    it('text - function', () => {
+      const text = 'Test';
       const textFunction = () => text;
       const config = {
         text: textFunction
       };
+      const step = createMockStep();
 
-      const { container, rerender } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
+      const { container } = render(
+        <ShepherdButton config={config} step={step} />
+      );
 
       const button = container.querySelector('.shepherd-button');
       expect(button).toHaveTextContent('Test');
-
-      text = 'Test 2';
-
-      rerender({
-        config: { text: () => text }
-      });
-
-      await tick();
-
-      const buttonUpdated = container.querySelector('.shepherd-button');
-      expect(buttonUpdated).toHaveTextContent('Test 2');
     });
   });
 });

@@ -1,9 +1,10 @@
-import { cleanup, render } from '@testing-library/svelte';
-import ShepherdFooter from '../../../shepherd.js/src/components/shepherd-footer.svelte';
+import { cleanup, render } from '@testing-library/preact';
+import { h } from 'preact';
+import ShepherdFooter from '../../../shepherd.js/src/components/shepherd-footer';
 import defaultButtons from '../../cypress/utils/default-buttons.js';
 
 describe('components/ShepherdFooter', () => {
-  beforeEach(cleanup);
+  afterEach(cleanup);
 
   it('renders no buttons if an empty array is passed to `options.buttons`', () => {
     const step = {
@@ -12,11 +13,7 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const { container } = render(ShepherdFooter, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(<ShepherdFooter step={step} />);
 
     const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
     expect(buttons.length).toBe(0);
@@ -25,11 +22,7 @@ describe('components/ShepherdFooter', () => {
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
     const step = { options: {} };
 
-    const { container } = render(ShepherdFooter, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(<ShepherdFooter step={step} />);
 
     const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
     expect(buttons.length).toBe(0);
@@ -42,14 +35,11 @@ describe('components/ShepherdFooter', () => {
           defaultButtons.cancel,
           defaultButtons.next
         ]
-      }
+      },
+      tour: {}
     };
 
-    const { container } = render(ShepherdFooter, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(<ShepherdFooter step={step} />);
 
     const buttons = container.querySelectorAll('.shepherd-footer .shepherd-button');
     expect(buttons.length).toBe(2);

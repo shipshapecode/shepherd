@@ -1,11 +1,12 @@
 import { vi } from 'vitest';
-import { cleanup, fireEvent, render } from '@testing-library/svelte';
-import ShepherdHeader from '../../../shepherd.js/src/components/shepherd-header.svelte';
+import { cleanup, fireEvent, render } from '@testing-library/preact';
+import { h } from 'preact';
+import ShepherdHeader from '../../../shepherd.js/src/components/shepherd-header';
 import { Tour } from '../../../shepherd.js/src/tour';
 import { Step } from '../../../shepherd.js/src/step';
 
 describe('components/ShepherdHeader', () => {
-  beforeEach(cleanup);
+  afterEach(cleanup);
 
   it('cancel icon is added when cancelIcon.enabled === true', () => {
     const step = {
@@ -16,11 +17,9 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const { container } = render(ShepherdHeader, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdHeader labelId="test-label" step={step} />
+    );
 
     const cancelIcon = container.querySelector('.shepherd-cancel-icon');
     expect(cancelIcon).toBeInTheDocument();
@@ -37,11 +36,9 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const { container } = render(ShepherdHeader, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdHeader labelId="test-label" step={step} />
+    );
 
     const cancelIcon = container.querySelector('.shepherd-cancel-icon');
 
@@ -58,11 +55,9 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const { container } = render(ShepherdHeader, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdHeader labelId="test-label" step={step} />
+    );
 
     expect(container.querySelector('.shepherd-cancel-icon')).toHaveAttribute(
       'aria-label',
@@ -79,11 +74,9 @@ describe('components/ShepherdHeader', () => {
     });
     const stepCancelSpy = vi.spyOn(step, 'cancel');
 
-    const { container } = render(ShepherdHeader, {
-      props: {
-        step
-      }
-    });
+    const { container } = render(
+      <ShepherdHeader labelId="test-label" step={step} />
+    );
 
     fireEvent.click(container.querySelector('.shepherd-cancel-icon'));
     expect(stepCancelSpy).toHaveBeenCalled();

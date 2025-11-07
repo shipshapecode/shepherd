@@ -9,8 +9,8 @@ import {
 } from './utils/type-check.ts';
 import { cleanupSteps } from './utils/cleanup.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
-import ShepherdModal from './components/shepherd-modal.svelte';
-import { createClassComponent } from 'svelte/legacy';
+import ShepherdModal, { getModalInstance } from './components/shepherd-modal';
+import { render, h } from 'preact';
 
 export interface EventOptions {
   previous?: Step | null;
@@ -414,14 +414,23 @@ export class Tour extends Evented {
    * setupModal create the modal container and instance
    */
   setupModal() {
-    this.modal = createClassComponent({
-      component: ShepherdModal,
-      target: this.options.modalContainer || document.body,
-      props: {
-        // @ts-expect-error TODO: investigate where styles comes from
-        styles: this.styles
-      }
-    });
+    // Create container for modal
+    const container = document.createElement('div');
+    const target = this.options.modalContainer || document.body;
+    target.appendChild(container);
+
+    // Render the modal component - this will trigger constructor which sets global instance
+    render(h(ShepherdModal, {}), container);
+
+    // Get the modal instance from the global store (set in constructor)
+    const modalInstance = getModalInstance();
+    
+    if (!modalInstance) {
+      console.error('Modal instance not created properly', { container, target });
+      console.error('SVG element:', container.querySelector('svg'));
+    }
+    
+    this.modal = modalInstance as any;
   }
 
   /**

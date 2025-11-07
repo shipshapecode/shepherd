@@ -1,36 +1,45 @@
 import { defineConfig } from 'vitest/config';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import preprocess from 'svelte-preprocess';
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      preprocess: preprocess({}),
-      compilerOptions: {
-        dev: false
-      },
-      hot: false,
-      emitCss: false
-    })
-  ],
+  plugins: [],
+  esbuild: {
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment'
+  },
   test: {
     globals: true,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     setupFiles: ['./setupTests.js'],
+    deps: {
+      optimizer: {
+        web: {
+          enabled: true,
+          include: ['preact', 'preact/hooks', '@testing-library/preact']
+        }
+      }
+    },
     coverage: {
+      enabled: true,
+      provider: 'v8',
       include: [
-        '../../shepherd.js/src/*.ts',
-        '../../shepherd.js/src/*.svelte',
-        '../../shepherd.js/src/components/**/*.svelte',
-        '../../shepherd.js/src/utils/*.ts',
-        '../../shepherd.js/src/utils/*.svelte'
+        '../../shepherd.js/src/**/*.ts',
+        '../../shepherd.js/src/**/*.tsx'
+      ],
+      exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/tmp/**',
+        '**/*.spec.*',
+        '**/*.test.*'
       ],
       reporter: ['text', 'lcov', 'html']
     }
   },
   resolve: {
     alias: {
-      'shepherd.js': '../../shepherd.js/src'
+      'shepherd.js': '../../shepherd.js/src',
+      'react': 'preact/compat',
+      'react-dom': 'preact/compat'
     },
     conditions: ['browser']
   },
@@ -39,6 +48,6 @@ export default defineConfig({
     'import.meta.env.SSR': false
   },
   optimizeDeps: {
-    include: ['svelte']
+    include: ['preact']
   }
 });
