@@ -19,10 +19,10 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-import ShepherdElement from './components/shepherd-element.svelte';
+import ShepherdElement from './components/shepherd-element';
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from '@floating-ui/dom';
-import { createClassComponent } from 'svelte/legacy';
+import { render } from 'solid-js/web';
 
 export type StepText =
   | string
@@ -311,6 +311,11 @@ export class Step extends Evented {
   el?: HTMLElement | null;
   declare id: string;
   declare options: StepOptions;
+  shepherdElementComponent?: {
+    dispose: () => void;
+    container: HTMLElement;
+    getElement: () => HTMLDialogElement;
+  };
   target?: HTMLElement | null;
   tour: Tour;
 
@@ -363,6 +368,15 @@ export class Step extends Evented {
    */
   destroy() {
     destroyTooltip(this);
+
+    // Dispose Solid component
+    if (this.shepherdElementComponent) {
+      this.shepherdElementComponent.dispose();
+      if (this.shepherdElementComponent.container) {
+        this.shepherdElementComponent.container.remove();
+      }
+      this.shepherdElementComponent = undefined;
+    }
 
     if (isHTMLElement(this.el)) {
       this.el.remove();
@@ -458,10 +472,17 @@ export class Step extends Evented {
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
-    // @ts-expect-error TODO: get types for Svelte components
+    // With Solid.js, we need to recreate the component to update options
     if (this.shepherdElementComponent) {
-      // @ts-expect-error TODO: get types for Svelte components
-      this.shepherdElementComponent.$set({ step: this });
+      // Dispose old component and recreate
+      this.shepherdElementComponent.dispose();
+      const container = this.shepherdElementComponent.container;
+      container.remove();
+      
+      // Recreate with new options
+      if (this.el) {
+        this._setupElements();
+      }
     }
   }
 
@@ -491,21 +512,34 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    // @ts-expect-error TODO: get types for Svelte components
-    this.shepherdElementComponent = createClassComponent({
-      component: ShepherdElement,
-      target: this.tour.options.stepsContainer || document.body,
-      props: {
-        classPrefix: this.classPrefix,
-        descriptionId,
-        labelId,
-        step: this,
-        // @ts-expect-error TODO: investigate where styles comes from
-        styles: this.styles
-      }
-    });
+    // Create a container for the Solid component
+    const container = document.createElement('div');
+    const target = this.tour.options.stepsContainer || document.body;
+    target.appendChild(container);
 
-    // @ts-expect-error TODO: get types for Svelte components
+    // Store the dispose function and container
+    let elementRef: HTMLDialogElement | undefined;
+    
+    const dispose = render(
+      () => {
+        const Component = ShepherdElement({
+          classPrefix: this.classPrefix,
+          descriptionId,
+          labelId,
+          step: this
+        });
+        return Component;
+      },
+      container
+    );
+
+    // Store reference for cleanup
+    this.shepherdElementComponent = {
+      dispose,
+      container,
+      getElement: () => container.querySelector('dialog') as HTMLDialogElement
+    };
+
     return this.shepherdElementComponent.getElement();
   }
 
