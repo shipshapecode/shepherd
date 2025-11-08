@@ -21,7 +21,7 @@ import {
 } from './utils/floating-ui.ts';
 import ShepherdElement from './components/shepherd-element.svelte';
 import { type Tour } from './tour.ts';
-import type { ComputePositionConfig } from '@floating-ui/dom';
+import type { AnchorPositionConfig } from './utils/anchor-positioning.ts';
 import { createClassComponent } from 'svelte/legacy';
 
 export type StepText =
@@ -151,9 +151,9 @@ export interface StepOptions {
   modalOverlayOpeningYOffset?: number;
 
   /**
-   * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   * Options for CSS Anchor Positioning API
    */
-  floatingUIOptions?: ComputePositionConfig;
+  anchorOptions?: AnchorPositionConfig;
 
   /**
    * Should the element be scrolled to when this step is shown?
@@ -358,7 +358,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Remove the step, delete the step's element, and destroy the FloatingUI instance for the step.
+   * Remove the step, delete the step's element, and clean up the anchor positioning for the step.
    * Triggers `destroy` event
    */
   destroy() {
@@ -587,7 +587,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the FloatingUI instance
+   * Create the element and set up the CSS anchor positioning
    * @private
    */
   _setupElements() {
@@ -608,7 +608,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a FloatingUI instance for the tooltip, then triggers `show`.
+   * sets up CSS anchor positioning for the tooltip, then triggers `show`.
    * @private
    */
   _show() {

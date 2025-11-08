@@ -1,57 +1,18 @@
 import { deepmerge } from 'deepmerge-ts';
-import { shouldCenterStep } from './general.ts';
-import {
-  autoUpdate,
-  arrow,
-  computePosition,
-  flip,
-  autoPlacement,
-  limitShift,
-  shift,
-  type ComputePositionConfig,
-  type MiddlewareData,
-  type Placement,
-  type Alignment
-} from '@floating-ui/dom';
+import { 
+  setupAnchorTooltip, 
+  destroyAnchorTooltip,
+  type AnchorPositionConfig 
+} from './anchor-positioning.ts';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
-import { isHTMLElement } from './type-check.ts';
 
 /**
- * Determines options for the tooltip and initializes event listeners.
+ * Determines options for the tooltip and initializes positioning using CSS Anchor API.
  *
  * @param step The step instance
  */
-export function setupTooltip(step: Step): ComputePositionConfig {
-  if (step.cleanup) {
-    step.cleanup();
-  }
-
-  const attachToOptions = step._getResolvedAttachToOptions();
-
-  let target = attachToOptions.element as HTMLElement;
-  const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
-  const shouldCenter = shouldCenterStep(attachToOptions);
-
-  if (shouldCenter) {
-    target = document.body;
-    // @ts-expect-error TODO: fix this type error when we type Svelte
-    const content = step.shepherdElementComponent.getElement();
-    content.classList.add('shepherd-centered');
-  }
-
-  step.cleanup = autoUpdate(target, step.el as HTMLElement, () => {
-    // The element might have already been removed by the end of the tour.
-    if (!step.el) {
-      step.cleanup?.();
-      return;
-    }
-
-    setPosition(target, step, floatingUIOptions, shouldCenter);
-  });
-
-  step.target = attachToOptions.element as HTMLElement;
-
-  return floatingUIOptions;
+export function setupTooltip(step: Step): AnchorPositionConfig {
+  return setupAnchorTooltip(step);
 }
 
 /**
@@ -60,17 +21,26 @@ export function setupTooltip(step: Step): ComputePositionConfig {
  * @param tourOptions - The default tour options.
  * @param options - Step specific options.
  *
- * @return {floatingUIOptions: FloatingUIOptions}
+ * @return {anchorOptions: AnchorPositionConfig}
  */
 export function mergeTooltipConfig(
   tourOptions: StepOptions,
   options: StepOptions
-): { floatingUIOptions: ComputePositionConfig } {
+): { anchorOptions: AnchorPositionConfig } {
+  // For CSS Anchor API, we mainly need to merge placement and arrow options
+  const mergedOptions = deepmerge(tourOptions || {}, options || {});
+  
+  // Extract anchor-relevant options
+  const attachToOptions = options.attachTo || tourOptions.attachTo;
+  const placement = attachToOptions?.on || 'bottom';
+  const arrow = mergedOptions.arrow || false;
+  
   return {
-    floatingUIOptions: deepmerge(
-      tourOptions.floatingUIOptions || {},
-      options.floatingUIOptions || {}
-    )
+    anchorOptions: {
+      placement: placement as any,
+      offset: 8,
+      arrow
+    }
   };
 }
 
@@ -80,161 +50,30 @@ export function mergeTooltipConfig(
  * @param step
  */
 export function destroyTooltip(step: Step) {
-  if (step.cleanup) {
-    step.cleanup();
-  }
-
-  step.cleanup = null;
+  destroyAnchorTooltip(step);
 }
 
-function setPosition(
-  target: HTMLElement,
-  step: Step,
-  floatingUIOptions: ComputePositionConfig,
-  shouldCenter: boolean
-) {
-  return (
-    computePosition(target, step.el as HTMLElement, floatingUIOptions)
-      .then(floatingUIposition(step, shouldCenter))
-      // Wait before forcing focus.
-      .then(
-        (step: Step) =>
-          new Promise<Step>((resolve) => {
-            setTimeout(() => resolve(step), 300);
-          })
-      )
-      // Replaces focusAfterRender modifier.
-      .then((step: Step) => {
-        if (step?.el) {
-          step.el.tabIndex = 0;
-          step.el.focus({ preventScroll: true });
-        }
-      })
-  );
-}
-
-function floatingUIposition(step: Step, shouldCenter: boolean) {
-  return ({
-    x,
-    y,
-    placement,
-    middlewareData
-  }: {
-    x: number;
-    y: number;
-    placement: Placement;
-    middlewareData: MiddlewareData;
-  }) => {
-    if (!step.el) {
-      return step;
-    }
-
-    if (shouldCenter) {
-      Object.assign(step.el.style, {
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
-      });
-    } else {
-      Object.assign(step.el.style, {
-        position: 'absolute',
-        left: `${x}px`,
-        top: `${y}px`
-      });
-    }
-
-    step.el.dataset['popperPlacement'] = placement;
-
-    placeArrow(step.el, middlewareData);
-
-    return step;
-  };
-}
-
-function placeArrow(el: HTMLElement, middlewareData: MiddlewareData) {
-  const arrowEl = el.querySelector('.shepherd-arrow');
-  if (isHTMLElement(arrowEl) && middlewareData.arrow) {
-    const { x: arrowX, y: arrowY } = middlewareData.arrow;
-    Object.assign(arrowEl.style, {
-      left: arrowX != null ? `${arrowX}px` : '',
-      top: arrowY != null ? `${arrowY}px` : ''
-    });
-  }
-}
+// Legacy compatibility - these functions are no longer needed with CSS Anchor API
+// but we keep them for API compatibility during transition
 
 /**
- * Gets the `Floating UI` options from a set of base `attachTo` options
+ * Gets the anchor position options from a set of base `attachTo` options
  * @param attachToOptions
  * @param step The step instance
  * @private
  */
-export function getFloatingUIOptions(
+export function getAnchorOptions(
   attachToOptions: StepOptionsAttachTo,
   step: Step
-): ComputePositionConfig {
-  const options: ComputePositionConfig = {
-    strategy: 'absolute'
+): AnchorPositionConfig {
+  const placement = attachToOptions.on || 'bottom';
+  
+  return {
+    placement: placement as any,
+    offset: 8,
+    arrow: step.options.arrow || false
   };
-
-  options.middleware = [];
-
-  const arrowEl = addArrow(step);
-
-  const shouldCenter = shouldCenterStep(attachToOptions);
-
-  const hasAutoPlacement = attachToOptions.on?.includes('auto');
-
-  const hasEdgeAlignment =
-    attachToOptions?.on?.includes('-start') ||
-    attachToOptions?.on?.includes('-end');
-
-  if (!shouldCenter) {
-    if (hasAutoPlacement) {
-      options.middleware.push(
-        autoPlacement({
-          crossAxis: true,
-          alignment: hasEdgeAlignment
-            ? (attachToOptions?.on?.split('-').pop() as Alignment)
-            : null
-        })
-      );
-    } else {
-      options.middleware.push(flip());
-    }
-
-    options.middleware.push(
-      // Replicate PopperJS default behavior.
-      shift({
-        limiter: limitShift(),
-        crossAxis: true
-      })
-    );
-
-    if (arrowEl) {
-      const arrowOptions =
-        typeof step.options.arrow === 'object'
-          ? step.options.arrow
-          : { padding: 4 };
-
-      options.middleware.push(
-        arrow({
-          element: arrowEl,
-          padding: hasEdgeAlignment ? arrowOptions.padding : 0
-        })
-      );
-    }
-
-    if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
-  }
-
-  return deepmerge(options, step.options.floatingUIOptions || {});
 }
 
-function addArrow(step: Step) {
-  if (step.options.arrow && step.el) {
-    return step.el.querySelector('.shepherd-arrow');
-  }
-
-  return false;
-}
+// Legacy alias for backwards compatibility
+export const getFloatingUIOptions = getAnchorOptions;

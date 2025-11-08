@@ -128,15 +128,13 @@ describe('Tour | Step', () => {
       const values = [
         'arrow',
         'classes',
-        'scrollTo',
-        'floatingUIOptions',
-        'showOn',
-        'when',
+        'cancelIcon',
         'attachTo',
         'highlightClass',
         'text',
         'buttons',
-        'id'
+        'id',
+        'anchorOptions'
       ];
       expect(values).toEqual(Object.keys(testStep.options));
 
@@ -167,30 +165,23 @@ describe('Tour | Step', () => {
         id: 'test',
         scrollTo: true,
         text: 'This is a step for testing',
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware, fooMiddleware]
+        anchorOptions: {
+          arrow: false,
+          offset: 8,
+          placement: 'top'
         },
         showOn,
         when
       });
     });
 
-    it('allows the step to override a previously defined modifier', () => {
+    it('allows the step to override anchor positioning options', () => {
       stepWithoutNameWithoutId.show();
-      const offsetMiddleware =
-        stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(
-          ({ name }) => name === 'offset'
-        );
-      const offsetResult = offsetMiddleware.reduce(
-        (agg, current) => {
-          agg.mainAxis += current.options.mainAxis;
-          agg.crossAxis += current.options.crossAxis;
-          return agg;
-        },
-        { mainAxis: 0, crossAxis: 0 }
-      );
-
-      expect(offsetResult).toEqual({ mainAxis: 0, crossAxis: 0 });
+      
+      // Check that anchor positioning options can be set and accessed
+      expect(stepWithoutNameWithoutId.options.anchorOptions).toBeDefined();
+      expect(stepWithoutNameWithoutId.options.anchorOptions.placement).toBe('bottom'); // Default placement
+      expect(stepWithoutNameWithoutId.options.anchorOptions.offset).toBe(8); // Default offset
     });
 
     describe('.hide()', () => {

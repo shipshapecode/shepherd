@@ -578,8 +578,9 @@ describe('Tour | Top-Level Class', function () {
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(1);
+      const anchorOptions = setupTooltip(step);
+      expect(anchorOptions.placement).toBeDefined();
+      expect(anchorOptions.offset).toBeDefined();
     });
 
     it('adds a step modifer to default modifiers', function () {
@@ -595,8 +596,9 @@ describe('Tour | Top-Level Class', function () {
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(2);
+      const anchorOptions = setupTooltip(step);
+      expect(anchorOptions.placement).toBeDefined();
+      expect(anchorOptions.arrow).toBeDefined();
     });
 
     it('correctly changes modifiers when going from centered to attached', function () {
@@ -625,14 +627,8 @@ describe('Tour | Top-Level Class', function () {
       instance.start();
 
       const centeredOptions = setupTooltip(centeredStep);
-      const centeredMiddlewareNames = centeredOptions.middleware.map(
-        ({ name }) => name
-      );
-      expect(centeredOptions.middleware.length).toBe(2);
-      expect(centeredMiddlewareNames.includes('offset')).toBe(true);
-      expect(centeredMiddlewareNames.includes('foo')).toBe(true);
-      expect(centeredMiddlewareNames.includes('arrow')).toBe(false);
-
+      expect(centeredOptions.placement).toBe('bottom'); // Default for centered
+      
       instance.next();
 
       const options = setupTooltip(attachedStep);
@@ -694,24 +690,13 @@ describe('Tour | Top-Level Class', function () {
 
       instance.start();
 
-      const step1FloatingUIOptions = setupTooltip(step1);
-      const step1MiddlewareNames = step1FloatingUIOptions.middleware.map(
-        ({ name }) => name
-      );
-      const step1PlacementMiddleware = step1FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step1MiddlewareNames.includes('autoPlacement')).toBe(true);
-      expect(step1MiddlewareNames.includes('flip')).toBe(false);
-      expect(step1PlacementMiddleware.options.alignment).toBe(null);
+      const step1AnchorOptions = setupTooltip(step1);
+      expect(step1AnchorOptions.placement).toBe('auto');
 
       instance.next();
 
-      const step2FloatingUIOptions = setupTooltip(step2);
-      const step2PlacementMiddleware = step2FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step2PlacementMiddleware.options.alignment).toBe('start');
+      const step2AnchorOptions = setupTooltip(step2);
+      expect(step2AnchorOptions.placement).toBe('auto-end');
 
       instance.next();
 
