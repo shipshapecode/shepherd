@@ -25,6 +25,42 @@ Supported Browsers
 | --------- | --------- | --------- | --------- |
 | Edge| last 2 versions| last 2 versions| last 2 versions
 
+## CSS Anchor Positioning
+
+Shepherd uses the modern CSS Anchor Positioning API for optimal performance and native browser support. This provides excellent positioning capabilities in browsers that support it:
+
+- **Chrome 125+**: Full native support
+- **Safari 26+**: Full native support  
+- **Edge 125+**: Full native support
+- **Firefox**: Support is coming but currently requires a polyfill
+
+### Adding Polyfill Support
+
+For broader browser compatibility (including Firefox), you can add the CSS Anchor Positioning polyfill:
+
+```html
+<script type="module">
+  if (!("anchorName" in document.documentElement.style)) {
+    import("https://unpkg.com/@oddbird/css-anchor-positioning");
+  }
+</script>
+```
+
+Or install via npm for bundled applications:
+
+```bash
+npm install @oddbird/css-anchor-positioning
+```
+
+```javascript
+// Add to your app initialization
+if (!("anchorName" in document.documentElement.style)) {
+  import("@oddbird/css-anchor-positioning");
+}
+```
+
+The polyfill is approximately 40KB gzipped and provides comprehensive support for CSS anchor positioning in all modern browsers.
+
 # Shepherd
 
 Shepherd makes it simple to create custom user on-boarding tours, trainings and announcements to drive user adoption. 

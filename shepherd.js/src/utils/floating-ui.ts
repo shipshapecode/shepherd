@@ -35,11 +35,16 @@ export function mergeTooltipConfig(
   const placement = attachToOptions?.on || 'bottom';
   const arrow = mergedOptions.arrow || false;
   
+  // Merge existing anchorOptions from tour and step options
+  const tourAnchorOptions = (tourOptions?.anchorOptions || {}) as Partial<AnchorPositionConfig>;
+  const stepAnchorOptions = (options?.anchorOptions || {}) as Partial<AnchorPositionConfig>;
+  const mergedAnchorOptions = deepmerge(tourAnchorOptions, stepAnchorOptions);
+  
   return {
     anchorOptions: {
-      placement: placement as any,
-      offset: 8,
-      arrow
+      placement: mergedAnchorOptions.placement || placement as any,
+      offset: mergedAnchorOptions.offset || 8,
+      arrow: mergedAnchorOptions.arrow !== undefined ? mergedAnchorOptions.arrow : arrow
     }
   };
 }

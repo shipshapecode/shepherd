@@ -34,8 +34,9 @@ describe('Tour | Step', () => {
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware]
+        anchorOptions: {
+          placement: 'bottom',
+          offset: 8
         },
         showOn,
         when
@@ -53,8 +54,10 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      floatingUIOptions: {
-        middleware: [fooMiddleware]
+      anchorOptions: {
+        placement: 'top',
+        offset: 10,
+        arrow: true
       }
     });
 
@@ -128,13 +131,15 @@ describe('Tour | Step', () => {
       const values = [
         'arrow',
         'classes',
-        'cancelIcon',
+        'scrollTo',
+        'anchorOptions',
+        'showOn',
+        'when',
         'attachTo',
         'highlightClass',
         'text',
         'buttons',
-        'id',
-        'anchorOptions'
+        'id'
       ];
       expect(values).toEqual(Object.keys(testStep.options));
 
@@ -166,9 +171,9 @@ describe('Tour | Step', () => {
         scrollTo: true,
         text: 'This is a step for testing',
         anchorOptions: {
-          arrow: false,
-          offset: 8,
-          placement: 'top'
+          placement: 'top',
+          offset: 10,
+          arrow: true
         },
         showOn,
         when

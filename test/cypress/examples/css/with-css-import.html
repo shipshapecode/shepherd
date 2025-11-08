@@ -5,6 +5,11 @@
       href="../../node_modules/shepherd.js/dist/css/shepherd.css"
     />
     <script type="module">
+      // Load polyfill if CSS anchor positioning is not supported
+      if (!("anchorName" in document.documentElement.style)) {
+        await import('../../node_modules/@oddbird/css-anchor-positioning/dist/css-anchor-positioning-fn.js');
+      }
+      
       import Shepherd from '../../node_modules/shepherd.js/dist/js/shepherd.mjs';
       window.Shepherd = Shepherd;
     </script>

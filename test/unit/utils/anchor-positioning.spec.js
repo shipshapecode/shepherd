@@ -4,6 +4,7 @@ import {
   destroyAnchorTooltip
 } from '../../../shepherd.js/src/utils/anchor-positioning.ts';
 import { Tour } from '../../../shepherd.js/src/tour.ts';
+import { setupAnchorPolyfill } from '../setupTests.js';
 
 describe('Anchor Positioning Utils', () => {
   let mockStep;
@@ -11,7 +12,9 @@ describe('Anchor Positioning Utils', () => {
   let mockElement;
   let mockTarget;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Setup CSS anchor positioning polyfill
+    await setupAnchorPolyfill();
     // Mock DOM elements
     mockTarget = document.createElement('div');
     mockTarget.id = 'test-target';

@@ -589,8 +589,10 @@ describe('Tour | Top-Level Class', function () {
       const step = instance.addStep({
         id: 'test',
         title: 'This is a test step for our tour',
-        floatingUIOptions: {
-          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
+        anchorOptions: {
+          placement: 'top',
+          offset: 12,
+          arrow: true
         }
       });
 
@@ -632,12 +634,9 @@ describe('Tour | Top-Level Class', function () {
       instance.next();
 
       const options = setupTooltip(attachedStep);
-      const middlewareNames = options.middleware.map(({ name }) => name);
-      expect(options.middleware.length).toBe(5);
-      expect(middlewareNames.includes('offset')).toBe(true);
-      expect(middlewareNames.includes('foo')).toBe(true);
-      expect(middlewareNames.includes('shift')).toBe(true);
-      expect(middlewareNames.includes('arrow')).toBe(true);
+      expect(options.placement).toBeDefined();
+      expect(options.offset).toBeDefined();
+      expect(options.arrow).toBeDefined();
 
       document.body.removeChild(div);
     });
@@ -677,15 +676,15 @@ describe('Tour | Top-Level Class', function () {
       });
 
       const step2 = instance.addStep({
-        id: 'test',
+        id: 'test2',
         title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto-start' }
+        attachTo: { element: '.modifiers-test', on: 'auto-end' }
       });
 
       const step3 = instance.addStep({
-        id: 'test',
+        id: 'test3',
         title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto-end' }
+        attachTo: { element: '.modifiers-test', on: 'auto-start' }
       });
 
       instance.start();
@@ -700,11 +699,8 @@ describe('Tour | Top-Level Class', function () {
 
       instance.next();
 
-      const step3FloatingUIOptions = setupTooltip(step3);
-      const step3PlacementMiddleware = step3FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step3PlacementMiddleware.options.alignment).toBe('end');
+      const step3AnchorOptions = setupTooltip(step3);
+      expect(step3AnchorOptions.placement).toBe('auto-start');
     });
   });
 

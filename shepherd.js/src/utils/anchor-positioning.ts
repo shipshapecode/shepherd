@@ -49,7 +49,11 @@ export function setupAnchorTooltip(step: Step): AnchorPositionConfig {
   if (shouldCenter) {
     // For centered steps, use CSS transform positioning
     setupCenteredPosition(step);
-    return { placement: 'bottom' }; // Default value for centered
+    return { 
+      placement: 'bottom',
+      offset: 8,
+      arrow: step.options.arrow || false
+    }; // Default value for centered
   }
 
   const config = getAnchorPositionConfig(attachToOptions, step);
@@ -297,10 +301,13 @@ function getAnchorPositionConfig(
 ): AnchorPositionConfig {
   const placement = (attachToOptions.on as AnchorPlacement) || 'bottom';
   
+  // Merge with step-specific anchorOptions
+  const stepAnchorOptions = (step.options.anchorOptions || {}) as Partial<AnchorPositionConfig>;
+  
   return {
-    placement,
-    offset: 8, // Default offset
-    arrow: step.options.arrow || false
+    placement: stepAnchorOptions.placement || placement,
+    offset: stepAnchorOptions.offset || 8,
+    arrow: stepAnchorOptions.arrow !== undefined ? stepAnchorOptions.arrow : (step.options.arrow || false)
   };
 }
 
