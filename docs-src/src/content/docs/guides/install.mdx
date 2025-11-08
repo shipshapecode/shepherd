@@ -37,6 +37,57 @@ Don't forget to add your styles
 import 'shepherd.js/dist/css/shepherd.css';
 ```
 
+## Browser Compatibility
+
+Shepherd uses the modern CSS Anchor Positioning API for optimal performance and positioning. This provides excellent support in modern browsers:
+
+- **Chrome 125+**: Full native support
+- **Safari 26+**: Full native support  
+- **Edge 125+**: Full native support
+- **Firefox**: Support is coming but currently requires a polyfill
+
+### Adding Polyfill for Broader Support
+
+For applications that need to support browsers without native CSS anchor positioning (like Firefox), you can add the polyfill:
+
+<Tabs>
+  <TabItem label="CDN">
+  ```html
+  <script type="module">
+    if (!("anchorName" in document.documentElement.style)) {
+      import("https://unpkg.com/@oddbird/css-anchor-positioning");
+    }
+  </script>
+  ```
+  </TabItem>
+  <TabItem label="npm">
+  ```bash
+  npm install @oddbird/css-anchor-positioning
+  ```
+  
+  ```javascript
+  // Add to your app initialization
+  if (!("anchorName" in document.documentElement.style)) {
+    import("@oddbird/css-anchor-positioning");
+  }
+  ```
+  </TabItem>
+  <TabItem label="yarn">
+  ```bash
+  yarn add @oddbird/css-anchor-positioning
+  ```
+  
+  ```javascript
+  // Add to your app initialization
+  if (!("anchorName" in document.documentElement.style)) {
+    import("@oddbird/css-anchor-positioning");
+  }
+  ```
+  </TabItem>
+</Tabs>
+
+**Note**: The polyfill adds approximately 40KB gzipped to your bundle. Most modern browsers (Chrome 125+, Safari 26+) don't need it.
+
 ### GitHub Releases
 
 Whenever we release a new version, the contents of the `dist` are uploaded

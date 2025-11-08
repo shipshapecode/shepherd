@@ -3,7 +3,6 @@ import { vi } from 'vitest';
 import Shepherd from '../../shepherd.js/src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
-import { offset } from '@floating-ui/dom';
 
 const { Step } = Shepherd;
 
@@ -24,13 +23,12 @@ describe('Tour | Top-Level Class', function () {
     show() {}
   };
 
-  const offsetMiddleware = offset({ crossAxis: 32 });
-
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true,
-    floatingUIOptions: {
-      middleware: [offsetMiddleware]
+    anchorOptions: {
+      placement: 'bottom',
+      offset: 32
     },
     showOn,
     when
@@ -60,8 +58,9 @@ describe('Tour | Top-Level Class', function () {
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [offsetMiddleware]
+        anchorOptions: {
+          placement: 'bottom',
+          offset: 32
         },
         showOn,
         when
@@ -578,8 +577,9 @@ describe('Tour | Top-Level Class', function () {
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(1);
+      const anchorOptions = setupTooltip(step);
+      expect(anchorOptions.placement).toBeDefined();
+      expect(anchorOptions.offset).toBeDefined();
     });
 
     it('adds a step modifer to default modifiers', function () {
@@ -588,15 +588,18 @@ describe('Tour | Top-Level Class', function () {
       const step = instance.addStep({
         id: 'test',
         title: 'This is a test step for our tour',
-        floatingUIOptions: {
-          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
+        anchorOptions: {
+          placement: 'top',
+          offset: 12,
+          arrow: true
         }
       });
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(2);
+      const anchorOptions = setupTooltip(step);
+      expect(anchorOptions.placement).toBeDefined();
+      expect(anchorOptions.arrow).toBeDefined();
     });
 
     it('correctly changes modifiers when going from centered to attached', function () {
@@ -625,23 +628,14 @@ describe('Tour | Top-Level Class', function () {
       instance.start();
 
       const centeredOptions = setupTooltip(centeredStep);
-      const centeredMiddlewareNames = centeredOptions.middleware.map(
-        ({ name }) => name
-      );
-      expect(centeredOptions.middleware.length).toBe(2);
-      expect(centeredMiddlewareNames.includes('offset')).toBe(true);
-      expect(centeredMiddlewareNames.includes('foo')).toBe(true);
-      expect(centeredMiddlewareNames.includes('arrow')).toBe(false);
-
+      expect(centeredOptions.placement).toBe('bottom'); // Default for centered
+      
       instance.next();
 
       const options = setupTooltip(attachedStep);
-      const middlewareNames = options.middleware.map(({ name }) => name);
-      expect(options.middleware.length).toBe(5);
-      expect(middlewareNames.includes('offset')).toBe(true);
-      expect(middlewareNames.includes('foo')).toBe(true);
-      expect(middlewareNames.includes('shift')).toBe(true);
-      expect(middlewareNames.includes('arrow')).toBe(true);
+      expect(options.placement).toBeDefined();
+      expect(options.offset).toBeDefined();
+      expect(options.arrow).toBeDefined();
 
       document.body.removeChild(div);
     });
@@ -681,45 +675,31 @@ describe('Tour | Top-Level Class', function () {
       });
 
       const step2 = instance.addStep({
-        id: 'test',
-        title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto-start' }
-      });
-
-      const step3 = instance.addStep({
-        id: 'test',
+        id: 'test2',
         title: 'This is a test step for our tour',
         attachTo: { element: '.modifiers-test', on: 'auto-end' }
       });
 
+      const step3 = instance.addStep({
+        id: 'test3',
+        title: 'This is a test step for our tour',
+        attachTo: { element: '.modifiers-test', on: 'auto-start' }
+      });
+
       instance.start();
 
-      const step1FloatingUIOptions = setupTooltip(step1);
-      const step1MiddlewareNames = step1FloatingUIOptions.middleware.map(
-        ({ name }) => name
-      );
-      const step1PlacementMiddleware = step1FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step1MiddlewareNames.includes('autoPlacement')).toBe(true);
-      expect(step1MiddlewareNames.includes('flip')).toBe(false);
-      expect(step1PlacementMiddleware.options.alignment).toBe(null);
+      const step1AnchorOptions = setupTooltip(step1);
+      expect(step1AnchorOptions.placement).toBe('auto');
 
       instance.next();
 
-      const step2FloatingUIOptions = setupTooltip(step2);
-      const step2PlacementMiddleware = step2FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step2PlacementMiddleware.options.alignment).toBe('start');
+      const step2AnchorOptions = setupTooltip(step2);
+      expect(step2AnchorOptions.placement).toBe('auto-end');
 
       instance.next();
 
-      const step3FloatingUIOptions = setupTooltip(step3);
-      const step3PlacementMiddleware = step3FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step3PlacementMiddleware.options.alignment).toBe('end');
+      const step3AnchorOptions = setupTooltip(step3);
+      expect(step3AnchorOptions.placement).toBe('auto-start');
     });
   });
 

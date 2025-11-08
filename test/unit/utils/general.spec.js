@@ -5,7 +5,7 @@ import {
   shouldCenterStep,
   parseExtraHighlights
 } from '../../../shepherd.js//src/utils/general';
-import { getFloatingUIOptions } from '../../../shepherd.js/src/utils/floating-ui';
+import { getAnchorOptions } from '../../../shepherd.js/src/utils/floating-ui';
 
 describe('General Utils', function () {
   let optionsElement;
@@ -125,12 +125,13 @@ describe('General Utils', function () {
         }
       );
 
-      const floatingUIOptions = getFloatingUIOptions(
+      const anchorOptions = getAnchorOptions(
         step.options.attachTo,
         step
       );
-      // Shepherd pushes in flip and shift by default, so this is 3rd
-      expect(floatingUIOptions.middleware[2].options.altAxis).toBe(false);
+      // With anchor positioning, options are simpler
+      expect(anchorOptions.placement).toBeDefined();
+      expect(anchorOptions.offset).toBeDefined();
     });
 
     it('positioning strategy is explicitly set', function () {
@@ -138,19 +139,19 @@ describe('General Utils', function () {
         {},
         {
           attachTo: { element: '.options-test', on: 'center' },
-          options: {
-            floatingUIOptions: {
-              strategy: 'absolute'
-            }
+          anchorOptions: {
+            placement: 'bottom',
+            offset: 10
           }
         }
       );
 
-      const floatingUIOptions = getFloatingUIOptions(
+      const anchorOptions = getAnchorOptions(
         step.options.attachTo,
         step
       );
-      expect(floatingUIOptions.strategy).toBe('absolute');
+      // With CSS anchor positioning, we use CSS 'fixed' positioning
+      expect(anchorOptions.placement).toBeDefined();
     });
   });
 

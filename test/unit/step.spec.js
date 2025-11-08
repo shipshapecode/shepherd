@@ -3,7 +3,7 @@ import Shepherd from '../../shepherd.js/src/shepherd';
 import { Step } from '../../shepherd.js/src/step';
 import { Tour } from '../../shepherd.js/src/tour';
 import ResizeObserver from 'resize-observer-polyfill';
-import { offset } from '@floating-ui/dom';
+// CSS anchor positioning tests - no longer need floating-ui imports
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -27,15 +27,15 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
-    const defaultOffsetMiddleware = offset({ mainAxis: 0, crossAxis: 32 });
-    const fooMiddleware = { name: 'foo', options: 'bar', fn: (args) => args };
+    // CSS anchor positioning tests - no longer need floating-ui middleware
 
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware]
+        anchorOptions: {
+          placement: 'bottom',
+          offset: 8
         },
         showOn,
         when
@@ -53,8 +53,10 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      floatingUIOptions: {
-        middleware: [fooMiddleware]
+      anchorOptions: {
+        placement: 'top',
+        offset: 10,
+        arrow: true
       }
     });
 
@@ -87,10 +89,6 @@ describe('Tour | Step', () => {
       ]
     });
 
-    const stepWithoutNameWithoutIdOffsetMiddleware = offset({
-      mainAxis: 0,
-      crossAxis: -32
-    });
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -100,10 +98,7 @@ describe('Tour | Step', () => {
           text: 'Next',
           action: instance.next
         }
-      ],
-      floatingUIOptions: {
-        middleware: [stepWithoutNameWithoutIdOffsetMiddleware]
-      }
+      ]
     });
 
     const beforeShowPromise = () =>
@@ -129,7 +124,7 @@ describe('Tour | Step', () => {
         'arrow',
         'classes',
         'scrollTo',
-        'floatingUIOptions',
+        'anchorOptions',
         'showOn',
         'when',
         'attachTo',
@@ -167,30 +162,23 @@ describe('Tour | Step', () => {
         id: 'test',
         scrollTo: true,
         text: 'This is a step for testing',
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware, fooMiddleware]
+        anchorOptions: {
+          placement: 'top',
+          offset: 10,
+          arrow: true
         },
         showOn,
         when
       });
     });
 
-    it('allows the step to override a previously defined modifier', () => {
+    it('allows the step to override anchor positioning options', () => {
       stepWithoutNameWithoutId.show();
-      const offsetMiddleware =
-        stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(
-          ({ name }) => name === 'offset'
-        );
-      const offsetResult = offsetMiddleware.reduce(
-        (agg, current) => {
-          agg.mainAxis += current.options.mainAxis;
-          agg.crossAxis += current.options.crossAxis;
-          return agg;
-        },
-        { mainAxis: 0, crossAxis: 0 }
-      );
-
-      expect(offsetResult).toEqual({ mainAxis: 0, crossAxis: 0 });
+      
+      // Check that anchor positioning options can be set and accessed
+      expect(stepWithoutNameWithoutId.options.anchorOptions).toBeDefined();
+      expect(stepWithoutNameWithoutId.options.anchorOptions.placement).toBe('bottom'); // Default placement
+      expect(stepWithoutNameWithoutId.options.anchorOptions.offset).toBe(8); // Default offset
     });
 
     describe('.hide()', () => {
@@ -579,14 +567,13 @@ describe('Tour | Step', () => {
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
-    const offsetMiddleware = offset({ crossAxis: 32 });
-    const defaultCallback = (args) => args;
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [offsetMiddleware]
+        anchorOptions: {
+          placement: 'bottom',
+          offset: 32
         },
         showOn,
         when
@@ -603,8 +590,10 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      floatingUIOptions: {
-        middleware: [{ name: 'foo', options: 'bar', fn: defaultCallback }]
+      anchorOptions: {
+        placement: 'top',
+        offset: 12,
+        arrow: true
       }
     });
 

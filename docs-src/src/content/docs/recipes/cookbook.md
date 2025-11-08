@@ -39,14 +39,13 @@ between them or if you need to fine tune the position according to some custom l
 For example:
 
 ```js
-import { offset } from '@floating-ui/dom';
-
 const tour = new Shepherd.Tour({
   steps: [
     {
       ...
-      floatingUIOptions: {
-        middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
+      anchorOptions: {
+        placement: 'bottom',
+        offset: 12
       }
       ...
     }
