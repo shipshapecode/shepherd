@@ -12,18 +12,18 @@ declare global {
   }
 }
 
-export type AnchorPlacement = 
-  | 'top' 
-  | 'top-start' 
+export type AnchorPlacement =
+  | 'top'
+  | 'top-start'
   | 'top-end'
-  | 'bottom' 
-  | 'bottom-start' 
+  | 'bottom'
+  | 'bottom-start'
   | 'bottom-end'
-  | 'left' 
-  | 'left-start' 
+  | 'left'
+  | 'left-start'
   | 'left-end'
-  | 'right' 
-  | 'right-start' 
+  | 'right'
+  | 'right-start'
   | 'right-end'
   | 'auto'
   | 'auto-start'
@@ -49,7 +49,7 @@ export function setupAnchorTooltip(step: Step): AnchorPositionConfig {
   if (shouldCenter) {
     // For centered steps, use CSS transform positioning
     setupCenteredPosition(step);
-    return { 
+    return {
       placement: 'bottom',
       offset: 8,
       arrow: step.options.arrow || false
@@ -58,7 +58,7 @@ export function setupAnchorTooltip(step: Step): AnchorPositionConfig {
 
   const config = getAnchorPositionConfig(attachToOptions, step);
   setupAnchorPosition(step, attachToOptions, config);
-  
+
   step.target = attachToOptions.element as HTMLElement;
   return config;
 }
@@ -68,11 +68,11 @@ export function setupAnchorTooltip(step: Step): AnchorPositionConfig {
  */
 function setupCenteredPosition(step: Step) {
   if (!step.el) return;
-  
+
   // @ts-expect-error TODO: fix this type error when we type Svelte
   const content = step.shepherdElementComponent.getElement();
   content.classList.add('shepherd-centered');
-  
+
   Object.assign(step.el.style, {
     position: 'fixed',
     left: '50%',
@@ -94,21 +94,21 @@ function setupAnchorPosition(
 
   const anchorElement = attachToOptions.element as HTMLElement;
   const tooltipElement = step.el as HTMLElement;
-  
+
   // Generate unique anchor name
   const anchorName = `--shepherd-anchor-${step.id || Math.random().toString(36).substr(2, 9)}`;
-  
+
   // Set anchor name on the target element
   anchorElement.style.anchorName = anchorName;
-  
+
   // Apply positioning to tooltip
   setupTooltipAnchorStyles(tooltipElement, anchorName, config);
-  
+
   // Setup arrow positioning if needed
   if (config.arrow) {
     setupArrowPosition(step, config.placement);
   }
-  
+
   // Set data attribute for CSS styling
   tooltipElement.dataset['anchorPlacement'] = config.placement;
 }
@@ -204,7 +204,7 @@ function setupAutoPlacement(
 
   // Create @position-try rules dynamically
   const styleSheet = getOrCreateStyleSheet();
-  
+
   // Clear existing try options for this step
   clearExistingTryOptions(styleSheet, tryOptionNames);
 
@@ -240,7 +240,9 @@ function setupArrowPosition(step: Step, placement: AnchorPlacement) {
 /**
  * Determines which side of the tooltip the arrow should be on
  */
-function getArrowSide(placement: AnchorPlacement): 'top' | 'bottom' | 'left' | 'right' {
+function getArrowSide(
+  placement: AnchorPlacement
+): 'top' | 'bottom' | 'left' | 'right' {
   if (placement.startsWith('top')) return 'bottom';
   if (placement.startsWith('bottom')) return 'top';
   if (placement.startsWith('left')) return 'right';
@@ -252,7 +254,9 @@ function getArrowSide(placement: AnchorPlacement): 'top' | 'bottom' | 'left' | '
 /**
  * Gets CSS styles for arrow based on its side
  */
-function getArrowStyles(side: 'top' | 'bottom' | 'left' | 'right'): Partial<CSSStyleDeclaration> {
+function getArrowStyles(
+  side: 'top' | 'bottom' | 'left' | 'right'
+): Partial<CSSStyleDeclaration> {
   const baseStyles: Partial<CSSStyleDeclaration> = {
     position: 'absolute',
     width: '16px',
@@ -300,14 +304,18 @@ function getAnchorPositionConfig(
   step: Step
 ): AnchorPositionConfig {
   const placement = (attachToOptions.on as AnchorPlacement) || 'bottom';
-  
+
   // Merge with step-specific anchorOptions
-  const stepAnchorOptions = (step.options.anchorOptions || {}) as Partial<AnchorPositionConfig>;
-  
+  const stepAnchorOptions = (step.options.anchorOptions ||
+    {}) as Partial<AnchorPositionConfig>;
+
   return {
     placement: stepAnchorOptions.placement || placement,
     offset: stepAnchorOptions.offset || 8,
-    arrow: stepAnchorOptions.arrow !== undefined ? stepAnchorOptions.arrow : (step.options.arrow || false)
+    arrow:
+      stepAnchorOptions.arrow !== undefined
+        ? stepAnchorOptions.arrow
+        : step.options.arrow || false
   };
 }
 
@@ -323,11 +331,14 @@ function getOrCreateStyleSheet(): CSSStyleSheet {
   style.id = 'shepherd-anchor-positioning';
   document.head.appendChild(style);
   shepherdStyleSheet = style.sheet as CSSStyleSheet;
-  
+
   return shepherdStyleSheet;
 }
 
-function clearExistingTryOptions(styleSheet: CSSStyleSheet, tryOptionNames: string[]) {
+function clearExistingTryOptions(
+  _styleSheet: CSSStyleSheet,
+  _tryOptionNames: string[]
+) {
   // In a real implementation, you'd need to track and remove existing rules
   // For now, we'll just add new ones (CSS will use the last defined rule)
 }
@@ -338,10 +349,26 @@ function addPositionTryOptions(
   config: AnchorPositionConfig
 ) {
   const tryConfigs = [
-    { name: tryOptionNames[0], area: 'block-start span-inline', margin: 'marginBottom' },
-    { name: tryOptionNames[1], area: 'block-end span-inline', margin: 'marginTop' },
-    { name: tryOptionNames[2], area: 'inline-start span-block', margin: 'marginRight' },
-    { name: tryOptionNames[3], area: 'inline-end span-block', margin: 'marginLeft' }
+    {
+      name: tryOptionNames[0],
+      area: 'block-start span-inline',
+      margin: 'marginBottom'
+    },
+    {
+      name: tryOptionNames[1],
+      area: 'block-end span-inline',
+      margin: 'marginTop'
+    },
+    {
+      name: tryOptionNames[2],
+      area: 'inline-start span-block',
+      margin: 'marginRight'
+    },
+    {
+      name: tryOptionNames[3],
+      area: 'inline-end span-block',
+      margin: 'marginLeft'
+    }
   ];
 
   tryConfigs.forEach(({ name, area, margin }) => {
@@ -351,7 +378,7 @@ function addPositionTryOptions(
         ${margin}: ${config.offset || 8}px;
       }
     `;
-    
+
     try {
       styleSheet.insertRule(rule, styleSheet.cssRules.length);
     } catch (e) {

@@ -3,7 +3,6 @@ import { vi } from 'vitest';
 import Shepherd from '../../shepherd.js/src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
-import { offset } from '@floating-ui/dom';
 
 const { Step } = Shepherd;
 
@@ -24,13 +23,12 @@ describe('Tour | Top-Level Class', function () {
     show() {}
   };
 
-  const offsetMiddleware = offset({ crossAxis: 32 });
-
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true,
-    floatingUIOptions: {
-      middleware: [offsetMiddleware]
+    anchorOptions: {
+      placement: 'bottom',
+      offset: 32
     },
     showOn,
     when
@@ -60,8 +58,9 @@ describe('Tour | Top-Level Class', function () {
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [offsetMiddleware]
+        anchorOptions: {
+          placement: 'bottom',
+          offset: 32
         },
         showOn,
         when

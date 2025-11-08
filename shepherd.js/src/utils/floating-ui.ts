@@ -1,8 +1,9 @@
 import { deepmerge } from 'deepmerge-ts';
-import { 
-  setupAnchorTooltip, 
+import {
+  setupAnchorTooltip,
   destroyAnchorTooltip,
-  type AnchorPositionConfig 
+  type AnchorPositionConfig,
+  type AnchorPlacement
 } from './anchor-positioning.ts';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
 
@@ -29,22 +30,28 @@ export function mergeTooltipConfig(
 ): { anchorOptions: AnchorPositionConfig } {
   // For CSS Anchor API, we mainly need to merge placement and arrow options
   const mergedOptions = deepmerge(tourOptions || {}, options || {});
-  
+
   // Extract anchor-relevant options
   const attachToOptions = options.attachTo || tourOptions.attachTo;
   const placement = attachToOptions?.on || 'bottom';
   const arrow = mergedOptions.arrow || false;
-  
+
   // Merge existing anchorOptions from tour and step options
-  const tourAnchorOptions = (tourOptions?.anchorOptions || {}) as Partial<AnchorPositionConfig>;
-  const stepAnchorOptions = (options?.anchorOptions || {}) as Partial<AnchorPositionConfig>;
+  const tourAnchorOptions = (tourOptions?.anchorOptions ||
+    {}) as Partial<AnchorPositionConfig>;
+  const stepAnchorOptions = (options?.anchorOptions ||
+    {}) as Partial<AnchorPositionConfig>;
   const mergedAnchorOptions = deepmerge(tourAnchorOptions, stepAnchorOptions);
-  
+
   return {
     anchorOptions: {
-      placement: mergedAnchorOptions.placement || placement as any,
+      placement:
+        mergedAnchorOptions.placement || (placement as AnchorPlacement),
       offset: mergedAnchorOptions.offset || 8,
-      arrow: mergedAnchorOptions.arrow !== undefined ? mergedAnchorOptions.arrow : arrow
+      arrow:
+        mergedAnchorOptions.arrow !== undefined
+          ? mergedAnchorOptions.arrow
+          : arrow
     }
   };
 }
@@ -72,9 +79,9 @@ export function getAnchorOptions(
   step: Step
 ): AnchorPositionConfig {
   const placement = attachToOptions.on || 'bottom';
-  
+
   return {
-    placement: placement as any,
+    placement: placement as AnchorPlacement,
     offset: 8,
     arrow: step.options.arrow || false
   };

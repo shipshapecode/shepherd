@@ -16,7 +16,6 @@
     "view-coverage": "http-server -p 9003 ./coverage/lcov-report -o"
   },
   "devDependencies": {
-    "@floating-ui/dom": "^1.6.10",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/svelte": "^5.2.8",
