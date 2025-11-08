@@ -279,6 +279,7 @@ describe('Tour | Top-Level Class', function () {
           inactiveFired = true;
         });
 
+        window.confirm = vi.fn();
         const windowConfirmStub = vi
           .spyOn(window, 'confirm')
           .mockImplementation(() => false);
