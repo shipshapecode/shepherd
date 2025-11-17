@@ -60,7 +60,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.22",
     "cssnano": "^7.1.1",
     "dts-bundle-generator": "^9.5.1",
     "eslint-plugin-svelte": "^2.46.1",
