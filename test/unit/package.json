@@ -22,7 +22,7 @@
     "@testing-library/svelte": "^5.2.8",
     "@vitest/coverage-v8": "^4.0.8",
     "@vitest/expect": "^4.0.8",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.22",
     "del": "^7.1.0",
     "eslint": "^8.57.1",
     "eslint-plugin-vitest": "^0.5.4",
