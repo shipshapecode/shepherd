@@ -63,7 +63,7 @@
     "autoprefixer": "^10.4.22",
     "cssnano": "^7.1.1",
     "dts-bundle-generator": "^9.5.1",
-    "eslint-plugin-svelte": "^2.46.1",
+    "eslint-plugin-svelte": "^3.13.0",
     "execa": "^9.3.1",
     "postcss": "^8.5.6",
     "prettier": "^3.3.3",
