@@ -20,7 +20,7 @@ npm install --save react-shepherd
 
 ```tsx
 import { Component, useContext } from 'react';
-import { ShepherdJourneyProvider, useShepherd } from '@shepherdpro/react';
+import { ShepherdJourneyProvider, useShepherd } from 'react-shepherd';
 import newSteps from './steps';
 
 const tourOptions = {
