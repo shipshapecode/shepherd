@@ -7,12 +7,7 @@
     "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
   "license": "AGPL-3.0",
-  "authors": [
-    "Robbie Wagner <rwwagner90@gmail.com>",
-    "Chuck Carpenter <chuck@shipshape.io>"
-  ],
   "scripts": {
-    "prepare": "pnpm -F shepherd.js build",
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
@@ -22,6 +17,7 @@
     "lint:js": "pnpm -F '*' lint:js",
     "lint:prettier": "pnpm -F '*' lint:prettier",
     "lint:prettier:fix": "pnpm -F '*' lint:prettier:fix",
+    "prepare": "pnpm -F shepherd.js build",
     "start": "pnpm watch",
     "test:ci": "pnpm build && pnpm -F '*' test:ci",
     "test:cy:watch": "pnpm -F cypress-tests test:watch",
@@ -53,5 +49,9 @@
   "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": "18.* || >= 20"
-  }
+  },
+  "authors": [
+    "Robbie Wagner <rwwagner90@gmail.com>",
+    "Chuck Carpenter <chuck@shipshape.io>"
+  ]
 }
