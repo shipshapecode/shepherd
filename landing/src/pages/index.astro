@@ -102,8 +102,17 @@ import MainPage from '@layouts/MainPage.astro';
           shepherd.start();
         }
         
+        // Clean up previous listener if it exists
+        if ((window as any).__startTourAbortController) {
+          (window as any).__startTourAbortController.abort();
+        }
+        
+        // Create new AbortController for this listener
+        const controller = new AbortController();
+        (window as any).__startTourAbortController = controller;
+        
         // Listen for custom event from Demo button when already on home page
-        window.addEventListener('startTour', () => shepherd.start());
+        window.addEventListener('startTour', () => shepherd.start(), { signal: controller.signal });
       }, 400);
     }
 
