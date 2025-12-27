@@ -27,11 +27,11 @@
     "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/preset-env": "^7.28.3",
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "autoprefixer": "^10.4.22",
+    "autoprefixer": "^10.4.23",
     "concurrently": "^9.2.1",
     "del": "^7.1.0",
     "eslint": "^8.57.1",
@@ -39,11 +39,11 @@
     "postcss": "^8.5.6",
     "prettier": "3.3.3",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-svelte": "^3.4.0",
+    "prettier-plugin-svelte": "^3.4.1",
     "release-plan": "^0.17.2",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
-    "svelte": "^5.39.7",
+    "svelte": "^5.46.1",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.17.1",
