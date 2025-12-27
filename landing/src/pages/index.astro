@@ -312,8 +312,7 @@ import MainPage from '@layouts/MainPage.astro';
     }
 
     function ready() {
-      document.addEventListener('DOMContentLoaded', init);
-      // Also listen for Astro page transitions
+      // Only listen for astro:page-load which fires on both initial load and transitions
       document.addEventListener('astro:page-load', init);
     }
 
