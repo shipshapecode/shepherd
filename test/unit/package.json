@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@floating-ui/dom": "^1.6.10",
-    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/svelte": "^5.2.9",
     "@vitest/coverage-v8": "^4.0.8",
