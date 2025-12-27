@@ -167,29 +167,35 @@ const { isHome } = Astro.props;
   // Handle demo button click - redirect to home if not already there
   function setupDemoButton() {
     const showTourBtn = document.querySelector('#showTour');
-    
+
     if (!showTourBtn) return;
-    
-    // Remove any existing listeners
-    const newBtn = showTourBtn.cloneNode(true) as HTMLElement;
-    showTourBtn.parentNode?.replaceChild(newBtn, showTourBtn);
-    
-    newBtn.addEventListener('click', () => {
-      // Check if we're on the home page
-      if (window.location.pathname !== '/') {
-        // Store flag to start tour after navigation
-        sessionStorage.setItem('startTourOnLoad', 'true');
-        window.location.href = '/';
-      } else {
-        // We're already on home page, dispatch event to start tour
-        window.dispatchEvent(new CustomEvent('startTour'));
-      }
-    });
+
+    // Clean up previous listener if it exists
+    if ((window as any).__demoButtonAbortController) {
+      (window as any).__demoButtonAbortController.abort();
+    }
+
+    // Create new AbortController for this listener
+    const controller = new AbortController();
+    (window as any).__demoButtonAbortController = controller;
+
+    showTourBtn.addEventListener(
+      'click',
+      () => {
+        // Check if we're on the home page
+        if (window.location.pathname !== '/') {
+          // Store flag to start tour after navigation
+          sessionStorage.setItem('startTourOnLoad', 'true');
+          window.location.href = '/';
+        } else {
+          // We're already on home page, dispatch event to start tour
+          window.dispatchEvent(new CustomEvent('startTour'));
+        }
+      },
+      { signal: controller.signal }
+    );
   }
-  
-  // Run on initial load
-  document.addEventListener('DOMContentLoaded', setupDemoButton);
-  
-  // Run on Astro page transitions
+
+  // Run on Astro page transitions (fires on both initial load and transitions)
   document.addEventListener('astro:page-load', setupDemoButton);
 </script>
