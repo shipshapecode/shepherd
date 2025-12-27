@@ -24,7 +24,7 @@ import MainPage from '@layouts/MainPage.astro';
         <Code
           code={`
 	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-	<script type="module" src="shepherd.js/dist/shepherd.mjs"></script>
+	<script type="module" src="shepherd.js/dist/js/shepherd.mjs"></script>
   
 `}
           lang="js"
@@ -94,9 +94,16 @@ import MainPage from '@layouts/MainPage.astro';
       // wait for shepherd to be ready
       setTimeout(function () {
         const shepherd = setupShepherd();
-        const startBtn = document.querySelector('#showTour');
-
-        startBtn?.addEventListener('click', () => shepherd.start());
+        
+        // Check if we should auto-start the tour (after redirect from another page)
+        const shouldStartTour = sessionStorage.getItem('startTourOnLoad');
+        if (shouldStartTour) {
+          sessionStorage.removeItem('startTourOnLoad');
+          shepherd.start();
+        }
+        
+        // Listen for custom event from Demo button when already on home page
+        window.addEventListener('startTour', () => shepherd.start());
       }, 400);
     }
 
@@ -297,6 +304,8 @@ import MainPage from '@layouts/MainPage.astro';
 
     function ready() {
       document.addEventListener('DOMContentLoaded', init);
+      // Also listen for Astro page transitions
+      document.addEventListener('astro:page-load', init);
     }
 
     ready();
