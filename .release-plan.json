@@ -1,27 +1,43 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "6.1.8",
-      "newVersion": "6.1.9",
+      "impact": "major",
+      "oldVersion": "6.1.9",
+      "newVersion": "7.0.0",
       "tagName": "latest",
       "constraints": [
         {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :memo: Documentation"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "14.5.0",
-      "newVersion": "14.5.1",
+      "impact": "major",
+      "oldVersion": "14.5.1",
+      "newVersion": "15.0.0",
       "tagName": "latest",
       "constraints": [
         {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :memo: Documentation"
         },
         {
           "impact": "patch",
@@ -31,5 +47,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2025-07-23)\n\n* react-shepherd 6.1.9 (patch)\n* shepherd.js 14.5.1 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3230](https://github.com/shipshapecode/shepherd/pull/3230) Add attachTo elements to the keyboard focus flow ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#3229](https://github.com/shipshapecode/shepherd/pull/3229) Add dummy app back for development ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2025-12-27)\n\n* react-shepherd 7.0.0 (major)\n* shepherd.js 15.0.0 (major)\n\n#### :boom: Breaking Change\n* `react-shepherd`, `shepherd.js`\n  * [#3144](https://github.com/shipshapecode/shepherd/pull/3144) Update to Svelte 5, convert to ESM only ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :memo: Documentation\n* `shepherd.js`\n  * [#3323](https://github.com/shipshapecode/shepherd/pull/3323) Redirect to root when starting demo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`\n  * [#3315](https://github.com/shipshapecode/shepherd/pull/3315) Update README example path ([@Poylar](https://github.com/Poylar))\n\n#### :house: Internal\n* `react-shepherd`, `shepherd.js`\n  * [#3302](https://github.com/shipshapecode/shepherd/pull/3302) Remove scarf, bump vitest ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 2\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n- [@Poylar](https://github.com/Poylar)\n"
 }
