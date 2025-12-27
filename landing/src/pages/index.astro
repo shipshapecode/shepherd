@@ -24,7 +24,7 @@ import MainPage from '@layouts/MainPage.astro';
         <Code
           code={`
 	<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css"/>
-	<script type="module" src="shepherd.js/dist/shepherd.mjs"></script>
+	<script type="module" src="shepherd.js/dist/js/shepherd.mjs"></script>
   
 `}
           lang="js"
@@ -94,9 +94,25 @@ import MainPage from '@layouts/MainPage.astro';
       // wait for shepherd to be ready
       setTimeout(function () {
         const shepherd = setupShepherd();
-        const startBtn = document.querySelector('#showTour');
-
-        startBtn?.addEventListener('click', () => shepherd.start());
+        
+        // Check if we should auto-start the tour (after redirect from another page)
+        const shouldStartTour = sessionStorage.getItem('startTourOnLoad');
+        if (shouldStartTour) {
+          sessionStorage.removeItem('startTourOnLoad');
+          shepherd.start();
+        }
+        
+        // Clean up previous listener if it exists
+        if ((window as any).__startTourAbortController) {
+          (window as any).__startTourAbortController.abort();
+        }
+        
+        // Create new AbortController for this listener
+        const controller = new AbortController();
+        (window as any).__startTourAbortController = controller;
+        
+        // Listen for custom event from Demo button when already on home page
+        window.addEventListener('startTour', () => shepherd.start(), { signal: controller.signal });
       }, 400);
     }
 
@@ -296,7 +312,8 @@ import MainPage from '@layouts/MainPage.astro';
     }
 
     function ready() {
-      document.addEventListener('DOMContentLoaded', init);
+      // Only listen for astro:page-load which fires on both initial load and transitions
+      document.addEventListener('astro:page-load', init);
     }
 
     ready();

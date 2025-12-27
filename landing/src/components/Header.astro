@@ -162,3 +162,34 @@ const { isHome } = Astro.props;
     }
   </div>
 </header>
+
+<script>
+  // Handle demo button click - redirect to home if not already there
+  function setupDemoButton() {
+    const showTourBtn = document.querySelector('#showTour');
+    
+    if (!showTourBtn) return;
+    
+    // Remove any existing listeners
+    const newBtn = showTourBtn.cloneNode(true) as HTMLElement;
+    showTourBtn.parentNode?.replaceChild(newBtn, showTourBtn);
+    
+    newBtn.addEventListener('click', () => {
+      // Check if we're on the home page
+      if (window.location.pathname !== '/') {
+        // Store flag to start tour after navigation
+        sessionStorage.setItem('startTourOnLoad', 'true');
+        window.location.href = '/';
+      } else {
+        // We're already on home page, dispatch event to start tour
+        window.dispatchEvent(new CustomEvent('startTour'));
+      }
+    });
+  }
+  
+  // Run on initial load
+  document.addEventListener('DOMContentLoaded', setupDemoButton);
+  
+  // Run on Astro page transitions
+  document.addEventListener('astro:page-load', setupDemoButton);
+</script>

@@ -18,7 +18,7 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
-  "main": "./dist/cjs/shepherd.cjs",
+  "main": "./dist/js/shepherd.mjs",
   "module": "./dist/js/shepherd.mjs",
   "exports": {
     ".": {
