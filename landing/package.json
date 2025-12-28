@@ -11,21 +11,21 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.0.8",
-    "@astrojs/rss": "^4.0.12",
-    "@astrojs/sitemap": "^3.4.1",
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.14",
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^9.0.2",
     "@polar-sh/sdk": "^0.20.2",
-    "astro": "^5.15.9",
+    "astro": "^5.16.6",
     "shepherd.js": "workspace:*",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.3"
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
-    "sharp": "^0.34.3",
-    "vite": "^7.1.12"
+    "@tailwindcss/typography": "^0.5.19",
+    "sharp": "^0.34.5",
+    "vite": "^7.3.0"
   }
 }
