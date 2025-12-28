@@ -1,5 +1,29 @@
 # Changelog
 
+## Release (2025-12-28)
+
+* react-shepherd 7.0.0 (major)
+* shepherd.js 15.0.0 (major)
+
+#### :boom: Breaking Change
+* `react-shepherd`, `shepherd.js`
+  * [#3144](https://github.com/shipshapecode/shepherd/pull/3144) Update to Svelte 5, convert to ESM only ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :memo: Documentation
+* `shepherd.js`
+  * [#3323](https://github.com/shipshapecode/shepherd/pull/3323) Redirect to root when starting demo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`
+  * [#3315](https://github.com/shipshapecode/shepherd/pull/3315) Update README example path ([@Poylar](https://github.com/Poylar))
+
+#### :house: Internal
+* `react-shepherd`, `shepherd.js`
+  * [#3324](https://github.com/shipshapecode/shepherd/pull/3324) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3302](https://github.com/shipshapecode/shepherd/pull/3302) Remove scarf, bump vitest ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- [@Poylar](https://github.com/Poylar)
+
 ## Release (2025-07-23)
 
 * react-shepherd 6.1.9 (patch)
