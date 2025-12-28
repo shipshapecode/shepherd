@@ -1,5 +1,8 @@
 import { vi } from 'vitest';
-import '@testing-library/jest-dom/vitest';
+import * as matchers from '@testing-library/jest-dom/matchers';
+import { expect } from 'vitest';
+
+expect.extend(matchers);
 
 // Configure Svelte to force client-side rendering
 vi.doMock('svelte', async () => {
