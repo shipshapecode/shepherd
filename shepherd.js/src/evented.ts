@@ -77,7 +77,7 @@ export class Evented {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   trigger(event: string, ...args: any[]) {
     if (!isUndefined(this.bindings) && this.bindings[event]) {
-      this.bindings[event]?.forEach((binding, index) => {
+      this.bindings[event]?.slice().forEach((binding, index) => {
         const { ctx, handler, once } = binding;
 
         const context = ctx || this;
