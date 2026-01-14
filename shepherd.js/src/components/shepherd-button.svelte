@@ -18,6 +18,22 @@
   const label = $derived(config.label ? getConfigOption(config.label) : null);
   const secondary = $derived(config.secondary);
   const text = $derived(config.text ? getConfigOption(config.text) : null);
+
+  /**
+   * Convert dataAttributes array to an object of data-* attributes
+   */
+  const dataAttrs = $derived(() => {
+    if (!config.dataAttributes || !Array.isArray(config.dataAttributes)) {
+      return {};
+    }
+    
+    return config.dataAttributes.reduce((acc, attr) => {
+      if (attr.id) {
+        acc[`data-${attr.id}`] = attr.value;
+      }
+      return acc;
+    }, {});
+  });
 </script>
 
 <button
@@ -29,6 +45,7 @@
   onclick={action}
   tabindex="0"
   type="button"
+  {...dataAttrs()}
 >
   {@html text}
 </button>
