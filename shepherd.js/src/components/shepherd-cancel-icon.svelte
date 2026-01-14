@@ -1,4 +1,6 @@
 <script>
+  import { convertDataAttributes } from '../utils/data-attributes.ts';
+
   let { cancelIcon, step } = $props();
 
   /**
@@ -9,21 +11,7 @@
     step.cancel();
   };
 
-  /**
-   * Convert dataAttributes array to an object of data-* attributes
-   */
-  const dataAttrs = $derived(() => {
-    if (!cancelIcon.dataAttributes || !Array.isArray(cancelIcon.dataAttributes)) {
-      return {};
-    }
-    
-    return cancelIcon.dataAttributes.reduce((acc, attr) => {
-      if (attr.id) {
-        acc[`data-${attr.id}`] = attr.value;
-      }
-      return acc;
-    }, {});
-  });
+  const dataAttrs = $derived(convertDataAttributes(cancelIcon.dataAttributes));
 </script>
 
 <button
@@ -31,7 +19,7 @@
   class="shepherd-cancel-icon"
   onclick={handleCancelClick}
   type="button"
-  {...dataAttrs()}
+  {...dataAttrs}
 >
   <span aria-hidden="true">&times;</span>
 </button>
