@@ -9,10 +9,10 @@ export interface DataAttribute {
 /**
  * Converts an array of data attributes to an object of data-* attributes
  * suitable for spreading onto HTML elements.
- * 
+ *
  * @param dataAttributes - Array of data attribute objects with id and value
  * @returns Object with data-* attributes as keys
- * 
+ *
  * @example
  * ```typescript
  * const attrs = convertDataAttributes([
@@ -29,10 +29,13 @@ export function convertDataAttributes(
     return {};
   }
 
-  return dataAttributes.reduce((acc, attr) => {
-    if (attr.id) {
-      acc[`data-${attr.id}`] = String(attr.value);
-    }
-    return acc;
-  }, {} as Record<string, string>);
+  return dataAttributes.reduce(
+    (acc, attr) => {
+      if (attr.id) {
+        acc[`data-${attr.id}`] = String(attr.value);
+      }
+      return acc;
+    },
+    {} as Record<string, string>
+  );
 }
