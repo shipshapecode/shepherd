@@ -19,7 +19,7 @@
     "@floating-ui/dom": "^1.6.10",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@testing-library/jest-dom": "^6.4.8",
-    "@testing-library/svelte": "^5.2.9",
+    "@testing-library/svelte": "^5.3.1",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/expect": "^4.0.8",
     "autoprefixer": "^10.4.22",
