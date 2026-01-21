@@ -29,7 +29,7 @@
     "happy-dom": "^16.4.1",
     "http-server": "^14.1.1",
     "jsdom": "^27.4.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "postcss": "^8.5.6",
     "prettier": "3.3.3",
     "replace": "^1.2.2",
