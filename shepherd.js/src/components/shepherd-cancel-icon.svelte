@@ -1,4 +1,6 @@
 <script>
+  import { convertDataAttributes } from '../utils/data-attributes.ts';
+
   let { cancelIcon, step } = $props();
 
   /**
@@ -8,6 +10,8 @@
     e.preventDefault();
     step.cancel();
   };
+
+  const dataAttrs = $derived(convertDataAttributes(cancelIcon.dataAttributes));
 </script>
 
 <button
@@ -15,6 +19,7 @@
   class="shepherd-cancel-icon"
   onclick={handleCancelClick}
   type="button"
+  {...dataAttrs}
 >
   <span aria-hidden="true">&times;</span>
 </button>

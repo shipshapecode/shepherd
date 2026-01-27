@@ -1,5 +1,6 @@
 <script>
   import { isFunction } from '../utils/type-check.ts';
+  import { convertDataAttributes } from '../utils/data-attributes.ts';
 
   let { config, step } = $props();
 
@@ -18,6 +19,8 @@
   const label = $derived(config.label ? getConfigOption(config.label) : null);
   const secondary = $derived(config.secondary);
   const text = $derived(config.text ? getConfigOption(config.text) : null);
+
+  const dataAttrs = $derived(convertDataAttributes(config.dataAttributes));
 </script>
 
 <button
@@ -29,6 +32,7 @@
   onclick={action}
   tabindex="0"
   type="button"
+  {...dataAttrs}
 >
   {@html text}
 </button>
