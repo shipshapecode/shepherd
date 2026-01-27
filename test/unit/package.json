@@ -21,7 +21,7 @@
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/svelte": "^5.2.9",
     "@vitest/coverage-v8": "^4.0.16",
-    "@vitest/expect": "^4.0.8",
+    "@vitest/expect": "^4.0.18",
     "autoprefixer": "^10.4.22",
     "del": "^7.1.0",
     "eslint": "^8.57.1",
