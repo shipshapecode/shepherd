@@ -1,23 +1,56 @@
-# License
+# Shepherd.js License
 
-We added a commercial license to be able to provide better support and features
-for Shepherd users. If you are using Shepherd for a commercial project, you will
-need to obtain a commercial license at
-[shepherdjs.dev](http://shepherdjs.dev/pricing).
+Shepherd.js is dual-licensed under **AGPL-3.0** (for open source and non-commercial use) and a **Commercial License** (for commercial use).
 
-However, if you are using a Shepherd version **older than v14.0.0**, you don't
-need to obtain a commercial license.
-
-### Commercial license
-
-If you want to use Shepherd for a commercial application, theme or plugin the
-commercial license is the appropriate license. With this option, your source
-code is kept proprietary. Purchase a commercial license at
-[shepherdjs.dev](http://shepherdjs.dev/pricing)
-
-### Open-source license
-
-Copyright (c) 2024 Ship Shape Consulting, LLC
+---
+ 🆓 Free Use - AGPL-3.0 License
+You may use Shepherd.js **FREE OF CHARGE** under the AGPL-3.0 license if you are:
+ ✅ Open Source Projects
+- Your project is open source and licensed under an AGPL-compatible license (GPL, AGPL, etc.)
+- Your complete source code is publicly available
+ ✅ Personal & Non-Commercial Use
+- Personal projects, portfolios, and hobby websites
+- Educational purposes (students, teachers, coursework)
+- Academic research projects
+ ✅ Evaluation & Testing
+- Evaluating Shepherd.js for up to 30 days
+- Development, testing, and staging environments during evaluation
+- Proof-of-concept and demo projects
+**Important:** If you use Shepherd.js under AGPL-3.0, you must:
+- Make your complete source code available if you distribute or provide your software over a network
+- License your code under AGPL-3.0 or a compatible license
+- Comply with all AGPL-3.0 terms (see full license text below)
+---
+ 💳 Commercial License Required
+You **must purchase a commercial license** at [shepherdjs.dev/pricing](https://shepherdjs.dev/pricing) if:
+ ❌ Commercial Products & Services
+- You're building a commercial product, application, SaaS, or website that generates revenue
+- Your company generates revenue (even if the specific project using Shepherd.js does not)
+- You're using Shepherd.js in any customer-facing commercial application
+ ❌ Closed-Source Use
+- You cannot or don't want to open-source your code under AGPL-3.0
+- You want to keep your source code proprietary
+- You want to avoid AGPL's source code disclosure requirements
+ ❌ White-Label, Resale, or OEM Use
+- You're embedding Shepherd.js in a product you sell or distribute
+- You're offering Shepherd.js as part of a commercial service or hosting
+- You're using Shepherd.js in a product sold to other businesses
+ ❌ Internal Business Tools
+- You're using Shepherd.js for internal tools, dashboards, or admin panels in a revenue-generating company
+- Even if the tool is not customer-facing, commercial licenses are required for for-profit companies
+**Why Commercial License?**
+- ✅ No AGPL obligations - keep your code proprietary
+- ✅ Legal protection and indemnification
+- ✅ Priority support and updates
+- ✅ Lifetime license with no recurring fees
+[**Purchase Commercial License →**](https://shepherdjs.dev/pricing)
+---
+ ❓ Still Not Sure?
+If you're unsure whether you need a commercial license:
+- **Contact us:** [ahoy@shipshape.io](mailto:ahoy@shipshape.io)
+- **View pricing:** [shepherdjs.dev/pricing](https://shepherdjs.dev/pricing)
+**When in doubt:** If your organization generates revenue, you likely need a commercial license.
+---
 
 ### GNU AFFERO GENERAL PUBLIC LICENSE
 
