@@ -19,10 +19,12 @@ export default [
       }
     },
     rules: {
-      'max-lines': ['warn', { max: 500, skipBlankLines: true, skipComments: true }],
       'no-console': 'off',
       'prefer-const': 'off',
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }]
+      'no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+      ]
     }
   },
 
@@ -53,11 +55,14 @@ export default [
       '@typescript-eslint': ts
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_'
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ],
       '@typescript-eslint/no-explicit-any': 'error',
       'no-unused-vars': 'off', // Use TypeScript version instead
       'prefer-rest-params': 'off'
