@@ -11,8 +11,8 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shipshapecode%2Fshepherd?ref=badge_shield)
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
 [![Test](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/maintainability)](https://codeclimate.com/github/shipshapecode/shepherd/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
+[![Maintainability](https://qlty.sh/gh/shipshapecode/projects/shepherd/maintainability.svg)](https://qlty.sh/gh/shipshapecode/projects/shepherd)
+[![Code Coverage](https://qlty.sh/gh/shipshapecode/projects/shepherd/coverage.svg)](https://qlty.sh/gh/shipshapecode/projects/shepherd)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
 [Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service.
