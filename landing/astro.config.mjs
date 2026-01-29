@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 
 import vercel from '@astrojs/vercel';
 
@@ -9,12 +9,11 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://shepherdjs.dev',
 
-  integrations: [
-    mdx(),
-    sitemap(),
-    tailwind()
-  ],
+  integrations: [mdx(), sitemap()],
 
   output: 'static',
   adapter: vercel(),
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });

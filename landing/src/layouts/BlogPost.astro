@@ -14,7 +14,7 @@ const { title, description } = Astro.props;
   <Header title={SITE_TITLE} />
 
   <main>
-    <article class="max-w-screen-md mb-20 mx-auto">
+    <article class="max-w-(--breakpoint-md) mb-20 mx-auto">
       <slot />
     </article>
     <Footer />

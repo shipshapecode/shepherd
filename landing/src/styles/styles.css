@@ -1,6 +1,116 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --shadow-*: initial;
+  --shadow-default:
+    0 10px 30px 0 rgba(0, 0, 0, 1), 0 10px 20px 0 rgba(0, 0, 0, 1);
+
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-black: #000000;
+  --color-navy: #16202d;
+  --color-navy-light: #959fac;
+  --color-grey: #f3f5f5;
+  --color-grey-light: #eff2f3;
+  --color-white: #ffffff;
+
+  --color-pink-200: #ffa6f6;
+  --color-pink-300: #fa8cef;
+  --color-pink-400: #fa7fee;
+
+  --font-*: initial;
+  --font-body: Founders Grotesk, sans-serif;
+  --font-heading: GT Pressura, sans-serif;
+
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 4rem;
+
+  --container-*: initial;
+  --container-xxs: 13rem;
+  --container-xs: 20rem;
+  --container-sm: 24rem;
+  --container-md: 28rem;
+  --container-lg: 32rem;
+  --container-xl: 36rem;
+  --container-2xl: 42rem;
+  --container-3xl: 48rem;
+  --container-4xl: 56rem;
+  --container-5xl: 64rem;
+  --container-6xl: 72rem;
+  --container-7xl: 80rem;
+  --container-8xl: 90rem;
+  --container-9xl: 100rem;
+  --container-full: 100%;
+
+  --spacing-*: initial;
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+  --spacing-40: 10rem;
+  --spacing-48: 12rem;
+  --spacing-56: 14rem;
+  --spacing-64: 16rem;
+  --spacing-72: 18rem;
+  --spacing-80: 20rem;
+  --spacing-140: 36rem;
+  --spacing-px: 1px;
+
+  --animate-ellipsis1: ellipsis 1s infinite;
+  --animate-ellipsis2: ellipsis 1s infinite 0.333s;
+  --animate-ellipsis3: ellipsis 1s infinite 0.666s;
+
+  @keyframes ellipsis {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 html,
 body {
