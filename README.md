@@ -15,8 +15,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
-[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service. Use our
-hosted SaaS or deploy to your own infrastructure to run on-premise.
+[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service.
 
 Supported Browsers
 ----------------------------------------------------------
@@ -50,7 +49,6 @@ The Shepherd Standalone Library has been open source since the very beginning. C
 #### [Angular Shepherd Wrapper](https://github.com/shipshapecode/angular-shepherd)
 #### [Vue Shepherd Wrapper](https://github.com/shipshapecode/vue-shepherd)
 #### [Ember Shepherd Wrapper](https://github.com/RobbieTheWagner/ember-shepherd)
-
 
 
 # White Glove Services
