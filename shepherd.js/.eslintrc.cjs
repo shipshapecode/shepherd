@@ -10,10 +10,6 @@ module.exports = {
     es2020: true,
   },
   rules: {
-    'max-lines': [
-      'warn',
-      { max: 500, skipBlankLines: true, skipComments: true }
-    ],
     'no-console': 'off',
     'prefer-const': 'off'
   },

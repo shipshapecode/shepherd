@@ -531,12 +531,8 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = vi
-        .spyOn(modalComponent, 'hide')
-        .mockImplementation(() => {});
-      showStub = vi
-        .spyOn(modalComponent, 'show')
-        .mockImplementation(() => {});
+      hideStub = vi.spyOn(modalComponent, 'hide').mockImplementation(() => {});
+      showStub = vi.spyOn(modalComponent, 'show').mockImplementation(() => {});
       await modalComponent.setupForStep(step);
 
       expect(hideStub).toHaveBeenCalled();
@@ -561,12 +557,8 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = vi
-        .spyOn(modalComponent, 'hide')
-        .mockImplementation(() => {});
-      showStub = vi
-        .spyOn(modalComponent, 'show')
-        .mockImplementation(() => {});
+      hideStub = vi.spyOn(modalComponent, 'hide').mockImplementation(() => {});
+      showStub = vi.spyOn(modalComponent, 'show').mockImplementation(() => {});
       await modalComponent.setupForStep(step);
 
       expect(hideStub).not.toHaveBeenCalled();
