@@ -5,4 +5,5 @@ packages:
   - docs-src
 
 onlyBuiltDependencies:
+  - cypress
   - svelte-preprocess
