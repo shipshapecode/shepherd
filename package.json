@@ -11,7 +11,6 @@
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
     "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
     "dev": "pnpm watch",
-    "docs": "node_modules/.bin/jsdoc -c .jsdoc.js --verbose",
     "lint": "pnpm -F '*' lint",
     "lint:fix": "pnpm -F '*' lint:fix",
     "lint:js": "pnpm -F '*' lint:js",
