@@ -21,7 +21,7 @@ export default function (Shepherd, globalDefaults, customSteps, otherOptions) {
   const shepherdOptions = Object.assign(
     {},
     {
-      defaultStepOptions,
+      defaultStepOptions
     },
     otherOptions
   );

@@ -1,4 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
+import { beforeEach, describe, expect, it } from 'vitest';
 import ShepherdContent from '../../../src/components/shepherd-content.svelte';
 
 describe('components/ShepherdContent', () => {
@@ -17,7 +18,9 @@ describe('components/ShepherdContent', () => {
 
       const { container } = render(ShepherdContent, { props: { step } });
 
-      expect(container.querySelector('.shepherd-content .shepherd-header')).toBeInTheDocument();
+      expect(
+        container.querySelector('.shepherd-content .shepherd-header')
+      ).toBeInTheDocument();
     });
 
     it('is rendered when title is present', () => {
@@ -29,7 +32,9 @@ describe('components/ShepherdContent', () => {
 
       const { container } = render(ShepherdContent, { props: { step } });
 
-      expect(container.querySelector('.shepherd-content .shepherd-header')).toBeInTheDocument();
+      expect(
+        container.querySelector('.shepherd-content .shepherd-header')
+      ).toBeInTheDocument();
     });
 
     it('is rendered when cancelIcon is enabled', () => {
@@ -43,7 +48,9 @@ describe('components/ShepherdContent', () => {
 
       const { container } = render(ShepherdContent, { props: { step } });
 
-      expect(container.querySelector('.shepherd-content .shepherd-header')).toBeInTheDocument();
+      expect(
+        container.querySelector('.shepherd-content .shepherd-header')
+      ).toBeInTheDocument();
     });
 
     it('is not rendered when title is not present and cancelIcon is disabled', () => {
@@ -55,7 +62,9 @@ describe('components/ShepherdContent', () => {
 
       const { container } = render(ShepherdContent, { props: { step } });
 
-      expect(container.querySelector('.shepherd-header')).not.toBeInTheDocument();
+      expect(
+        container.querySelector('.shepherd-header')
+      ).not.toBeInTheDocument();
     });
   });
 });

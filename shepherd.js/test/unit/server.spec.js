@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import { describe, expect, it } from 'vitest';
 import Shepherd from '../../src/shepherd';
 
 describe('Server Side Render', function () {

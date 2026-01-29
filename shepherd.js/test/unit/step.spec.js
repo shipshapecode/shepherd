@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Shepherd from '../../src/shepherd';
 import { Step } from '../../src/step';
 import { Tour } from '../../src/tour';

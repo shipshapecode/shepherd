@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdHeader from '../../../src/components/shepherd-header.svelte';
 import { Tour } from '../../../src/tour';

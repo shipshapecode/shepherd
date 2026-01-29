@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { bindAdvance } from '../../../src/utils/bind';
 import { Step } from '../../../src/step';

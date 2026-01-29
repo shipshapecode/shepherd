@@ -1,4 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
+import { beforeEach, describe, expect, it } from 'vitest';
 import ShepherdText from '../../../src/components/shepherd-text.svelte';
 
 describe('components/ShepherdText', () => {
@@ -17,7 +18,9 @@ describe('components/ShepherdText', () => {
       }
     });
 
-    expect(container.querySelector('.shepherd-text')).toHaveTextContent('I am some test text.');
+    expect(container.querySelector('.shepherd-text')).toHaveTextContent(
+      'I am some test text.'
+    );
   });
 
   it('applies HTML element directly to content', () => {
@@ -33,7 +36,9 @@ describe('components/ShepherdText', () => {
       }
     });
 
-    expect(container.querySelector('.shepherd-text')).toContainHTML('<p>I am some test text.</p>');
+    expect(container.querySelector('.shepherd-text')).toContainHTML(
+      '<p>I am some test text.</p>'
+    );
   });
 
   it('applies the text from a function', () => {
@@ -49,6 +54,8 @@ describe('components/ShepherdText', () => {
       }
     });
 
-    expect(container.querySelector('.shepherd-text')).toHaveTextContent('I am some test text.');
+    expect(container.querySelector('.shepherd-text')).toHaveTextContent(
+      'I am some test text.'
+    );
   });
 });

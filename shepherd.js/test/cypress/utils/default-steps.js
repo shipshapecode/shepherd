@@ -1,4 +1,4 @@
-export default function(shepherd) {
+export default function (shepherd) {
   return [
     {
       text: `
@@ -22,7 +22,8 @@ export default function(shepherd) {
           action: shepherd.cancel,
           classes: 'shepherd-button-secondary cancel-button',
           text: 'Exit'
-        }, {
+        },
+        {
           action: shepherd.next,
           classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
@@ -42,7 +43,8 @@ export default function(shepherd) {
           action: shepherd.back,
           classes: 'shepherd-button-secondary back-button',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
@@ -63,7 +65,8 @@ export default function(shepherd) {
           action: shepherd.back,
           classes: 'shepherd-button-secondary back-button',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           classes: 'shepherd-button-example-primary next-button',
           text: 'Next'
@@ -84,7 +87,8 @@ export default function(shepherd) {
           action: shepherd.back,
           classes: 'shepherd-button-secondary back-button',
           text: 'Back'
-        }, {
+        },
+        {
           action: shepherd.next,
           classes: 'shepherd-button-example-primary next-button',
           text: 'Done'

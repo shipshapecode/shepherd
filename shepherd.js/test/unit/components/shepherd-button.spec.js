@@ -1,5 +1,6 @@
 import { cleanup, render } from '@testing-library/svelte';
 import { tick } from 'svelte';
+import { beforeEach, describe, expect, it } from 'vitest';
 import ShepherdButton from '../../../src/components/shepherd-button.svelte';
 
 describe('component/ShepherdButton', () => {

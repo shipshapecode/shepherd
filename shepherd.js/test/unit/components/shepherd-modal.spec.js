@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import ShepherdModal from '../../../src/components/shepherd-modal.svelte';
 import { mount, unmount } from 'svelte';
 

@@ -1,4 +1,5 @@
 import { cleanup, render } from '@testing-library/svelte';
+import { beforeEach, describe, expect, it } from 'vitest';
 import ShepherdTitle from '../../../src/components/shepherd-title.svelte';
 
 describe('components/ShepherdTitle', () => {
@@ -11,7 +12,9 @@ describe('components/ShepherdTitle', () => {
       }
     });
 
-    expect(container.querySelector('.shepherd-title')).toHaveTextContent('I am some test title.');
+    expect(container.querySelector('.shepherd-title')).toHaveTextContent(
+      'I am some test title.'
+    );
   });
 
   it('applies the title from a function', () => {
@@ -21,6 +24,8 @@ describe('components/ShepherdTitle', () => {
       }
     });
 
-    expect(container.querySelector('.shepherd-title')).toHaveTextContent('I am some test title.');
+    expect(container.querySelector('.shepherd-title')).toHaveTextContent(
+      'I am some test title.'
+    );
   });
 });

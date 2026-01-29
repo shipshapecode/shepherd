@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { cleanupSteps } from '../../../src/utils/cleanup';
 
 describe('Cleanup Utils', function () {

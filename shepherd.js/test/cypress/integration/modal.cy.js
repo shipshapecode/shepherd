@@ -10,7 +10,7 @@ describe('Modal mode', () => {
     cy.visit('/test/cypress/dummy/', {
       onLoad(contentWindow) {
         if (contentWindow.Shepherd) {
-          return Shepherd = contentWindow.Shepherd;
+          return (Shepherd = contentWindow.Shepherd);
         }
       }
     });
@@ -30,8 +30,15 @@ describe('Modal mode', () => {
     it('Displaying the modal during tours when modal mode is enabled', () => {
       tour.start();
 
-      cy.get('.shepherd-modal-overlay-container').should('have.css', 'opacity', '0.5');
-      cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
+      cy.get('.shepherd-modal-overlay-container').should(
+        'have.css',
+        'opacity',
+        '0.5'
+      );
+      cy.get('.shepherd-modal-overlay-container').should(
+        'have.class',
+        'shepherd-modal-is-visible'
+      );
     });
   });
 
@@ -45,8 +52,15 @@ describe('Modal mode', () => {
     it('Hiding the modal during tours when modal mode is not enabled', () => {
       tour.start();
 
-      cy.get('.shepherd-modal-overlay-container').should('have.css', 'opacity', '0');
-      cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
+      cy.get('.shepherd-modal-overlay-container').should(
+        'have.css',
+        'opacity',
+        '0'
+      );
+      cy.get('.shepherd-modal-overlay-container').should(
+        'not.have.class',
+        'shepherd-modal-is-visible'
+      );
     });
   });
 
@@ -55,12 +69,17 @@ describe('Modal mode', () => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
     });
 
-    it('removes shepherd-modal-is-visible class from the overlay', async() => {
+    it('removes shepherd-modal-is-visible class from the overlay', async () => {
       tour.start();
-      await cy.get('.shepherd-modal-overlay-container').should('have.class', 'shepherd-modal-is-visible');
+      await cy
+        .get('.shepherd-modal-overlay-container')
+        .should('have.class', 'shepherd-modal-is-visible');
 
       tour.hide();
-      cy.get('.shepherd-modal-overlay-container').should('not.have.class', 'shepherd-modal-is-visible');
+      cy.get('.shepherd-modal-overlay-container').should(
+        'not.have.class',
+        'shepherd-modal-is-visible'
+      );
     });
   });
 
@@ -88,12 +107,13 @@ describe('Modal mode', () => {
     it('applying highlight classes to the target element', () => {
       tour.start();
 
-      expect(tour.getCurrentStep().target.classList.contains('highlight')).to.be.true;
+      expect(tour.getCurrentStep().target.classList.contains('highlight')).to.be
+        .true;
     });
   });
 
-  describe('Modal with multiple Tours', function() {
-    it('only activates one SVG overall', async function() {
+  describe('Modal with multiple Tours', function () {
+    it('only activates one SVG overall', async function () {
       const steps = [
         {
           id: 'test',

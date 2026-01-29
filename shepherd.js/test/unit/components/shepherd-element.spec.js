@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
 import ShepherdElement from '../../../src/components/shepherd-element.svelte';
 import { Step } from '../../../src/step';
@@ -63,7 +63,7 @@ describe('components/ShepherdElement', () => {
         container.querySelectorAll('.shepherd-element .shepherd-arrow').length
       ).toBe(1);
     });
-    
+
     it('arrow: empty object shows arrow', async () => {
       const testElement = document.createElement('div');
       const tour = new Tour();
@@ -124,12 +124,8 @@ describe('components/ShepherdElement', () => {
       const step = new Step(tour, {});
       let propagateValue = 0;
 
-      const tourBackStub = vi
-        .spyOn(tour, 'back')
-        .mockImplementation(() => {});
-      const tourNextStub = vi
-        .spyOn(tour, 'next')
-        .mockImplementation(() => {});
+      const tourBackStub = vi.spyOn(tour, 'back').mockImplementation(() => {});
+      const tourNextStub = vi.spyOn(tour, 'next').mockImplementation(() => {});
 
       // Add a keystroke listener to a parent to test event propagation
       document.body.addEventListener('keydown', (event) => {
@@ -170,12 +166,8 @@ describe('components/ShepherdElement', () => {
       const step = new Step(tour, {});
       let propagateValue = 0;
 
-      const tourBackStub = vi
-        .spyOn(tour, 'back')
-        .mockImplementation(() => {});
-      const tourNextStub = vi
-        .spyOn(tour, 'next')
-        .mockImplementation(() => {});
+      const tourBackStub = vi.spyOn(tour, 'back').mockImplementation(() => {});
+      const tourNextStub = vi.spyOn(tour, 'next').mockImplementation(() => {});
 
       // Add a keystroke listener to a parent to test event propagation
       document.body.addEventListener('keydown', (event) => {
