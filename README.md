@@ -15,8 +15,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/b295b0cc0d828ccc1b76/test_coverage)](https://codeclimate.com/github/shipshapecode/shepherd/test_coverage)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
-[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service. Use our
-hosted SaaS or deploy to your own infrastructure to run on-premise.
+[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service.
 
 Supported Browsers
 ----------------------------------------------------------
@@ -51,9 +50,6 @@ The Shepherd Standalone Library has been open source since the very beginning. C
 #### [Vue Shepherd Wrapper](https://github.com/shipshapecode/vue-shepherd)
 #### [Ember Shepherd Wrapper](https://github.com/RobbieTheWagner/ember-shepherd)
 
-### Commercial license
-
-If you want to use Shepherd for a commercial application, theme or plugin the commercial license is the appropriate license. With this option, your source code is kept proprietary. Purchase a commercial license at [shepherdjs.dev](http://shepherdjs.dev/pricing)
 
 # White Glove Services
 
@@ -113,4 +109,12 @@ If you have a cool open-source library built on Shepherd, PR this doc.
 
 
 ## License
+
+Shepherd.js is dual-licensed under AGPL-3.0 and a Commercial License.
+
+- **Free for open source and non-commercial use** under AGPL-3.0
+- **Commercial license required** for commercial products and revenue-generating companies
+
+See [LICENSE.md](LICENSE.md) for complete details or visit [shepherdjs.dev/pricing](https://shepherdjs.dev/pricing) to purchase a commercial license.
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd?ref=badge_large)

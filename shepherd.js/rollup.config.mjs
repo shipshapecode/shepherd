@@ -153,6 +153,16 @@ export default [
               stdio: 'inherit'
             }
           );
+
+          console.log('Copying README and LICENSE from root to shepherd.js');
+
+          await execaCommand(`cp ../README.md ./README.md`, {
+            stdio: 'inherit'
+          });
+
+          await execaCommand(`cp ../LICENSE.md ./LICENSE.md`, {
+            stdio: 'inherit'
+          });
         }
       }
     ]
