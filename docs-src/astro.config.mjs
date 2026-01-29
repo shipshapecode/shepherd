@@ -47,6 +47,10 @@ export default defineConfig({
             {
               label: 'Usage',
               link: '/guides/usage/'
+            },
+            {
+              label: 'License & Pricing',
+              link: '/guides/license/'
             }
           ]
         },
