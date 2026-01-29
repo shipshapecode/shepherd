@@ -39,14 +39,16 @@
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/ui": "^4.0.16",
     "happy-dom": "^20.0.11",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.16"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0",
     "typescript": "^5.0.0"
   },
   "publishConfig": {
