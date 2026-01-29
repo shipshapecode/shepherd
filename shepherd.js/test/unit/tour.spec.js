@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Shepherd from '../../src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../src/utils/floating-ui';

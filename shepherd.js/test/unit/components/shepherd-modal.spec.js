@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import ShepherdModal from '../../../src/components/shepherd-modal.svelte';
 import { mount, unmount } from 'svelte';
 
@@ -515,7 +515,6 @@ describe('components/ShepherdModal', () => {
       showStub.mockRestore();
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: false, hides modal', async () => {
       const modalComponent = mount(ShepherdModal, {
         target: document.body,
@@ -532,10 +531,10 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = jest
+      hideStub = vi
         .spyOn(modalComponent, 'hide')
         .mockImplementation(() => {});
-      showStub = jest
+      showStub = vi
         .spyOn(modalComponent, 'show')
         .mockImplementation(() => {});
       await modalComponent.setupForStep(step);
@@ -546,7 +545,6 @@ describe('components/ShepherdModal', () => {
       unmount(modalComponent);
     });
 
-    // eslint-disable-next-line jest/no-disabled-tests
     it.skip('useModalOverlay: true, shows modal', async () => {
       const modalComponent = mount(ShepherdModal, {
         target: document.body,
@@ -563,10 +561,10 @@ describe('components/ShepherdModal', () => {
           }
         }
       };
-      hideStub = jest
+      hideStub = vi
         .spyOn(modalComponent, 'hide')
         .mockImplementation(() => {});
-      showStub = jest
+      showStub = vi
         .spyOn(modalComponent, 'show')
         .mockImplementation(() => {});
       await modalComponent.setupForStep(step);
