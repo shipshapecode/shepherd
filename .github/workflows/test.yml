@@ -72,3 +72,4 @@ jobs:
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: shepherd.js/test/coverage/lcov.info
+          add-prefix: shepherd.js/
