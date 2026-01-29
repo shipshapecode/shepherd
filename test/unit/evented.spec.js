@@ -38,6 +38,14 @@ describe('Evented', () => {
         step: { id: 'test', text: 'A step' }
       });
     });
+
+    it('does not skip event bindings after removing an event binding', () => {
+      testEvent.once('testOn', () => true);
+      const handlerSpy = jest.fn();
+      testEvent.on('testOn', handlerSpy);
+      testEvent.trigger('testOn');
+      expect(handlerSpy).toHaveBeenCalled();
+    });
   });
 
   describe('off()', () => {
