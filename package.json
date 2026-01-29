@@ -9,7 +9,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
-    "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
+    "cypress:install": "pnpm -F shepherd.js cypress:install",
     "dev": "pnpm watch",
     "lint": "pnpm -F '*' lint",
     "lint:fix": "pnpm -F '*' lint:fix",
@@ -18,9 +18,11 @@
     "lint:prettier:fix": "pnpm -F '*' lint:prettier:fix",
     "prepare": "pnpm -F shepherd.js build",
     "start": "pnpm watch",
-    "test:ci": "pnpm build && pnpm -F '*' test:ci",
-    "test:cy:watch": "pnpm -F cypress-tests test:watch",
-    "test:unit:watch": "pnpm -F shepherd.js test:watch",
+    "test:ci": "pnpm build && pnpm -F shepherd.js test:ci",
+    "test:cy:ci": "pnpm -F shepherd.js test:cy:ci",
+    "test:cy:watch": "pnpm -F shepherd.js test:cy:watch",
+    "test:unit:ci": "pnpm -F shepherd.js test:unit:ci",
+    "test:unit:watch": "pnpm -F shepherd.js test:unit:watch",
     "types:check": "pnpm -F shepherd.js types:check",
     "view-coverage": "pnpm -F shepherd.js view-coverage",
     "watch": "pnpm -F shepherd.js watch"

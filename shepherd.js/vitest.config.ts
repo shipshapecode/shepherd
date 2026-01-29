@@ -16,7 +16,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
-    setupFiles: ['./test/setupTests.js'],
+    setupFiles: ['./test/unit/setupTests.js'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
