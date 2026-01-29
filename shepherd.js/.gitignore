@@ -12,3 +12,7 @@
 /npm-debug.log*
 /stats.html
 /yarn-error.log
+
+# Auto-generated from root during build
+README.md
+LICENSE.md
