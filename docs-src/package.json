@@ -14,7 +14,7 @@
     "@astrojs/starlight": "^0.31.1",
     "astro": "^5.16.6",
     "shepherd.js": "workspace:*",
-    "starlight-typedoc": "^0.18.0"
+    "starlight-typedoc": "^0.21.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
