@@ -50,7 +50,7 @@ export function parseAttachTo(step: Step) {
       returnOpts.element = document.querySelector(
         returnOpts.element
       ) as HTMLElement;
-    } catch (e) {
+    } catch (_e) {
       // TODO
     }
     if (!returnOpts.element) {

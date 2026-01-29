@@ -6,13 +6,10 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'plugin:svelte/recommended'],
   env: {
-    browser: true
+    browser: true,
+    es2020: true,
   },
   rules: {
-    'max-lines': [
-      'warn',
-      { max: 500, skipBlankLines: true, skipComments: true }
-    ],
     'no-console': 'off',
     'prefer-const': 'off'
   },
@@ -38,6 +35,14 @@ module.exports = {
           { argsIgnorePattern: '^_' }
         ],
         'prefer-rest-params': 'off'
+      }
+    },
+    // Vitest setup file (uses Node globals)
+    {
+      files: ['test/unit/setupTests.js'],
+      env: {
+        node: true,
+        es2020: true
       }
     },
     // node files

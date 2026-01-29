@@ -9,7 +9,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
-    "cypress:install": "pnpm -F 'cypress-tests' cypress:install",
+    "cypress:install": "pnpm -F shepherd.js cypress:install",
     "dev": "pnpm watch",
     "lint": "pnpm -F '*' lint",
     "lint:fix": "pnpm -F '*' lint:fix",
@@ -18,23 +18,26 @@
     "lint:prettier:fix": "pnpm -F '*' lint:prettier:fix",
     "prepare": "pnpm -F shepherd.js build",
     "start": "pnpm watch",
-    "test:ci": "pnpm build && pnpm -F '*' test:ci",
-    "test:cy:watch": "pnpm -F cypress-tests test:watch",
-    "test:unit:watch": "pnpm -F unit-tests test:watch",
+    "test:ci": "pnpm build && pnpm -F shepherd.js test:ci",
+    "test:cy:ci": "pnpm -F shepherd.js test:cy:ci",
+    "test:cy:watch": "pnpm -F shepherd.js test:cy:watch",
+    "test:unit:ci": "pnpm -F shepherd.js test:unit:ci",
+    "test:unit:watch": "pnpm -F shepherd.js test:unit:watch",
     "types:check": "pnpm -F shepherd.js types:check",
-    "view-coverage": "pnpm -F unit-tests view-coverage",
+    "view-coverage": "pnpm -F shepherd.js view-coverage",
     "watch": "pnpm -F shepherd.js watch"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@eslint/js": "^9.39.2",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "autoprefixer": "^10.4.23",
     "concurrently": "^9.2.1",
     "del": "^7.1.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-svelte": "^2.46.1",
+    "eslint": "^9.39.2",
+    "eslint-plugin-svelte": "^3.14.0",
     "postcss": "^8.5.6",
     "prettier": "3.3.3",
     "prettier-plugin-astro": "^0.14.1",
@@ -45,9 +48,9 @@
     "svelte": "^5.46.4",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@10.17.1",
+  "packageManager": "pnpm@10.28.2",
   "engines": {
-    "node": "18.* || >= 20"
+    "node": ">= 20"
   },
   "authors": [
     "Robbie Wagner <rwwagner90@gmail.com>",

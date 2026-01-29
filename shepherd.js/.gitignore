@@ -5,6 +5,7 @@
 /.log/
 /.nyc_output/
 /coverage/
+/test/coverage/
 /node_modules/
 /tmp/
 /.DS_Store

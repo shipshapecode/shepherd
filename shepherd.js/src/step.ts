@@ -306,7 +306,6 @@ export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
   classPrefix?: string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
   declare cleanup: Function | null;
   el?: HTMLElement | null;
   declare id: string;

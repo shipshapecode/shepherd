@@ -67,3 +67,9 @@ jobs:
         with:
           command: pnpm test:ci
           install: false
+      - name: Upload Coverage to Qlty
+        uses: qltysh/qlty-action/coverage@v2
+        with:
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: shepherd.js/test/coverage/lcov.info
+          add-prefix: shepherd.js/

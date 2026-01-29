@@ -2,8 +2,6 @@ packages:
   - shepherd.js
   - landing
   - packages/*
-  - test/cypress
-  - test/unit
   - docs-src
 
 onlyBuiltDependencies:

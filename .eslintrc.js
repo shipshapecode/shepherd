@@ -9,10 +9,6 @@ module.exports = {
     browser: true
   },
   rules: {
-    'max-lines': [
-      'warn',
-      { max: 500, skipBlankLines: true, skipComments: true }
-    ],
     'no-console': 'off',
     'prefer-const': 'off'
   },
