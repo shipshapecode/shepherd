@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { Evented } from '../../shepherd.js/src/evented';
+import { Evented } from '../src/evented';
 
 describe('Evented', () => {
   let testEvent, testOnTriggered;

@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
-import ShepherdElement from '../../../shepherd.js/src/components/shepherd-element.svelte';
-import { Step } from '../../../shepherd.js/src/step';
-import { Tour } from '../../../shepherd.js/src/tour';
+import ShepherdElement from '../../src/components/shepherd-element.svelte';
+import { Step } from '../../src/step';
+import { Tour } from '../../src/tour';
 
 describe('components/ShepherdElement', () => {
   describe('arrow', () => {

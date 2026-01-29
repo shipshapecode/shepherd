@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 
-import { bindAdvance } from '../../../shepherd.js/src/utils/bind';
-import { Step } from '../../../shepherd.js/src/step';
+import { bindAdvance } from '../../src/utils/bind';
+import { Step } from '../../src/step';
 
 describe('Bind Utils', function () {
   describe('bindAdvance()', () => {

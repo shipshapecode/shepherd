@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { vi } from 'vitest';
-import Shepherd from '../../shepherd.js/src/shepherd';
+import Shepherd from '../src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
-import { setupTooltip } from '../../shepherd.js/src/utils/floating-ui';
+import { setupTooltip } from '../src/utils/floating-ui';
 import { offset } from '@floating-ui/dom';
 
 const { Step } = Shepherd;

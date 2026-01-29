@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
-import Shepherd from '../../shepherd.js/src/shepherd';
-import { Step } from '../../shepherd.js/src/step';
-import { Tour } from '../../shepherd.js/src/tour';
+import Shepherd from '../src/shepherd';
+import { Step } from '../src/step';
+import { Tour } from '../src/tour';
 import ResizeObserver from 'resize-observer-polyfill';
 import { offset } from '@floating-ui/dom';
 

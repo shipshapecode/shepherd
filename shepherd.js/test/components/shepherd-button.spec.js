@@ -1,6 +1,6 @@
 import { cleanup, render } from '@testing-library/svelte';
 import { tick } from 'svelte';
-import ShepherdButton from '../../../shepherd.js/src/components/shepherd-button.svelte';
+import ShepherdButton from '../../src/components/shepherd-button.svelte';
 
 describe('component/ShepherdButton', () => {
   beforeEach(cleanup);

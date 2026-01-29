@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import ShepherdModal from '../../../shepherd.js/src/components/shepherd-modal.svelte';
+import ShepherdModal from '../../src/components/shepherd-modal.svelte';
 import { mount, unmount } from 'svelte';
 
 const classPrefix = '';

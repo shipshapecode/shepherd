@@ -1,4 +1,4 @@
-import { cleanupSteps } from '../../../shepherd.js/src/utils/cleanup';
+import { cleanupSteps } from '../../src/utils/cleanup';
 
 describe('Cleanup Utils', function () {
   // Create some elements to use to attach to

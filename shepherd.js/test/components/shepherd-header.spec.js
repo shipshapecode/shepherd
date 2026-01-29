@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
 import { cleanup, fireEvent, render } from '@testing-library/svelte';
-import ShepherdHeader from '../../../shepherd.js/src/components/shepherd-header.svelte';
-import { Tour } from '../../../shepherd.js/src/tour';
-import { Step } from '../../../shepherd.js/src/step';
+import ShepherdHeader from '../../src/components/shepherd-header.svelte';
+import { Tour } from '../../src/tour';
+import { Step } from '../../src/step';
 
 describe('components/ShepherdHeader', () => {
   beforeEach(cleanup);

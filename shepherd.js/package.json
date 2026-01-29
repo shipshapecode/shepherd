@@ -41,9 +41,13 @@
     "lint:prettier": "prettier --check '**/*.{js,svelte,ts}'",
     "lint:prettier:fix": "prettier --write '**/*.{js,svelte,ts}'",
     "prepack": "pnpm build",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage",
+    "test:watch": "vitest",
     "types:check": "pnpm types:check:esm && pnpm types:check:attw",
     "types:check:attw": "pnpm attw --pack . --exclude-entrypoints ./dist/css/shepherd.css",
     "types:check:esm": "pnpm tsc --module esnext --moduleResolution bundler --noEmit true --emitDeclarationOnly false",
+    "view-coverage": "http-server -p 9003 ./test/coverage/lcov-report -o",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
   "dependencies": {
@@ -60,16 +64,26 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/svelte": "^5.3.1",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/expect": "^4.0.18",
     "autoprefixer": "^10.4.23",
     "cssnano": "^7.1.2",
     "dts-bundle-generator": "^9.5.1",
     "eslint-plugin-svelte": "^2.46.1",
+    "eslint-plugin-vitest": "^0.5.4",
     "execa": "^9.6.1",
+    "happy-dom": "^16.4.1",
+    "http-server": "^14.1.1",
+    "lodash": "^4.17.23",
     "postcss": "^8.5.6",
     "prettier": "^3.7.4",
     "prettier-plugin-svelte": "^3.4.1",
     "renamer": "^5.0.2",
     "replace": "^1.2.2",
+    "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.2",
     "rollup": "^4.54.0",
     "rollup-plugin-analyzer": "^4.0.0",
@@ -83,11 +97,13 @@
     "svelte": "^5.46.4",
     "svelte-preprocess": "^6.0.3",
     "svelte2tsx": "0.7.13",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "vitest": "^4.0.16"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.28.2",
   "engines": {
-    "node": "18.* || >= 20"
+    "node": ">= 20"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -16,21 +16,25 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'happy-dom',
-    setupFiles: ['./setupTests.js'],
+    setupFiles: ['./test/setupTests.js'],
     coverage: {
-      include: [
-        '../../shepherd.js/src/*.ts',
-        '../../shepherd.js/src/*.svelte',
-        '../../shepherd.js/src/components/**/*.svelte',
-        '../../shepherd.js/src/utils/*.ts',
-        '../../shepherd.js/src/utils/*.svelte'
-      ],
-      reporter: ['text', 'lcov', 'html']
+      provider: 'v8',
+      reporter: ['text', 'lcov', 'html'],
+      reportsDirectory: './test/coverage',
+      include: ['src/**/*.{ts,svelte}'],
+      exclude: [
+        '**/*.spec.{js,ts}',
+        '**/*.test.{js,ts}',
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/tmp/**',
+        '**/test/**'
+      ]
     }
   },
   resolve: {
     alias: {
-      'shepherd.js': '../../shepherd.js/src'
+      'shepherd.js': './src'
     },
     conditions: ['browser']
   },

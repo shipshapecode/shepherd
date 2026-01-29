@@ -1,11 +1,11 @@
 import { vi } from 'vitest';
-import { Step } from '../../../shepherd.js/src/step';
+import { Step } from '../../src/step';
 import {
   parseAttachTo,
   shouldCenterStep,
   parseExtraHighlights
 } from '../../../shepherd.js//src/utils/general';
-import { getFloatingUIOptions } from '../../../shepherd.js/src/utils/floating-ui';
+import { getFloatingUIOptions } from '../../src/utils/floating-ui';
 
 describe('General Utils', function () {
   let optionsElement;
