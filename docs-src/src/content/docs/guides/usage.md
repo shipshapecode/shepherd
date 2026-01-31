@@ -223,6 +223,7 @@ If the element to highlight does not yet exist while instantiating tour steps, y
       return this.show('some_step_name');
     }
   ```
+- `extraHighlights`: An array of extra element selectors to highlight when the overlay is shown The tooltip won’t be fixed to these elements, but they will be highlighted just like the attachTo element.
 - `advanceOn`: An action on the page which should advance shepherd to the next step. It should be an object with a string `selector` and an `event` name.
   For example: `{selector: '.some-element', event: 'click'}`. It doesn't have to be an event inside the tour, it can be any event fired on any element on the page.
   You can also always manually advance the Tour by calling `myTour.next()`.
