@@ -12,16 +12,16 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.31.1",
-    "astro": "^5.16.6",
+    "astro": "^5.17.1",
     "shepherd.js": "workspace:*",
     "starlight-typedoc": "^0.18.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@flydotio/dockerfile": "^0.7.4",
-    "sharp": "^0.34.3",
-    "typedoc": "^0.26.7",
+    "@astrojs/check": "^0.9.6",
+    "@flydotio/dockerfile": "^0.7.10",
+    "sharp": "^0.34.5",
+    "typedoc": "^0.26.11",
     "typedoc-plugin-markdown": "4.2.9",
-    "typescript": "^5.7.3"
+    "typescript": "^5.9.3"
   }
 }
