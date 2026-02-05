@@ -305,6 +305,7 @@ export interface StepOptionsWhen {
 export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
+  _originalTabIndexes: Map<Element, string>;
   classPrefix?: string;
   declare cleanup: Function | null;
   el?: HTMLElement | null;
@@ -330,6 +331,13 @@ export class Step extends Evented {
      * @private
      */
     this._resolvedAttachTo = null;
+
+    /**
+     * Map to store original tabIndex values of elements that are modified during the tour.
+     * @type {Map<Element, string | null>}
+     * @private
+     */
+    this._originalTabIndexes = new Map();
 
     autoBind(this);
 
@@ -369,6 +377,7 @@ export class Step extends Evented {
     }
 
     this._updateStepTargetOnHide();
+    this._originalTabIndexes.clear();
 
     this.trigger('destroy');
   }
@@ -478,6 +487,37 @@ export class Step extends Evented {
    */
   getTarget() {
     return this.target;
+  }
+
+  /**
+   * Stores the original tabIndex value of an element before modifying it.
+   * Only stores the value if the element has a tabindex attribute.
+   * @param {Element} element The element whose tabIndex will be stored
+   * @private
+   */
+  _storeOriginalTabIndex(element: Element): void {
+    const originalValue = element.getAttribute('tabindex');
+    if (originalValue !== null) {
+      this._originalTabIndexes.set(element, originalValue);
+    }
+  }
+
+  /**
+   * Restores the original tabIndex values for all elements that were modified during the tour.
+   * If an element is in the map, restores its original value.
+   * If an element is not in the map, removes the tabindex attribute (it didn't have one originally).
+   * Note: Does not clear the map to allow for multiple show/hide cycles.
+   * @private
+   */
+  _restoreOriginalTabIndexes(): void {
+    const target = this.target;
+    if (target) {
+      if (this._originalTabIndexes.has(target)) {
+        target.setAttribute('tabindex', this._originalTabIndexes.get(target)!);
+      } else {
+        target.removeAttribute('tabindex');
+      }
+    }
   }
 
   /**
@@ -722,5 +762,7 @@ export class Step extends Evented {
         `${this.classPrefix}shepherd-target`
       );
     });
+
+    this._restoreOriginalTabIndexes();
   }
 }

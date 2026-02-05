@@ -44,6 +44,7 @@
     const attachTo = step._getResolvedAttachToOptions();
     if (attachTo?.element) {
       attachToElement = attachTo.element;
+      step._storeOriginalTabIndex(attachToElement);
       attachToElement.tabIndex = 0;
       focusableAttachToElements = [
         attachToElement,

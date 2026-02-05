@@ -780,4 +780,141 @@ describe('Tour | Step', () => {
       });
     });
   });
+
+  describe('tabIndex preservation', () => {
+    let instance;
+    let testElement;
+
+    beforeEach(() => {
+      // Create a test element
+      testElement = document.createElement('div');
+      testElement.id = 'tabindex-test-element';
+      document.body.appendChild(testElement);
+
+      instance = new Shepherd.Tour({
+        steps: [
+          {
+            id: 'test-step',
+            text: 'Test step',
+            attachTo: { element: '#tabindex-test-element', on: 'top' }
+          }
+        ]
+      });
+    });
+
+    afterEach(() => {
+      instance.complete();
+      testElement?.remove();
+    });
+
+    it('stores and restores original tabIndex when element has no tabindex attribute', () => {
+      // Initially, the element should have no tabindex attribute
+      expect(testElement.hasAttribute('tabindex')).toBe(false);
+
+      // Start the tour
+      instance.start();
+
+      // During the tour, tabIndex should be set to 0
+      expect(testElement.tabIndex).toBe(0);
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Hide the step
+      instance.getCurrentStep().hide();
+
+      // After hiding, the tabindex attribute should be removed
+      expect(testElement.hasAttribute('tabindex')).toBe(false);
+    });
+
+    it('stores and restores original tabIndex when element has tabindex="-1"', () => {
+      // Set tabindex to -1 initially
+      testElement.setAttribute('tabindex', '-1');
+      expect(testElement.getAttribute('tabindex')).toBe('-1');
+
+      // Start the tour
+      instance.start();
+
+      // During the tour, tabIndex should be set to 0
+      expect(testElement.tabIndex).toBe(0);
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Hide the step
+      instance.getCurrentStep().hide();
+
+      // After hiding, tabIndex should be restored to -1
+      expect(testElement.getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('stores and restores original tabIndex when element has tabindex="5"', () => {
+      // Set tabindex to 5 initially
+      testElement.setAttribute('tabindex', '5');
+      expect(testElement.getAttribute('tabindex')).toBe('5');
+
+      // Start the tour
+      instance.start();
+
+      // During the tour, tabIndex should be set to 0
+      expect(testElement.tabIndex).toBe(0);
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Hide the step
+      instance.getCurrentStep().hide();
+
+      // After hiding, tabIndex should be restored to 5
+      expect(testElement.getAttribute('tabindex')).toBe('5');
+    });
+
+    it('restores tabIndex when step is destroyed', () => {
+      // Set tabindex to -1 initially
+      testElement.setAttribute('tabindex', '-1');
+
+      // Start the tour
+      instance.start();
+
+      // During the tour, tabIndex should be set to 0
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Destroy the step
+      instance.getCurrentStep().destroy();
+
+      // After destroying, tabIndex should be restored to -1
+      expect(testElement.getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('handles multiple show/hide cycles correctly', () => {
+      // Set tabindex to 2 initially
+      testElement.setAttribute('tabindex', '2');
+
+      // Start the tour (first show)
+      instance.start();
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Hide the step
+      instance.getCurrentStep().hide();
+      expect(testElement.getAttribute('tabindex')).toBe('2');
+
+      // Show again
+      instance.getCurrentStep().show();
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Hide again
+      instance.getCurrentStep().hide();
+      expect(testElement.getAttribute('tabindex')).toBe('2');
+    });
+
+    it('only stores the original value once, not intermediate values', () => {
+      // Set tabindex to 3 initially
+      testElement.setAttribute('tabindex', '3');
+
+      // Start the tour
+      instance.start();
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Manually change tabIndex (simulating some other code changing it)
+      testElement.setAttribute('tabindex', '7');
+
+      // Hide the step - should restore to original value (3), not intermediate (7)
+      instance.getCurrentStep().hide();
+      expect(testElement.getAttribute('tabindex')).toBe('3');
+    });
+  });
 });
