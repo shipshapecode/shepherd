@@ -45,7 +45,7 @@
     "release-plan": "^0.17.2",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
-    "svelte": "^5.46.4",
+    "svelte": "^5.49.1",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.28.2",
