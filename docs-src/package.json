@@ -20,7 +20,7 @@
     "@astrojs/check": "^0.9.6",
     "@flydotio/dockerfile": "^0.7.10",
     "sharp": "^0.34.5",
-    "typedoc": "^0.26.11",
+    "typedoc": "^0.28.16",
     "typedoc-plugin-markdown": "4.2.9",
     "typescript": "^5.9.3"
   }
