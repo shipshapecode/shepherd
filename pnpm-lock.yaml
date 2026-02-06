@@ -109,8 +109,8 @@ importers:
         specifier: ^9.0.2
         version: 9.0.2(astro@5.16.6(@types/node@25.1.0)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2))(encoding@0.1.13)(react@19.2.4)(rollup@4.57.1)(svelte@5.49.1)
       '@polar-sh/sdk':
-        specifier: ^0.20.2
-        version: 0.20.2(zod@3.25.76)
+        specifier: ^0.42.5
+        version: 0.42.5
       astro:
         specifier: ^5.16.6
         version: 5.16.6(@types/node@25.1.0)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -2097,10 +2097,8 @@ packages:
     resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
     engines: {node: '>=12'}
 
-  '@polar-sh/sdk@0.20.2':
-    resolution: {integrity: sha512-Rrqt2jyg1VhO9Gfy3WpLF9bST5yxXGnNJ1a/vHw/N4CXWZNbafKjKVGI2f7t1emCosvzkT2BpIBf+b19CpUTiw==}
-    peerDependencies:
-      zod: '>= 3'
+  '@polar-sh/sdk@0.42.5':
+    resolution: {integrity: sha512-GzC3/ElCtMO55+KeXwFTANlydZzw5qI3DU/F9vAFIsUKuegSmh+Xu03KCL+ct9/imJOvLUQucYhUSsNKqo2j2Q==}
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -8288,6 +8286,9 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -10830,10 +10831,10 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@polar-sh/sdk@0.20.2(zod@3.25.76)':
+  '@polar-sh/sdk@0.42.5':
     dependencies:
       standardwebhooks: 1.0.0
-      zod: 3.25.76
+      zod: 4.3.6
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -18023,5 +18024,7 @@ snapshots:
       zod: 3.25.76
 
   zod@3.25.76: {}
+
+  zod@4.3.6: {}
 
   zwitch@2.0.4: {}
