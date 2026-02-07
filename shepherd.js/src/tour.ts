@@ -9,8 +9,10 @@ import {
 } from './utils/type-check.ts';
 import { cleanupSteps } from './utils/cleanup.ts';
 import { normalizePrefix, uuid } from './utils/general.ts';
-import ShepherdModal from './components/shepherd-modal.svelte';
-import { createClassComponent } from 'svelte/legacy';
+import {
+  createShepherdModal,
+  type ShepherdModalAPI
+} from './components/shepherd-modal.ts';
 
 export interface EventOptions {
   previous?: Step | null;
@@ -110,8 +112,7 @@ export class Tour extends Evented {
   currentStep?: Step | null;
   focusedElBeforeOpen?: HTMLElement | null;
   id?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  modal?: any | null;
+  modal?: ShepherdModalAPI | null;
   options: TourOptions;
   steps: Array<Step>;
 
@@ -414,14 +415,8 @@ export class Tour extends Evented {
    * setupModal create the modal container and instance
    */
   setupModal() {
-    this.modal = createClassComponent({
-      component: ShepherdModal,
-      target: this.options.modalContainer || document.body,
-      props: {
-        // @ts-expect-error TODO: investigate where styles comes from
-        styles: this.styles
-      }
-    });
+    const container = this.options.modalContainer || document.body;
+    this.modal = createShepherdModal(container);
   }
 
   /**

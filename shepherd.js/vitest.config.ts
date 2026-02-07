@@ -1,18 +1,6 @@
 import { defineConfig } from 'vitest/config';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
-import preprocess from 'svelte-preprocess';
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      preprocess: preprocess({}),
-      compilerOptions: {
-        dev: false
-      },
-      hot: false,
-      emitCss: false
-    })
-  ],
   test: {
     globals: true,
     environment: 'happy-dom',
@@ -21,7 +9,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
       reportsDirectory: './test/coverage',
-      include: ['src/**/*.{ts,svelte}'],
+      include: ['src/**/*.ts'],
       exclude: [
         '**/*.spec.{js,ts}',
         '**/*.test.{js,ts}',
@@ -41,8 +29,5 @@ export default defineConfig({
   define: {
     'import.meta.vitest': undefined,
     'import.meta.env.SSR': false
-  },
-  optimizeDeps: {
-    include: ['svelte']
   }
 });
