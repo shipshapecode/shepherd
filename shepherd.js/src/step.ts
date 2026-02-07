@@ -19,10 +19,12 @@ import {
   destroyTooltip,
   mergeTooltipConfig
 } from './utils/floating-ui.ts';
-import ShepherdElement from './components/shepherd-element.svelte';
+import {
+  createShepherdElement,
+  type ShepherdElementResult
+} from './components/shepherd-element.ts';
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from '@floating-ui/dom';
-import { createClassComponent } from 'svelte/legacy';
 
 export type StepText =
   | string
@@ -311,6 +313,7 @@ export class Step extends Evented {
   el?: HTMLElement | null;
   declare id: string;
   declare options: StepOptions;
+  shepherdElementComponent?: ShepherdElementResult;
   target?: HTMLElement | null;
   tour: Tour;
 
@@ -370,6 +373,11 @@ export class Step extends Evented {
    */
   destroy() {
     destroyTooltip(this);
+
+    if (this.shepherdElementComponent) {
+      this.shepherdElementComponent.cleanup();
+      this.shepherdElementComponent = undefined;
+    }
 
     if (isHTMLElement(this.el)) {
       this.el.remove();
@@ -466,10 +474,12 @@ export class Step extends Evented {
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
-    // @ts-expect-error TODO: get types for Svelte components
     if (this.shepherdElementComponent) {
-      // @ts-expect-error TODO: get types for Svelte components
-      this.shepherdElementComponent.$set({ step: this });
+      // Recreate the element with updated options
+      if (this.el) {
+        this.destroy();
+        this._setupElements();
+      }
     }
   }
 
@@ -530,22 +540,17 @@ export class Step extends Evented {
     const descriptionId = `${this.id}-description`;
     const labelId = `${this.id}-label`;
 
-    // @ts-expect-error TODO: get types for Svelte components
-    this.shepherdElementComponent = createClassComponent({
-      component: ShepherdElement,
-      target: this.tour.options.stepsContainer || document.body,
-      props: {
-        classPrefix: this.classPrefix,
-        descriptionId,
-        labelId,
-        step: this,
-        // @ts-expect-error TODO: investigate where styles comes from
-        styles: this.styles
-      }
+    this.shepherdElementComponent = createShepherdElement({
+      classPrefix: this.classPrefix,
+      descriptionId,
+      labelId,
+      step: this
     });
 
-    // @ts-expect-error TODO: get types for Svelte components
-    return this.shepherdElementComponent.getElement();
+    const target = this.tour.options.stepsContainer || document.body;
+    target.append(this.shepherdElementComponent.element);
+
+    return this.shepherdElementComponent.element;
   }
 
   /**
@@ -682,8 +687,7 @@ export class Step extends Evented {
       this.el.hidden = false;
     }
 
-    // @ts-expect-error TODO: get types for Svelte components
-    const content = this.shepherdElementComponent.getElement();
+    const content = this.shepherdElementComponent!.element;
     const target = this.target || document.body;
     const extraHighlightElements = this._resolvedExtraHighlightElements;
 

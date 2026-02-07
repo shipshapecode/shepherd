@@ -34,9 +34,8 @@ export function setupTooltip(step: Step): ComputePositionConfig {
 
   if (shouldCenter) {
     target = document.body;
-    // @ts-expect-error TODO: fix this type error when we type Svelte
-    const content = step.shepherdElementComponent.getElement();
-    content.classList.add('shepherd-centered');
+    const content = step.shepherdElementComponent?.element;
+    content?.classList.add('shepherd-centered');
   }
 
   step.cleanup = autoUpdate(target, step.el as HTMLElement, () => {

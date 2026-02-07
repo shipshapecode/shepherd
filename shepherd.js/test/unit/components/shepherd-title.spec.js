@@ -1,16 +1,21 @@
-import { cleanup, render } from '@testing-library/svelte';
-import { beforeEach, describe, expect, it } from 'vitest';
-import ShepherdTitle from '../../../src/components/shepherd-title.svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { createShepherdTitle } from '../../../src/components/shepherd-title.ts';
 
 describe('components/ShepherdTitle', () => {
-  beforeEach(cleanup);
+  let container;
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    container.remove();
+  });
 
   it('adds plain title to the content', () => {
-    const { container } = render(ShepherdTitle, {
-      props: {
-        title: 'I am some test title.'
-      }
-    });
+    const el = createShepherdTitle('test-label', 'I am some test title.');
+    container.appendChild(el);
 
     expect(container.querySelector('.shepherd-title')).toHaveTextContent(
       'I am some test title.'
@@ -18,11 +23,8 @@ describe('components/ShepherdTitle', () => {
   });
 
   it('applies the title from a function', () => {
-    const { container } = render(ShepherdTitle, {
-      props: {
-        title: () => 'I am some test title.'
-      }
-    });
+    const el = createShepherdTitle('test-label', () => 'I am some test title.');
+    container.appendChild(el);
 
     expect(container.querySelector('.shepherd-title')).toHaveTextContent(
       'I am some test title.'

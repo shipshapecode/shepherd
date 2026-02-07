@@ -1,10 +1,8 @@
 import js from '@eslint/js';
-import svelte from 'eslint-plugin-svelte';
 import cypress from 'eslint-plugin-cypress/flat';
 import globals from 'globals';
 import ts from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import svelteParser from 'svelte-eslint-parser';
 
 export default [
   // Base config for all files
@@ -25,19 +23,6 @@ export default [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
       ]
-    }
-  },
-
-  // Svelte files
-  ...svelte.configs['flat/recommended'],
-  {
-    files: ['**/*.svelte'],
-    languageOptions: {
-      parser: svelteParser
-    },
-    rules: {
-      'svelte/no-at-html-tags': 'off',
-      'svelte/valid-compile': 'off'
     }
   },
 
@@ -115,7 +100,6 @@ export default [
       '.eslintrc.js',
       '.prettierrc.js',
       'rollup.config.mjs',
-      'svelte.config.js',
       'eslint.config.js',
       'test/unit/babel.config.cjs'
     ],
