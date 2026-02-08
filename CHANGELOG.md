@@ -1,5 +1,46 @@
 # Changelog
 
+## Release (2026-02-08)
+
+* react-shepherd 7.0.0 (major)
+* shepherd.js 15.0.0 (major)
+
+#### :boom: Breaking Change
+* `shepherd.js`
+  * [#3352](https://github.com/shipshapecode/shepherd/pull/3352) Remove svelte and use vanilla TS ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3342](https://github.com/shipshapecode/shepherd/pull/3342) Drop support for node 18, move tests ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`, `shepherd.js`
+  * [#3144](https://github.com/shipshapecode/shepherd/pull/3144) Update to Svelte 5 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :rocket: Enhancement
+* `react-shepherd`
+  * [#3339](https://github.com/shipshapecode/shepherd/pull/3339) Support React 18+ in peerDeps ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3351](https://github.com/shipshapecode/shepherd/pull/3351) Restore attachTo tabindex when tour is hidden ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :memo: Documentation
+* `react-shepherd`, `shepherd.js`
+  * [#3341](https://github.com/shipshapecode/shepherd/pull/3341) More license updates ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* Other
+  * [#3340](https://github.com/shipshapecode/shepherd/pull/3340) Update LICENSE.md ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `shepherd.js`
+  * [#3323](https://github.com/shipshapecode/shepherd/pull/3323) Redirect to root when starting demo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`
+  * [#3315](https://github.com/shipshapecode/shepherd/pull/3315) Update README example path ([@Poylar](https://github.com/Poylar))
+
+#### :house: Internal
+* Other
+  * [#3343](https://github.com/shipshapecode/shepherd/pull/3343) Update landing to tailwind 4 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`, `shepherd.js`
+  * [#3324](https://github.com/shipshapecode/shepherd/pull/3324) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3302](https://github.com/shipshapecode/shepherd/pull/3302) Remove scarf, bump vitest ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 2
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- [@Poylar](https://github.com/Poylar)
+
 ## Release (2025-07-23)
 
 * react-shepherd 6.1.9 (patch)
