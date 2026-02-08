@@ -2,7 +2,7 @@
   "name": "react-shepherd",
   "version": "6.1.9",
   "private": false,
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/shipshapecode/shepherd.git"
@@ -21,11 +21,12 @@
   "type": "module",
   "files": [
     "dist",
-    "src"
+    "src",
+    "LICENSE.md"
   ],
   "scripts": {
     "build": "vite build",
-    "prepack": "pnpm build",
+    "prepack": "cp ../../LICENSE.md ./LICENSE.md && pnpm build",
     "test:ci": "vitest --run",
     "test:dev": "vitest"
   },

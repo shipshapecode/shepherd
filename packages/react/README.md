@@ -63,14 +63,10 @@ The following configuration options for a tour can be set on the `useShepherd` h
 
 ## License
 
-The `react-shepherd` wrapper library is licensed under **MIT**.
-
-**However, `shepherd.js` (the underlying library) is licensed under AGPL-3.0** and requires a commercial license for commercial use.
-
-### Shepherd.js Licensing
+`react-shepherd` is licensed under **AGPL-3.0** (for open source and non-commercial use) with a **Commercial License** available for commercial use.
 
 - **Free** for open source and non-commercial projects under AGPL-3.0
 - **Commercial license required** for commercial products and revenue-generating companies
 
-📄 [Read Shepherd.js License Details](../../LICENSE.md)  
+📄 [Read License Details](../../LICENSE.md)  
 💳 [Purchase Commercial License](https://shepherdjs.dev/pricing)
