@@ -1,10 +1,11 @@
 # react
 
-[![NPM](https://img.shields.io/npm/v/@shepherdpro/react.svg)](https://www.npmjs.com/package/@shepherdpro/react)
+[![NPM](https://img.shields.io/npm/v/react-shepherd.svg)](https://www.npmjs.com/package/react-shepherd)
 
-This is a React wrapper for the [Shepherd](https://github.com/@shepherdpro/react) tour library.
-It's mainly a wrapper around the Shepherd library that exposes the tour object and methods to the context object
-that can be passed into props for dynamic interactivity.
+This is a React wrapper for the
+[Shepherd](https://github.com/shipshapecode/shepherd) tour library. It's mainly
+a wrapper around the Shepherd library that exposes the tour object and methods
+to the context object that can be passed into props for dynamic interactivity.
 
 ## Install
 
@@ -59,14 +60,19 @@ export default function App() {
 
 ## Configuration
 
-The following configuration options for a tour can be set on the `useShepherd` hook to control the way that Shepherd is used. This is simply a POJO passed to Shepherd to use the options noted in the Shepherd Tour [options](https://docs.shepherdjs.dev/api/tour/classes/tour/). 
+The following configuration options for a tour can be set on the `useShepherd`
+hook to control the way that Shepherd is used. This is simply a POJO passed to
+Shepherd to use the options noted in the Shepherd Tour
+[options](https://docs.shepherdjs.dev/api/tour/classes/tour/).
 
 ## License
 
-`react-shepherd` is licensed under **AGPL-3.0** (for open source and non-commercial use) with a **Commercial License** available for commercial use.
+`react-shepherd` is licensed under **AGPL-3.0** (for open source and
+non-commercial use) with a **Commercial License** available for commercial use.
 
 - **Free** for open source and non-commercial projects under AGPL-3.0
-- **Commercial license required** for commercial products and revenue-generating companies
+- **Commercial license required** for commercial products and revenue-generating
+  companies
 
 📄 [Read License Details](../../LICENSE.md)  
 💳 [Purchase Commercial License](https://shepherdjs.dev/pricing)

@@ -7,14 +7,14 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.tsx'),
-      name: 'ShepherdProReact',
+      name: 'ReactShepherd',
       fileName: 'index'
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
         globals: {
-          vue: 'React'
+          react: 'React'
         }
       }
     }
