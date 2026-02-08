@@ -372,6 +372,16 @@ export class Step extends Evented {
    * Triggers `destroy` event
    */
   destroy() {
+    this._teardownElements();
+    this.trigger('destroy');
+  }
+
+  /**
+   * Internal cleanup that tears down the tooltip, component, and DOM element
+   * without emitting the public "destroy" event.
+   * @private
+   */
+  _teardownElements() {
     destroyTooltip(this);
 
     if (this.shepherdElementComponent) {
@@ -386,8 +396,6 @@ export class Step extends Evented {
 
     this._updateStepTargetOnHide();
     this._originalTabIndexes.clear();
-
-    this.trigger('destroy');
   }
 
   /**
@@ -477,7 +485,7 @@ export class Step extends Evented {
     if (this.shepherdElementComponent) {
       // Recreate the element with updated options
       if (this.el) {
-        this.destroy();
+        this._teardownElements();
         this._setupElements();
       }
     }
