@@ -110,15 +110,21 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         const { y, height } = _getVisibleHeight(el, scrollParent);
         const { x, width, left } = el.getBoundingClientRect();
 
-        // Check if the element is contained by another element
+        // Check if the element is contained by another element.
+        // Use _getVisibleHeight for otherElement too so both sides
+        // compare scroll-clipped geometry on the y-axis.
         const isContained = elementsToHighlight.some((otherElement) => {
           if (otherElement === el) return false;
           const otherRect = otherElement.getBoundingClientRect();
+          const { y: otherY, height: otherHeight } = _getVisibleHeight(
+            otherElement,
+            scrollParent
+          );
           return (
             x >= otherRect.left &&
-            x + width <= otherRect.right &&
-            y >= otherRect.top &&
-            y + height <= otherRect.bottom
+            x + width <= otherRect.left + otherRect.width &&
+            y >= otherY &&
+            y + height <= otherY + otherHeight
           );
         });
 

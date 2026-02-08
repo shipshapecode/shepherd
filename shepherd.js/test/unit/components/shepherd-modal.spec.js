@@ -435,7 +435,16 @@ describe('components/ShepherdModal', () => {
 
       const sharedElement = {
         getBoundingClientRect() {
-          return { height: 100, x: 50, y: 50, width: 100, top: 50, bottom: 150, left: 50, right: 150 };
+          return {
+            height: 100,
+            x: 50,
+            y: 50,
+            width: 100,
+            top: 50,
+            bottom: 150,
+            left: 50,
+            right: 150
+          };
         }
       };
 
@@ -447,7 +456,16 @@ describe('components/ShepherdModal', () => {
         null,
         {
           getBoundingClientRect() {
-            return { height: 250, x: 20, y: 20, width: 500, top: 20, bottom: 270, left: 20, right: 520 };
+            return {
+              height: 250,
+              x: 20,
+              y: 20,
+              width: 500,
+              top: 20,
+              bottom: 270,
+              left: 20,
+              right: 520
+            };
           }
         },
         // Pass the same element twice — both duplicates are skipped
@@ -525,10 +543,14 @@ describe('components/ShepherdModal', () => {
   describe('destroy()', function () {
     it('removes the modal element from the DOM', () => {
       const modal = createShepherdModal(container);
-      expect(container.querySelector('.shepherd-modal-overlay-container')).toBeTruthy();
+      expect(
+        container.querySelector('.shepherd-modal-overlay-container')
+      ).toBeTruthy();
 
       modal.destroy();
-      expect(container.querySelector('.shepherd-modal-overlay-container')).toBeNull();
+      expect(
+        container.querySelector('.shepherd-modal-overlay-container')
+      ).toBeNull();
     });
   });
 
@@ -599,7 +621,10 @@ describe('components/ShepherdModal', () => {
       modal.setupForStep(step);
 
       // _addStepEventListeners was called, so window has a touchmove listener
-      const touchEvent = new Event('touchmove', { bubbles: true, cancelable: true });
+      const touchEvent = new Event('touchmove', {
+        bubbles: true,
+        cancelable: true
+      });
       const preventSpy = vi.spyOn(touchEvent, 'preventDefault');
       window.dispatchEvent(touchEvent);
       expect(preventSpy).toHaveBeenCalled();
@@ -615,7 +640,10 @@ describe('components/ShepherdModal', () => {
       const modal = createShepherdModal(container);
       const svgEl = modal.getElement();
 
-      const touchEvent = new Event('touchmove', { bubbles: true, cancelable: true });
+      const touchEvent = new Event('touchmove', {
+        bubbles: true,
+        cancelable: true
+      });
       const stopSpy = vi.spyOn(touchEvent, 'stopPropagation');
 
       svgEl.dispatchEvent(touchEvent);
@@ -636,7 +664,14 @@ describe('components/ShepherdModal', () => {
       // Simulate the element being inside an iframe by mocking ownerDocument.defaultView
       const fakeIframe = document.createElement('iframe');
       Object.defineProperty(fakeIframe, 'getBoundingClientRect', {
-        value: () => ({ top: 10, left: 20, width: 100, height: 100, x: 20, y: 10 })
+        value: () => ({
+          top: 10,
+          left: 20,
+          width: 100,
+          height: 100,
+          x: 20,
+          y: 10
+        })
       });
       Object.defineProperty(fakeIframe, 'scrollTop', { value: 5 });
       Object.defineProperty(fakeIframe, 'scrollLeft', { value: 3 });
