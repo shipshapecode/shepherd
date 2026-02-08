@@ -1,6 +1,7 @@
 import { h } from '../utils/dom.ts';
 import { isFunction } from '../utils/type-check.ts';
 import type { Step, StepOptionsButton } from '../step.ts';
+import './shepherd-button.css';
 
 function getConfigOption(option: unknown, step: Step): unknown {
   if (isFunction(option)) {

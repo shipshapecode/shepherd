@@ -1,6 +1,7 @@
 import { h } from '../utils/dom.ts';
 import { isHTMLElement, isFunction } from '../utils/type-check.ts';
 import type { Step } from '../step.ts';
+import './shepherd-text.css';
 
 export function createShepherdText(
   descriptionId: string,

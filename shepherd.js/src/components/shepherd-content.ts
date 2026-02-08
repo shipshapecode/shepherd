@@ -4,6 +4,7 @@ import { createShepherdHeader } from './shepherd-header.ts';
 import { createShepherdText } from './shepherd-text.ts';
 import { isUndefined } from '../utils/type-check.ts';
 import type { Step } from '../step.ts';
+import './shepherd-content.css';
 
 export function createShepherdContent(
   descriptionId: string,

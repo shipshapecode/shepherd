@@ -2,6 +2,7 @@ import { h } from '../utils/dom.ts';
 import { createShepherdContent } from './shepherd-content.ts';
 import { isUndefined, isString } from '../utils/type-check.ts';
 import type { Step } from '../step.ts';
+import './shepherd-element.css';
 
 const KEY_TAB = 9;
 const KEY_ESC = 27;

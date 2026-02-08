@@ -1,6 +1,7 @@
 import { svgEl } from '../utils/dom.ts';
 import { makeOverlayPath } from '../utils/overlay-path.ts';
 import type { Step } from '../step.ts';
+import './shepherd-modal.css';
 
 interface OpeningProperty {
   width: number;

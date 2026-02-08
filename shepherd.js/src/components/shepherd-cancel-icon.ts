@@ -1,5 +1,6 @@
 import { h } from '../utils/dom.ts';
 import type { Step, StepOptionsCancelIcon } from '../step.ts';
+import './shepherd-cancel-icon.css';
 
 export function createShepherdCancelIcon(
   cancelIcon: StepOptionsCancelIcon,
