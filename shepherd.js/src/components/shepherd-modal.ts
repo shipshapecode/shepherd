@@ -250,16 +250,20 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
     let targetWindow: Window | null = el.ownerDocument.defaultView;
 
-    while (targetWindow && targetWindow !== window.top) {
-      const targetIframe = targetWindow?.frameElement;
+    try {
+      while (targetWindow && targetWindow !== window.top) {
+        const targetIframe = targetWindow?.frameElement;
 
-      if (targetIframe) {
-        const rect = targetIframe.getBoundingClientRect();
-        offset.top += rect.top + targetIframe.scrollTop;
-        offset.left += rect.left + targetIframe.scrollLeft;
+        if (targetIframe) {
+          const rect = targetIframe.getBoundingClientRect();
+          offset.top += rect.top + targetIframe.scrollTop;
+          offset.left += rect.left + targetIframe.scrollLeft;
+        }
+
+        targetWindow = targetWindow.parent;
       }
-
-      targetWindow = targetWindow.parent;
+    } catch {
+      // Cross-origin iframe — stop traversal and use the offset accumulated so far.
     }
 
     return offset;
