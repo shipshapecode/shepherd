@@ -41,29 +41,31 @@ describe('component/ShepherdButton', () => {
 
       expect(button.disabled).toBeTruthy();
     });
+  });
 
-    it('label - string', () => {
+  describe('label', () => {
+    it('string', () => {
       const button = createShepherdButton({ label: 'Test' }, undefined);
       container.appendChild(button);
 
       expect(button).toHaveAttribute('aria-label', 'Test');
     });
 
-    it('label - number', () => {
+    it('number', () => {
       const button = createShepherdButton({ label: 5 }, undefined);
       container.appendChild(button);
 
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
-    it('label - function', () => {
+    it('function', () => {
       const button = createShepherdButton({ label: () => 'Test' }, undefined);
       container.appendChild(button);
 
       expect(button).toHaveAttribute('aria-label', 'Test');
     });
 
-    it('label - function re-creation uses updated value', () => {
+    it('function re-creation uses updated value', () => {
       let label = 'Test';
       const button = createShepherdButton({ label: () => label }, undefined);
       container.appendChild(button);
@@ -78,35 +80,37 @@ describe('component/ShepherdButton', () => {
       expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
     });
 
-    it('label - null', () => {
+    it('null', () => {
       const button = createShepherdButton({ label: null }, undefined);
       container.appendChild(button);
 
       expect(button).not.toHaveAttribute('aria-label');
     });
 
-    it('label - undefined', () => {
+    it('undefined', () => {
       const button = createShepherdButton({}, undefined);
       container.appendChild(button);
 
       expect(button).not.toHaveAttribute('aria-label');
     });
+  });
 
-    it('text - string', () => {
+  describe('text', () => {
+    it('string', () => {
       const button = createShepherdButton({ text: 'Test' }, undefined);
       container.appendChild(button);
 
       expect(button).toHaveTextContent('Test');
     });
 
-    it('text - function', () => {
+    it('function', () => {
       const button = createShepherdButton({ text: () => 'Test' }, undefined);
       container.appendChild(button);
 
       expect(button).toHaveTextContent('Test');
     });
 
-    it('text - function re-creation uses updated value', () => {
+    it('function re-creation uses updated value', () => {
       let text = 'Test';
       const button = createShepherdButton({ text: () => text }, undefined);
       container.appendChild(button);
