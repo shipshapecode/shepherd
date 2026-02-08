@@ -385,14 +385,8 @@ export class Tour extends Evented {
 
     if (event === 'cancel' || event === 'complete') {
       if (this.modal) {
-        const modalContainer = document.querySelector(
-          '.shepherd-modal-overlay-container'
-        );
-
-        if (modalContainer) {
-          modalContainer.remove();
-          this.modal = null;
-        }
+        this.modal.destroy();
+        this.modal = null;
       }
     }
 

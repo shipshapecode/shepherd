@@ -28,6 +28,7 @@ type ModalRadiusType =
 
 export interface ShepherdModalAPI {
   closeModalOpening: () => void;
+  destroy: () => void;
   hide: () => void;
   positionModal: (
     modalOverlayOpeningPadding?: number,
@@ -155,6 +156,12 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     }
   }
 
+  function destroy() {
+    _cleanupStepEventListeners();
+    element.removeEventListener('touchmove', _preventModalOverlayTouch);
+    element.remove();
+  }
+
   function getElement() {
     return element;
   }
@@ -241,12 +248,8 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
       if (targetIframe) {
         const rect = targetIframe.getBoundingClientRect();
-        offset.top +=
-          rect.top +
-          ((rect as unknown as Record<string, number>)['scrollTop'] ?? 0);
-        offset.left +=
-          rect.left +
-          ((rect as unknown as Record<string, number>)['scrollLeft'] ?? 0);
+        offset.top += rect.top + targetIframe.scrollTop;
+        offset.left += rect.left + targetIframe.scrollLeft;
       }
 
       targetWindow = targetWindow.parent;
@@ -278,6 +281,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
   return {
     closeModalOpening,
+    destroy,
     hide,
     positionModal,
     setupForStep,
