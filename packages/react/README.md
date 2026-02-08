@@ -1,4 +1,4 @@
-# react
+# react-shepherd
 
 [![NPM](https://img.shields.io/npm/v/react-shepherd.svg)](https://www.npmjs.com/package/react-shepherd)
 
