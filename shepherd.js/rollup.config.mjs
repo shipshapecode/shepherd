@@ -71,7 +71,7 @@ const sharedConfig = {
   input: 'src/shepherd.ts',
   // More aggressive tree shaking
   treeshake: {
-    moduleSideEffects: false,
+    moduleSideEffects: (id) => id.endsWith('.css'),
     propertyReadSideEffects: false,
     unknownGlobalSideEffects: false
   }
