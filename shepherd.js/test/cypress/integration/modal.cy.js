@@ -69,13 +69,13 @@ describe('Modal mode', () => {
       tour = setupTour(Shepherd, {}, null, { useModalOverlay: true });
     });
 
-    it('removes shepherd-modal-is-visible class from the overlay', async () => {
+    it('removes shepherd-modal-is-visible class from the overlay', () => {
       tour.start();
-      await cy
-        .get('.shepherd-modal-overlay-container')
-        .should('have.class', 'shepherd-modal-is-visible');
-
-      tour.hide();
+      cy.get('.shepherd-modal-overlay-container')
+        .should('have.class', 'shepherd-modal-is-visible')
+        .then(() => {
+          tour.hide();
+        });
       cy.get('.shepherd-modal-overlay-container').should(
         'not.have.class',
         'shepherd-modal-is-visible'
