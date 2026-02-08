@@ -1,9 +1,17 @@
-import { cleanup, render } from '@testing-library/svelte';
-import { beforeEach, describe, expect, it } from 'vitest';
-import ShepherdContent from '../../../src/components/shepherd-content.svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { createShepherdContent } from '../../../src/components/shepherd-content.ts';
 
 describe('components/ShepherdContent', () => {
-  beforeEach(cleanup);
+  let container;
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    container.remove();
+  });
 
   describe('header', () => {
     it('is rendered when title is present and cancelIcon is enabled', () => {
@@ -16,7 +24,8 @@ describe('components/ShepherdContent', () => {
         }
       };
 
-      const { container } = render(ShepherdContent, { props: { step } });
+      const el = createShepherdContent('test-desc', 'test-label', step);
+      container.appendChild(el);
 
       expect(
         container.querySelector('.shepherd-content .shepherd-header')
@@ -30,7 +39,8 @@ describe('components/ShepherdContent', () => {
         }
       };
 
-      const { container } = render(ShepherdContent, { props: { step } });
+      const el = createShepherdContent('test-desc', 'test-label', step);
+      container.appendChild(el);
 
       expect(
         container.querySelector('.shepherd-content .shepherd-header')
@@ -46,7 +56,8 @@ describe('components/ShepherdContent', () => {
         }
       };
 
-      const { container } = render(ShepherdContent, { props: { step } });
+      const el = createShepherdContent('test-desc', 'test-label', step);
+      container.appendChild(el);
 
       expect(
         container.querySelector('.shepherd-content .shepherd-header')
@@ -60,7 +71,8 @@ describe('components/ShepherdContent', () => {
         }
       };
 
-      const { container } = render(ShepherdContent, { props: { step } });
+      const el = createShepherdContent('test-desc', 'test-label', step);
+      container.appendChild(el);
 
       expect(
         container.querySelector('.shepherd-header')

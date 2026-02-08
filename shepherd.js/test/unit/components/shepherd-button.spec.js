@@ -1,196 +1,127 @@
-import { cleanup, render } from '@testing-library/svelte';
-import { tick } from 'svelte';
-import { beforeEach, describe, expect, it } from 'vitest';
-import ShepherdButton from '../../../src/components/shepherd-button.svelte';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { createShepherdButton } from '../../../src/components/shepherd-button.ts';
 
 describe('component/ShepherdButton', () => {
-  beforeEach(cleanup);
+  let container;
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    container.remove();
+  });
 
   describe('disabled', () => {
     it('should be enabled by default', () => {
-      const config = {};
+      const button = createShepherdButton({}, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeFalsy();
     });
 
     it('is enabled when false', () => {
-      const config = {
-        disabled: false
-      };
+      const button = createShepherdButton({ disabled: false }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeFalsy();
     });
 
     it('can be disabled with boolean', () => {
-      const config = {
-        disabled: true
-      };
+      const button = createShepherdButton({ disabled: true }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeTruthy();
     });
 
     it('can be disabled with function', () => {
-      const config = {
-        disabled: () => true
-      };
+      const button = createShepherdButton({ disabled: () => true }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button.disabled).toBeTruthy();
     });
+  });
 
-    it('label - string', () => {
-      const config = {
-        label: 'Test'
-      };
+  describe('label', () => {
+    it('string', () => {
+      const button = createShepherdButton({ label: 'Test' }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', 'Test');
     });
 
-    it('label - number', () => {
-      const config = {
-        label: 5
-      };
+    it('number', () => {
+      const button = createShepherdButton({ label: 5 }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button).toHaveAttribute('aria-label', '5');
     });
 
-    it('label - funtion', async () => {
+    it('function', () => {
+      const button = createShepherdButton({ label: () => 'Test' }, undefined);
+      container.appendChild(button);
+
+      expect(button).toHaveAttribute('aria-label', 'Test');
+    });
+
+    it('function re-creation uses updated value', () => {
       let label = 'Test';
-      const labelFunction = () => label;
-      const config = {
-        label: labelFunction
-      };
-
-      const { container, rerender } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
+      const button = createShepherdButton({ label: () => label }, undefined);
+      container.appendChild(button);
       expect(button).toHaveAttribute('aria-label', 'Test');
 
       label = 'Test 2';
-
-      rerender({
-        config: { label: () => label }
-      });
-
-      await tick();
-
-      const buttonUpdated = container.querySelector('.shepherd-button');
+      const buttonUpdated = createShepherdButton(
+        { label: () => label },
+        undefined
+      );
+      container.appendChild(buttonUpdated);
       expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
     });
 
-    it('label - null', () => {
-      const config = {
-        label: null
-      };
+    it('null', () => {
+      const button = createShepherdButton({ label: null }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
     });
 
-    it('label - undefined', () => {
-      const config = {};
+    it('undefined', () => {
+      const button = createShepherdButton({}, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button).not.toHaveAttribute('aria-label');
     });
+  });
 
-    it('text - string', () => {
-      const config = {
-        text: 'Test'
-      };
+  describe('text', () => {
+    it('string', () => {
+      const button = createShepherdButton({ text: 'Test' }, undefined);
+      container.appendChild(button);
 
-      const { container } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
       expect(button).toHaveTextContent('Test');
     });
 
-    it('text - function', async () => {
+    it('function', () => {
+      const button = createShepherdButton({ text: () => 'Test' }, undefined);
+      container.appendChild(button);
+
+      expect(button).toHaveTextContent('Test');
+    });
+
+    it('function re-creation uses updated value', () => {
       let text = 'Test';
-      const textFunction = () => text;
-      const config = {
-        text: textFunction
-      };
-
-      const { container, rerender } = render(ShepherdButton, {
-        props: {
-          config
-        }
-      });
-
-      const button = container.querySelector('.shepherd-button');
+      const button = createShepherdButton({ text: () => text }, undefined);
+      container.appendChild(button);
       expect(button).toHaveTextContent('Test');
 
       text = 'Test 2';
-
-      rerender({
-        config: { text: () => text }
-      });
-
-      await tick();
-
-      const buttonUpdated = container.querySelector('.shepherd-button');
+      const buttonUpdated = createShepherdButton(
+        { text: () => text },
+        undefined
+      );
+      container.appendChild(buttonUpdated);
       expect(buttonUpdated).toHaveTextContent('Test 2');
     });
   });

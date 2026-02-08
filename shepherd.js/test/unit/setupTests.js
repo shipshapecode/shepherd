@@ -4,19 +4,6 @@ import { expect } from 'vitest';
 
 expect.extend(matchers);
 
-// Configure Svelte to force client-side rendering
-vi.doMock('svelte', async () => {
-  const svelteModule = await vi.importActual('svelte');
-  return {
-    ...svelteModule,
-    mount:
-      svelteModule.mount ||
-      function (component, options) {
-        return svelteModule.createRoot(component, options);
-      }
-  };
-});
-
 // Set browser environment
 Object.defineProperty(globalThis, 'IS_BROWSER', {
   value: true,

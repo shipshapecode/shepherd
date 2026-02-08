@@ -10,10 +10,7 @@ import license from 'rollup-plugin-license';
 import postcss from 'rollup-plugin-postcss';
 import replace from '@rollup/plugin-replace';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import { sveltePreprocess } from 'svelte-preprocess';
-import svelte from 'rollup-plugin-svelte';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { emitDts } from 'svelte2tsx';
 import terser from '@rollup/plugin-terser';
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -23,18 +20,9 @@ const isDev = process.env.DEVELOPMENT;
 const env = isDev ? 'development' : 'production';
 
 const plugins = [
-  svelte({
-    preprocess: sveltePreprocess({
-      globalStyle: true,
-      typescript: true
-    }),
-    emitCss: true
-  }),
   nodeResolve({
     browser: true,
-    exportConditions: ['svelte'],
-    extensions: ['.js', '.json', '.mjs', '.svelte', '.ts'],
-    modulesOnly: true,
+    extensions: ['.js', '.json', '.mjs', '.ts'],
     preferBuiltins: false
   }),
   replace({
@@ -42,7 +30,10 @@ const plugins = [
     preventAssignment: true
   }),
   babel({
-    extensions: ['.cjs', '.js', '.ts', '.mjs', '.html', '.svelte']
+    extensions: ['.cjs', '.js', '.ts', '.mjs'],
+    babelHelpers: 'bundled',
+    presets: ['@babel/preset-typescript'],
+    exclude: 'node_modules/**'
   }),
   postcss({
     plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
@@ -76,48 +67,30 @@ if (process.env.DEVELOPMENT) {
   );
 }
 
-export default [
-  {
-    input: 'src/shepherd.ts',
+const sharedConfig = {
+  input: 'src/shepherd.ts',
+  // More aggressive tree shaking
+  treeshake: {
+    moduleSideEffects: (id) => id.endsWith('.css'),
+    propertyReadSideEffects: false,
+    unknownGlobalSideEffects: false
+  }
+};
 
+export default [
+  // ESM build
+  {
+    ...sharedConfig,
     output: {
       dir: 'tmp/js',
       entryFileNames: '[name].mjs',
       format: 'es',
       sourcemap: true
     },
-    // More aggressive tree shaking
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      unknownGlobalSideEffects: false
-    },
     plugins: [
-      {
-        name: 'Build Declarations',
-        buildStart: async () => {
-          console.log('Generating Svelte declarations for ESM');
-
-          await emitDts({
-            svelteShimsPath: import.meta.resolve(
-              'svelte2tsx/svelte-shims-v4.d.ts'
-            ),
-            declarationDir: 'tmp/js'
-          });
-
-          console.log('Rename .svelte.d.ts to .d.svelte.ts');
-
-          await execaCommand(
-            `renamer --find .svelte.d.ts --replace .d.svelte.ts tmp/js/**`,
-            {
-              stdio: 'inherit'
-            }
-          );
-        }
-      },
       ...plugins,
       {
-        name: 'After build tweaks',
+        name: 'After ESM build tweaks',
         closeBundle: async () => {
           console.log('Copying CSS to the root');
 
@@ -136,6 +109,15 @@ export default [
             }
           );
 
+          console.log('Generating TypeScript declarations');
+
+          await execaCommand(
+            `npx tsc --declaration --emitDeclarationOnly --declarationDir tmp/js --skipLibCheck`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
           console.log('Rollup TS declarations to one file');
 
           await execaCommand(
@@ -145,7 +127,7 @@ export default [
             }
           );
 
-          console.log('Move shepherd.js from tmp to dist');
+          console.log('Move shepherd.mjs from tmp to dist');
 
           await execaCommand(
             `mv ./tmp/js/shepherd.mjs ./tmp/js/shepherd.mjs.map ./dist/js/`,
@@ -163,6 +145,46 @@ export default [
           await execaCommand(`cp ../LICENSE.md ./LICENSE.md`, {
             stdio: 'inherit'
           });
+        }
+      }
+    ]
+  },
+  // CJS build
+  {
+    ...sharedConfig,
+    output: {
+      dir: 'tmp/cjs',
+      entryFileNames: '[name].cjs',
+      format: 'cjs',
+      sourcemap: true,
+      exports: 'named'
+    },
+    plugins: [
+      ...plugins,
+      {
+        name: 'After CJS build tweaks',
+        closeBundle: async () => {
+          await execaCommand(`mkdir -p ./dist/cjs`, {
+            stdio: 'inherit'
+          });
+
+          console.log('Move shepherd.cjs from tmp to dist');
+
+          await execaCommand(
+            `mv ./tmp/cjs/shepherd.cjs ./tmp/cjs/shepherd.cjs.map ./dist/cjs/`,
+            {
+              stdio: 'inherit'
+            }
+          );
+
+          console.log('Copy CJS declarations');
+
+          await execaCommand(
+            `cp ./dist/js/shepherd.d.mts ./dist/cjs/shepherd.d.cts`,
+            {
+              stdio: 'inherit'
+            }
+          );
         }
       }
     ]
