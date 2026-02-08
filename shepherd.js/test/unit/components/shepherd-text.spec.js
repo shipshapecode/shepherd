@@ -57,4 +57,22 @@ describe('components/ShepherdText', () => {
       'I am some test text.'
     );
   });
+
+  it('appends an HTMLElement when text is a DOM node', () => {
+    const paragraph = document.createElement('p');
+    paragraph.textContent = 'I am a DOM node.';
+
+    const step = {
+      options: {
+        text: paragraph
+      }
+    };
+
+    const el = createShepherdText('test-desc', step);
+    container.appendChild(el);
+
+    const textEl = container.querySelector('.shepherd-text');
+    expect(textEl.contains(paragraph)).toBe(true);
+    expect(textEl).toHaveTextContent('I am a DOM node.');
+  });
 });

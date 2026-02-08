@@ -1,5 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createShepherdModal } from '../../../src/components/shepherd-modal.ts';
+import { Step } from '../../../src/step';
+import { Tour } from '../../../src/tour';
 
 describe('components/ShepherdModal', () => {
   let container;
@@ -427,16 +429,77 @@ describe('components/ShepherdModal', () => {
         'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0ZM50,50a0,0,0,0,0-0,0V150a0,0,0,0,0,0,0H150a0,0,0,0,0,0-0V50a0,0,0,0,0-0-0ZM200,200a0,0,0,0,0-0,0V250a0,0,0,0,0,0,0H250a0,0,0,0,0,0-0V200a0,0,0,0,0-0-0Z'
       );
     });
+
+    it('skips duplicate elements in extraHighlights', () => {
+      const modal = createShepherdModal(container);
+
+      const sharedElement = {
+        getBoundingClientRect() {
+          return { height: 100, x: 50, y: 50, width: 100, top: 50, bottom: 150, left: 50, right: 150 };
+        }
+      };
+
+      modal.positionModal(
+        0,
+        0,
+        0,
+        0,
+        null,
+        {
+          getBoundingClientRect() {
+            return { height: 250, x: 20, y: 20, width: 500, top: 20, bottom: 270, left: 20, right: 520 };
+          }
+        },
+        // Pass the same element twice — both duplicates are skipped
+        [sharedElement, sharedElement]
+      );
+
+      const modalPath = modal.getElement().querySelector('path');
+      const d = modalPath.getAttribute('d');
+      // Duplicate elements are both skipped, only the main target cutout remains
+      // Outer path close + target cutout close = 2 Z's
+      const cutouts = d.split('Z').length - 1;
+      expect(cutouts).toBe(2);
+    });
   });
 
   describe('setupForStep()', function () {
-    it.skip('useModalOverlay: false, hides modal', () => {
-      // Skipped: spying on hide/show of the returned API object
-      // doesn't work cleanly since setupForStep calls them internally.
+    it('useModalOverlay: false hides the modal', () => {
+      const modal = createShepherdModal(container);
+      modal.show();
+      expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
+
+      const tour = new Tour({ useModalOverlay: false });
+      const step = new Step(tour, {});
+
+      modal.setupForStep(step);
+      expect(modal.getElement()).not.toHaveClass('shepherd-modal-is-visible');
     });
 
-    it.skip('useModalOverlay: true, shows modal', () => {
-      // Skipped: same reason as above.
+    it('useModalOverlay: true shows the modal and calls _styleForStep', () => {
+      const modal = createShepherdModal(container);
+      const rafSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation(() => 1);
+
+      const targetEl = document.createElement('div');
+      container.appendChild(targetEl);
+
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, {
+        attachTo: { element: targetEl, on: 'bottom' }
+      });
+      // Resolve attachTo so step.target is set
+      step._resolveAttachToOptions();
+      step.target = targetEl;
+
+      modal.setupForStep(step);
+
+      expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
+      // _styleForStep calls rafLoop which calls requestAnimationFrame
+      expect(rafSpy).toHaveBeenCalled();
+
+      rafSpy.mockRestore();
     });
   });
 
@@ -456,6 +519,170 @@ describe('components/ShepherdModal', () => {
       modal.hide();
 
       expect(modal.getElement()).not.toHaveClass('shepherd-modal-is-visible');
+    });
+  });
+
+  describe('destroy()', function () {
+    it('removes the modal element from the DOM', () => {
+      const modal = createShepherdModal(container);
+      expect(container.querySelector('.shepherd-modal-overlay-container')).toBeTruthy();
+
+      modal.destroy();
+      expect(container.querySelector('.shepherd-modal-overlay-container')).toBeNull();
+    });
+  });
+
+  describe('_getScrollParent (via setupForStep)', function () {
+    it('recurses to find a scrollable parent element', () => {
+      const modal = createShepherdModal(container);
+      const rafSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation(() => 1);
+
+      // Create a scrollable parent
+      const scrollParent = document.createElement('div');
+      Object.defineProperty(scrollParent, 'scrollHeight', { value: 500 });
+      Object.defineProperty(scrollParent, 'clientHeight', { value: 200 });
+
+      container.appendChild(scrollParent);
+
+      const targetEl = document.createElement('div');
+      scrollParent.appendChild(targetEl);
+
+      // Mock getComputedStyle so the target has 'visible' overflow (not scrollable)
+      // and the scroll parent has 'auto' overflow (scrollable), forcing recursion
+      const origGetComputedStyle = window.getComputedStyle;
+      vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+        if (el === targetEl) {
+          return { overflowY: 'visible' };
+        }
+        if (el === scrollParent) {
+          return { overflowY: 'auto' };
+        }
+        return origGetComputedStyle(el);
+      });
+
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, {
+        attachTo: { element: targetEl, on: 'bottom' }
+      });
+      step._resolveAttachToOptions();
+      step.target = targetEl;
+
+      // setupForStep triggers _styleForStep -> _getScrollParent
+      modal.setupForStep(step);
+
+      expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
+
+      rafSpy.mockRestore();
+      vi.mocked(window.getComputedStyle).mockRestore();
+    });
+  });
+
+  describe('_preventModalBodyTouch (via _addStepEventListeners)', function () {
+    it('prevents default on window touchmove after setupForStep', () => {
+      const modal = createShepherdModal(container);
+      const rafSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation(() => 1);
+
+      const targetEl = document.createElement('div');
+      container.appendChild(targetEl);
+
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, {
+        attachTo: { element: targetEl, on: 'bottom' }
+      });
+      step._resolveAttachToOptions();
+      step.target = targetEl;
+
+      modal.setupForStep(step);
+
+      // _addStepEventListeners was called, so window has a touchmove listener
+      const touchEvent = new Event('touchmove', { bubbles: true, cancelable: true });
+      const preventSpy = vi.spyOn(touchEvent, 'preventDefault');
+      window.dispatchEvent(touchEvent);
+      expect(preventSpy).toHaveBeenCalled();
+
+      // Clean up: hide triggers _cleanupStepEventListeners which removes the listener
+      modal.hide();
+      rafSpy.mockRestore();
+    });
+  });
+
+  describe('_preventModalOverlayTouch', function () {
+    it('stops propagation on touchmove events', () => {
+      const modal = createShepherdModal(container);
+      const svgEl = modal.getElement();
+
+      const touchEvent = new Event('touchmove', { bubbles: true, cancelable: true });
+      const stopSpy = vi.spyOn(touchEvent, 'stopPropagation');
+
+      svgEl.dispatchEvent(touchEvent);
+      expect(stopSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('_getIframeOffset (via setupForStep)', function () {
+    it('accumulates offset when element is inside an iframe', () => {
+      const modal = createShepherdModal(container);
+      const rafSpy = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation(() => 1);
+
+      const targetEl = document.createElement('div');
+      container.appendChild(targetEl);
+
+      // Simulate the element being inside an iframe by mocking ownerDocument.defaultView
+      const fakeIframe = document.createElement('iframe');
+      Object.defineProperty(fakeIframe, 'getBoundingClientRect', {
+        value: () => ({ top: 10, left: 20, width: 100, height: 100, x: 20, y: 10 })
+      });
+      Object.defineProperty(fakeIframe, 'scrollTop', { value: 5 });
+      Object.defineProperty(fakeIframe, 'scrollLeft', { value: 3 });
+
+      const fakeChildWindow = {
+        frameElement: fakeIframe,
+        parent: window
+      };
+
+      const origDescriptor = Object.getOwnPropertyDescriptor(
+        targetEl.ownerDocument,
+        'defaultView'
+      );
+      Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
+        value: fakeChildWindow,
+        configurable: true
+      });
+
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, {
+        attachTo: { element: targetEl, on: 'bottom' }
+      });
+      step._resolveAttachToOptions();
+      step.target = targetEl;
+
+      // This triggers _styleForStep -> _getIframeOffset, which should
+      // walk up through fakeChildWindow and accumulate the iframe offset
+      modal.setupForStep(step);
+
+      // Restore defaultView before any assertions (jsdom needs it for instanceof checks)
+      if (origDescriptor) {
+        Object.defineProperty(
+          targetEl.ownerDocument,
+          'defaultView',
+          origDescriptor
+        );
+      } else {
+        Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
+          value: window,
+          configurable: true
+        });
+      }
+
+      expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
+
+      rafSpy.mockRestore();
     });
   });
 });
