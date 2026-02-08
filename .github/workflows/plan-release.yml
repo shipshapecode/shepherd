@@ -35,7 +35,7 @@ jobs:
       contents: write
       issues: read
       pull-requests: write
-    if: needs.should-run-release-plan-prepare.outputs.should-prepare == 'true'    
+    if: needs.should-run-release-plan-prepare.outputs.should-prepare == 'true'
     steps:
       - uses: release-plan/actions/prepare@v1
         name: Run release-plan prepare
@@ -45,7 +45,7 @@ jobs:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
         id: explanation
 
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         name: Create Prepare Release PR
         with:
           commit-message: "Prepare Release ${{ steps.explanation.outputs.new-version}} using 'release-plan'"
