@@ -38,10 +38,7 @@ function applyAttrs(el: Element, attrs?: Attrs | null) {
     if (value === null || value === undefined || value === false) continue;
 
     if (key.startsWith('on') && typeof value === 'function') {
-      el.addEventListener(
-        key.slice(2).toLowerCase(),
-        value as EventListener
-      );
+      el.addEventListener(key.slice(2).toLowerCase(), value as EventListener);
     } else if (key === 'disabled' && value === true) {
       (el as HTMLButtonElement).disabled = true;
     } else {

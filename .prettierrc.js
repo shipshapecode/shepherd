@@ -5,7 +5,7 @@ module.exports = {
   proseWrap: 'always',
   trailingComma: 'none',
   singleQuote: true,
-  plugins: ['prettier-plugin-astro', 'prettier-plugin-svelte'],
+  plugins: ['prettier-plugin-astro'],
   overrides: [
     {
       files: '*.astro',

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createShepherdModal } from '../../../src/components/shepherd-modal.ts';
 
 describe('components/ShepherdModal', () => {
@@ -446,9 +446,7 @@ describe('components/ShepherdModal', () => {
 
       modal.show();
 
-      expect(modal.getElement()).toHaveClass(
-        'shepherd-modal-is-visible'
-      );
+      expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
     });
 
     it('hide removes classes', () => {
@@ -457,9 +455,7 @@ describe('components/ShepherdModal', () => {
 
       modal.hide();
 
-      expect(modal.getElement()).not.toHaveClass(
-        'shepherd-modal-is-visible'
-      );
+      expect(modal.getElement()).not.toHaveClass('shepherd-modal-is-visible');
     });
   });
 });

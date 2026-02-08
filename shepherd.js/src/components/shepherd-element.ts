@@ -69,9 +69,7 @@ export function createShepherdElement(
               (lastFocusableAttachToElement ??
                 lastFocusableDialogElement) as HTMLElement
             )?.focus();
-          } else if (
-            document.activeElement === firstFocusableAttachToElement
-          ) {
+          } else if (document.activeElement === firstFocusableAttachToElement) {
             e.preventDefault();
             (lastFocusableDialogElement as HTMLElement)?.focus();
           }
@@ -82,9 +80,7 @@ export function createShepherdElement(
               (firstFocusableAttachToElement ??
                 firstFocusableDialogElement) as HTMLElement
             )?.focus();
-          } else if (
-            document.activeElement === lastFocusableAttachToElement
-          ) {
+          } else if (document.activeElement === lastFocusableAttachToElement) {
             e.preventDefault();
             (firstFocusableDialogElement as HTMLElement)?.focus();
           }
@@ -118,9 +114,7 @@ export function createShepherdElement(
 
   // Build the dialog element
   const element = h('dialog', {
-    'aria-describedby': !isUndefined(step.options.text)
-      ? descriptionId
-      : null,
+    'aria-describedby': !isUndefined(step.options.text) ? descriptionId : null,
     'aria-labelledby': step.options.title ? labelId : null,
     class: [
       'shepherd-element',
@@ -141,7 +135,9 @@ export function createShepherdElement(
     step.options.attachTo.element &&
     step.options.attachTo.on
   ) {
-    element.append(h('div', { class: 'shepherd-arrow', 'data-popper-arrow': '' }));
+    element.append(
+      h('div', { class: 'shepherd-arrow', 'data-popper-arrow': '' })
+    );
   }
 
   // Add content
@@ -149,9 +145,7 @@ export function createShepherdElement(
 
   // Dynamic class management
   if (isString(step.options.classes)) {
-    const classes = step.options.classes
-      .split(' ')
-      .filter((c) => !!c.length);
+    const classes = step.options.classes.split(' ').filter((c) => !!c.length);
     if (classes.length) {
       element.classList.add(...classes);
     }

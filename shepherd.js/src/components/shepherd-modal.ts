@@ -44,7 +44,6 @@ export interface ShepherdModalAPI {
 }
 
 export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
-  let modalIsVisible = false;
   let rafId: number | undefined;
   let openingProperties: OpeningProperty[] = [
     { width: 0, height: 0, x: 0, y: 0, r: 0 }
@@ -75,13 +74,11 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   }
 
   function hide() {
-    modalIsVisible = false;
     element.classList.remove('shepherd-modal-is-visible');
     _cleanupStepEventListeners();
   }
 
   function show() {
-    modalIsVisible = true;
     element.classList.add('shepherd-modal-is-visible');
   }
 
@@ -95,10 +92,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     extraHighlights?: HTMLElement[]
   ) {
     if (targetElement) {
-      const elementsToHighlight = [
-        targetElement,
-        ...(extraHighlights || [])
-      ];
+      const elementsToHighlight = [targetElement, ...(extraHighlights || [])];
       const newOpenings: OpeningProperty[] = [];
 
       for (const el of elementsToHighlight) {
@@ -187,11 +181,9 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
       rafId = undefined;
     }
 
-    window.removeEventListener(
-      'touchmove',
-      _preventModalBodyTouch,
-      { passive: false } as EventListenerOptions
-    );
+    window.removeEventListener('touchmove', _preventModalBodyTouch, {
+      passive: false
+    } as EventListenerOptions);
   }
 
   function _styleForStep(step: Step) {
@@ -223,9 +215,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     _addStepEventListeners();
   }
 
-  function _getScrollParent(
-    el?: HTMLElement | null
-  ): HTMLElement | null {
+  function _getScrollParent(el?: HTMLElement | null): HTMLElement | null {
     if (!el) return null;
 
     const isHtmlElement = el instanceof HTMLElement;
@@ -252,9 +242,11 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
       if (targetIframe) {
         const rect = targetIframe.getBoundingClientRect();
         offset.top +=
-          rect.top + ((rect as unknown as Record<string, number>)['scrollTop'] ?? 0);
+          rect.top +
+          ((rect as unknown as Record<string, number>)['scrollTop'] ?? 0);
         offset.left +=
-          rect.left + ((rect as unknown as Record<string, number>)['scrollLeft'] ?? 0);
+          rect.left +
+          ((rect as unknown as Record<string, number>)['scrollLeft'] ?? 0);
       }
 
       targetWindow = targetWindow.parent;

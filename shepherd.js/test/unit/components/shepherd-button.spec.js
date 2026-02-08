@@ -70,7 +70,10 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveAttribute('aria-label', 'Test');
 
       label = 'Test 2';
-      const buttonUpdated = createShepherdButton({ label: () => label }, undefined);
+      const buttonUpdated = createShepherdButton(
+        { label: () => label },
+        undefined
+      );
       container.appendChild(buttonUpdated);
       expect(buttonUpdated).toHaveAttribute('aria-label', 'Test 2');
     });
@@ -110,7 +113,10 @@ describe('component/ShepherdButton', () => {
       expect(button).toHaveTextContent('Test');
 
       text = 'Test 2';
-      const buttonUpdated = createShepherdButton({ text: () => text }, undefined);
+      const buttonUpdated = createShepherdButton(
+        { text: () => text },
+        undefined
+      );
       container.appendChild(buttonUpdated);
       expect(buttonUpdated).toHaveTextContent('Test 2');
     });
