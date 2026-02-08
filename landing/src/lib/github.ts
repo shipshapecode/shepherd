@@ -6,7 +6,7 @@ const defaultStarCount = 11800;
 let starCount: number | undefined = undefined;
 
 export async function countStars(
-  repo = 'shepherd-pro/shepherd'
+  repo = 'shipshapecode/shepherd'
 ): Promise<number> {
   if (starCount) {
     return starCount;
@@ -26,7 +26,7 @@ export async function countStars(
 }
 
 export async function getFormattedStars(
-  repo = 'shepherd-pro/shepherd'
+  repo = 'shipshapecode/shepherd'
 ): Promise<string> {
   const stars = import.meta.env.DEV ? defaultStarCount : await countStars(repo);
 
