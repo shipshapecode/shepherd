@@ -339,8 +339,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 </html>
 
 <script>
-  import { navigate } from 'astro:transitions/client';
-
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('[data-pricing-id]');
 
@@ -406,14 +404,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           return;
         }
 
-        try {
-          // Redirect to the checkout API endpoint with the product ID
-          navigate(`/api/checkout?products=${productId}`);
-        } catch (error) {
-          console.error('An error occurred during checkout:', error);
-          btn.disabled = false;
-          btn.innerHTML = originalText || '';
-        }
+        // Use full-page navigation to follow server-side redirect to external Polar checkout
+        window.location.href = `/api/checkout?products=${productId}`;
       });
     });
   });
