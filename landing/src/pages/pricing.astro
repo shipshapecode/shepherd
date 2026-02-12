@@ -53,7 +53,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                   <button
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
                     aria-describedby="purchase business license"
-                    data-pricing-id="4d72f490-47e5-4b83-b6e7-5fde0d0ee009"
+                    data-pricing-id="5dea1175-6e19-4613-bf7a-a0ae4354ccf9"
                     type="button"
                   >
                     Purchase
@@ -140,7 +140,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
                   <button
                     class="button bg-white border-2 border-navy p-6 text-navy whitespace-nowrap w-full"
                     aria-describedby="purchase enterprise license"
-                    data-pricing-id="c27eb1ec-bc59-446e-8aab-6adf920f9962"
+                    data-pricing-id="713b19cd-7fbf-41fb-9bf7-b5c25c318406"
                     type="button"
                   >
                     Purchase
@@ -339,10 +339,42 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 </html>
 
 <script>
-  import { actions } from 'astro:actions';
-  import { navigate } from 'astro:transitions/client';
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('[data-pricing-id]');
+
+    // Store original button texts
+    const buttonStates = new Map();
+    buttons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        buttonStates.set(button, button.innerHTML);
+      }
+    });
+
+    // Reset button states when user navigates back
+    const resetButtons = () => {
+      buttons.forEach((button) => {
+        if (button instanceof HTMLButtonElement) {
+          const originalText = buttonStates.get(button);
+          if (originalText) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+          }
+        }
+      });
+    };
+
+    // Listen for page visibility changes (when user comes back from checkout)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        resetButtons();
+      }
+    });
+
+    // Also reset on page show event (handles browser back button)
+    window.addEventListener('pageshow', (event) => {
+      // Reset buttons if coming back via browser navigation
+      resetButtons();
+    });
 
     buttons.forEach((button) => {
       button.addEventListener('click', async (event) => {
@@ -350,7 +382,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
           return;
         }
         const btn = event.target;
-        const originalText = btn.innerHTML;
+        const originalText = buttonStates.get(btn);
         btn.disabled = true;
         btn.innerHTML = `
         <span class="inline-flex items-center">
@@ -363,31 +395,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         </span>
       `;
 
-        const productPriceId = event.target?.dataset.pricingId;
+        const productId = event.target?.dataset.pricingId;
 
-        if (!productPriceId) {
-          console.warn('No pricing ID found for this button');
+        if (!productId) {
+          console.warn('No product ID found for this button');
+          btn.disabled = false;
+          btn.innerHTML = originalText || '';
           return;
         }
 
-        try {
-          const { data, error } = await actions.checkout({
-            productPriceId
-          });
-
-          console.log('Checkout result:', data, error, productPriceId);
-
-          if (!error) {
-            navigate(data);
-          } else {
-            console.error('Checkout error:', error);
-          }
-        } catch (error) {
-          console.error('An error occurred during checkout:', error);
-        } finally {
-          btn.disabled = false;
-          btn.innerHTML = originalText;
-        }
+        // Use full-page navigation to follow server-side redirect to external Polar checkout
+        window.location.href = `/api/checkout?products=${productId}`;
       });
     });
   });
