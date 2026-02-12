@@ -344,13 +344,47 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
   document.addEventListener('astro:page-load', () => {
     const buttons = document.querySelectorAll('[data-pricing-id]');
 
+    // Store original button texts
+    const buttonStates = new Map();
+    buttons.forEach((button) => {
+      if (button instanceof HTMLButtonElement) {
+        buttonStates.set(button, button.innerHTML);
+      }
+    });
+
+    // Reset button states when user navigates back
+    const resetButtons = () => {
+      buttons.forEach((button) => {
+        if (button instanceof HTMLButtonElement) {
+          const originalText = buttonStates.get(button);
+          if (originalText) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+          }
+        }
+      });
+    };
+
+    // Listen for page visibility changes (when user comes back from checkout)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        resetButtons();
+      }
+    });
+
+    // Also reset on page show event (handles browser back button)
+    window.addEventListener('pageshow', (event) => {
+      // Reset buttons if coming back via browser navigation
+      resetButtons();
+    });
+
     buttons.forEach((button) => {
       button.addEventListener('click', async (event) => {
         if (!(event.target instanceof HTMLButtonElement)) {
           return;
         }
         const btn = event.target;
-        const originalText = btn.innerHTML;
+        const originalText = buttonStates.get(btn);
         btn.disabled = true;
         btn.innerHTML = `
         <span class="inline-flex items-center">
@@ -368,7 +402,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         if (!productId) {
           console.warn('No product ID found for this button');
           btn.disabled = false;
-          btn.innerHTML = originalText;
+          btn.innerHTML = originalText || '';
           return;
         }
 
@@ -378,7 +412,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
         } catch (error) {
           console.error('An error occurred during checkout:', error);
           btn.disabled = false;
-          btn.innerHTML = originalText;
+          btn.innerHTML = originalText || '';
         }
       });
     });
