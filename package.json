@@ -38,7 +38,7 @@
     "del": "^7.1.0",
     "eslint": "^9.39.2",
     "postcss": "^8.5.6",
-    "prettier": "3.3.3",
+    "prettier": "3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "release-plan": "^0.17.4",
     "replace": "^1.2.2",
