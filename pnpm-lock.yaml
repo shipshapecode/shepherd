@@ -99,9 +99,9 @@ importers:
       '@astrojs/vercel':
         specifier: ^9.0.2
         version: 9.0.2(astro@5.17.1(@types/node@25.2.3)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2))(encoding@0.1.13)(react@19.2.4)(rollup@4.57.1)(svelte@5.49.1)
-      '@polar-sh/sdk':
-        specifier: ^0.20.2
-        version: 0.20.2(zod@3.25.76)
+      '@polar-sh/astro':
+        specifier: ^0.7.3
+        version: 0.7.3(astro@5.17.1(@types/node@25.2.3)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2))
       astro:
         specifier: ^5.17.1
         version: 5.17.1(@types/node@25.2.3)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2)
@@ -2061,10 +2061,17 @@ packages:
     resolution: {integrity: sha512-c83qWb22rNRuB0UaVCI0uRPNRr8Z0FWnEIvT47jiHAmOIUHbBOg5XvV7pM5x+rKn9HRpjxquDbXYSXr3fAKFcw==}
     engines: {node: '>=12'}
 
-  '@polar-sh/sdk@0.20.2':
-    resolution: {integrity: sha512-Rrqt2jyg1VhO9Gfy3WpLF9bST5yxXGnNJ1a/vHw/N4CXWZNbafKjKVGI2f7t1emCosvzkT2BpIBf+b19CpUTiw==}
+  '@polar-sh/adapter-utils@0.4.3':
+    resolution: {integrity: sha512-9xjOyaAVWRFaFZKkSdZr8J6i5LToUoFKeoczXCEu6+uxAhKmkjA3Qlc8otI4be1DSouWgrYB/VUGHOW7dIgCuQ==}
+
+  '@polar-sh/astro@0.7.3':
+    resolution: {integrity: sha512-+lDsNSBCn9e4hbjqGtQV1VGIe4d5+/FpyTcvPBnHBfpjlwccZLwktAv8Ec6uZl4OsXBkYuXNta64j+gZOrloxg==}
+    engines: {node: '>=16'}
     peerDependencies:
-      zod: '>= 3'
+      astro: ^5.0.0
+
+  '@polar-sh/sdk@0.42.5':
+    resolution: {integrity: sha512-GzC3/ElCtMO55+KeXwFTANlydZzw5qI3DU/F9vAFIsUKuegSmh+Xu03KCL+ct9/imJOvLUQucYhUSsNKqo2j2Q==}
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -10380,7 +10387,17 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@polar-sh/sdk@0.20.2(zod@3.25.76)':
+  '@polar-sh/adapter-utils@0.4.3':
+    dependencies:
+      '@polar-sh/sdk': 0.42.5
+
+  '@polar-sh/astro@0.7.3(astro@5.17.1(@types/node@25.2.3)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2))':
+    dependencies:
+      '@polar-sh/adapter-utils': 0.4.3
+      '@polar-sh/sdk': 0.42.5
+      astro: 5.17.1(@types/node@25.2.3)(@vercel/functions@2.2.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(yaml@2.8.2)
+
+  '@polar-sh/sdk@0.42.5':
     dependencies:
       standardwebhooks: 1.0.0
       zod: 3.25.76
