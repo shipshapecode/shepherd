@@ -17,8 +17,8 @@ export const server = {
       let result;
 
       try {
-        result = await polar.checkouts.custom.create({
-          productPriceId,
+        result = await polar.checkouts.create({
+          products: [productPriceId],
           successUrl: 'https://docs.shepherdjs.dev'
         });
       } catch (error) {
