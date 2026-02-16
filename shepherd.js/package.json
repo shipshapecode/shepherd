@@ -91,7 +91,7 @@
     "eslint-plugin-cypress": "^5.2.1",
     "eslint-plugin-vitest": "^0.5.4",
     "execa": "^9.6.1",
-    "globals": "^17.2.0",
+    "globals": "^17.3.0",
     "happy-dom": "^20.6.1",
     "http-server": "^14.1.1",
     "lodash": "^4.17.23",
