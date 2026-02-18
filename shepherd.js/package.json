@@ -1,6 +1,6 @@
 {
   "name": "shepherd.js",
-  "version": "15.0.0",
+  "version": "15.1.0",
   "description": "Guide your users through a tour of your app.",
   "keywords": [
     "site tour",

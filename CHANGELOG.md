@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2026-02-18)
+
+* react-shepherd 7.0.1 (patch)
+* shepherd.js 15.1.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd.js`
+  * [#3362](https://github.com/shipshapecode/shepherd/pull/3362) Remove string continuations ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* [#3361](https://github.com/shipshapecode/shepherd/pull/3361) Switch to polar astro package ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2026-02-08)
 
 * react-shepherd 7.0.0 (major)

@@ -1,59 +1,31 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "major",
-      "oldVersion": "6.1.9",
-      "newVersion": "7.0.0",
+      "impact": "patch",
+      "oldVersion": "7.0.0",
+      "newVersion": "7.0.1",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
-        },
-        {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "major",
-      "oldVersion": "14.5.1",
-      "newVersion": "15.0.0",
+      "impact": "minor",
+      "oldVersion": "15.0.0",
+      "newVersion": "15.1.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "major",
-          "reason": "Appears in changelog section :boom: Breaking Change"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :memo: Documentation"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-02-08)\n\n* react-shepherd 7.0.0 (major)\n* shepherd.js 15.0.0 (major)\n\n#### :boom: Breaking Change\n* `shepherd.js`\n  * [#3352](https://github.com/shipshapecode/shepherd/pull/3352) Remove svelte and use vanilla TS ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3342](https://github.com/shipshapecode/shepherd/pull/3342) Drop support for node 18, move tests ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`, `shepherd.js`\n  * [#3144](https://github.com/shipshapecode/shepherd/pull/3144) Update to Svelte 5 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :rocket: Enhancement\n* `react-shepherd`\n  * [#3339](https://github.com/shipshapecode/shepherd/pull/3339) Support React 18+ in peerDeps ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3351](https://github.com/shipshapecode/shepherd/pull/3351) Restore attachTo tabindex when tour is hidden ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :memo: Documentation\n* `react-shepherd`, `shepherd.js`\n  * [#3341](https://github.com/shipshapecode/shepherd/pull/3341) More license updates ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* Other\n  * [#3340](https://github.com/shipshapecode/shepherd/pull/3340) Update LICENSE.md ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `shepherd.js`\n  * [#3323](https://github.com/shipshapecode/shepherd/pull/3323) Redirect to root when starting demo ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`\n  * [#3315](https://github.com/shipshapecode/shepherd/pull/3315) Update README example path ([@Poylar](https://github.com/Poylar))\n\n#### :house: Internal\n* Other\n  * [#3343](https://github.com/shipshapecode/shepherd/pull/3343) Update landing to tailwind 4 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`, `shepherd.js`\n  * [#3324](https://github.com/shipshapecode/shepherd/pull/3324) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3302](https://github.com/shipshapecode/shepherd/pull/3302) Remove scarf, bump vitest ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 2\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n- [@Poylar](https://github.com/Poylar)\n"
+  "description": "## Release (2026-02-18)\n\n* react-shepherd 7.0.1 (patch)\n* shepherd.js 15.1.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3362](https://github.com/shipshapecode/shepherd/pull/3362) Remove string continuations ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* [#3361](https://github.com/shipshapecode/shepherd/pull/3361) Switch to polar astro package ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
