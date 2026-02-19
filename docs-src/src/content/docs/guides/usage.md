@@ -258,8 +258,7 @@ function will be called in the `before-show` phase.
   footer below the main body text. Each button in the array is an object of the
   format:
   - `attrs`: Additional HTML attributes to apply to the button element. Useful
-    for adding data attributes for testing or analytics. See the
-    [Custom Attributes guide](/guides/custom-attributes) for more details.
+    for adding data attributes for testing or analytics.
   - `label`: The label to add for `aria-label`. It can also be a function that
     returns a string (useful with i18n solutions).
   - `disabled`: A boolean that controls the `disabled` attribute. It can also be
