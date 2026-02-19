@@ -2,8 +2,8 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "7.0.0",
-      "newVersion": "7.0.1",
+      "oldVersion": "7.0.1",
+      "newVersion": "7.0.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -15,8 +15,8 @@
     },
     "shepherd.js": {
       "impact": "minor",
-      "oldVersion": "15.0.0",
-      "newVersion": "15.1.0",
+      "oldVersion": "15.1.0",
+      "newVersion": "15.2.0",
       "tagName": "latest",
       "constraints": [
         {
@@ -27,5 +27,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-02-18)\n\n* react-shepherd 7.0.1 (patch)\n* shepherd.js 15.1.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3362](https://github.com/shipshapecode/shepherd/pull/3362) Remove string continuations ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* [#3361](https://github.com/shipshapecode/shepherd/pull/3361) Switch to polar astro package ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2026-02-19)\n\n* react-shepherd 7.0.2 (patch)\n* shepherd.js 15.2.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3370](https://github.com/shipshapecode/shepherd/pull/3370) Add support for HTML attributes on buttons and cancelIcon ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }

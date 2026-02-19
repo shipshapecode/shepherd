@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2026-02-19)
+
+* react-shepherd 7.0.2 (patch)
+* shepherd.js 15.2.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd.js`
+  * [#3370](https://github.com/shipshapecode/shepherd/pull/3370) Add support for HTML attributes on buttons and cancelIcon ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2026-02-18)
 
 * react-shepherd 7.0.1 (patch)
