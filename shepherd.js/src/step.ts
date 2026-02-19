@@ -261,6 +261,32 @@ export interface StepOptionsButton {
   action?: (this: Tour) => void;
 
   /**
+   * Additional HTML attributes to apply to the button element.
+   *
+   * This is useful for adding data attributes for testing or analytics,
+   * or other custom attributes that don't have dedicated properties.
+   *
+   * Note: These attributes are applied before Shepherd's core attributes,
+   * so they cannot override critical properties like `type`, `onclick`,
+   * `class`, `disabled`, `aria-label`, or `tabindex`. Use the dedicated
+   * properties (`classes`, `disabled`, `label`, `action`) to control those.
+   *
+   * @example
+   * ```js
+   * {
+   *   text: 'Next',
+   *   action: tour.next,
+   *   attrs: {
+   *     'data-test': 'next-button',
+   *     'data-analytics-id': 'tour-next',
+   *     'title': 'Proceed to the next step'
+   *   }
+   * }
+   * ```
+   */
+  attrs?: Record<string, string | number | boolean>;
+
+  /**
    * Extra classes to apply to the `<a>`
    */
   classes?: string;
@@ -292,7 +318,37 @@ export interface StepOptionsButtonEvent {
 }
 
 export interface StepOptionsCancelIcon {
+  /**
+   * Additional HTML attributes to apply to the cancel icon button element.
+   *
+   * This is useful for adding data attributes for testing or analytics,
+   * or other custom attributes that don't have dedicated properties.
+   *
+   * Note: These attributes are applied before Shepherd's core attributes,
+   * so they cannot override critical properties like `type`, `onclick`,
+   * `class`, or `aria-label`. Use the dedicated `label` property to
+   * control the aria-label.
+   *
+   * @example
+   * ```js
+   * cancelIcon: {
+   *   enabled: true,
+   *   label: 'Close Tour',
+   *   attrs: {
+   *     'data-test': 'close-tour-button',
+   *     'data-analytics-id': 'tour-close'
+   *   }
+   * }
+   * ```
+   */
+  attrs?: Record<string, string | number | boolean>;
+  /**
+   * Should a cancel "✕" be shown in the header of the step?
+   */
   enabled?: boolean;
+  /**
+   * The label to add for `aria-label`
+   */
   label?: string;
 }
 

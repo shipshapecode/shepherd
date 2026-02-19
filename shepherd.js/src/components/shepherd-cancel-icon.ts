@@ -14,6 +14,7 @@ export function createShepherdCancelIcon(
   const btn = h(
     'button',
     {
+      ...(cancelIcon.attrs || {}),
       'aria-label': cancelIcon.label ? cancelIcon.label : 'Close Tour',
       class: 'shepherd-cancel-icon',
       onclick: handleCancelClick,

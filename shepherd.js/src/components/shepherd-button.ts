@@ -22,6 +22,7 @@ export function createShepherdButton(
   const text = config.text ? getConfigOption(config.text, step) : null;
 
   const btn = h('button', {
+    ...(config.attrs || {}),
     'aria-label': label || null,
     class: `${config.classes || ''} shepherd-button ${
       config.secondary ? 'shepherd-button-secondary' : ''

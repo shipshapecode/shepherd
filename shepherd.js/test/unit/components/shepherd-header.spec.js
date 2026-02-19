@@ -84,4 +84,115 @@ describe('components/ShepherdHeader', () => {
     container.querySelector('.shepherd-cancel-icon').click();
     expect(stepCancelSpy).toHaveBeenCalled();
   });
+
+  describe('cancel icon attrs', () => {
+    it('applies custom attributes to cancel icon', () => {
+      const step = {
+        options: {
+          cancelIcon: {
+            enabled: true,
+            attrs: {
+              'data-test': 'close-tour',
+              'data-analytics': 'tour-cancel'
+            }
+          }
+        }
+      };
+
+      const el = createShepherdHeader('test-label', step);
+      container.appendChild(el);
+
+      const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+      expect(cancelIcon).toHaveAttribute('data-test', 'close-tour');
+      expect(cancelIcon).toHaveAttribute('data-analytics', 'tour-cancel');
+    });
+
+    it('cancel icon attrs work with custom label', () => {
+      const step = {
+        options: {
+          cancelIcon: {
+            enabled: true,
+            label: 'Custom Close',
+            attrs: {
+              'data-test': 'custom-close',
+              id: 'tour-close-btn'
+            }
+          }
+        }
+      };
+
+      const el = createShepherdHeader('test-label', step);
+      container.appendChild(el);
+
+      const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+      expect(cancelIcon).toHaveAttribute('aria-label', 'Custom Close');
+      expect(cancelIcon).toHaveAttribute('data-test', 'custom-close');
+      expect(cancelIcon).toHaveAttribute('id', 'tour-close-btn');
+    });
+
+    it('cancel icon does not override core attributes via attrs', () => {
+      const step = {
+        options: {
+          cancelIcon: {
+            enabled: true,
+            label: 'Close',
+            attrs: {
+              type: 'submit', // Should NOT override
+              class: 'wrong-class', // Should NOT override
+              'aria-label': 'Wrong Label', // Should NOT override
+              'data-test': 'close-btn' // SHOULD apply
+            }
+          }
+        }
+      };
+
+      const el = createShepherdHeader('test-label', step);
+      container.appendChild(el);
+
+      const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+      expect(cancelIcon).toHaveAttribute('type', 'button');
+      expect(cancelIcon).toHaveClass('shepherd-cancel-icon');
+      expect(cancelIcon).toHaveAttribute('aria-label', 'Close');
+      expect(cancelIcon).toHaveAttribute('data-test', 'close-btn');
+    });
+
+    it('cancel icon works with empty attrs', () => {
+      const step = {
+        options: {
+          cancelIcon: {
+            enabled: true,
+            attrs: {}
+          }
+        }
+      };
+
+      const el = createShepherdHeader('test-label', step);
+      container.appendChild(el);
+
+      const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+      expect(cancelIcon).toBeInTheDocument();
+      expect(cancelIcon).toHaveAttribute('type', 'button');
+    });
+
+    it('cancel icon handles numeric and boolean attrs values', () => {
+      const step = {
+        options: {
+          cancelIcon: {
+            enabled: true,
+            attrs: {
+              'data-count': 5,
+              'data-active': true
+            }
+          }
+        }
+      };
+
+      const el = createShepherdHeader('test-label', step);
+      container.appendChild(el);
+
+      const cancelIcon = container.querySelector('.shepherd-cancel-icon');
+      expect(cancelIcon).toHaveAttribute('data-count', '5');
+      expect(cancelIcon).toHaveAttribute('data-active', 'true');
+    });
+  });
 });
