@@ -240,6 +240,7 @@ function will be called in the `before-show` phase.
     element. This is useful for adding data attributes for testing or analytics.
     Note: These attributes cannot override critical properties like `type`,
     `onclick`, `class`, or `aria-label`.
+
   ```javascript
   cancelIcon: {
     enabled: true,
@@ -253,6 +254,7 @@ function will be called in the `before-show` phase.
 
   - `enabled` Should a cancel "✕" be shown in the header of the step?
   - `label` The label to add for `aria-label`
+
 - `classes`: A string of extra classes to add to the step's content element.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a
   footer below the main body text. Each button in the array is an object of the
