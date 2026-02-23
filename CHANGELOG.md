@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2026-02-23)
+
+* react-shepherd 7.0.3 (patch)
+* shepherd.js 15.2.1 (patch)
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3373](https://github.com/shipshapecode/shepherd/pull/3373) Use files to reduce what is published to npm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2026-02-19)
 
 * react-shepherd 7.0.2 (patch)

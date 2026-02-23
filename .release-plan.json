@@ -2,8 +2,8 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "7.0.1",
-      "newVersion": "7.0.2",
+      "oldVersion": "7.0.2",
+      "newVersion": "7.0.3",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,18 +14,18 @@
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "minor",
-      "oldVersion": "15.1.0",
-      "newVersion": "15.2.0",
+      "impact": "patch",
+      "oldVersion": "15.2.0",
+      "newVersion": "15.2.1",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-02-19)\n\n* react-shepherd 7.0.2 (patch)\n* shepherd.js 15.2.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3370](https://github.com/shipshapecode/shepherd/pull/3370) Add support for HTML attributes on buttons and cancelIcon ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2026-02-23)\n\n* react-shepherd 7.0.3 (patch)\n* shepherd.js 15.2.1 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3373](https://github.com/shipshapecode/shepherd/pull/3373) Use files to reduce what is published to npm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
