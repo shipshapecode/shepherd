@@ -18,6 +18,11 @@
     "Robbie Wagner <rwwagner90@gmail.com>",
     "Chuck Carpenter <chuck@shipshape.io>"
   ],
+  "files": [
+    "dist",
+    "LICENSE.md",
+    "README.md"
+  ],
   "main": "./dist/cjs/shepherd.cjs",
   "module": "./dist/js/shepherd.mjs",
   "exports": {

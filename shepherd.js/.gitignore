@@ -15,6 +15,10 @@
 /stats.html
 /yarn-error.log
 
+# Build artifacts and cache files
+.eslintcache
+errors.json
+
 # Auto-generated from root during build
 README.md
 LICENSE.md
