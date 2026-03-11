@@ -553,6 +553,44 @@ describe('Tour | Top-Level Class', function () {
         ).toBe('skipped-step');
       });
 
+      it('fires cancel when going back past first step with showOn returning false', function () {
+        let cancelFired = false;
+        const tourInstance = new Shepherd.Tour();
+
+        tourInstance.addStep({
+          id: 'first-hidden',
+          title: 'This step is always hidden',
+          showOn() {
+            return false;
+          }
+        });
+
+        tourInstance.addStep({
+          id: 'second',
+          title: 'Second step'
+        });
+
+        tourInstance.on('cancel', () => {
+          cancelFired = true;
+        });
+
+        tourInstance.start();
+        expect(
+          tourInstance.getCurrentStep().id,
+          'first hidden step is skipped on start'
+        ).toBe('second');
+
+        tourInstance.back();
+        expect(
+          cancelFired,
+          'cancel is fired when going back past all shown steps'
+        ).toBeTruthy();
+        expect(
+          Shepherd.activeTour,
+          'activeTour is null after cancel'
+        ).toBeNull();
+      });
+
       it("sets the instance on `Shepherd.activeTour` if it's not already set", function () {
         const setupFuncSpy = vi.spyOn(instance, '_setupActiveTour');
         Shepherd.activeTour = null;
