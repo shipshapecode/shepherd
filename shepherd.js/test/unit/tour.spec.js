@@ -585,7 +585,10 @@ describe('Tour | Top-Level Class', function () {
           cancelFired,
           'cancel is fired when going back past all shown steps'
         ).toBeTruthy();
-        expect(Shepherd.activeTour, 'activeTour is null after cancel').toBeNull();
+        expect(
+          Shepherd.activeTour,
+          'activeTour is null after cancel'
+        ).toBeNull();
       });
 
       it("sets the instance on `Shepherd.activeTour` if it's not already set", function () {
