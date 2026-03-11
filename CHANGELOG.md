@@ -1,5 +1,17 @@
 # Changelog
 
+## Release (2026-03-11)
+
+* react-shepherd 7.0.4 (patch)
+* shepherd.js 15.2.2 (patch)
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3376](https://github.com/shipshapecode/shepherd/pull/3376) Fix missing cancel event when navigating back past a hidden first step ([@Copilot](https://github.com/apps/copilot-swe-agent))
+
+#### Committers: 1
+- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))
+
 ## Release (2026-02-23)
 
 * react-shepherd 7.0.3 (patch)

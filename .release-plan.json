@@ -2,8 +2,8 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "7.0.2",
-      "newVersion": "7.0.3",
+      "oldVersion": "7.0.3",
+      "newVersion": "7.0.4",
       "tagName": "latest",
       "constraints": [
         {
@@ -15,8 +15,8 @@
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "15.2.0",
-      "newVersion": "15.2.1",
+      "oldVersion": "15.2.1",
+      "newVersion": "15.2.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -27,5 +27,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-02-23)\n\n* react-shepherd 7.0.3 (patch)\n* shepherd.js 15.2.1 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3373](https://github.com/shipshapecode/shepherd/pull/3373) Use files to reduce what is published to npm ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2026-03-11)\n\n* react-shepherd 7.0.4 (patch)\n* shepherd.js 15.2.2 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3376](https://github.com/shipshapecode/shepherd/pull/3376) Fix missing cancel event when navigating back past a hidden first step ([@Copilot](https://github.com/apps/copilot-swe-agent))\n\n#### Committers: 1\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n"
 }
