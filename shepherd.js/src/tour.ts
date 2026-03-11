@@ -414,18 +414,20 @@ export class Tour extends Evented {
   }
 
   /**
-   * Called when `showOn` evaluates to false, to skip the step or complete the tour if it's the last step
+   * Called when `showOn` evaluates to false, to skip the step or complete/cancel the tour if there are no more steps
    * @param {Step} step - The step to skip
    * @param {boolean} forward - True if we are going forward, false if backward
    * @private
    */
   _skipStep(step: Step, forward: boolean) {
     const index = this.steps.indexOf(step);
+    const nextIndex = forward ? index + 1 : index - 1;
 
-    if (index === this.steps.length - 1) {
+    if (nextIndex < 0) {
+      this.cancel();
+    } else if (nextIndex >= this.steps.length) {
       this.complete();
     } else {
-      const nextIndex = forward ? index + 1 : index - 1;
       this.show(nextIndex, forward);
     }
   }
