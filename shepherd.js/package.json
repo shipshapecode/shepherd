@@ -115,7 +115,7 @@
     "rollup-plugin-visualizer": "^5.14.0",
     "start-server-and-test": "^2.1.5",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^8.0.0",
     "vitest": "^4.0.18"
   },
   "packageManager": "pnpm@10.28.2",
