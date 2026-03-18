@@ -17,7 +17,7 @@
     "starlight-typedoc": "^0.21.5"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.6",
+    "@astrojs/check": "^0.9.8",
     "@flydotio/dockerfile": "^0.7.10",
     "sharp": "^0.34.5",
     "typedoc": "^0.28.17",
