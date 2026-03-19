@@ -84,7 +84,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@testing-library/jest-dom": "^6.9.1",
     "@vitest/coverage-v8": "^4.0.18",
-    "@vitest/expect": "^4.0.18",
+    "@vitest/expect": "^4.1.0",
     "autoprefixer": "^10.4.27",
     "chai": "^6.2.2",
     "cssnano": "^7.1.2",
