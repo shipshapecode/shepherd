@@ -81,7 +81,7 @@
     "@rollup/plugin-babel": "^7.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@vitest/coverage-v8": "^4.1.1",
     "@vitest/expect": "^4.1.0",
