@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/mdx": "^5.0.2",
     "@astrojs/vercel": "^9.0.4",
     "@polar-sh/astro": "^0.7.3",
     "astro": "^5.18.0",
