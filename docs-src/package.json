@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.37.6",
-    "astro": "^5.18.0",
+    "astro": "^5.18.1",
     "shepherd.js": "workspace:*",
     "starlight-typedoc": "^0.21.5"
   },
