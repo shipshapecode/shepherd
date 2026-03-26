@@ -93,7 +93,7 @@
     "del": "^8.0.1",
     "dts-bundle-generator": "^9.5.1",
     "eslint": "^10.1.0",
-    "eslint-plugin-cypress": "^5.3.0",
+    "eslint-plugin-cypress": "^6.2.1",
     "eslint-plugin-vitest": "^0.5.4",
     "execa": "^9.6.1",
     "globals": "^17.4.0",
