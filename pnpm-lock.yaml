@@ -310,8 +310,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1(rolldown@1.0.0-rc.11)(rollup@4.60.0)
       start-server-and-test:
-        specifier: ^2.1.5
-        version: 2.1.5
+        specifier: ^3.0.0
+        version: 3.0.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -4056,9 +4056,6 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
 
-  event-stream@3.3.4:
-    resolution: {integrity: sha512-QHpkERcGsR0T7Qm3HNJSyXKEEj8AHNxkY3PK8TS2KJvQ7NiSHe3DDpwVKKtoYprL/AreyzFBeIkBIWChAqn60g==}
-
   eventemitter2@6.4.7:
     resolution: {integrity: sha512-tYUSVOGeQPKt/eC1ABfhHy5Xd96N3oIijJvN3O9+TsC28T5V9yX9oEfEK5faP0EFSNVOG97qtAS68GBrQB2hDg==}
 
@@ -4233,9 +4230,6 @@ packages:
 
   fraction.js@5.3.4:
     resolution: {integrity: sha512-1X1NTtiJphryn/uLQz3whtY6jK3fTqoE3ohKs0tT+Ujr1W59oopxmoEh7Lu5p6vBaPbgoM0bzveAW4Qi5RyWDQ==}
-
-  from@0.1.7:
-    resolution: {integrity: sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g==}
 
   fs-extra@11.3.3:
     resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
@@ -4806,8 +4800,8 @@ packages:
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
-  joi@18.0.2:
-    resolution: {integrity: sha512-RuCOQMIt78LWnktPoeBL0GErkNaJPTBGcYuyaBvUOQSpcpcLfWrHPPihYdOGbV5pam9VTWbeoF7TsGiHugcjGA==}
+  joi@18.1.1:
+    resolution: {integrity: sha512-pJkBiPtNo+o0h19LfSvUN46Y5zY+ck99AtHwch9n2HqVLNRgP0ZMyIH8FRMoP+HV8hy/+AG99dXFfwpf83iZfQ==}
     engines: {node: '>= 20'}
 
   js-tokens@10.0.0:
@@ -5193,9 +5187,6 @@ packages:
   make-fetch-happen@9.1.0:
     resolution: {integrity: sha512-+zopwDy7DNknmwPQplem5lAZX/eCOzSvSNNcSKm5eVwTkOBzoktEfXsa9L23J/GIRhxRsaxzkPEhrJEpE2F4Gg==}
     engines: {node: '>= 10'}
-
-  map-stream@0.1.0:
-    resolution: {integrity: sha512-CkYQrPYZfWnu/DAmVCpTSX/xHpKZ80eKh2lAkyA6AJTef6bW+6JpbQZN5rofum7da+SyN1bi5ctTm+lTfcCW3g==}
 
   markdown-extensions@2.0.0:
     resolution: {integrity: sha512-o5vL7aDWatOTX8LzaS1WMoaoxIiLRQJuIKKe2wAw6IeULDHaqbiqiggmx+pKvZDb1Sj+pE46Sn1T7lCqfFtg1Q==}
@@ -5883,9 +5874,6 @@ packages:
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
-  pause-stream@0.0.11:
-    resolution: {integrity: sha512-e3FBlXLmN/D1S+zHzanP4E/4Z60oFAa3O051qt1pxa7DEJWKAyil6upYVXCWadEnuoqa4Pkc9oUx9zsxYeRv8A==}
-
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
@@ -6404,11 +6392,6 @@ packages:
 
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-
-  ps-tree@1.2.0:
-    resolution: {integrity: sha512-0VnamPPYHl4uaU/nSFeZZpR21QAWRz+sRv4iW9+v/GS/J5U5iZB5BNN6J0RMoOvdx2gWM2+ZFMIm58q24e4UYA==}
-    engines: {node: '>= 0.10'}
-    hasBin: true
 
   pump@3.0.4:
     resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
@@ -6938,9 +6921,6 @@ packages:
   spdx-satisfies@5.0.1:
     resolution: {integrity: sha512-Nwor6W6gzFp8XX4neaKQ7ChV4wmpSh2sSDemMFSzHxpTw460jxFYeOn+jq4ybnSSw/5sc3pjka9MQPouksQNpw==}
 
-  split@0.3.3:
-    resolution: {integrity: sha512-wD2AeVmxXRBoX44wAycgjVpMhvbwdI2aZjCkvfNcH1YqHQvJVa1duWc73OyVGJUc05fhFaTZeQ/PYsrmyH0JVA==}
-
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
@@ -6979,16 +6959,13 @@ packages:
       typedoc: '>=0.28.0'
       typedoc-plugin-markdown: '>=4.6.0'
 
-  start-server-and-test@2.1.5:
-    resolution: {integrity: sha512-A/SbXpgXE25ScSkpLLqvGvVZT0ykN6+AzS8tVqMBCTxbJy2Nwuen59opT+afalK5aS+AuQmZs0EsLwjnuDN+/g==}
-    engines: {node: '>=16'}
+  start-server-and-test@3.0.0:
+    resolution: {integrity: sha512-R//IdnWC+H+raB6zJIqw5QbIsMAjjYFwJC/OIJO6kgZljguYe4n4LlA7vkPTO7zoctFlVPfymsNShjcPOIH8nw==}
+    engines: {node: ^22 || >=24}
     hasBin: true
 
   std-env@4.0.0:
     resolution: {integrity: sha512-zUMPtQ/HBY3/50VbpkupYHbRroTRZJPRLvreamgErJVys0ceuzMkD44J/QjqhHjOzK42GQ3QZIeFG1OYfOtKqQ==}
-
-  stream-combiner@0.0.4:
-    resolution: {integrity: sha512-rT00SPnTVyRsaSz5zgSPma/aHSOic5U1prhYdRy5HS2kTZviFpmDgzilbtsJsxiroqACmayynDN/9VzIbX5DOw==}
 
   stream-replace-string@2.0.0:
     resolution: {integrity: sha512-TlnjJ1C0QrmxRNrON00JvaFFlNh5TTG00APw23j74ET7gkQpTASi6/L2fuiav8pzK715HXtUeClpBTw2NPSn6w==}
@@ -12242,16 +12219,6 @@ snapshots:
 
   esutils@2.0.3: {}
 
-  event-stream@3.3.4:
-    dependencies:
-      duplexer: 0.1.2
-      from: 0.1.7
-      map-stream: 0.1.0
-      pause-stream: 0.0.11
-      split: 0.3.3
-      stream-combiner: 0.0.4
-      through: 2.3.8
-
   eventemitter2@6.4.7: {}
 
   eventemitter3@4.0.7: {}
@@ -12444,8 +12411,6 @@ snapshots:
       mime-types: 2.1.35
 
   fraction.js@5.3.4: {}
-
-  from@0.1.7: {}
 
   fs-extra@11.3.3:
     dependencies:
@@ -13172,7 +13137,7 @@ snapshots:
 
   jju@1.4.0: {}
 
-  joi@18.0.2:
+  joi@18.1.1:
     dependencies:
       '@hapi/address': 5.1.1
       '@hapi/formula': 3.0.2
@@ -13559,8 +13524,6 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
       - supports-color
-
-  map-stream@0.1.0: {}
 
   markdown-extensions@2.0.0: {}
 
@@ -14568,10 +14531,6 @@ snapshots:
 
   pathe@2.0.3: {}
 
-  pause-stream@0.0.11:
-    dependencies:
-      through: 2.3.8
-
   pend@1.2.0: {}
 
   performance-now@2.1.0: {}
@@ -15033,10 +14992,6 @@ snapshots:
   proxy-from-env@1.0.0: {}
 
   proxy-from-env@1.1.0: {}
-
-  ps-tree@1.2.0:
-    dependencies:
-      event-stream: 3.3.4
 
   pump@3.0.4:
     dependencies:
@@ -15760,10 +15715,6 @@ snapshots:
       spdx-expression-parse: 3.0.1
       spdx-ranges: 2.1.1
 
-  split@0.3.3:
-    dependencies:
-      through: 2.3.8
-
   sprintf-js@1.0.3: {}
 
   sshpk@1.18.0:
@@ -15806,7 +15757,7 @@ snapshots:
       typedoc: 0.28.18(typescript@5.9.3)
       typedoc-plugin-markdown: 4.10.0(typedoc@0.28.18(typescript@5.9.3))
 
-  start-server-and-test@2.1.5:
+  start-server-and-test@3.0.0:
     dependencies:
       arg: 5.0.2
       bluebird: 3.7.2
@@ -15814,16 +15765,12 @@ snapshots:
       debug: 4.4.3(supports-color@8.1.1)
       execa: 5.1.1
       lazy-ass: 1.6.0
-      ps-tree: 1.2.0
+      tree-kill: 1.2.2
       wait-on: 9.0.4(debug@4.4.3)
     transitivePeerDependencies:
       - supports-color
 
   std-env@4.0.0: {}
-
-  stream-combiner@0.0.4:
-    dependencies:
-      duplexer: 0.1.2
 
   stream-replace-string@2.0.0: {}
 
@@ -16529,7 +16476,7 @@ snapshots:
   wait-on@9.0.4(debug@4.4.3):
     dependencies:
       axios: 1.13.6(debug@4.4.3)
-      joi: 18.0.2
+      joi: 18.1.1
       lodash: 4.17.23
       minimist: 1.2.8
       rxjs: 7.8.2
