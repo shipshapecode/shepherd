@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2026-03-11)
 
 * react-shepherd 7.0.4 (patch)

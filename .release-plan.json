@@ -1,31 +1,11 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "7.0.3",
-      "newVersion": "7.0.4",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Has dependency `workspace:*` on shepherd.js"
-        }
-      ],
-      "pkgJSONPath": "./packages/react/package.json"
+      "oldVersion": "7.0.4"
     },
     "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "15.2.1",
-      "newVersion": "15.2.2",
-      "tagName": "latest",
-      "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        }
-      ],
-      "pkgJSONPath": "./shepherd.js/package.json"
+      "oldVersion": "15.2.2"
     }
   },
-  "description": "## Release (2026-03-11)\n\n* react-shepherd 7.0.4 (patch)\n* shepherd.js 15.2.2 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3376](https://github.com/shipshapecode/shepherd/pull/3376) Fix missing cancel event when navigating back past a hidden first step ([@Copilot](https://github.com/apps/copilot-swe-agent))\n\n#### Committers: 1\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n"
+  "description": "\n\n\n\n"
 }
