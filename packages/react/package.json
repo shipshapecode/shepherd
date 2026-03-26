@@ -43,7 +43,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "typescript": "^5.9.3",
-    "vite": "^8.0.2",
+    "vite": "^8.0.3",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.1.1"
   },
