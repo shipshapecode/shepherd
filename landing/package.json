@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
-    "@astrojs/vercel": "^9.0.4",
+    "@astrojs/vercel": "^10.0.3",
     "@polar-sh/astro": "^0.7.5",
     "astro": "^5.18.0",
     "shepherd.js": "workspace:*"
