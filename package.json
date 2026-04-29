@@ -37,7 +37,7 @@
     "concurrently": "^9.2.1",
     "del": "^8.0.1",
     "eslint": "^10.1.0",
-    "postcss": "^8.5.8",
+    "postcss": "^8.5.10",
     "prettier": "3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "release-plan": "^0.17.4",

@@ -100,7 +100,7 @@
     "happy-dom": "^20.9.0",
     "http-server": "^14.1.1",
     "lodash": "^4.18.1",
-    "postcss": "^8.5.8",
+    "postcss": "^8.5.10",
     "prettier": "^3.8.1",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
