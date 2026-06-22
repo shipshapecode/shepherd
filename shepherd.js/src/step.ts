@@ -5,7 +5,8 @@ import {
   isElement,
   isHTMLElement,
   isFunction,
-  isUndefined
+  isUndefined,
+  isNull
 } from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
 import {
@@ -699,7 +700,7 @@ export class Step extends Evented {
    * @private
    */
   _setupElements() {
-    if (!isUndefined(this.el)) {
+    if (!isUndefined(this.el) && !isNull(this.el)) {
       this.destroy();
     }
 

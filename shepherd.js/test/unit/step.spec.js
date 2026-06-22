@@ -441,6 +441,19 @@ describe('Tour | Step', () => {
       ).toBeTruthy();
     });
 
+    it('not calls destroy on the step if the step was destroyed', () => {
+      const step = new Step(tour, {});
+      let destroyCalled = false;
+      step.el = document.createElement('a');
+      step.destroy();
+      step.destroy = () => (destroyCalled = true);
+      step._setupElements();
+      expect(
+        destroyCalled,
+        '_setupElements method not called destroy if the step was destroyed'
+      ).toBeFalsy();
+    });
+
     it('calls destroy on the tooltip if it already exists', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;

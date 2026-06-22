@@ -37,3 +37,11 @@ export function isString<T>(value: T | string): value is string {
 export function isUndefined<T>(value: T | undefined): value is undefined {
   return value === undefined;
 }
+
+/**
+ * Checks if `value` is null.
+ * @param value The param to check if it is null
+ */
+export function isNull<T>(value: T | undefined | null): value is null {
+  return value === null;
+}
