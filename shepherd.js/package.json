@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.6",
     "@babel/plugin-transform-typescript": "^7.28.6",
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
