@@ -2,10 +2,18 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "7.0.3",
-      "newVersion": "7.0.4",
+      "oldVersion": "7.0.4",
+      "newVersion": "7.0.5",
       "tagName": "latest",
       "constraints": [
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
@@ -15,17 +23,17 @@
     },
     "shepherd.js": {
       "impact": "patch",
-      "oldVersion": "15.2.1",
-      "newVersion": "15.2.2",
+      "oldVersion": "15.2.2",
+      "newVersion": "15.2.3",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-03-11)\n\n* react-shepherd 7.0.4 (patch)\n* shepherd.js 15.2.2 (patch)\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3376](https://github.com/shipshapecode/shepherd/pull/3376) Fix missing cancel event when navigating back past a hidden first step ([@Copilot](https://github.com/apps/copilot-swe-agent))\n\n#### Committers: 1\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n"
+  "description": "## Release (2026-08-10)\n\n* react-shepherd 7.0.5 (patch)\n* shepherd.js 15.2.3 (patch)\n\n#### :bug: Bug Fix\n* `react-shepherd`\n  * [#3461](https://github.com/shipshapecode/shepherd/pull/3461) fix: allow TypeScript 6 and 7 as peer dependencies for react-shepherd ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `react-shepherd`, `shepherd.js`\n  * [#3463](https://github.com/shipshapecode/shepherd/pull/3463) chore: pnpm update and audit fixes ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* Other\n  * [#3444](https://github.com/shipshapecode/shepherd/pull/3444) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
 }
