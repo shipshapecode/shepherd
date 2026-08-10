@@ -14,7 +14,7 @@
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/vercel": "^9.0.5",
     "@polar-sh/astro": "^0.7.6",
-    "astro": "^5.18.2",
+    "astro": "^7.2.0",
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
