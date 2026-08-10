@@ -11,21 +11,22 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.3",
-    "@astrojs/vercel": "^9.0.4",
-    "@polar-sh/astro": "^0.7.5",
-    "astro": "^5.18.1",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/vercel": "^9.0.5",
+    "@polar-sh/astro": "^0.7.6",
+    "astro": "^5.18.2",
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@astrojs/rss": "^4.0.17",
-    "@astrojs/sitemap": "^3.7.1",
-    "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.1",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "vite": "^8.0.5"
-  }
+    "vite": "^8.2.1"
+  },
+  "packageManager": "pnpm@11.21.0"
 }
