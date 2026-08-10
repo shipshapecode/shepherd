@@ -118,7 +118,7 @@
     "vite": "^8.2.1",
     "vitest": "^4.1.10"
   },
-  "packageManager": "pnpm@10.28.2",
+  "packageManager": "pnpm@11.21.0",
   "engines": {
     "node": ">= 20"
   },
