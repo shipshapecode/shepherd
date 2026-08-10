@@ -21,10 +21,7 @@ export interface EventOptions {
 }
 
 export type TourConfirmCancel =
-  | boolean
-  | (() => boolean)
-  | Promise<boolean>
-  | (() => Promise<boolean>);
+  boolean | (() => boolean) | Promise<boolean> | (() => Promise<boolean>);
 
 /**
  * The options for the tour

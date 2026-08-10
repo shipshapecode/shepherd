@@ -9,3 +9,13 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - svelte-preprocess
+
+overrides:
+  '@tootallnate/once@<2.0.1': '>=2.0.1'
+  diff@>=6.0.0 <8.0.3: '>=8.0.3'
+  esbuild@>=0.27.3 <0.28.1: '>=0.28.1'
+  minimatch@<3.1.4: '>=3.1.4'
+  sharp@<0.35.0: '>=0.35.0'
+  sigstore@<=4.1.0: '>=4.1.1'
+  svelte@<5.55.7: '>=5.55.7'
+  tar@<7.5.21: '>=7.5.21'
