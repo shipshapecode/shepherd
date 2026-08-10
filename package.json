@@ -40,7 +40,7 @@
     "postcss": "^8.5.26",
     "prettier": "3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "release-plan": "^0.17.4",
+    "release-plan": "^0.18.0",
     "replace": "^1.2.2",
     "shepherd.js": "workspace:*",
     "typescript": "^5.9.3"
