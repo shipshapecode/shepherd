@@ -4,11 +4,14 @@ packages:
   - packages/*
   - docs-src
 
+allowBuilds:
+  cypress: true
+  esbuild: true
+
 onlyBuiltDependencies:
   - cypress
   - esbuild
   - sharp
-  - svelte-preprocess
 
 overrides:
   '@tootallnate/once@<2.0.1': '>=2.0.1'
