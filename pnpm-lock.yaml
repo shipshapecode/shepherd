@@ -260,8 +260,8 @@ importers:
         specifier: ^10.8.1
         version: 10.8.1(jiti@2.7.0)(supports-color@8.1.1)
       eslint-plugin-cypress:
-        specifier: ^5.3.0
-        version: 5.3.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))
+        specifier: ^7.0.0
+        version: 7.0.0(@typescript-eslint/parser@8.66.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))
       eslint-plugin-vitest:
         specifier: ^0.5.4
         version: 0.5.4(@typescript-eslint/eslint-plugin@8.66.0(@typescript-eslint/parser@8.66.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3)(vitest@4.1.10)
@@ -3995,10 +3995,14 @@ packages:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
 
-  eslint-plugin-cypress@5.3.0:
-    resolution: {integrity: sha512-qjHF2Sdi3VkXSMnfQeUqsbYnessgc6T2dus/Q1U+e5102GpPy9eLd8MWW2Xp2SS9bMpPNLnSHwktMhCKr0dIBg==}
+  eslint-plugin-cypress@7.0.0:
+    resolution: {integrity: sha512-gpvL3S1w45c0DORI/P5v3k1UUW2NKje3JiFz+oTHGF6dZa6ZPBokItJS7jP0BXGPEgI3RpHyAMNMAJ9K5P0bow==}
     peerDependencies:
-      eslint: '>=9'
+      '@typescript-eslint/parser': '>=8'
+      eslint: '>=10'
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
 
   eslint-plugin-vitest@0.5.4:
     resolution: {integrity: sha512-um+odCkccAHU53WdKAw39MY61+1x990uXjSPguUCq3VcEHdqJrOb8OTMrbYlY6f9jAKx7x98kLVlIe3RJeJqoQ==}
@@ -4353,10 +4357,6 @@ packages:
   global-dirs@3.0.1:
     resolution: {integrity: sha512-NBcGGFbBA9s1VzD41QXDG+3++t9Mn5t1FpLdhESY6oKY4gYTFpX4wO3sqGUa0Srjtbfj3szX0RnemmrVRUdULA==}
     engines: {node: '>=10'}
-
-  globals@16.5.0:
-    resolution: {integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ==}
-    engines: {node: '>=18'}
 
   globals@17.9.0:
     resolution: {integrity: sha512-m/MvAW61QVU5VDNF1Vj8axt016h8w7L5TU1e9zlab7XIttAT2YAlCwl75K1fOqvMM9apmD7lbCIRhpfkhmxhCg==}
@@ -12159,10 +12159,12 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-plugin-cypress@5.3.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1)):
+  eslint-plugin-cypress@7.0.0(@typescript-eslint/parser@8.66.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1)):
     dependencies:
       eslint: 10.8.1(jiti@2.7.0)(supports-color@8.1.1)
-      globals: 16.5.0
+      globals: 17.9.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 8.66.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3)
 
   eslint-plugin-vitest@0.5.4(@typescript-eslint/eslint-plugin@8.66.0(@typescript-eslint/parser@8.66.0(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3))(eslint@10.8.1(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@5.9.3)(vitest@4.1.10):
     dependencies:
@@ -12604,8 +12606,6 @@ snapshots:
   global-dirs@3.0.1:
     dependencies:
       ini: 2.0.0
-
-  globals@16.5.0: {}
 
   globals@17.9.0: {}
 
