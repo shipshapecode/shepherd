@@ -34,7 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
     "autoprefixer": "^10.5.4",
-    "concurrently": "^9.2.4",
+    "concurrently": "^10.0.4",
     "del": "^8.0.1",
     "eslint": "^10.8.1",
     "postcss": "^8.5.26",
