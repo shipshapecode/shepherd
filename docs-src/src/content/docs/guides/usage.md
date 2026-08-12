@@ -398,10 +398,14 @@ associated methods in your code.
 | `tour.complete()` or `tour.cancel()`               | `destroy`, once for every step   |
 
 Shepherd rebuilds a step's element from scratch on every `show()`, but that is
-an implementation detail — `destroy` fires **once**, and only when the step is
-really being thrown away. Use `destroy` to release anything you allocated for
-the step, and `before-hide` / `hide` for work that should run every time the
-step goes away.
+an implementation detail — recreating the element does **not** emit `destroy`.
+The event fires only when the step is actually being thrown away, so use it to
+release anything you allocated for the step, and `before-hide` / `hide` for work
+that should run every time the step goes away.
+
+`destroy()` is not guarded against running more than once, so calling it
+yourself and then completing the tour will emit `destroy` twice. Keep your
+teardown idempotent if you do both.
 
 > **Behavior change** — `destroy` used to also fire every time an already-shown
 > step was shown again, in between `before-show` and `show`, because the element
