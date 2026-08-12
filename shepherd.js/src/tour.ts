@@ -400,7 +400,9 @@ export class Tour extends Evented {
    * @private
    */
   _showStep(step: Step) {
-    const previous = this.currentStep;
+    // `currentStep` is `undefined` until a step has shown, so normalize to
+    // `null` to keep `previous` consistent across every path into `show`
+    const previous = this.currentStep ?? null;
 
     this.currentStep = step;
     this.trigger('show', {

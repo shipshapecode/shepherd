@@ -561,6 +561,23 @@ describe('Tour | Top-Level Class', function () {
         ).not.toBe(secondShow.step);
       });
 
+      it('reports `previous` as null when no step was showing before', function () {
+        // `removeStep` clears `currentStep` to `undefined` before showing the
+        // next step, so `previous` has to be normalized on that path too
+        instance.start();
+
+        let previousStep;
+        instance.on('show', ({ previous }) => (previousStep = previous));
+
+        instance.removeStep('test');
+
+        expect(instance.getCurrentStep().id).toBe('test2');
+        expect(
+          previousStep,
+          '`previous` is null rather than undefined when nothing was showing'
+        ).toBeNull();
+      });
+
       it('showOn determines which steps to skip', function () {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');
