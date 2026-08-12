@@ -533,6 +533,34 @@ describe('Tour | Top-Level Class', function () {
         ).toBeFalsy();
       });
 
+      it('triggers show with the step that was showing before as `previous`', function () {
+        const shows = [];
+        instance.on('show', ({ step, previous }) =>
+          shows.push({ step, previous })
+        );
+
+        instance.start();
+        instance.next();
+
+        const [firstShow, secondShow] = shows;
+
+        expect(firstShow.step.id).toBe('test');
+        expect(
+          firstShow.previous,
+          'there is no previous step on the first show'
+        ).toBeNull();
+
+        expect(secondShow.step.id).toBe('test2');
+        expect(
+          secondShow.previous.id,
+          '`previous` is the step that was showing before'
+        ).toBe('test');
+        expect(
+          secondShow.previous,
+          '`previous` is not the same object as `step`'
+        ).not.toBe(secondShow.step);
+      });
+
       it('showOn determines which steps to skip', function () {
         instance.start();
         expect(instance.getCurrentStep().id).toBe('test');

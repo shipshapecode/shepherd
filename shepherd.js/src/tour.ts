@@ -400,10 +400,12 @@ export class Tour extends Evented {
    * @private
    */
   _showStep(step: Step) {
+    const previous = this.currentStep;
+
     this.currentStep = step;
     this.trigger('show', {
       step,
-      previous: this.currentStep
+      previous
     });
 
     step.show();
