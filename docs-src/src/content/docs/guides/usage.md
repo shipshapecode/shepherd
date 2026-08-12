@@ -321,28 +321,60 @@ when: {
 ##### Step Methods
 
 - `show()`: Show this step
-- `hide()`: Hide this step
+- `hide()`: Hide this step. The step's element stays in the DOM, so the step can
+  be shown again later.
 - `cancel()`: Hide this step and trigger the `cancel` event
 - `complete()`: Hide this step and trigger the `complete` event
 - `scrollTo()`: Scroll to this step's element
 - `isOpen()`: Returns true if the step is currently shown
-- `destroy()`: Remove the element
+- `destroy()`: Permanently tear the step down — removes its element from the DOM,
+  destroys the Floating UI instance, and triggers the `destroy` event
+- `updateStepOptions(options)`: Merge new options into the step and re-render its
+  element in place
+- `getElement()`: Returns the step's element — `undefined` if the step has never
+  been shown, `null` if it has been destroyed
+- `getTarget()`: Returns the step's resolved `attachTo` element
 - `on(eventName, handler, [context])`: Bind an event
 - `off(eventName, [handler])`: Unbind an event
 - `once(eventName, handler, [context])`: Bind just the next instance of an event
 
 ##### Step Events
 
-- `before-show`
-- `show`
-- `before-hide`
-- `hide`
-- `complete`
-- `cancel`
-- `destroy`
+- `before-show`: Triggered at the start of every `show()`, before the step's
+  element is created
+- `show`: Triggered at the end of every `show()`, once the element is in the DOM
+  and positioned
+- `before-hide`: Triggered at the start of every `hide()`
+- `hide`: Triggered at the end of every `hide()`
+- `complete`: Triggered by `step.complete()`
+- `cancel`: Triggered by `step.cancel()`
+- `destroy`: Triggered when the step is disposed of for good — by
+  `step.destroy()`, by `tour.removeStep(id)`, or for every step in the tour when
+  the tour completes or is cancelled
 
 Please note that `complete` and `cancel` are only ever triggered if you call the
 associated methods in your code.
+
+##### Step Lifecycle
+
+| What happens                                       | Events, in order               |
+| -------------------------------------------------- | ------------------------------ |
+| A step is shown for the first time                 | `before-show`, `show`          |
+| Advancing away with `next()`, `back()`, `show(id)` | `before-hide`, `hide`          |
+| The same step is shown again later                 | `before-show`, `show`          |
+| `tour.removeStep(id)` on the step that is open     | `before-hide`, `hide`, `destroy` |
+| `tour.complete()` or `tour.cancel()`               | `destroy`, once for every step |
+
+Shepherd rebuilds a step's element from scratch on every `show()`, but that is an
+implementation detail — `destroy` fires **once**, and only when the step is
+really being thrown away. Use `destroy` to release anything you allocated for the
+step, and `before-hide` / `hide` for work that should run every time the step
+goes away.
+
+> **Behavior change** — `destroy` used to also fire every time an already-shown
+> step was shown again, in between `before-show` and `show`, because the element
+> is recreated on each show. Recreating the element no longer triggers `destroy`.
+> See [#3443](https://github.com/shipshapecode/shepherd/issues/3443).
 
 ### Advancing on Actions
 

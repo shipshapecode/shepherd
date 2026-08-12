@@ -79,23 +79,72 @@ describe('Bind Utils', function () {
       expect(hasAdvanced, '`next()` triggered for advanceOn').toBeTruthy();
     });
 
-    it('calls `removeEventListener` when destroyed', () => {
-      return new Promise((done) => {
-        const bodySpy = vi.spyOn(document.body, 'removeEventListener');
-        const step = new Step(tourProto, {
-          advanceOn: { event: advanceOnEventName }
-        });
-
-        step.isOpen = () => true;
-
-        bindAdvance(step);
-        step.trigger('destroy');
-
-        expect(bodySpy).toHaveBeenCalled();
-        bodySpy.mockRestore();
-
-        done();
+    it('returns a cleanup function that calls `removeEventListener`', () => {
+      const bodySpy = vi.spyOn(document.body, 'removeEventListener');
+      const step = new Step(tourProto, {
+        advanceOn: { event: advanceOnEventName }
       });
+
+      step.isOpen = () => true;
+
+      const cleanup = bindAdvance(step);
+      expect(cleanup, 'bindAdvance returned a cleanup function').toBeTypeOf(
+        'function'
+      );
+
+      cleanup();
+
+      expect(bodySpy).toHaveBeenCalledWith(
+        advanceOnEventName,
+        expect.any(Function),
+        true
+      );
+      bodySpy.mockRestore();
+    });
+
+    it('removes the listener bound to a selector', () => {
+      const step = new Step(tourProto, {
+        advanceOn: {
+          selector: `.${advanceOnSelector}`,
+          event: advanceOnEventName
+        }
+      });
+
+      step.isOpen = () => true;
+
+      const cleanup = bindAdvance(step);
+      const linkSpy = vi.spyOn(link, 'removeEventListener');
+
+      cleanup();
+
+      expect(linkSpy).toHaveBeenCalledWith(
+        advanceOnEventName,
+        expect.any(Function)
+      );
+      linkSpy.mockRestore();
+    });
+
+    // `console.error` is already replaced with a mock in setupTests.js
+    it('returns undefined when there is nothing to bind', () => {
+      expect(
+        bindAdvance(new Step(tourProto, { advanceOn: {} })),
+        'no event name passed'
+      ).toBeUndefined();
+      expect(console.error).toHaveBeenCalledWith(
+        'advanceOn was defined, but no event name was passed.'
+      );
+
+      expect(
+        bindAdvance(
+          new Step(tourProto, {
+            advanceOn: { selector: '.does-not-exist', event: 'click' }
+          })
+        ),
+        'selector matched no element'
+      ).toBeUndefined();
+      expect(console.error).toHaveBeenCalledWith(
+        'No element was found for the selector supplied to advanceOn: .does-not-exist'
+      );
     });
   });
 });
