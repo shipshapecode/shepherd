@@ -817,4 +817,487 @@ describe('Tour | Top-Level Class', function () {
       expect(modalContainer.contains(modalElement)).toBe(true);
     });
   });
+
+  describe('skipMissingElement / waitForElement', () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    it('skips a step whose attachTo element is missing when skipMissingElement is true', () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'missing',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'third',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.start();
+      expect(instance.getCurrentStep().id, 'first step is shown').toBe('first');
+
+      instance.next();
+      expect(
+        instance.getCurrentStep().id,
+        'missing step is skipped, advancing to the third step'
+      ).toBe('third');
+    });
+
+    it('applies skipMissingElement from defaultStepOptions', () => {
+      instance = new Shepherd.Tour({
+        defaultStepOptions: { skipMissingElement: true }
+      });
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'missing',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'third',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.start();
+      expect(instance.getCurrentStep().id, 'first step is shown').toBe('first');
+
+      instance.next();
+      expect(
+        instance.getCurrentStep().id,
+        'missing step is skipped via defaultStepOptions'
+      ).toBe('third');
+    });
+
+    it('completes the tour when all trailing steps are skipped', () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'missing-1',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'missing-2',
+        attachTo: { element: '.does-not-exist-abc', on: 'top' },
+        skipMissingElement: true
+      });
+
+      let completeFired = false;
+      instance.on('complete', () => {
+        completeFired = true;
+      });
+
+      instance.start();
+      expect(instance.getCurrentStep().id, 'first step is shown').toBe('first');
+
+      instance.next();
+
+      expect(
+        completeFired,
+        'complete fires when all trailing steps are skipped'
+      ).toBe(true);
+      expect(
+        Shepherd.activeTour,
+        'activeTour is null after the tour completes'
+      ).toBeNull();
+    });
+
+    it('cancels when going back past a skipped first step', () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'missing',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      let cancelFired = false;
+      instance.on('cancel', () => {
+        cancelFired = true;
+      });
+
+      instance.start();
+      expect(
+        instance.getCurrentStep().id,
+        'missing first step is skipped on start'
+      ).toBe('second');
+
+      instance.back();
+
+      expect(
+        cancelFired,
+        'cancel fires when going back past a skipped first step'
+      ).toBe(true);
+      expect(Shepherd.activeTour, 'activeTour is null after cancel').toBeNull();
+    });
+
+    it('still shows centered steps that have no attachTo', () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'centered',
+        skipMissingElement: true
+      });
+
+      instance.start();
+
+      expect(
+        instance.getCurrentStep().id,
+        'a step with no attachTo is shown centered, not skipped'
+      ).toBe('centered');
+    });
+
+    it('shows a step normally when its element exists even with skipMissingElement', () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'exists',
+        attachTo: { element: 'body', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.start();
+
+      expect(
+        instance.getCurrentStep().id,
+        'a step whose element exists is shown normally'
+      ).toBe('exists');
+    });
+
+    it('waitForElement waits for the element to appear and then attaches', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.appears-later-xyz', on: 'top' },
+        waitForElement: 1000
+      });
+
+      instance.start();
+      expect(instance.getCurrentStep().id, 'first step is shown').toBe('first');
+
+      const promise = instance.next();
+
+      let appearedElement;
+      setTimeout(() => {
+        appearedElement = document.createElement('div');
+        appearedElement.classList.add('appears-later-xyz');
+        document.body.appendChild(appearedElement);
+      }, 30);
+
+      await promise;
+
+      expect(
+        instance.getCurrentStep().id,
+        'second step is shown once its element appears'
+      ).toBe('second');
+      expect(
+        instance.getCurrentStep().target,
+        'resolved target is the element that appeared'
+      ).toBe(appearedElement);
+
+      document.body.removeChild(appearedElement);
+    });
+
+    it('falls back to a centered step when waitForElement times out', async () => {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        waitForElement: 50
+      });
+
+      instance.start();
+
+      await instance.next();
+
+      expect(
+        instance.getCurrentStep().id,
+        'step is shown centered once the wait times out'
+      ).toBe('second');
+      expect(
+        spy,
+        'console.error is logged for the still-missing element'
+      ).toHaveBeenCalled();
+      expect(
+        instance.getCurrentStep().target,
+        'target is falsy since the element never resolved'
+      ).toBeFalsy();
+
+      spy.mockRestore();
+    });
+
+    it('skips the step when waitForElement times out and skipMissingElement is true', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        waitForElement: 50,
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'third',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.start();
+
+      await instance.next();
+
+      expect(
+        instance.getCurrentStep().id,
+        'second step is skipped once the wait times out'
+      ).toBe('third');
+    });
+
+    it('completes after waiting when trailing steps are skipped', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        waitForElement: 50,
+        skipMissingElement: true
+      });
+
+      let completeFired = false;
+      instance.on('complete', () => {
+        completeFired = true;
+      });
+
+      instance.start();
+
+      await instance.next();
+
+      expect(
+        completeFired,
+        'complete fires once the trailing step finishes waiting and is skipped'
+      ).toBe(true);
+    });
+
+    it('a newer show() supersedes a pending waitForElement wait', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        waitForElement: 200
+      });
+
+      instance.addStep({
+        id: 'third',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.start();
+
+      const shownStepIds = [];
+      instance.on('show', ({ step }) => {
+        shownStepIds.push(step.id);
+      });
+
+      const promise = instance.show(1);
+      instance.show(2);
+
+      expect(
+        instance.getCurrentStep().id,
+        'show(2) synchronously supersedes the pending wait from show(1)'
+      ).toBe('third');
+
+      await promise;
+      await sleep(250);
+
+      expect(
+        instance.getCurrentStep().id,
+        'currentStep is still the third step after the superseded wait settles'
+      ).toBe('third');
+      expect(
+        shownStepIds.includes('second'),
+        'the show event never fires for the superseded second step'
+      ).toBe(false);
+    });
+
+    it('cancelling during a waitForElement wait does not resurrect the tour', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'second',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        waitForElement: 100,
+        skipMissingElement: true
+      });
+
+      instance.start();
+
+      let showFiredAfterCancel = false;
+      let completeFiredAfterCancel = false;
+      instance.on('show', () => {
+        showFiredAfterCancel = true;
+      });
+      instance.on('complete', () => {
+        completeFiredAfterCancel = true;
+      });
+
+      const promise = instance.next();
+      instance.cancel();
+
+      await promise;
+      await sleep(150);
+
+      expect(
+        Shepherd.activeTour,
+        'activeTour stays null after cancel'
+      ).toBeNull();
+      expect(showFiredAfterCancel, 'no show event fires after cancel').toBe(
+        false
+      );
+      expect(
+        completeFiredAfterCancel,
+        'no complete event fires after cancel'
+      ).toBe(false);
+    });
+
+    it('awaits a wait on the step skipped to by skipMissingElement', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'skipped',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'waits',
+        attachTo: { element: '.appears-after-skip-xyz', on: 'top' },
+        waitForElement: 1000
+      });
+
+      instance.start();
+
+      const promise = instance.next();
+
+      let appearedElement;
+      setTimeout(() => {
+        appearedElement = document.createElement('div');
+        appearedElement.classList.add('appears-after-skip-xyz');
+        document.body.appendChild(appearedElement);
+      }, 30);
+
+      await promise;
+
+      expect(
+        instance.getCurrentStep().id,
+        'next() resolves only once the step skipped to has finished waiting'
+      ).toBe('waits');
+      expect(
+        instance.getCurrentStep().target,
+        'the waited-for element is the resolved target'
+      ).toBe(appearedElement);
+
+      document.body.removeChild(appearedElement);
+    });
+
+    it('awaits a wait on the step skipped to by showOn', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'skipped',
+        showOn: () => false
+      });
+
+      instance.addStep({
+        id: 'waits',
+        attachTo: { element: '.appears-after-show-on-xyz', on: 'top' },
+        waitForElement: 1000
+      });
+
+      instance.start();
+
+      const promise = instance.next();
+
+      let appearedElement;
+      setTimeout(() => {
+        appearedElement = document.createElement('div');
+        appearedElement.classList.add('appears-after-show-on-xyz');
+        document.body.appendChild(appearedElement);
+      }, 30);
+
+      await promise;
+
+      expect(
+        instance.getCurrentStep().id,
+        'next() resolves only once the step skipped to has finished waiting'
+      ).toBe('waits');
+
+      document.body.removeChild(appearedElement);
+    });
+  });
 });

@@ -8,7 +8,12 @@ import {
   isUndefined
 } from './utils/type-check.ts';
 import { cleanupSteps } from './utils/cleanup.ts';
-import { normalizePrefix, uuid } from './utils/general.ts';
+import {
+  normalizePrefix,
+  resolveAttachToElement,
+  uuid,
+  waitForAttachToElement
+} from './utils/general.ts';
 import {
   createShepherdModal,
   type ShepherdModalAPI
@@ -113,6 +118,13 @@ export class Tour extends Evented {
   options: TourOptions;
   steps: Array<Step>;
 
+  /**
+   * Monotonically increasing id of `show()` calls, used to invalidate pending
+   * `waitForElement` waits that were superseded by a newer `show()`.
+   * @private
+   */
+  _showGeneration = 0;
+
   constructor(options: TourOptions = {}) {
     super();
 
@@ -196,7 +208,7 @@ export class Tour extends Evented {
    */
   back() {
     const index = this.steps.indexOf(this.currentStep as Step);
-    this.show(index - 1, false);
+    return this.show(index - 1, false);
   }
 
   /**
@@ -279,7 +291,7 @@ export class Tour extends Evented {
     if (index === this.steps.length - 1) {
       this.complete();
     } else {
-      this.show(index + 1, true);
+      return this.show(index + 1, true);
     }
   }
 
@@ -316,29 +328,85 @@ export class Tour extends Evented {
    * Show a specific step in the tour
    * @param {number | string} key - The key to look up the step by
    * @param {boolean} forward - True if we are going forward, false if backward
+   * @returns A promise when the step's `waitForElement` option makes showing
+   * asynchronous, otherwise `undefined`
    */
-  show(key: number | string = 0, forward = true) {
+  show(key: number | string = 0, forward = true): void | Promise<void> {
     const step = isString(key) ? this.getById(key) : this.steps[key];
 
-    if (step) {
-      this._updateStateBeforeShow();
+    if (!step) {
+      return;
+    }
 
-      const shouldSkipStep =
-        isFunction(step.options.showOn) && !step.options.showOn();
+    this._updateStateBeforeShow();
 
-      // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
-      if (shouldSkipStep) {
-        this._skipStep(step, forward);
-      } else {
-        this.currentStep = step;
-        this.trigger('show', {
-          step,
-          previous: this.currentStep
+    // Invalidate any pending `waitForElement` wait from a previous call.
+    const generation = ++this._showGeneration;
+
+    const shouldSkipStep =
+      isFunction(step.options.showOn) && !step.options.showOn();
+
+    // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+    // Return the result, since the step we skip to may itself be waiting on an element.
+    if (shouldSkipStep) {
+      return this._skipStep(step, forward);
+    }
+
+    const { skipMissingElement, waitForElement } = step.options;
+    const attachToElement =
+      step.options.attachTo && step.options.attachTo.element;
+    // `waitForElement` and `skipMissingElement` only apply to steps that
+    // locate their target dynamically. Steps without an `attachTo` element
+    // are intentionally centered and never treated as missing.
+    const hasElementLocator =
+      isString(attachToElement) || isFunction(attachToElement);
+    const waitTimeout =
+      typeof waitForElement === 'number' && waitForElement > 0
+        ? waitForElement
+        : 0;
+
+    if (
+      hasElementLocator &&
+      (skipMissingElement || waitTimeout > 0) &&
+      !resolveAttachToElement(step)
+    ) {
+      if (waitTimeout > 0) {
+        return waitForAttachToElement(step, waitTimeout).then((element) => {
+          // A newer `show()`, or cancelling/completing the tour, supersedes
+          // this pending wait.
+          if (generation !== this._showGeneration || !this.isActive()) {
+            return;
+          }
+
+          if (!element && skipMissingElement) {
+            return this._skipStep(step, forward);
+          }
+
+          this._showStep(step);
         });
+      }
 
-        step.show();
+      if (skipMissingElement) {
+        return this._skipStep(step, forward);
       }
     }
+
+    this._showStep(step);
+  }
+
+  /**
+   * Sets the given step as the current step and shows it
+   * @param {Step} step - The step to show
+   * @private
+   */
+  _showStep(step: Step) {
+    this.currentStep = step;
+    this.trigger('show', {
+      step,
+      previous: this.currentStep
+    });
+
+    step.show();
   }
 
   /**
@@ -355,7 +423,7 @@ export class Tour extends Evented {
     this.setupModal();
 
     this._setupActiveTour();
-    this.next();
+    return this.next();
   }
 
   /**
@@ -425,7 +493,7 @@ export class Tour extends Evented {
     } else if (nextIndex >= this.steps.length) {
       this.complete();
     } else {
-      this.show(nextIndex, forward);
+      return this.show(nextIndex, forward);
     }
   }
 
