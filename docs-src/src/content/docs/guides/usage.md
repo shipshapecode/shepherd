@@ -172,6 +172,11 @@ const myTour = new Shepherd.Tour(options);
 - `off(eventName, [handler])`: Unbind an event
 - `once(eventName, handler, [context])`: Bind just the next instance of an event
 
+`start()` always returns a promise, and `show()`, `next()`, and `back()` return
+one while a step is waiting on its `attachTo.element` (see `waitForElement`
+below). Await them if you need to know the step is on screen — otherwise they
+can be called and ignored, as before.
+
 ##### Tour Events
 
 - `complete`: Triggered when the last step is advanced
@@ -316,10 +321,12 @@ function will be called in the `before-show` phase.
   element are never skipped, since they are intentionally centered.
 - `waitForElement`: The maximum amount of time, in milliseconds, to wait for the
   `attachTo.element` to appear in the DOM before showing the step. The DOM is
-  watched with a `MutationObserver`, so the step attaches as soon as the element
+  watched with a `MutationObserver`, falling back to polling where
+  `MutationObserver` is unavailable, so the step attaches as soon as the element
   appears. If the timeout expires, the step falls back to its default behavior:
-  skipped when `skipMissingElement` is true, otherwise shown centered. Useful
-  for targets that are rendered asynchronously.
+  skipped when `skipMissingElement` is true, otherwise shown centered. It can
+  also be set on `defaultStepOptions` to apply to every step. Useful for targets
+  that are rendered asynchronously.
 
   Both options look the target up before the step's own `beforeShowPromise` and
   `before-show` handlers run, so they cannot see an element that those handlers

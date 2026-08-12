@@ -1214,5 +1214,90 @@ describe('Tour | Top-Level Class', function () {
         'no complete event fires after cancel'
       ).toBe(false);
     });
+
+    it('awaits a wait on the step skipped to by skipMissingElement', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'skipped',
+        attachTo: { element: '.does-not-exist-xyz', on: 'top' },
+        skipMissingElement: true
+      });
+
+      instance.addStep({
+        id: 'waits',
+        attachTo: { element: '.appears-after-skip-xyz', on: 'top' },
+        waitForElement: 1000
+      });
+
+      instance.start();
+
+      const promise = instance.next();
+
+      let appearedElement;
+      setTimeout(() => {
+        appearedElement = document.createElement('div');
+        appearedElement.classList.add('appears-after-skip-xyz');
+        document.body.appendChild(appearedElement);
+      }, 30);
+
+      await promise;
+
+      expect(
+        instance.getCurrentStep().id,
+        'next() resolves only once the step skipped to has finished waiting'
+      ).toBe('waits');
+      expect(
+        instance.getCurrentStep().target,
+        'the waited-for element is the resolved target'
+      ).toBe(appearedElement);
+
+      document.body.removeChild(appearedElement);
+    });
+
+    it('awaits a wait on the step skipped to by showOn', async () => {
+      instance = new Shepherd.Tour();
+
+      instance.addStep({
+        id: 'first',
+        attachTo: { element: 'body', on: 'top' }
+      });
+
+      instance.addStep({
+        id: 'skipped',
+        showOn: () => false
+      });
+
+      instance.addStep({
+        id: 'waits',
+        attachTo: { element: '.appears-after-show-on-xyz', on: 'top' },
+        waitForElement: 1000
+      });
+
+      instance.start();
+
+      const promise = instance.next();
+
+      let appearedElement;
+      setTimeout(() => {
+        appearedElement = document.createElement('div');
+        appearedElement.classList.add('appears-after-show-on-xyz');
+        document.body.appendChild(appearedElement);
+      }, 30);
+
+      await promise;
+
+      expect(
+        instance.getCurrentStep().id,
+        'next() resolves only once the step skipped to has finished waiting'
+      ).toBe('waits');
+
+      document.body.removeChild(appearedElement);
+    });
   });
 });

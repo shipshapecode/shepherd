@@ -347,9 +347,9 @@ export class Tour extends Evented {
       isFunction(step.options.showOn) && !step.options.showOn();
 
     // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
+    // Return the result, since the step we skip to may itself be waiting on an element.
     if (shouldSkipStep) {
-      this._skipStep(step, forward);
-      return;
+      return this._skipStep(step, forward);
     }
 
     const { skipMissingElement, waitForElement } = step.options;
@@ -387,8 +387,7 @@ export class Tour extends Evented {
       }
 
       if (skipMissingElement) {
-        this._skipStep(step, forward);
-        return;
+        return this._skipStep(step, forward);
       }
     }
 
