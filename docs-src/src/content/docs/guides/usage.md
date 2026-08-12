@@ -212,7 +212,9 @@ const new Step(tour, {
 
 If you don’t specify an `attachTo` the element will appear in the middle of the
 screen. The same will happen if your `attachTo.element` callback returns `null`,
-`undefined`, or a selector that does not exist in the DOM.
+`undefined`, or a selector that does not exist in the DOM. The `waitForElement`
+and `skipMissingElement` options described below let you change this behavior
+for elements that are missing or rendered late.
 
 If you omit the `on` portion of `attachTo`, the element will still be
 highlighted, but the tooltip will appear in the middle of the screen, without an
@@ -256,6 +258,10 @@ function will be called in the `before-show` phase.
   - `label` The label to add for `aria-label`
 
 - `classes`: A string of extra classes to add to the step's content element.
+- `data`: Arbitrary, JSON-serializable data to associate with the step. Shepherd
+  does not use it internally; read it back from `step.options.data` in your
+  event handlers and button actions. Useful for analytics ids or other metadata,
+  e.g. on generated tour definitions.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a
   footer below the main body text. Each button in the array is an object of the
   format:
@@ -302,6 +308,25 @@ function will be called in the `before-show` phase.
   [Floating UI](https://floating-ui.com/docs/getting-started)
 - `showOn`: A function that, when it returns true, will show the step. If it
   returns false, the step will be skipped.
+- `skipMissingElement`: A boolean. When true, a step whose `attachTo.element`
+  cannot be found in the DOM is skipped (like `showOn` returning false) instead
+  of being shown centered. If all remaining steps are skipped, the tour
+  completes going forward, or cancels going backward. It can also be set on
+  `defaultStepOptions` to apply to every step. Steps without an `attachTo`
+  element are never skipped, since they are intentionally centered.
+- `waitForElement`: The maximum amount of time, in milliseconds, to wait for the
+  `attachTo.element` to appear in the DOM before showing the step. The DOM is
+  watched with a `MutationObserver`, so the step attaches as soon as the element
+  appears. If the timeout expires, the step falls back to its default behavior:
+  skipped when `skipMissingElement` is true, otherwise shown centered. Useful
+  for targets that are rendered asynchronously.
+
+  Both options look the target up before the step's own `beforeShowPromise` and
+  `before-show` handlers run, so they cannot see an element that those handlers
+  create — keep using `beforeShowPromise` for targets the step itself renders.
+  Both are plain JSON values, so a tour definition using them stays
+  serializable.
+
 - `scrollTo`: Should the element be scrolled to when this step is shown? If
   true, uses the default `scrollIntoView`, if an object, passes that object as
   the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
