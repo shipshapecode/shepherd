@@ -1113,4 +1113,19 @@ describe('Tour | Step', () => {
       expect(testElement.getAttribute('tabindex')).toBe('2');
     });
   });
+
+  describe('data option', () => {
+    it('exposes the data option at step.options.data', () => {
+      const data = { foo: 'bar', nested: { a: 1 } };
+      const step = tour.addStep({ id: 'data-step', data });
+
+      expect(step.options.data).toEqual(data);
+    });
+
+    it('leaves step.options.data undefined when data is not passed', () => {
+      const step = tour.addStep({ id: 'no-data-step' });
+
+      expect(step.options.data).toBeUndefined();
+    });
+  });
 });
