@@ -9,6 +9,7 @@ import {
   limitShift,
   shift,
   type ComputePositionConfig,
+  type Middleware,
   type MiddlewareData,
   type Placement,
   type Alignment
@@ -210,24 +211,69 @@ export function getFloatingUIOptions(
       })
     );
 
-    if (arrowEl) {
-      const arrowOptions =
-        typeof step.options.arrow === 'object'
-          ? step.options.arrow
-          : { padding: 4 };
-
-      options.middleware.push(
-        arrow({
-          element: arrowEl,
-          padding: hasEdgeAlignment ? arrowOptions.padding : 0
-        })
-      );
-    }
-
     if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
   }
 
-  return deepmerge(options, step.options.floatingUIOptions || {});
+  const mergedOptions: ComputePositionConfig = deepmerge(
+    options,
+    step.options.floatingUIOptions || {}
+  );
+
+  // `arrow()` has to be the *last* middleware to run. `Floating UI` executes
+  // middleware sequentially, threading `x`/`y` from one to the next, and
+  // `arrow()` computes its offset from the coordinates as they stand on its own
+  // turn. Any middleware that runs after it (a user supplied `offset()`,
+  // `shift()`, etc.) moves the tooltip again and silently invalidates
+  // `middlewareData.arrow`, which `placeArrow()` writes straight to the DOM.
+  // Since user options are merged in above -- and `deepmerge` concatenates
+  // arrays -- Shepherd's arrow is appended afterwards rather than pushed in
+  // before the merge.
+  if (
+    !shouldCenter &&
+    arrowEl &&
+    !hasArrowMiddleware(mergedOptions.middleware)
+  ) {
+    const arrowOptions =
+      typeof step.options.arrow === 'object'
+        ? step.options.arrow
+        : { padding: 4 };
+
+    mergedOptions.middleware = [
+      ...(mergedOptions.middleware ?? []),
+      arrow({
+        element: arrowEl,
+        padding: hasEdgeAlignment ? arrowOptions.padding : 0
+      })
+    ];
+  }
+
+  return mergedOptions;
+}
+
+/**
+ * Type guard filtering out the falsy entries `Floating UI` allows in a
+ * middleware array.
+ *
+ * @param middleware A single entry of a `middleware` array
+ * @private
+ */
+function isMiddleware(
+  middleware: Middleware | false | null | undefined
+): middleware is Middleware {
+  return Boolean(middleware);
+}
+
+/**
+ * Determines whether a middleware array already contains an `arrow` middleware,
+ * in which case the user's own arrow wins and Shepherd does not add its own.
+ *
+ * @param middleware The merged `middleware` array, which may contain falsy entries
+ * @private
+ */
+function hasArrowMiddleware(middleware: ComputePositionConfig['middleware']) {
+  return Boolean(
+    middleware?.some((item) => isMiddleware(item) && item.name === 'arrow')
+  );
 }
 
 function addArrow(step: Step) {
