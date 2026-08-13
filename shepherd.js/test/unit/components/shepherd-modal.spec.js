@@ -479,6 +479,624 @@ describe('components/ShepherdModal', () => {
       const cutouts = d.split('Z').length - 1;
       expect(cutouts).toBe(2);
     });
+
+    describe('across scroll parents', function () {
+      // Regression coverage for https://github.com/shipshapecode/shepherd/issues/3344
+      // Every highlighted element must be clipped by its OWN chain of scroll
+      // containers, not by the scroll parent of the `attachTo` target.
+      let restoreComputedStyle;
+      let restoreRaf;
+
+      function stubRect(el, { x, y, width, height }) {
+        Object.defineProperty(el, 'getBoundingClientRect', {
+          configurable: true,
+          value: () => ({
+            x,
+            y,
+            width,
+            height,
+            top: y,
+            bottom: y + height,
+            left: x,
+            right: x + width
+          })
+        });
+      }
+
+      function makeScrollContainer(rect, parent = container) {
+        const el = document.createElement('div');
+        Object.defineProperty(el, 'scrollHeight', { value: 500 });
+        Object.defineProperty(el, 'clientHeight', { value: rect.height });
+        parent.appendChild(el);
+        stubRect(el, rect);
+        return el;
+      }
+
+      function makeChild(parent, rect) {
+        const el = document.createElement('div');
+        parent.appendChild(el);
+        stubRect(el, rect);
+        return el;
+      }
+
+      // `overflows` maps an element to the `overflowY` it should report.
+      // Everything else reports 'visible', which is what a real browser returns
+      // for an ordinary element. happy-dom returns '' instead, and
+      // `_getScrollParent` reads '' as scrollable, so without this every
+      // unstyled ancestor up to <html> would count as a scroll container.
+      // `positions` maps an element to the `position` it should report, which
+      // decides whether a scrollable ancestor actually crops it. Anything not
+      // listed reports 'static', matching an ordinary element.
+      function mockOverflow(overflows, positions = new Map()) {
+        const spy = vi
+          .spyOn(window, 'getComputedStyle')
+          .mockImplementation((el) => ({
+            overflowY: overflows.get(el) ?? 'visible',
+            position: positions.get(el) ?? 'static'
+          }));
+        restoreComputedStyle = () => spy.mockRestore();
+        return spy;
+      }
+
+      function mockRaf() {
+        const spy = vi
+          .spyOn(window, 'requestAnimationFrame')
+          .mockImplementation(() => 1);
+        restoreRaf = () => spy.mockRestore();
+        return spy;
+      }
+
+      afterEach(() => {
+        restoreComputedStyle?.();
+        restoreComputedStyle = undefined;
+        restoreRaf?.();
+        restoreRaf = undefined;
+      });
+
+      it('cuts out an extra highlight living in a different scroll parent', () => {
+        const modal = createShepherdModal(container);
+
+        // Scroll container A holds the attachTo target, high on the page.
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 100
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        // Scroll container B is a sibling further down, holding the extra.
+        const containerB = makeScrollContainer({
+          x: 0,
+          y: 200,
+          width: 500,
+          height: 100
+        });
+        const extraEl = makeChild(containerB, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+
+        mockOverflow(
+          new Map([
+            [containerA, 'auto'],
+            [containerB, 'auto']
+          ])
+        );
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        // Outer path + target cutout + extra cutout
+        expect(d.split('Z').length - 1).toBe(3);
+        // The extra is fully visible inside container B: y 210, height 40.
+        // Before the fix it was clipped by container A (y 0-100) down to a
+        // degenerate zero-height rect ending at V210.
+        expect(d).toContain('M200,210');
+        expect(d).toContain('V250');
+      });
+
+      it('still clips an extra highlight by its own scroll parent', () => {
+        const modal = createShepherdModal(container);
+
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 100
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        // Extra lives in the SAME container, but scrolled below its bottom edge.
+        const extraEl = makeChild(containerA, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+
+        mockOverflow(new Map([[containerA, 'auto']]));
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        // Clipped to zero height — starts and ends at y 210.
+        expect(d).toContain('M200,210');
+        expect(d).toContain('V210');
+        expect(d).not.toContain('V250');
+      });
+
+      it('clips a highlight by every scroll container above it, not just the nearest', () => {
+        const modal = createShepherdModal(container);
+
+        // Outer scroll container, on screen, holding the target.
+        const outer = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 300
+        });
+        const targetEl = makeChild(outer, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        // Inner scroll container nested inside `outer` and scrolled out of it.
+        const inner = makeScrollContainer(
+          { x: 0, y: 400, width: 500, height: 200 },
+          outer
+        );
+        const extraEl = makeChild(inner, {
+          x: 200,
+          y: 420,
+          width: 100,
+          height: 40
+        });
+
+        mockOverflow(
+          new Map([
+            [outer, 'auto'],
+            [inner, 'auto']
+          ])
+        );
+
+        modal.positionModal(0, 0, 0, 0, outer, targetEl, [extraEl]);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        // The target is on screen and still cut out.
+        expect(d).toContain('M10,10');
+        // The extra is fully visible within `inner`, but `inner` is scrolled
+        // out of `outer`, so none of it is on screen. Clipping against the
+        // nearest scroll container alone would punch a 100x40 hole here.
+        expect(d).toContain('M200,420');
+        expect(d).not.toContain('V460');
+      });
+
+      it('uses each element own scroll parents in the containment check', () => {
+        const modal = createShepherdModal(container);
+
+        // Container A is tall enough that it clips nothing.
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 1000
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        // `big` overflows its own short container and is not on screen at all...
+        const containerB = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 50
+        });
+        const big = makeChild(containerB, {
+          x: 150,
+          y: 100,
+          width: 200,
+          height: 300
+        });
+
+        // ...but its unclipped rect encloses `small`, which is fully visible.
+        const containerC = makeScrollContainer({
+          x: 0,
+          y: 200,
+          width: 500,
+          height: 100
+        });
+        const small = makeChild(containerC, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+
+        mockOverflow(
+          new Map([
+            [containerA, 'auto'],
+            [containerB, 'auto'],
+            [containerC, 'auto']
+          ])
+        );
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [big, small]);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        // Measured against container A — the target's scroll parent — `big`
+        // would be y 100 height 300, which contains `small` and suppresses it.
+        // Measured against its own container B it has zero height, so `small`
+        // still gets a cutout.
+        expect(d).toContain('M200,210');
+        expect(d).toContain('V250');
+        // Outer path + target + big + small
+        expect(d.split('Z').length - 1).toBe(4);
+      });
+
+      it('clips the target by the scroll parent it is handed, not by its own', () => {
+        const modal = createShepherdModal(container);
+
+        // Nothing in the target's ancestry is scrollable, so resolving its
+        // scroll parent from the DOM would find none. `_styleForStep` hands the
+        // scroll parent in, and that is the one the target must be clipped by.
+        const targetEl = makeChild(container, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 500
+        });
+        const suppliedScrollParent = {
+          getBoundingClientRect: () => ({
+            x: 10,
+            y: 100,
+            width: 500,
+            height: 250,
+            top: 100,
+            bottom: 350,
+            left: 10,
+            right: 510
+          })
+        };
+
+        mockOverflow(new Map());
+
+        modal.positionModal(0, 0, 0, 0, suppliedScrollParent, targetEl);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        expect(d).toContain('M10,100');
+        expect(d).toContain('V350');
+      });
+
+      it('clips every highlight by the shared scroll parent when they share one', () => {
+        const modal = createShepherdModal(container);
+
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 200
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+        // Hangs over the bottom edge of A, so the clip actually bites: the
+        // bottom 50px are cut off and the cutout is 50 tall, not 100.
+        const extraEl = makeChild(containerA, {
+          x: 200,
+          y: 150,
+          width: 100,
+          height: 100
+        });
+
+        mockOverflow(new Map([[containerA, 'auto']]));
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+
+        expect(modal.getElement().querySelector('path')).toHaveAttribute(
+          'd',
+          'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0-0,0V60a0,0,0,0,0,0,0H110a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0ZM200,150a0,0,0,0,0-0,0V200a0,0,0,0,0,0,0H300a0,0,0,0,0,0-0V150a0,0,0,0,0-0-0Z'
+        );
+      });
+
+      it('resolves each scroll parent once per step rather than once per frame', () => {
+        const modal = createShepherdModal(container);
+
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 100
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        const containerB = makeScrollContainer({
+          x: 0,
+          y: 200,
+          width: 500,
+          height: 100
+        });
+        const extraEl = makeChild(containerB, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+
+        const spy = mockOverflow(
+          new Map([
+            [containerA, 'auto'],
+            [containerB, 'auto']
+          ])
+        );
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        const afterFirstFrame = spy.mock.calls.length;
+        expect(afterFirstFrame).toBeGreaterThan(0);
+
+        // A second frame of the same step must not re-walk the ancestor chain.
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        expect(spy.mock.calls.length).toBe(afterFirstFrame);
+
+        // ...but the memo must not survive the step, or it could go stale.
+        modal.hide();
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        expect(spy.mock.calls.length).toBeGreaterThan(afterFirstFrame);
+      });
+
+      it('memoizes a highlight that resolves to no scroll parent at all', () => {
+        const modal = createShepherdModal(container);
+
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 100
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        // The extra sits in no scroll container at all, so its resolved chain
+        // is empty. That answer costs a full ancestor walk to reach and has to
+        // be memoized just like a non-empty one.
+        const extraEl = makeChild(container, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+
+        const spy = mockOverflow(new Map([[containerA, 'auto']]));
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        const afterFirstFrame = spy.mock.calls.length;
+        expect(afterFirstFrame).toBeGreaterThan(0);
+
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        expect(spy.mock.calls.length).toBe(afterFirstFrame);
+
+        modal.hide();
+        modal.positionModal(0, 0, 0, 0, containerA, targetEl, [extraEl]);
+        expect(spy.mock.calls.length).toBeGreaterThan(afterFirstFrame);
+      });
+
+      it('resolves extraHighlights scroll parents through setupForStep', () => {
+        const modal = createShepherdModal(container);
+
+        const containerA = makeScrollContainer({
+          x: 0,
+          y: 0,
+          width: 500,
+          height: 100
+        });
+        const targetEl = makeChild(containerA, {
+          x: 10,
+          y: 10,
+          width: 100,
+          height: 50
+        });
+
+        const containerB = makeScrollContainer({
+          x: 0,
+          y: 200,
+          width: 500,
+          height: 100
+        });
+        const extraEl = makeChild(containerB, {
+          x: 200,
+          y: 210,
+          width: 100,
+          height: 40
+        });
+        extraEl.classList.add('extra-highlight-3344');
+
+        const tour = new Tour({ useModalOverlay: true });
+        const step = new Step(tour, {
+          attachTo: { element: targetEl, on: 'bottom' },
+          extraHighlights: ['.extra-highlight-3344']
+        });
+        step._resolveAttachToOptions();
+        step.target = targetEl;
+        step._resolveExtraHiglightElements();
+
+        mockRaf();
+        mockOverflow(
+          new Map([
+            [containerA, 'auto'],
+            [containerB, 'auto']
+          ])
+        );
+
+        // Goes through _styleForStep, which is what resolves the target's own
+        // scroll parent and passes it in as `targetScrollParent`.
+        modal.setupForStep(step);
+
+        const d = modal.getElement().querySelector('path').getAttribute('d');
+
+        expect(d.split('Z').length - 1).toBe(3);
+        expect(d).toContain('M200,210');
+        expect(d).toContain('V250');
+
+        modal.hide();
+      });
+
+      // A scrollable DOM ancestor only crops a descendant when it is in that
+      // descendant's containing block chain. Resolving a scroll parent per
+      // element made this matter: without the containing block check, an
+      // absolutely positioned dropdown painted outside the panel it is nested
+      // in loses its opening entirely.
+      describe('elements whose position escapes a scrollable ancestor', () => {
+        // Panel occupies y 400-500; the extra is a DOM child of it but is
+        // painted up at y 80-120, the way an absolutely positioned dropdown is.
+        function buildEscapingCase(extraPosition, panelPosition = 'static') {
+          const panel = makeScrollContainer({
+            x: 0,
+            y: 400,
+            width: 500,
+            height: 100
+          });
+          const targetEl = makeChild(container, {
+            x: 10,
+            y: 10,
+            width: 100,
+            height: 50
+          });
+          const extraEl = makeChild(panel, {
+            x: 300,
+            y: 80,
+            width: 120,
+            height: 40
+          });
+
+          mockOverflow(
+            new Map([[panel, 'auto']]),
+            new Map([
+              [panel, panelPosition],
+              [extraEl, extraPosition]
+            ])
+          );
+
+          return { panel, targetEl, extraEl };
+        }
+
+        it('keeps the full opening for an absolutely positioned extra highlight', () => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildEscapingCase('absolute');
+
+          // The target has no scroll parent of its own, so the caller passes null.
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+
+          expect(d.split('Z').length - 1).toBe(3);
+          // Painted at y 80-120 and cut out there, not collapsed against the
+          // panel's y 400-500.
+          expect(d).toContain('M300,80');
+          expect(d).toContain('V120');
+        });
+
+        it('keeps the full opening for a fixed position extra highlight', () => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildEscapingCase('fixed');
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+
+          expect(d.split('Z').length - 1).toBe(3);
+          expect(d).toContain('M300,80');
+          expect(d).toContain('V120');
+        });
+
+        // The discriminator: absolute positioning does not exempt an element
+        // from cropping, it only moves which ancestor does the cropping. When
+        // the scrollable panel IS the containing block, it crops as usual.
+        it('still clips an absolutely positioned extra to its containing block', () => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildEscapingCase(
+            'absolute',
+            'relative'
+          );
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+
+          // Scrolled out of its own containing block, so it collapses to zero
+          // height rather than cutting a hole where nothing is painted.
+          expect(d).toContain('M300,400');
+          expect(d).toContain('V400');
+          expect(d).not.toContain('V120');
+        });
+
+        it('still clips an in-flow extra scrolled out of its own container', () => {
+          const modal = createShepherdModal(container);
+
+          const panel = makeScrollContainer({
+            x: 0,
+            y: 400,
+            width: 500,
+            height: 100
+          });
+          const targetEl = makeChild(container, {
+            x: 10,
+            y: 10,
+            width: 100,
+            height: 50
+          });
+          const extraEl = makeChild(panel, {
+            x: 300,
+            y: 600,
+            width: 120,
+            height: 40
+          });
+
+          mockOverflow(new Map([[panel, 'auto']]));
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+
+          expect(d).toContain('M300,600');
+          expect(d).toContain('V600');
+        });
+      });
+    });
   });
 
   describe('setupForStep()', function () {

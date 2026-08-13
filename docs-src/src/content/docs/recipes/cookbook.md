@@ -31,6 +31,8 @@ const tour = new Shepherd.Tour({
 
 If an element to be highlighted is contained by another element that is also being highlighted, the contained element will not be highlighted. This is to prevent the contained element from being obscured by the containing element.
 
+Highlighted elements do not have to share a scroll container with the `attachTo` target. Each one is clipped vertically by the scroll containers that actually crop it, so only the part of it that is scrolled into view is cut out of the overlay. An element whose position takes it outside those containers — `fixed`, or `absolute` against a containing block above them, as a dropdown usually is — is cut out in full, wherever it is painted. Clipping is vertical only: an element scrolled out of view horizontally is still cut out in full.
+
 ### Offsets
 
 By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
