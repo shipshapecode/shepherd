@@ -130,6 +130,25 @@ export interface StepOptions {
   id?: string;
 
   /**
+   * The `aria-label` for the step's dialog, used to give the step an
+   * accessible name when it has no visible `title`. A step with neither gets
+   * no naming attribute at all, so its dialog has no accessible name and
+   * screen readers announce it without one.
+   * ```
+   * - string
+   * - `Function` to be executed when the step is built. It must return a string.
+   * ```
+   * Ignored when `title` is set: the title already supplies the accessible
+   * name via `aria-labelledby`, which outranks `aria-label` in the accessible
+   * name computation. In that case a function-valued `label` is not invoked
+   * at all.
+   *
+   * An empty or whitespace-only value omits the attribute rather than
+   * emitting an accessible name that assistive technology treats as empty.
+   */
+  label?: StringOrStringFunction;
+
+  /**
    * An amount of padding to add around the modal overlay opening
    */
   modalOverlayOpeningPadding?: number;

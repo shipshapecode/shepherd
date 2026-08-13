@@ -598,6 +598,19 @@ describe('Tour | Step', () => {
         'test-step-description'
       );
     });
+
+    it('`label` sets aria-label on a step with no title', () => {
+      const step = new Step(tour, {
+        id: 'test-step',
+        text: 'Lorem Ipsum',
+        label: 'Welcome'
+      });
+
+      const element = step._createTooltipContent();
+
+      expect(element.getAttribute('aria-label')).toBe('Welcome');
+      expect(element.getAttribute('aria-labelledby')).toBeNull();
+    });
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
