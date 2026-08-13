@@ -1,12 +1,7 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
-import {
-  isElement,
-  isHTMLElement,
-  isFunction,
-  isUndefined
-} from './utils/type-check.ts';
+import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
 import {
   parseAttachTo,
@@ -402,6 +397,7 @@ export interface StepOptionsWhen {
  * @extends {Evented}
  */
 export class Step extends Evented {
+  _advanceOnCleanup?: (() => void) | null;
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
   _originalTabIndexes: Map<Element, string>;
@@ -479,6 +475,11 @@ export class Step extends Evented {
    * @private
    */
   _teardownElements() {
+    if (this._advanceOnCleanup) {
+      this._advanceOnCleanup();
+      this._advanceOnCleanup = null;
+    }
+
     destroyTooltip(this);
 
     if (this.shepherdElementComponent) {
@@ -724,7 +725,7 @@ export class Step extends Evented {
 
     this.options.classes = this._getClassOptions(options);
 
-    this.destroy();
+    this._teardownElements();
     this.id = this.options.id || `step-${uuid()}`;
 
     if (when) {
@@ -737,17 +738,21 @@ export class Step extends Evented {
 
   /**
    * Create the element and set up the FloatingUI instance
+   *
+   * The element is recreated on every show, so any previously mounted element is
+   * torn down first. That teardown is internal — it must not emit the public
+   * `destroy` event, which means "this step is gone for good".
    * @private
    */
   _setupElements() {
-    if (!isUndefined(this.el)) {
-      this.destroy();
+    if (isHTMLElement(this.el)) {
+      this._teardownElements();
     }
 
     this.el = this._createTooltipContent();
 
     if (this.options.advanceOn) {
-      bindAdvance(this);
+      this._advanceOnCleanup = bindAdvance(this) ?? null;
     }
 
     // The tooltip implementation details are handled outside of the Step
