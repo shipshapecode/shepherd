@@ -804,6 +804,91 @@ describe('Tour | Top-Level Class', function () {
       );
       expect(step3PlacementMiddleware.options.alignment).toBe('end');
     });
+
+    describe('strategy', () => {
+      let target;
+
+      beforeEach(() => {
+        target = document.createElement('div');
+        target.classList.add('strategy-test');
+        document.body.appendChild(target);
+      });
+
+      afterEach(() => {
+        document.body.removeChild(target);
+      });
+
+      it('writes the default `absolute` strategy to an attached step', async () => {
+        instance = new Shepherd.Tour();
+
+        const step = instance.addStep({
+          id: 'test',
+          title: 'This is a test step for our tour',
+          attachTo: { element: '.strategy-test', on: 'top' }
+        });
+
+        instance.start();
+
+        await vi.waitFor(() => expect(step.el.style.position).toBe('absolute'));
+      });
+
+      it('honors `strategy: fixed` from step floatingUIOptions', async () => {
+        instance = new Shepherd.Tour();
+
+        const step = instance.addStep({
+          id: 'test',
+          title: 'This is a test step for our tour',
+          attachTo: { element: '.strategy-test', on: 'top' },
+          floatingUIOptions: { strategy: 'fixed' }
+        });
+
+        instance.start();
+
+        await vi.waitFor(() => expect(step.el.style.position).toBe('fixed'));
+      });
+
+      it('honors `strategy: fixed` from defaultStepOptions floatingUIOptions', async () => {
+        instance = new Shepherd.Tour({
+          defaultStepOptions: {
+            floatingUIOptions: { strategy: 'fixed' }
+          }
+        });
+
+        const step = instance.addStep({
+          id: 'test',
+          title: 'This is a test step for our tour',
+          attachTo: { element: '.strategy-test', on: 'top' }
+        });
+
+        instance.start();
+
+        await vi.waitFor(() => expect(step.el.style.position).toBe('fixed'));
+      });
+
+      // Centered steps are modal dialogs positioned with `left`/`top: 50%` and
+      // a `translate(-50%, -50%)`. Those percentages must resolve against the
+      // viewport, so the centered branch stays `fixed` no matter what strategy
+      // is configured. This test locks that in deliberately.
+      it.each([undefined, 'absolute', 'fixed'])(
+        'always centers with `position: fixed` when strategy is %s',
+        async (strategy) => {
+          instance = new Shepherd.Tour();
+
+          const step = instance.addStep({
+            id: 'test',
+            title: 'This is a test step for our tour',
+            floatingUIOptions: strategy ? { strategy } : {}
+          });
+
+          instance.start();
+
+          await vi.waitFor(() => expect(step.el.style.position).toBe('fixed'));
+
+          expect(step.el.style.left).toBe('50%');
+          expect(step.el.style.top).toBe('50%');
+        }
+      );
+    });
   });
 
   describe('shepherdModalOverlayContainer', function () {

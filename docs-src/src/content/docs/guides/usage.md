@@ -310,7 +310,12 @@ function will be called in the `before-show` phase.
   modal overlay opening. It can be either a number or an object with properties
   `{ topLeft, bottomLeft, bottomRight, topRight }`
 - `floatingUIOptions`: Extra options to pass to
-  [Floating UI](https://floating-ui.com/docs/getting-started)
+  [Floating UI](https://floating-ui.com/docs/getting-started). This includes
+  `strategy`, which sets the CSS `position` of the step element and defaults to
+  `'absolute'`. It can be set per-step or on `defaultStepOptions`. See
+  [Floating UI's `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
+  for when `'fixed'` is the better choice. Note that steps without an `attachTo`
+  element are always centered with `position: fixed` and ignore `strategy`.
 - `showOn`: A function that, when it returns true, will show the step. If it
   returns false, the step will be skipped.
 - `skipMissingElement`: A boolean. When true, a step whose `attachTo.element`

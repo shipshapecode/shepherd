@@ -11,7 +11,8 @@ import {
   type ComputePositionConfig,
   type MiddlewareData,
   type Placement,
-  type Alignment
+  type Alignment,
+  type Strategy
 } from '@floating-ui/dom';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
 import { isHTMLElement } from './type-check.ts';
@@ -116,11 +117,13 @@ function floatingUIposition(step: Step, shouldCenter: boolean) {
   return ({
     x,
     y,
+    strategy,
     placement,
     middlewareData
   }: {
     x: number;
     y: number;
+    strategy: Strategy;
     placement: Placement;
     middlewareData: MiddlewareData;
   }) => {
@@ -129,6 +132,15 @@ function floatingUIposition(step: Step, shouldCenter: boolean) {
     }
 
     if (shouldCenter) {
+      // `position: fixed` is intentional here and must NOT follow `strategy`.
+      // Centering relies on `left`/`top: 50%` plus a `translate(-50%, -50%)`,
+      // and those percentages have to resolve against the viewport. Under the
+      // default `absolute` strategy they would resolve against the document
+      // instead, placing the step at 50% of the *page* height so it scrolls
+      // off screen. A step centers when it has no `attachTo`, or when its
+      // `attachTo` is missing either `element` or `on` (see `shouldCenterStep`);
+      // all of those are modal dialogs, so viewport centering is the correct
+      // behavior regardless of `strategy`.
       Object.assign(step.el.style, {
         position: 'fixed',
         left: '50%',
@@ -137,7 +149,7 @@ function floatingUIposition(step: Step, shouldCenter: boolean) {
       });
     } else {
       Object.assign(step.el.style, {
-        position: 'absolute',
+        position: strategy,
         left: `${x}px`,
         top: `${y}px`
       });

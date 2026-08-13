@@ -54,6 +54,51 @@ const tour = new Shepherd.Tour({
 });
 ```
 
+### Positioning strategy
+
+Steps are positioned with `position: absolute` by default. Shepherd repositions
+them through Floating UI's `autoUpdate`, so the default already keeps a step
+locked to its target while the page — or any scrolling ancestor of the target —
+scrolls.
+
+If you need the step element to be `position: fixed` instead, set the Floating
+UI `strategy`. Floating UI recommends this when the target itself is
+`position: fixed`, or to escape a clipping ancestor; see
+[its `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
+for the trade-offs.
+
+For example:
+
+```js
+const tour = new Shepherd.Tour({
+  steps: [
+    {
+      ...
+      floatingUIOptions: {
+        strategy: 'fixed'
+      }
+      ...
+    }
+  ]
+});
+```
+
+You can also set this once for every step via `defaultStepOptions`:
+
+```js
+const tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    floatingUIOptions: {
+      strategy: 'fixed'
+    }
+  }
+});
+```
+
+Centered steps are always positioned in the viewport with `position: fixed`, so
+`strategy` has no effect on them. A step is centered when it has no `attachTo`
+at all, or when its `attachTo` is missing either `element` or `on`.
+
 ### Progress Indicator
 
 Using the already exposed API, you could add a progress indicator of your choosing
