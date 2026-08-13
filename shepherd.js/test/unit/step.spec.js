@@ -663,6 +663,162 @@ describe('Tour | Step', () => {
     });
   });
 
+  /**
+   * The click-blocking CSS rule keys solely on the unprefixed
+   * `shepherd-target-click-disabled` class, because `classPrefix` prefixes the
+   * sibling `shepherd-enabled`/`shepherd-target` classes at runtime and a
+   * static stylesheet cannot know the prefix (#1298). These tests pin which
+   * elements carry that class and when.
+   *
+   * They deliberately do not assert computed `pointer-events`: this suite runs
+   * in happy-dom and never loads `shepherd.css`, so such an assertion would
+   * pass vacuously. The cascade half of the fix — the `... *` descendant
+   * clause and the 0-3-0 specificity — is pinned in
+   * `test/cypress/integration/element-targeting.cy.js` against a fixture that
+   * competes with both.
+   */
+  describe('canClickTarget with classPrefix', () => {
+    const CLICK_DISABLED = 'shepherd-target-click-disabled';
+    let instance, targetElem, extraElem;
+
+    function buildTour(stepOptions) {
+      instance = new Shepherd.Tour({ classPrefix: 'my-tour-' });
+      instance.addStep({
+        id: 'test',
+        text: 'This is a step for testing',
+        attachTo: { element: '.click-disabled-target', on: 'top' },
+        ...stepOptions
+      });
+      return instance;
+    }
+
+    beforeEach(() => {
+      targetElem = document.createElement('div');
+      targetElem.classList.add('click-disabled-target');
+      document.body.appendChild(targetElem);
+
+      extraElem = document.createElement('div');
+      extraElem.classList.add('click-disabled-extra');
+      document.body.appendChild(extraElem);
+    });
+
+    afterEach(() => {
+      instance?.complete();
+      instance = null;
+      targetElem.remove();
+      extraElem.remove();
+    });
+
+    it('adds `shepherd-target-click-disabled` unprefixed, alongside the prefixed classes', () => {
+      buildTour({ canClickTarget: false }).start();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(true);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+    });
+
+    it('removes all three classes on `hide()`', () => {
+      buildTour({ canClickTarget: false }).start();
+      instance.getCurrentStep().hide();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        false
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    it('removes all three classes on `destroy()`', () => {
+      buildTour({ canClickTarget: false }).start();
+      instance.getCurrentStep().destroy();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        false
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    // The class now carries the whole meaning of the CSS rule, so it must not
+    // appear on targets that never opted in: any element wearing it is
+    // unclickable.
+    it('does not add `shepherd-target-click-disabled` when `canClickTarget` is unset', () => {
+      buildTour({}).start();
+
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('does not add `shepherd-target-click-disabled` when `canClickTarget` is true', () => {
+      buildTour({ canClickTarget: true }).start();
+
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('adds `shepherd-target-click-disabled` to `extraHighlights` elements too', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+    });
+
+    it('does not add `shepherd-target-click-disabled` to `extraHighlights` elements when `canClickTarget` is unset', () => {
+      buildTour({ extraHighlights: ['.click-disabled-extra'] }).start();
+
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('removes `shepherd-target-click-disabled` from `extraHighlights` elements on `hide()`', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+
+      instance.getCurrentStep().hide();
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    it('removes `shepherd-target-click-disabled` from `extraHighlights` elements when the tour completes', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+
+      instance.complete();
+      instance = null;
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+  });
+
   describe('lazy attachTo evaluation', () => {
     // We test this using attachTo.element callback.
     // Note that lazy evaluation largely relies on `parseAttachTo`, however this does
