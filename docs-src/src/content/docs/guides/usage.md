@@ -292,7 +292,12 @@ function will be called in the `before-show` phase.
   ```
 - `extraHighlights`: An array of extra element selectors to highlight when the
   overlay is shown The tooltip won’t be fixed to these elements, but they will
-  be highlighted just like the attachTo element.
+  be highlighted just like the attachTo element. They do not have to share a
+  scroll container with the attachTo element: each one is clipped vertically by
+  the scroll containers that actually crop it, so only the part of it that is
+  scrolled into view is cut out of the overlay. An element positioned outside
+  those containers — `fixed`, or `absolute` against a containing block above
+  them — is cut out in full, matching where it is painted.
 - `advanceOn`: An action on the page which should advance shepherd to the next
   step. It should be an object with a string `selector` and an `event` name. For
   example: `{selector: '.some-element', event: 'click'}`. It doesn't have to be
