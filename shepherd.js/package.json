@@ -70,7 +70,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
-    "deepmerge-ts": "^7.1.5"
+    "deepmerge-ts": "^8.0.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
