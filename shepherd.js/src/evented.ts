@@ -51,18 +51,18 @@ export class Evented {
    * @returns
    */
   off(event: string, handler?: AnyHandler) {
-    if (isUndefined(this.bindings) || isUndefined(this.bindings[event])) {
+    const bindings = this.bindings?.[event];
+
+    if (isUndefined(bindings)) {
       return this;
     }
 
     if (isUndefined(handler)) {
       delete this.bindings[event];
     } else {
-      this.bindings[event]?.forEach((binding, index) => {
-        if (binding.handler === handler) {
-          this.bindings[event]?.splice(index, 1);
-        }
-      });
+      this.bindings[event] = bindings.filter(
+        (binding) => binding.handler !== handler
+      );
     }
 
     return this;
@@ -76,18 +76,30 @@ export class Evented {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   trigger(event: string, ...args: any[]) {
-    if (!isUndefined(this.bindings) && this.bindings[event]) {
-      this.bindings[event]?.forEach((binding, index) => {
-        const { ctx, handler, once } = binding;
+    const bindings = this.bindings?.[event];
 
-        const context = ctx || this;
+    if (isUndefined(bindings)) {
+      return this;
+    }
 
-        handler.apply(context, args as []);
+    // Iterate over a copy, since handlers may add or remove bindings while we
+    // are dispatching.
+    for (const binding of bindings.slice()) {
+      const { ctx, handler, once } = binding;
 
-        if (once) {
+      const context = ctx || this;
+
+      handler.apply(context, args as []);
+
+      if (once) {
+        // Look the binding up by identity rather than by loop index, since
+        // indexes shift as bindings are removed.
+        const index = this.bindings[event]?.indexOf(binding) ?? -1;
+
+        if (index !== -1) {
           this.bindings[event]?.splice(index, 1);
         }
-      });
+      }
     }
 
     return this;
