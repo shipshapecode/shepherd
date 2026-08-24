@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../../dist/css/shepherd.css" />
+    <script type="module">
+      import Shepherd from '../../../dist/js/shepherd.mjs';
+      window.Shepherd = Shepherd;
+    </script>
+  </head>
+
+  <body>
+    <style>
+      body {
+        margin: 0;
+        /* Tall enough that the window can scroll with the target on screen. */
+        height: 3000px;
+      }
+
+      .page-target {
+        position: absolute;
+        top: 1200px;
+        left: 400px;
+        padding: 20px;
+        background: red;
+      }
+
+      .overflow-container {
+        position: absolute;
+        top: 200px;
+        left: 400px;
+        width: 400px;
+        height: 300px;
+        overflow: auto;
+        background: #eee;
+      }
+
+      .overflow-content {
+        height: 1200px;
+      }
+
+      .overflow-target {
+        margin: 600px 0 0 40px;
+        padding: 20px;
+        width: 120px;
+        background: blue;
+      }
+    </style>
+
+    <div class="page-target">Page target</div>
+
+    <div class="overflow-container">
+      <div class="overflow-content">
+        <div class="overflow-target">Overflow target</div>
+      </div>
+    </div>
+  </body>
+</html>

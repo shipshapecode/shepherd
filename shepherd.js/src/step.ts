@@ -162,6 +162,12 @@ export interface StepOptions {
 
   /**
    * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   *
+   * This includes `strategy`, the CSS `position` used for the step element,
+   * which defaults to `'absolute'`. Centered steps are always `position: fixed`
+   * and ignore `strategy` -- a step counts as centered when it has no
+   * `attachTo` at all, or when its `attachTo` is missing either `element` or
+   * `on`.
    */
   floatingUIOptions?: ComputePositionConfig;
 
