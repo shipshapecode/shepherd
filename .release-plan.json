@@ -2,18 +2,10 @@
   "solution": {
     "react-shepherd": {
       "impact": "patch",
-      "oldVersion": "7.0.4",
-      "newVersion": "7.0.5",
+      "oldVersion": "7.0.5",
+      "newVersion": "7.0.6",
       "tagName": "latest",
       "constraints": [
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
-        },
         {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
@@ -22,11 +14,19 @@
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "patch",
-      "oldVersion": "15.2.2",
-      "newVersion": "15.2.3",
+      "impact": "minor",
+      "oldVersion": "15.2.3",
+      "newVersion": "15.3.0",
       "tagName": "latest",
       "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :house: Internal"
@@ -35,5 +35,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-08-10)\n\n* react-shepherd 7.0.5 (patch)\n* shepherd.js 15.2.3 (patch)\n\n#### :bug: Bug Fix\n* `react-shepherd`\n  * [#3461](https://github.com/shipshapecode/shepherd/pull/3461) fix: allow TypeScript 6 and 7 as peer dependencies for react-shepherd ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :house: Internal\n* `react-shepherd`, `shepherd.js`\n  * [#3463](https://github.com/shipshapecode/shepherd/pull/3463) chore: pnpm update and audit fixes ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* Other\n  * [#3444](https://github.com/shipshapecode/shepherd/pull/3444) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 1\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n"
+  "description": "## Release (2026-08-24)\n\n* react-shepherd 7.0.6 (patch)\n* shepherd.js 15.3.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3482](https://github.com/shipshapecode/shepherd/pull/3482) feat: add `label` step option for the dialog's accessible name ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3471](https://github.com/shipshapecode/shepherd/pull/3471) feat: add waitForElement and skipMissingElement step options ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3480](https://github.com/shipshapecode/shepherd/pull/3480) fix: honor the floatingUIOptions positioning strategy ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3481](https://github.com/shipshapecode/shepherd/pull/3481) fix: make canClickTarget work when a classPrefix is set ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3477](https://github.com/shipshapecode/shepherd/pull/3477) fix: keep the arrow middleware last when merging custom Floating UI options ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3476](https://github.com/shipshapecode/shepherd/pull/3476) fix: do not skip event handlers registered after a `once` handler ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3483](https://github.com/shipshapecode/shepherd/pull/3483) fix: clip each highlighted element by its own scroll containers ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3474](https://github.com/shipshapecode/shepherd/pull/3474) fix: only trigger the step `destroy` event on real teardown ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3472](https://github.com/shipshapecode/shepherd/pull/3472) fix: pass the actual previous step in the Tour `show` event ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#3475](https://github.com/shipshapecode/shepherd/pull/3475) chore: untrack cypress downloads run artifact ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
 }

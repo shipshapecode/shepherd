@@ -1,5 +1,32 @@
 # Changelog
 
+## Release (2026-08-24)
+
+* react-shepherd 7.0.6 (patch)
+* shepherd.js 15.3.0 (minor)
+
+#### :rocket: Enhancement
+* `shepherd.js`
+  * [#3482](https://github.com/shipshapecode/shepherd/pull/3482) feat: add `label` step option for the dialog's accessible name ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3471](https://github.com/shipshapecode/shepherd/pull/3471) feat: add waitForElement and skipMissingElement step options ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3480](https://github.com/shipshapecode/shepherd/pull/3480) fix: honor the floatingUIOptions positioning strategy ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3481](https://github.com/shipshapecode/shepherd/pull/3481) fix: make canClickTarget work when a classPrefix is set ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3477](https://github.com/shipshapecode/shepherd/pull/3477) fix: keep the arrow middleware last when merging custom Floating UI options ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3476](https://github.com/shipshapecode/shepherd/pull/3476) fix: do not skip event handlers registered after a `once` handler ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3483](https://github.com/shipshapecode/shepherd/pull/3483) fix: clip each highlighted element by its own scroll containers ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3474](https://github.com/shipshapecode/shepherd/pull/3474) fix: only trigger the step `destroy` event on real teardown ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3472](https://github.com/shipshapecode/shepherd/pull/3472) fix: pass the actual previous step in the Tour `show` event ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### :house: Internal
+* `shepherd.js`
+  * [#3475](https://github.com/shipshapecode/shepherd/pull/3475) chore: untrack cypress downloads run artifact ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
+#### Committers: 1
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+
 ## Release (2026-08-10)
 
 * react-shepherd 7.0.5 (patch)
