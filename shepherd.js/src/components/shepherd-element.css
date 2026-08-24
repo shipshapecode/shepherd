@@ -76,7 +76,23 @@
   background-color: #e6e6e6;
 }
 
-.shepherd-target-click-disabled.shepherd-enabled.shepherd-target,
-.shepherd-target-click-disabled.shepherd-enabled.shepherd-target * {
+/**
+* Blocks clicks on the target of a step with `canClickTarget: false`.
+*
+* Keyed only on `shepherd-target-click-disabled`, which
+* `Step#_styleTargetElementForStep` adds unprefixed, and only when
+* `canClickTarget === false`. The sibling
+* `shepherd-enabled`/`shepherd-target` classes cannot be part of this selector:
+* `classPrefix` prefixes them at runtime and a static stylesheet cannot know
+* the prefix, so requiring them silently disabled click blocking for every tour
+* using `classPrefix` (#1298).
+*
+* The class is repeated three times on purpose, to preserve this selector's
+* original 0-3-0 specificity so that existing overrides keep winning. Do not
+* "clean this up" to a single class without reading #1298 first.
+*/
+.shepherd-target-click-disabled.shepherd-target-click-disabled.shepherd-target-click-disabled,
+.shepherd-target-click-disabled.shepherd-target-click-disabled.shepherd-target-click-disabled
+  * {
   pointer-events: none;
 }

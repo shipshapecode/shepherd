@@ -121,3 +121,28 @@ pre {
 .shepherd-text a:active:hover {
   border-bottom-style: solid;
 }
+
+/*
+ * Fixtures for the `canClickTarget: false` click-blocking tests (#1298).
+ *
+ * These rules deliberately COMPETE with the click-blocking rule in
+ * shepherd.css, so that the cypress assertions exercise the shipped selector
+ * rather than passing for free. This file is linked after shepherd.css, so at
+ * equal specificity these win.
+ *
+ * - `.click-block-fixture.click-block-fixture-override` is 0-2-0 on the target.
+ *   It loses to the click-blocking rule only while that rule holds its 0-3-0
+ *   specificity. Collapse the repeated class in shepherd-element.css and the
+ *   target computes `auto` again.
+ * - `.click-block-fixture-child` gives the child its own `pointer-events`
+ *   value, so the child cannot simply inherit `none` from the target. It loses
+ *   only to the descendant (`... *`) half of the click-blocking rule. Delete
+ *   that half and the child computes `auto` again.
+ */
+.click-block-fixture.click-block-fixture-override {
+  pointer-events: auto;
+}
+
+.click-block-fixture-child {
+  pointer-events: auto;
+}

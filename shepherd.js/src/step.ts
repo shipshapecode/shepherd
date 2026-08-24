@@ -88,6 +88,10 @@ export interface StepOptions {
 
   /**
    * A boolean, that when set to false, will set `pointer-events: none` on the target.
+   *
+   * The blocking is delivered by `shepherd.css` (via the `shepherd-target-click-disabled`
+   * class), so it has no effect if you have opted out of Shepherd's stylesheet without
+   * providing an equivalent rule.
    */
   canClickTarget?: boolean;
 

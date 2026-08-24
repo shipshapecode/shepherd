@@ -125,7 +125,11 @@ const myTour = new Shepherd.Tour(options);
 ##### Tour Options
 
 - `classPrefix`: The prefix to add to the `shepherd-enabled` and
-  `shepherd-target` class names as well as the `data-shepherd-step-id`.
+  `shepherd-target` class names Shepherd puts on the **target** element, as well
+  as to the `data-shepherd-step-id` attribute. Nothing else is prefixed: the
+  popup keeps its own unprefixed `shepherd-enabled` class, and
+  `shepherd-target-click-disabled` stays unprefixed too, because the shipped
+  stylesheet keys click blocking on it and cannot know your runtime prefix.
 - `confirmCancel`:
   - If true, will issue a `window.confirm` before cancelling
   - If it is a function(support Async Function), it will be called and wait for
@@ -241,7 +245,9 @@ function will be called in the `before-show` phase.
   },
   ```
 - `canClickTarget` A boolean, that when set to false, will set
-  `pointer-events: none` on the target
+  `pointer-events: none` on the target. The blocking is delivered by
+  `shepherd.css`, so it has no effect if you have opted out of Shepherd's
+  stylesheet without providing an equivalent rule.
 - `cancelIcon` Options for the cancel icon
   - `attrs` Additional HTML attributes to apply to the cancel icon button
     element. This is useful for adding data attributes for testing or analytics.

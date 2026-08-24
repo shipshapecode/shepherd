@@ -44,6 +44,10 @@ export interface TourOptions {
   confirmCancelMessage?: string;
   /**
    * The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
+   *
+   * Only those apply. The popup keeps its own unprefixed `shepherd-enabled` class, and
+   * `shepherd-target-click-disabled` is never prefixed either, since `shepherd.css` keys
+   * click blocking on it and cannot know the runtime prefix.
    */
   classPrefix?: string;
   /**
