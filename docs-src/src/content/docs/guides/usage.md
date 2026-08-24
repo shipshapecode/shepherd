@@ -202,6 +202,16 @@ Steps are instances of the Step object. They are generally created by the
   - `Function` to be executed when the step is built. It must return one the two
     options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
+- `label`: An `aria-label` for the step's dialog element. Use it to give a step
+  an accessible name when it has no visible `title` — a step with neither gets
+  no naming attribute at all, so its dialog has no accessible name and screen
+  readers announce it without one. It can also be a function that returns a
+  string (useful with i18n solutions). It is ignored when `title` is set,
+  because the title already supplies the accessible name via `aria-labelledby`;
+  a function-valued `label` is not invoked in that case. An empty or
+  whitespace-only value omits the attribute. It can be set on
+  `defaultStepOptions`, but prefer a distinct `label` per step so each dialog
+  has a meaningful, unique name.
 - `attachTo`: The element the step should be attached to on the page. An object
   with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function

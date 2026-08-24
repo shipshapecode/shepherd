@@ -1,6 +1,6 @@
 import { h } from '../utils/dom.ts';
 import { createShepherdContent } from './shepherd-content.ts';
-import { isUndefined, isString } from '../utils/type-check.ts';
+import { isUndefined, isString, isFunction } from '../utils/type-check.ts';
 import type { Step } from '../step.ts';
 import './shepherd-element.css';
 
@@ -40,6 +40,25 @@ export function createShepherdElement(
 
   const hasCancelIcon = step.options?.cancelIcon?.enabled ?? false;
   const hasTitle = step.options?.title ?? false;
+
+  // A step with no title has no naming attribute at all, so its dialog has no
+  // accessible name. `label` supplies one via `aria-label`.
+  // `title` wins when both are set, because `aria-labelledby` outranks
+  // `aria-label` in the accessible name computation, and because the
+  // accessible name should match the visible title (WCAG 2.5.3). The gate
+  // comes first so a function-valued `label` is never invoked when it would
+  // be discarded — a throwing or side-effecting one must not break a titled
+  // step.
+  const resolvedLabel = hasTitle
+    ? undefined
+    : isFunction(step.options.label)
+      ? (step.options.label.call(step) as string)
+      : step.options.label;
+  // Gate on the trimmed value so `''`, `() => ''` and whitespace-only names
+  // omit the attribute instead of emitting an accessible name that assistive
+  // technology treats as empty. The untrimmed value is what gets written.
+  const ariaLabel =
+    isString(resolvedLabel) && resolvedLabel.trim() ? resolvedLabel : null;
 
   /**
    * Setup keydown events to allow closing the modal with ESC
@@ -116,6 +135,7 @@ export function createShepherdElement(
   // Build the dialog element
   const element = h('dialog', {
     'aria-describedby': !isUndefined(step.options.text) ? descriptionId : null,
+    'aria-label': ariaLabel,
     'aria-labelledby': step.options.title ? labelId : null,
     class: [
       'shepherd-element',

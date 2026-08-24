@@ -370,4 +370,50 @@ describe('a11y', () => {
       });
     });
   });
+
+  describe('accessible name', () => {
+    let tour;
+
+    beforeEach(() => {
+      tour = new Shepherd.Tour({
+        defaultStepOptions: {
+          classes: 'shepherd-theme-arrows',
+          scrollTo: true
+        }
+      });
+    });
+
+    afterEach(() => {
+      tour?.complete();
+    });
+
+    it('a text-only step is named by its `label`', () => {
+      tour.addStep({
+        text: 'Testing the accessible name of a title-less step',
+        label: 'Welcome tour'
+      });
+
+      tour.start();
+
+      cy.get('.shepherd-element').should(
+        'have.attr',
+        'aria-label',
+        'Welcome tour'
+      );
+      cy.get('.shepherd-element').should('not.have.attr', 'aria-labelledby');
+    });
+
+    it('a step with a title is named by the title, not the `label`', () => {
+      tour.addStep({
+        title: 'Test Step',
+        text: 'Testing that the title wins',
+        label: 'Ignored'
+      });
+
+      tour.start();
+
+      cy.get('.shepherd-element').should('have.attr', 'aria-labelledby');
+      cy.get('.shepherd-element').should('not.have.attr', 'aria-label');
+    });
+  });
 });
