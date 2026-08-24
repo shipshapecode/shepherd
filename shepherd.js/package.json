@@ -88,7 +88,7 @@
     "autoprefixer": "^10.5.4",
     "chai": "^6.2.2",
     "cssnano": "^7.1.9",
-    "cypress": "^15.20.0",
+    "cypress": "^15.21.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^8.0.1",
     "dts-bundle-generator": "^9.5.1",
