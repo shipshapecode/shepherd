@@ -31,6 +31,8 @@ const tour = new Shepherd.Tour({
 
 If an element to be highlighted is contained by another element that is also being highlighted, the contained element will not be highlighted. This is to prevent the contained element from being obscured by the containing element.
 
+Highlighted elements do not have to share a scroll container with the `attachTo` target. Each one is clipped vertically by the scroll containers that actually crop it, so only the part of it that is scrolled into view is cut out of the overlay. An element whose position takes it outside those containers — `fixed`, or `absolute` against a containing block above them, as a dropdown usually is — is cut out in full, wherever it is painted. Clipping is vertical only: an element scrolled out of view horizontally is still cut out in full.
+
 ### Offsets
 
 By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
@@ -53,6 +55,51 @@ const tour = new Shepherd.Tour({
   ]
 });
 ```
+
+### Positioning strategy
+
+Steps are positioned with `position: absolute` by default. Shepherd repositions
+them through Floating UI's `autoUpdate`, so the default already keeps a step
+locked to its target while the page — or any scrolling ancestor of the target —
+scrolls.
+
+If you need the step element to be `position: fixed` instead, set the Floating
+UI `strategy`. Floating UI recommends this when the target itself is
+`position: fixed`, or to escape a clipping ancestor; see
+[its `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
+for the trade-offs.
+
+For example:
+
+```js
+const tour = new Shepherd.Tour({
+  steps: [
+    {
+      ...
+      floatingUIOptions: {
+        strategy: 'fixed'
+      }
+      ...
+    }
+  ]
+});
+```
+
+You can also set this once for every step via `defaultStepOptions`:
+
+```js
+const tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    floatingUIOptions: {
+      strategy: 'fixed'
+    }
+  }
+});
+```
+
+Centered steps are always positioned in the viewport with `position: fixed`, so
+`strategy` has no effect on them. A step is centered when it has no `attachTo`
+at all, or when its `attachTo` is missing either `element` or `on`.
 
 ### Progress Indicator
 

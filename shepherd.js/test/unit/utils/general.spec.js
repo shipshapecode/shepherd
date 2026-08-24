@@ -3,7 +3,9 @@ import { Step } from '../../../src/step';
 import {
   parseAttachTo,
   shouldCenterStep,
-  parseExtraHighlights
+  parseExtraHighlights,
+  resolveAttachToElement,
+  waitForAttachToElement
 } from '../../../src/utils/general';
 import { getFloatingUIOptions } from '../../../src/utils/floating-ui';
 
@@ -73,6 +75,266 @@ describe('General Utils', function () {
       );
 
       parseAttachTo(step);
+    });
+
+    it('logs a console.error when a selector does not resolve and skipMissingElement is not set', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.element-does-not-exist', on: 'center' }
+        }
+      );
+
+      parseAttachTo(step);
+
+      expect(
+        spy,
+        'console.error is called when skipMissingElement is not set'
+      ).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it('does not log a console.error when skipMissingElement is true', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.element-does-not-exist', on: 'center' },
+          skipMissingElement: true
+        }
+      );
+
+      const { element } = parseAttachTo(step);
+
+      expect(element, 'resolved element is still falsy').toBeFalsy();
+      expect(
+        spy,
+        'console.error is not called when skipMissingElement is true'
+      ).not.toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+  });
+
+  describe('resolveAttachToElement()', function () {
+    it('resolves a selector string to the element', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.options-test', on: 'center' }
+        }
+      );
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBe(optionsElement);
+    });
+
+    it('returns null for a selector matching nothing', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.element-does-not-exist', on: 'center' }
+        }
+      );
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBeNull();
+    });
+
+    it('resolves a function returning an element', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: () => optionsElement, on: 'center' }
+        }
+      );
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBe(optionsElement);
+    });
+
+    it('resolves a function returning a selector string', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: () => '.options-test', on: 'center' }
+        }
+      );
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBe(optionsElement);
+    });
+
+    it('returns null when a function returns null', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: () => null, on: 'center' }
+        }
+      );
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBeNull();
+    });
+
+    it('returns null when the step has no attachTo', function () {
+      const step = new Step({}, {});
+
+      const element = resolveAttachToElement(step);
+      expect(element).toBeNull();
+    });
+
+    it('returns null for an invalid selector without throwing', function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: ':::', on: 'center' }
+        }
+      );
+
+      expect(() => resolveAttachToElement(step)).not.toThrow();
+      expect(resolveAttachToElement(step)).toBeNull();
+    });
+  });
+
+  describe('waitForAttachToElement()', function () {
+    it('resolves immediately with the element when it already exists', async function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.options-test', on: 'center' }
+        }
+      );
+
+      const element = await waitForAttachToElement(step, 1000);
+      expect(element).toBe(optionsElement);
+    });
+
+    it('resolves with the element when appended later', async function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.added-later', on: 'center' }
+        }
+      );
+
+      const promise = waitForAttachToElement(step, 1000);
+      let addedElement;
+
+      setTimeout(() => {
+        addedElement = document.createElement('div');
+        addedElement.classList.add('added-later');
+        document.body.appendChild(addedElement);
+      }, 20);
+
+      const element = await promise;
+
+      expect(
+        element,
+        'resolves with the element appended after the wait started'
+      ).toBe(addedElement);
+
+      document.body.removeChild(addedElement);
+    });
+
+    it('resolves with the element when an attribute change makes the selector match', async function () {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.added-later-class', on: 'center' }
+        }
+      );
+
+      const promise = waitForAttachToElement(step, 1000);
+
+      setTimeout(() => {
+        div.classList.add('added-later-class');
+      }, 20);
+
+      const element = await promise;
+
+      expect(
+        element,
+        'resolves with the element once its class matches the selector'
+      ).toBe(div);
+
+      document.body.removeChild(div);
+    });
+
+    it('resolves with null after timeout when the element never appears', async function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.never-appears-xyz', on: 'center' }
+        }
+      );
+
+      const element = await waitForAttachToElement(step, 50);
+      expect(element).toBeNull();
+    });
+
+    it('resolves with null immediately when missing and timeout is 0', async function () {
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.never-appears-xyz', on: 'center' }
+        }
+      );
+
+      const element = await waitForAttachToElement(step, 0);
+      expect(element).toBeNull();
+    });
+
+    it('falls back to polling when MutationObserver is unavailable', async function () {
+      vi.stubGlobal('MutationObserver', undefined);
+
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.polled-for-xyz', on: 'center' }
+        }
+      );
+
+      const promise = waitForAttachToElement(step, 1000);
+      let addedElement;
+
+      setTimeout(() => {
+        addedElement = document.createElement('div');
+        addedElement.classList.add('polled-for-xyz');
+        document.body.appendChild(addedElement);
+      }, 20);
+
+      const element = await promise;
+
+      expect(
+        element,
+        'polling resolves with the element without a MutationObserver'
+      ).toBe(addedElement);
+
+      document.body.removeChild(addedElement);
+      vi.unstubAllGlobals();
+    });
+
+    it('resolves with null after timeout when polling and the element never appears', async function () {
+      vi.stubGlobal('MutationObserver', undefined);
+
+      const step = new Step(
+        {},
+        {
+          attachTo: { element: '.never-appears-xyz', on: 'center' }
+        }
+      );
+
+      const element = await waitForAttachToElement(step, 80);
+
+      expect(element, 'polling gives up once the timeout expires').toBeNull();
+
+      vi.unstubAllGlobals();
     });
   });
 

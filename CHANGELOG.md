@@ -1,5 +1,23 @@
 # Changelog
 
+## Release (2026-08-10)
+
+* react-shepherd 7.0.5 (patch)
+* shepherd.js 15.2.3 (patch)
+
+#### :bug: Bug Fix
+* `react-shepherd`
+  * [#3461](https://github.com/shipshapecode/shepherd/pull/3461) fix: allow TypeScript 6 and 7 as peer dependencies for react-shepherd ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :house: Internal
+* `react-shepherd`, `shepherd.js`
+  * [#3463](https://github.com/shipshapecode/shepherd/pull/3463) chore: pnpm update and audit fixes ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* Other
+  * [#3444](https://github.com/shipshapecode/shepherd/pull/3444) pnpm update ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 1
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
 ## Release (2026-03-11)
 
 * react-shepherd 7.0.4 (patch)

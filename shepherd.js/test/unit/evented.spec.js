@@ -38,6 +38,48 @@ describe('Evented', () => {
         step: { id: 'test', text: 'A step' }
       });
     });
+
+    it('does not skip event bindings after removing an event binding', () => {
+      testEvent.once('testOn', () => true);
+      const handlerSpy = vi.fn();
+      testEvent.on('testOn', handlerSpy);
+
+      testEvent.trigger('testOn');
+
+      expect(handlerSpy).toHaveBeenCalled();
+    });
+
+    it('calls every once handler and removes all of them', () => {
+      const firstSpy = vi.fn();
+      const secondSpy = vi.fn();
+      const thirdSpy = vi.fn();
+      testEvent.once('multipleOnce', firstSpy);
+      testEvent.once('multipleOnce', secondSpy);
+      testEvent.once('multipleOnce', thirdSpy);
+
+      testEvent.trigger('multipleOnce');
+
+      expect(firstSpy).toHaveBeenCalledTimes(1);
+      expect(secondSpy).toHaveBeenCalledTimes(1);
+      expect(thirdSpy).toHaveBeenCalledTimes(1);
+      expect(
+        testEvent.bindings.multipleOnce,
+        'no spent once bindings left behind'
+      ).toHaveLength(0);
+    });
+
+    it('only calls a once handler for the first trigger', () => {
+      const onceSpy = vi.fn();
+      const onSpy = vi.fn();
+      testEvent.once('mixed', onceSpy);
+      testEvent.on('mixed', onSpy);
+
+      testEvent.trigger('mixed');
+      testEvent.trigger('mixed');
+
+      expect(onceSpy).toHaveBeenCalledTimes(1);
+      expect(onSpy).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('off()', () => {
@@ -60,6 +102,23 @@ describe('Evented', () => {
       ).toBe(1);
     });
 
+    it('removes every binding for a handler registered more than once', () => {
+      const handler = () => {};
+      testEvent.on('testOn', handler);
+      testEvent.on('testOn', handler);
+      expect(
+        testEvent.bindings.testOn.length,
+        '3 event listeners for testOn'
+      ).toBe(3);
+
+      testEvent.off('testOn', handler);
+
+      expect(
+        testEvent.bindings.testOn.length,
+        '1 event listener for testOn'
+      ).toBe(1);
+    });
+
     it('does not remove uncreated events', () => {
       testEvent.off('testBlank');
       expect(
@@ -76,7 +135,7 @@ describe('Evented', () => {
       expect(
         testEvent.bindings.testOnce,
         'custom event removed after one trigger'
-      ).toBeTruthy();
+      ).toHaveLength(0);
     });
   });
 });

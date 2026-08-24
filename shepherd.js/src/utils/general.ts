@@ -53,7 +53,7 @@ export function parseAttachTo(step: Step) {
     } catch (_e) {
       // TODO
     }
-    if (!returnOpts.element) {
+    if (!returnOpts.element && !step.options.skipMissingElement) {
       console.error(
         `The element for this Shepherd step was not found ${options.element}`
       );
@@ -61,6 +61,92 @@ export function parseAttachTo(step: Step) {
   }
 
   return returnOpts;
+}
+
+/**
+ * Resolves a step's `attachTo.element` to an HTMLElement, evaluating function
+ * locators and querying selector strings. Unlike `parseAttachTo`, this never
+ * logs and simply returns `null` when the element cannot be resolved.
+ * @param step - The step instance
+ * @returns The resolved element, or `null` if it could not be found
+ */
+export function resolveAttachToElement(step: Step): HTMLElement | null {
+  const attachTo = step.options.attachTo || {};
+  let element = isFunction(attachTo.element)
+    ? attachTo.element.call(step)
+    : attachTo.element;
+
+  if (isString(element)) {
+    try {
+      element = document.querySelector(element) as HTMLElement | null;
+    } catch (_e) {
+      element = null;
+    }
+  }
+
+  return element || null;
+}
+
+/**
+ * Waits for a step's `attachTo.element` to be resolvable, watching the DOM
+ * with a `MutationObserver` (falling back to polling when it is unavailable)
+ * until `timeout` milliseconds have elapsed.
+ * @param step - The step instance
+ * @param timeout - The maximum amount of time, in milliseconds, to wait
+ * @returns A promise resolving to the element, or `null` if it did not appear
+ * within `timeout` milliseconds
+ */
+export function waitForAttachToElement(
+  step: Step,
+  timeout: number
+): Promise<HTMLElement | null> {
+  return new Promise((resolve) => {
+    const element = resolveAttachToElement(step);
+
+    if (element || !(timeout > 0)) {
+      resolve(element);
+      return;
+    }
+
+    let observer: MutationObserver | null = null;
+    let pollTimer: ReturnType<typeof setInterval> | null = null;
+    let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const finish = (result: HTMLElement | null) => {
+      observer?.disconnect();
+
+      if (pollTimer !== null) {
+        clearInterval(pollTimer);
+      }
+
+      if (timeoutTimer !== null) {
+        clearTimeout(timeoutTimer);
+      }
+
+      resolve(result);
+    };
+
+    const check = () => {
+      const found = resolveAttachToElement(step);
+
+      if (found) {
+        finish(found);
+      }
+    };
+
+    timeoutTimer = setTimeout(() => finish(null), timeout);
+
+    if (typeof MutationObserver !== 'undefined') {
+      observer = new MutationObserver(check);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        childList: true,
+        subtree: true
+      });
+    } else {
+      pollTimer = setInterval(check, 50);
+    }
+  });
 }
 
 /*

@@ -126,6 +126,23 @@
           <input id="nested-input" type="text" placeholder="Input" />
           <button id="nested-button-2">Button 2</button>
         </div>
+
+        <!--
+          Fixture for the `canClickTarget: false` click-blocking tests (#1298).
+          Both this element and its child carry their own competing
+          `pointer-events` declarations in css/welcome.css, so the assertions
+          in element-targeting.cy.js cannot be satisfied by inheritance or by a
+          weaker version of the shepherd.css selector. See the comment on those
+          rules for what each one pins.
+        -->
+        <div
+          class="click-block-fixture click-block-fixture-override"
+          data-test-click-block-target
+        >
+          <span class="click-block-fixture-child" data-test-click-block-child
+            >Click blocking fixture</span
+          >
+        </div>
       </div>
     </div>
 

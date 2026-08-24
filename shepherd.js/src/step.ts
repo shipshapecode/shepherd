@@ -1,12 +1,7 @@
 import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
-import {
-  isElement,
-  isHTMLElement,
-  isFunction,
-  isUndefined
-} from './utils/type-check.ts';
+import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
 import {
   parseAttachTo,
@@ -93,6 +88,10 @@ export interface StepOptions {
 
   /**
    * A boolean, that when set to false, will set `pointer-events: none` on the target.
+   *
+   * The blocking is delivered by `shepherd.css` (via the `shepherd-target-click-disabled`
+   * class), so it has no effect if you have opted out of Shepherd's stylesheet without
+   * providing an equivalent rule.
    */
   canClickTarget?: boolean;
 
@@ -100,6 +99,15 @@ export interface StepOptions {
    * A string of extra classes to add to the step's content element.
    */
   classes?: string;
+
+  /**
+   * Arbitrary, JSON-serializable data to associate with the step. Shepherd
+   * does not use this value internally; it is a place to store your own
+   * metadata (for example analytics ids, or context produced by a tour
+   * generator) and read it back from `step.options.data` in event handlers
+   * and button actions.
+   */
+  data?: Record<string, unknown>;
 
   /**
    * An array of extra element selectors to highlight when the overlay is shown
@@ -124,6 +132,25 @@ export interface StepOptions {
    * The string to use as the `id` for the step.
    */
   id?: string;
+
+  /**
+   * The `aria-label` for the step's dialog, used to give the step an
+   * accessible name when it has no visible `title`. A step with neither gets
+   * no naming attribute at all, so its dialog has no accessible name and
+   * screen readers announce it without one.
+   * ```
+   * - string
+   * - `Function` to be executed when the step is built. It must return a string.
+   * ```
+   * Ignored when `title` is set: the title already supplies the accessible
+   * name via `aria-labelledby`, which outranks `aria-label` in the accessible
+   * name computation. In that case a function-valued `label` is not invoked
+   * at all.
+   *
+   * An empty or whitespace-only value omits the attribute rather than
+   * emitting an accessible name that assistive technology treats as empty.
+   */
+  label?: StringOrStringFunction;
 
   /**
    * An amount of padding to add around the modal overlay opening
@@ -154,6 +181,12 @@ export interface StepOptions {
 
   /**
    * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   *
+   * This includes `strategy`, the CSS `position` used for the step element,
+   * which defaults to `'absolute'`. Centered steps are always `position: fixed`
+   * and ignore `strategy` -- a step counts as centered when it has no
+   * `attachTo` at all, or when its `attachTo` is missing either `element` or
+   * `on`.
    */
   floatingUIOptions?: ComputePositionConfig;
 
@@ -175,6 +208,24 @@ export interface StepOptions {
   showOn?: () => boolean;
 
   /**
+   * When `true`, a step whose `attachTo.element` selector (or function
+   * locator) does not resolve to an element in the DOM is skipped, advancing
+   * to the next step (or the previous step when navigating backwards) instead
+   * of being shown centered. If all remaining steps are skipped, the tour
+   * completes (going forward) or cancels (going backward), mirroring the
+   * `showOn` semantics. Can be set on `defaultStepOptions` to apply to every
+   * step. Combine with `waitForElement` to give the element time to appear
+   * before skipping. Steps without an `attachTo` element are never skipped,
+   * since they are intentionally centered.
+   *
+   * Note that the target is looked up before the step's own `beforeShowPromise`
+   * and `before-show` handlers run, so an element that those handlers create is
+   * not visible to this check. Use `beforeShowPromise` on its own for targets
+   * the step itself renders.
+   */
+  skipMissingElement?: boolean;
+
+  /**
    * The text in the body of the step. It can be one of four types:
    * ```
    * - HTML string
@@ -193,6 +244,20 @@ export interface StepOptions {
    * ```
    */
   title?: StringOrStringFunction;
+
+  /**
+   * The maximum amount of time, in milliseconds, to wait for the
+   * `attachTo.element` to appear in the DOM before showing the step. The DOM
+   * is watched with a `MutationObserver` (falling back to polling when it is
+   * unavailable), so the step attaches as soon as the element appears. If the
+   * timeout expires, the step falls back to its default behavior: skipped
+   * when `skipMissingElement` is `true`, otherwise shown centered.
+   *
+   * The wait starts before the step's own `beforeShowPromise` and `before-show`
+   * handlers run, so it cannot observe a target that those handlers create, and
+   * a function locator is re-evaluated on each DOM change until it resolves.
+   */
+  waitForElement?: number;
 
   /**
    * You can define `show`, `hide`, etc events inside `when`. For example:
@@ -361,6 +426,7 @@ export interface StepOptionsWhen {
  * @extends {Evented}
  */
 export class Step extends Evented {
+  _advanceOnCleanup?: (() => void) | null;
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
   _originalTabIndexes: Map<Element, string>;
@@ -438,6 +504,11 @@ export class Step extends Evented {
    * @private
    */
   _teardownElements() {
+    if (this._advanceOnCleanup) {
+      this._advanceOnCleanup();
+      this._advanceOnCleanup = null;
+    }
+
     destroyTooltip(this);
 
     if (this.shepherdElementComponent) {
@@ -683,7 +754,7 @@ export class Step extends Evented {
 
     this.options.classes = this._getClassOptions(options);
 
-    this.destroy();
+    this._teardownElements();
     this.id = this.options.id || `step-${uuid()}`;
 
     if (when) {
@@ -696,17 +767,21 @@ export class Step extends Evented {
 
   /**
    * Create the element and set up the FloatingUI instance
+   *
+   * The element is recreated on every show, so any previously mounted element is
+   * torn down first. That teardown is internal — it must not emit the public
+   * `destroy` event, which means "this step is gone for good".
    * @private
    */
   _setupElements() {
-    if (!isUndefined(this.el)) {
-      this.destroy();
+    if (isHTMLElement(this.el)) {
+      this._teardownElements();
     }
 
     this.el = this._createTooltipContent();
 
     if (this.options.advanceOn) {
-      bindAdvance(this);
+      this._advanceOnCleanup = bindAdvance(this) ?? null;
     }
 
     // The tooltip implementation details are handled outside of the Step

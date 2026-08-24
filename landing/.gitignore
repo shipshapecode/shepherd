@@ -20,3 +20,4 @@ yarn-error.log*
 
 # shepherd copied dependencies
 public/shepherd.js
+.vercel/

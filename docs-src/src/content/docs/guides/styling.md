@@ -30,3 +30,10 @@ const tour = new Shepherd.Tour({
   classPrefix: 'my-tour-'
 });
 ```
+
+`classPrefix` applies to exactly two things: the `shepherd-enabled` and `shepherd-target` classes Shepherd puts on
+the **target** element (and on any `extraHighlights` elements), and the `data-shepherd-step-id` attribute on the popup.
+Everything else keeps its unprefixed name &mdash; including the `shepherd-enabled` class on the popup element itself,
+and the `shepherd-target-click-disabled` class that `canClickTarget: false` adds to the target. `shepherd.css` keys
+rules on those two, and a static stylesheet cannot know your runtime prefix, so prefixing them would break the rules
+they drive.

@@ -125,7 +125,11 @@ const myTour = new Shepherd.Tour(options);
 ##### Tour Options
 
 - `classPrefix`: The prefix to add to the `shepherd-enabled` and
-  `shepherd-target` class names as well as the `data-shepherd-step-id`.
+  `shepherd-target` class names Shepherd puts on the **target** element, as well
+  as to the `data-shepherd-step-id` attribute. Nothing else is prefixed: the
+  popup keeps its own unprefixed `shepherd-enabled` class, and
+  `shepherd-target-click-disabled` stays unprefixed too, because the shipped
+  stylesheet keys click blocking on it and cannot know your runtime prefix.
 - `confirmCancel`:
   - If true, will issue a `window.confirm` before cancelling
   - If it is a function(support Async Function), it will be called and wait for
@@ -172,6 +176,11 @@ const myTour = new Shepherd.Tour(options);
 - `off(eventName, [handler])`: Unbind an event
 - `once(eventName, handler, [context])`: Bind just the next instance of an event
 
+`start()` always returns a promise, and `show()`, `next()`, and `back()` return
+one while a step is waiting on its `attachTo.element` (see `waitForElement`
+below). Await them if you need to know the step is on screen — otherwise they
+can be called and ignored, as before.
+
 ##### Tour Events
 
 - `complete`: Triggered when the last step is advanced
@@ -193,6 +202,16 @@ Steps are instances of the Step object. They are generally created by the
   - `Function` to be executed when the step is built. It must return one the two
     options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
+- `label`: An `aria-label` for the step's dialog element. Use it to give a step
+  an accessible name when it has no visible `title` — a step with neither gets
+  no naming attribute at all, so its dialog has no accessible name and screen
+  readers announce it without one. It can also be a function that returns a
+  string (useful with i18n solutions). It is ignored when `title` is set,
+  because the title already supplies the accessible name via `aria-labelledby`;
+  a function-valued `label` is not invoked in that case. An empty or
+  whitespace-only value omits the attribute. It can be set on
+  `defaultStepOptions`, but prefer a distinct `label` per step so each dialog
+  has a meaningful, unique name.
 - `attachTo`: The element the step should be attached to on the page. An object
   with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function
@@ -212,7 +231,9 @@ const new Step(tour, {
 
 If you don’t specify an `attachTo` the element will appear in the middle of the
 screen. The same will happen if your `attachTo.element` callback returns `null`,
-`undefined`, or a selector that does not exist in the DOM.
+`undefined`, or a selector that does not exist in the DOM. The `waitForElement`
+and `skipMissingElement` options described below let you change this behavior
+for elements that are missing or rendered late.
 
 If you omit the `on` portion of `attachTo`, the element will still be
 highlighted, but the tooltip will appear in the middle of the screen, without an
@@ -234,7 +255,9 @@ function will be called in the `before-show` phase.
   },
   ```
 - `canClickTarget` A boolean, that when set to false, will set
-  `pointer-events: none` on the target
+  `pointer-events: none` on the target. The blocking is delivered by
+  `shepherd.css`, so it has no effect if you have opted out of Shepherd's
+  stylesheet without providing an equivalent rule.
 - `cancelIcon` Options for the cancel icon
   - `attrs` Additional HTML attributes to apply to the cancel icon button
     element. This is useful for adding data attributes for testing or analytics.
@@ -256,6 +279,10 @@ function will be called in the `before-show` phase.
   - `label` The label to add for `aria-label`
 
 - `classes`: A string of extra classes to add to the step's content element.
+- `data`: Arbitrary, JSON-serializable data to associate with the step. Shepherd
+  does not use it internally; read it back from `step.options.data` in your
+  event handlers and button actions. Useful for analytics ids or other metadata,
+  e.g. on generated tour definitions.
 - `buttons`: An array of buttons to add to the step. These will be rendered in a
   footer below the main body text. Each button in the array is an object of the
   format:
@@ -281,7 +308,12 @@ function will be called in the `before-show` phase.
   ```
 - `extraHighlights`: An array of extra element selectors to highlight when the
   overlay is shown The tooltip won’t be fixed to these elements, but they will
-  be highlighted just like the attachTo element.
+  be highlighted just like the attachTo element. They do not have to share a
+  scroll container with the attachTo element: each one is clipped vertically by
+  the scroll containers that actually crop it, so only the part of it that is
+  scrolled into view is cut out of the overlay. An element positioned outside
+  those containers — `fixed`, or `absolute` against a containing block above
+  them — is cut out in full, matching where it is painted.
 - `advanceOn`: An action on the page which should advance shepherd to the next
   step. It should be an object with a string `selector` and an `event` name. For
   example: `{selector: '.some-element', event: 'click'}`. It doesn't have to be
@@ -299,9 +331,35 @@ function will be called in the `before-show` phase.
   modal overlay opening. It can be either a number or an object with properties
   `{ topLeft, bottomLeft, bottomRight, topRight }`
 - `floatingUIOptions`: Extra options to pass to
-  [Floating UI](https://floating-ui.com/docs/getting-started)
+  [Floating UI](https://floating-ui.com/docs/getting-started). This includes
+  `strategy`, which sets the CSS `position` of the step element and defaults to
+  `'absolute'`. It can be set per-step or on `defaultStepOptions`. See
+  [Floating UI's `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
+  for when `'fixed'` is the better choice. Note that steps without an `attachTo`
+  element are always centered with `position: fixed` and ignore `strategy`.
 - `showOn`: A function that, when it returns true, will show the step. If it
   returns false, the step will be skipped.
+- `skipMissingElement`: A boolean. When true, a step whose `attachTo.element`
+  cannot be found in the DOM is skipped (like `showOn` returning false) instead
+  of being shown centered. If all remaining steps are skipped, the tour
+  completes going forward, or cancels going backward. It can also be set on
+  `defaultStepOptions` to apply to every step. Steps without an `attachTo`
+  element are never skipped, since they are intentionally centered.
+- `waitForElement`: The maximum amount of time, in milliseconds, to wait for the
+  `attachTo.element` to appear in the DOM before showing the step. The DOM is
+  watched with a `MutationObserver`, falling back to polling where
+  `MutationObserver` is unavailable, so the step attaches as soon as the element
+  appears. If the timeout expires, the step falls back to its default behavior:
+  skipped when `skipMissingElement` is true, otherwise shown centered. It can
+  also be set on `defaultStepOptions` to apply to every step. Useful for targets
+  that are rendered asynchronously.
+
+  Both options look the target up before the step's own `beforeShowPromise` and
+  `before-show` handlers run, so they cannot see an element that those handlers
+  create — keep using `beforeShowPromise` for targets the step itself renders.
+  Both are plain JSON values, so a tour definition using them stays
+  serializable.
+
 - `scrollTo`: Should the element be scrolled to when this step is shown? If
   true, uses the default `scrollIntoView`, if an object, passes that object as
   the params to `scrollIntoView` i.e. `{behavior: 'smooth', block: 'center'}`
@@ -321,28 +379,64 @@ when: {
 ##### Step Methods
 
 - `show()`: Show this step
-- `hide()`: Hide this step
+- `hide()`: Hide this step. The step's element stays in the DOM, so the step can
+  be shown again later.
 - `cancel()`: Hide this step and trigger the `cancel` event
 - `complete()`: Hide this step and trigger the `complete` event
 - `scrollTo()`: Scroll to this step's element
 - `isOpen()`: Returns true if the step is currently shown
-- `destroy()`: Remove the element
+- `destroy()`: Permanently tear the step down — removes its element from the
+  DOM, destroys the Floating UI instance, and triggers the `destroy` event
+- `updateStepOptions(options)`: Merge new options into the step and re-render
+  its element in place
+- `getElement()`: Returns the step's element — `undefined` if the step has never
+  been shown, `null` if it has been destroyed
+- `getTarget()`: Returns the step's resolved `attachTo` element
 - `on(eventName, handler, [context])`: Bind an event
 - `off(eventName, [handler])`: Unbind an event
 - `once(eventName, handler, [context])`: Bind just the next instance of an event
 
 ##### Step Events
 
-- `before-show`
-- `show`
-- `before-hide`
-- `hide`
-- `complete`
-- `cancel`
-- `destroy`
+- `before-show`: Triggered at the start of every `show()`, before the step's
+  element is created
+- `show`: Triggered at the end of every `show()`, once the element is in the DOM
+  and positioned
+- `before-hide`: Triggered at the start of every `hide()`
+- `hide`: Triggered at the end of every `hide()`
+- `complete`: Triggered by `step.complete()`
+- `cancel`: Triggered by `step.cancel()`
+- `destroy`: Triggered when the step is disposed of for good — by
+  `step.destroy()`, by `tour.removeStep(id)`, or for every step in the tour when
+  the tour completes or is cancelled
 
 Please note that `complete` and `cancel` are only ever triggered if you call the
 associated methods in your code.
+
+##### Step Lifecycle
+
+| What happens                                       | Events, in order                 |
+| -------------------------------------------------- | -------------------------------- |
+| A step is shown for the first time                 | `before-show`, `show`            |
+| Advancing away with `next()`, `back()`, `show(id)` | `before-hide`, `hide`            |
+| The same step is shown again later                 | `before-show`, `show`            |
+| `tour.removeStep(id)` on the step that is open     | `before-hide`, `hide`, `destroy` |
+| `tour.complete()` or `tour.cancel()`               | `destroy`, once for every step   |
+
+Shepherd rebuilds a step's element from scratch on every `show()`, but that is
+an implementation detail — recreating the element does **not** emit `destroy`.
+The event fires only when the step is actually being thrown away, so use it to
+release anything you allocated for the step, and `before-hide` / `hide` for work
+that should run every time the step goes away.
+
+`destroy()` is not guarded against running more than once, so calling it
+yourself and then completing the tour will emit `destroy` twice. Keep your
+teardown idempotent if you do both.
+
+> **Behavior change** — `destroy` used to also fire every time an already-shown
+> step was shown again, in between `before-show` and `show`, because the element
+> is recreated on each show. Recreating the element no longer triggers
+> `destroy`. See [#3443](https://github.com/shipshapecode/shepherd/issues/3443).
 
 ### Advancing on Actions
 

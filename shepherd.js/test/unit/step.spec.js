@@ -429,21 +429,43 @@ describe('Tour | Step', () => {
   });
 
   describe('_setupElements()', () => {
-    it('calls destroy on the step if the content element is already set', () => {
+    it('tears down the existing element without triggering `destroy`', () => {
       const step = new Step(tour, {});
-      let destroyCalled = false;
+      const teardownSpy = vi.spyOn(step, '_teardownElements');
+      const destroySpy = vi.fn();
+      step.on('destroy', destroySpy);
       step.el = document.createElement('a');
-      step.destroy = () => (destroyCalled = true);
+
       step._setupElements();
+
       expect(
-        destroyCalled,
-        '_setupElements method called destroy with element set'
-      ).toBeTruthy();
+        teardownSpy,
+        '_setupElements tore down the previously mounted element'
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        destroySpy,
+        'recreating the element did not trigger the public `destroy` event'
+      ).not.toHaveBeenCalled();
+    });
+
+    it('does not tear down again if the step was already destroyed', () => {
+      const step = new Step(tour, {});
+      step.el = document.createElement('a');
+      step.destroy();
+
+      const teardownSpy = vi.spyOn(step, '_teardownElements');
+      step._setupElements();
+
+      expect(
+        teardownSpy,
+        '_setupElements skipped teardown for an already destroyed step'
+      ).not.toHaveBeenCalled();
     });
 
     it('calls destroy on the tooltip if it already exists', () => {
       const step = new Step(tour, {});
       let destroyCalled = false;
+      step.el = document.createElement('a');
       step.cleanup = () => {
         destroyCalled = true;
       };
@@ -576,6 +598,19 @@ describe('Tour | Step', () => {
         'test-step-description'
       );
     });
+
+    it('`label` sets aria-label on a step with no title', () => {
+      const step = new Step(tour, {
+        id: 'test-step',
+        text: 'Lorem Ipsum',
+        label: 'Welcome'
+      });
+
+      const element = step._createTooltipContent();
+
+      expect(element.getAttribute('aria-label')).toBe('Welcome');
+      expect(element.getAttribute('aria-labelledby')).toBeNull();
+    });
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
@@ -638,6 +673,162 @@ describe('Tour | Step', () => {
 
         expect(targetElem.classList.contains('shepherd-enabled')).toBe(false);
       });
+    });
+  });
+
+  /**
+   * The click-blocking CSS rule keys solely on the unprefixed
+   * `shepherd-target-click-disabled` class, because `classPrefix` prefixes the
+   * sibling `shepherd-enabled`/`shepherd-target` classes at runtime and a
+   * static stylesheet cannot know the prefix (#1298). These tests pin which
+   * elements carry that class and when.
+   *
+   * They deliberately do not assert computed `pointer-events`: this suite runs
+   * in happy-dom and never loads `shepherd.css`, so such an assertion would
+   * pass vacuously. The cascade half of the fix — the `... *` descendant
+   * clause and the 0-3-0 specificity — is pinned in
+   * `test/cypress/integration/element-targeting.cy.js` against a fixture that
+   * competes with both.
+   */
+  describe('canClickTarget with classPrefix', () => {
+    const CLICK_DISABLED = 'shepherd-target-click-disabled';
+    let instance, targetElem, extraElem;
+
+    function buildTour(stepOptions) {
+      instance = new Shepherd.Tour({ classPrefix: 'my-tour-' });
+      instance.addStep({
+        id: 'test',
+        text: 'This is a step for testing',
+        attachTo: { element: '.click-disabled-target', on: 'top' },
+        ...stepOptions
+      });
+      return instance;
+    }
+
+    beforeEach(() => {
+      targetElem = document.createElement('div');
+      targetElem.classList.add('click-disabled-target');
+      document.body.appendChild(targetElem);
+
+      extraElem = document.createElement('div');
+      extraElem.classList.add('click-disabled-extra');
+      document.body.appendChild(extraElem);
+    });
+
+    afterEach(() => {
+      instance?.complete();
+      instance = null;
+      targetElem.remove();
+      extraElem.remove();
+    });
+
+    it('adds `shepherd-target-click-disabled` unprefixed, alongside the prefixed classes', () => {
+      buildTour({ canClickTarget: false }).start();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(true);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+    });
+
+    it('removes all three classes on `hide()`', () => {
+      buildTour({ canClickTarget: false }).start();
+      instance.getCurrentStep().hide();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        false
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    it('removes all three classes on `destroy()`', () => {
+      buildTour({ canClickTarget: false }).start();
+      instance.getCurrentStep().destroy();
+
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains('my-tour-shepherd-enabled')).toBe(
+        false
+      );
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    // The class now carries the whole meaning of the CSS rule, so it must not
+    // appear on targets that never opted in: any element wearing it is
+    // unclickable.
+    it('does not add `shepherd-target-click-disabled` when `canClickTarget` is unset', () => {
+      buildTour({}).start();
+
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('does not add `shepherd-target-click-disabled` when `canClickTarget` is true', () => {
+      buildTour({ canClickTarget: true }).start();
+
+      expect(targetElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('adds `shepherd-target-click-disabled` to `extraHighlights` elements too', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+    });
+
+    it('does not add `shepherd-target-click-disabled` to `extraHighlights` elements when `canClickTarget` is unset', () => {
+      buildTour({ extraHighlights: ['.click-disabled-extra'] }).start();
+
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        true
+      );
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+    });
+
+    it('removes `shepherd-target-click-disabled` from `extraHighlights` elements on `hide()`', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+
+      instance.getCurrentStep().hide();
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(extraElem.classList.contains('my-tour-shepherd-target')).toBe(
+        false
+      );
+    });
+
+    it('removes `shepherd-target-click-disabled` from `extraHighlights` elements when the tour completes', () => {
+      buildTour({
+        canClickTarget: false,
+        extraHighlights: ['.click-disabled-extra']
+      }).start();
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(true);
+
+      instance.complete();
+      instance = null;
+
+      expect(extraElem.classList.contains(CLICK_DISABLED)).toBe(false);
+      expect(targetElem.classList.contains(CLICK_DISABLED)).toBe(false);
     });
   });
 
@@ -915,6 +1106,195 @@ describe('Tour | Step', () => {
       // Hide the step - should restore to original value (3), not intermediate (7)
       instance.getCurrentStep().hide();
       expect(testElement.getAttribute('tabindex')).toBe('3');
+    });
+  });
+
+  describe('step lifecycle', () => {
+    let instance;
+    let testElement;
+
+    beforeEach(() => {
+      testElement = document.createElement('div');
+      testElement.id = 'lifecycle-test-element';
+      document.body.appendChild(testElement);
+    });
+
+    afterEach(() => {
+      instance?.complete();
+      testElement?.remove();
+    });
+
+    it('does not trigger `destroy` when a step is shown again', () => {
+      instance = new Shepherd.Tour({
+        steps: [
+          { id: 'first', text: 'First' },
+          { id: 'second', text: 'Second' }
+        ]
+      });
+
+      const destroySpy = vi.fn();
+      instance.getById('first').on('destroy', destroySpy);
+
+      instance.start();
+      instance.next();
+      instance.back();
+
+      expect(
+        destroySpy,
+        'recreating the element on show does not trigger `destroy`'
+      ).not.toHaveBeenCalled();
+    });
+
+    it('triggers `destroy` once for each step when the tour completes', () => {
+      instance = new Shepherd.Tour({
+        steps: [
+          { id: 'first', text: 'First' },
+          { id: 'second', text: 'Second' }
+        ]
+      });
+
+      const firstDestroy = vi.fn();
+      const secondDestroy = vi.fn();
+      instance.getById('first').on('destroy', firstDestroy);
+      instance.getById('second').on('destroy', secondDestroy);
+
+      instance.start();
+      instance.next();
+      instance.complete();
+
+      expect(firstDestroy).toHaveBeenCalledTimes(1);
+      expect(secondDestroy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not accumulate `advanceOn` listeners across shows', () => {
+      const addSpy = vi.spyOn(testElement, 'addEventListener');
+      const removeSpy = vi.spyOn(testElement, 'removeEventListener');
+
+      instance = new Shepherd.Tour({
+        steps: [
+          {
+            id: 'first',
+            text: 'First',
+            advanceOn: { selector: '#lifecycle-test-element', event: 'click' }
+          },
+          { id: 'second', text: 'Second' }
+        ]
+      });
+
+      instance.start(); // binds
+      instance.next();
+      instance.back(); // unbinds, then binds again
+      instance.complete(); // unbinds
+
+      const countFor = (spy) =>
+        spy.mock.calls.filter(([event]) => event === 'click').length;
+
+      expect(countFor(addSpy), 'advanceOn bound once per show').toBe(2);
+      expect(countFor(removeSpy), 'every bound listener was removed').toBe(2);
+
+      addSpy.mockRestore();
+      removeSpy.mockRestore();
+    });
+
+    // https://github.com/shipshapecode/shepherd/issues/3443
+    it('does not run `destroy` cleanup when re-showing a step whose target is set up in `beforeShowPromise`', async () => {
+      // `Tour.show()` does not return the step's show promise, so let the
+      // `beforeShowPromise` chain settle before asserting
+      const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
+      let opened = 0;
+      let closed = 0;
+
+      // Stands in for opening/closing a three-dots menu that holds the target
+      const openMenu = () => {
+        opened++;
+        document.querySelector('#menu-item')?.remove();
+        const item = document.createElement('button');
+        item.id = 'menu-item';
+        testElement.appendChild(item);
+      };
+      const closeMenu = () => {
+        closed++;
+        document.querySelector('#menu-item')?.remove();
+      };
+
+      instance = new Shepherd.Tour({
+        steps: [
+          { id: 'intro', text: 'Intro' },
+          {
+            id: 'menu-step',
+            text: 'Lives inside the menu',
+            attachTo: { element: '#menu-item', on: 'right' },
+            beforeShowPromise: () => Promise.resolve(openMenu()),
+            when: { destroy: closeMenu }
+          }
+        ]
+      });
+
+      await instance.start();
+      instance.next();
+      await settle();
+
+      expect(opened, 'menu opened for the step').toBe(1);
+      expect(closed, 'no cleanup yet').toBe(0);
+
+      instance.back();
+      await settle();
+      instance.next();
+      await settle();
+
+      expect(opened, 'menu re-opened on re-show').toBe(2);
+      expect(closed, 're-showing the step did not run `destroy` cleanup').toBe(
+        0
+      );
+      expect(
+        instance.getById('menu-step').getTarget()?.id,
+        'step is attached to the live target'
+      ).toBe('menu-item');
+
+      instance.complete();
+
+      expect(closed, 'cleanup ran exactly once, at the end of the tour').toBe(
+        1
+      );
+      expect(document.querySelector('#menu-item')).toBeNull();
+    });
+
+    it('preserves the original tabindex across `updateStepOptions`', () => {
+      testElement.setAttribute('tabindex', '2');
+
+      instance = new Shepherd.Tour({
+        steps: [
+          {
+            id: 'first',
+            text: 'First',
+            attachTo: { element: '#lifecycle-test-element', on: 'top' }
+          }
+        ]
+      });
+
+      instance.start();
+      expect(testElement.getAttribute('tabindex')).toBe('0');
+
+      // Tearing down and rebuilding the element must not lose the stored value
+      instance.getById('first').updateStepOptions({ text: 'Updated' });
+      instance.getById('first').hide();
+
+      expect(testElement.getAttribute('tabindex')).toBe('2');
+    });
+  });
+
+  describe('data option', () => {
+    it('exposes the data option at step.options.data', () => {
+      const data = { foo: 'bar', nested: { a: 1 } };
+      const step = tour.addStep({ id: 'data-step', data });
+
+      expect(step.options.data).toEqual(data);
+    });
+
+    it('leaves step.options.data undefined when data is not passed', () => {
+      const step = tour.addStep({ id: 'no-data-step' });
+
+      expect(step.options.data).toBeUndefined();
     });
   });
 });
