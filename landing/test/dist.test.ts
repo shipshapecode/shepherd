@@ -46,4 +46,12 @@ describe.skipIf(!staticDir)('build output', () => {
     expect(functionRoutes).toContain('^/$');
     expect(functionRoutes).toContain('^/index\\.md/?$');
   });
+
+  it('includes the trust pages in the sitemap', () => {
+    const sitemap = readFileSync(join(staticDir!, 'sitemap-0.xml'), 'utf-8');
+
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/about/</loc>');
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/contact/</loc>');
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/privacy/</loc>');
+  });
 });
