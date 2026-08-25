@@ -47,14 +47,35 @@ const structuredData = {
       operatingSystem: 'Web',
       softwareHelp: 'https://docs.shepherdjs.dev/',
       license: 'https://github.com/shipshapecode/shepherd/blob/main/LICENSE.md',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-        description:
-          'Free for open-source, personal, and non-commercial projects. Commercial licenses available.',
-        url: `${SITE_URL}/pricing`
-      },
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'Free Plan',
+          price: '0',
+          priceCurrency: 'USD',
+          description:
+            'Free for open-source, personal, and non-commercial projects.',
+          url: `${SITE_URL}/pricing`
+        },
+        {
+          '@type': 'Offer',
+          name: 'Business Plan',
+          price: '50',
+          priceCurrency: 'USD',
+          description:
+            'Lifetime commercial license for up to 5 projects, including 1 month of commercial support and regular product updates.',
+          url: `${SITE_URL}/pricing`
+        },
+        {
+          '@type': 'Offer',
+          name: 'Enterprise Plan',
+          price: '300',
+          priceCurrency: 'USD',
+          description:
+            'Lifetime commercial license for unlimited projects, including 6 months of support and prioritized GitHub issues.',
+          url: `${SITE_URL}/pricing`
+        }
+      ],
       sameAs: [
         'https://github.com/shipshapecode/shepherd',
         'https://www.npmjs.com/package/shepherd.js'

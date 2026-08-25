@@ -61,10 +61,18 @@ describe('homepage metadata', () => {
     expect(software.name).toBe('Shepherd.js');
     expect(software.description).toBeTruthy();
     expect(software.url).toBe('https://www.shepherdjs.dev/');
-    expect(software.offers).toBeTruthy();
     expect(software.sameAs).toContain(
       'https://github.com/shipshapecode/shepherd'
     );
+
+    // Offers mirror the tiers on /pricing: free, Business, and Enterprise.
+    const prices = software.offers.map(
+      (offer: { price: string; priceCurrency: string }) => {
+        expect(offer.priceCurrency).toBe('USD');
+        return offer.price;
+      }
+    );
+    expect(prices).toEqual(['0', '50', '300']);
   });
 });
 
