@@ -72,9 +72,18 @@ const { isHome } = Astro.props;
       alt={SITE_TITLE}
     />
 
-    <h2 class="font-body p-2 text-xl">
-      Guide your users through a tour of your app
-    </h2>
+    {
+      isHome ? (
+        <h1 class="font-body p-2 text-xl">
+          <span class="sr-only">Shepherd.js — </span>
+          Guide your users through a tour of your app
+        </h1>
+      ) : (
+        <h2 class="font-body p-2 text-xl">
+          Guide your users through a tour of your app
+        </h2>
+      )
+    }
 
     {
       isHome && (
