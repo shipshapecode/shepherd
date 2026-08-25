@@ -1,0 +1,52 @@
+# Shepherd.js
+
+> Shepherd is an open-source JavaScript library for building guided product
+> tours, user onboarding flows, trainings, and feature announcements on any
+> website or web app. Steps render as accessible dialogs (keyboard navigation,
+> focus trapping, aria attributes) that attach to DOM elements and are
+> positioned by Floating UI. Works with React, Ember, Angular, Vue.js,
+> ES Modules, or plain JavaScript. Free for open-source, personal, and
+> non-commercial use (AGPL-3.0); commercial licenses are available.
+
+## When to use Shepherd
+
+Use Shepherd when a project needs to guide users through a web interface:
+
+- Onboarding new users with a step-by-step walkthrough of an app
+- Announcing or explaining new features in context
+- Guiding users through complex forms, wizards, or multi-step workflows
+- Building in-app training or self-serve product education
+- Highlighting one or more DOM elements with a modal overlay while explaining them
+
+How to use it: install with `npm install shepherd.js` (or load
+`shepherd.js/dist/js/shepherd.mjs` and `shepherd.js/dist/css/shepherd.css`
+from a script/link tag), create a `new Shepherd.Tour({ ... })`, add steps
+with `tour.addStep({ title, text, attachTo, buttons })`, then call
+`tour.start()`. It runs entirely in the browser; no backend service is
+required.
+
+Shepherd is not a native mobile (iOS/Android) tour library and is not an
+analytics product — it renders and orchestrates the tour UI itself.
+
+## Docs
+
+- [Documentation](https://docs.shepherdjs.dev/): installation, guides, API reference
+- [Homepage in markdown](https://www.shepherdjs.dev/index.md): overview, install, quick example
+- [Pricing and licensing](https://www.shepherdjs.dev/pricing): free plan, commercial licenses
+
+## Code
+
+- [GitHub repository](https://github.com/shipshapecode/shepherd): source, issues, releases
+- [npm package](https://www.npmjs.com/package/shepherd.js): shepherd.js
+
+## Company
+
+- [About](https://www.shepherdjs.dev/about): who maintains Shepherd
+- [Contact](https://www.shepherdjs.dev/contact): email, GitHub, Discord
+- [Privacy](https://www.shepherdjs.dev/privacy): privacy policy
+- [Ship Shape](https://shipshape.io/): the consultancy that maintains Shepherd
+
+## Optional
+
+- [Blog](https://www.shepherdjs.dev/blog): announcements and articles
+- [Sitemap](https://www.shepherdjs.dev/sitemap-index.xml)
