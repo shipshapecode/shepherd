@@ -12,7 +12,15 @@ export default defineConfig({
   // sitemap need to use www to avoid redirect chains.
   site: 'https://www.shepherdjs.dev',
 
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      // The homepage is rendered on demand (for markdown content
+      // negotiation), so the sitemap integration cannot discover it
+      // at build time.
+      customPages: ['https://www.shepherdjs.dev/']
+    })
+  ],
 
   output: 'static',
   adapter: vercel(),
