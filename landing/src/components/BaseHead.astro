@@ -9,15 +9,102 @@ import '../styles/prism.css';
 import '../styles/shepherd.css';
 import '../styles/styles.css';
 
+import { SITE_URL } from '../consts';
+
 interface Props {
   title: string;
   description: string;
   image?: string;
+  ogType?: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.url.origin);
+// Always build the canonical URL from the production origin so it is
+// stable across preview deployments and on-demand rendered pages.
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  image = '/img/og-image.png',
+  ogType = 'website'
+} = Astro.props;
+
+const imageURL = new URL(image, SITE_URL);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#software`,
+      name: 'Shepherd.js',
+      alternateName: 'Shepherd',
+      description:
+        'Shepherd is an open-source JavaScript library for building guided product tours, user onboarding, trainings, and feature announcements in any web app.',
+      url: `${SITE_URL}/`,
+      image: imageURL.href,
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Web',
+      softwareHelp: 'https://docs.shepherdjs.dev/',
+      license: 'https://github.com/shipshapecode/shepherd/blob/main/LICENSE.md',
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'Free Plan',
+          price: '0',
+          priceCurrency: 'USD',
+          description:
+            'Free for open-source, personal, and non-commercial projects.',
+          url: `${SITE_URL}/pricing`
+        },
+        {
+          '@type': 'Offer',
+          name: 'Business Plan',
+          price: '50',
+          priceCurrency: 'USD',
+          description:
+            'Lifetime commercial license for up to 5 projects, including 1 month of commercial support and regular product updates.',
+          url: `${SITE_URL}/pricing`
+        },
+        {
+          '@type': 'Offer',
+          name: 'Enterprise Plan',
+          price: '300',
+          priceCurrency: 'USD',
+          description:
+            'Lifetime commercial license for unlimited projects, including 6 months of support and prioritized GitHub issues.',
+          url: `${SITE_URL}/pricing`
+        }
+      ],
+      sameAs: [
+        'https://github.com/shipshapecode/shepherd',
+        'https://www.npmjs.com/package/shepherd.js'
+      ],
+      author: { '@id': `${SITE_URL}/#organization` }
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Ship Shape',
+      url: 'https://shipshape.io/',
+      logo: `${SITE_URL}/img/ship-shape-logo.png`,
+      email: 'ahoy@shipshape.io',
+      sameAs: [
+        'https://github.com/shipshapecode',
+        'https://www.linkedin.com/company/ship-shape/'
+      ]
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'Shepherd.js',
+      url: `${SITE_URL}/`,
+      description:
+        'Guide your users through a tour of your app with Shepherd, an open-source JavaScript library.',
+      publisher: { '@id': `${SITE_URL}/#organization` }
+    }
+  ]
+};
 ---
 
 <!-- Global Metadata -->
@@ -86,18 +173,21 @@ const { title, description } = Astro.props;
 
 <PostHog />
 
-<!-- Open Graph Facebook -->
-<!-- <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="Shepherd.js" />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} /> -->
+<meta property="og:image" content={imageURL} />
 
 <!-- Twitter -->
-<!-- <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} /> -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+<!-- Structured data -->
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 <ViewTransitions />
