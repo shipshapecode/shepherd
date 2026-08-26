@@ -1,7 +1,27 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+const floatingUIMock = vi.hoisted(() => ({
+  autoUpdate: vi.fn(),
+  computePosition: vi.fn(),
+  updateCallbacks: []
+}));
+
+vi.mock('@floating-ui/dom', async (importOriginal) => {
+  const actual = await importOriginal();
+
+  return {
+    ...actual,
+    autoUpdate: floatingUIMock.autoUpdate,
+    computePosition: floatingUIMock.computePosition
+  };
+});
+
 import { arrow, offset, shift } from '@floating-ui/dom';
 import { Step } from '../../../src/step';
-import { getFloatingUIOptions } from '../../../src/utils/floating-ui';
+import {
+  getFloatingUIOptions,
+  setupTooltip
+} from '../../../src/utils/floating-ui';
 
 describe('Floating UI Utils', function () {
   let targetElement;
@@ -34,8 +54,10 @@ describe('Floating UI Utils', function () {
   });
 
   afterEach(() => {
-    document.body.removeChild(targetElement);
-    document.body.removeChild(stepElement);
+    document.body.innerHTML = '';
+    vi.clearAllTimers();
+    vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   describe('getFloatingUIOptions()', function () {
@@ -181,4 +203,108 @@ describe('Floating UI Utils', function () {
       ]);
     });
   });
+
+  describe('setupTooltip()', function () {
+    beforeEach(() => {
+      vi.useFakeTimers();
+
+      floatingUIMock.updateCallbacks.length = 0;
+      floatingUIMock.autoUpdate.mockImplementation(
+        (_target, _stepElement, update) => {
+          floatingUIMock.updateCallbacks.push(update);
+          update();
+
+          return vi.fn();
+        }
+      );
+      floatingUIMock.computePosition.mockResolvedValue({
+        middlewareData: {},
+        placement: 'bottom',
+        strategy: 'absolute',
+        x: 12,
+        y: 34
+      });
+    });
+
+    it('only focuses the step element after the first render', async () => {
+      const { input, step, stepElement } = createTooltipFixture();
+      const focusSpy = vi.spyOn(stepElement, 'focus');
+
+      setupTooltip(step);
+
+      await flushPositioning();
+
+      expect(focusSpy).toHaveBeenCalledTimes(1);
+
+      input.focus();
+      expect(document.activeElement).toBe(input);
+
+      floatingUIMock.updateCallbacks[0]();
+
+      await flushPositioning();
+
+      expect(focusSpy).toHaveBeenCalledTimes(1);
+      expect(document.activeElement).toBe(input);
+    });
+
+    it('focuses each fresh tooltip setup once', async () => {
+      const first = createTooltipFixture();
+      const firstFocusSpy = vi.spyOn(first.stepElement, 'focus');
+
+      setupTooltip(first.step);
+
+      await flushPositioning();
+
+      expect(firstFocusSpy).toHaveBeenCalledTimes(1);
+
+      const second = createTooltipFixture();
+      const secondFocusSpy = vi.spyOn(second.stepElement, 'focus');
+
+      setupTooltip(second.step);
+
+      await flushPositioning();
+
+      expect(secondFocusSpy).toHaveBeenCalledTimes(1);
+
+      floatingUIMock.updateCallbacks[1]();
+
+      await flushPositioning();
+
+      expect(secondFocusSpy).toHaveBeenCalledTimes(1);
+    });
+  });
 });
+
+function createTooltipFixture() {
+  const target = document.createElement('div');
+  const input = document.createElement('input');
+  target.appendChild(input);
+  document.body.appendChild(target);
+
+  const stepElement = document.createElement('div');
+  document.body.appendChild(stepElement);
+
+  const step = {
+    cleanup: null,
+    el: stepElement,
+    options: {
+      arrow: false,
+      attachTo: { element: target, on: 'bottom' },
+      floatingUIOptions: {}
+    },
+    shepherdElementComponent: {
+      element: stepElement
+    },
+    _getResolvedAttachToOptions() {
+      return this.options.attachTo;
+    }
+  };
+
+  return { input, step, stepElement, target };
+}
+
+async function flushPositioning() {
+  await Promise.resolve();
+  await vi.advanceTimersByTimeAsync(300);
+  await Promise.resolve();
+}
