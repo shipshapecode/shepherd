@@ -13,7 +13,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/mdx": "^7.0.8",
     "@astrojs/vercel": "^9.0.5",
     "@polar-sh/astro": "^0.7.6",
     "astro": "^5.18.2",
