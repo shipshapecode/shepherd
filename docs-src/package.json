@@ -11,15 +11,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.37.7",
-    "astro": "^5.18.2",
+    "@astrojs/starlight": "^0.42.0",
+    "astro": "^7.2.10",
     "shepherd.js": "workspace:*",
-    "starlight-typedoc": "^0.21.5"
+    "starlight-typedoc": "^0.23.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@flydotio/dockerfile": "^0.7.10",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.0",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^5.9.3"

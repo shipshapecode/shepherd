@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import PostHog from './Posthog.astro';
 
 // Import the global.css file here so that it is included on
@@ -190,4 +190,4 @@ const structuredData = {
 <!-- Structured data -->
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-<ViewTransitions />
+<ClientRouter />
