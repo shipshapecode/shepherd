@@ -38,7 +38,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.18",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/ui": "^4.1.10",
+    "@vitest/ui": "^4.1.11",
     "happy-dom": "^20.11.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
