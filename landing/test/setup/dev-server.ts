@@ -13,7 +13,10 @@ let devServer: ChildProcess | undefined;
 // (this setup owns the server lifecycle itself, so opt out via
 // ASTRO_DEV_BACKGROUND), and Vite serves 404s for every route when it
 // sees VITEST in the environment.
-const devServerEnv = { ...process.env, ASTRO_DEV_BACKGROUND: '0' };
+const devServerEnv: NodeJS.ProcessEnv = {
+  ...process.env,
+  ASTRO_DEV_BACKGROUND: '0'
+};
 delete devServerEnv.VITEST;
 
 async function waitForServer(url: string, timeoutMs: number): Promise<void> {
