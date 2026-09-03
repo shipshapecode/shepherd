@@ -13,19 +13,19 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
-    "@astrojs/vercel": "^9.0.5",
+    "@astrojs/mdx": "^8.0.0",
+    "@astrojs/vercel": "^11.0.9",
     "@polar-sh/astro": "^0.7.6",
-    "astro": "^5.18.2",
+    "astro": "^7.2.10",
     "shepherd.js": "workspace:*"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.2.1",

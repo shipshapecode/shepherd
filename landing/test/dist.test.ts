@@ -44,6 +44,8 @@ describe.skipIf(!staticDir)('build output', () => {
       .map((route: { src: string }) => route.src);
 
     expect(functionRoutes).toContain('^/$');
-    expect(functionRoutes).toContain('^/index\\.md/?$');
+    // Since Astro 6, endpoints with a file extension are not served with a
+    // trailing slash, so the emitted route pattern has no trailing `/?`.
+    expect(functionRoutes).toContain('^/index\\.md$');
   });
 });
