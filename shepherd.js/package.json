@@ -112,7 +112,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-serve": "^2.0.3",
-    "rollup-plugin-visualizer": "^7.0.1",
+    "rollup-plugin-visualizer": "^7.1.1",
     "start-server-and-test": "^3.0.12",
     "typescript": "^5.9.3",
     "vite": "^8.2.1",
