@@ -87,7 +87,7 @@
     "@vitest/expect": "^4.1.11",
     "autoprefixer": "^10.5.4",
     "chai": "^6.2.2",
-    "cssnano": "^8.0.7",
+    "cssnano": "^9.0.1",
     "cypress": "^15.21.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^8.0.1",
