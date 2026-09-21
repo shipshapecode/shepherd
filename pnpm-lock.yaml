@@ -80,7 +80,7 @@ importers:
         version: link:../shepherd.js
       starlight-typedoc:
         specifier: ^0.23.1
-        version: 0.23.1(@astrojs/starlight@0.42.0(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3))(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(typedoc-plugin-markdown@4.12.0(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3))
+        version: 0.23.1(@astrojs/starlight@0.42.0(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3))(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(typedoc-plugin-markdown@4.13.0(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3))
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.10
@@ -95,8 +95,8 @@ importers:
         specifier: ^0.28.20
         version: 0.28.20(typescript@5.9.3)
       typedoc-plugin-markdown:
-        specifier: ^4.12.0
-        version: 4.12.0(typedoc@0.28.20(typescript@5.9.3))
+        specifier: ^4.13.0
+        version: 4.13.0(typedoc@0.28.20(typescript@5.9.3))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -7144,8 +7144,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  typedoc-plugin-markdown@4.12.0:
-    resolution: {integrity: sha512-eJDEMAfxCmede22c/Jw7d0FA13ggAQv+KkwQYKYCdqI02cin6Rc9QRwbG/7XvvHWinuFejySnZVUWDtvGk3Vbg==}
+  typedoc-plugin-markdown@4.13.0:
+    resolution: {integrity: sha512-OHaOLoMTS0wL2ud73WXvxv486mrUEtgXxW4iKiTOGJVipT/VBWY76rlVRMQGes7aVonoIf5roWRe1UvHbufLlQ==}
     engines: {node: '>= 18'}
     peerDependencies:
       typedoc: 0.28.x
@@ -15949,13 +15949,13 @@ snapshots:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
 
-  starlight-typedoc@0.23.1(@astrojs/starlight@0.42.0(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3))(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(typedoc-plugin-markdown@4.12.0(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3)):
+  starlight-typedoc@0.23.1(@astrojs/starlight@0.42.0(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3))(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(typedoc-plugin-markdown@4.13.0(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3)):
     dependencies:
       '@astrojs/starlight': 0.42.0(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3)
       astro: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0)
       github-slugger: 2.0.0
       typedoc: 0.28.20(typescript@5.9.3)
-      typedoc-plugin-markdown: 4.12.0(typedoc@0.28.20(typescript@5.9.3))
+      typedoc-plugin-markdown: 4.13.0(typedoc@0.28.20(typescript@5.9.3))
 
   start-server-and-test@3.0.12(supports-color@8.1.1):
     dependencies:
@@ -16215,7 +16215,7 @@ snapshots:
 
   type-fest@0.8.1: {}
 
-  typedoc-plugin-markdown@4.12.0(typedoc@0.28.20(typescript@5.9.3)):
+  typedoc-plugin-markdown@4.13.0(typedoc@0.28.20(typescript@5.9.3)):
     dependencies:
       typedoc: 0.28.20(typescript@5.9.3)
 
