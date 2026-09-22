@@ -19,7 +19,10 @@ import {
   type ShepherdElementResult
 } from './components/shepherd-element.ts';
 import { type Tour } from './tour.ts';
-import type { ComputePositionConfig } from '@floating-ui/dom';
+import type {
+  AutoUpdateOptions,
+  ComputePositionConfig
+} from '@floating-ui/dom';
 
 export type StepText =
   | string
@@ -68,6 +71,27 @@ export interface StepOptions {
    * Whether to display the arrow for the tooltip or not, or options for the arrow.
    */
   arrow?: boolean | StepOptionsArrow;
+
+  /**
+   * Extra [options to pass to `autoUpdate`]{@link https://floating-ui.com/docs/autoUpdate},
+   * which keeps the step attached to its target while the step is open.
+   *
+   * A notable use case is `{ layoutShift: false }`, which disables the
+   * `IntersectionObserver`-based tracking of targets that move for reasons
+   * other than scrolling or resizing. That machinery re-creates its observer
+   * every time the target moves, and when the observed intersection ratio
+   * never settles at the expected threshold (fractional bounding rects at
+   * non-integer browser zoom, pinch-zoom, or a target animating while
+   * observed) it can loop unboundedly -- up to
+   * `RangeError: Maximum call stack size exceeded` in browsers that deliver
+   * the initial observation synchronously. Scroll and resize tracking are
+   * unaffected, as they are covered by `ancestorScroll`, `ancestorResize` and
+   * `elementResize`.
+   *
+   * Can be set on `defaultStepOptions` to apply to every step, and is
+   * deep-merged with the step-level value.
+   */
+  autoUpdateOptions?: AutoUpdateOptions;
 
   /**
    * A function that returns a promise.
