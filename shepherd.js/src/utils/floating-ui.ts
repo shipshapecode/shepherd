@@ -8,6 +8,7 @@ import {
   autoPlacement,
   limitShift,
   shift,
+  type AutoUpdateOptions,
   type ComputePositionConfig,
   type Middleware,
   type MiddlewareData,
@@ -40,15 +41,20 @@ export function setupTooltip(step: Step): ComputePositionConfig {
     content?.classList.add('shepherd-centered');
   }
 
-  step.cleanup = autoUpdate(target, step.el as HTMLElement, () => {
-    // The element might have already been removed by the end of the tour.
-    if (!step.el) {
-      step.cleanup?.();
-      return;
-    }
+  step.cleanup = autoUpdate(
+    target,
+    step.el as HTMLElement,
+    () => {
+      // The element might have already been removed by the end of the tour.
+      if (!step.el) {
+        step.cleanup?.();
+        return;
+      }
 
-    setPosition(target, step, floatingUIOptions, shouldCenter);
-  });
+      setPosition(target, step, floatingUIOptions, shouldCenter);
+    },
+    step.options.autoUpdateOptions
+  );
 
   step.target = attachToOptions.element as HTMLElement;
 
@@ -61,18 +67,36 @@ export function setupTooltip(step: Step): ComputePositionConfig {
  * @param tourOptions - The default tour options.
  * @param options - Step specific options.
  *
- * @return {floatingUIOptions: FloatingUIOptions}
+ * @return {floatingUIOptions: FloatingUIOptions, autoUpdateOptions?: AutoUpdateOptions}
  */
 export function mergeTooltipConfig(
   tourOptions: StepOptions,
   options: StepOptions
-): { floatingUIOptions: ComputePositionConfig } {
-  return {
+): {
+  floatingUIOptions: ComputePositionConfig;
+  autoUpdateOptions?: AutoUpdateOptions;
+} {
+  const config: {
+    floatingUIOptions: ComputePositionConfig;
+    autoUpdateOptions?: AutoUpdateOptions;
+  } = {
     floatingUIOptions: deepmerge(
       tourOptions.floatingUIOptions || {},
       options.floatingUIOptions || {}
     )
   };
+
+  // Omit the key when neither side set it. `_setOptions` copies this object
+  // onto `step.options`, and an empty `autoUpdateOptions` would show up on
+  // every step that never opted in.
+  if (tourOptions.autoUpdateOptions || options.autoUpdateOptions) {
+    config.autoUpdateOptions = deepmerge(
+      tourOptions.autoUpdateOptions || {},
+      options.autoUpdateOptions || {}
+    );
+  }
+
+  return config;
 }
 
 /**
