@@ -33,6 +33,8 @@ export function setupTooltip(step: Step): ComputePositionConfig {
   let target = attachToOptions.element as HTMLElement;
   const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
   const shouldCenter = shouldCenterStep(attachToOptions);
+  // Keep this function-local so every fresh step render gets one focus attempt.
+  let shouldFocusAfterRender = true;
 
   if (shouldCenter) {
     target = document.body;
@@ -47,7 +49,10 @@ export function setupTooltip(step: Step): ComputePositionConfig {
       return;
     }
 
-    setPosition(target, step, floatingUIOptions, shouldCenter);
+    setPosition(target, step, floatingUIOptions, shouldCenter, {
+      shouldFocusAfterRender
+    });
+    shouldFocusAfterRender = false;
   });
 
   step.target = attachToOptions.element as HTMLElement;
@@ -92,11 +97,21 @@ function setPosition(
   target: HTMLElement,
   step: Step,
   floatingUIOptions: ComputePositionConfig,
-  shouldCenter: boolean
+  shouldCenter: boolean,
+  { shouldFocusAfterRender }: { shouldFocusAfterRender: boolean }
 ) {
+  const positionPromise = computePosition(
+    target,
+    step.el as HTMLElement,
+    floatingUIOptions
+  ).then(floatingUIposition(step, shouldCenter));
+
+  if (!shouldFocusAfterRender) {
+    return positionPromise;
+  }
+
   return (
-    computePosition(target, step.el as HTMLElement, floatingUIOptions)
-      .then(floatingUIposition(step, shouldCenter))
+    positionPromise
       // Wait before forcing focus.
       .then(
         (step: Step) =>
