@@ -1,0 +1,29 @@
+---
+import Base from './Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+}
+
+const { title, description, heading } = Astro.props;
+---
+
+<Base overrideTitle={title} overrideDescription={description}>
+  <Header title={SITE_TITLE} />
+  <main class="flex justify-center w-full">
+    <div class="max-w-3xl my-12 px-4 w-full">
+      <h1 class="font-heading text-4xl uppercase">{heading}</h1>
+      <div
+        class="content-page font-body mt-6 space-y-4 text-xl [&_a]:underline [&_a:hover]:text-navy-light [&_h2]:font-heading [&_h2]:mt-8 [&_h2]:text-2xl [&_h2]:uppercase [&_ul]:list-disc [&_ul]:pl-6"
+      >
+        <slot />
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>
