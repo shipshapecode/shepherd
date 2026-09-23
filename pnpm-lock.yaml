@@ -104,8 +104,8 @@ importers:
   landing:
     dependencies:
       '@astrojs/mdx':
-        specifier: ^8.0.0
-        version: 8.0.0(@astrojs/markdown-satteri@0.4.0)(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))
+        specifier: ^8.0.1
+        version: 8.0.1(@astrojs/markdown-satteri@0.4.0)(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))
       '@astrojs/vercel':
         specifier: ^11.0.9
         version: 11.0.9(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(encoding@0.1.13)(react@19.2.8)(rollup@4.63.1)(supports-color@10.2.2)(ws@8.21.3)
@@ -458,6 +458,17 @@ packages:
 
   '@astrojs/mdx@8.0.0':
     resolution: {integrity: sha512-4I/z+VgUO0B9I/+yhzIEpLyBYQZNJsInmrtqClP4lqX9yvUpbuV72zfRTZ8VqJLKABETUE5CYOl+23va8nqxZg==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      '@astrojs/markdown-remark': ^7.3.0
+      '@astrojs/markdown-satteri': ^0.4.0
+      astro: ^7.2.6
+    peerDependenciesMeta:
+      '@astrojs/markdown-remark':
+        optional: true
+
+  '@astrojs/mdx@8.0.1':
+    resolution: {integrity: sha512-VKodp/f3+XE6L0950K+ZOAolY47vdt0R78Ao+L2RdJ1hfAdYffL7IEjc/MsoyuS7CPVvCsd5/I3RP0ZyAIewdQ==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       '@astrojs/markdown-remark': ^7.3.0
@@ -8033,7 +8044,14 @@ snapshots:
       '@astrojs/internal-helpers': 0.11.0
       '@astrojs/markdown-satteri': 0.4.0
       astro: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0)
-      es-module-lexer: 2.3.1
+      es-module-lexer: 2.3.2
+
+  '@astrojs/mdx@8.0.1(@astrojs/markdown-satteri@0.4.0)(astro@7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))':
+    dependencies:
+      '@astrojs/internal-helpers': 0.11.0
+      '@astrojs/markdown-satteri': 0.4.0
+      astro: 7.2.10(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.3)(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0)
+      es-module-lexer: 2.3.2
 
   '@astrojs/prism@4.0.2':
     dependencies:
