@@ -21,7 +21,7 @@
     "@flydotio/dockerfile": "^0.7.10",
     "sharp": "^0.35.4",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "^4.12.0",
+    "typedoc-plugin-markdown": "^4.13.1",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@11.21.0"
