@@ -1,0 +1,56 @@
+---
+import Base from '@layouts/Base.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { SITE_DESCRIPTION } from '../consts';
+---
+
+<Base
+  overrideTitle="Page not found — Shepherd.js"
+  overrideDescription={SITE_DESCRIPTION}
+>
+  <Header title="Page not found" />
+  <main class="flex justify-center w-full">
+    <div class="max-w-3xl my-12 px-4 text-center w-full">
+      <h1 class="font-heading text-4xl uppercase">404 — Page not found</h1>
+
+      <p class="font-body mt-6 text-xl">
+        The page you requested does not exist. Here is where to look instead:
+      </p>
+
+      <ul class="font-body mt-6 space-y-2 text-xl">
+        <li>
+          <a class="underline hover:text-navy-light" href="/">Homepage</a>
+        </li>
+        <li>
+          <a
+            class="underline hover:text-navy-light"
+            href="https://docs.shepherdjs.dev"
+          >
+            Documentation
+          </a>
+        </li>
+        <li>
+          <a class="underline hover:text-navy-light" href="/pricing">Pricing</a>
+        </li>
+        <li>
+          <a class="underline hover:text-navy-light" href="/blog">Blog</a>
+        </li>
+        <li>
+          <a class="underline hover:text-navy-light" href="/llms.txt">
+            llms.txt (guidance for AI agents)
+          </a>
+        </li>
+        <li>
+          <a class="underline hover:text-navy-light" href="/sitemap-index.xml">
+            Sitemap
+          </a>
+        </li>
+        <li>
+          <a class="underline hover:text-navy-light" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Base>
