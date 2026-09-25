@@ -10,8 +10,8 @@ export default defineConfig({
       name: 'ReactShepherd',
       fileName: 'index'
     },
-    rollupOptions: {
-      external: ['react', 'react-dom'],
+    rolldownOptions: {
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'React'
