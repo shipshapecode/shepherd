@@ -101,7 +101,7 @@
     "http-server": "^14.1.1",
     "lodash": "^4.18.1",
     "postcss": "^8.5.26",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.8",
     "replace": "^1.2.2",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.3",
