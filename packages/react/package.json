@@ -35,16 +35,16 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
+    "@testing-library/react": "^16.3.3",
     "@types/react": "^19.2.18",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/ui": "^4.1.10",
+    "@vitest/ui": "^5.0.1",
     "happy-dom": "^20.11.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "typescript": "^5.9.3",
     "vite": "^8.2.1",
-    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-dts": "^5.1.1",
     "vitest": "^4.1.11"
   },
   "peerDependencies": {
