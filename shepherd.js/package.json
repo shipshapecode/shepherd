@@ -82,7 +82,7 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^1.0.0",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/expect": "^4.1.11",
     "autoprefixer": "^10.5.4",
