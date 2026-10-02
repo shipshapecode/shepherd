@@ -56,4 +56,23 @@ describe.skipIf(!staticDir)('build output', () => {
     expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/contact/</loc>');
     expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/privacy/</loc>');
   });
+
+  it('includes the trust pages in the sitemap', () => {
+    const sitemap = readFileSync(join(staticDir!, 'sitemap-0.xml'), 'utf-8');
+
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/about/</loc>');
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/contact/</loc>');
+    expect(sitemap).toContain('<loc>https://www.shepherdjs.dev/privacy/</loc>');
+  });
+
+  it('emits a 404 page with recovery links', () => {
+    const notFound = readFileSync(join(staticDir!, '404.html'), 'utf-8');
+
+    expect(notFound).toContain('/llms.txt');
+    expect(notFound).toContain('/sitemap-index.xml');
+  });
+
+  it('emits llms.txt', () => {
+    expect(existsSync(join(staticDir!, 'llms.txt'))).toBe(true);
+  });
 });
