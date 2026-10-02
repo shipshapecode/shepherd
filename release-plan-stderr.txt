@@ -1,0 +1,11 @@
+# Unlabeled Changes
+
+* Other
+  * [#3499](https://github.com/shipshapecode/shepherd/pull/3499) feat: add about, contact, and privacy pages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3493](https://github.com/shipshapecode/shepherd/pull/3493) feat: serve markdown from the homepage via Accept negotiation ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3492](https://github.com/shipshapecode/shepherd/pull/3492) feat: complete landing metadata with www canonical, Open Graph, and JSON-LD ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `shepherd.js`
+  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+
+
+*Cannot plan release until the above changes are labeled*.
