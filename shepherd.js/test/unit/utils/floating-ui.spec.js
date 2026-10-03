@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const floatingUIMock = vi.hoisted(() => ({
-  autoUpdate: vi.fn(),
+  autoUpdate: vi.fn(() => vi.fn()),
   computePosition: vi.fn(),
   updateCallbacks: []
 }));
@@ -16,10 +16,11 @@ vi.mock('@floating-ui/dom', async (importOriginal) => {
   };
 });
 
-import { arrow, offset, shift } from '@floating-ui/dom';
+import { arrow, autoUpdate, offset, shift } from '@floating-ui/dom';
 import { Step } from '../../../src/step';
 import {
   getFloatingUIOptions,
+  mergeTooltipConfig,
   setupTooltip
 } from '../../../src/utils/floating-ui';
 
@@ -201,6 +202,69 @@ describe('Floating UI Utils', function () {
         undefined,
         'arrow'
       ]);
+    });
+  });
+
+  describe('autoUpdateOptions', function () {
+    beforeEach(() => {
+      autoUpdate.mockReset();
+      autoUpdate.mockImplementation(() => vi.fn());
+    });
+
+    it('forwards `autoUpdateOptions` to `autoUpdate`', function () {
+      const step = createStep({
+        attachTo: { element: '.floating-ui-test', on: 'right' },
+        autoUpdateOptions: { layoutShift: false }
+      });
+
+      setupTooltip(step);
+
+      expect(autoUpdate).toHaveBeenCalledTimes(1);
+      expect(autoUpdate).toHaveBeenCalledWith(
+        targetElement,
+        stepElement,
+        expect.any(Function),
+        { layoutShift: false }
+      );
+    });
+
+    it('applies `autoUpdateOptions` from `defaultStepOptions`, overridable per step', function () {
+      const tour = {
+        options: {
+          defaultStepOptions: {
+            autoUpdateOptions: { layoutShift: false, elementResize: false }
+          }
+        }
+      };
+      const step = new Step(tour, {
+        arrow: true,
+        attachTo: { element: '.floating-ui-test', on: 'right' },
+        autoUpdateOptions: { elementResize: true }
+      });
+      step.el = stepElement;
+
+      setupTooltip(step);
+
+      expect(autoUpdate).toHaveBeenCalledWith(
+        targetElement,
+        stepElement,
+        expect.any(Function),
+        { layoutShift: false, elementResize: true }
+      );
+    });
+  });
+
+  describe('mergeTooltipConfig()', function () {
+    it('deep merges `autoUpdateOptions` from tour and step options', function () {
+      const { autoUpdateOptions } = mergeTooltipConfig(
+        { autoUpdateOptions: { layoutShift: false, ancestorScroll: false } },
+        { autoUpdateOptions: { ancestorScroll: true } }
+      );
+
+      expect(autoUpdateOptions).toEqual({
+        layoutShift: false,
+        ancestorScroll: true
+      });
     });
   });
 
