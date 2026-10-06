@@ -109,9 +109,9 @@ importers:
       '@astrojs/vercel':
         specifier: ^11.0.9
         version: 11.0.9(astro@7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(encoding@0.1.13)(react@19.2.8)(rollup@4.63.5)(supports-color@10.2.2)(ws@8.21.3)
-      '@polar-sh/astro':
-        specifier: ^0.7.6
-        version: 0.7.6(astro@7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))
+      '@polar-sh/sdk':
+        specifier: ^1.0.2
+        version: 1.0.2
       astro:
         specifier: ^7.3.5
         version: 7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0)
@@ -2309,17 +2309,9 @@ packages:
     resolution: {integrity: sha512-//0sR/cow/s4ICQaYoAobOl4aU8cjU6x/V24V7XkKotb9+O+3zySIYp146vpaobYHnxa4pZX8NkV54Z5AwbDKA==}
     engines: {node: '>=12'}
 
-  '@polar-sh/adapter-utils@0.4.6':
-    resolution: {integrity: sha512-F2HsGmRdhczxyFk7bmTZR81gBf/Hj5XfOGe/6S5aGWeJ1YftcWEK8Of+aZijxXv82xktEn7usS+7tfKb4YXghQ==}
-
-  '@polar-sh/astro@0.7.6':
-    resolution: {integrity: sha512-egMU8LPDhrKbUxJBpgx4DiqupWqGLtim5ZfepX228l7QiwLEeyNxMKD5rBLFmGWHN6UiAmgkoh9A74KhOHda7w==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      astro: ^5.0.0
-
-  '@polar-sh/sdk@0.47.1':
-    resolution: {integrity: sha512-fkz7wPLbqfuDmY9LxuXpE2uP2TAV6J0q/YN5hJ4UBxpjbkB0hKM6c4R35N89t83dfzMlG6EOlqOn+Rd1T6XrJQ==}
+  '@polar-sh/sdk@1.0.2':
+    resolution: {integrity: sha512-c3jdqYloVfcejKsAqYfYcW4bG7KkXj5bXkgdsdx4GHlJPzHFV5tysfeZGf9V7dJReLBirAluchsuHWiAIBco8w==}
+    engines: {node: '>=22'}
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -2811,9 +2803,6 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
-
-  '@stablelib/base64@1.0.1':
-    resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -4437,9 +4426,6 @@ packages:
 
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
-
-  fast-sha256@1.3.0:
-    resolution: {integrity: sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==}
 
   fast-string-truncated-width@3.0.3:
     resolution: {integrity: sha512-0jjjIEL6+0jag3l2XWWizO64/aZVtpiGE3t0Zgqxv0DPuxiMjvB3M24fCyhZUO4KomJQPj3LTSUnDP3GpdwC0g==}
@@ -7205,9 +7191,6 @@ packages:
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
-
-  standardwebhooks@1.0.0:
-    resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
 
   starlight-typedoc@0.23.1:
     resolution: {integrity: sha512-H45Mxv4mZ1xUMhUNjTR4CwKDgKKHZboQA5v5+vTVMdjlCX02Xo7veTB7+F/ivmMHPmQ7SV5auF2BTlU/EpQIoQ==}
@@ -11040,20 +11023,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@polar-sh/adapter-utils@0.4.6':
-    dependencies:
-      '@polar-sh/sdk': 0.47.1
-
-  '@polar-sh/astro@0.7.6(astro@7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))':
-    dependencies:
-      '@polar-sh/adapter-utils': 0.4.6
-      '@polar-sh/sdk': 0.47.1
-      astro: 7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0)
-
-  '@polar-sh/sdk@0.47.1':
-    dependencies:
-      standardwebhooks: 1.0.0
-      zod: 4.4.3
+  '@polar-sh/sdk@1.0.2': {}
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -11408,8 +11378,6 @@ snapshots:
   '@sindresorhus/merge-streams@2.3.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
-
-  '@stablelib/base64@1.0.1': {}
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -13487,8 +13455,6 @@ snapshots:
   fast-json-stable-stringify@2.1.0: {}
 
   fast-levenshtein@2.0.6: {}
-
-  fast-sha256@1.3.0: {}
 
   fast-string-truncated-width@3.0.3: {}
 
@@ -16676,11 +16642,6 @@ snapshots:
   stable@0.1.8: {}
 
   stackback@0.0.2: {}
-
-  standardwebhooks@1.0.0:
-    dependencies:
-      '@stablelib/base64': 1.0.1
-      fast-sha256: 1.3.0
 
   starlight-typedoc@0.23.1(@astrojs/starlight@0.42.4(astro@7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(supports-color@10.2.2)(typescript@5.9.3))(astro@7.3.5(@types/node@26.2.0)(@vercel/functions@3.9.1(ws@8.21.3))(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))(typedoc-plugin-markdown@4.13.1(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3)):
     dependencies:
