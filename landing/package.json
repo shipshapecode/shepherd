@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "pnpm -F shepherd.js build && astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
