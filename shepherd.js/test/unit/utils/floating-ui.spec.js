@@ -228,6 +228,42 @@ describe('Floating UI Utils', function () {
       );
     });
 
+    it('keeps tour `autoUpdateOptions` when a mounted step is updated', function () {
+      const tour = {
+        modal: { setupForStep() {} },
+        options: {
+          defaultStepOptions: {
+            autoUpdateOptions: { layoutShift: false }
+          }
+        }
+      };
+      const step = new Step(tour, {
+        arrow: true,
+        attachTo: { element: '.floating-ui-test', on: 'bottom' },
+        text: 'body'
+      });
+
+      step.show();
+      autoUpdate.mockClear();
+
+      step.updateStepOptions({
+        autoUpdateOptions: { elementResize: true }
+      });
+
+      expect(step.options.autoUpdateOptions).toEqual({
+        layoutShift: false,
+        elementResize: true
+      });
+      expect(autoUpdate).toHaveBeenCalledWith(
+        targetElement,
+        expect.any(HTMLElement),
+        expect.any(Function),
+        { layoutShift: false, elementResize: true }
+      );
+
+      step.destroy();
+    });
+
     it('applies `autoUpdateOptions` from `defaultStepOptions`, overridable per step', function () {
       const tour = {
         options: {

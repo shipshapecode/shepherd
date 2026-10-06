@@ -631,7 +631,15 @@ export class Step extends Evented {
    * @param {StepOptions} options The options for the step
    */
   updateStepOptions(options: StepOptions) {
-    Object.assign(this.options, options);
+    const updatedOptions = options.autoUpdateOptions
+      ? {
+          ...options,
+          autoUpdateOptions: mergeTooltipConfig(this.options, options)
+            .autoUpdateOptions
+        }
+      : options;
+
+    Object.assign(this.options, updatedOptions);
 
     if (this.shepherdElementComponent) {
       // Recreate the element with updated options
