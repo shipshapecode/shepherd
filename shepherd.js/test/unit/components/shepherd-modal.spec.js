@@ -526,13 +526,19 @@ describe('components/ShepherdModal', () => {
       // unstyled ancestor up to <html> would count as a scroll container.
       // `positions` maps an element to the `position` it should report, which
       // decides whether a scrollable ancestor actually crops it. Anything not
-      // listed reports 'static', matching an ordinary element.
-      function mockOverflow(overflows, positions = new Map()) {
+      // listed reports 'static', matching an ordinary element. `contains`
+      // maps an element to its `contain` value; anything else reports 'none'.
+      function mockOverflow(
+        overflows,
+        positions = new Map(),
+        contains = new Map()
+      ) {
         const spy = vi
           .spyOn(window, 'getComputedStyle')
           .mockImplementation((el) => ({
             overflowY: overflows.get(el) ?? 'visible',
-            position: positions.get(el) ?? 'static'
+            position: positions.get(el) ?? 'static',
+            contain: contains.get(el) ?? 'none'
           }));
         restoreComputedStyle = () => spy.mockRestore();
         return spy;
@@ -987,7 +993,7 @@ describe('components/ShepherdModal', () => {
 
         // Body sized to the viewport (`height: 100%`) and scrolled entirely
         // above it, while the highlight sits fully on screen at y 200-240.
-        function buildRootCase(overflows) {
+        function buildRootCase(overflows, contains) {
           const targetEl = makeChild(container, {
             x: 10,
             y: 10,
@@ -1004,7 +1010,7 @@ describe('components/ShepherdModal', () => {
           stubRect(document.body, offscreen);
           stubRect(document.documentElement, offscreen);
 
-          mockOverflow(overflows);
+          mockOverflow(overflows, new Map(), contains);
 
           return { targetEl, extraEl };
         }
@@ -1033,6 +1039,25 @@ describe('components/ShepherdModal', () => {
           const d = modal.getElement().querySelector('path').getAttribute('d');
           expect(d).toContain('M200,200');
           expect(d).toContain('V240');
+        });
+
+        it('still clips by body when containment stops the propagation', () => {
+          for (const contained of [document.body, document.documentElement]) {
+            const modal = createShepherdModal(container);
+            const { targetEl, extraEl } = buildRootCase(
+              new Map([[document.body, 'auto']]),
+              new Map([[contained, 'paint']])
+            );
+
+            modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+            const d = modal
+              .getElement()
+              .querySelector('path')
+              .getAttribute('d');
+            expect(d).not.toContain('V240');
+            restoreComputedStyle();
+          }
         });
 
         it('still clips by body when body is its own scroll container', () => {
