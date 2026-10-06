@@ -527,12 +527,19 @@ describe('components/ShepherdModal', () => {
       // `positions` maps an element to the `position` it should report, which
       // decides whether a scrollable ancestor actually crops it. Anything not
       // listed reports 'static', matching an ordinary element.
-      function mockOverflow(overflows, positions = new Map()) {
+      // `displays` maps an element to the `display` it should report;
+      // anything not listed reports 'block'.
+      function mockOverflow(
+        overflows,
+        positions = new Map(),
+        displays = new Map()
+      ) {
         const spy = vi
           .spyOn(window, 'getComputedStyle')
           .mockImplementation((el) => ({
             overflowY: overflows.get(el) ?? 'visible',
-            position: positions.get(el) ?? 'static'
+            position: positions.get(el) ?? 'static',
+            display: displays.get(el) ?? 'block'
           }));
         restoreComputedStyle = () => spy.mockRestore();
         return spy;
@@ -973,6 +980,71 @@ describe('components/ShepherdModal', () => {
         expect(d).toContain('V250');
 
         modal.hide();
+      });
+
+      // Regression coverage for https://github.com/shipshapecode/shepherd/issues/3484
+      describe('which overflow ancestors crop', () => {
+        // The ancestor is collapsed to zero height at y 100; its child is laid out
+        // at y 100-180 underneath it.
+        function buildCroppingCase(overflowY, display) {
+          const targetEl = makeChild(container, {
+            x: 10,
+            y: 10,
+            width: 100,
+            height: 50
+          });
+          const ancestor = makeChild(container, {
+            x: 0,
+            y: 100,
+            width: 500,
+            height: 0
+          });
+          const extraEl = makeChild(ancestor, {
+            x: 200,
+            y: 100,
+            width: 100,
+            height: 80
+          });
+
+          mockOverflow(
+            new Map([[ancestor, overflowY]]),
+            new Map(),
+            new Map([[ancestor, display]])
+          );
+
+          return { targetEl, extraEl };
+        }
+
+        const openingFor = (overflowY, display = 'block') => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildCroppingCase(overflowY, display);
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+          return modal.getElement().querySelector('path').getAttribute('d');
+        };
+
+        it('crops by an `overflow: hidden` ancestor', () => {
+          expect(openingFor('hidden')).not.toContain('V180');
+        });
+
+        it('crops by an `overflow: clip` ancestor', () => {
+          expect(openingFor('clip')).not.toContain('V180');
+        });
+
+        it('crops by an `overflow: auto` ancestor', () => {
+          expect(openingFor('auto')).not.toContain('V180');
+        });
+
+        it('does not crop by an `overflow: visible` ancestor', () => {
+          expect(openingFor('visible')).toContain('V180');
+        });
+
+        it('does not crop by an inline ancestor, whatever its overflow', () => {
+          expect(openingFor('hidden', 'inline')).toContain('V180');
+        });
+
+        it('does not crop by a `display: contents` ancestor', () => {
+          expect(openingFor('hidden', 'contents')).toContain('V180');
+        });
       });
 
       // Regression coverage for https://github.com/shipshapecode/shepherd/issues/1984
