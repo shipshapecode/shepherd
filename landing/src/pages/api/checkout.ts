@@ -9,7 +9,7 @@ const SUCCESS_URL = 'https://docs.shepherdjs.dev/?checkoutId={CHECKOUT_ID}';
 export const GET: APIRoute = async ({ url }) => {
   const products = url.searchParams.getAll('products');
 
-  if (products.length === 0) {
+  if (products.length === 0 || products.some((id) => id.trim() === '')) {
     return Response.json(
       { error: 'Missing products in query params' },
       { status: 400 }

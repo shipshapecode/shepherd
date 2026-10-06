@@ -74,6 +74,19 @@ describe('GET /api/checkout', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it.each(['?products=', '?products=%20', '?products=a&products='])(
+    'returns 400 without calling Polar when a product id is empty (%s)',
+    async (search) => {
+      const response = await callGet(search);
+
+      expect(response.status).toBe(400);
+      expect(await response.json()).toEqual({
+        error: 'Missing products in query params'
+      });
+      expect(fetchMock).not.toHaveBeenCalled();
+    }
+  );
+
   it('returns 500 when Polar responds with an error', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     fetchMock.mockResolvedValue(
