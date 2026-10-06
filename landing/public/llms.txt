@@ -18,12 +18,14 @@ Use Shepherd when a project needs to guide users through a web interface:
 - Building in-app training or self-serve product education
 - Highlighting one or more DOM elements with a modal overlay while explaining them
 
-How to use it: install with `npm install shepherd.js` (or load
-`shepherd.js/dist/js/shepherd.mjs` and `shepherd.js/dist/css/shepherd.css`
-from a script/link tag), create a `new Shepherd.Tour({ ... })`, add steps
-with `tour.addStep({ title, text, attachTo, buttons })`, then call
-`tour.start()`. It runs entirely in the browser; no backend service is
-required.
+How to use it: install with `npm install shepherd.js`, then in a module
+`import Shepherd from 'shepherd.js'` and load the stylesheet
+`shepherd.js/dist/css/shepherd.css` (import it, or link it from a stylesheet
+tag). Create a `new Shepherd.Tour({ ... })`, add steps with
+`tour.addStep({ title, text, attachTo, buttons })`, then call `tour.start()`.
+`shepherd.mjs` is an ES module with a default export and does not define a
+global `Shepherd`, so import it rather than loading it from a plain script tag.
+It runs entirely in the browser; no backend service is required.
 
 Shepherd is not a native mobile (iOS/Android) tour library and is not an
 analytics product — it renders and orchestrates the tour UI itself.
