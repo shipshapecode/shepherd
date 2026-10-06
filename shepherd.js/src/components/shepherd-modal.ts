@@ -353,10 +353,21 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
     if (!el) return offset;
 
+    // The overlay is `position: fixed` in the document it is rendered into, so
+    // frame offsets only accumulate up to that document's window. Walking on
+    // to `window.top` would also add the offsets of the frames hosting
+    // Shepherd itself, pushing the opening off the target (#3478).
+    const modalWindow = container.ownerDocument.defaultView;
     let targetWindow: Window | null = el.ownerDocument.defaultView;
 
     try {
-      while (targetWindow && targetWindow !== window.top) {
+      while (
+        targetWindow &&
+        targetWindow !== modalWindow &&
+        // The top window is its own parent; stop there if the target is not
+        // nested under the modal's window at all.
+        targetWindow !== targetWindow.parent
+      ) {
         const targetIframe = targetWindow?.frameElement;
 
         if (targetIframe) {
