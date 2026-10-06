@@ -528,17 +528,20 @@ describe('components/ShepherdModal', () => {
       // decides whether a scrollable ancestor actually crops it. Anything not
       // listed reports 'static', matching an ordinary element. `contains`
       // maps an element to its `contain` value; anything else reports 'none'.
-      // `displays` maps an element to the `display` it should report;
-      // anything not listed reports 'block'.
+      // `overflowXs` maps an element to its `overflowX`; anything else reports
+      // 'visible'. `displays` maps an element to the `display` it should
+      // report; anything not listed reports 'block'.
       function mockOverflow(
         overflows,
         positions = new Map(),
         contains = new Map(),
+        overflowXs = new Map(),
         displays = new Map()
       ) {
         const spy = vi
           .spyOn(window, 'getComputedStyle')
           .mockImplementation((el) => ({
+            overflowX: overflowXs.get(el) ?? 'visible',
             overflowY: overflows.get(el) ?? 'visible',
             position: positions.get(el) ?? 'static',
             contain: contains.get(el) ?? 'none',
@@ -1013,6 +1016,7 @@ describe('components/ShepherdModal', () => {
             new Map([[ancestor, overflowY]]),
             new Map(),
             new Map(),
+            new Map(),
             new Map([[ancestor, display]])
           );
 
@@ -1063,7 +1067,7 @@ describe('components/ShepherdModal', () => {
 
         // Body sized to the viewport (`height: 100%`) and scrolled entirely
         // above it, while the highlight sits fully on screen at y 200-240.
-        function buildRootCase(overflows, contains) {
+        function buildRootCase(overflows, contains, overflowXs) {
           const targetEl = makeChild(container, {
             x: 10,
             y: 10,
@@ -1080,7 +1084,7 @@ describe('components/ShepherdModal', () => {
           stubRect(document.body, offscreen);
           stubRect(document.documentElement, offscreen);
 
-          mockOverflow(overflows, new Map(), contains);
+          mockOverflow(overflows, new Map(), contains, overflowXs);
 
           return { targetEl, extraEl };
         }
@@ -1128,6 +1132,22 @@ describe('components/ShepherdModal', () => {
             expect(d).not.toContain('V240');
             restoreComputedStyle();
           }
+        });
+
+        it('still clips by body when <html> only clips the other axis', () => {
+          const modal = createShepherdModal(container);
+          // `overflow-x: clip` alone leaves overflow-y computing to `visible`,
+          // but body's overflow no longer propagates.
+          const { targetEl, extraEl } = buildRootCase(
+            new Map([[document.body, 'auto']]),
+            new Map(),
+            new Map([[document.documentElement, 'clip']])
+          );
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+          expect(d).not.toContain('V240');
         });
 
         it('still clips by body when body is its own scroll container', () => {
