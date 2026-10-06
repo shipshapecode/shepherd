@@ -261,6 +261,24 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * @param style `el`'s computed style, already resolved by the caller
    */
   function _isScrollable(el: HTMLElement, style: CSSStyleDeclaration) {
+    const { documentElement, body } = el.ownerDocument;
+
+    // The root element's overflow always applies to the viewport, never to its
+    // own box, so it does not crop anything against its own rect.
+    if (el === documentElement) return false;
+
+    // While <html> is `overflow: visible`, <body>'s overflow propagates to the
+    // viewport as well and body's used overflow becomes `visible`, even though
+    // its computed value still reads `auto` / `scroll`. Clipping against
+    // body's rect then zeroes out targets the viewport has scrolled to as soon
+    // as body is sized to the viewport (e.g. `height: 100%`), see #1984.
+    if (
+      el === body &&
+      window.getComputedStyle(documentElement).overflowY === 'visible'
+    ) {
+      return false;
+    }
+
     const { overflowY } = style;
 
     return (

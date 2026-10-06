@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../../dist/css/shepherd.css" />
+    <script type="module">
+      import Shepherd from '../../../dist/js/shepherd.mjs';
+      window.Shepherd = Shepherd;
+    </script>
+  </head>
+
+  <body>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+
+      /* Pushes the target below the initial viewport. */
+      .spacer {
+        height: 2000px;
+      }
+
+      .target {
+        height: 40px;
+        background: red;
+      }
+
+      .tail {
+        height: 1000px;
+      }
+    </style>
+
+    <!-- Each test injects the root overflow styles under test here. -->
+    <style id="root-styles"></style>
+
+    <div class="spacer"></div>
+    <div class="target">Target</div>
+    <div class="tail"></div>
+  </body>
+</html>

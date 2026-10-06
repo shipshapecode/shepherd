@@ -975,6 +975,84 @@ describe('components/ShepherdModal', () => {
         modal.hide();
       });
 
+      // Regression coverage for https://github.com/shipshapecode/shepherd/issues/1984
+      // The root element's overflow, and body's whenever <html> is
+      // `overflow: visible`, applies to the viewport rather than to the
+      // element's own box, so neither may crop a highlight against its rect.
+      describe('root elements', () => {
+        afterEach(() => {
+          delete document.body.getBoundingClientRect;
+          delete document.documentElement.getBoundingClientRect;
+        });
+
+        // Body sized to the viewport (`height: 100%`) and scrolled entirely
+        // above it, while the highlight sits fully on screen at y 200-240.
+        function buildRootCase(overflows) {
+          const targetEl = makeChild(container, {
+            x: 10,
+            y: 10,
+            width: 100,
+            height: 50
+          });
+          const extraEl = makeChild(container, {
+            x: 200,
+            y: 200,
+            width: 100,
+            height: 40
+          });
+          const offscreen = { x: 0, y: -1000, width: 1000, height: 700 };
+          stubRect(document.body, offscreen);
+          stubRect(document.documentElement, offscreen);
+
+          mockOverflow(overflows);
+
+          return { targetEl, extraEl };
+        }
+
+        it('does not clip by body when its overflow propagates to the viewport', () => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildRootCase(
+            new Map([[document.body, 'auto']])
+          );
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+          expect(d).toContain('M200,200');
+          expect(d).toContain('V240');
+        });
+
+        it('never clips by the root element', () => {
+          const modal = createShepherdModal(container);
+          const { targetEl, extraEl } = buildRootCase(
+            new Map([[document.documentElement, 'auto']])
+          );
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+          expect(d).toContain('M200,200');
+          expect(d).toContain('V240');
+        });
+
+        it('still clips by body when body is its own scroll container', () => {
+          const modal = createShepherdModal(container);
+          // <html> no longer `visible`, so body's overflow stays on body.
+          const { targetEl, extraEl } = buildRootCase(
+            new Map([
+              [document.documentElement, 'hidden'],
+              [document.body, 'auto']
+            ])
+          );
+
+          modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+          const d = modal.getElement().querySelector('path').getAttribute('d');
+          // Clipped to body's bottom edge at y -300, so no height is left.
+          expect(d).not.toContain('V240');
+        });
+      });
+
       // A scrollable DOM ancestor only crops a descendant when it is in that
       // descendant's containing block chain. Resolving a scroll parent per
       // element made this matter: without the containing block check, an
