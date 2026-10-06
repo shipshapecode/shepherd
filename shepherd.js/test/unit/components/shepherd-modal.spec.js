@@ -526,12 +526,14 @@ describe('components/ShepherdModal', () => {
       // unstyled ancestor up to <html> would count as a scroll container.
       // `positions` maps an element to the `position` it should report, which
       // decides whether a scrollable ancestor actually crops it. Anything not
-      // listed reports 'static', matching an ordinary element.
+      // listed reports 'static', matching an ordinary element. `contains`
+      // maps an element to its `contain` value; anything else reports 'none'.
       // `displays` maps an element to the `display` it should report;
       // anything not listed reports 'block'.
       function mockOverflow(
         overflows,
         positions = new Map(),
+        contains = new Map(),
         displays = new Map()
       ) {
         const spy = vi
@@ -539,6 +541,7 @@ describe('components/ShepherdModal', () => {
           .mockImplementation((el) => ({
             overflowY: overflows.get(el) ?? 'visible',
             position: positions.get(el) ?? 'static',
+            contain: contains.get(el) ?? 'none',
             display: displays.get(el) ?? 'block'
           }));
         restoreComputedStyle = () => spy.mockRestore();
@@ -1009,6 +1012,7 @@ describe('components/ShepherdModal', () => {
           mockOverflow(
             new Map([[ancestor, overflowY]]),
             new Map(),
+            new Map(),
             new Map([[ancestor, display]])
           );
 
@@ -1059,7 +1063,7 @@ describe('components/ShepherdModal', () => {
 
         // Body sized to the viewport (`height: 100%`) and scrolled entirely
         // above it, while the highlight sits fully on screen at y 200-240.
-        function buildRootCase(overflows) {
+        function buildRootCase(overflows, contains) {
           const targetEl = makeChild(container, {
             x: 10,
             y: 10,
@@ -1076,7 +1080,7 @@ describe('components/ShepherdModal', () => {
           stubRect(document.body, offscreen);
           stubRect(document.documentElement, offscreen);
 
-          mockOverflow(overflows);
+          mockOverflow(overflows, new Map(), contains);
 
           return { targetEl, extraEl };
         }
@@ -1105,6 +1109,25 @@ describe('components/ShepherdModal', () => {
           const d = modal.getElement().querySelector('path').getAttribute('d');
           expect(d).toContain('M200,200');
           expect(d).toContain('V240');
+        });
+
+        it('still clips by body when containment stops the propagation', () => {
+          for (const contained of [document.body, document.documentElement]) {
+            const modal = createShepherdModal(container);
+            const { targetEl, extraEl } = buildRootCase(
+              new Map([[document.body, 'auto']]),
+              new Map([[contained, 'paint']])
+            );
+
+            modal.positionModal(0, 0, 0, 0, null, targetEl, [extraEl]);
+
+            const d = modal
+              .getElement()
+              .querySelector('path')
+              .getAttribute('d');
+            expect(d).not.toContain('V240');
+            restoreComputedStyle();
+          }
         });
 
         it('still clips by body when body is its own scroll container', () => {

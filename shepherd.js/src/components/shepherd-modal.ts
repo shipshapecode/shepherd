@@ -254,6 +254,10 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     _addStepEventListeners();
   }
 
+  function _isContained(style: CSSStyleDeclaration) {
+    return Boolean(style.contain) && style.contain !== 'none';
+  }
+
   /**
    * Whether `el` crops overflowing descendants on the y-axis.
    *
@@ -272,11 +276,18 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     // its computed value still reads `auto` / `scroll`. Clipping against
     // body's rect then zeroes out targets the viewport has scrolled to as soon
     // as body is sized to the viewport (e.g. `height: 100%`), see #1984.
-    if (
-      el === body &&
-      window.getComputedStyle(documentElement).overflowY === 'visible'
-    ) {
-      return false;
+    // Any containment on either element stops that propagation, leaving body
+    // a scroll container of its own.
+    if (el === body) {
+      const rootStyle = window.getComputedStyle(documentElement);
+
+      if (
+        rootStyle.overflowY === 'visible' &&
+        !_isContained(rootStyle) &&
+        !_isContained(style)
+      ) {
+        return false;
+      }
     }
 
     // Overflow does not apply to non-replaced inlines, whose rect is just the
