@@ -271,17 +271,19 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     // own box, so it does not crop anything against its own rect.
     if (el === documentElement) return false;
 
-    // While <html> is `overflow: visible`, <body>'s overflow propagates to the
-    // viewport as well and body's used overflow becomes `visible`, even though
-    // its computed value still reads `auto` / `scroll`. Clipping against
-    // body's rect then zeroes out targets the viewport has scrolled to as soon
-    // as body is sized to the viewport (e.g. `height: 100%`), see #1984.
+    // While <html> is `overflow: visible` on both axes, <body>'s overflow
+    // propagates to the viewport as well and body's used overflow becomes
+    // `visible`, even though its computed value still reads `auto` / `scroll`.
+    // Clipping against body's rect then zeroes out targets the viewport has
+    // scrolled to as soon as body is sized to the viewport (e.g. `height:
+    // 100%`), see #1984.
     // Any containment on either element stops that propagation, leaving body
     // a scroll container of its own.
     if (el === body) {
       const rootStyle = window.getComputedStyle(documentElement);
 
       if (
+        rootStyle.overflowX === 'visible' &&
         rootStyle.overflowY === 'visible' &&
         !_isContained(rootStyle) &&
         !_isContained(style)
