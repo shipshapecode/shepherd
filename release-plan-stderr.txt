@@ -1,0 +1,16 @@
+# Unlabeled Changes
+
+* `shepherd.js`
+  * [#3558](https://github.com/shipshapecode/shepherd/pull/3558) fix(modal): stop the iframe offset walk at the window the overlay renders into ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3557](https://github.com/shipshapecode/shepherd/pull/3557) fix(modal): treat overflow: hidden as cropping, skip inline and display: contents ancestors ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3556](https://github.com/shipshapecode/shepherd/pull/3556) fix(modal): don't clip highlights by root elements whose overflow applies to the viewport ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+* Other
+  * [#3500](https://github.com/shipshapecode/shepherd/pull/3500) feat: add agent-friendly 404 page and llms.txt ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3554](https://github.com/shipshapecode/shepherd/pull/3554) fix(landing): pin Polar API version to 2026-10 on checkout ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3499](https://github.com/shipshapecode/shepherd/pull/3499) feat: add about, contact, and privacy pages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3493](https://github.com/shipshapecode/shepherd/pull/3493) feat: serve markdown from the homepage via Accept negotiation ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3492](https://github.com/shipshapecode/shepherd/pull/3492) feat: complete landing metadata with www canonical, Open Graph, and JSON-LD ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+
+*Cannot plan release until the above changes are labeled*.
