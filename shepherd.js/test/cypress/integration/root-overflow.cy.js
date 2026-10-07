@@ -60,6 +60,20 @@ describe('modal overlay with overflow set on the root elements', () => {
     });
   });
 
+  it('keeps the opening when a propagated body overflow is `hidden`', () => {
+    // #3484: body's computed overflow-y reads `hidden`, but it applies to the
+    // viewport, which `scrollIntoView` can still scroll.
+    startTour('body { height: 100vh; overflow: hidden; }', true);
+
+    cy.document().then((doc) => {
+      const target = doc.querySelector('.target').getBoundingClientRect();
+      const [opening] = overlayOpenings(doc);
+
+      expect(opening.y).to.be.closeTo(target.top, 1);
+      expect(opening.height).to.be.closeTo(40, 1);
+    });
+  });
+
   it('still clips by body when body is a scroll container of its own', () => {
     // With <html> no longer `visible`, body keeps its overflow and is a real
     // scroll container whose rect crops the target below its fold.

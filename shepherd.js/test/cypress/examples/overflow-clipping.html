@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../../dist/css/shepherd.css" />
+    <script type="module">
+      import Shepherd from '../../../dist/js/shepherd.mjs';
+      window.Shepherd = Shepherd;
+    </script>
+  </head>
+
+  <body>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+      }
+
+      section {
+        margin-bottom: 40px;
+      }
+
+      .anchor {
+        width: 200px;
+        height: 40px;
+        background: #ccc;
+      }
+
+      /* A collapsed accordion: everything inside is cropped away. */
+      .collapsed {
+        height: 0;
+        overflow: hidden;
+      }
+
+      .collapsed-item {
+        height: 80px;
+        background: red;
+      }
+
+      /* Overflow does not apply to non-replaced inlines. */
+      .inline-hidden {
+        overflow: hidden;
+      }
+
+      .inline-item {
+        display: inline-block;
+        width: 120px;
+        height: 100px;
+        background: blue;
+      }
+
+      /* Generates no box, so cannot crop. */
+      .contents-hidden {
+        display: contents;
+        overflow: hidden;
+      }
+
+      .contents-item {
+        width: 120px;
+        height: 60px;
+        background: green;
+      }
+    </style>
+
+    <section>
+      <div class="anchor">Accordion header</div>
+      <div class="collapsed">
+        <div class="collapsed-item">Collapsed content</div>
+      </div>
+    </section>
+
+    <section>
+      <span class="inline-hidden"
+        >Inline <span class="inline-item">Inline block</span></span
+      >
+    </section>
+
+    <section>
+      <div class="contents-hidden">
+        <div class="contents-item">Inside display: contents</div>
+      </div>
+    </section>
+  </body>
+</html>

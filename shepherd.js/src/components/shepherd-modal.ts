@@ -292,13 +292,16 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
       }
     }
 
-    const { overflowY } = style;
+    // Overflow does not apply to non-replaced inlines, whose rect is just the
+    // union of their line boxes, and `display: contents` generates no box at
+    // all (its rect is 0x0 at the origin). Neither crops anything, whatever
+    // their computed overflow says.
+    const { display, overflowY } = style;
+    if (display === 'inline' || display === 'contents') return false;
 
-    return (
-      overflowY !== 'hidden' &&
-      overflowY !== 'visible' &&
-      el.scrollHeight >= el.clientHeight
-    );
+    // `hidden` and `clip` crop exactly like `auto` and `scroll`; they only
+    // differ in whether the user can scroll the clipped content into view.
+    return overflowY !== 'visible';
   }
 
   /**
