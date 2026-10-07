@@ -1463,41 +1463,50 @@ describe('components/ShepherdModal', () => {
   });
 
   describe('_getIframeOffset (via setupForStep)', function () {
-    it('accumulates offset when element is inside an iframe', () => {
-      const modal = createShepherdModal(container);
-      const rafSpy = vi
+    let rafSpy;
+    let restoreWindow = [];
+
+    beforeEach(() => {
+      rafSpy = vi
         .spyOn(window, 'requestAnimationFrame')
         .mockImplementation(() => 1);
+    });
 
+    afterEach(() => {
+      rafSpy.mockRestore();
+      restoreWindow.forEach((restore) => restore());
+      restoreWindow = [];
+    });
+
+    function makeIframe({ top, left }, { scrollTop = 0, scrollLeft = 0 } = {}) {
+      const iframe = document.createElement('iframe');
+      Object.defineProperty(iframe, 'getBoundingClientRect', {
+        value: () => ({ top, left, width: 100, height: 100, x: left, y: top })
+      });
+      Object.defineProperty(iframe, 'scrollTop', { value: scrollTop });
+      Object.defineProperty(iframe, 'scrollLeft', { value: scrollLeft });
+      return iframe;
+    }
+
+    // Overrides a property of the real window for the duration of one test.
+    function stubWindow(key, value) {
+      const descriptor = Object.getOwnPropertyDescriptor(window, key);
+      Object.defineProperty(window, key, { value, configurable: true });
+      restoreWindow.push(() =>
+        descriptor
+          ? Object.defineProperty(window, key, descriptor)
+          : delete window[key]
+      );
+    }
+
+    // A target living in the document of `frameWindow`. Only the target's
+    // ownerDocument is swapped: the modal container stays in the real
+    // document, which is what decides where the frame walk has to stop.
+    function startStepInFrame(modal, frameWindow) {
       const targetEl = document.createElement('div');
       container.appendChild(targetEl);
-
-      // Simulate the element being inside an iframe by mocking ownerDocument.defaultView
-      const fakeIframe = document.createElement('iframe');
-      Object.defineProperty(fakeIframe, 'getBoundingClientRect', {
-        value: () => ({
-          top: 10,
-          left: 20,
-          width: 100,
-          height: 100,
-          x: 20,
-          y: 10
-        })
-      });
-      Object.defineProperty(fakeIframe, 'scrollTop', { value: 5 });
-      Object.defineProperty(fakeIframe, 'scrollLeft', { value: 3 });
-
-      const fakeChildWindow = {
-        frameElement: fakeIframe,
-        parent: window
-      };
-
-      const origDescriptor = Object.getOwnPropertyDescriptor(
-        targetEl.ownerDocument,
-        'defaultView'
-      );
-      Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
-        value: fakeChildWindow,
+      Object.defineProperty(targetEl, 'ownerDocument', {
+        value: { defaultView: frameWindow },
         configurable: true
       });
 
@@ -1508,46 +1517,88 @@ describe('components/ShepherdModal', () => {
       step._resolveAttachToOptions();
       step.target = targetEl;
 
-      // This triggers _styleForStep -> _getIframeOffset, which should
-      // walk up through fakeChildWindow and accumulate the iframe offset
       modal.setupForStep(step);
 
-      // Restore defaultView before any assertions (jsdom needs it for instanceof checks)
-      if (origDescriptor) {
-        Object.defineProperty(
-          targetEl.ownerDocument,
-          'defaultView',
-          origDescriptor
-        );
-      } else {
-        Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
-          value: window,
-          configurable: true
-        });
-      }
+      return modal.getElement().querySelector('path').getAttribute('d');
+    }
+
+    it('offsets the opening by the frame holding the target', () => {
+      const modal = createShepherdModal(container);
+      const contentWindow = {
+        frameElement: makeIframe(
+          { top: 10, left: 20 },
+          { scrollTop: 5, scrollLeft: 3 }
+        ),
+        parent: window
+      };
+
+      const d = startStepInFrame(modal, contentWindow);
 
       expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
+      // The target itself measures 0x0 at the origin in happy-dom, so the
+      // opening sits exactly at the accumulated frame offset.
+      expect(d).toContain('M23,15');
+    });
 
-      rafSpy.mockRestore();
+    it('sums the offsets of every frame between the target and the modal', () => {
+      const modal = createShepherdModal(container);
+      const middleWindow = {
+        frameElement: makeIframe({ top: 100, left: 50 }),
+        parent: window
+      };
+      const contentWindow = {
+        frameElement: makeIframe({ top: 60, left: 30 }),
+        parent: middleWindow
+      };
+
+      expect(startStepInFrame(modal, contentWindow)).toContain('M80,160');
+    });
+
+    it('stops at the window the modal renders into when Shepherd is itself framed', () => {
+      // Regression test for https://github.com/shipshapecode/shepherd/issues/3478
+      // top -> host frame (Shepherd, at 50,100) -> content frame (target, at
+      // 30,60 within the host). The overlay is fixed inside the host document,
+      // so only the content frame's offset applies.
+      const modal = createShepherdModal(container);
+      const topWindow = {};
+      topWindow.parent = topWindow;
+      stubWindow('frameElement', makeIframe({ top: 100, left: 50 }));
+      stubWindow('parent', topWindow);
+      stubWindow('top', topWindow);
+
+      const contentWindow = {
+        frameElement: makeIframe({ top: 60, left: 30 }),
+        parent: window
+      };
+
+      const d = startStepInFrame(modal, contentWindow);
+
+      expect(d).toContain('M30,60');
+      // Walking on to window.top adds the host frame's offset as well.
+      expect(d).not.toContain('M80,160');
+    });
+
+    it('stops at the top window when the target is not below the modal window', () => {
+      const modal = createShepherdModal(container);
+      const topWindow = {};
+      topWindow.parent = topWindow;
+      const siblingWindow = {
+        frameElement: makeIframe({ top: 60, left: 30 }),
+        parent: topWindow
+      };
+
+      expect(() => startStepInFrame(modal, siblingWindow)).not.toThrow();
     });
 
     it('handles cross-origin iframe SecurityError gracefully', () => {
       // Regression test for https://github.com/shipshapecode/shepherd/issues/3087
       // When Shepherd is loaded in a nested cross-origin iframe, accessing
       // window.frameElement throws a SecurityError due to Same-Origin Policy.
-      // This test ensures the error is caught and handled gracefully.
+      // This test ensures the error is caught and handled gracefully, keeping
+      // the offset accumulated before the cross-origin boundary.
       const modal = createShepherdModal(container);
-      const rafSpy = vi
-        .spyOn(window, 'requestAnimationFrame')
-        .mockImplementation(() => 1);
-
-      const targetEl = document.createElement('div');
-      container.appendChild(targetEl);
-
-      // Simulate a cross-origin iframe by making frameElement access throw SecurityError
-      const fakeChildWindow = {
+      const crossOriginWindow = {
         get frameElement() {
-          // Simulate browser's SecurityError when accessing cross-origin frameElement
           const error = new Error(
             'Blocked a frame with origin "https://example.com" from accessing a cross-origin frame.'
           );
@@ -1556,45 +1607,18 @@ describe('components/ShepherdModal', () => {
         },
         parent: window
       };
+      const contentWindow = {
+        frameElement: makeIframe({ top: 60, left: 30 }),
+        parent: crossOriginWindow
+      };
 
-      const origDescriptor = Object.getOwnPropertyDescriptor(
-        targetEl.ownerDocument,
-        'defaultView'
-      );
-      Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
-        value: fakeChildWindow,
-        configurable: true
-      });
-
-      const tour = new Tour({ useModalOverlay: true });
-      const step = new Step(tour, {
-        attachTo: { element: targetEl, on: 'bottom' }
-      });
-      step._resolveAttachToOptions();
-      step.target = targetEl;
-
-      // This should NOT throw an error, even though frameElement access throws SecurityError
+      let d;
       expect(() => {
-        modal.setupForStep(step);
+        d = startStepInFrame(modal, contentWindow);
       }).not.toThrow();
 
-      // Restore defaultView before any assertions
-      if (origDescriptor) {
-        Object.defineProperty(
-          targetEl.ownerDocument,
-          'defaultView',
-          origDescriptor
-        );
-      } else {
-        Object.defineProperty(targetEl.ownerDocument, 'defaultView', {
-          value: window,
-          configurable: true
-        });
-      }
-
       expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
-
-      rafSpy.mockRestore();
+      expect(d).toContain('M30,60');
     });
   });
 });

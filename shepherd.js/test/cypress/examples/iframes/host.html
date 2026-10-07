@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../../../dist/css/shepherd.css" />
+    <script type="module">
+      import Shepherd from '../../../../dist/js/shepherd.mjs';
+      window.Shepherd = Shepherd;
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding: 60px 0 0 30px;
+      }
+
+      iframe {
+        border: 0;
+        width: 400px;
+        height: 300px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Holds the target, one frame below Shepherd's own document. -->
+    <iframe id="content" src="content.html"></iframe>
+  </body>
+</html>
