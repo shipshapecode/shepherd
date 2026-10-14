@@ -2,7 +2,7 @@ import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
 import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
-import { bindAdvance } from './utils/bind.ts';
+import { bindAdvance, bindAdvanceAfter } from './utils/bind.ts';
 import {
   parseAttachTo,
   normalizePrefix,
@@ -63,6 +63,31 @@ export interface StepOptions {
    * You can also always manually advance the Tour by calling `myTour.next()`.
    */
   advanceOn?: StepOptionsAdvanceOn;
+
+  /**
+   * A function that returns a promise.
+   * When the promise resolves, the tour advances to the next step.
+   * This allows for custom conditional logic for advancing.
+   * 
+   * ```js
+   * const step = new Step(tour, {
+   *   advanceAfter() {
+   *     return new Promise((resolve) => {
+   *       const input = document.querySelector('.my-input');
+   *       const checkValue = () => {
+   *         if (input.value === 'expected') {
+   *           input.removeEventListener('input', checkValue);
+   *           resolve();
+   *         }
+   *       };
+   *       input.addEventListener('input', checkValue);
+   *     });
+   *   },
+   *   ...moreOptions
+   * });
+   * ```
+   */
+  advanceAfter?: () => Promise<unknown>;
 
   /**
    * Whether to display the arrow for the tooltip or not, or options for the arrow.
@@ -306,9 +331,35 @@ export interface StepOptionsAttachTo {
   on?: PopperPlacement;
 }
 
+export type StepAdvanceOnValue =
+  | string
+  | RegExp
+  | ((value: string, element: HTMLElement) => boolean);
+
+export type StepAdvanceOnValues =
+  | StepAdvanceOnValue
+  | ReadonlyArray<StepAdvanceOnValue>;
+
 export interface StepOptionsAdvanceOn {
+  /**
+   * The event to listen for on the element
+   */
   event: string;
+  /**
+   * The CSS selector for the element to watch
+   */
   selector: string;
+  /**
+   * For input elements, only advance when the element's value matches one of these.
+   * Can be a string, RegExp, function, or array of any of these.
+   * The function receives (value: string, element: HTMLElement) and should return boolean.
+   */
+  value?: StepAdvanceOnValues;
+  /**
+   * For checkbox/radio inputs, only advance when checked state matches this value.
+   * For other inputs, only advance when the element's checked property matches this.
+   */
+  checked?: boolean;
 }
 
 export interface StepOptionsButton {
@@ -430,6 +481,7 @@ export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
   _originalTabIndexes: Map<Element, string>;
+  _advanceAfterCleanup?: (() => void) | null;
   classPrefix?: string;
   declare cleanup: Function | null;
   el?: HTMLElement | null;
@@ -507,6 +559,11 @@ export class Step extends Evented {
     if (this._advanceOnCleanup) {
       this._advanceOnCleanup();
       this._advanceOnCleanup = null;
+    }
+
+    if (this._advanceAfterCleanup) {
+      this._advanceAfterCleanup();
+      this._advanceAfterCleanup = null;
     }
 
     destroyTooltip(this);
@@ -782,6 +839,10 @@ export class Step extends Evented {
 
     if (this.options.advanceOn) {
       this._advanceOnCleanup = bindAdvance(this) ?? null;
+    }
+
+    if (this.options.advanceAfter) {
+      this._advanceAfterCleanup = bindAdvanceAfter(this) ?? null;
     }
 
     // The tooltip implementation details are handled outside of the Step
