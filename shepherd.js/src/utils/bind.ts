@@ -18,7 +18,7 @@ function checkValueMatch(
   }
 
   if (expected instanceof RegExp) {
-    return expected.test(value);
+    return new RegExp(expected.source, expected.flags).test(value);
   }
 
   if (typeof expected === 'function') {
@@ -149,11 +149,19 @@ export function bindAdvanceAfter(step: Step): (() => void) | undefined {
   }
 
   // Call the advanceAfter function and advance when the promise resolves
-  const promise = Promise.resolve(advanceAfter.call(step));
+  let active = true;
+  let promise: Promise<unknown>;
+
+  try {
+    promise = Promise.resolve(advanceAfter.call(step));
+  } catch (error) {
+    console.error('Error in advanceAfter:', error);
+    return () => {};
+  }
 
   promise
     .then(() => {
-      if (step.isOpen()) {
+      if (active && step.isOpen()) {
         step.tour.next();
       }
     })
@@ -161,7 +169,8 @@ export function bindAdvanceAfter(step: Step): (() => void) | undefined {
       console.error('Error in advanceAfter:', error);
     });
 
-  // Return a cleanup function that does nothing since we can't cancel a promise
-  // The promise will resolve or reject on its own
-  return () => {};
+  // Return a cleanup function that marks the binding as inactive
+  return () => {
+    active = false;
+  };
 }
