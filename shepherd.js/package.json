@@ -97,7 +97,7 @@
     "eslint-plugin-vitest": "^0.5.4",
     "execa": "^9.6.1",
     "globals": "^17.9.0",
-    "happy-dom": "^20.11.2",
+    "happy-dom": "^21.0.3",
     "http-server": "^14.1.1",
     "lodash": "^4.18.1",
     "postcss": "^8.5.26",
