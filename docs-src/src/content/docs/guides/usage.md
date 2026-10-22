@@ -320,6 +320,59 @@ function will be called in the `before-show` phase.
   an event inside the tour, it can be any event fired on any element on the
   page. You can also always manually advance the Tour by calling
   `myTour.next()`.
+  
+  **Conditional Advancing**: You can also specify that the tour should only advance
+  when an input element has a specific value or checked state. This is useful for
+  guiding users through forms:
+  
+  ```javascript
+  // Advance when a specific option is selected
+  {
+    advanceOn: {
+      selector: '.my-form select#country',
+      event: 'change',
+      value: 'united-states'
+    }
+  }
+  
+  // Advance when text input matches a pattern
+  {
+    advanceOn: {
+      selector: '.my-form input#email',
+      event: 'input',
+      value: /^[\w.-]+@[\w.-]+\.\w+$/
+    }
+  }
+  
+  // Advance when checkbox is checked
+  {
+    advanceOn: {
+      selector: '.my-form input#agree',
+      event: 'change',
+      checked: true
+    }
+  }
+  
+  // Multiple valid values
+  {
+    advanceOn: {
+      selector: '.my-form select#title',
+      event: 'change',
+      value: ['mr', 'mrs', 'ms']
+    }
+  }
+  
+  // Custom validation function
+  {
+    advanceOn: {
+      selector: '.my-form input#age',
+      event: 'input',
+      value: (value) => parseInt(value) >= 18
+    }
+  }
+  
+  The `value` property can be a string, RegExp, function, or array of any of these.
+  The `checked` property is for checkbox and radio inputs to check their checked state.
 - `highlightClass`: An extra class to apply to the `attachTo` element when it is
   highlighted (that is, when its step is active). You can then target that
   selector in your CSS.
@@ -375,6 +428,47 @@ when: {
   }
 }
 ```
+
+- `advanceAfter`: A function that returns a promise. When the promise resolves, the
+  tour advances to the next step. This allows for custom conditional logic for
+  advancing that cannot be expressed with `advanceOn` alone.
+  
+  ```javascript
+  // Custom promise-based advancing
+  {
+    advanceAfter() {
+      return new Promise((resolve) => {
+        const input = document.querySelector('.my-input');
+        const checkValue = () => {
+          if (input.value === 'expected-value') {
+            input.removeEventListener('input', checkValue);
+            resolve();
+          }
+        };
+        input.addEventListener('input', checkValue);
+      });
+    }
+  }
+  
+  // Simple promise - auto-advance after 2 seconds
+  {
+    advanceAfter() {
+      return new Promise((resolve) => {
+        setTimeout(resolve, 2000);
+      });
+    }
+  }
+  
+  // With async/await
+  {
+    async advanceAfter() {
+      await waitForCondition();
+    }
+  }
+  ```
+  
+  This is useful when you need more complex logic than what can be expressed with
+  `advanceOn` alone.
 
 ##### Step Methods
 
@@ -453,6 +547,173 @@ yourApp.on('some-event', () => {
   }
 });
 ```
+
+### Conditional Advancing for Forms
+
+When guiding users through forms, you often want to ensure they enter specific values
+before advancing. Shepherd provides two ways to handle this:
+
+#### Using `advanceOn` with Conditions
+
+The `advanceOn` option supports conditional advancing based on input values:
+
+```javascript
+// Select dropdown - advance when user selects "Type 1"
+tour.addStep({
+  title: 'Select Type 1',
+  text: 'Please select "Type 1" from the dropdown to continue.',
+  attachTo: {
+    element: '.my-form select#type',
+    on: 'bottom'
+  },
+  advanceOn: {
+    selector: '.my-form select#type',
+    event: 'change',
+    value: 'type-1'
+  }
+});
+
+// Text input - advance when valid email is entered
+tour.addStep({
+  title: 'Enter Your Email',
+  text: 'Please enter a valid email address.',
+  attachTo: {
+    element: '.my-form input#email',
+    on: 'bottom'
+  },
+  advanceOn: {
+    selector: '.my-form input#email',
+    event: 'input',
+    value: /^[\w.-]+@[\w.-]+\.\w+$/
+  }
+});
+
+// Checkbox - advance when user agrees to terms
+tour.addStep({
+  title: 'Accept Terms',
+  text: 'Please check the box to accept the terms and conditions.',
+  attachTo: {
+    element: '.my-form input#accept-terms',
+    on: 'right'
+  },
+  advanceOn: {
+    selector: '.my-form input#accept-terms',
+    event: 'change',
+    checked: true
+  }
+});
+
+// Multiple valid values
+tour.addStep({
+  title: 'Select Country',
+  text: 'Please select your country.',
+  attachTo: {
+    element: '.my-form select#country',
+    on: 'bottom'
+  },
+  advanceOn: {
+    selector: '.my-form select#country',
+    event: 'change',
+    value: ['us', 'ca', 'uk', 'au']
+  }
+});
+
+// Custom validation function
+tour.addStep({
+  title: 'Enter Age',
+  text: 'You must be at least 18 years old.',
+  attachTo: {
+    element: '.my-form input#age',
+    on: 'bottom'
+  },
+  advanceOn: {
+    selector: '.my-form input#age',
+    event: 'input',
+    value: (value) => parseInt(value) >= 18
+  }
+});
+```
+
+**Value Matching Options:**
+- **String**: Exact match (e.g., `value: 'type-1'`)
+- **RegExp**: Pattern match (e.g., `value: /^\d{5}$/` for 5-digit zip code)
+- **Function**: Custom validation receiving `(value: string, element: HTMLElement) => boolean`
+- **Array**: Multiple valid values (e.g., `value: ['us', 'ca', 'mx']`)
+
+**Checked State:**
+- Use `checked: true` or `checked: false` for checkbox and radio inputs
+
+#### Using `advanceAfter` for Custom Logic
+
+For more complex scenarios, use `advanceAfter` with a promise:
+
+```javascript
+// Wait for multiple conditions
+tour.addStep({
+  title: 'Complete Form',
+  text: 'Please fill in all required fields.',
+  advanceAfter() {
+    return new Promise((resolve) => {
+      const nameInput = document.querySelector('.my-form input#name');
+      const emailInput = document.querySelector('.my-form input#email');
+      
+      const checkForm = () => {
+        if (nameInput.value.trim() && emailInput.value.trim()) {
+          nameInput.removeEventListener('input', checkForm);
+          emailInput.removeEventListener('input', checkForm);
+          resolve();
+        }
+      };
+      
+      nameInput.addEventListener('input', checkForm);
+      emailInput.addEventListener('input', checkForm);
+      checkForm(); // Check immediately in case fields are pre-filled
+    });
+  }
+});
+
+// Wait for API validation
+tour.addStep({
+  title: 'Username Availability',
+  text: 'Please enter a username.',
+  attachTo: {
+    element: '.my-form input#username',
+    on: 'bottom'
+  },
+  advanceAfter() {
+    return new Promise((resolve) => {
+      const usernameInput = document.querySelector('.my-form input#username');
+      
+      const checkUsername = async () => {
+        const username = usernameInput.value.trim();
+        if (username.length >= 3) {
+          const isAvailable = await checkUsernameAvailability(username);
+          if (isAvailable) {
+            usernameInput.removeEventListener('input', checkUsername);
+            resolve();
+          }
+        }
+      };
+      
+      usernameInput.addEventListener('input', debounce(checkUsername, 500));
+    });
+  }
+});
+
+// Auto-advance after delay
+tour.addStep({
+  title: 'Review Your Information',
+  text: 'Please review the information you entered.',
+  advanceAfter() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 5000); // Auto-advance after 5 seconds
+    });
+  }
+});
+```
+
+The `advanceAfter` function gives you complete control over when to advance, making it
+ideal for complex validation logic, API calls, or any custom conditions.
 
 ### 🔼 Displaying Arrows
 
