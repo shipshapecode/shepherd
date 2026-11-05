@@ -948,6 +948,133 @@ describe('Tour | Top-Level Class', function () {
     });
   });
 
+  describe('superseded beforeShowPromise', () => {
+    let resolvers, gated;
+
+    const flush = () => new Promise((resolve) => setTimeout(resolve));
+    const overlays = () =>
+      document.querySelectorAll('.shepherd-modal-overlay-container');
+
+    beforeEach(() => {
+      resolvers = [];
+      instance = new Shepherd.Tour({ useModalOverlay: true });
+
+      instance.addStep({ id: 'first', text: 'first' });
+      gated = instance.addStep({
+        id: 'gated',
+        text: 'gated',
+        beforeShowPromise: () =>
+          new Promise((resolve) => resolvers.push(resolve))
+      });
+      instance.addStep({ id: 'last', text: 'last' });
+    });
+
+    it('renders the step when nothing superseded the show', async () => {
+      instance.start();
+      instance.next();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(true);
+      expect(instance.getCurrentStep().id).toBe('gated');
+    });
+
+    it('does not bring back an ended tour', async () => {
+      instance.start();
+      instance.next();
+      instance.cancel();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.getElement()).toBeFalsy();
+      expect(instance.modal).toBeFalsy();
+      expect(overlays().length).toBe(0);
+      expect(document.body.classList.contains('shepherd-target')).toBe(false);
+    });
+
+    it('does not show the step after going back', async () => {
+      instance.start();
+      instance.next();
+      instance.back();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('first').isOpen()).toBe(true);
+    });
+
+    it('does not show the step after moving on', async () => {
+      instance.start();
+      instance.next();
+      instance.next();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('last').isOpen()).toBe(true);
+    });
+
+    it('does not show the step in a restarted run', async () => {
+      instance.start();
+      instance.next();
+      instance.cancel();
+      instance.start();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('first').isOpen()).toBe(true);
+      expect(overlays().length).toBe(1);
+    });
+
+    it('renders once, for the latest show, when shown twice', async () => {
+      const beforeShow = vi.fn();
+      gated.on('before-show', beforeShow);
+
+      instance.start();
+      instance.show('gated');
+      instance.show('gated');
+
+      resolvers[0]();
+      await flush();
+
+      expect(beforeShow).not.toHaveBeenCalled();
+      expect(gated.isOpen()).toBe(false);
+
+      resolvers[1]();
+      await flush();
+
+      expect(beforeShow).toHaveBeenCalledTimes(1);
+      expect(gated.isOpen()).toBe(true);
+    });
+
+    it('does not bring back an ended tour from a direct step.show()', async () => {
+      instance.start();
+      gated.show();
+      instance.cancel();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.getElement()).toBeFalsy();
+      expect(instance.modal).toBeFalsy();
+    });
+
+    it('still renders a direct step.show() on a tour that never started', async () => {
+      gated.show();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(true);
+    });
+  });
+
   describe('skipMissingElement / waitForElement', () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

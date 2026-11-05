@@ -123,8 +123,8 @@ export class Tour extends Evented {
   steps: Array<Step>;
 
   /**
-   * Monotonically increasing id of `show()` calls, used to invalidate pending
-   * `waitForElement` waits that were superseded by a newer `show()`.
+   * Monotonically increasing id of `show()` calls and tour endings, used to
+   * invalidate pending `waitForElement` and `beforeShowPromise` waits.
    * @private
    */
   _showGeneration = 0;
@@ -344,7 +344,7 @@ export class Tour extends Evented {
 
     this._updateStateBeforeShow();
 
-    // Invalidate any pending `waitForElement` wait from a previous call.
+    // Invalidate any pending wait from a previous call.
     const generation = ++this._showGeneration;
 
     const shouldSkipStep =
@@ -440,6 +440,10 @@ export class Tour extends Evented {
    * @private
    */
   _done(event: string) {
+    // Invalidate any pending `beforeShowPromise`, which could otherwise bring
+    // back the popup and modal of the ended tour.
+    this._showGeneration++;
+
     const index = this.steps.indexOf(this.currentStep as Step);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());

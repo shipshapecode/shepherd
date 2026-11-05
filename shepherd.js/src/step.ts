@@ -590,13 +590,20 @@ export class Step extends Evented {
   }
 
   /**
-   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show
+   * Wraps `_show` and ensures `beforeShowPromise` resolves before calling show.
+   * The step is not shown if the tour moved on or ended while it was pending.
    */
   show() {
     if (isFunction(this.options.beforeShowPromise)) {
-      return Promise.resolve(this.options.beforeShowPromise()).then(() =>
-        this._show()
-      );
+      // Read before calling `beforeShowPromise`, since a newer `tour.show()` or
+      // the tour ending while it is pending must keep this show from rendering.
+      const generation = this.tour._showGeneration;
+
+      return Promise.resolve(this.options.beforeShowPromise()).then(() => {
+        if (generation === this.tour._showGeneration) {
+          this._show();
+        }
+      });
     }
     return Promise.resolve(this._show());
   }
