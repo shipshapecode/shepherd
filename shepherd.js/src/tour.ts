@@ -423,8 +423,14 @@ export class Tour extends Evented {
   async start() {
     this.trigger('start');
 
-    // Save the focused element before the tour opens
-    this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
+    if (this.isActive()) {
+      // Restarting a running tour. Focus may now be inside its own popup, so
+      // keep the element saved by the original start.
+      this.currentStep?.hide();
+    } else {
+      // Save the focused element before the tour opens
+      this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
+    }
 
     this.currentStep = null;
 
@@ -487,6 +493,7 @@ export class Tour extends Evented {
    */
   setupModal() {
     const container = this.options.modalContainer || document.body;
+    this.modal?.destroy();
     this.modal = createShepherdModal(container);
   }
 

@@ -195,6 +195,149 @@ describe('Tour | Top-Level Class', function () {
 
         expect(instance).toBe(Shepherd.activeTour);
       });
+
+      describe('on a tour that is already running', function () {
+        const overlays = () =>
+          document.querySelectorAll('.shepherd-modal-overlay-container');
+        const visiblePopups = () =>
+          Array.from(
+            document.querySelectorAll('.shepherd-element:not([hidden])')
+          ).map((el) => el.getAttribute('data-shepherd-step-id'));
+
+        it('leaves one overlay, and none once the tour ends', function () {
+          instance.start();
+          instance.start();
+
+          expect(overlays().length).toBe(1);
+          expect(overlays()[0]).toBe(instance.modal.getElement());
+
+          instance.cancel();
+
+          expect(overlays().length).toBe(0);
+        });
+
+        it('restarts from the first step, hiding the current one', function () {
+          instance.start();
+          instance.next();
+
+          expect(visiblePopups()).toEqual(['test2']);
+
+          instance.start();
+
+          expect(instance.getCurrentStep().id).toBe('test');
+          expect(visiblePopups()).toEqual(['test']);
+          expect(overlays().length).toBe(1);
+        });
+
+        it('shows the first step with no previous step', function () {
+          const previous = [];
+
+          instance.on('show', (event) => previous.push(event.previous));
+          instance.start();
+          instance.next();
+          previous.length = 0;
+          instance.start();
+
+          expect(previous).toEqual([null]);
+        });
+
+        it('fires `start` and `active` again', function () {
+          const events = [];
+
+          instance.start();
+          instance.on('start', () => events.push('start'));
+          instance.on('active', () => events.push('active'));
+          instance.start();
+
+          expect(events).toEqual(['start', 'active']);
+        });
+
+        it('restores focus to where it was before the original start', function () {
+          const button = document.createElement('button');
+          document.body.appendChild(button);
+          button.focus();
+
+          instance.start();
+
+          const popupButton = document.createElement('button');
+          instance.getCurrentStep().getElement().appendChild(popupButton);
+          popupButton.focus();
+
+          instance.start();
+
+          expect(instance.focusedElBeforeOpen).toBe(button);
+
+          instance.cancel();
+
+          expect(document.activeElement).toBe(button);
+
+          button.remove();
+        });
+      });
+
+      describe('on a tour that has ended', function () {
+        it('saves the newly focused element', function () {
+          const first = document.createElement('button');
+          const second = document.createElement('button');
+          document.body.append(first, second);
+          first.focus();
+
+          instance.start();
+          instance.complete();
+
+          second.focus();
+
+          instance.start();
+          instance.complete();
+
+          expect(document.activeElement).toBe(second);
+
+          first.remove();
+          second.remove();
+        });
+
+        it('fires `start` and `active` without hiding any step', function () {
+          const events = [];
+
+          instance.start();
+          instance.next();
+          instance.complete();
+
+          instance.steps.forEach((step) =>
+            step.on('hide', () => events.push('hide'))
+          );
+          instance.on('start', () => events.push('start'));
+          instance.on('active', () => events.push('active'));
+          instance.start();
+
+          expect(events).toEqual(['start', 'active']);
+          expect(instance.getCurrentStep().id).toBe('test');
+        });
+      });
+
+      it('recreates a missing modal when a step shows', function () {
+        instance.start();
+        instance.modal.destroy();
+        instance.modal = null;
+
+        instance.next();
+
+        expect(
+          document.querySelectorAll('.shepherd-modal-overlay-container').length
+        ).toBe(1);
+        expect(instance.modal.getElement()).toBeInTheDocument();
+      });
+    });
+
+    describe('.setupModal()', function () {
+      it('replaces an existing modal rather than leaking it', function () {
+        instance.setupModal();
+        instance.setupModal();
+
+        expect(
+          document.querySelectorAll('.shepherd-modal-overlay-container').length
+        ).toBe(1);
+      });
     });
 
     describe('.getCurrentStep()', function () {
