@@ -3,15 +3,10 @@
 // in memory by the vitest config, so nothing on disk changes. A `from` that no
 // longer matches the source fails loudly, which means this list needs updating.
 export const MUTANTS = {
-  'wait-ignores-tour-end': {
-    file: 'src/tour.ts',
-    from: 'generation !== this._showGeneration || !this.isActive()',
-    to: 'generation !== this._showGeneration'
-  },
   'wait-ignores-newer-show': {
     file: 'src/tour.ts',
-    from: 'generation !== this._showGeneration || !this.isActive()',
-    to: '!this.isActive()'
+    from: 'if (generation !== this._showGeneration) {',
+    to: 'if (false) {'
   },
   'navigate-keeps-old-popup': {
     file: 'src/tour.ts',
@@ -45,13 +40,14 @@ export const MUTANTS = {
   },
   'gated-show-ignores-supersede': {
     file: 'src/step.ts',
-    from: 'if (generation === this.tour._showGeneration) {',
-    to: 'if (true) {'
+    from: 'generation === this.tour._showGeneration &&',
+    to: ''
   },
   'done-keeps-pending-shows': {
     file: 'src/tour.ts',
-    from: 'this._showGeneration++;',
-    to: ''
+    from: `this._showGeneration++;
+    this._runGeneration++;`,
+    to: 'this._runGeneration++;'
   },
   'restart-keeps-old-popup': {
     file: 'src/tour.ts',
@@ -79,6 +75,13 @@ export const MUTANTS = {
     from: `_setupActiveTour() {
     this._runGeneration++;`,
     to: '_setupActiveTour() {'
+  },
+  'start-skips-overlay': {
+    file: 'src/tour.ts',
+    from: `this.setupModal();
+
+    this._setupActiveTour();`,
+    to: 'this._setupActiveTour();'
   },
   'teardown-keeps-target-classes': {
     file: 'src/step.ts',

@@ -9,7 +9,7 @@ Ordinary tests check the event orders someone thought to write. This check repla
 
 ## What it promises
 
-- **ScreenMatchesTour.** Once events settle, a running tour shows at most its current step's popup and one overlay, and an ended tour leaves no popup, overlay, or target marking. *Harm if broken: a popup for the wrong step, or a page left dimmed with no way to dismiss it.*
+- **ScreenMatchesTour.** Once events settle, a running tour shows at most its current step's popup and exactly one overlay, and an ended tour leaves no popup, overlay, or target marking. *Harm if broken: a popup for the wrong step, or a page left dimmed with no way to dismiss it.*
 - **SingleEnding.** A run ends once, and a cancel only ends the run that confirmed it. *Harm if broken: `cancel` handlers run twice, or a late confirmation kills a tour the user restarted.*
 - **NoThrow.** No lifecycle call rejects.
 
@@ -24,12 +24,12 @@ Run the check if you changed any of these. The check was last confirmed to descr
 | `shepherd.js/src/utils/general.ts` | `waitForAttachToElement`, `resolveAttachToElement` |
 | `shepherd.js/src/components/shepherd-modal.ts` | `hide`, `show`, `destroy`, `setupForStep` |
 
-**Sync commit:** `29bfbe42f3223acde0263a3ccc761c93c70aa9e2`
+**Sync commit:** `cba285a53dd85d87c185ee6b04070f87b834b14b`
 
 To see what changed since then, run this from the repo root:
 
 ```sh
-git log --oneline 29bfbe42f3223acde0263a3ccc761c93c70aa9e2..HEAD -- shepherd.js/src/tour.ts shepherd.js/src/step.ts shepherd.js/src/utils/general.ts shepherd.js/src/components/shepherd-modal.ts
+git log --oneline cba285a53dd85d87c185ee6b04070f87b834b14b..HEAD -- shepherd.js/src/tour.ts shepherd.js/src/step.ts shepherd.js/src/utils/general.ts shepherd.js/src/components/shepherd-modal.ts
 ```
 
 Move the sync commit forward only after you confirm the scenarios and this table still describe the code at the new commit. A passing run alone does not confirm that.
@@ -39,13 +39,13 @@ Move the sync commit forward only after you confirm the scenarios and this table
 From `shepherd.js/`, using the binary directly because `pnpm exec` triggers a full package build:
 
 ```sh
-./node_modules/.bin/vitest run --config test/verify/vitest.config.mjs   # about 5 seconds
+./node_modules/.bin/vitest run --config test/verify/vitest.config.mjs   # about 15 seconds
 node test/verify/run-mutants.mjs                                        # about 3 minutes
 ```
 
 Vitest is pinned by the repo's lockfile. `pnpm test:unit` and CI do not run this check, because the filename is `*.verify.js`.
 
-Run the mutants too when you change the check or the guards they remove. Each one removes a guard in memory, leaving the files on disk alone, and every one must print `caught`. `STALE` means the source text it targets has moved, so update `test/verify/mutants.mjs`. `SURVIVED` means the check has gone blind to that guard.
+Run the mutants too when you change the check or the guards they remove. Each one removes a guard in memory, leaving the files on disk alone, and every one must print `caught`. `STALE` means the source text it targets has moved, so update `test/verify/mutants.mjs`. `SURVIVED` means the check has gone blind to that guard, or the mutant's text now matches a different line first, because only the first match in the file is replaced. The runner runs the unmutated check first and stops if that fails, since every mutant would then look caught.
 
 ## Read the result
 
@@ -78,7 +78,7 @@ VERIFY_RECORD=1 ./node_modules/.bin/vitest run --config test/verify/vitest.confi
 
 Recording to make a regression pass hides the bug. Put the reason for any change to `baseline.json` in the commit message.
 
-To look deeper once, run this without recording. It takes about 90 seconds and needs the larger heap, because the run exhausts Node's default limit. The baseline has no entry for depth 7, so any finding fails the run. Depth 7 found nothing at the sync commit.
+To look deeper once, run this without recording. It takes about 2 minutes and needs the larger heap, because the run exhausts Node's default limit. The baseline has no entry for depth 7, so any finding fails the run. Depth 7 found nothing at the sync commit.
 
 ```sh
 NODE_OPTIONS=--max-old-space-size=8192 VERIFY_DEPTH=7 ./node_modules/.bin/vitest run --config test/verify/vitest.config.mjs
@@ -88,14 +88,16 @@ NODE_OPTIONS=--max-old-space-size=8192 VERIFY_DEPTH=7 ./node_modules/.bin/vitest
 
 There are no open findings at the sync commit, so `baseline.json` is empty and any finding is new. These guards closed earlier findings:
 
-- **`_showGeneration`** in `Tour` and `Step.show`. A pending `waitForElement` or `beforeShowPromise` does nothing if a newer `show()` happened or the tour ended. Without it, `tour.start() > tour.next() > tour.cancel() > resolve` brings back the ended tour's popup and dimmed overlay.
+- **`_showGeneration`** in `Tour` and `Step.show`. A pending `waitForElement` or `beforeShowPromise` does nothing if a newer `show()` happened or the tour ended. Without it, `tour.start() > tour.next() > tour.cancel() > resolve` brings back the ended tour's popup and dimmed overlay. Every way a wait can go stale must bump this counter, because `Tour.show` has no separate `isActive()` check.
 - **Restart teardown** in `Tour.start` and `Tour.setupModal`. Starting a running tour hides the current step and destroys the old modal. Without it, `tour.start() > tour.start() > tour.cancel()` leaves the page dimmed.
 - **`_runGeneration`** in `Tour.cancel`. A `confirmCancel` answer does nothing if the run that asked has ended or restarted. Without it, `tour.start() > tour.cancel() > tour.complete() > tour.start() > answer-yes` ends the new run.
 
 ## What this does not cover
 
-- **Bound.** Orders of at most 6 events, in tours of 2 or 3 steps with one asynchronous step. A longer sequence or a larger tour is not checked.
-- **Events left out.** `tour.show(id)`, `tour.hide()`, `removeStep`, `updateStepOptions`, `showOn`, `skipMissingElement`, `advanceOn`, keyboard handling, and direct `step.*` calls.
+Only the `lifecycle edge cases` unit tests in `test/unit/tour.spec.js` protect `tour.hide()`, `removeStep`, repeated `step.show()`, a second tour, and handlers that end a restart. They check specific orders, not every order.
+
+- **Bound.** Orders of at most 6 events, in tours of 2 or 3 steps with one asynchronous step, first or second. A longer sequence or a larger tour is not checked.
+- **Events left out.** `tour.show(id)`, `tour.hide()`, `removeStep`, `updateStepOptions`, `showOn`, `skipMissingElement`, `advanceOn`, keyboard handling, and direct `step.*` calls. Removing a step that is waiting on `waitForElement` while it isn't the current step is known not to cancel that wait.
 - **One tour at a time.** A second `Tour` started during the first is not modeled.
 - **Timing granularity.** Promise callbacks settle fully between events, so each event's follow-up work is treated as one step. Two promises resolving in the same tick are not interleaved with each other's callbacks.
 - **Environment.** The DOM is happy-dom, with timers and `requestAnimationFrame` faked. This checks lifecycle logic only, not positioning, scrolling, CSS, focus restoration, or real browser behaviour.

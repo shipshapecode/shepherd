@@ -116,6 +116,28 @@ const SCENARIOS = [
           }
         }
       ])
+  },
+  {
+    // The same wait on the first step, so the tour has no popup right after start.
+    name: 'beforeShowPromise-first',
+    options: (world) => ({
+      useModalOverlay: true,
+      steps: [
+        {
+          id: 'gated',
+          text: 'gated',
+          beforeShowPromise: () =>
+            new Promise((resolve) => {
+              world.gates.push({ resolve, run: world.run });
+            })
+        },
+        plainStep('last')
+      ]
+    }),
+    actions: (world) =>
+      world.gates.map((pending, i) =>
+        settle(world, pending, i, 'beforeShowPromise')
+      )
   }
 ];
 
@@ -193,7 +215,7 @@ function checkScreen(world) {
       `ScreenMatchesTour: popup "${stray[0]?.dataset['shepherdStepId']}" visible but current step is "${tour.getCurrentStep()?.id}"`
     );
   }
-  if (overlays.length > 1) {
+  if (overlays.length !== 1) {
     world.violations.push(
       `ScreenMatchesTour: ${overlays.length} modal overlays on the page`
     );
@@ -219,19 +241,21 @@ function enabledActions(scenario, world) {
 /** Drains promise callbacks and DOM observers. Timers only move on `timer-elapses`. */
 const quiesce = () => new Promise((resolve) => setImmediate(resolve));
 
-function resetPage() {
+async function resetPage() {
   // Fire outstanding `waitForElement` timeouts, which disconnects their
-  // MutationObservers, before removing what they watched.
+  // MutationObservers, and let their callbacks finish before the next tour
+  // exists, so one replay can't affect another.
   vi.advanceTimersByTime(WAIT_MS);
+  Shepherd.activeTour = null;
+  await quiesce();
   vi.clearAllTimers();
   document.body.innerHTML = '';
   document.body.className = '';
-  Shepherd.activeTour = null;
 }
 
 /** Replays `trace` on a fresh tour, returning the world and the names enabled next. */
 async function replay(scenario, trace) {
-  resetPage();
+  await resetPage();
   const world = newWorld(scenario);
 
   for (const name of trace) {
@@ -344,6 +368,26 @@ describe('harness reaches the behaviour it claims to check', () => {
       ]);
       expect(after.popups[0]?.dataset['shepherdStepId']).toBe('waiting');
     }
+  });
+
+  it('keeps a pending wait from one replay out of the next', async () => {
+    const scenario = SCENARIOS[1];
+    const trace = ['tour.start()'];
+    const summarize = async () => {
+      const { world, popups } = await screenAfter(scenario, trace);
+      await quiesce();
+      return {
+        violations: world.violations,
+        popups: popups.map((popup) => popup.dataset['shepherdStepId']),
+        visible: [...document.querySelectorAll('.shepherd-element')].filter(
+          (popup) => !popup.hidden
+        ).length
+      };
+    };
+
+    const alone = await summarize();
+    await replay(scenario, ['tour.start()', 'tour.next()']);
+    expect(await summarize()).toEqual(alone);
   });
 
   it('ends the tour on a confirmed cancel and keeps it on a refused one', async () => {
