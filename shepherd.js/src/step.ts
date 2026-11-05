@@ -430,6 +430,7 @@ export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   _resolvedExtraHighlightElements?: HTMLElement[];
   _originalTabIndexes: Map<Element, string>;
+  _showRequest = 0;
   classPrefix?: string;
   declare cleanup: Function | null;
   el?: HTMLElement | null;
@@ -598,9 +599,14 @@ export class Step extends Evented {
       // Read before calling `beforeShowPromise`, since a newer `tour.show()` or
       // the tour ending while it is pending must keep this show from rendering.
       const generation = this.tour._showGeneration;
+      // Direct `step.show()` calls don't change the tour's generation.
+      const request = ++this._showRequest;
 
       return Promise.resolve(this.options.beforeShowPromise()).then(() => {
-        if (generation === this.tour._showGeneration) {
+        if (
+          generation === this.tour._showGeneration &&
+          request === this._showRequest
+        ) {
           this._show();
         }
       });

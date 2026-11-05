@@ -284,6 +284,9 @@ export class Tour extends Evented {
    * Hide the current step
    */
   hide() {
+    // A show still waiting on a promise or element must not undo this hide.
+    this._showGeneration++;
+
     const currentStep = this.getCurrentStep();
 
     if (currentStep) {
@@ -334,6 +337,8 @@ export class Tour extends Evented {
     });
 
     if (current && current.id === name) {
+      // The removed step may still be waiting on its `beforeShowPromise`.
+      this._showGeneration++;
       this.currentStep = undefined;
 
       // If we have steps left, show the first one, otherwise just cancel the tour
@@ -389,9 +394,9 @@ export class Tour extends Evented {
     ) {
       if (waitTimeout > 0) {
         return waitForAttachToElement(step, waitTimeout).then((element) => {
-          // A newer `show()`, or cancelling/completing the tour, supersedes
-          // this pending wait.
-          if (generation !== this._showGeneration || !this.isActive()) {
+          // A newer `show()`, the tour ending or hiding, or another tour
+          // starting, supersedes this pending wait.
+          if (generation !== this._showGeneration) {
             return;
           }
 
@@ -439,7 +444,13 @@ export class Tour extends Evented {
     if (this.isActive()) {
       // Restarting a running tour. Focus may now be inside its own popup, so
       // keep the element saved by the original start.
+      const run = this._runGeneration;
       this.currentStep?.hide();
+
+      // A `hide` handler may have ended the tour, which must stay ended.
+      if (run !== this._runGeneration) {
+        return;
+      }
     } else {
       // Save the focused element before the tour opens
       this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
@@ -473,7 +484,10 @@ export class Tour extends Evented {
 
     this.trigger(event, { index });
 
-    Shepherd.activeTour = null;
+    // Another tour may have started while this one waited on `confirmCancel`.
+    if (this.isActive()) {
+      Shepherd.activeTour = null;
+    }
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
@@ -499,6 +513,11 @@ export class Tour extends Evented {
   _setupActiveTour() {
     this._runGeneration++;
 
+    // Taking over from another tour cancels whatever that tour was waiting on.
+    if (Shepherd.activeTour && !this.isActive()) {
+      Shepherd.activeTour._showGeneration++;
+    }
+
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -511,6 +530,11 @@ export class Tour extends Evented {
     const container = this.options.modalContainer || document.body;
     this.modal?.destroy();
     this.modal = createShepherdModal(container);
+
+    // A step that is already open keeps its dimming and highlight.
+    if (this.currentStep?.isOpen()) {
+      this.modal.setupForStep(this.currentStep);
+    }
   }
 
   /**
