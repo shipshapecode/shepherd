@@ -129,6 +129,13 @@ export class Tour extends Evented {
    */
   _showGeneration = 0;
 
+  /**
+   * Changes whenever a run of the tour begins or ends, used to invalidate
+   * pending `confirmCancel` answers that belong to an earlier run.
+   * @private
+   */
+  _runGeneration = 0;
+
   constructor(options: TourOptions = {}) {
     super();
 
@@ -229,7 +236,13 @@ export class Tour extends Evented {
       let stopTour;
 
       if (isFunction(this.options.confirmCancel)) {
+        const run = this._runGeneration;
         stopTour = await this.options.confirmCancel();
+
+        // The answer only applies to the run that asked for it.
+        if (run !== this._runGeneration) {
+          return;
+        }
       } else {
         stopTour = window.confirm(cancelMessage);
       }
@@ -449,6 +462,7 @@ export class Tour extends Evented {
     // Invalidate any pending `beforeShowPromise`, which could otherwise bring
     // back the popup and modal of the ended tour.
     this._showGeneration++;
+    this._runGeneration++;
 
     const index = this.steps.indexOf(this.currentStep as Step);
     if (Array.isArray(this.steps)) {
@@ -483,6 +497,8 @@ export class Tour extends Evented {
    * Make this tour "active"
    */
   _setupActiveTour() {
+    this._runGeneration++;
+
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;

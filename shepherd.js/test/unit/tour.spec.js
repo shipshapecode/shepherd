@@ -548,6 +548,139 @@ describe('Tour | Top-Level Class', function () {
           ).toBeTruthy();
         });
       });
+
+      describe('when the confirmCancel function answers later', function () {
+        let answers, cancelFired, completeFired;
+
+        beforeEach(() => {
+          answers = [];
+          cancelFired = 0;
+          completeFired = 0;
+
+          instance = new Shepherd.Tour({
+            defaultStepOptions,
+            confirmCancel: () =>
+              new Promise((resolve) => {
+                answers.push(resolve);
+              })
+          });
+
+          instance.addStep({ id: 'first', title: 'First' });
+          instance.addStep({ id: 'second', title: 'Second' });
+
+          instance.on('cancel', () => {
+            cancelFired++;
+          });
+          instance.on('complete', () => {
+            completeFired++;
+          });
+        });
+
+        it('ends the run that asked when the answer is yes', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+          expect(instance.isActive()).toBe(false);
+        });
+
+        it('keeps the run going when the answer is no', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+
+          answers[0](false);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+        });
+
+        it('still cancels after moving to another step during the wait', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.next();
+          expect(instance.getCurrentStep().id).toBe('second');
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+          expect(instance.isActive()).toBe(false);
+        });
+
+        it('ignores a yes when the run has already completed', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.complete();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(completeFired).toBe(1);
+          expect(cancelFired).toBe(0);
+        });
+
+        it('does not let a yes from an ended run end a new run', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.complete();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+          expect(instance.getCurrentStep().id).toBe('first');
+        });
+
+        it('does not let a yes end a run that restarted without ending', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+        });
+
+        it('cancels once when two pending answers are both yes', async function () {
+          instance.start();
+          const first = instance.cancel();
+          const second = instance.cancel();
+
+          answers[0](true);
+          answers[1](true);
+          await Promise.all([first, second]);
+
+          expect(cancelFired).toBe(1);
+        });
+
+        it('still fires cancel for a yes on a tour that was never started', async function () {
+          const cancelling = instance.cancel();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+        });
+
+        it('does not let a yes asked while idle end a run started during the wait', async function () {
+          const cancelling = instance.cancel();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+        });
+      });
     });
 
     describe('.complete()', function () {
