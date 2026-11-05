@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "landing",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "landing", "exec", "astro", "dev", "--port", "4322"],
+      "port": 4322
+    }
+  ]
+}
