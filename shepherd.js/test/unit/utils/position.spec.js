@@ -362,6 +362,49 @@ describe('utils/position', () => {
       scroller.remove();
     });
 
+    it('stops on its own once the element leaves the page', async () => {
+      const { reference, floating, rect } = stubbedRects();
+      document.body.append(floating);
+      const removeListener = vi.spyOn(window, 'removeEventListener');
+      const update = vi.fn();
+
+      autoUpdate(reference, floating, update);
+      await nextFrames(2);
+      floating.remove();
+      await nextFrames(2);
+      const settled = update.mock.calls.length;
+
+      rect.y = 700;
+      window.dispatchEvent(new Event('scroll'));
+      await nextFrames(3);
+
+      expect(update).toHaveBeenCalledTimes(settled);
+      expect(removeListener).toHaveBeenCalledWith(
+        'scroll',
+        expect.any(Function),
+        true
+      );
+      removeListener.mockRestore();
+    });
+
+    it('waits for a container that attaches late', async () => {
+      const { reference, floating, rect } = stubbedRects();
+      floating.remove();
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      await nextFrames(2);
+      document.body.append(floating);
+      await nextFrames(2);
+      const settled = update.mock.calls.length;
+
+      rect.y = 800;
+      await nextFrames(2);
+
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+      stop();
+    });
+
     it('still positions once where requestAnimationFrame does not exist', () => {
       const { reference, floating } = stubbedRects();
       const update = vi.fn();

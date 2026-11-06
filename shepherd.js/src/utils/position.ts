@@ -847,6 +847,7 @@ export function autoUpdate(
   let last: string;
   let quietFrames = 0;
   let stopped = false;
+  let connected = false;
 
   const check = () => {
     const viewport = win.visualViewport;
@@ -870,23 +871,32 @@ export function autoUpdate(
   const nextFrame = () => win.requestAnimationFrame?.(loop);
   const loop = () => {
     if (stopped) return;
+    // A tour abandoned by a route change has no other way to stop this. A
+    // container can attach late, so only leaving the page counts.
+    if (floating.isConnected) connected = true;
+    else if (connected) return stop();
     check();
     // A timer is the cheap heartbeat, since scheduling a frame makes one happen.
     if (++quietFrames < 30) nextFrame();
-    else setTimeout(loop, 100);
+    // Nothing moves without layout, as in jsdom, and a consumer's test suite
+    // calling `runAllTimers` would throw on a timer that never stops.
+    else if (htmlOf(floating).clientWidth) setTimeout(loop, 100);
   };
-
-  // Scroll events capture, so this hears every scroller in these documents. The
-  // same listener added twice is one listener when both are the same window.
-  const windows = [win, getWindow(reference)];
-  windows.forEach((target) => target.addEventListener('scroll', check, true));
-  update();
-  nextFrame();
-
-  return () => {
+  const stop = () => {
     stopped = true;
     windows.forEach((target) =>
       target.removeEventListener('scroll', check, true)
     );
   };
+
+  // Scroll events capture, so this hears the scrollers in these documents, but
+  // they are not composed. One in a shadow root or an iframe in between waits
+  // for the heartbeat. The same listener added twice is one listener when both
+  // are the same window.
+  const windows = [win, getWindow(reference)];
+  windows.forEach((target) => target.addEventListener('scroll', check, true));
+  update();
+  nextFrame();
+
+  return stop;
 }
