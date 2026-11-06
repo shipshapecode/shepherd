@@ -869,8 +869,9 @@ export function autoUpdate(
   const loop = () => {
     if (stopped) return;
     check();
+    // A timer is the cheap heartbeat, since scheduling a frame makes one happen.
     if (++quietFrames < 30) nextFrame();
-    else setTimeout(nextFrame, 100);
+    else setTimeout(loop, 100);
   };
 
   // Scroll events capture, so this hears every scroller in these documents. The
