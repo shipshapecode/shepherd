@@ -434,7 +434,7 @@ export class Step extends Evented {
   /** @internal */
   _originalTabIndexes: Map<Element, string>;
   /** @internal */
-  _showRequest = 0;
+  _showRequest: number;
   classPrefix?: string;
   declare cleanup: Function | null;
   el?: HTMLElement | null;
@@ -446,6 +446,8 @@ export class Step extends Evented {
 
   constructor(tour: Tour, options: StepOptions = {}) {
     super();
+
+    this._showRequest = 0;
 
     this.tour = tour;
     this.classPrefix = this.tour.options

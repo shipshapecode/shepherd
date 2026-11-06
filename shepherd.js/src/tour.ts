@@ -112,7 +112,7 @@ export class ShepherdBase extends Evented {
  * @extends {Evented}
  */
 export class Tour extends Evented {
-  trackedEvents = ['active', 'cancel', 'complete', 'show'];
+  trackedEvents: string[];
 
   classPrefix: string;
   currentStep?: Step | null;
@@ -127,17 +127,21 @@ export class Tour extends Evented {
    * invalidate pending `waitForElement` and `beforeShowPromise` waits.
    * @internal
    */
-  _showGeneration = 0;
+  _showGeneration: number;
 
   /**
    * Changes whenever a run of the tour begins or ends, used to invalidate
    * pending `confirmCancel` answers that belong to an earlier run.
    * @internal
    */
-  _runGeneration = 0;
+  _runGeneration: number;
 
   constructor(options: TourOptions = {}) {
     super();
+
+    this.trackedEvents = ['active', 'cancel', 'complete', 'show'];
+    this._showGeneration = 0;
+    this._runGeneration = 0;
 
     autoBind(this);
 
