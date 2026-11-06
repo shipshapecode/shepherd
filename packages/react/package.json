@@ -41,7 +41,7 @@
     "@vitest/ui": "^5.0.5",
     "happy-dom": "^21.0.4",
     "react": "^19.3.1",
-    "react-dom": "^19.2.8",
+    "react-dom": "^19.3.1",
     "typescript": "^5.9.3",
     "vite": "^8.3.4",
     "vite-plugin-dts": "^5.1.1",
