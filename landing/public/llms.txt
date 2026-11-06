@@ -4,7 +4,7 @@
 > tours, user onboarding flows, trainings, and feature announcements on any
 > website or web app. Steps render as accessible dialogs (keyboard navigation,
 > focus trapping, aria attributes) that attach to DOM elements and are
-> positioned by Floating UI. Works with React, Ember, Angular, Vue.js,
+> positioned by a small built-in engine. Works with React, Ember, Angular, Vue.js,
 > ES Modules, or plain JavaScript. Free for open-source, personal, and
 > non-commercial use (AGPL-3.0); commercial licenses are available.
 

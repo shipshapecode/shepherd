@@ -10,8 +10,7 @@ export const homepageMarkdown = `# Shepherd.js — Guide your users through a to
 Shepherd is an open-source JavaScript library for building guided product
 tours, user onboarding flows, trainings, and feature announcements. Each tour
 is a sequence of steps rendered as accessible dialogs that can attach to any
-element in the DOM (positioned by [Floating UI](https://floating-ui.com/)),
-highlight it with a modal overlay, and walk the user through your app.
+element in the DOM, highlight it with a modal overlay, and walk the user through your app.
 
 - Website: ${SITE_URL}/
 - Documentation: https://docs.shepherdjs.dev/
@@ -28,7 +27,7 @@ highlight it with a modal overlay, and walk the user through your app.
 - **Framework ready**: works with React, Ember, Angular, Vue.js, ES Modules,
   or plain JavaScript.
 - **Smart positioning**: steps never end up off screen or cropped by an
-  overflow, thanks to Floating UI.
+  overflow, from a small built-in engine with no dependencies.
 
 ## Installation
 

@@ -53,6 +53,9 @@ tour.start();
   replaces the default for that option, so a step's `buttons` replace the default
   buttons and its `cancelIcon` replaces the whole default object. Only `classes` and
   `floatingUIOptions` combine.
+- **`floatingUIOptions`** takes Floating UI's `computePosition` config. Shepherd has its
+  own positioning and does not depend on Floating UI. To use middleware, install
+  `@floating-ui/dom` yourself: `floatingUIOptions: { middleware: [offset(12)] }`.
 - **`scrollTo: true`** is needed to scroll a target into view. It is off by default.
 - **`title` and `text` render as HTML.** Escape untrusted input.
 - **`Shepherd.activeTour`** is empty until a tour starts. Do not read it while defining
@@ -88,8 +91,8 @@ from `step.complete()` and `step.cancel()`. Per-step events go in
 you need to refer to them. To advance when the user does something on the page, use
 `advanceOn: { selector: '#menu', event: 'click' }`.
 
-Escape and the arrow keys work once focus has moved into the step, about 300 ms after
-it shows.
+Escape and the arrow keys work once focus has moved into the step, one frame after
+it is positioned.
 
 ## React
 
