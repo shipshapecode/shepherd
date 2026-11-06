@@ -1,20 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any --
    This walks DOM nodes across realms and shadow roots, and implements Floating
    UI's platform contract, whose inputs are unions of elements and windows. */
-export type Side = 'top' | 'right' | 'bottom' | 'left';
-export type Alignment = 'start' | 'end';
-export type Placement = Side | `${Side}-${Alignment}`;
-export type Strategy = 'absolute' | 'fixed';
-
+type Side = 'top' | 'right' | 'bottom' | 'left';
 type Axis = 'x' | 'y';
 type Coords = Record<Axis, number>;
+type Strategy = NonNullable<ComputePositionConfig['strategy']>;
 
-export interface Rect extends Coords {
+/** The side of its target a step sits on, optionally aligned along that side. */
+export type Placement = Side | `${Side}-${Alignment}`;
+
+/** Which edge of its target a step lines up with. */
+export type Alignment = 'start' | 'end';
+
+/**
+ * One positioning step. Middleware from your own install of `@floating-ui/dom`,
+ * such as `offset()`, has this shape.
+ */
+export interface Middleware {
+  /** Identifies the middleware, and keys the data it shares with later ones. */
+  name: string;
+  /** The options the middleware was created with. */
+  options?: any;
+  /** Receives Floating UI's `MiddlewareState` and returns its `MiddlewareReturn`. */
+  fn(state: any): any;
+}
+
+/**
+ * Positioning options, in the shape of Floating UI's `computePosition` config.
+ * Shepherd sets these from `attachTo`, and these extend or override them.
+ */
+export interface ComputePositionConfig {
+  /** Where the step sits relative to its target, overriding `attachTo.on`. */
+  placement?: Placement;
+  /** The CSS `position` of the step element. Defaults to `absolute`. */
+  strategy?: 'absolute' | 'fixed';
+  /** Runs in order after Shepherd's own middleware. Falsy entries are skipped. */
+  middleware?: Array<Middleware | null | undefined | false>;
+  /** Overrides how the DOM is measured, following Floating UI's `Platform`. */
+  platform?: Record<string, any>;
+}
+
+interface Rect extends Coords {
   width: number;
   height: number;
 }
 
-export interface ElementRects {
+interface ElementRects {
   reference: Rect;
   floating: Rect;
 }
@@ -23,7 +54,7 @@ export interface ElementRects {
  * The state every middleware receives. It is Floating UI's `MiddlewareState`,
  * so middleware from a consumer's own `@floating-ui/dom` runs unchanged.
  */
-export interface MiddlewareState extends Coords {
+interface MiddlewareState extends Coords {
   initialPlacement: Placement;
   placement: Placement;
   strategy: Strategy;
@@ -33,22 +64,9 @@ export interface MiddlewareState extends Coords {
   platform: any;
 }
 
-export interface MiddlewareResult extends Partial<Coords> {
+interface MiddlewareResult extends Partial<Coords> {
   data?: Record<string, any>;
   reset?: boolean | { placement?: Placement; rects?: boolean | ElementRects };
-}
-
-export interface Middleware {
-  name: string;
-  options?: any;
-  fn(state: MiddlewareState): MiddlewareResult | Promise<MiddlewareResult>;
-}
-
-export interface ComputePositionConfig {
-  placement?: Placement;
-  strategy?: Strategy;
-  middleware?: Array<Middleware | null | undefined | false>;
-  platform?: Record<string, any>;
 }
 
 export interface ComputePositionResult extends Coords {
@@ -548,7 +566,7 @@ export async function computePosition(
     const current = middleware[i];
     if (!current) continue;
 
-    const result = await current.fn({
+    const result: MiddlewareResult = await current.fn({
       x,
       y,
       initialPlacement,
@@ -611,7 +629,7 @@ function placementSearch(
   return {
     name,
     options,
-    fn(state) {
+    fn(state: MiddlewareState): MiddlewareResult {
       const { placement, initialPlacement, middlewareData } = state;
       const { platform, rects, elements } = state;
       const { index = 0, overflows: previous = [] } =
@@ -722,7 +740,7 @@ export function autoPlacement(options: {
 export function shift(): Middleware {
   return {
     name: 'shift',
-    fn(state) {
+    fn(state: MiddlewareState): MiddlewareResult {
       const { x, y, placement, rects, middlewareData, platform } = state;
       const { reference, floating } = rects;
       const overflow = platform.detectOverflow(state);
@@ -767,7 +785,7 @@ export function arrow(options: {
   return {
     name: 'arrow',
     options,
-    fn(state) {
+    fn(state: MiddlewareState): MiddlewareResult {
       const { placement, rects, platform, elements, middlewareData } = state;
       const { element, padding = 0 } = options;
       const axis = otherAxis(sideAxis(placement));
