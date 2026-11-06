@@ -125,14 +125,14 @@ export class Tour extends Evented {
   /**
    * Monotonically increasing id of `show()` calls and tour endings, used to
    * invalidate pending `waitForElement` and `beforeShowPromise` waits.
-   * @private
+   * @internal
    */
   _showGeneration = 0;
 
   /**
    * Changes whenever a run of the tour begins or ends, used to invalidate
    * pending `confirmCancel` answers that belong to an earlier run.
-   * @private
+   * @internal
    */
   _runGeneration = 0;
 
@@ -419,7 +419,7 @@ export class Tour extends Evented {
   /**
    * Sets the given step as the current step and shows it
    * @param {Step} step - The step to show
-   * @private
+   * @internal
    */
   _showStep(step: Step) {
     // `currentStep` is `undefined` until a step has shown, so normalize to
@@ -467,7 +467,7 @@ export class Tour extends Evented {
   /**
    * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
    * @param {string} event - The event name to trigger
-   * @private
+   * @internal
    */
   _done(event: string) {
     // Invalidate any pending `beforeShowPromise`, which could otherwise bring
@@ -509,6 +509,7 @@ export class Tour extends Evented {
 
   /**
    * Make this tour "active"
+   * @internal
    */
   _setupActiveTour() {
     this._runGeneration++;
@@ -541,7 +542,7 @@ export class Tour extends Evented {
    * Called when `showOn` evaluates to false, to skip the step or complete/cancel the tour if there are no more steps
    * @param {Step} step - The step to skip
    * @param {boolean} forward - True if we are going forward, false if backward
-   * @private
+   * @internal
    */
   _skipStep(step: Step, forward: boolean) {
     const index = this.steps.indexOf(step);
@@ -559,7 +560,7 @@ export class Tour extends Evented {
   /**
    * Before showing, hide the current step and if the tour is not
    * already active, call `this._setupActiveTour`.
-   * @private
+   * @internal
    */
   _updateStateBeforeShow() {
     if (this.currentStep) {
@@ -574,7 +575,7 @@ export class Tour extends Evented {
   /**
    * Sets this.id to a provided tourName and id or `${tourName}--${uuid}`
    * @param {string} optionsId - True if we are going forward, false if backward
-   * @private
+   * @internal
    */
   _setTourID(optionsId: string | undefined) {
     const tourName = this.options.tourName || 'tour';

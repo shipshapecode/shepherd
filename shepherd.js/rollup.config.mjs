@@ -60,7 +60,11 @@ if (process.env.DEVELOPMENT) {
         pure_funcs: ['console.log', 'console.debug']
       },
       mangle: {
-        properties: false
+        properties: {
+          regex: /^_[a-zA-Z]/,
+          // Called by test/cypress/integration/test.acceptance.cy.js
+          reserved: ['_getResolvedAttachToOptions']
+        }
       }
     })
   );

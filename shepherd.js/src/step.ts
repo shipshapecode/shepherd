@@ -425,10 +425,15 @@ export interface StepOptionsWhen {
  * @extends {Evented}
  */
 export class Step extends Evented {
+  /** @internal */
   _advanceOnCleanup?: (() => void) | null;
+  /** @internal */
   _resolvedAttachTo: StepOptionsAttachTo | null;
+  /** @internal */
   _resolvedExtraHighlightElements?: HTMLElement[];
+  /** @internal */
   _originalTabIndexes: Map<Element, string>;
+  /** @internal */
   _showRequest = 0;
   classPrefix?: string;
   declare cleanup: Function | null;
@@ -501,7 +506,7 @@ export class Step extends Evented {
   /**
    * Internal cleanup that tears down the tooltip, component, and DOM element
    * without emitting the public "destroy" event.
-   * @private
+   * @internal
    */
   _teardownElements() {
     if (this._advanceOnCleanup) {
@@ -553,6 +558,7 @@ export class Step extends Evented {
   /**
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
+   * @internal
    */
   _resolveExtraHiglightElements() {
     this._resolvedExtraHighlightElements = parseExtraHighlights(this);
@@ -562,6 +568,7 @@ export class Step extends Evented {
   /**
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
+   * @internal
    */
   _resolveAttachToOptions() {
     this._resolvedAttachTo = parseAttachTo(this);
@@ -571,7 +578,7 @@ export class Step extends Evented {
   /**
    * A selector for resolved attachTo options.
    * @returns {{}|{element, on}}
-   * @private
+   * @internal
    */
   _getResolvedAttachToOptions() {
     if (this._resolvedAttachTo === null) {
@@ -650,7 +657,7 @@ export class Step extends Evented {
    * Stores the original tabIndex value of an element before modifying it.
    * Only stores the value if the element has a tabindex attribute.
    * @param {Element} element The element whose tabIndex will be stored
-   * @private
+   * @internal
    */
   _storeOriginalTabIndex(element: Element): void {
     const originalValue = element.getAttribute('tabindex');
@@ -664,7 +671,7 @@ export class Step extends Evented {
    * If an element is in the map, restores its original value.
    * If an element is not in the map, removes the tabindex attribute (it didn't have one originally).
    * Note: Does not clear the map to allow for multiple show/hide cycles.
-   * @private
+   * @internal
    */
   _restoreOriginalTabIndexes(): void {
     const target = this.target;
@@ -681,7 +688,7 @@ export class Step extends Evented {
    * Creates Shepherd element for step based on options
    *
    * @return {HTMLElement} The DOM element for the step tooltip
-   * @private
+   * @internal
    */
   _createTooltipContent() {
     const descriptionId = `${this.id}-description`;
@@ -706,7 +713,7 @@ export class Step extends Evented {
    *
    * @param {boolean | ScrollIntoViewOptions} scrollToOptions - If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
-   * @private
+   * @internal
    */
   _scrollTo(scrollToOptions: boolean | ScrollIntoViewOptions) {
     const { element } = this._getResolvedAttachToOptions();
@@ -725,6 +732,7 @@ export class Step extends Evented {
    * _getClassOptions gets all possible classes for the step
    * @param {StepOptions} stepOptions The step specific options
    * @returns {string} unique string from array of classes
+   * @internal
    */
   _getClassOptions(stepOptions: StepOptions) {
     const defaultStepOptions =
@@ -746,6 +754,7 @@ export class Step extends Evented {
   /**
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param options - The options for the step
+   * @internal
    */
   _setOptions(options: StepOptions = {}) {
     const tourOptions =
@@ -782,7 +791,7 @@ export class Step extends Evented {
    * The element is recreated on every show, so any previously mounted element is
    * torn down first. That teardown is internal — it must not emit the public
    * `destroy` event, which means "this step is gone for good".
-   * @private
+   * @internal
    */
   _setupElements() {
     if (isHTMLElement(this.el)) {
@@ -803,7 +812,7 @@ export class Step extends Evented {
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
    * sets up a FloatingUI instance for the tooltip, then triggers `show`.
-   * @private
+   * @internal
    */
   _show() {
     this.trigger('before-show');
@@ -858,7 +867,7 @@ export class Step extends Evented {
    * the tour's `modal` option, to visually emphasize the element
    *
    * @param {Step} step The step object that attaches to the element
-   * @private
+   * @internal
    */
   _styleTargetElementForStep(step: Step) {
     const targetElement = step.target;
@@ -890,7 +899,7 @@ export class Step extends Evented {
   /**
    * When a step is hidden, remove the highlightClass and 'shepherd-enabled'
    * and 'shepherd-target' classes
-   * @private
+   * @internal
    */
   _updateStepTargetOnHide() {
     const target = this.target || document.body;
