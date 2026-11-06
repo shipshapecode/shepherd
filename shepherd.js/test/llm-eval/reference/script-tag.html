@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Buy</title>
+    <link
+      rel="stylesheet"
+      href="/node_modules/shepherd.js/dist/css/shepherd.css"
+    />
+  </head>
+  <body>
+    <button id="buy" style="position: absolute; left: 500px; top: 100px">
+      Buy
+    </button>
+    <script type="module">
+      import Shepherd from '/node_modules/shepherd.js/dist/js/shepherd.mjs';
+
+      const tour = new Shepherd.Tour();
+      tour.addStep({
+        title: 'Buy now',
+        text: 'Checkout is one click.',
+        attachTo: { element: '#buy', on: 'bottom' },
+        buttons: [{ text: 'Got it', action: tour.complete }]
+      });
+      tour.start();
+    </script>
+  </body>
+</html>
