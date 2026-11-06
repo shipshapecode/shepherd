@@ -436,7 +436,9 @@ export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   /** @internal */
   _resolvedExtraHighlightElements?: HTMLElement[];
+  /** @internal */
   _originalTabIndex?: string | null;
+  /** @internal */
   _showRequest: number;
   classPrefix?: string;
   declare cleanup: Function | null;
@@ -501,17 +503,13 @@ export class Step extends Evented {
    * @internal
    */
   _teardownElements() {
-    if (this._advanceOnCleanup) {
-      this._advanceOnCleanup();
-      this._advanceOnCleanup = null;
-    }
+    this._advanceOnCleanup?.();
+    this._advanceOnCleanup = null;
 
     destroyTooltip(this);
 
-    if (this.shepherdElementComponent) {
-      this.shepherdElementComponent.cleanup();
-      this.shepherdElementComponent = undefined;
-    }
+    this.shepherdElementComponent?.cleanup();
+    this.shepherdElementComponent = undefined;
 
     if (isHTMLElement(this.el)) {
       this.el.remove();
@@ -572,11 +570,7 @@ export class Step extends Evented {
    * @internal
    */
   _getResolvedAttachToOptions() {
-    if (this._resolvedAttachTo === null) {
-      return this._resolveAttachToOptions();
-    }
-
-    return this._resolvedAttachTo;
+    return this._resolvedAttachTo || this._resolveAttachToOptions();
   }
 
   /**
@@ -671,20 +665,18 @@ export class Step extends Evented {
    * @internal
    */
   _createTooltipContent() {
-    const descriptionId = `${this.id}-description`;
-    const labelId = `${this.id}-label`;
-
     this.shepherdElementComponent = createShepherdElement({
       classPrefix: this.classPrefix,
-      descriptionId,
-      labelId,
+      descriptionId: `${this.id}-description`,
+      labelId: `${this.id}-label`,
       step: this
     });
 
+    const { element } = this.shepherdElementComponent;
     const target = this.tour.options.stepsContainer || document.body;
-    target.append(this.shepherdElementComponent.element);
+    target.append(element);
 
-    return this.shepherdElementComponent.element;
+    return element;
   }
 
   /**
@@ -729,26 +721,19 @@ export class Step extends Evented {
   _setOptions(options: StepOptions = {}) {
     const tourOptions = this.tour.options?.defaultStepOptions || {};
 
-    this.options = Object.assign(
-      {
-        arrow: true
-      },
-      tourOptions,
-      options,
-      mergeTooltipConfig(tourOptions, options)
-    );
-
-    const { when } = this.options;
+    this.options = {
+      arrow: true,
+      ...tourOptions,
+      ...options,
+      ...mergeTooltipConfig(tourOptions, options)
+    };
 
     this.options.classes = this._getClassOptions(options);
 
     this.id = this.options.id || `step-${uuid()}`;
 
-    if (when) {
-      Object.keys(when).forEach((event) => {
-        // @ts-expect-error TODO: fix this type error
-        this.on(event, when[event], this);
-      });
+    for (const [event, handler] of Object.entries(this.options.when || {})) {
+      this.on(event, handler, this);
     }
   }
 
