@@ -192,5 +192,50 @@ export default [
         }
       }
     ]
+  },
+  // Opt-in extras: neither ships unless a consumer imports it
+  {
+    input: 'src/motion.ts',
+    output: [
+      { file: 'dist/js/motion.mjs', format: 'es' },
+      { file: 'dist/cjs/motion.cjs', format: 'cjs', exports: 'named' }
+    ],
+    plugins: [
+      nodeResolve({ extensions: ['.ts'] }),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+        presets: ['@babel/preset-typescript']
+      }),
+      ...(isDev ? [] : [terser()]),
+      {
+        name: 'Motion declarations',
+        closeBundle: () => {
+          const types = fs
+            .readFileSync('tmp/js/motion.d.ts', 'utf8')
+            .replace(/\/\/# sourceMappingURL.*/, '');
+          fs.writeFileSync(
+            'dist/js/motion.d.mts',
+            types.replace('./shepherd.ts', './shepherd.mjs')
+          );
+          fs.writeFileSync(
+            'dist/cjs/motion.d.cts',
+            types.replace('./shepherd.ts', './shepherd.cjs')
+          );
+        }
+      }
+    ]
+  },
+  {
+    input: 'src/theme.css',
+    output: { dir: 'tmp/theme' },
+    plugins: [
+      postcss({ minimize: !isDev, extract: 'theme.css' }),
+      {
+        name: 'Copy the theme to dist',
+        closeBundle: () =>
+          fs.copyFileSync('tmp/theme/theme.css', 'dist/css/theme.css')
+      }
+    ]
   }
 ];

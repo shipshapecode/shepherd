@@ -1,0 +1,239 @@
+/*
+ * Optional theme: import after shepherd.css. Every colour and dimension is a
+ * custom property, so restyling means overriding a token, not a selector. It
+ * follows the OS colour scheme; set `--shepherd-color-scheme` on :root to pin it.
+ * Pair it with `defaultStepOptions: { modalOverlayOpeningPadding: 8,
+ * modalOverlayOpeningRadius: 10 }` so the opening matches the surface.
+ */
+.shepherd-element,
+.shepherd-modal-overlay-container,
+.shepherd-target {
+  --shepherd-accent: #fa7fee;
+  --shepherd-on-accent: #16202d;
+  --shepherd-ink: light-dark(#16202d, #eef1f5);
+  --shepherd-muted: light-dark(#4f5b6a, #aab4c0);
+  --shepherd-surface: light-dark(#fff, #1b2635);
+  --shepherd-line: light-dark(rgb(22 32 45 / 0.12), rgb(255 255 255 / 0.14));
+  --shepherd-shade: #0b121c;
+  --shepherd-shade-opacity: 0.62;
+  --shepherd-radius: 14px;
+  --shepherd-gap: 16px;
+  --shepherd-ease: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.shepherd-element {
+  background: var(--shepherd-surface);
+  border-radius: var(--shepherd-radius);
+  box-shadow:
+    0 0 0 1px var(--shepherd-line),
+    0 2px 6px rgb(11 18 28 / 0.14),
+    0 18px 40px -12px rgb(11 18 28 / 0.42);
+  color: var(--shepherd-ink);
+  color-scheme: var(--shepherd-color-scheme, light dark);
+  max-width: 22.5rem;
+  transition: opacity 0.24s;
+}
+
+.shepherd-element[data-popper-placement^='bottom'] {
+  margin-top: var(--shepherd-gap);
+}
+
+.shepherd-element[data-popper-placement^='top'] {
+  margin-top: calc(-1 * var(--shepherd-gap));
+}
+
+.shepherd-element[data-popper-placement^='right'] {
+  margin-left: var(--shepherd-gap);
+}
+
+.shepherd-element[data-popper-placement^='left'] {
+  margin-left: calc(-1 * var(--shepherd-gap));
+}
+
+.shepherd-modal-overlay-container path {
+  fill: var(--shepherd-shade);
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: var(--shepherd-shade-opacity);
+}
+
+.shepherd-arrow:before,
+.shepherd-element.shepherd-has-title[data-popper-placement^='bottom']
+  > .shepherd-arrow::before {
+  background: var(--shepherd-surface);
+}
+
+.shepherd-content {
+  border-radius: inherit;
+  overflow: hidden;
+  position: relative;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+  background: none;
+  padding: 1.125rem 1.125rem 0;
+}
+
+.shepherd-title {
+  color: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.shepherd-text {
+  color: var(--shepherd-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  padding: 0.5rem 1.125rem 1.125rem;
+  text-wrap: pretty;
+}
+
+.shepherd-footer {
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1.125rem 1.125rem;
+}
+
+.shepherd-button {
+  background: var(--shepherd-accent);
+  border-radius: 8px;
+  color: var(--shepherd-on-accent);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  transition:
+    filter 0.15s,
+    background-color 0.15s,
+    scale 0.15s;
+}
+
+.shepherd-button:not(:disabled):hover {
+  background: var(--shepherd-accent);
+  color: var(--shepherd-on-accent);
+  filter: brightness(1.06) saturate(1.1);
+}
+
+.shepherd-button:not(:disabled):active {
+  scale: 0.97;
+}
+
+.shepherd-button:focus-visible,
+.shepherd-cancel-icon:focus-visible {
+  outline: 2px solid var(--shepherd-ink);
+  outline-offset: 2px;
+}
+
+.shepherd-button.shepherd-button-secondary {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--shepherd-line);
+  color: var(--shepherd-ink);
+}
+
+.shepherd-button.shepherd-button-secondary:not(:disabled):hover {
+  background: var(--shepherd-line);
+  color: var(--shepherd-ink);
+  filter: none;
+}
+
+.shepherd-button:disabled {
+  opacity: 0.5;
+}
+
+.shepherd-cancel-icon,
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  border-radius: 6px;
+  color: var(--shepherd-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.shepherd-cancel-icon:hover,
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
+  color: var(--shepherd-ink);
+}
+
+/* stepProgress() from shepherd.js/motion supplies the two counts. */
+.shepherd-element[style*='--shepherd-step'] .shepherd-footer::before {
+  color: var(--shepherd-muted);
+  content: counter(shepherd-step) ' / ' counter(shepherd-steps);
+  counter-reset: shepherd-step var(--shepherd-step) shepherd-steps
+    var(--shepherd-steps);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  margin-right: auto;
+}
+
+.shepherd-element[style*='--shepherd-step'] .shepherd-content::after {
+  background: var(--shepherd-accent);
+  content: '';
+  height: 3px;
+  inset: 0 0 auto;
+  position: absolute;
+  transform: scaleX(calc(var(--shepherd-step) / var(--shepherd-steps)));
+  transform-origin: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shepherd-element {
+    transition:
+      opacity 0.24s,
+      scale 0.42s var(--shepherd-ease),
+      translate 0.42s var(--shepherd-ease);
+  }
+
+  @starting-style {
+    .shepherd-enabled.shepherd-element {
+      opacity: 0;
+      scale: 0.96;
+    }
+
+    .shepherd-enabled.shepherd-element[data-popper-placement^='bottom'] {
+      translate: 0 -8px;
+    }
+
+    .shepherd-enabled.shepherd-element[data-popper-placement^='top'] {
+      translate: 0 8px;
+    }
+
+    .shepherd-enabled.shepherd-element[data-popper-placement^='right'] {
+      translate: -8px 0;
+    }
+
+    .shepherd-enabled.shepherd-element[data-popper-placement^='left'] {
+      translate: 8px 0;
+    }
+
+    .shepherd-element[style*='--shepherd-step'] .shepherd-content::after {
+      transform: scaleX(
+        calc((var(--shepherd-step) - 1) / var(--shepherd-steps))
+      );
+    }
+  }
+
+  .shepherd-element[style*='--shepherd-step'] .shepherd-content::after {
+    transition: transform 0.42s var(--shepherd-ease);
+  }
+
+  .shepherd-target:not(body) {
+    animation: shepherd-landed 0.7s 0.3s var(--shepherd-ease);
+  }
+
+  @keyframes shepherd-landed {
+    from {
+      outline: 2px solid var(--shepherd-accent);
+      outline-offset: 2px;
+    }
+
+    to {
+      outline: 2px solid transparent;
+      outline-offset: 14px;
+    }
+  }
+}
