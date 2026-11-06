@@ -74,7 +74,7 @@
 * Blocks clicks on the target of a step with `canClickTarget: false`.
 *
 * Keyed only on `shepherd-target-click-disabled`, which
-* `Step#_styleTargetElementForStep` adds unprefixed, and only when
+* `Step#_show` adds unprefixed, and only when
 * `canClickTarget === false`. The sibling
 * `shepherd-enabled`/`shepherd-target` classes cannot be part of this selector:
 * `classPrefix` prefixes them at runtime and a static stylesheet cannot know

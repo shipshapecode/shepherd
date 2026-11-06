@@ -808,11 +808,8 @@ export class Step extends Evented {
     }
 
     this.tour.modal?.setupForStep(this);
-    this._styleTargetElementForStep(this);
 
-    if (this.el) {
-      this.el.hidden = false;
-    }
+    this.el!.hidden = false;
 
     // start scrolling to target before showing the step
     if (this.options.scrollTo) {
@@ -823,54 +820,40 @@ export class Step extends Evented {
       });
     }
 
-    const content = this.shepherdElementComponent!.element;
-    const target = this.target || document.body;
-    const extraHighlightElements = this._resolvedExtraHighlightElements;
+    this.el!.classList.add('shepherd-enabled');
 
-    target.classList.add(`${this.classPrefix}shepherd-enabled`);
-    target.classList.add(`${this.classPrefix}shepherd-target`);
-    content.classList.add('shepherd-enabled');
+    const { highlightClass, canClickTarget } = this.options;
 
-    extraHighlightElements?.forEach((el) => {
-      el.classList.add(`${this.classPrefix}shepherd-enabled`);
-      el.classList.add(`${this.classPrefix}shepherd-target`);
-    });
+    for (const { classList } of this._highlightedElements()) {
+      classList.add(
+        `${this.classPrefix}shepherd-enabled`,
+        `${this.classPrefix}shepherd-target`
+      );
+
+      if (this.target) {
+        if (highlightClass) {
+          classList.add(highlightClass);
+        }
+
+        classList.toggle(
+          'shepherd-target-click-disabled',
+          canClickTarget === false
+        );
+      }
+    }
 
     this.trigger('show');
   }
 
   /**
-   * Modulates the styles of the passed step's target element, based on the step's options and
-   * the tour's `modal` option, to visually emphasize the element
-   *
-   * @param {Step} step The step object that attaches to the element
+   * The elements a showing step marks, which is `body` for a step without a target.
    * @internal
    */
-  _styleTargetElementForStep(step: Step) {
-    const targetElement = step.target;
-    const extraHighlightElements = step._resolvedExtraHighlightElements;
-
-    if (!targetElement) {
-      return;
-    }
-
-    const highlightClass = step.options.highlightClass;
-    if (highlightClass) {
-      targetElement.classList.add(highlightClass);
-      extraHighlightElements?.forEach((el) => el.classList.add(highlightClass));
-    }
-
-    targetElement.classList.remove('shepherd-target-click-disabled');
-    extraHighlightElements?.forEach((el) =>
-      el.classList.remove('shepherd-target-click-disabled')
-    );
-
-    if (step.options.canClickTarget === false) {
-      targetElement.classList.add('shepherd-target-click-disabled');
-      extraHighlightElements?.forEach((el) =>
-        el.classList.add('shepherd-target-click-disabled')
-      );
-    }
+  _highlightedElements() {
+    return [
+      this.target || document.body,
+      ...(this._resolvedExtraHighlightElements || [])
+    ];
   }
 
   /**
@@ -879,29 +862,19 @@ export class Step extends Evented {
    * @internal
    */
   _updateStepTargetOnHide() {
-    const target = this.target || document.body;
-    const extraHighlightElements = this._resolvedExtraHighlightElements;
+    const { highlightClass } = this.options;
 
-    const highlightClass = this.options.highlightClass;
-    if (highlightClass) {
-      target.classList.remove(highlightClass);
-      extraHighlightElements?.forEach((el) =>
-        el.classList.remove(highlightClass)
-      );
-    }
+    for (const { classList } of this._highlightedElements()) {
+      if (highlightClass) {
+        classList.remove(highlightClass);
+      }
 
-    target.classList.remove(
-      'shepherd-target-click-disabled',
-      `${this.classPrefix}shepherd-enabled`,
-      `${this.classPrefix}shepherd-target`
-    );
-    extraHighlightElements?.forEach((el) => {
-      el.classList.remove(
+      classList.remove(
         'shepherd-target-click-disabled',
         `${this.classPrefix}shepherd-enabled`,
         `${this.classPrefix}shepherd-target`
       );
-    });
+    }
 
     this._restoreOriginalTabIndexes();
   }
