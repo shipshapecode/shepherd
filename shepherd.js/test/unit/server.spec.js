@@ -1,27 +1,22 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 
 import { describe, expect, it } from 'vitest';
-import Shepherd from '../../src/shepherd';
-import { TourNoOp } from '../../src/utils/general';
+import Shepherd, { Step, Tour } from '../../src/shepherd';
 
-describe('TourNoOp', function () {
+describe('Server Side Render', function () {
   it('accepts module-level tour setup without doing anything', async () => {
-    const tour = new TourNoOp();
+    const tour = new Tour();
 
     tour.addStep({ text: 'hi' }).on('complete', () => {});
 
     expect(await tour.start()).toBe(tour);
+    expect(new Step(tour, {}).show()).toBeTruthy();
   });
-});
 
-describe('Server Side Render', function () {
-  describe('Tour constructor', function () {
-    it('does not start a tour when window is undefined', () => {
-      const instance = new Shepherd.Tour();
-
-      expect(instance).toBeTruthy();
-    });
+  it('exposes the same no-op on the default export', () => {
+    expect(Shepherd.Tour).toBe(Tour);
+    expect(Shepherd.Step).toBe(Step);
   });
 });
