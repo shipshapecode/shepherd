@@ -20,6 +20,7 @@ export const Step: typeof StepClass = isServerSide ? NoOp : StepClass;
 /**
  * A step instance.
  */
+// eslint-disable-next-line no-redeclare -- A type and a value may share a name.
 export type Step = StepClass;
 
 /**
@@ -30,6 +31,7 @@ export const Tour: typeof TourClass = isServerSide ? NoOp : TourClass;
 /**
  * A tour instance.
  */
+// eslint-disable-next-line no-redeclare -- A type and a value may share a name.
 export type Tour = TourClass;
 
 Shepherd.Step = Step;
