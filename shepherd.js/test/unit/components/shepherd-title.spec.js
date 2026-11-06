@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createShepherdTitle } from '../../../src/components/shepherd-title.ts';
+import { createShepherdContent } from '../../../src/components/shepherd-content';
 
 describe('components/ShepherdTitle', () => {
   let container;
@@ -14,7 +14,9 @@ describe('components/ShepherdTitle', () => {
   });
 
   it('adds plain title to the content', () => {
-    const el = createShepherdTitle('test-label', 'I am some test title.');
+    const el = createShepherdContent('test-desc', 'test-label', {
+      options: { title: 'I am some test title.' }
+    }).querySelector('.shepherd-title');
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-title')).toHaveTextContent(
@@ -23,7 +25,9 @@ describe('components/ShepherdTitle', () => {
   });
 
   it('applies the title from a function', () => {
-    const el = createShepherdTitle('test-label', () => 'I am some test title.');
+    const el = createShepherdContent('test-desc', 'test-label', {
+      options: { title: () => 'I am some test title.' }
+    }).querySelector('.shepherd-title');
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-title')).toHaveTextContent(

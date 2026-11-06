@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createShepherdHeader } from '../../../src/components/shepherd-header.ts';
+import { createShepherdContent } from '../../../src/components/shepherd-content';
 import { Tour } from '../../../src/tour';
 import { Step } from '../../../src/step';
 
@@ -24,7 +24,7 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const el = createShepherdHeader('test-label', step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -42,7 +42,7 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const el = createShepherdHeader('test-label', step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -60,7 +60,7 @@ describe('components/ShepherdHeader', () => {
       }
     };
 
-    const el = createShepherdHeader('test-label', step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-cancel-icon')).toHaveAttribute(
@@ -78,7 +78,7 @@ describe('components/ShepherdHeader', () => {
     });
     const stepCancelSpy = vi.spyOn(step, 'cancel');
 
-    const el = createShepherdHeader('test-label', step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     container.querySelector('.shepherd-cancel-icon').click();
@@ -99,7 +99,7 @@ describe('components/ShepherdHeader', () => {
         }
       };
 
-      const el = createShepherdHeader('test-label', step);
+      const el = createShepherdContent('test-desc', 'test-label', step);
       container.appendChild(el);
 
       const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -121,7 +121,7 @@ describe('components/ShepherdHeader', () => {
         }
       };
 
-      const el = createShepherdHeader('test-label', step);
+      const el = createShepherdContent('test-desc', 'test-label', step);
       container.appendChild(el);
 
       const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -146,7 +146,7 @@ describe('components/ShepherdHeader', () => {
         }
       };
 
-      const el = createShepherdHeader('test-label', step);
+      const el = createShepherdContent('test-desc', 'test-label', step);
       container.appendChild(el);
 
       const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -166,7 +166,7 @@ describe('components/ShepherdHeader', () => {
         }
       };
 
-      const el = createShepherdHeader('test-label', step);
+      const el = createShepherdContent('test-desc', 'test-label', step);
       container.appendChild(el);
 
       const cancelIcon = container.querySelector('.shepherd-cancel-icon');
@@ -187,7 +187,7 @@ describe('components/ShepherdHeader', () => {
         }
       };
 
-      const el = createShepherdHeader('test-label', step);
+      const el = createShepherdContent('test-desc', 'test-label', step);
       container.appendChild(el);
 
       const cancelIcon = container.querySelector('.shepherd-cancel-icon');

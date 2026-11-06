@@ -6,7 +6,7 @@
 export function h(
   tag: string,
   attrs: Record<string, unknown>,
-  ...children: Array<Node | string>
+  ...children: Array<Node | string | false | undefined | null | ''>
 ): HTMLElement {
   const el = document.createElement(tag);
 
@@ -22,7 +22,7 @@ export function h(
     }
   }
 
-  el.append(...children);
+  el.append(...(children.filter(Boolean) as Array<Node | string>));
 
   return el;
 }

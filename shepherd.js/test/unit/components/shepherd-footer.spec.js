@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createShepherdFooter } from '../../../src/components/shepherd-footer.ts';
+import { createShepherdContent } from '../../../src/components/shepherd-content';
 import defaultButtons from '../../cypress/utils/default-buttons.js';
 
 describe('components/ShepherdFooter', () => {
@@ -21,7 +21,7 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const el = createShepherdFooter(step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     const buttons = container.querySelectorAll(
@@ -33,7 +33,7 @@ describe('components/ShepherdFooter', () => {
   it('renders no buttons if nothing is passed to `options.buttons`', () => {
     const step = { options: {} };
 
-    const el = createShepherdFooter(step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     const buttons = container.querySelectorAll(
@@ -49,7 +49,7 @@ describe('components/ShepherdFooter', () => {
       }
     };
 
-    const el = createShepherdFooter(step);
+    const el = createShepherdContent('test-desc', 'test-label', step);
     container.appendChild(el);
 
     const buttons = container.querySelectorAll(
