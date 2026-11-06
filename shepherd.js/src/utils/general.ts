@@ -29,7 +29,7 @@ function locateAttachToElement(step: Step, logMissing?: boolean) {
 
     if (!element && logMissing) {
       console.error(
-        `The element for this Shepherd step was not found ${attachTo.element}`
+        `Shepherd: attachTo.element not found: ${attachTo.element}. The step is centered instead. Fix the selector, or set waitForElement or skipMissingElement.`
       );
     }
   }

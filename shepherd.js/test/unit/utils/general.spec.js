@@ -96,6 +96,38 @@ describe('General Utils', function () {
       spy.mockRestore();
     });
 
+    it('names the selector and the fix when the target is missing', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        { attachTo: { element: '.element-does-not-exist', on: 'bottom' } }
+      );
+
+      parseAttachTo(step);
+
+      const [message] = spy.mock.calls[0];
+      expect(message).toContain('.element-does-not-exist');
+      expect(message).toContain('waitForElement');
+      expect(message).toContain('skipMissingElement');
+
+      spy.mockRestore();
+    });
+
+    it('treats an invalid selector as a missing target', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        { attachTo: { element: '#not[valid', on: 'bottom' } }
+      );
+
+      const { element } = parseAttachTo(step);
+
+      expect(element).toBeNull();
+      expect(spy.mock.calls[0][0]).toContain('#not[valid');
+
+      spy.mockRestore();
+    });
+
     it('does not log a console.error when skipMissingElement is true', function () {
       const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
       const step = new Step(
