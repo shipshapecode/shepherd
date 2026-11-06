@@ -159,7 +159,6 @@ export default [
       dir: 'tmp/cjs',
       entryFileNames: '[name].cjs',
       format: 'cjs',
-      sourcemap: true,
       exports: 'named'
     },
     plugins: [
@@ -174,7 +173,7 @@ export default [
           console.log('Move shepherd.cjs from tmp to dist');
 
           await execaCommand(
-            `mv ./tmp/cjs/shepherd.cjs ./tmp/cjs/shepherd.cjs.map ./dist/cjs/`,
+            `mv ./tmp/cjs/shepherd.cjs ./dist/cjs/`,
             {
               stdio: 'inherit'
             }
