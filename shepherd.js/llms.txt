@@ -28,6 +28,8 @@ tour.start();
 - `dist/js/shepherd.d.mts`: types and option docs
 - `dist/js/shepherd.mjs`: ES module with no global. Import it.
 - `dist/css/shepherd.css`: the stylesheet
+- `dist/css/theme.css`: an optional theme, loaded after the stylesheet
+- `shepherd.js/motion`: optional `glideSteps` and `stepProgress`
 
 ## Links
 

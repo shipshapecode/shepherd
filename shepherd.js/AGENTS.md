@@ -177,6 +177,24 @@ the output schema when a model generates a tour. Functions, such as
 | `shepherd-theme-*.css`                         | `dist/css/shepherd.css`                      |
 | `import { ShepherdTour } from 'react-shepherd'` | `useShepherd`, `ShepherdJourneyProvider`    |
 
+## Motion and theming
+
+The overlay's opening glides between steps by default, and cuts straight there under
+`prefers-reduced-motion: reduce`. Set `transition-duration: 0s` on
+`.shepherd-modal-overlay-container path` to turn it off.
+
+Two extras ship separately, and cost nothing unless imported:
+
+```js
+import 'shepherd.js/dist/css/theme.css'; // After shepherd.css. Restyle it through --shepherd-* properties.
+import { glideSteps, stepProgress } from 'shepherd.js/motion';
+
+glideSteps(tour); // Moves the dialog with the opening.
+stepProgress(tour); // Feeds the theme's step counter and progress bar.
+```
+
+Each of those functions returns a function that stops it.
+
 ## Licensing
 
 Free under AGPL-3.0 for open source and non-commercial use. Commercial products need a

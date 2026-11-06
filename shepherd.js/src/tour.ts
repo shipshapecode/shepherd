@@ -108,7 +108,8 @@ export interface TourOptions {
    * Set this on the tour, not on a step.
    * Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
-   * can remain interactive
+   * can remain interactive. The opening glides between steps for the `transition-duration` set on
+   * the overlay's path, unless the user prefers reduced motion.
    */
   useModalOverlay?: boolean;
 }

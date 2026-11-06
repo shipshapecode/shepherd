@@ -7,6 +7,39 @@ title: Styling
 Shepherd ships with some default styles, but we try to keep it minimal, so you do not have a ton to override.
 You can also opt out of styles entirely, by not including the `shepherd.css` file.
 
+### Optional theme
+
+`shepherd.js/dist/css/theme.css` is a second stylesheet, with dark mode and entry motion. Import it after `shepherd.css`.
+Every color and dimension in it is a custom property, so you restyle it by overriding `--shepherd-accent` and its
+neighbors rather than selectors.
+
+```js
+import 'shepherd.js/dist/css/shepherd.css';
+import 'shepherd.js/dist/css/theme.css';
+```
+
+It pairs with `shepherd.js/motion`, which ships separately and only costs bytes if you import it. `glideSteps(tour)` moves
+the dialog between steps, and `stepProgress(tour)` feeds the theme's step counter and progress bar. Each returns a function
+that stops it.
+
+```js
+import { glideSteps, stepProgress } from 'shepherd.js/motion';
+
+glideSteps(tour);
+stepProgress(tour);
+```
+
+### Overlay motion
+
+With `useModalOverlay`, the opening glides from one target to the next. Its length comes from `transition-duration` on the
+overlay's path, 0.42s by default, and it cuts straight to the target under `prefers-reduced-motion: reduce`. To turn it off:
+
+```css
+.shepherd-modal-overlay-container path {
+  transition-duration: 0s;
+}
+```
+
 ### Custom Classes
 
 If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance &mdash;
