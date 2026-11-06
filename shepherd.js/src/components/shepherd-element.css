@@ -8,9 +8,7 @@
   opacity: 0;
   outline: none;
   padding: 0;
-  transition:
-    opacity 0.3s,
-    visibility 0.3s;
+  transition: opacity 0.3s;
   visibility: hidden;
   width: 100%;
   z-index: 9999;

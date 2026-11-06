@@ -247,6 +247,15 @@ describe('Floating UI Utils', function () {
       expect(document.activeElement).toBe(input);
     });
 
+    it('focuses the step in the frame after it is positioned', async () => {
+      const { step, stepElement } = createTooltipFixture();
+
+      setupTooltip(step);
+      await vi.advanceTimersByTimeAsync(20);
+
+      expect(document.activeElement).toBe(stepElement);
+    });
+
     it('focuses each fresh tooltip setup once', async () => {
       const first = createTooltipFixture();
       const firstFocusSpy = vi.spyOn(first.stepElement, 'focus');

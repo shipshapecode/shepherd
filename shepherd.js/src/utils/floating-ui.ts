@@ -108,23 +108,15 @@ function setPosition(
     return positionPromise;
   }
 
-  return (
-    positionPromise
-      // Wait before forcing focus.
-      .then(
-        (step: Step) =>
-          new Promise<Step>((resolve) => {
-            setTimeout(() => resolve(step), 300);
-          })
-      )
-      // Replaces focusAfterRender modifier.
-      .then((step: Step) => {
-        if (step?.el) {
-          step.el.tabIndex = 0;
-          step.el.focus({ preventScroll: true });
-        }
-      })
-  );
+  return positionPromise.then((step: Step) => {
+    // Focusing flushes layout, which the next frame does anyway.
+    requestAnimationFrame(() => {
+      if (step?.el) {
+        step.el.tabIndex = 0;
+        step.el.focus({ preventScroll: true });
+      }
+    });
+  });
 }
 
 function floatingUIposition(step: Step, shouldCenter: boolean) {

@@ -28,6 +28,14 @@ describe('a11y', () => {
       tour.complete();
     });
 
+    it('shepherd-element takes focus without waiting for the fade in', () => {
+      cy.document().then(async (document) => {
+        tour.start();
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        expect(document.activeElement).to.have.class('shepherd-element');
+      });
+    });
+
     it('shepherd-element should have focus on tour start', () => {
       tour.start();
 
