@@ -51,9 +51,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   // Memoizes the chain of scroll parents of a highlighted element for the
   // lifetime of a single step. Reset in `_cleanupStepEventListeners`.
   let _stepScrollParents = new WeakMap<HTMLElement, HTMLElement[]>();
-  let openingProperties: OpeningProperty[] = [
-    { width: 0, height: 0, x: 0, y: 0, r: 0 }
-  ];
 
   // Build SVG elements
   const pathEl = document.createElementNS(SVG_NS, 'path');
@@ -63,18 +60,16 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
   element.addEventListener('touchmove', _preventModalOverlayTouch);
 
-  // Initial render
-  _updatePath();
+  closeModalOpening();
 
   container.append(element);
 
-  function _updatePath() {
-    pathEl.setAttribute('d', makeOverlayPath(openingProperties));
+  function _updatePath(openings: OpeningProperty[]) {
+    pathEl.setAttribute('d', makeOverlayPath(openings));
   }
 
   function closeModalOpening() {
-    openingProperties = [{ width: 0, height: 0, x: 0, y: 0, r: 0 }];
-    _updatePath();
+    _updatePath([{ width: 0, height: 0, x: 0, y: 0, r: 0 }]);
   }
 
   function hide() {
@@ -118,8 +113,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         el === targetElement ? targetScrollParents : _cachedScrollParents(el);
 
       for (const el of elementsToHighlight) {
-        if (!el) continue;
-
         // Skip duplicate elements
         if (
           elementsToHighlight.indexOf(el) !==
@@ -164,13 +157,10 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         });
       }
 
-      openingProperties = newOpenings;
+      _updatePath(newOpenings);
     } else {
       closeModalOpening();
-      return;
     }
-
-    _updatePath();
   }
 
   function setupForStep(step: Step) {
@@ -204,12 +194,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     e.preventDefault();
   };
 
-  function _addStepEventListeners() {
-    window.addEventListener('touchmove', _preventModalBodyTouch, {
-      passive: false
-    });
-  }
-
   function _cleanupStepEventListeners() {
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -219,9 +203,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     // Scroll parents are only memoized for the duration of a single step.
     _stepScrollParents = new WeakMap();
 
-    window.removeEventListener('touchmove', _preventModalBodyTouch, {
-      passive: false
-    } as EventListenerOptions);
+    window.removeEventListener('touchmove', _preventModalBodyTouch);
   }
 
   function _styleForStep(step: Step) {
@@ -233,7 +215,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     } = step.options;
 
     const iframeOffset = _getIframeOffset(step.target);
-    const targetScrollParent = _getScrollParent(step.target);
+    const targetScrollParent = _cachedScrollParents(step.target)[0] ?? null;
 
     const rafLoop = () => {
       rafId = undefined;
@@ -250,7 +232,9 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     };
 
     rafLoop();
-    _addStepEventListeners();
+    window.addEventListener('touchmove', _preventModalBodyTouch, {
+      passive: false
+    });
   }
 
   function _isContained(style: CSSStyleDeclaration) {
@@ -324,9 +308,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * rather than from `offsetParent`, which happy-dom does not implement and the
    * unit tests therefore cannot exercise.
    */
-  function _getScrollParents(el?: HTMLElement | null): HTMLElement[] {
-    if (!(el instanceof HTMLElement)) return [];
-
+  function _getScrollParents(el: HTMLElement): HTMLElement[] {
     const { position } = window.getComputedStyle(el);
 
     // Laid out against the viewport, so no ancestor crops it.
@@ -356,10 +338,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     return scrollParents;
   }
 
-  function _getScrollParent(el?: HTMLElement | null): HTMLElement | null {
-    return _getScrollParents(el)[0] ?? null;
-  }
-
   /**
    * Memoized `_getScrollParents`, scoped to the current step.
    *
@@ -371,7 +349,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * target already has in `_styleForStep`.
    */
   function _cachedScrollParents(el?: HTMLElement | null): HTMLElement[] {
-    if (!el) return [];
+    if (!(el instanceof HTMLElement)) return [];
 
     const cached = _stepScrollParents.get(el);
     if (cached) return cached;
@@ -401,7 +379,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         // nested under the modal's window at all.
         targetWindow !== targetWindow.parent
       ) {
-        const targetIframe = targetWindow?.frameElement;
+        const targetIframe = targetWindow.frameElement;
 
         if (targetIframe) {
           const rect = targetIframe.getBoundingClientRect();

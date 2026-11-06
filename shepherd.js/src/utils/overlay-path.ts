@@ -50,13 +50,5 @@ export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
       `Z`;
   });
 
-  return (
-    `M${w},${h}` +
-    `H0` +
-    `V0` +
-    `H${w}` +
-    `V${h}` +
-    `Z` +
-    `${openings}`
-  ).replace(/\s/g, '');
+  return `M${w},${h}H0V0H${w}V${h}Z${openings}`;
 }
