@@ -2,27 +2,6 @@ import type { Step } from '../step.ts';
 import { isUndefined } from './type-check.ts';
 
 /**
- * Sets up the handler to determine if we should advance the tour
- * @param step The step instance
- * @param selector
- * @private
- */
-function _setupAdvanceOnHandler(step: Step, selector?: string) {
-  return (event: Event) => {
-    if (step.isOpen()) {
-      const targetIsEl = step.el && event.currentTarget === step.el;
-      const targetIsSelector =
-        !isUndefined(selector) &&
-        (event.currentTarget as HTMLElement).matches(selector);
-
-      if (targetIsSelector || targetIsEl) {
-        step.tour.next();
-      }
-    }
-  };
-}
-
-/**
  * Bind the event handler for advanceOn
  * @param step The step instance
  * @return A function that removes the listener, or `undefined` if nothing was bound
@@ -36,7 +15,15 @@ export function bindAdvance(step: Step): (() => void) | undefined {
     return;
   }
 
-  const handler = _setupAdvanceOnHandler(step, selector);
+  const handler = (e: Event) => {
+    if (
+      step.isOpen() &&
+      !isUndefined(selector) &&
+      (e.currentTarget as HTMLElement).matches(selector)
+    ) {
+      step.tour.next();
+    }
+  };
 
   if (!isUndefined(selector)) {
     const el = document.querySelector(selector);

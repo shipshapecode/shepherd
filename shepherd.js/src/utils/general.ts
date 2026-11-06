@@ -1,18 +1,5 @@
-import { type Tour, type TourOptions } from '../tour.ts';
-import {
-  type StepOptionsAttachTo,
-  type Step,
-  type StepOptions
-} from '../step.ts';
+import { type StepOptionsAttachTo, type Step } from '../step.ts';
 import { isFunction, isString } from './type-check.ts';
-
-export class StepNoOp {
-  constructor(_options: StepOptions) {}
-}
-
-export class TourNoOp {
-  constructor(_tour: Tour, _options: TourOptions) {}
-}
 
 /**
  * Ensure class prefix ends in `-`
@@ -20,11 +7,11 @@ export class TourNoOp {
  * @return The prefix ending in `-`
  */
 export function normalizePrefix(prefix?: string) {
-  if (!isString(prefix) || prefix === '') {
+  if (!isString(prefix) || !prefix) {
     return '';
   }
 
-  return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
+  return prefix.endsWith('-') ? prefix : `${prefix}-`;
 }
 
 function locateAttachToElement(step: Step, logMissing?: boolean) {
@@ -121,12 +108,9 @@ export function waitForAttachToElement(
  * Resolves the step's `extraHighlights` option, converting any locator values to HTMLElements.
  */
 export function parseExtraHighlights(step: Step): HTMLElement[] {
-  if (step.options.extraHighlights) {
-    return step.options.extraHighlights.flatMap((highlight) => {
-      return Array.from(document.querySelectorAll(highlight)) as HTMLElement[];
-    });
-  }
-  return [];
+  return (step.options.extraHighlights || []).flatMap((highlight) => [
+    ...document.querySelectorAll<HTMLElement>(highlight)
+  ]);
 }
 
 /**
@@ -134,14 +118,7 @@ export function parseExtraHighlights(step: Step): HTMLElement[] {
  * alternative for the deprecated step.isCentered() method.
  */
 export function shouldCenterStep(resolvedAttachToOptions: StepOptionsAttachTo) {
-  if (
-    resolvedAttachToOptions === undefined ||
-    resolvedAttachToOptions === null
-  ) {
-    return true;
-  }
-
-  return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
+  return !resolvedAttachToOptions?.element || !resolvedAttachToOptions.on;
 }
 
 /**
