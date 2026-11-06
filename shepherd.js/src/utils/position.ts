@@ -311,7 +311,8 @@ function rectInWindow(element: any, targetWindow: Window) {
     const scale = getScale(frame);
     const rect = frame.getBoundingClientRect();
     const style = styleOf(frame);
-    x = rect.x + (x + frame.clientLeft + parseFloat(style.paddingLeft)) * scale.x;
+    x =
+      rect.x + (x + frame.clientLeft + parseFloat(style.paddingLeft)) * scale.x;
     y = rect.y + (y + frame.clientTop + parseFloat(style.paddingTop)) * scale.y;
     width *= scale.x;
     height *= scale.y;
@@ -738,7 +739,9 @@ export function shift(): Middleware {
             state[axis],
             state[axis] - overflow[axis === 'y' ? 'bottom' : 'right']
           ),
-          reference[axis] + reference[lengthOf(axis)] + (fromOrigin ? 0 : offset)
+          reference[axis] +
+            reference[lengthOf(axis)] +
+            (fromOrigin ? 0 : offset)
         );
       const limited = {
         [main]: limit(main, 0),
