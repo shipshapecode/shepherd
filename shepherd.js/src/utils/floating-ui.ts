@@ -1,5 +1,5 @@
-import { deepmerge } from 'deepmerge-ts';
 import { shouldCenterStep } from './general.ts';
+import { merge } from './merge.ts';
 import {
   autoUpdate,
   arrow,
@@ -73,7 +73,7 @@ export function mergeTooltipConfig(
   options: StepOptions
 ): { floatingUIOptions: ComputePositionConfig } {
   return {
-    floatingUIOptions: deepmerge(
+    floatingUIOptions: merge(
       tourOptions.floatingUIOptions || {},
       options.floatingUIOptions || {}
     )
@@ -241,7 +241,7 @@ export function getFloatingUIOptions(
     if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
   }
 
-  const mergedOptions: ComputePositionConfig = deepmerge(
+  const mergedOptions: ComputePositionConfig = merge(
     options,
     step.options.floatingUIOptions || {}
   );
@@ -252,7 +252,7 @@ export function getFloatingUIOptions(
   // turn. Any middleware that runs after it (a user supplied `offset()`,
   // `shift()`, etc.) moves the tooltip again and silently invalidates
   // `middlewareData.arrow`, which `placeArrow()` writes straight to the DOM.
-  // Since user options are merged in above -- and `deepmerge` concatenates
+  // Since user options are merged in above -- and `merge` concatenates
   // arrays -- Shepherd's arrow is appended afterwards rather than pushed in
   // before the merge.
   if (

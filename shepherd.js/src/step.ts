@@ -1,4 +1,3 @@
-import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
 import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
@@ -749,10 +748,9 @@ export class Step extends Evented {
    * @param options - The options for the step
    */
   _setOptions(options: StepOptions = {}) {
-    let tourOptions =
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
-
-    tourOptions = deepmerge({}, tourOptions || {});
+    const tourOptions =
+      (this.tour && this.tour.options && this.tour.options.defaultStepOptions) ||
+      {};
 
     this.options = Object.assign(
       {
