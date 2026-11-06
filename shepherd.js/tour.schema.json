@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://shepherdjs.dev/tour.schema.json",
+  "title": "Shepherd tour",
+  "description": "A Shepherd tour as plain JSON. Pass it to new Shepherd.Tour(). Function-valued options are not part of it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["steps"],
+  "properties": {
+    "id": { "type": "string" },
+    "tourName": { "type": "string" },
+    "classPrefix": { "type": "string" },
+    "confirmCancel": {
+      "type": "boolean",
+      "description": "Ask with window.confirm before cancelling."
+    },
+    "confirmCancelMessage": { "type": "string" },
+    "exitOnEsc": {
+      "type": "boolean",
+      "description": "The Escape key cancels the tour. Defaults to true."
+    },
+    "keyboardNavigation": {
+      "type": "boolean",
+      "description": "The left and right arrow keys move between steps. Defaults to true."
+    },
+    "useModalOverlay": {
+      "type": "boolean",
+      "description": "Dim the page around the target."
+    },
+    "defaultStepOptions": {
+      "$ref": "#/definitions/stepOptions",
+      "description": "Applied to every step. A step's own value replaces the default, except classes, which combine."
+    },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/stepOptions" }
+    }
+  },
+  "definitions": {
+    "stepOptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "type": "string",
+          "description": "Rendered as HTML."
+        },
+        "text": {
+          "description": "The body. Rendered as HTML.",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "label": {
+          "type": "string",
+          "description": "The dialog's accessible name when it has no title."
+        },
+        "attachTo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["element"],
+          "description": "What the step attaches to. Omit it to center the step.",
+          "properties": {
+            "element": {
+              "type": "string",
+              "description": "A CSS selector."
+            },
+            "on": {
+              "description": "Where the step sits. Without it the step is centered.",
+              "enum": [
+                "auto",
+                "auto-start",
+                "auto-end",
+                "top",
+                "top-start",
+                "top-end",
+                "bottom",
+                "bottom-start",
+                "bottom-end",
+                "right",
+                "right-start",
+                "right-end",
+                "left",
+                "left-start",
+                "left-end"
+              ]
+            }
+          }
+        },
+        "advanceOn": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["selector", "event"],
+          "description": "A page event that moves to the next step.",
+          "properties": {
+            "selector": { "type": "string" },
+            "event": { "type": "string" }
+          }
+        },
+        "arrow": {
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": { "padding": { "type": "number" } }
+            }
+          ]
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["action"],
+            "properties": {
+              "text": { "type": "string" },
+              "label": { "type": "string" },
+              "action": { "enum": ["back", "cancel", "complete", "next"] },
+              "classes": { "type": "string" },
+              "disabled": { "type": "boolean" },
+              "secondary": { "type": "boolean" },
+              "attrs": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": ["string", "number", "boolean"]
+                }
+              }
+            }
+          }
+        },
+        "cancelIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The close icon in the header. Off unless enabled is true.",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "label": { "type": "string" },
+            "attrs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              }
+            }
+          }
+        },
+        "canClickTarget": { "type": "boolean" },
+        "classes": { "type": "string" },
+        "data": { "type": "object" },
+        "extraHighlights": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "highlightClass": { "type": "string" },
+        "modalOverlayOpeningPadding": { "type": "number" },
+        "modalOverlayOpeningRadius": {
+          "oneOf": [
+            { "type": "number" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "topLeft": { "type": "number" },
+                "bottomLeft": { "type": "number" },
+                "bottomRight": { "type": "number" },
+                "topRight": { "type": "number" }
+              }
+            }
+          ]
+        },
+        "modalOverlayOpeningXOffset": { "type": "number" },
+        "modalOverlayOpeningYOffset": { "type": "number" },
+        "scrollTo": {
+          "oneOf": [{ "type": "boolean" }, { "type": "object" }],
+          "description": "Scroll the target into view. Off by default. An object is passed to scrollIntoView."
+        },
+        "skipMissingElement": {
+          "type": "boolean",
+          "description": "Skip the step when its target is not on the page."
+        },
+        "waitForElement": {
+          "type": "number",
+          "description": "Milliseconds to wait for the target to appear."
+        }
+      }
+    }
+  }
+}

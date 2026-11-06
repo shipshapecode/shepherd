@@ -1,0 +1,36 @@
+# Shepherd.js
+
+> Guided product tours for the web. Steps are accessible dialogs that attach to DOM
+> elements. Runs in the browser, with no backend. AGPL-3.0, or a commercial license
+> for commercial products.
+
+Read `AGENTS.md` in this package before writing code. It has a working example and the
+mistakes to avoid. Option docs are in `dist/js/shepherd.d.mts`.
+
+```js
+import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css'; // Required. Not included by the JS import.
+
+const tour = new Shepherd.Tour({ useModalOverlay: true });
+tour.addStep({
+  title: 'Save',
+  text: 'Saves your work.',
+  attachTo: { element: '#save', on: 'bottom' }, // top, bottom, left, right, auto; optional -start or -end
+  buttons: [{ text: 'Done', action: 'complete' }] // 'next', 'back', 'cancel', 'complete', or a function
+});
+tour.start();
+```
+
+## Files in this package
+
+- `AGENTS.md`: how to use the library correctly
+- `tour.schema.json`: JSON Schema for a tour written as plain data
+- `dist/js/shepherd.d.mts`: types and option docs
+- `dist/js/shepherd.mjs`: ES module with no global. Import it.
+- `dist/css/shepherd.css`: the stylesheet
+
+## Links
+
+- [Documentation](https://docs.shepherdjs.dev/)
+- [react-shepherd](https://github.com/shipshapecode/shepherd/tree/main/packages/react)
+- [Pricing and licensing](https://www.shepherdjs.dev/pricing)

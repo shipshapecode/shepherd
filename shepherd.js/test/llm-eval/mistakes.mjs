@@ -344,7 +344,18 @@ async function main() {
     : null;
   const browser = await chromium.launch();
   const rows = [];
-  for (const mistake of MISTAKES) {
+  const example = agentDocs?.match(/```js\n([\s\S]*?)```/)?.[1];
+  const entries = example
+    ? [
+        ...MISTAKES,
+        {
+          id: 'agents-md-example',
+          why: 'Not a mistake. The first example in AGENTS.md has to run as written.',
+          code: example
+        }
+      ]
+    : MISTAKES;
+  for (const mistake of entries) {
     const workspace = createWorkspace(pkgDir);
     const row = { id: mistake.id, console: [] };
     try {

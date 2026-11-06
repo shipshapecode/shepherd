@@ -20,8 +20,11 @@
   ],
   "files": [
     "dist",
+    "AGENTS.md",
     "LICENSE.md",
-    "README.md"
+    "README.md",
+    "llms.txt",
+    "tour.schema.json"
   ],
   "main": "./dist/cjs/shepherd.cjs",
   "module": "./dist/js/shepherd.mjs",
@@ -36,7 +39,8 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
-    "./dist/*": "./dist/*"
+    "./dist/*": "./dist/*",
+    "./tour.schema.json": "./tour.schema.json"
   },
   "type": "module",
   "sideEffects": [
