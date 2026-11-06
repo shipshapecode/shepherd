@@ -306,6 +306,29 @@ describe('utils/position', () => {
       scroller.remove();
     });
 
+    it('wakes on a scroll in a framed target document', async () => {
+      const { floating, rect } = stubbedRects();
+      const targetWindow = new EventTarget();
+      const reference = {
+        ownerDocument: { defaultView: targetWindow },
+        getBoundingClientRect: () => ({ ...rect })
+      };
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      await nextFrames(2);
+      const settled = update.mock.calls.length;
+
+      rect.y = 500;
+      targetWindow.dispatchEvent(new Event('scroll'));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      rect.y = 600;
+      targetWindow.dispatchEvent(new Event('scroll'));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+    });
+
     it('stops checking once cleaned up', async () => {
       const { reference, floating, rect } = stubbedRects();
       const scroller = document.createElement('div');

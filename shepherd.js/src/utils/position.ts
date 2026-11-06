@@ -873,12 +873,17 @@ export function autoUpdate(
     else setTimeout(nextFrame, 100);
   };
 
-  win.addEventListener('scroll', check, true);
+  // Scroll events capture, so this hears every scroller in these documents. The
+  // same listener added twice is one listener when both are the same window.
+  const windows = [win, getWindow(reference)];
+  windows.forEach((target) => target.addEventListener('scroll', check, true));
   update();
   nextFrame();
 
   return () => {
     stopped = true;
-    win.removeEventListener('scroll', check, true);
+    windows.forEach((target) =>
+      target.removeEventListener('scroll', check, true)
+    );
   };
 }
