@@ -36,17 +36,20 @@ highlight it with a modal overlay, and walk the user through your app.
 npm install shepherd.js
 \`\`\`
 
-Or include it directly:
+Without a bundler, import it from a module script. It defines no global:
 
 \`\`\`html
-<link rel="stylesheet" href="shepherd.js/dist/css/shepherd.css" />
-<script type="module" src="shepherd.js/dist/js/shepherd.mjs"></script>
+<link rel="stylesheet" href="/node_modules/shepherd.js/dist/css/shepherd.css" />
+<script type="module">
+  import Shepherd from '/node_modules/shepherd.js/dist/js/shepherd.mjs';
+</script>
 \`\`\`
 
 ## Quick example
 
 \`\`\`js
 import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css';
 
 const tour = new Shepherd.Tour({
   useModalOverlay: true,
@@ -61,8 +64,8 @@ tour.addStep({
   text: 'Create a Tour instance and add as many steps as you want.',
   attachTo: { element: '.example', on: 'bottom' },
   buttons: [
-    { action() { return this.back(); }, secondary: true, text: 'Back' },
-    { action() { return this.next(); }, text: 'Next' }
+    { action: 'back', secondary: true, text: 'Back' },
+    { action: 'next', text: 'Next' }
   ]
 });
 

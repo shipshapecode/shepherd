@@ -11,7 +11,12 @@ i.e.
 
 ```js
 import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css';
 ```
+
+`Tour` and `Step` are also named exports, so
+`import { Tour } from 'shepherd.js'` works too. The stylesheet is a separate
+import, and Shepherd logs a warning if it is missing.
 
 First create a new `Tour` instance for your tour:
 
@@ -42,7 +47,7 @@ tour.addStep({
   buttons: [
     {
       text: 'Next',
-      action: tour.next
+      action: 'next'
     }
   ]
 });
@@ -67,10 +72,12 @@ tour.removeStep('example-step');
 
 #### Global Shepherd Object
 
-Shepherd exposes a single object onto the window, `Shepherd`.
+The package's default export is a single object, `Shepherd`. It does not define a
+`window.Shepherd` global: `shepherd.mjs` is an ES module, so import it, including
+from a `<script type="module">`.
 
-That global object fires several events to let you link up actions with events
-occurring in _any_ tour:
+That object fires several events to let you link up actions with events occurring
+in _any_ tour:
 
 ##### Methods
 
@@ -87,7 +94,6 @@ to the instance which fired the event:
 
 - `complete`
 - `cancel`
-- `hide`
 - `show`
 - `start`
 - `active`
@@ -97,7 +103,7 @@ For multiple events, you can use something like:
 
 ```javascript
 ['complete', 'cancel'].forEach((event) =>
-  shepherd.on(event, () => {
+  Shepherd.on(event, () => {
     // some code here
   })
 );
@@ -185,9 +191,10 @@ can be called and ignored, as before.
 
 - `complete`: Triggered when the last step is advanced
 - `cancel`
-- `hide`
 - `show`: Triggered with a hash of the `step` and the `previous` step
 - `start`
+- `active`
+- `inactive`
 
 Steps are instances of the Step object. They are generally created by the
 `Tour::addStep` method, which returns the `Step` instance it created.
@@ -196,11 +203,13 @@ Steps are instances of the Step object. They are generally created by the
 
 ##### Step Options
 
-- `text`: The text in the body of the step. It can be one of three types:
+- `text`: The text in the body of the step. Strings render as HTML, so escape
+  untrusted input. It can be one of four types:
   - HTML string
+  - Array of HTML strings
   - `HTMLElement` object
-  - `Function` to be executed when the step is built. It must return one the two
-    options above.
+  - `Function` to be executed when the step is built. It must return one of the
+    three options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
 - `label`: An `aria-label` for the step's dialog element. Use it to give a step
   an accessible name when it has no visible `title` — a step with neither gets
@@ -223,7 +232,7 @@ Steps are instances of the Step object. They are generally created by the
       'right-start', 'right-end', 'left', 'left-start', 'left-end'
 
 ```js
-const new Step(tour, {
+tour.addStep({
   attachTo: { element: '.some .selector-path', on: 'left' },
   ...moreOptions
 });
@@ -243,8 +252,9 @@ If the element to highlight does not yet exist while instantiating tour steps,
 you may use lazy evaluation by supplying a function to `attachTo.element`. The
 function will be called in the `before-show` phase.
 
-- `beforeShowPromise`: A function that returns a promise. When the promise
-  resolves, the rest of the `show` code for the step will execute. For example:
+- `beforeShowPromise`: A function that returns a promise. Pass the function, not a
+  promise, which would be ignored. When the promise resolves, the rest of the
+  `show` code for the step will execute. For example:
   ```javascript
   beforeShowPromise: function() {
     return new Promise(function(resolve) {
@@ -292,15 +302,17 @@ function will be called in the `before-show` phase.
     returns a string (useful with i18n solutions).
   - `disabled`: A boolean that controls the `disabled` attribute. It can also be
     a function that returns a boolean.
-  - `classes`: Extra classes to apply to the `<a>`
+  - `classes`: Extra classes to apply to the `<button>`
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary`
     class to the button
   - `text`: The HTML text of the button. It can also be a function that returns
     a string (useful with i18n solutions).
-  - `action`: A function executed when the button is clicked on. It is
-    automatically bound to the `tour` the step is associated with, so things
-    like `this.next` will work inside the action. You can use action to skip
-    steps or navigate to specific steps, with something like:
+  - `action`: What the button does when clicked: the name of a tour method
+    (`'next'`, `'back'`, `'cancel'` or `'complete'`), or a function. A function
+    is automatically bound to the `tour` the step is associated with, so things
+    like `this.next` will work inside the action, but not inside an arrow
+    function. You can use action to skip steps or navigate to specific steps,
+    with something like:
   ```javascript
     action() {
       return this.show('some_step_name');
@@ -385,7 +397,6 @@ when: {
   be shown again later.
 - `cancel()`: Hide this step and trigger the `cancel` event
 - `complete()`: Hide this step and trigger the `complete` event
-- `scrollTo()`: Scroll to this step's element
 - `isOpen()`: Returns true if the step is currently shown
 - `destroy()`: Permanently tear the step down — removes its element from the
   DOM, stops repositioning it, and triggers the `destroy` event

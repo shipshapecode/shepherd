@@ -48,18 +48,19 @@ to the release in GitHub. You can find those assets [here](https://github.com/sh
 
 ### jsDelivr CDN
 
-You can use jsDelivr to pull down any release from npm. For example, you could include v10.0.1 with styles in your app
-with:
+You can use jsDelivr to pull down any release from npm. `shepherd.mjs` is an ES module and defines no global, so
+import it:
 
 ```html
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/shepherd.js@17.0.0/dist/js/shepherd.mjs"
-></script>
 <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/shepherd.js@17.0.0/dist/css/shepherd.css"
+  href="https://cdn.jsdelivr.net/npm/shepherd.js@15.3.0/dist/css/shepherd.css"
 />
+<script type="module">
+  import Shepherd from 'https://cdn.jsdelivr.net/npm/shepherd.js@15.3.0/dist/js/shepherd.mjs';
+
+  const tour = new Shepherd.Tour();
+</script>
 ```
 
 ## JS Framework Wrappers

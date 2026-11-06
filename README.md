@@ -41,6 +41,28 @@ See Shepherd Live on our website by clicking on the image:
 
 # Using Shepherd
 
+```bash
+npm install shepherd.js
+```
+
+```js
+import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css';
+
+const tour = new Shepherd.Tour({ useModalOverlay: true });
+
+tour.addStep({
+  title: 'Welcome',
+  text: 'This step points at the save button.',
+  attachTo: { element: '#save', on: 'bottom' },
+  buttons: [{ text: 'Done', action: 'complete' }]
+});
+
+tour.start();
+```
+
+Coding agents: read [`shepherd.js/AGENTS.md`](shepherd.js/AGENTS.md), which is also in the npm package.
+
 ### Shepherd Open Source Library
 
 The Shepherd Standalone Library has been open source since the very beginning. Check out our tutorials here:
