@@ -122,7 +122,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         }
 
         const { y, height } = _getVisibleHeight(el, scrollParentsFor(el));
-        const { x, width, left } = el.getBoundingClientRect();
+        const { x, width } = el.getBoundingClientRect();
 
         // Check if the element is contained by another element.
         // Use _getVisibleHeight for otherElement too so both sides compare
@@ -148,10 +148,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         newOpenings.push({
           width: width + modalOverlayOpeningPadding * 2,
           height: height + modalOverlayOpeningPadding * 2,
-          x:
-            (x || left) +
-            modalOverlayOpeningXOffset -
-            modalOverlayOpeningPadding,
+          x: x + modalOverlayOpeningXOffset - modalOverlayOpeningPadding,
           y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
           r: modalOverlayOpeningRadius as OpeningProperty['r']
         });
@@ -397,21 +394,18 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   }
 
   function _getVisibleHeight(el: HTMLElement, scrollParents: HTMLElement[]) {
-    const elementRect = el.getBoundingClientRect();
-    let top = elementRect.y || elementRect.top;
-    let bottom = elementRect.bottom || top + elementRect.height;
+    const { y, height } = el.getBoundingClientRect();
+    let top = y;
+    let bottom = y + height;
 
     for (const scrollParent of scrollParents) {
       const scrollRect = scrollParent.getBoundingClientRect();
-      const scrollTop = scrollRect.y || scrollRect.top;
-      const scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
 
-      top = Math.max(top, scrollTop);
-      bottom = Math.min(bottom, scrollBottom);
+      top = Math.max(top, scrollRect.y);
+      bottom = Math.min(bottom, scrollRect.y + scrollRect.height);
     }
 
-    const height = Math.max(bottom - top, 0);
-    return { y: top, height };
+    return { y: top, height: Math.max(bottom - top, 0) };
   }
 
   return {
