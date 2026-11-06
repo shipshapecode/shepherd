@@ -76,8 +76,7 @@ export function resolveAttachToElement(step: Step): HTMLElement | null {
 
 /**
  * Waits for a step's `attachTo.element` to be resolvable, watching the DOM
- * with a `MutationObserver` (falling back to polling when it is unavailable)
- * until `timeout` milliseconds have elapsed.
+ * with a `MutationObserver` until `timeout` milliseconds have elapsed.
  * @param step - The step instance
  * @param timeout - The maximum amount of time, in milliseconds, to wait
  * @returns A promise resolving to the element, or `null` if it did not appear
@@ -95,44 +94,26 @@ export function waitForAttachToElement(
       return;
     }
 
-    let observer: MutationObserver | null = null;
-    let pollTimer: ReturnType<typeof setInterval> | null = null;
-    let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
-
     const finish = (result: HTMLElement | null) => {
-      observer?.disconnect();
-
-      if (pollTimer !== null) {
-        clearInterval(pollTimer);
-      }
-
-      if (timeoutTimer !== null) {
-        clearTimeout(timeoutTimer);
-      }
-
+      observer.disconnect();
+      clearTimeout(timeoutTimer);
       resolve(result);
     };
 
-    const check = () => {
+    const observer = new MutationObserver(() => {
       const found = resolveAttachToElement(step);
 
       if (found) {
         finish(found);
       }
-    };
+    });
+    const timeoutTimer = setTimeout(() => finish(null), timeout);
 
-    timeoutTimer = setTimeout(() => finish(null), timeout);
-
-    if (typeof MutationObserver !== 'undefined') {
-      observer = new MutationObserver(check);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        childList: true,
-        subtree: true
-      });
-    } else {
-      pollTimer = setInterval(check, 50);
-    }
+    observer.observe(document.documentElement, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
   });
 }
 

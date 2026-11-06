@@ -247,10 +247,10 @@ export interface StepOptions {
   /**
    * The maximum amount of time, in milliseconds, to wait for the
    * `attachTo.element` to appear in the DOM before showing the step. The DOM
-   * is watched with a `MutationObserver` (falling back to polling when it is
-   * unavailable), so the step attaches as soon as the element appears. If the
-   * timeout expires, the step falls back to its default behavior: skipped
-   * when `skipMissingElement` is `true`, otherwise shown centered.
+   * is watched with a `MutationObserver`, so the step attaches as soon as the
+   * element appears. If the timeout expires, the step falls back to its default
+   * behavior: skipped when `skipMissingElement` is `true`, otherwise shown
+   * centered.
    *
    * The wait starts before the step's own `beforeShowPromise` and `before-show`
    * handlers run, so it cannot observe a target that those handlers create, and

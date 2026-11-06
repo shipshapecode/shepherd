@@ -289,53 +289,6 @@ describe('General Utils', function () {
       const element = await waitForAttachToElement(step, 0);
       expect(element).toBeNull();
     });
-
-    it('falls back to polling when MutationObserver is unavailable', async function () {
-      vi.stubGlobal('MutationObserver', undefined);
-
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.polled-for-xyz', on: 'center' }
-        }
-      );
-
-      const promise = waitForAttachToElement(step, 1000);
-      let addedElement;
-
-      setTimeout(() => {
-        addedElement = document.createElement('div');
-        addedElement.classList.add('polled-for-xyz');
-        document.body.appendChild(addedElement);
-      }, 20);
-
-      const element = await promise;
-
-      expect(
-        element,
-        'polling resolves with the element without a MutationObserver'
-      ).toBe(addedElement);
-
-      document.body.removeChild(addedElement);
-      vi.unstubAllGlobals();
-    });
-
-    it('resolves with null after timeout when polling and the element never appears', async function () {
-      vi.stubGlobal('MutationObserver', undefined);
-
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.never-appears-xyz', on: 'center' }
-        }
-      );
-
-      const element = await waitForAttachToElement(step, 80);
-
-      expect(element, 'polling gives up once the timeout expires').toBeNull();
-
-      vi.unstubAllGlobals();
-    });
   });
 
   describe('parseExtraHighlights()', function () {
