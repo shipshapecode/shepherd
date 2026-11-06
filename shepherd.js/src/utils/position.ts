@@ -441,7 +441,7 @@ function getClippingRect({
   };
 }
 
-function detectOverflow(
+async function detectOverflow(
   state: MiddlewareState,
   {
     boundary = 'clippingAncestors',
@@ -450,11 +450,11 @@ function detectOverflow(
     altBoundary = false,
     padding = 0
   }: Record<string, any> = {}
-): Record<Side, number> {
+): Promise<Record<Side, number>> {
   const { x, y, platform, rects, elements, strategy } = state;
   const pad = (side: Side) =>
     (typeof padding === 'number' ? padding : padding[side]) || 0;
-  const clip: Rect = platform.getClippingRect({
+  const clip: Rect = await platform.getClippingRect({
     element:
       elements[
         altBoundary
@@ -467,10 +467,10 @@ function detectOverflow(
     rootBoundary,
     strategy
   });
-  const offsetParent = platform.getOffsetParent(elements.floating);
-  const scale: Coords = platform.getScale(offsetParent);
+  const offsetParent = await platform.getOffsetParent(elements.floating);
+  const scale: Coords = await platform.getScale(offsetParent);
   const box: Rect =
-    platform.convertOffsetParentRelativeRectToViewportRelativeRect({
+    await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
       elements,
       rect:
         elementContext === 'floating'
@@ -630,7 +630,7 @@ function placementSearch(
   return {
     name,
     options,
-    fn(state: MiddlewareState): MiddlewareResult {
+    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
       const { placement, initialPlacement, middlewareData } = state;
       const { platform, rects, elements } = state;
       const { index = 0, overflows: previous = [] } =
@@ -645,11 +645,11 @@ function placementSearch(
         return { reset: { placement: placements[0] as Placement } };
       }
 
-      const overflow = platform.detectOverflow(state);
+      const overflow = await platform.detectOverflow(state);
       const [first, second] = alignmentSides(
         placement,
         rects,
-        platform.isRTL(elements.floating)
+        await platform.isRTL(elements.floating)
       );
       const overflows: number[] = [
         overflow[sideOf(placement)],
@@ -741,10 +741,10 @@ export function autoPlacement(options: {
 export function shift(): Middleware {
   return {
     name: 'shift',
-    fn(state: MiddlewareState): MiddlewareResult {
+    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
       const { x, y, placement, rects, middlewareData, platform } = state;
       const { reference, floating } = rects;
-      const overflow = platform.detectOverflow(state);
+      const overflow = await platform.detectOverflow(state);
       const cross = sideAxis(placement);
       const main = otherAxis(cross);
       const fromOrigin = /^[tl]/.test(placement);
@@ -786,13 +786,13 @@ export function arrow(options: {
   return {
     name: 'arrow',
     options,
-    fn(state: MiddlewareState): MiddlewareResult {
+    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
       const { placement, rects, platform, elements, middlewareData } = state;
       const { element, padding = 0 } = options;
       const axis = otherAxis(sideAxis(placement));
       const length = lengthOf(axis);
       const start = state[axis];
-      const arrowLength = platform.getDimensions(element)[length];
+      const arrowLength = (await platform.getDimensions(element))[length];
       const free =
         (axis === 'y'
           ? elements.floating.clientHeight
