@@ -342,7 +342,7 @@ function rectInWindow(element: any, targetWindow: Window) {
 
 function rootRect(node: any, rootBoundary: string): Rect {
   const html = htmlOf(node);
-  const { x } = html.getBoundingClientRect();
+  const { x, width: rootWidth } = html.getBoundingClientRect();
 
   if (rootBoundary === 'document') {
     const { body } = getDocument(node);
@@ -373,11 +373,17 @@ function rootRect(node: any, rootBoundary: string): Rect {
   // WebKit's client coordinates are relative to the visual viewport, others'
   // to the layout viewport.
   const offset = !isWebKit() && viewport;
+  const left = x + html.scrollLeft;
+  // With no scrollbar to show, `scrollbar-gutter: stable` narrows the root without
+  // its `clientWidth` showing it. A root offset to the left has no such gutter.
+  const gutter = left > 0 ? 0 : html.clientWidth - rootWidth;
 
   return {
-    x: x + html.scrollLeft + (offset ? offset.offsetLeft : 0),
+    x: left + (offset ? offset.offsetLeft : 0),
     y: offset ? offset.offsetTop : 0,
-    width: viewport ? viewport.width : html.clientWidth,
+    width:
+      (viewport ? viewport.width : html.clientWidth) -
+      (gutter > 0 && gutter < 26 ? gutter : 0),
     height: viewport ? viewport.height : html.clientHeight
   };
 }
