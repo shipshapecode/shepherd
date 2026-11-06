@@ -48,6 +48,7 @@ export interface ShepherdModalAPI {
 
 export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   let rafId: number | undefined;
+  let currentPath: string | undefined;
   // Memoizes the chain of scroll parents of a highlighted element for the
   // lifetime of a single step. Reset in `_cleanupStepEventListeners`.
   let _stepScrollParents = new WeakMap<HTMLElement, HTMLElement[]>();
@@ -65,7 +66,13 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   container.append(element);
 
   function _updatePath(openings: OpeningProperty[]) {
-    pathEl.setAttribute('d', makeOverlayPath(openings));
+    const d = makeOverlayPath(openings);
+    // Writing `d` invalidates layout even when the value is unchanged, and this
+    // runs every frame.
+    if (d !== currentPath) {
+      currentPath = d;
+      pathEl.setAttribute('d', d);
+    }
   }
 
   function closeModalOpening() {

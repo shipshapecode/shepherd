@@ -47,6 +47,25 @@ describe('components/ShepherdModal', () => {
   });
 
   describe('positionModal()', function () {
+    it('leaves the path alone when the opening has not moved', () => {
+      const modal = createShepherdModal(container);
+      const path = modal.getElement().querySelector('path');
+      let y = 20;
+      const target = {
+        getBoundingClientRect: () => ({ height: 250, x: 20, y, width: 500 })
+      };
+
+      modal.positionModal(0, 0, 0, 0, null, target);
+      const writePath = vi.spyOn(path, 'setAttribute');
+
+      modal.positionModal(0, 0, 0, 0, null, target);
+      expect(writePath, 'nothing moved').not.toHaveBeenCalled();
+
+      y = 28;
+      modal.positionModal(0, 0, 0, 0, null, target);
+      expect(writePath, 'the target moved').toHaveBeenCalledTimes(1);
+    });
+
     it('sets the correct attributes when positioning modal opening', () => {
       const modal = createShepherdModal(container);
 
