@@ -7,7 +7,6 @@ import {
   isString,
   isUndefined
 } from './utils/type-check.ts';
-import { cleanupSteps } from './utils/cleanup.ts';
 import {
   normalizePrefix,
   resolveAttachToElement,
@@ -483,8 +482,6 @@ export class Tour extends Evented {
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
     }
-
-    cleanupSteps(this);
 
     this.trigger(event, { index });
 
