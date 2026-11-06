@@ -170,14 +170,9 @@ function ancestorsOf(node: any) {
   return ancestors;
 }
 
-function clipsOverflow({
-  overflow,
-  overflowX,
-  overflowY,
-  display
-}: CSSStyleDeclaration) {
+function clipsOverflow({ overflow, display }: CSSStyleDeclaration) {
   return (
-    /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) &&
+    /auto|scroll|overlay|hidden|clip/.test(overflow) &&
     display !== 'inline' &&
     display !== 'contents'
   );
@@ -208,26 +203,21 @@ function isTopLayer(element: Element) {
   }
 }
 
-function layoutOffsetParent(element: any): Element | null {
-  if (styleOf(element).position === 'fixed') return null;
-  const parent = element.offsetParent;
-  // Firefox reports a positioned <html>, while the math needs <body>.
-  return parent === htmlOf(element) ? getDocument(element).body : parent;
-}
-
 function getOffsetParent(element: Element): Element | Window {
   const win = getWindow(element);
   if (isTopLayer(element)) return win;
 
-  let parent = layoutOffsetParent(element);
-  while (
+  let parent: any = element;
+  do {
+    parent = styleOf(parent).position === 'fixed' ? null : parent.offsetParent;
+  } while (
     parent &&
     /^(table|td|th)$/i.test(parent.nodeName) &&
     isStatic(parent)
-  ) {
-    parent = layoutOffsetParent(parent);
-  }
+  );
   if (parent) {
+    // Firefox reports a positioned <html>, while the math needs <body>.
+    if (parent === htmlOf(element)) parent = getDocument(element).body;
     return isRoot(parent) &&
       isStatic(parent) &&
       !isContainingBlock(styleOf(parent))
@@ -277,18 +267,18 @@ function getScale(element: any): Coords {
 function originOf(offsetParent: any, strategy: Strategy) {
   if (isHTMLElement(offsetParent)) {
     const scale = getScale(offsetParent);
-    const { left, top } = offsetParent.getBoundingClientRect();
+    const { x, y } = offsetParent.getBoundingClientRect();
     // In quirks mode <body> reports the viewport's scroll, which is not its own.
     const scrolls =
       offsetParent !== getDocument(offsetParent).body ||
       clipsOverflow(styleOf(htmlOf(offsetParent)));
     return {
       x:
-        left +
+        x +
         (offsetParent.clientLeft - (scrolls ? offsetParent.scrollLeft : 0)) *
           scale.x,
       y:
-        top +
+        y +
         (offsetParent.clientTop - (scrolls ? offsetParent.scrollTop : 0)) *
           scale.y,
       scale
@@ -296,14 +286,14 @@ function originOf(offsetParent: any, strategy: Strategy) {
   }
 
   const html = htmlOf(offsetParent);
-  const { left, top } = html.getBoundingClientRect();
-  if (strategy !== 'fixed') return { x: left, y: top, scale: ONE };
+  const { x, y } = html.getBoundingClientRect();
+  if (strategy !== 'fixed') return { x, y, scale: ONE };
 
   // WebKit's client coordinates are relative to the visual viewport, while
   // `position: fixed` stays relative to the layout viewport.
   const viewport = isWebKit() && getWindow(offsetParent).visualViewport;
   return {
-    x: left + html.scrollLeft - (viewport ? viewport.offsetLeft : 0),
+    x: x + html.scrollLeft - (viewport ? viewport.offsetLeft : 0),
     y: viewport ? -viewport.offsetTop : 0,
     scale: ONE
   };
@@ -311,7 +301,7 @@ function originOf(offsetParent: any, strategy: Strategy) {
 
 /** The element's client rect, carried up through iframes into `targetWindow`. */
 function rectInWindow(element: any, targetWindow: Window) {
-  let { left, top, width, height } = element.getBoundingClientRect();
+  let { x, y, width, height } = element.getBoundingClientRect();
 
   for (
     let win = getWindow(element), frame: Element | null;
@@ -321,23 +311,18 @@ function rectInWindow(element: any, targetWindow: Window) {
     const scale = getScale(frame);
     const rect = frame.getBoundingClientRect();
     const style = styleOf(frame);
-    left =
-      rect.left +
-      (left + frame.clientLeft + parseFloat(style.paddingLeft)) * scale.x;
-    top =
-      rect.top +
-      (top + frame.clientTop + parseFloat(style.paddingTop)) * scale.y;
+    x = rect.x + (x + frame.clientLeft + parseFloat(style.paddingLeft)) * scale.x;
+    y = rect.y + (y + frame.clientTop + parseFloat(style.paddingTop)) * scale.y;
     width *= scale.x;
     height *= scale.y;
   }
 
-  return { left, top, width, height };
+  return { x, y, width, height };
 }
 
 function rootRect(node: any, rootBoundary: string): Rect {
   const html = htmlOf(node);
-  const { left } = html.getBoundingClientRect();
-  const scrollbarX = left + html.scrollLeft;
+  const { x } = html.getBoundingClientRect();
 
   if (rootBoundary === 'document') {
     const { body } = getDocument(node);
@@ -349,7 +334,7 @@ function rootRect(node: any, rootBoundary: string): Rect {
     );
     return {
       x:
-        left +
+        x +
         (styleOf(body).direction === 'rtl'
           ? max(html.clientWidth, body.clientWidth) - width
           : 0),
@@ -367,22 +352,14 @@ function rootRect(node: any, rootBoundary: string): Rect {
   const viewport = getWindow(node).visualViewport;
   // WebKit's client coordinates are relative to the visual viewport, others'
   // to the layout viewport.
-  const offsetX = viewport?.offsetLeft ?? 0;
-  const offsetY = viewport?.offsetTop ?? 0;
+  const offset = !isWebKit() && viewport;
 
-  return rootBoundary === 'layoutViewport' || !viewport
-    ? {
-        x: scrollbarX - (isWebKit() ? offsetX : 0),
-        y: isWebKit() ? -offsetY : 0,
-        width: html.clientWidth,
-        height: html.clientHeight
-      }
-    : {
-        x: scrollbarX + (isWebKit() ? 0 : offsetX),
-        y: isWebKit() ? 0 : offsetY,
-        width: viewport.width,
-        height: viewport.height
-      };
+  return {
+    x: x + html.scrollLeft + (offset ? offset.offsetLeft : 0),
+    y: offset ? offset.offsetTop : 0,
+    width: viewport ? viewport.width : html.clientWidth,
+    height: viewport ? viewport.height : html.clientHeight
+  };
 }
 
 function clippingAncestors(element: Element) {
@@ -409,10 +386,10 @@ function clipRect(element: Element, clip: any): Rect {
   if (!isElement(clip)) return clip;
 
   const scale = getScale(clip);
-  const { left, top } = clip.getBoundingClientRect();
+  const { x, y } = clip.getBoundingClientRect();
   return {
-    x: left + clip.clientLeft * scale.x,
-    y: top + clip.clientTop * scale.y,
+    x: x + clip.clientLeft * scale.x,
+    y: y + clip.clientTop * scale.y,
     width: clip.clientWidth * scale.x,
     height: clip.clientHeight * scale.y
   };
@@ -533,8 +510,8 @@ const platform = {
     const { width, height } = await this.getDimensions(floating);
     return {
       reference: {
-        x: (rect.left - x) / scale.x,
-        y: (rect.top - y) / scale.y,
+        x: (rect.x - x) / scale.x,
+        y: (rect.y - y) / scale.y,
         width: rect.width / scale.x,
         height: rect.height / scale.y
       },
@@ -750,29 +727,22 @@ export function shift(): Middleware {
       const overflow = platform.detectOverflow(state);
       const cross = sideAxis(placement);
       const main = otherAxis(cross);
-      const inView = (axis: Axis) =>
-        clamp(
-          state[axis] + overflow[axis === 'y' ? 'top' : 'left'],
-          state[axis],
-          state[axis] - overflow[axis === 'y' ? 'bottom' : 'right']
-        );
       const fromOrigin = /^[tl]/.test(placement);
-      const offsetAlong = middlewareData['offset']?.[cross] || 0;
+      const limit = (axis: Axis, offset: number) =>
+        clamp(
+          reference[axis] -
+            floating[lengthOf(axis)] +
+            (fromOrigin ? offset : 0),
+          clamp(
+            state[axis] + overflow[axis === 'y' ? 'top' : 'left'],
+            state[axis],
+            state[axis] - overflow[axis === 'y' ? 'bottom' : 'right']
+          ),
+          reference[axis] + reference[lengthOf(axis)] + (fromOrigin ? 0 : offset)
+        );
       const limited = {
-        [main]: clamp(
-          reference[main] - floating[lengthOf(main)],
-          inView(main),
-          reference[main] + reference[lengthOf(main)]
-        ),
-        [cross]: clamp(
-          reference[cross] -
-            floating[lengthOf(cross)] +
-            (fromOrigin ? offsetAlong : 0),
-          inView(cross),
-          reference[cross] +
-            reference[lengthOf(cross)] +
-            (fromOrigin ? 0 : offsetAlong)
-        )
+        [main]: limit(main, 0),
+        [cross]: limit(cross, middlewareData['offset']?.[cross] || 0)
       } as Coords;
 
       return {
@@ -801,20 +771,18 @@ export function arrow(options: {
       const length = lengthOf(axis);
       const start = state[axis];
       const arrowLength = platform.getDimensions(element)[length];
-      const clientSize =
-        elements.floating[axis === 'y' ? 'clientHeight' : 'clientWidth'] ||
-        rects.floating[length];
-      const toReference =
-        (rects.reference[length] +
-          rects.reference[axis] -
-          start -
-          rects.floating[length]) /
-          2 -
-        (start - rects.reference[axis]) / 2;
+      const free =
+        (axis === 'y'
+          ? elements.floating.clientHeight
+          : elements.floating.clientWidth) - arrowLength;
       // Padding large enough to push the arrow off center gets capped.
-      const edge = min(padding, clientSize / 2 - arrowLength / 2 - 1);
-      const end = clientSize - arrowLength - edge;
-      const center = clientSize / 2 - arrowLength / 2 + toReference;
+      const edge = min(padding, free / 2 - 1);
+      const end = free - edge;
+      const center =
+        free / 2 +
+        (rects.reference[length] - rects.floating[length]) / 2 +
+        rects.reference[axis] -
+        start;
       const offset = clamp(edge, center, end);
       // A reference too small for the padded arrow to reach gets the floating
       // element nudged toward it, with one reset so `shift` still runs.
@@ -833,7 +801,6 @@ export function arrow(options: {
         [axis]: start + alignmentOffset,
         data: {
           [axis]: offset,
-          centerOffset: center - offset - alignmentOffset,
           ...(nudge && { alignmentOffset })
         },
         reset: nudge
@@ -859,24 +826,15 @@ export function autoUpdate(
   let stopped = false;
 
   const check = () => {
-    const target = rectInWindow(reference, win);
-    const own = floating.getBoundingClientRect();
     const viewport = win.visualViewport;
-    const now = [
-      target.left,
-      target.top,
-      target.width,
-      target.height,
-      own.left,
-      own.top,
-      own.width,
-      own.height,
-      win.innerWidth,
-      win.innerHeight,
+    const now = JSON.stringify([
+      rectInWindow(reference, win),
+      floating.getBoundingClientRect(),
       viewport?.offsetLeft,
       viewport?.offsetTop,
-      viewport?.width
-    ].join();
+      viewport?.width,
+      viewport?.height
+    ]);
 
     if (now !== last) {
       last = now;
@@ -885,7 +843,8 @@ export function autoUpdate(
     }
   };
 
-  const nextFrame = () => requestAnimationFrame(loop);
+  // jsdom only defines this when asked to, and consumers' tests run in jsdom.
+  const nextFrame = () => win.requestAnimationFrame?.(loop);
   const loop = () => {
     if (stopped) return;
     check();
