@@ -27,50 +27,7 @@ export function normalizePrefix(prefix?: string) {
   return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
 }
 
-/**
- * Resolves attachTo options, converting element option value to a qualified HTMLElement.
- * @param step - The step instance
- * @returns {{}|{element, on}}
- * `element` is a qualified HTML Element
- * `on` is a string position value
- */
-export function parseAttachTo(step: Step) {
-  const options = step.options.attachTo || {};
-  const returnOpts = Object.assign({}, options);
-
-  if (isFunction(returnOpts.element)) {
-    // Bind the callback to step so that it has access to the object, to enable running additional logic
-    returnOpts.element = returnOpts.element.call(step);
-  }
-
-  if (isString(returnOpts.element)) {
-    // Can't override the element in user opts reference because we can't
-    // guarantee that the element will exist in the future.
-    try {
-      returnOpts.element = document.querySelector(
-        returnOpts.element
-      ) as HTMLElement;
-    } catch (_e) {
-      // TODO
-    }
-    if (!returnOpts.element && !step.options.skipMissingElement) {
-      console.error(
-        `The element for this Shepherd step was not found ${options.element}`
-      );
-    }
-  }
-
-  return returnOpts;
-}
-
-/**
- * Resolves a step's `attachTo.element` to an HTMLElement, evaluating function
- * locators and querying selector strings. Unlike `parseAttachTo`, this never
- * logs and simply returns `null` when the element cannot be resolved.
- * @param step - The step instance
- * @returns The resolved element, or `null` if it could not be found
- */
-export function resolveAttachToElement(step: Step): HTMLElement | null {
+function locateAttachToElement(step: Step, logMissing?: boolean) {
   const attachTo = step.options.attachTo || {};
   let element = isFunction(attachTo.element)
     ? attachTo.element.call(step)
@@ -79,12 +36,42 @@ export function resolveAttachToElement(step: Step): HTMLElement | null {
   if (isString(element)) {
     try {
       element = document.querySelector(element) as HTMLElement | null;
-    } catch (_e) {
+    } catch {
       element = null;
+    }
+
+    if (!element && logMissing) {
+      console.error(
+        `The element for this Shepherd step was not found ${attachTo.element}`
+      );
     }
   }
 
-  return element || null;
+  return element as HTMLElement | null | undefined;
+}
+
+/**
+ * Resolves attachTo options, converting element option value to a qualified HTMLElement.
+ * @param step - The step instance
+ * @returns {{}|{element, on}}
+ * `element` is a qualified HTML Element
+ * `on` is a string position value
+ */
+export function parseAttachTo(step: Step): StepOptionsAttachTo {
+  return {
+    ...step.options.attachTo,
+    element: locateAttachToElement(step, !step.options.skipMissingElement)
+  };
+}
+
+/**
+ * Resolves a step's `attachTo.element` to an HTMLElement. Unlike
+ * `parseAttachTo`, this never logs.
+ * @param step - The step instance
+ * @returns The resolved element, or `null` if it could not be found
+ */
+export function resolveAttachToElement(step: Step): HTMLElement | null {
+  return locateAttachToElement(step) || null;
 }
 
 /**
