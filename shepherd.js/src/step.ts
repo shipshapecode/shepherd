@@ -450,11 +450,7 @@ export class Step extends Evented {
     this._showRequest = 0;
 
     this.tour = tour;
-    this.classPrefix = this.tour.options
-      ? normalizePrefix(this.tour.options.classPrefix)
-      : '';
-    // @ts-expect-error TODO: investigate where styles comes from
-    this.styles = tour.styles;
+    this.classPrefix = normalizePrefix(tour.options?.classPrefix);
 
     /**
      * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
@@ -474,8 +470,6 @@ export class Step extends Evented {
     autoBind(this);
 
     this._setOptions(options);
-
-    return this;
   }
 
   /**
@@ -630,12 +624,10 @@ export class Step extends Evented {
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
-    if (this.shepherdElementComponent) {
-      // Recreate the element with updated options
-      if (this.el) {
-        this._teardownElements();
-        this._setupElements();
-      }
+    // Recreate the element with updated options
+    if (this.shepherdElementComponent && this.el) {
+      this._teardownElements();
+      this._setupElements();
     }
   }
 
@@ -737,20 +729,10 @@ export class Step extends Evented {
    * @internal
    */
   _getClassOptions(stepOptions: StepOptions) {
-    const defaultStepOptions =
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
-    const stepClasses = stepOptions.classes ? stepOptions.classes : '';
-    const defaultStepOptionsClasses =
-      defaultStepOptions && defaultStepOptions.classes
-        ? defaultStepOptions.classes
-        : '';
-    const allClasses = [
-      ...stepClasses.split(' '),
-      ...defaultStepOptionsClasses.split(' ')
-    ];
-    const uniqClasses = new Set(allClasses);
+    const defaultClasses = this.tour.options?.defaultStepOptions?.classes || '';
+    const allClasses = `${stepOptions.classes || ''} ${defaultClasses}`;
 
-    return Array.from(uniqClasses).join(' ').trim();
+    return [...new Set(allClasses.split(' '))].join(' ').trim();
   }
 
   /**
@@ -759,9 +741,7 @@ export class Step extends Evented {
    * @internal
    */
   _setOptions(options: StepOptions = {}) {
-    const tourOptions =
-      (this.tour && this.tour.options && this.tour.options.defaultStepOptions) ||
-      {};
+    const tourOptions = this.tour.options?.defaultStepOptions || {};
 
     this.options = Object.assign(
       {
@@ -776,7 +756,6 @@ export class Step extends Evented {
 
     this.options.classes = this._getClassOptions(options);
 
-    this._teardownElements();
     this.id = this.options.id || `step-${uuid()}`;
 
     if (when) {
@@ -842,10 +821,6 @@ export class Step extends Evented {
           this.options.scrollTo as boolean | ScrollIntoViewOptions
         );
       });
-    }
-
-    if (this.el) {
-      this.el.hidden = false;
     }
 
     const content = this.shepherdElementComponent!.element;

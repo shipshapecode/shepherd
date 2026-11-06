@@ -174,8 +174,6 @@ export class Tour extends Evented {
     });
 
     this._setTourID(options.id);
-
-    return this;
   }
 
   /**
