@@ -1,4 +1,4 @@
-// Grades solution files by running them in a real browser. See README.md.
+// Grades solution files by running them in a real browser.
 //
 //   node test/llm-eval/run.mjs <solutionsDir> [--pkg <dir>] [--json <out>] [--task <id>]
 //   node test/llm-eval/run.mjs --write-prompts <dir>

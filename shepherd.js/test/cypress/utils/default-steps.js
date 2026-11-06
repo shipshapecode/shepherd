@@ -33,7 +33,7 @@ export default function (shepherd) {
     },
     {
       title: 'Including',
-      text: 'Including Shepherd is easy! Just include shepherd.js. The styles are bundled with the JS.',
+      text: 'Including Shepherd is easy! Just import shepherd.js and its stylesheet.',
       attachTo: {
         element: '.hero-including',
         on: 'bottom'
