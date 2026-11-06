@@ -19,6 +19,9 @@ interface OpeningProperty {
       };
 }
 
+/**
+ * The corner radius of the overlay opening: one number, or one per corner.
+ */
 type ModalRadiusType =
   | number
   | {
@@ -28,10 +31,25 @@ type ModalRadiusType =
       topRight?: number;
     };
 
+/**
+ * Controls the overlay behind a tour. Reached through `tour.modal`.
+ */
 export interface ShepherdModalAPI {
+  /**
+   * Removes the opening, so the overlay covers the whole page.
+   */
   closeModalOpening: () => void;
+  /**
+   * Removes the overlay from the DOM.
+   */
   destroy: () => void;
+  /**
+   * Hides the overlay.
+   */
   hide: () => void;
+  /**
+   * Moves the opening to the given target and extra highlights.
+   */
   positionModal: (
     modalOverlayOpeningPadding?: number,
     modalOverlayOpeningRadius?: ModalRadiusType,
@@ -41,8 +59,18 @@ export interface ShepherdModalAPI {
     targetElement?: HTMLElement | null,
     extraHighlights?: HTMLElement[]
   ) => void;
+  /**
+   * Shows the overlay and keeps its opening on the step's target, or hides the
+   * overlay when the tour does not use `useModalOverlay`.
+   */
   setupForStep: (step: Step) => void;
+  /**
+   * Shows the overlay.
+   */
   show: () => void;
+  /**
+   * Returns the overlay's `<svg>` element.
+   */
   getElement: () => SVGElement;
 }
 

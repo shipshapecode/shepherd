@@ -25,12 +25,18 @@ import {
 import { type Tour } from './tour.ts';
 import type { ComputePositionConfig } from './utils/position.ts';
 
+/**
+ * The body of a step. Strings render as HTML, so escape untrusted input.
+ */
 export type StepText =
   | string
   | ReadonlyArray<string>
   | HTMLElement
   | (() => string | ReadonlyArray<string> | HTMLElement);
 
+/**
+ * A string, or a function returning one when the step is built.
+ */
 export type StringOrStringFunction = string | (() => string);
 
 /**
@@ -76,17 +82,30 @@ export interface StepOptions {
   /**
    * A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
+   * Pass the function, not a promise: a promise starts its work when the tour is
+   * defined, and is ignored.
+   *
+   * @example
+   * ```js
+   * beforeShowPromise: () => openSettingsPanel()
+   * ```
    */
   beforeShowPromise?: () => Promise<unknown>;
 
   /**
    * An array of buttons to add to the step. These will be rendered in a
-   * footer below the main body text.
+   * footer below the main body text. A step's `buttons` replace the ones from
+   * `defaultStepOptions`; they are not merged.
    */
   buttons?: ReadonlyArray<StepOptionsButton>;
 
   /**
    * Should a cancel “✕” be shown in the header of the step?
+   *
+   * @example
+   * ```js
+   * cancelIcon: { enabled: true }
+   * ```
    */
   cancelIcon?: StepOptionsCancelIcon;
 
@@ -233,7 +252,8 @@ export interface StepOptions {
   skipMissingElement?: boolean;
 
   /**
-   * The text in the body of the step. It can be one of four types:
+   * The text in the body of the step. Strings render as HTML, so escape
+   * untrusted input. It can be one of four types:
    * ```
    * - HTML string
    * - Array of HTML strings
@@ -244,7 +264,8 @@ export interface StepOptions {
   text?: StepText;
 
   /**
-   * The step's title. It becomes an `h3` at the top of the step.
+   * The step's title. It becomes an `h3` at the top of the step. Strings render
+   * as HTML, so escape untrusted input.
    * ```
    * - HTML string
    * - `Function` to be executed when the step is built. It must return HTML string.
@@ -279,6 +300,10 @@ export interface StepOptions {
   when?: StepOptionsWhen;
 }
 
+/**
+ * Where a step sits relative to its target. Other values, such as `'below'` or
+ * `'bottom-left'`, are invalid. `-start` and `-end` align the step to an edge.
+ */
 export type PopperPlacement =
   | 'auto'
   | 'auto-start'
@@ -296,25 +321,60 @@ export type PopperPlacement =
   | 'left-start'
   | 'left-end';
 
+/**
+ * Options for the arrow pointing at the target.
+ */
 export interface StepOptionsArrow {
-  /*
+  /**
    * The padding from the edge for the arrow.
    * Not used if this is not a -start or -end placement.
    */
   padding?: number;
 }
 
+/**
+ * What a step attaches to.
+ *
+ * @example
+ * ```js
+ * attachTo: { element: '#save', on: 'bottom' }
+ * ```
+ */
 export interface StepOptionsAttachTo {
+  /**
+   * A selector, an element, or a function returning either. A selector or
+   * function is resolved each time the step shows. A selector that matches
+   * nothing logs an error and centers the step; see `waitForElement` and
+   * `skipMissingElement`.
+   */
   element?:
     | HTMLElement
     | string
     | null
     | (() => HTMLElement | string | null | undefined);
+  /**
+   * Where the step sits relative to the element. Without it the element is
+   * highlighted, and the step is centered with no arrow.
+   */
   on?: PopperPlacement;
 }
 
+/**
+ * A page event that moves the tour to the next step.
+ *
+ * @example
+ * ```js
+ * advanceOn: { selector: '#menu', event: 'click' }
+ * ```
+ */
 export interface StepOptionsAdvanceOn {
+  /**
+   * The DOM event name, such as `click`.
+   */
   event: string;
+  /**
+   * The selector of the element to listen on. It must exist when the step shows.
+   */
   selector: string;
 }
 
@@ -323,6 +383,9 @@ export interface StepOptionsAdvanceOn {
  */
 export type StepButtonAction = 'back' | 'cancel' | 'complete' | 'next';
 
+/**
+ * A button in the footer of a step.
+ */
 export interface StepOptionsButton {
   /**
    * What the button does when clicked. Either the name of a tour method, which
@@ -402,10 +465,16 @@ export interface StepOptionsButton {
   text?: StringOrStringFunction;
 }
 
+/**
+ * A map of event names to handlers for a button.
+ */
 export interface StepOptionsButtonEvent {
   [key: string]: () => void;
 }
 
+/**
+ * The close "×" in the header of a step. It is off unless `enabled` is `true`.
+ */
 export interface StepOptionsCancelIcon {
   /**
    * Additional HTML attributes to apply to the cancel icon button element.
@@ -441,6 +510,11 @@ export interface StepOptionsCancelIcon {
   label?: string;
 }
 
+/**
+ * Step event handlers by event name: `before-show`, `show`, `before-hide`,
+ * `hide`, `cancel`, `complete` or `destroy`. Each is called with `this` set to
+ * the step.
+ */
 export interface StepOptionsWhen {
   [key: string]: (this: Step) => void;
 }
@@ -462,13 +536,37 @@ export class Step extends Evented {
   _originalTabIndex?: string | null;
   /** @internal */
   _showRequest: number;
+  /**
+   * The tour's `classPrefix`, ending in `-`.
+   */
   classPrefix?: string;
+  /**
+   * Stops keeping the step positioned. Set while the step is rendered.
+   */
   declare cleanup: Function | null;
+  /**
+   * The step's element. Prefer `getElement()`.
+   */
   el?: HTMLElement | null;
+  /**
+   * The step's `id` option, or a generated one.
+   */
   declare id: string;
+  /**
+   * The step's options, merged with the tour's `defaultStepOptions`.
+   */
   declare options: StepOptions;
+  /**
+   * The step's rendered element and its teardown.
+   */
   shepherdElementComponent?: ShepherdElementResult;
+  /**
+   * The element the step attached to. Prefer `getTarget()`.
+   */
   target?: HTMLElement | null;
+  /**
+   * The tour the step belongs to.
+   */
   tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {

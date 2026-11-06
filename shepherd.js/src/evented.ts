@@ -1,13 +1,25 @@
 import { isUndefined } from './utils/type-check.ts';
 
+/**
+ * Registered event handlers, by event name.
+ */
 export type Bindings = {
   [key: string]: Array<{ handler: () => void; ctx?: unknown; once?: boolean }>;
 };
 
+/**
+ * An event handler. Its arguments depend on the event.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyHandler = (...args: any[]) => void;
 
+/**
+ * The event methods shared by `Shepherd`, `Tour` and `Step`.
+ */
 export class Evented {
+  /**
+   * The handlers registered through `on` and `once`.
+   */
   declare bindings: Bindings;
 
   /**

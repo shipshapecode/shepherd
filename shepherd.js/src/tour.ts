@@ -18,12 +18,27 @@ import {
   type ShepherdModalAPI
 } from './components/shepherd-modal.ts';
 
+/**
+ * What the `Shepherd` object's event handlers receive.
+ */
 export interface EventOptions {
+  /**
+   * The step shown before this one, for `show`.
+   */
   previous?: Step | null;
+  /**
+   * The step being shown, for `show`.
+   */
   step?: Step | null;
+  /**
+   * The tour that fired the event.
+   */
   tour: Tour;
 }
 
+/**
+ * Whether to confirm before cancelling. `true` uses `window.confirm`.
+ */
 export type TourConfirmCancel =
   boolean | (() => boolean) | Promise<boolean> | (() => Promise<boolean>);
 
@@ -51,6 +66,9 @@ export interface TourOptions {
   classPrefix?: string;
   /**
    * Default options for Steps ({@link Step#constructor}), created through `addStep`.
+   * A step's own value replaces the default for that option, even for objects such
+   * as `cancelIcon` and arrays such as `buttons`. Only `classes` and
+   * `floatingUIOptions` combine.
    */
   defaultStepOptions?: StepOptions;
   /**
@@ -87,6 +105,7 @@ export interface TourOptions {
    */
   tourName?: string;
   /**
+   * Set this on the tour, not on a step.
    * Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
    * can remain interactive
@@ -94,25 +113,80 @@ export interface TourOptions {
   useModalOverlay?: boolean;
 }
 
+/**
+ * The type of the package's default export. It re-fires each tour's `active`,
+ * `cancel`, `complete`, `inactive`, `show` and `start` events.
+ */
 export class ShepherdBase extends Evented {
+  /**
+   * The running tour. It is `null` or `undefined` until a tour starts, so read it
+   * when a button is clicked, not when defining the button.
+   */
   activeTour?: Tour | null;
+  /**
+   * The `Step` class.
+   */
   declare Step: typeof Step;
+  /**
+   * The `Tour` class.
+   */
   declare Tour: typeof Tour;
 }
 
 /**
- * Class representing the site tour
- * @extends {Evented}
+ * Class representing the site tour.
+ *
+ * Fires `start`, `active`, `show`, `complete`, `cancel` and `inactive`. A `show`
+ * handler receives `{ step, previous }`.
+ *
+ * @example
+ * ```js
+ * import Shepherd from 'shepherd.js';
+ * import 'shepherd.js/dist/css/shepherd.css';
+ *
+ * const tour = new Shepherd.Tour({ useModalOverlay: true });
+ * tour.addStep({
+ *   title: 'Save',
+ *   text: 'Saves your work.',
+ *   attachTo: { element: '#save', on: 'bottom' },
+ *   buttons: [{ text: 'Done', action: 'complete' }]
+ * });
+ * tour.start();
+ * ```
  */
 export class Tour extends Evented {
+  /**
+   * The names of the events a tour fires most often.
+   */
   trackedEvents: string[];
 
+  /**
+   * The `classPrefix` option, ending in `-`.
+   */
   classPrefix: string;
+  /**
+   * The current step. Prefer `getCurrentStep()`.
+   */
   currentStep?: Step | null;
+  /**
+   * The element to return focus to when the tour ends.
+   */
   focusedElBeforeOpen?: HTMLElement | null;
+  /**
+   * The tour's id: `${tourName}--${id}`.
+   */
   id?: string;
+  /**
+   * The overlay controller, once the tour has started.
+   */
   modal?: ShepherdModalAPI | null;
+  /**
+   * The options the tour was created with, plus defaults.
+   */
   options: TourOptions;
+  /**
+   * The tour's steps, in order.
+   */
   steps: Array<Step>;
 
   /**

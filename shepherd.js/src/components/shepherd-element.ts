@@ -16,8 +16,17 @@ export interface ShepherdElementOptions {
   step: Step;
 }
 
+/**
+ * A step's rendered element, with its teardown.
+ */
 export interface ShepherdElementResult {
+  /**
+   * The step's `<dialog>` element.
+   */
   element: HTMLDialogElement;
+  /**
+   * Removes the listeners added to the element.
+   */
   cleanup: () => void;
 }
 
