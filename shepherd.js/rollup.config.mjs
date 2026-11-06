@@ -33,7 +33,7 @@ const plugins = [
     extensions: ['.cjs', '.js', '.ts', '.mjs'],
     babelHelpers: 'bundled',
     presets: ['@babel/preset-typescript'],
-    exclude: 'node_modules/**'
+    exclude: '**/node_modules/**'
   }),
   postcss({
     plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
