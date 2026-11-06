@@ -215,7 +215,8 @@ function isContainingBlock(style: CSSStyleDeclaration) {
 
 function isTopLayer(element: Element) {
   try {
-    return element.matches(':popover-open,:modal');
+    // Apart, as a list fails whole. `:modal` shipped first in every browser.
+    return element.matches(':modal') || element.matches(':popover-open');
   } catch {
     return false;
   }
