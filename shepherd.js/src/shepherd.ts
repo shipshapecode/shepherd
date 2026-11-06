@@ -1,7 +1,15 @@
 import { Shepherd, Tour as TourClass } from './tour.ts';
 import { Step as StepClass } from './step.ts';
 
-const NoOp = class {} as unknown as typeof TourClass & typeof StepClass;
+// Server rendering runs module-level tour setup, so every method must exist.
+const NoOp = class {
+  constructor() {
+    const noOp: object = new Proxy(this, {
+      get: (_target, key) => (key === 'then' ? undefined : () => noOp)
+    });
+    return noOp;
+  }
+} as unknown as typeof TourClass & typeof StepClass;
 const isServerSide = typeof window === 'undefined';
 
 export const Step: typeof StepClass = isServerSide ? NoOp : StepClass;
