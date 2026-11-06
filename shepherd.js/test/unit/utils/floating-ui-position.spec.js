@@ -99,6 +99,25 @@ describe('utils/floating-ui | position writing', function () {
     destroyTooltip(step);
   });
 
+  it('stops repositioning a step once it is hidden', () => {
+    instance = new Shepherd.Tour();
+
+    const step = instance.addStep({
+      id: 'test',
+      attachTo: { element: '.position-test', on: 'top' }
+    });
+
+    instance.start();
+
+    const stopRepositioning = vi.fn();
+    step.cleanup = stopRepositioning;
+
+    step.hide();
+
+    expect(stopRepositioning).toHaveBeenCalledTimes(1);
+    expect(step.cleanup).toBeNull();
+  });
+
   it('writes coordinates unmodified while the page is scrolled', async () => {
     instance = new Shepherd.Tour();
 

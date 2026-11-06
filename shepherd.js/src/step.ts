@@ -539,6 +539,8 @@ export class Step extends Evented {
       this.el.hidden = true;
     }
 
+    destroyTooltip(this);
+
     this._updateStepTargetOnHide();
 
     this.trigger('hide');
