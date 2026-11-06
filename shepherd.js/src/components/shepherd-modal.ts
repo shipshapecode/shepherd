@@ -257,7 +257,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   function _cleanupStepEventListeners() {
     if (rafId) {
       cancelAnimationFrame(rafId);
-      rafId = undefined;
     }
 
     // Scroll parents are only memoized for the duration of a single step.
@@ -278,7 +277,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     const targetScrollParent = _cachedScrollParents(step.target)[0] ?? null;
 
     const rafLoop = () => {
-      rafId = undefined;
       positionModal(
         modalOverlayOpeningPadding,
         modalOverlayOpeningRadius,
