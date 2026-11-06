@@ -7,6 +7,7 @@ import {
   hide,
   limitShift,
   offset,
+  platform as floatingPlatform,
   shift as floatingShift,
   size
 } from '@floating-ui/dom';
@@ -220,6 +221,19 @@ describe('utils/position', () => {
       });
 
       expect(ours).toEqual(theirs);
+    });
+
+    it("runs a platform spread from Floating UI's own", async () => {
+      const { reference: ref, floating } = elements();
+
+      const result = await computePosition(ref, floating, {
+        placement: 'top',
+        platform: { ...floatingPlatform },
+        middleware: [flip(), shift()]
+      });
+
+      expect(result.x).toBe(0);
+      expect(result.y).toBe(0);
     });
 
     it('skips falsy middleware entries', async () => {

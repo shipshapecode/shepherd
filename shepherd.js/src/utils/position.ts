@@ -549,7 +549,8 @@ export async function computePosition(
     strategy = 'absolute',
     middleware = []
   } = config;
-  const merged: any = { ...platform, ...config.platform };
+  // `_c` is the per-call cache of a `platform` spread from `@floating-ui/dom`.
+  const merged: any = { ...platform, ...config.platform, _c: new Map() };
   const elements = { reference, floating };
   const middlewareData: Record<string, any> = {};
   const rtl = await merged.isRTL(floating);

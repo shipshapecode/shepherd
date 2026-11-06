@@ -60,8 +60,12 @@ if (process.env.DEVELOPMENT) {
       mangle: {
         properties: {
           regex: /^_[a-zA-Z]/,
-          // Called by test/cypress/integration/test.acceptance.cy.js
-          reserved: ['_getResolvedAttachToOptions']
+          reserved: [
+            // Called by test/cypress/integration/test.acceptance.cy.js
+            '_getResolvedAttachToOptions',
+            // Read by a `platform` spread from a consumer's `@floating-ui/dom`
+            '_c'
+          ]
         }
       }
     })
