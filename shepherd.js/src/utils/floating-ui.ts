@@ -102,15 +102,21 @@ function setPosition(
     target,
     step.el as HTMLElement,
     floatingUIOptions
-  ).then(floatingUIposition(step, shouldCenter));
+  )
+    .then(floatingUIposition(step, shouldCenter))
+    .catch((error: unknown) => {
+      console.error('Shepherd: could not position a step.', error);
+      return step;
+    });
 
   if (!shouldFocusAfterRender) {
     return positionPromise;
   }
 
   return positionPromise.then((step: Step) => {
-    // Focusing flushes layout, which the next frame does anyway.
-    requestAnimationFrame(() => {
+    // Focusing flushes layout, which the next frame does anyway. jsdom only has
+    // frames when asked to.
+    (window.requestAnimationFrame || setTimeout)(() => {
       if (step?.el) {
         step.el.tabIndex = 0;
         step.el.focus({ preventScroll: true });
