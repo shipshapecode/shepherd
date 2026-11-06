@@ -1,11 +1,17 @@
-import { Shepherd, Tour } from './tour.ts';
-import { Step } from './step.ts';
+import { Shepherd, Tour as TourClass } from './tour.ts';
+import { Step as StepClass } from './step.ts';
 
-const NoOp = class {} as unknown as typeof Tour & typeof Step;
+const NoOp = class {} as unknown as typeof TourClass & typeof StepClass;
 const isServerSide = typeof window === 'undefined';
 
-Shepherd.Step = isServerSide ? NoOp : Step;
-Shepherd.Tour = isServerSide ? NoOp : Tour;
+export const Step: typeof StepClass = isServerSide ? NoOp : StepClass;
+export type Step = StepClass;
+
+export const Tour: typeof TourClass = isServerSide ? NoOp : TourClass;
+export type Tour = TourClass;
+
+Shepherd.Step = Step;
+Shepherd.Tour = Tour;
 
 export { ShepherdBase } from './tour.ts';
 export default Shepherd;
