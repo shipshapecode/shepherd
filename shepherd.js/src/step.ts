@@ -1,6 +1,11 @@
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
-import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
+import {
+  isElement,
+  isHTMLElement,
+  isFunction,
+  isString
+} from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
 import {
   parseAttachTo,
@@ -431,9 +436,7 @@ export class Step extends Evented {
   _resolvedAttachTo: StepOptionsAttachTo | null;
   /** @internal */
   _resolvedExtraHighlightElements?: HTMLElement[];
-  /** @internal */
-  _originalTabIndexes: Map<Element, string>;
-  /** @internal */
+  _originalTabIndex?: string | null;
   _showRequest: number;
   classPrefix?: string;
   declare cleanup: Function | null;
@@ -459,13 +462,6 @@ export class Step extends Evented {
      * @private
      */
     this._resolvedAttachTo = null;
-
-    /**
-     * Map to store original tabIndex values of elements that are modified during the tour.
-     * @type {Map<Element, string | null>}
-     * @private
-     */
-    this._originalTabIndexes = new Map();
 
     autoBind(this);
 
@@ -523,7 +519,6 @@ export class Step extends Evented {
     }
 
     this._updateStepTargetOnHide();
-    this._originalTabIndexes.clear();
   }
 
   /**
@@ -648,33 +643,24 @@ export class Step extends Evented {
   }
 
   /**
-   * Stores the original tabIndex value of an element before modifying it.
-   * Only stores the value if the element has a tabindex attribute.
+   * Remembers the target's tabindex attribute before modifying it. The step
+   * only ever has one target, set just after this runs.
    * @param {Element} element The element whose tabIndex will be stored
    * @internal
    */
   _storeOriginalTabIndex(element: Element): void {
-    const originalValue = element.getAttribute('tabindex');
-    if (originalValue !== null) {
-      this._originalTabIndexes.set(element, originalValue);
-    }
+    this._originalTabIndex = element.getAttribute('tabindex');
   }
 
   /**
-   * Restores the original tabIndex values for all elements that were modified during the tour.
-   * If an element is in the map, restores its original value.
-   * If an element is not in the map, removes the tabindex attribute (it didn't have one originally).
-   * Note: Does not clear the map to allow for multiple show/hide cycles.
+   * Puts back the target's tabindex attribute, removing it if it had none.
    * @internal
    */
-  _restoreOriginalTabIndexes(): void {
-    const target = this.target;
-    if (target) {
-      if (this._originalTabIndexes.has(target)) {
-        target.setAttribute('tabindex', this._originalTabIndexes.get(target)!);
-      } else {
-        target.removeAttribute('tabindex');
-      }
+  _restoreOriginalTabIndex(): void {
+    if (isString(this._originalTabIndex)) {
+      this.target?.setAttribute('tabindex', this._originalTabIndex);
+    } else {
+      this.target?.removeAttribute('tabindex');
     }
   }
 
@@ -876,6 +862,6 @@ export class Step extends Evented {
       );
     }
 
-    this._restoreOriginalTabIndexes();
+    this._restoreOriginalTabIndex();
   }
 }
