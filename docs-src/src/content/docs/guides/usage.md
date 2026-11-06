@@ -216,7 +216,7 @@ Steps are instances of the Step object. They are generally created by the
   with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function
     (returning a selector, a DOM element, `null` or `undefined`).
-  - `on`: The optional direction to place the Floating UI tooltip relative to
+  - `on`: The optional direction to place the step relative to
     the element.
     - Possible string values: 'auto', 'auto-start', 'auto-end', 'top',
       'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right',
@@ -330,8 +330,10 @@ function will be called in the `before-show` phase.
 - `modalOverlayOpeningRadius`: An amount of border radius to add around the
   modal overlay opening. It can be either a number or an object with properties
   `{ topLeft, bottomLeft, bottomRight, topRight }`
-- `floatingUIOptions`: Extra options to pass to
-  [Floating UI](https://floating-ui.com/docs/getting-started). This includes
+- `floatingUIOptions`: Extra positioning options, in the shape of
+  [Floating UI's `computePosition` config](https://floating-ui.com/docs/computePosition).
+  Shepherd positions steps itself, but middleware from your own install of
+  `@floating-ui/dom` runs as is. This includes
   `strategy`, which sets the CSS `position` of the step element and defaults to
   `'absolute'`. It can be set per-step or on `defaultStepOptions`. See
   [Floating UI's `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
@@ -386,7 +388,7 @@ when: {
 - `scrollTo()`: Scroll to this step's element
 - `isOpen()`: Returns true if the step is currently shown
 - `destroy()`: Permanently tear the step down — removes its element from the
-  DOM, destroys the Floating UI instance, and triggers the `destroy` event
+  DOM, stops repositioning it, and triggers the `destroy` event
 - `updateStepOptions(options)`: Merge new options into the step and re-render
   its element in place
 - `getElement()`: Returns the step's element — `undefined` if the step has never

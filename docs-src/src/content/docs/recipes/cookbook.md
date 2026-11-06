@@ -35,8 +35,12 @@ Highlighted elements do not have to share a scroll container with the `attachTo`
 
 ### Offsets
 
-By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
+By default, steps are placed directly next to their target. However, if you need to apply some margin
 between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.
+
+Shepherd positions steps itself and has no dependency on Floating UI, but `floatingUIOptions.middleware` accepts
+[Floating UI middleware](https://floating-ui.com/docs/middleware) as is. Install `@floating-ui/dom` in your own project
+to use it. Only the middleware you import ends up in your bundle.
 
 For example:
 
@@ -58,13 +62,13 @@ const tour = new Shepherd.Tour({
 
 ### Positioning strategy
 
-Steps are positioned with `position: absolute` by default. Shepherd repositions
-them through Floating UI's `autoUpdate`, so the default already keeps a step
-locked to its target while the page — or any scrolling ancestor of the target —
-scrolls.
+Steps are positioned with `position: absolute` by default. Shepherd keeps
+comparing a step's position with its target's, so the default already keeps a
+step locked to its target while the page — or any scrolling ancestor of the
+target — scrolls.
 
-If you need the step element to be `position: fixed` instead, set the Floating
-UI `strategy`. Floating UI recommends this when the target itself is
+If you need the step element to be `position: fixed` instead, set the `strategy`
+option. Floating UI recommends this when the target itself is
 `position: fixed`, or to escape a clipping ancestor; see
 [its `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
 for the trade-offs.

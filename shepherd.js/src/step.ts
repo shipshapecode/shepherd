@@ -184,7 +184,10 @@ export interface StepOptions {
   modalOverlayOpeningYOffset?: number;
 
   /**
-   * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   * Extra positioning options, in the shape of Floating UI's
+   * [computePosition config]{@link https://floating-ui.com/docs/computePosition}.
+   * Shepherd positions steps itself and does not depend on `@floating-ui/dom`,
+   * but middleware from your own install of it, such as `offset()`, runs as is.
    *
    * This includes `strategy`, the CSS `position` used for the step element,
    * which defaults to `'absolute'`. Centered steps are always `position: fixed`
@@ -489,7 +492,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Remove the step, delete the step's element, and destroy the FloatingUI instance for the step.
+   * Remove the step, delete the step's element, and stop repositioning it.
    * Triggers `destroy` event
    */
   destroy() {
@@ -740,7 +743,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Create the element and set up the FloatingUI instance
+   * Create the element and start positioning it
    *
    * The element is recreated on every show, so any previously mounted element is
    * torn down first. That teardown is internal — it must not emit the public
@@ -765,7 +768,7 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a FloatingUI instance for the tooltip, then triggers `show`.
+   * starts positioning the tooltip, then triggers `show`.
    * @internal
    */
   _show() {
