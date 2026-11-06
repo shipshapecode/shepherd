@@ -194,10 +194,6 @@ importers:
         version: 4.1.11(@types/node@26.2.0)(@vitest/ui@5.0.5)(happy-dom@21.0.4)(jsdom@27.4.0(supports-color@10.2.2))(vite@8.3.4(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.49.2)(yaml@2.9.0))
 
   shepherd.js:
-    dependencies:
-      '@floating-ui/dom':
-        specifier: ^1.8.0
-        version: 1.8.0
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.18.5
@@ -214,6 +210,9 @@ importers:
       '@babel/preset-typescript':
         specifier: ^7.29.7
         version: 7.29.7(@babel/core@7.29.7(supports-color@8.1.1))(supports-color@8.1.1)
+      '@floating-ui/dom':
+        specifier: ^1.8.0
+        version: 1.8.0
       '@rollup/plugin-babel':
         specifier: ^7.1.0
         version: 7.1.0(@babel/core@7.29.7(supports-color@8.1.1))(@types/babel__core@7.20.5)(rollup@4.63.5)(supports-color@8.1.1)

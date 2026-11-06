@@ -6,7 +6,7 @@ const floatingUIMock = vi.hoisted(() => ({
   updateCallbacks: []
 }));
 
-vi.mock('@floating-ui/dom', async (importOriginal) => {
+vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
   const actual = await importOriginal();
 
   return {

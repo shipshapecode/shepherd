@@ -4,8 +4,8 @@ import ResizeObserver from 'resize-observer-polyfill';
 // happy-dom has no layout engine: every `getBoundingClientRect()` is 0x0 at the
 // origin, so a real `computePosition` call always resolves `{ x: 0, y: 0 }` and
 // no assertion about coordinates can fail. These tests therefore stub the
-// Floating UI boundary and assert the one thing Shepherd actually owns: what it
-// writes to `step.el.style` for a given resolved position payload.
+// positioning engine's boundary and assert what Shepherd writes to
+// `step.el.style` for a given resolved position payload.
 const floatingUI = vi.hoisted(() => ({
   // Overwritten per test to control exactly what the positioning callback gets.
   position: {
@@ -17,7 +17,7 @@ const floatingUI = vi.hoisted(() => ({
   }
 }));
 
-vi.mock('@floating-ui/dom', async (importOriginal) => {
+vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
   const actual = await importOriginal();
 
   return {

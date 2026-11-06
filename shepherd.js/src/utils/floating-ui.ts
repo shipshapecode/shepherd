@@ -6,15 +6,13 @@ import {
   computePosition,
   flip,
   autoPlacement,
-  limitShift,
   shift,
   type ComputePositionConfig,
+  type ComputePositionResult,
   type Middleware,
-  type MiddlewareData,
   type Placement,
-  type Alignment,
-  type Strategy
-} from '@floating-ui/dom';
+  type Alignment
+} from './position.ts';
 import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
 import { isHTMLElement } from './type-check.ts';
 
@@ -136,13 +134,7 @@ function floatingUIposition(step: Step, shouldCenter: boolean) {
     strategy,
     placement,
     middlewareData
-  }: {
-    x: number;
-    y: number;
-    strategy: Strategy;
-    placement: Placement;
-    middlewareData: MiddlewareData;
-  }) => {
+  }: ComputePositionResult) => {
     if (!step.el) {
       return step;
     }
@@ -179,10 +171,13 @@ function floatingUIposition(step: Step, shouldCenter: boolean) {
   };
 }
 
-function placeArrow(el: HTMLElement, middlewareData: MiddlewareData) {
+function placeArrow(
+  el: HTMLElement,
+  middlewareData: ComputePositionResult['middlewareData']
+) {
   const arrowEl = el.querySelector('.shepherd-arrow');
-  if (isHTMLElement(arrowEl) && middlewareData.arrow) {
-    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+  if (isHTMLElement(arrowEl) && middlewareData['arrow']) {
+    const { x: arrowX, y: arrowY } = middlewareData['arrow'];
     Object.assign(arrowEl.style, {
       left: arrowX != null ? `${arrowX}px` : '',
       top: arrowY != null ? `${arrowY}px` : ''
@@ -220,7 +215,6 @@ export function getFloatingUIOptions(
     if (hasAutoPlacement) {
       options.middleware.push(
         autoPlacement({
-          crossAxis: true,
           alignment: hasEdgeAlignment
             ? (attachToOptions?.on?.split('-').pop() as Alignment)
             : null
@@ -230,13 +224,7 @@ export function getFloatingUIOptions(
       options.middleware.push(flip());
     }
 
-    options.middleware.push(
-      // Replicate PopperJS default behavior.
-      shift({
-        limiter: limitShift(),
-        crossAxis: true
-      })
-    );
+    options.middleware.push(shift());
 
     if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
   }

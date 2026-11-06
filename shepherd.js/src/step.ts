@@ -23,7 +23,7 @@ import {
   type ShepherdElementResult
 } from './components/shepherd-element.ts';
 import { type Tour } from './tour.ts';
-import type { ComputePositionConfig } from '@floating-ui/dom';
+import type { ComputePositionConfig } from './utils/position.ts';
 
 export type StepText =
   | string
