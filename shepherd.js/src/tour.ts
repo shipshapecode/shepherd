@@ -98,12 +98,6 @@ export class ShepherdBase extends Evented {
   activeTour?: Tour | null;
   declare Step: typeof Step;
   declare Tour: typeof Tour;
-
-  constructor() {
-    super();
-
-    autoBind(this);
-  }
 }
 
 /**
@@ -144,36 +138,23 @@ export class Tour extends Evented {
 
     autoBind(this);
 
-    const defaultTourOptions = {
-      exitOnEsc: true,
-      keyboardNavigation: true
-    };
-
-    this.options = Object.assign({}, defaultTourOptions, options);
+    this.options = { exitOnEsc: true, keyboardNavigation: true, ...options };
     this.classPrefix = normalizePrefix(this.options.classPrefix);
     this.steps = [];
     this.addSteps(this.options.steps);
 
     // Pass these events onto the global Shepherd object
-    const events = [
-      'active',
-      'cancel',
-      'complete',
-      'inactive',
-      'show',
-      'start'
-    ];
-    events.map((event) => {
-      ((e) => {
-        this.on(e, (opts?: { [key: string]: unknown }) => {
+    ['active', 'cancel', 'complete', 'inactive', 'show', 'start'].forEach(
+      (event) => {
+        this.on(event, (opts?: { [key: string]: unknown }) => {
           opts = opts || {};
           opts['tour'] = this;
-          Shepherd.trigger(e, opts);
+          Shepherd.trigger(event, opts);
         });
-      })(event);
-    });
+      }
+    );
 
-    this._setTourID(options.id);
+    this.id = `${this.options.tourName || 'tour'}--${options.id || uuid()}`;
   }
 
   /**
@@ -184,18 +165,13 @@ export class Tour extends Evented {
    * @return The newly added step
    */
   addStep(options: StepOptions | Step, index?: number) {
-    let step = options;
+    const step = options instanceof Step ? options : new Step(this, options);
+    step.tour = this;
 
-    if (!(step instanceof Step)) {
-      step = new Step(this, step);
+    if (isUndefined(index)) {
+      this.steps.push(step);
     } else {
-      step.tour = this;
-    }
-
-    if (!isUndefined(index)) {
-      this.steps.splice(index, 0, step as Step);
-    } else {
-      this.steps.push(step as Step);
+      this.steps.splice(index, 0, step);
     }
 
     return step;
@@ -230,28 +206,24 @@ export class Tour extends Evented {
    * and only cancel when the value returned is true
    */
   async cancel() {
-    if (this.options.confirmCancel) {
-      const cancelMessage =
+    let stopTour = true;
+
+    if (isFunction(this.options.confirmCancel)) {
+      const run = this._runGeneration;
+      stopTour = await this.options.confirmCancel();
+
+      // The answer only applies to the run that asked for it.
+      if (run !== this._runGeneration) {
+        return;
+      }
+    } else if (this.options.confirmCancel) {
+      stopTour = window.confirm(
         this.options.confirmCancelMessage ||
-        'Are you sure you want to stop the tour?';
-      let stopTour;
+          'Are you sure you want to stop the tour?'
+      );
+    }
 
-      if (isFunction(this.options.confirmCancel)) {
-        const run = this._runGeneration;
-        stopTour = await this.options.confirmCancel();
-
-        // The answer only applies to the run that asked for it.
-        if (run !== this._runGeneration) {
-          return;
-        }
-      } else {
-        stopTour = window.confirm(cancelMessage);
-      }
-
-      if (stopTour) {
-        this._done('cancel');
-      }
-    } else {
+    if (stopTour) {
       this._done('cancel');
     }
   }
@@ -269,9 +241,7 @@ export class Tour extends Evented {
    * @return The step corresponding to the `id`
    */
   getById(id: number | string) {
-    return this.steps.find((step) => {
-      return step.id === id;
-    });
+    return this.steps.find((step) => step.id === id);
   }
 
   /**
@@ -288,11 +258,7 @@ export class Tour extends Evented {
     // A show still waiting on a promise or element must not undo this hide.
     this._showGeneration++;
 
-    const currentStep = this.getCurrentStep();
-
-    if (currentStep) {
-      return currentStep.hide();
-    }
+    return this.getCurrentStep()?.hide();
   }
 
   /**
@@ -322,22 +288,18 @@ export class Tour extends Evented {
    */
   removeStep(name: string) {
     const current = this.getCurrentStep();
+    const step = this.getById(name);
 
-    // Find the step, destroy it and remove it from this.steps
-    this.steps.some((step, i) => {
-      if (step.id === name) {
-        if (step.isOpen()) {
-          step.hide();
-        }
-
-        step.destroy();
-        this.steps.splice(i, 1);
-
-        return true;
+    if (step) {
+      if (step.isOpen()) {
+        step.hide();
       }
-    });
 
-    if (current && current.id === name) {
+      step.destroy();
+      this.steps.splice(this.steps.indexOf(step), 1);
+    }
+
+    if (current?.id === name) {
       // The removed step may still be waiting on its `beforeShowPromise`.
       this._showGeneration++;
       this.currentStep = undefined;
@@ -366,18 +328,14 @@ export class Tour extends Evented {
     // Invalidate any pending wait from a previous call.
     const generation = ++this._showGeneration;
 
-    const shouldSkipStep =
-      isFunction(step.options.showOn) && !step.options.showOn();
-
     // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
     // Return the result, since the step we skip to may itself be waiting on an element.
-    if (shouldSkipStep) {
+    if (isFunction(step.options.showOn) && !step.options.showOn()) {
       return this._skipStep(step, forward);
     }
 
     const { skipMissingElement, waitForElement } = step.options;
-    const attachToElement =
-      step.options.attachTo && step.options.attachTo.element;
+    const attachToElement = step.options.attachTo?.element;
     // `waitForElement` and `skipMissingElement` only apply to steps that
     // locate their target dynamically. Steps without an `attachTo` element
     // are intentionally centered and never treated as missing.
@@ -409,9 +367,7 @@ export class Tour extends Evented {
         });
       }
 
-      if (skipMissingElement) {
-        return this._skipStep(step, forward);
-      }
+      return this._skipStep(step, forward);
     }
 
     this._showStep(step);
@@ -428,10 +384,7 @@ export class Tour extends Evented {
     const previous = this.currentStep ?? null;
 
     this.currentStep = step;
-    this.trigger('show', {
-      step,
-      previous
-    });
+    this.trigger('show', { step, previous });
 
     step.show();
   }
@@ -477,9 +430,7 @@ export class Tour extends Evented {
     this._runGeneration++;
 
     const index = this.steps.indexOf(this.currentStep as Step);
-    if (Array.isArray(this.steps)) {
-      this.steps.forEach((step) => step.destroy());
-    }
+    this.steps.forEach((step) => step.destroy());
 
     this.trigger(event, { index });
 
@@ -490,14 +441,8 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
-      this.modal.hide();
-    }
-
-    if (event === 'cancel' || event === 'complete') {
-      if (this.modal) {
-        this.modal.destroy();
-        this.modal = null;
-      }
+      this.modal.destroy();
+      this.modal = null;
     }
 
     // Focus the element that was focused before the tour started
@@ -569,18 +514,6 @@ export class Tour extends Evented {
     if (!this.isActive()) {
       this._setupActiveTour();
     }
-  }
-
-  /**
-   * Sets this.id to a provided tourName and id or `${tourName}--${uuid}`
-   * @param {string} optionsId - True if we are going forward, false if backward
-   * @internal
-   */
-  _setTourID(optionsId: string | undefined) {
-    const tourName = this.options.tourName || 'tour';
-    const tourId = optionsId || uuid();
-
-    this.id = `${tourName}--${tourId}`;
   }
 }
 
