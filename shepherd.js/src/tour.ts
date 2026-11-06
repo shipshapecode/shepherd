@@ -299,7 +299,7 @@ export class Tour extends Evented {
       this.steps.splice(this.steps.indexOf(step), 1);
     }
 
-    if (current?.id === name) {
+    if (current && current.id === name) {
       // The removed step may still be waiting on its `beforeShowPromise`.
       this._showGeneration++;
       this.currentStep = undefined;

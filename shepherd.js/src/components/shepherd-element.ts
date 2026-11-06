@@ -91,9 +91,9 @@ export function createShepherdElement(
     const { tour } = step;
     const { exitOnEsc, keyboardNavigation } = tour.options;
     const action = {
-      [KEY_ESC]: exitOnEsc && step.cancel,
-      [LEFT_ARROW]: keyboardNavigation && tour.back,
-      [RIGHT_ARROW]: keyboardNavigation && tour.next
+      [KEY_ESC]: exitOnEsc && (() => step.cancel()),
+      [LEFT_ARROW]: keyboardNavigation && (() => tour.back()),
+      [RIGHT_ARROW]: keyboardNavigation && (() => tour.next())
     }[e.keyCode];
 
     if (action) {

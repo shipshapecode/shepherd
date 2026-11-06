@@ -1834,6 +1834,18 @@ describe('Tour | Top-Level Class', function () {
     });
   });
 
+  describe('removeStep() without a matching step', () => {
+    it('does not start a tour that has no current step', () => {
+      const tour = new Shepherd.Tour({ steps: [{ id: 'only' }] });
+      const showSpy = vi.spyOn(tour, 'show');
+
+      tour.removeStep(undefined);
+
+      expect(showSpy).not.toHaveBeenCalled();
+      expect(tour.steps.length).toBe(1);
+    });
+  });
+
   describe('lifecycle edge cases', () => {
     const tours = [];
     const flush = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
