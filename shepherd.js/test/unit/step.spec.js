@@ -1341,6 +1341,23 @@ describe('Tour | Step', () => {
         expect(instance.getCurrentStep().cleanup).toBeTypeOf('function');
       });
 
+      it('keeps a hidden step hidden when its options are updated', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        await instance.next();
+        const first = instance.getById('first');
+        first.updateStepOptions({ text: 'updated' });
+
+        expect(first.isOpen(), 'the update did not show it').toBe(false);
+        expect(live(), 'the update did not subscribe it').toBe(onOneStep);
+
+        await instance.back();
+        expect(first.el).toHaveTextContent('updated');
+      });
+
       it('stops tracking when a step is hidden directly', async () => {
         instance = threeStepTour();
         const live = liveWindowListeners('scroll');

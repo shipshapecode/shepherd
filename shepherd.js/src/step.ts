@@ -618,8 +618,8 @@ export class Step extends Evented {
   updateStepOptions(options: StepOptions) {
     Object.assign(this.options, options);
 
-    // Recreate the element with updated options
-    if (this.shepherdElementComponent && this.el) {
+    // A hidden step picks up its new options the next time it is shown.
+    if (this.shepherdElementComponent && this.isOpen()) {
       this._teardownElements();
       this._setupElements();
     }
