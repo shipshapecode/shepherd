@@ -1,7 +1,8 @@
-import { svgEl } from '../utils/dom.ts';
 import { makeOverlayPath } from '../utils/overlay-path.ts';
 import type { Step } from '../step.ts';
 import './shepherd-modal.css';
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
 
 interface OpeningProperty {
   width: number;
@@ -55,12 +56,10 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   ];
 
   // Build SVG elements
-  const pathEl = svgEl('path');
-  const element = svgEl(
-    'svg',
-    { class: 'shepherd-modal-overlay-container' },
-    pathEl
-  );
+  const pathEl = document.createElementNS(SVG_NS, 'path');
+  const element = document.createElementNS(SVG_NS, 'svg');
+  element.setAttribute('class', 'shepherd-modal-overlay-container');
+  element.append(pathEl);
 
   element.addEventListener('touchmove', _preventModalOverlayTouch);
 

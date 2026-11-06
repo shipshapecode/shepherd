@@ -1,6 +1,3 @@
-type Attrs = Record<string, unknown>;
-type Child = Node | string | null | undefined | false;
-
 /**
  * Create an HTML element with attributes and children.
  * Attributes starting with "on" are added as event listeners.
@@ -8,31 +5,10 @@ type Child = Node | string | null | undefined | false;
  */
 export function h(
   tag: string,
-  attrs?: Attrs | null,
-  ...children: Child[]
+  attrs: Record<string, unknown>,
+  ...children: Array<Node | string>
 ): HTMLElement {
   const el = document.createElement(tag);
-  applyAttrs(el, attrs);
-  appendChildren(el, children);
-  return el;
-}
-
-/**
- * Create an SVG element with attributes and children.
- */
-export function svgEl(
-  tag: string,
-  attrs?: Attrs | null,
-  ...children: Child[]
-): SVGElement {
-  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  applyAttrs(el, attrs);
-  appendChildren(el, children);
-  return el;
-}
-
-function applyAttrs(el: Element, attrs?: Attrs | null) {
-  if (!attrs) return;
 
   for (const [key, value] of Object.entries(attrs)) {
     if (value === null || value === undefined || value === false) continue;
@@ -45,14 +21,8 @@ function applyAttrs(el: Element, attrs?: Attrs | null) {
       el.setAttribute(key, String(value));
     }
   }
-}
 
-function appendChildren(el: Element, children: Child[]) {
-  for (const child of children) {
-    if (child != null && child !== false) {
-      el.append(
-        typeof child === 'string' ? document.createTextNode(child) : child
-      );
-    }
-  }
+  el.append(...children);
+
+  return el;
 }
