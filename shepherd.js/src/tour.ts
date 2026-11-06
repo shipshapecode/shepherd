@@ -123,11 +123,18 @@ export class Tour extends Evented {
   steps: Array<Step>;
 
   /**
-   * Monotonically increasing id of `show()` calls, used to invalidate pending
-   * `waitForElement` waits that were superseded by a newer `show()`.
+   * Monotonically increasing id of `show()` calls and tour endings, used to
+   * invalidate pending `waitForElement` and `beforeShowPromise` waits.
    * @private
    */
   _showGeneration = 0;
+
+  /**
+   * Changes whenever a run of the tour begins or ends, used to invalidate
+   * pending `confirmCancel` answers that belong to an earlier run.
+   * @private
+   */
+  _runGeneration = 0;
 
   constructor(options: TourOptions = {}) {
     super();
@@ -229,7 +236,13 @@ export class Tour extends Evented {
       let stopTour;
 
       if (isFunction(this.options.confirmCancel)) {
+        const run = this._runGeneration;
         stopTour = await this.options.confirmCancel();
+
+        // The answer only applies to the run that asked for it.
+        if (run !== this._runGeneration) {
+          return;
+        }
       } else {
         stopTour = window.confirm(cancelMessage);
       }
@@ -271,6 +284,9 @@ export class Tour extends Evented {
    * Hide the current step
    */
   hide() {
+    // A show still waiting on a promise or element must not undo this hide.
+    this._showGeneration++;
+
     const currentStep = this.getCurrentStep();
 
     if (currentStep) {
@@ -321,6 +337,8 @@ export class Tour extends Evented {
     });
 
     if (current && current.id === name) {
+      // The removed step may still be waiting on its `beforeShowPromise`.
+      this._showGeneration++;
       this.currentStep = undefined;
 
       // If we have steps left, show the first one, otherwise just cancel the tour
@@ -344,7 +362,7 @@ export class Tour extends Evented {
 
     this._updateStateBeforeShow();
 
-    // Invalidate any pending `waitForElement` wait from a previous call.
+    // Invalidate any pending wait from a previous call.
     const generation = ++this._showGeneration;
 
     const shouldSkipStep =
@@ -376,9 +394,9 @@ export class Tour extends Evented {
     ) {
       if (waitTimeout > 0) {
         return waitForAttachToElement(step, waitTimeout).then((element) => {
-          // A newer `show()`, or cancelling/completing the tour, supersedes
-          // this pending wait.
-          if (generation !== this._showGeneration || !this.isActive()) {
+          // A newer `show()`, the tour ending or hiding, or another tour
+          // starting, supersedes this pending wait.
+          if (generation !== this._showGeneration) {
             return;
           }
 
@@ -423,8 +441,20 @@ export class Tour extends Evented {
   async start() {
     this.trigger('start');
 
-    // Save the focused element before the tour opens
-    this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
+    if (this.isActive()) {
+      // Restarting a running tour. Focus may now be inside its own popup, so
+      // keep the element saved by the original start.
+      const run = this._runGeneration;
+      this.currentStep?.hide();
+
+      // A `hide` handler may have ended the tour, which must stay ended.
+      if (run !== this._runGeneration) {
+        return;
+      }
+    } else {
+      // Save the focused element before the tour opens
+      this.focusedElBeforeOpen = document.activeElement as HTMLElement | null;
+    }
 
     this.currentStep = null;
 
@@ -440,6 +470,11 @@ export class Tour extends Evented {
    * @private
    */
   _done(event: string) {
+    // Invalidate any pending `beforeShowPromise`, which could otherwise bring
+    // back the popup and modal of the ended tour.
+    this._showGeneration++;
+    this._runGeneration++;
+
     const index = this.steps.indexOf(this.currentStep as Step);
     if (Array.isArray(this.steps)) {
       this.steps.forEach((step) => step.destroy());
@@ -449,7 +484,10 @@ export class Tour extends Evented {
 
     this.trigger(event, { index });
 
-    Shepherd.activeTour = null;
+    // Another tour may have started while this one waited on `confirmCancel`.
+    if (this.isActive()) {
+      Shepherd.activeTour = null;
+    }
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
@@ -473,6 +511,13 @@ export class Tour extends Evented {
    * Make this tour "active"
    */
   _setupActiveTour() {
+    this._runGeneration++;
+
+    // Taking over from another tour cancels whatever that tour was waiting on.
+    if (Shepherd.activeTour && !this.isActive()) {
+      Shepherd.activeTour._showGeneration++;
+    }
+
     this.trigger('active', { tour: this });
 
     Shepherd.activeTour = this;
@@ -483,7 +528,13 @@ export class Tour extends Evented {
    */
   setupModal() {
     const container = this.options.modalContainer || document.body;
+    this.modal?.destroy();
     this.modal = createShepherdModal(container);
+
+    // A step that is already open keeps its dimming and highlight.
+    if (this.currentStep?.isOpen()) {
+      this.modal.setupForStep(this.currentStep);
+    }
   }
 
   /**

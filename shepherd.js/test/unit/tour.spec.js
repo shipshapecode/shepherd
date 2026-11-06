@@ -195,6 +195,149 @@ describe('Tour | Top-Level Class', function () {
 
         expect(instance).toBe(Shepherd.activeTour);
       });
+
+      describe('on a tour that is already running', function () {
+        const overlays = () =>
+          document.querySelectorAll('.shepherd-modal-overlay-container');
+        const visiblePopups = () =>
+          Array.from(
+            document.querySelectorAll('.shepherd-element:not([hidden])')
+          ).map((el) => el.getAttribute('data-shepherd-step-id'));
+
+        it('leaves one overlay, and none once the tour ends', function () {
+          instance.start();
+          instance.start();
+
+          expect(overlays().length).toBe(1);
+          expect(overlays()[0]).toBe(instance.modal.getElement());
+
+          instance.cancel();
+
+          expect(overlays().length).toBe(0);
+        });
+
+        it('restarts from the first step, hiding the current one', function () {
+          instance.start();
+          instance.next();
+
+          expect(visiblePopups()).toEqual(['test2']);
+
+          instance.start();
+
+          expect(instance.getCurrentStep().id).toBe('test');
+          expect(visiblePopups()).toEqual(['test']);
+          expect(overlays().length).toBe(1);
+        });
+
+        it('shows the first step with no previous step', function () {
+          const previous = [];
+
+          instance.on('show', (event) => previous.push(event.previous));
+          instance.start();
+          instance.next();
+          previous.length = 0;
+          instance.start();
+
+          expect(previous).toEqual([null]);
+        });
+
+        it('fires `start` and `active` again', function () {
+          const events = [];
+
+          instance.start();
+          instance.on('start', () => events.push('start'));
+          instance.on('active', () => events.push('active'));
+          instance.start();
+
+          expect(events).toEqual(['start', 'active']);
+        });
+
+        it('restores focus to where it was before the original start', function () {
+          const button = document.createElement('button');
+          document.body.appendChild(button);
+          button.focus();
+
+          instance.start();
+
+          const popupButton = document.createElement('button');
+          instance.getCurrentStep().getElement().appendChild(popupButton);
+          popupButton.focus();
+
+          instance.start();
+
+          expect(instance.focusedElBeforeOpen).toBe(button);
+
+          instance.cancel();
+
+          expect(document.activeElement).toBe(button);
+
+          button.remove();
+        });
+      });
+
+      describe('on a tour that has ended', function () {
+        it('saves the newly focused element', function () {
+          const first = document.createElement('button');
+          const second = document.createElement('button');
+          document.body.append(first, second);
+          first.focus();
+
+          instance.start();
+          instance.complete();
+
+          second.focus();
+
+          instance.start();
+          instance.complete();
+
+          expect(document.activeElement).toBe(second);
+
+          first.remove();
+          second.remove();
+        });
+
+        it('fires `start` and `active` without hiding any step', function () {
+          const events = [];
+
+          instance.start();
+          instance.next();
+          instance.complete();
+
+          instance.steps.forEach((step) =>
+            step.on('hide', () => events.push('hide'))
+          );
+          instance.on('start', () => events.push('start'));
+          instance.on('active', () => events.push('active'));
+          instance.start();
+
+          expect(events).toEqual(['start', 'active']);
+          expect(instance.getCurrentStep().id).toBe('test');
+        });
+      });
+
+      it('recreates a missing modal when a step shows', function () {
+        instance.start();
+        instance.modal.destroy();
+        instance.modal = null;
+
+        instance.next();
+
+        expect(
+          document.querySelectorAll('.shepherd-modal-overlay-container').length
+        ).toBe(1);
+        expect(instance.modal.getElement()).toBeInTheDocument();
+      });
+    });
+
+    describe('.setupModal()', function () {
+      it('replaces an existing modal rather than leaking it', function () {
+        instance.setupModal();
+        instance.setupModal();
+
+        expect(
+          document.querySelectorAll('.shepherd-modal-overlay-container').length
+        ).toBe(1);
+      });
     });
 
     describe('.getCurrentStep()', function () {
@@ -403,6 +546,139 @@ describe('Tour | Top-Level Class', function () {
             inactiveFired,
             'tour inactive, since confirm returned true'
           ).toBeTruthy();
+        });
+      });
+
+      describe('when the confirmCancel function answers later', function () {
+        let answers, cancelFired, completeFired;
+
+        beforeEach(() => {
+          answers = [];
+          cancelFired = 0;
+          completeFired = 0;
+
+          instance = new Shepherd.Tour({
+            defaultStepOptions,
+            confirmCancel: () =>
+              new Promise((resolve) => {
+                answers.push(resolve);
+              })
+          });
+
+          instance.addStep({ id: 'first', title: 'First' });
+          instance.addStep({ id: 'second', title: 'Second' });
+
+          instance.on('cancel', () => {
+            cancelFired++;
+          });
+          instance.on('complete', () => {
+            completeFired++;
+          });
+        });
+
+        it('ends the run that asked when the answer is yes', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+          expect(instance.isActive()).toBe(false);
+        });
+
+        it('keeps the run going when the answer is no', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+
+          answers[0](false);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+        });
+
+        it('still cancels after moving to another step during the wait', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.next();
+          expect(instance.getCurrentStep().id).toBe('second');
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+          expect(instance.isActive()).toBe(false);
+        });
+
+        it('ignores a yes when the run has already completed', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.complete();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(completeFired).toBe(1);
+          expect(cancelFired).toBe(0);
+        });
+
+        it('does not let a yes from an ended run end a new run', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.complete();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+          expect(instance.getCurrentStep().id).toBe('first');
+        });
+
+        it('does not let a yes end a run that restarted without ending', async function () {
+          instance.start();
+          const cancelling = instance.cancel();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
+        });
+
+        it('cancels once when two pending answers are both yes', async function () {
+          instance.start();
+          const first = instance.cancel();
+          const second = instance.cancel();
+
+          answers[0](true);
+          answers[1](true);
+          await Promise.all([first, second]);
+
+          expect(cancelFired).toBe(1);
+        });
+
+        it('still fires cancel for a yes on a tour that was never started', async function () {
+          const cancelling = instance.cancel();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(1);
+        });
+
+        it('does not let a yes asked while idle end a run started during the wait', async function () {
+          const cancelling = instance.cancel();
+          instance.start();
+
+          answers[0](true);
+          await cancelling;
+
+          expect(cancelFired).toBe(0);
+          expect(instance.isActive()).toBe(true);
         });
       });
     });
@@ -948,6 +1224,133 @@ describe('Tour | Top-Level Class', function () {
     });
   });
 
+  describe('superseded beforeShowPromise', () => {
+    let resolvers, gated;
+
+    const flush = () => new Promise((resolve) => setTimeout(resolve));
+    const overlays = () =>
+      document.querySelectorAll('.shepherd-modal-overlay-container');
+
+    beforeEach(() => {
+      resolvers = [];
+      instance = new Shepherd.Tour({ useModalOverlay: true });
+
+      instance.addStep({ id: 'first', text: 'first' });
+      gated = instance.addStep({
+        id: 'gated',
+        text: 'gated',
+        beforeShowPromise: () =>
+          new Promise((resolve) => resolvers.push(resolve))
+      });
+      instance.addStep({ id: 'last', text: 'last' });
+    });
+
+    it('renders the step when nothing superseded the show', async () => {
+      instance.start();
+      instance.next();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(true);
+      expect(instance.getCurrentStep().id).toBe('gated');
+    });
+
+    it('does not bring back an ended tour', async () => {
+      instance.start();
+      instance.next();
+      instance.cancel();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.getElement()).toBeFalsy();
+      expect(instance.modal).toBeFalsy();
+      expect(overlays().length).toBe(0);
+      expect(document.body.classList.contains('shepherd-target')).toBe(false);
+    });
+
+    it('does not show the step after going back', async () => {
+      instance.start();
+      instance.next();
+      instance.back();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('first').isOpen()).toBe(true);
+    });
+
+    it('does not show the step after moving on', async () => {
+      instance.start();
+      instance.next();
+      instance.next();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('last').isOpen()).toBe(true);
+    });
+
+    it('does not show the step in a restarted run', async () => {
+      instance.start();
+      instance.next();
+      instance.cancel();
+      instance.start();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(instance.getById('first').isOpen()).toBe(true);
+      expect(overlays().length).toBe(1);
+    });
+
+    it('renders once, for the latest show, when shown twice', async () => {
+      const beforeShow = vi.fn();
+      gated.on('before-show', beforeShow);
+
+      instance.start();
+      instance.show('gated');
+      instance.show('gated');
+
+      resolvers[0]();
+      await flush();
+
+      expect(beforeShow).not.toHaveBeenCalled();
+      expect(gated.isOpen()).toBe(false);
+
+      resolvers[1]();
+      await flush();
+
+      expect(beforeShow).toHaveBeenCalledTimes(1);
+      expect(gated.isOpen()).toBe(true);
+    });
+
+    it('does not bring back an ended tour from a direct step.show()', async () => {
+      instance.start();
+      gated.show();
+      instance.cancel();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.getElement()).toBeFalsy();
+      expect(instance.modal).toBeFalsy();
+    });
+
+    it('still renders a direct step.show() on a tour that never started', async () => {
+      gated.show();
+
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(true);
+    });
+  });
+
   describe('skipMissingElement / waitForElement', () => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -1428,6 +1831,179 @@ describe('Tour | Top-Level Class', function () {
       ).toBe('waits');
 
       document.body.removeChild(appearedElement);
+    });
+  });
+
+  describe('lifecycle edge cases', () => {
+    const tours = [];
+    const flush = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+    const overlays = () =>
+      document.querySelectorAll('.shepherd-modal-overlay-container');
+    const visiblePopups = () =>
+      [...document.querySelectorAll('.shepherd-element')].filter(
+        (popup) => !popup.hidden
+      );
+    const makeTour = (options = {}) => {
+      const tour = new Shepherd.Tour({ useModalOverlay: true, ...options });
+      tours.push(tour);
+      return tour;
+    };
+    const gatedStep = (resolvers) => ({
+      id: 'gated',
+      text: 'gated',
+      beforeShowPromise: () => new Promise((resolve) => resolvers.push(resolve))
+    });
+
+    beforeEach(() => {
+      // The file's outer `afterEach` completes `instance`.
+      instance = makeTour();
+    });
+
+    afterEach(() => {
+      tours.splice(0).forEach((tour) => {
+        tour.options.confirmCancel = undefined;
+        tour.complete();
+      });
+    });
+
+    it('stays ended when a hide handler ends the tour during a restart', () => {
+      const tour = makeTour();
+      const first = tour.addStep({ id: 'first', text: 'first' });
+      tour.start();
+      first.on('hide', () => tour.complete());
+
+      tour.start();
+
+      expect(tour.isActive()).toBe(false);
+      expect(overlays()).toHaveLength(0);
+      expect(visiblePopups()).toHaveLength(0);
+    });
+
+    it('keeps the open step dimmed when setupModal replaces the modal', () => {
+      const tour = makeTour();
+      tour.addStep({ id: 'first', text: 'first' });
+      tour.start();
+
+      tour.setupModal();
+
+      expect(overlays()).toHaveLength(1);
+      expect(overlays()[0]).toHaveClass('shepherd-modal-is-visible');
+    });
+
+    it('leaves a replacement modal hidden when the current step is hidden', () => {
+      const tour = makeTour();
+      tour.addStep({ id: 'first', text: 'first' });
+      tour.start();
+      tour.hide();
+
+      tour.setupModal();
+
+      expect(overlays()).toHaveLength(1);
+      expect(overlays()[0]).not.toHaveClass('shepherd-modal-is-visible');
+    });
+
+    it('does not render a removed step whose beforeShowPromise was pending', async () => {
+      const resolvers = [];
+      const tour = makeTour({ confirmCancel: () => Promise.resolve(false) });
+      tour.addStep(gatedStep(resolvers));
+      tour.start();
+
+      tour.removeStep('gated');
+      await flush();
+      resolvers[0]();
+      await flush();
+
+      expect(visiblePopups()).toHaveLength(0);
+    });
+
+    it('does not render a pending step after tour.hide(), and can show it again', async () => {
+      const resolvers = [];
+      const tour = makeTour();
+      tour.addStep({ id: 'first', text: 'first' });
+      const gated = tour.addStep(gatedStep(resolvers));
+      tour.start();
+      tour.next();
+
+      tour.hide();
+      resolvers[0]();
+      await flush();
+      expect(gated.isOpen()).toBe(false);
+
+      tour.show('gated');
+      resolvers[1]();
+      await flush();
+      expect(gated.isOpen()).toBe(true);
+    });
+
+    it('renders once, for the latest call, when step.show() is called twice', async () => {
+      const resolvers = [];
+      const tour = makeTour();
+      const gated = tour.addStep(gatedStep(resolvers));
+      const shown = vi.fn();
+      gated.on('before-show', shown);
+
+      gated.show();
+      gated.show();
+      resolvers[0]();
+      await flush();
+      expect(shown).not.toHaveBeenCalled();
+
+      resolvers[1]();
+      await flush();
+      expect(shown).toHaveBeenCalledTimes(1);
+      expect(gated.isOpen()).toBe(true);
+    });
+
+    it('does not render a pending beforeShowPromise step after another tour starts', async () => {
+      const resolvers = [];
+      const first = makeTour();
+      const gated = first.addStep(gatedStep(resolvers));
+      const second = makeTour();
+      second.addStep({ id: 'other', text: 'other' });
+
+      first.start();
+      second.start();
+      resolvers[0]();
+      await flush();
+
+      expect(gated.isOpen()).toBe(false);
+      expect(second.isActive()).toBe(true);
+    });
+
+    it('does not render a pending waitForElement step after another tour starts', async () => {
+      const first = makeTour();
+      const waiting = first.addStep({
+        id: 'waiting',
+        text: 'waiting',
+        attachTo: { element: '#never-there', on: 'bottom' },
+        waitForElement: 10
+      });
+      const second = makeTour();
+      second.addStep({ id: 'other', text: 'other' });
+
+      first.start();
+      second.start();
+      await flush(30);
+
+      expect(waiting.isOpen()).toBe(false);
+    });
+
+    it('does not clear another tour when a late confirmCancel ends this one', async () => {
+      const answers = [];
+      const first = makeTour({
+        confirmCancel: () => new Promise((resolve) => answers.push(resolve))
+      });
+      first.addStep({ id: 'first', text: 'first' });
+      const second = makeTour();
+      second.addStep({ id: 'other', text: 'other' });
+
+      first.start();
+      const cancelling = first.cancel();
+      second.start();
+      answers[0](true);
+      await cancelling;
+
+      expect(second.isActive()).toBe(true);
     });
   });
 });
