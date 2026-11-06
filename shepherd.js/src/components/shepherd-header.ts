@@ -5,14 +5,15 @@ import type { Step } from '../step.ts';
 import './shepherd-header.css';
 
 export function createShepherdHeader(labelId: string, step: Step): HTMLElement {
+  const { title, cancelIcon } = step.options;
   const header = h('header', { class: 'shepherd-header' });
 
-  if (step.options.title) {
-    header.append(createShepherdTitle(labelId, step.options.title));
+  if (title) {
+    header.append(createShepherdTitle(labelId, title));
   }
 
-  if (step.options.cancelIcon && step.options.cancelIcon.enabled) {
-    header.append(createShepherdCancelIcon(step.options.cancelIcon, step));
+  if (cancelIcon?.enabled) {
+    header.append(createShepherdCancelIcon(cancelIcon, step));
   }
 
   return header;

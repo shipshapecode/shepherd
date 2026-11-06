@@ -6,14 +6,10 @@ import './shepherd-title.css';
 export function createShepherdTitle(
   labelId: string,
   title: StringOrStringFunction
-): HTMLHeadingElement {
-  const el = h('h3', {
-    id: labelId,
-    class: 'shepherd-title'
-  }) as HTMLHeadingElement;
+): HTMLElement {
+  const el = h('h3', { id: labelId, class: 'shepherd-title' });
 
-  const resolvedTitle = isFunction(title) ? title() : title;
-  el.innerHTML = resolvedTitle;
+  el.innerHTML = isFunction(title) ? title() : title;
 
   return el;
 }

@@ -10,21 +10,19 @@ export function createShepherdContent(
   descriptionId: string,
   labelId: string,
   step: Step
-): HTMLDivElement {
-  const content = h('div', { class: 'shepherd-content' }) as HTMLDivElement;
+): HTMLElement {
+  const { title, cancelIcon, text, buttons } = step.options;
+  const content = h('div', { class: 'shepherd-content' });
 
-  if (
-    !isUndefined(step.options.title) ||
-    (step.options.cancelIcon && step.options.cancelIcon.enabled)
-  ) {
+  if (!isUndefined(title) || cancelIcon?.enabled) {
     content.append(createShepherdHeader(labelId, step));
   }
 
-  if (!isUndefined(step.options.text)) {
+  if (!isUndefined(text)) {
     content.append(createShepherdText(descriptionId, step));
   }
 
-  if (Array.isArray(step.options.buttons) && step.options.buttons.length) {
+  if (Array.isArray(buttons) && buttons.length) {
     content.append(createShepherdFooter(step));
   }
 

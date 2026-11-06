@@ -4,13 +4,11 @@ import type { Step } from '../step.ts';
 import './shepherd-footer.css';
 
 export function createShepherdFooter(step: Step): HTMLElement {
-  const footer = h('footer', { class: 'shepherd-footer' });
-
-  if (step.options.buttons) {
-    for (const config of step.options.buttons) {
-      footer.append(createShepherdButton(config, step));
-    }
-  }
-
-  return footer;
+  return h(
+    'footer',
+    { class: 'shepherd-footer' },
+    ...(step.options.buttons || []).map((config) =>
+      createShepherdButton(config, step)
+    )
+  );
 }

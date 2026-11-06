@@ -5,23 +5,19 @@ import './shepherd-cancel-icon.css';
 export function createShepherdCancelIcon(
   cancelIcon: StepOptionsCancelIcon,
   step: Step
-): HTMLButtonElement {
-  const handleCancelClick = (e: Event) => {
-    e.preventDefault();
-    step.cancel();
-  };
-
-  const btn = h(
+): HTMLElement {
+  return h(
     'button',
     {
-      ...(cancelIcon.attrs || {}),
-      'aria-label': cancelIcon.label ? cancelIcon.label : 'Close Tour',
+      ...cancelIcon.attrs,
+      'aria-label': cancelIcon.label || 'Close Tour',
       class: 'shepherd-cancel-icon',
-      onclick: handleCancelClick,
+      onclick: (e: Event) => {
+        e.preventDefault();
+        step.cancel();
+      },
       type: 'button'
     },
-    h('span', { 'aria-hidden': 'true' }, '\u00D7')
-  ) as HTMLButtonElement;
-
-  return btn;
+    h('span', { 'aria-hidden': 'true' }, '×')
+  );
 }
