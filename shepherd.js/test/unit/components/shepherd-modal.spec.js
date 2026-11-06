@@ -15,6 +15,139 @@ describe('components/ShepherdModal', () => {
     container.remove();
   });
 
+  describe('gliding between steps', () => {
+    const rect = (x, y, width, height) => ({
+      x,
+      y,
+      width,
+      height,
+      top: y,
+      left: x,
+      bottom: y + height,
+      right: x + width
+    });
+    let modal;
+    let now;
+
+    function makeStep(box, options = {}) {
+      const target = document.createElement('div');
+      target.getBoundingClientRect = () => box;
+      target.style.position = 'fixed';
+      document.body.append(target);
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, { ...options });
+      step.target = target;
+      return step;
+    }
+
+    const path = () => modal.getElement().querySelector('path');
+    const settled = (x, y, width, height) =>
+      `M1024,768H0V0H1024V768ZM${x},${y}a0,0,0,0,0-0,0V${y + height}a0,0,0,0,0,0,0H${x + width}a0,0,0,0,0,0-0V${y}a0,0,0,0,0-0-0Z`;
+
+    beforeEach(() => {
+      now = 1000;
+      vi.spyOn(Date, 'now').mockImplementation(() => now);
+      modal = createShepherdModal(container);
+    });
+
+    afterEach(() => {
+      modal.destroy();
+      vi.restoreAllMocks();
+    });
+
+    function setDuration(value) {
+      path().style.transitionDuration = value;
+    }
+
+    it('cuts straight to the target without a transition duration', () => {
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('does not glide into the first opening', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('starts from the previous opening and lands exactly on the target', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+
+      expect(path().getAttribute('d')).toBe(settled(0, 0, 100, 100));
+
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      const [, x, y] = path()
+        .getAttribute('d')
+        .match(/ZM([\d.]+),([\d.]+)/);
+      // 1 - 0.5^3 of the way there
+      expect(Number(x)).toBeCloseTo(175);
+      expect(Number(y)).toBeCloseTo(262.5);
+
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('writes the path on every frame of a glide, then stops', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+      const writePath = vi.spyOn(path(), 'setAttribute');
+      const frame = () => modal.positionModal(0, 0, 0, 0, null, to.target);
+
+      for (const expected of [1, 2, 3]) {
+        now += 250;
+        frame();
+        expect(writePath, 'mid glide').toHaveBeenCalledTimes(expected);
+      }
+
+      now += 250;
+      frame();
+      expect(writePath, 'landing').toHaveBeenCalledTimes(4);
+
+      now += 16;
+      frame();
+      frame();
+      expect(writePath, 'settled').toHaveBeenCalledTimes(4);
+    });
+
+    it('stays aligned when a zero-radius glide is interrupted', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const middle = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(middle);
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, middle.target);
+      const interrupted = path().getAttribute('d');
+      expect(interrupted).toContain('0,0,0-0,0');
+
+      const to = makeStep(rect(600, 500, 20, 20));
+      modal.setupForStep(to);
+      expect(path().getAttribute('d')).toBe(interrupted);
+
+      now += 1000;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      expect(path().getAttribute('d')).toBe(settled(600, 500, 20, 20));
+    });
+
+    it('closes without gliding towards the origin', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+      modal.setupForStep(makeStep(rect(10, 10, 50, 50)));
+      modal.closeModalOpening();
+
+      expect(path().getAttribute('d')).toBe(settled(0, 0, 0, 0));
+    });
+  });
+
   describe('closeModalOpening()', function () {
     it('sets values back to 0', () => {
       const modal = createShepherdModal(container);

@@ -74,12 +74,18 @@ export interface ShepherdModalAPI {
   getElement: () => SVGElement;
 }
 
+const PATH_NUMBER = /-?[\d.]+(e-\d+)?/g;
+
 export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   let rafId: number | undefined;
-  let currentPath: string | undefined;
+  let currentPath = '';
   // Memoizes the chain of scroll parents of a highlighted element for the
   // lifetime of a single step. Reset in `_cleanupStepEventListeners`.
   let _stepScrollParents = new WeakMap<HTMLElement, HTMLElement[]>();
+  let isClosed: boolean;
+  let glideFrom: string[];
+  let glideEnd: number;
+  let glideMs: number;
 
   // Build SVG elements
   const pathEl = document.createElementNS(SVG_NS, 'path');
@@ -94,7 +100,22 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   container.append(element);
 
   function _updatePath(openings: OpeningProperty[]) {
-    const d = makeOverlayPath(openings);
+    const to = makeOverlayPath(openings);
+    const left = (glideEnd - Date.now()) / glideMs;
+    let i = 0;
+
+    // Consecutive paths share a shape, so tweening their numbers morphs the
+    // opening. Keeping `-0` as written keeps it apart from the arc flag before
+    // it, or an interrupted glide would misread `00` as one number.
+    const d =
+      left > 0
+        ? to.replace(
+            PATH_NUMBER,
+            (n) =>
+              `${+n + (+(glideFrom[i++] || n) - +n) * left ** 3 || (+n ? 0 : n)}`
+          )
+        : to;
+
     // Writing `d` invalidates layout even when the value is unchanged, and this
     // runs every frame.
     if (d !== currentPath) {
@@ -104,6 +125,8 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   }
 
   function closeModalOpening() {
+    isClosed = true;
+    glideEnd = 0;
     _updatePath([{ width: 0, height: 0, x: 0, y: 0, r: 0 }]);
   }
 
@@ -189,6 +212,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         });
       }
 
+      isClosed = false;
       _updatePath(newOpenings);
     } else {
       closeModalOpening();
@@ -199,6 +223,10 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     _cleanupStepEventListeners();
 
     if (step.tour.options.useModalOverlay) {
+      glideFrom = currentPath.match(PATH_NUMBER)!;
+      glideMs = parseFloat(getComputedStyle(pathEl).transitionDuration) * 1e3;
+      // A closed opening sits at the origin, with nowhere to glide from.
+      glideEnd = isClosed ? 0 : Date.now() + glideMs;
       _styleForStep(step);
       show();
     } else {
