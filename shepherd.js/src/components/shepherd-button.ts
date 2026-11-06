@@ -13,6 +13,9 @@ export function createShepherdButton(
   const action = isString(config.action)
     ? step.tour[config.action]
     : config.action;
+  if (!action) {
+    console.warn(`Shepherd: button "${text}" has no action.`);
+  }
 
   const btn = h('button', {
     ...config.attrs,

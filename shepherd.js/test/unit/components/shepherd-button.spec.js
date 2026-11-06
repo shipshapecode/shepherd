@@ -27,6 +27,18 @@ describe('component/ShepherdButton', () => {
       }
     );
 
+    it.each([[{ text: 'Next' }], [{ text: 'Next', action: 'finish' }]])(
+      'warns about a button that would do nothing: %j',
+      (config) => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+        createShepherdButton(config, { tour: {} });
+
+        expect(warn.mock.calls[0][0]).toContain('"Next" has no action');
+        warn.mockRestore();
+      }
+    );
+
     it('still binds a function to the tour', () => {
       const tour = { next: vi.fn() };
       const button = createShepherdButton(
