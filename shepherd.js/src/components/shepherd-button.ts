@@ -1,5 +1,5 @@
 import { h } from '../utils/dom.ts';
-import { isFunction } from '../utils/type-check.ts';
+import { isFunction, isString } from '../utils/type-check.ts';
 import type { Step, StepOptionsButton } from '../step.ts';
 import './shepherd-button.css';
 
@@ -10,6 +10,9 @@ export function createShepherdButton(
   const resolve = (option: unknown) =>
     isFunction(option) ? option.call(step) : option;
   const text = resolve(config.text);
+  const action = isString(config.action)
+    ? step.tour[config.action]
+    : config.action;
 
   const btn = h('button', {
     ...config.attrs,
@@ -18,7 +21,7 @@ export function createShepherdButton(
       config.secondary ? 'shepherd-button-secondary' : ''
     }`,
     disabled: resolve(config.disabled) || null,
-    onclick: config.action ? config.action.bind(step.tour) : null,
+    onclick: action ? action.bind(step.tour) : null,
     tabindex: '0',
     type: 'button'
   }) as HTMLButtonElement;

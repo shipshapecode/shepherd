@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createShepherdButton } from '../../../src/components/shepherd-button.ts';
 
 describe('component/ShepherdButton', () => {
@@ -11,6 +11,38 @@ describe('component/ShepherdButton', () => {
 
   afterEach(() => {
     container.remove();
+  });
+
+  describe('action', () => {
+    it.each(['back', 'cancel', 'complete', 'next'])(
+      'runs the tour method named %s',
+      (name) => {
+        const tour = { [name]: vi.fn() };
+        const button = createShepherdButton({ action: name }, { tour });
+        container.appendChild(button);
+
+        button.click();
+
+        expect(tour[name]).toHaveBeenCalledTimes(1);
+      }
+    );
+
+    it('still binds a function to the tour', () => {
+      const tour = { next: vi.fn() };
+      const button = createShepherdButton(
+        {
+          action() {
+            this.next();
+          }
+        },
+        { tour }
+      );
+      container.appendChild(button);
+
+      button.click();
+
+      expect(tour.next).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('disabled', () => {

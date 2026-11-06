@@ -318,19 +318,36 @@ export interface StepOptionsAdvanceOn {
   selector: string;
 }
 
+/**
+ * The tour methods a button can run by name.
+ */
+export type StepButtonAction = 'back' | 'cancel' | 'complete' | 'next';
+
 export interface StepOptionsButton {
   /**
-   * A function executed when the button is clicked on
-   * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
-   * work inside the action.
-   * You can use action to skip steps or navigate to specific steps, with something like:
+   * What the button does when clicked. Either the name of a tour method, which
+   * keeps a tour definition plain JSON and works before the tour exists, or a
+   * function.
+   *
+   * A function is bound to the tour, so `this.next()` works inside a `function`
+   * or method. An arrow function does not get that binding, so `() => this.next()`
+   * fails; use `() => tour.next()` there.
+   *
+   * @example
    * ```js
-   * action() {
-   *   return this.show('some_step_name');
-   * }
+   * buttons: [
+   *   { text: 'Back', action: 'back', secondary: true },
+   *   { text: 'Next', action: 'next' },
+   *   {
+   *     text: 'Skip to pricing',
+   *     action() {
+   *       return this.show('pricing');
+   *     }
+   *   }
+   * ]
    * ```
    */
-  action?: (this: Tour) => void;
+  action?: StepButtonAction | ((this: Tour) => void);
 
   /**
    * Additional HTML attributes to apply to the button element.
