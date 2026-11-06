@@ -445,6 +445,8 @@ export interface StepOptionsWhen {
   [key: string]: (this: Step) => void;
 }
 
+let stylesheetChecked = false;
+
 /**
  * A class representing steps to be added to a tour.
  * @extends {Evented}
@@ -773,6 +775,15 @@ export class Step extends Evented {
     }
 
     this.el = this._createTooltipContent();
+
+    if (!stylesheetChecked) {
+      stylesheetChecked = true;
+      if (getComputedStyle(this.el).zIndex === 'auto') {
+        console.warn(
+          "Shepherd: stylesheet not found. Add import 'shepherd.js/dist/css/shepherd.css'."
+        );
+      }
+    }
 
     if (this.options.advanceOn) {
       this._advanceOnCleanup = bindAdvance(this) ?? null;
