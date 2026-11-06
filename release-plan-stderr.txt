@@ -30,3 +30,10 @@
 
 
 *Cannot plan release until the above changes are labeled*.
+# Unlabeled Changes
+
+* `shepherd.js`
+  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+
+
+*Cannot plan release until the above changes are labeled*.
