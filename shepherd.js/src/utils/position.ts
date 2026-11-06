@@ -842,140 +842,63 @@ export function arrow(options: {
   };
 }
 
-function overflowAncestors(node: any): EventTarget[] {
-  const win = getWindow(node);
-  const body = getDocument(node).body;
-
-  return [
-    ...ancestorsOf(node).filter(
-      (ancestor) => isHTMLElement(ancestor) && clipsOverflow(styleOf(ancestor))
-    ),
-    win,
-    ...(win.visualViewport ? [win.visualViewport] : []),
-    ...(clipsOverflow(styleOf(body)) ? [body] : []),
-    ...(win.frameElement ? overflowAncestors(win.frameElement) : [])
-  ];
-}
-
 /**
- * Reports when `element` moves without any scroll or resize event, by watching
- * an intersection root shrunk to exactly its box.
- * https://samthor.au/2021/observing-dom/
+ * Repositions whenever what the placement depends on changes. Comparing rects
+ * covers every scroller, shadow root and frame, layout shifts and transforms in
+ * one code path. It runs every frame while anything moves and on a slow
+ * heartbeat once settled, with scrolling waking it straight away.
  */
-function observeMove(element: Element, onMove: () => void) {
-  const html = htmlOf(element);
-  let observer: IntersectionObserver | undefined;
-  let timer: ReturnType<typeof setTimeout>;
-
-  const stop = () => {
-    clearTimeout(timer);
-    observer?.disconnect();
-    observer = undefined;
-  };
-
-  const refresh = (skip?: boolean, threshold = 1) => {
-    stop();
-
-    const rect = element.getBoundingClientRect();
-    const { x, y, width, height } = rect;
-    if (!skip) onMove();
-    if (!width || !height) return;
-
-    let first = true;
-    observer = new IntersectionObserver(
-      (entries) => {
-        const ratio = (entries[0] as IntersectionObserverEntry)
-          .intersectionRatio;
-        const now = element.getBoundingClientRect();
-        // The entry is a snapshot, so a moved element makes it stale.
-        if (
-          now.x !== x ||
-          now.y !== y ||
-          now.width !== width ||
-          now.height !== height
-        ) {
-          return refresh();
-        }
-        if (ratio !== threshold) {
-          if (!first) return refresh();
-          // Clipped in place reports 0; throttle or this loops forever.
-          if (ratio) refresh(false, ratio);
-          else timer = setTimeout(() => refresh(false, 1e-7), 1000);
-        }
-        first = false;
-      },
-      {
-        root: html.ownerDocument,
-        rootMargin: [
-          y,
-          html.clientWidth - x - width,
-          html.clientHeight - y - height,
-          x
-        ]
-          .map((inset) => `${-Math.floor(inset)}px`)
-          .join(' '),
-        threshold
-      }
-    );
-    observer.observe(element);
-  };
-
-  const onResize = () => refresh(true);
-  const win = getWindow(element);
-  win.addEventListener('resize', onResize);
-  refresh(true);
-
-  return () => {
-    win.removeEventListener('resize', onResize);
-    stop();
-  };
-}
-
 export function autoUpdate(
   reference: Element,
   floating: HTMLElement,
   update: () => void
 ) {
-  const ancestors = [
-    ...overflowAncestors(reference),
-    ...overflowAncestors(floating)
-  ];
-  ancestors.forEach((ancestor) => {
-    ancestor.addEventListener('scroll', update);
-    ancestor.addEventListener('resize', update);
-  });
+  const win = getWindow(floating);
+  let last: string;
+  let quietFrames = 0;
+  let stopped = false;
 
-  const stopWatching =
-    typeof IntersectionObserver === 'function'
-      ? observeMove(reference, update)
-      : undefined;
+  const check = () => {
+    const target = rectInWindow(reference, win);
+    const own = floating.getBoundingClientRect();
+    const viewport = win.visualViewport;
+    const now = [
+      target.left,
+      target.top,
+      target.width,
+      target.height,
+      own.left,
+      own.top,
+      own.width,
+      own.height,
+      win.innerWidth,
+      win.innerHeight,
+      viewport?.offsetLeft,
+      viewport?.offsetTop,
+      viewport?.width
+    ].join();
 
-  let frame = -1;
-  const resizes =
-    typeof ResizeObserver === 'function'
-      ? new ResizeObserver(([entry]) => {
-          // Resizing the floating element in response to the reference (the
-          // `size` middleware) must not feed back into this observer.
-          if (entry?.target === reference) {
-            resizes?.unobserve(floating);
-            cancelAnimationFrame(frame);
-            frame = requestAnimationFrame(() => resizes?.observe(floating));
-          }
-          update();
-        })
-      : undefined;
-  resizes?.observe(reference);
-  resizes?.observe(floating);
+    if (now !== last) {
+      last = now;
+      quietFrames = 0;
+      update();
+    }
+  };
 
+  const nextFrame = () => requestAnimationFrame(loop);
+  const loop = () => {
+    if (stopped) return;
+    check();
+    if (++quietFrames < 30) nextFrame();
+    else setTimeout(nextFrame, 100);
+  };
+
+  win.addEventListener('scroll', check, true);
   update();
+  nextFrame();
 
   return () => {
-    ancestors.forEach((ancestor) => {
-      ancestor.removeEventListener('scroll', update);
-      ancestor.removeEventListener('resize', update);
-    });
-    stopWatching?.();
-    resizes?.disconnect();
-    cancelAnimationFrame(frame);
+    stopped = true;
+    win.removeEventListener('scroll', check, true);
   };
 }
