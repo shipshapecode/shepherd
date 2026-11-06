@@ -236,6 +236,56 @@ describe('utils/position', () => {
       expect(result.y).toBe(0);
     });
 
+    it('waits for a platform whose methods are async', async () => {
+      const { reference: ref, floating, arrowElement } = elements();
+      const sync = stubPlatform(REFERENCES[2], false);
+      const asyncPlatform = Object.fromEntries(
+        Object.entries(sync).map(([name, method]) => [
+          name,
+          async (...args) => method(...args)
+        ])
+      );
+      const position = (platform) =>
+        computePosition(ref, floating, {
+          placement: 'bottom-start',
+          platform,
+          middleware: [
+            flip(),
+            shift(),
+            arrow({ element: arrowElement, padding: 4 })
+          ]
+        });
+
+      expect(outcome(await position(asyncPlatform))).toEqual(
+        outcome(await position(sync))
+      );
+    });
+
+    it('recognizes a modal dialog where :popover-open is not supported', async () => {
+      const { reference: ref, floating } = elements();
+      vi.spyOn(floating, 'matches').mockImplementation((selector) => {
+        if (selector.includes(':popover-open')) {
+          throw new DOMException('Unknown selector', 'SyntaxError');
+        }
+        return selector === ':modal';
+      });
+      let offsetParent;
+
+      await computePosition(ref, floating, {
+        middleware: [
+          {
+            name: 'probe',
+            fn({ platform }) {
+              offsetParent = platform.getOffsetParent(floating);
+              return {};
+            }
+          }
+        ]
+      });
+
+      expect(offsetParent).toBe(window);
+    });
+
     it('skips falsy middleware entries', async () => {
       const { reference: ref, floating } = elements();
       const result = await computePosition(ref, floating, {

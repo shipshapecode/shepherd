@@ -256,6 +256,19 @@ describe('Floating UI Utils', function () {
       expect(document.activeElement).toBe(stepElement);
     });
 
+    it('reports a step it could not position, and still focuses it', async () => {
+      const { step, stepElement } = createTooltipFixture();
+      const cause = new Error('no platform');
+      floatingUIMock.computePosition.mockRejectedValueOnce(cause);
+      const consoleError = vi.spyOn(console, 'error');
+
+      setupTooltip(step);
+      await vi.advanceTimersByTimeAsync(20);
+
+      expect(consoleError).toHaveBeenCalledWith(expect.any(String), cause);
+      expect(document.activeElement).toBe(stepElement);
+    });
+
     it('focuses each fresh tooltip setup once', async () => {
       const first = createTooltipFixture();
       const firstFocusSpy = vi.spyOn(first.stepElement, 'focus');
