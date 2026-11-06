@@ -1,7 +1,5 @@
-import autoprefixer from 'autoprefixer';
 import { execaCommand } from 'execa';
 import fs from 'fs';
-import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
@@ -36,7 +34,7 @@ const plugins = [
     exclude: '**/node_modules/**'
   }),
   postcss({
-    plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
+    minimize: !isDev,
     extract: 'css/shepherd.css'
   }),
   license({
