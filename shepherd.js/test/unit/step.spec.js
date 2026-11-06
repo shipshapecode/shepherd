@@ -1281,6 +1281,77 @@ describe('Tour | Step', () => {
 
       expect(testElement.getAttribute('tabindex')).toBe('2');
     });
+
+    describe('position tracking', () => {
+      const liveWindowListeners = (type) => {
+        let live = 0;
+        vi.spyOn(window, 'addEventListener').mockImplementation(
+          function (listenerType) {
+            if (listenerType === type) live++;
+          }
+        );
+        vi.spyOn(window, 'removeEventListener').mockImplementation(
+          function (listenerType) {
+            if (listenerType === type) live--;
+          }
+        );
+        return () => live;
+      };
+
+      const threeStepTour = () =>
+        new Shepherd.Tour({
+          steps: ['first', 'second', 'third'].map((id) => ({
+            id,
+            text: id,
+            attachTo: { element: '#lifecycle-test-element', on: 'top' }
+          }))
+        });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
+
+      it('tracks only the current step, however many steps were shown', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        expect(onOneStep, 'the shown step follows scrolling').toBeGreaterThan(0);
+
+        await instance.next();
+        await instance.next();
+        expect(live(), 'hidden steps stopped listening').toBe(onOneStep);
+
+        instance.complete();
+        expect(live(), 'nothing is left after the tour ends').toBe(0);
+      });
+
+      it('resumes tracking when going back to a hidden step', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        await instance.next();
+        await instance.back();
+
+        expect(instance.getCurrentStep().id).toBe('first');
+        expect(live(), 'the shown step is subscribed once').toBe(onOneStep);
+        expect(instance.getCurrentStep().cleanup).toBeTypeOf('function');
+      });
+
+      it('stops tracking when a step is hidden directly', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        instance.getCurrentStep().hide();
+
+        expect(live()).toBe(0);
+        expect(instance.getCurrentStep().cleanup).toBeNull();
+      });
+    });
   });
 
   describe('data option', () => {
