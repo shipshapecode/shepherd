@@ -39,6 +39,9 @@
     "./dist/*": "./dist/*"
   },
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist ./tmp",
