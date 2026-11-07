@@ -754,7 +754,10 @@ export function arrow(element: Element, padding = 0): Middleware {
  * https://samthor.au/2021/observing-dom/
  */
 function observeMove(element: Element, onMove: () => void) {
-  const html = htmlOf(element);
+  const doc = getDocument(element);
+  // The viewport's size. In quirks mode that is <body>'s client size, not the
+  // root's, which spans the whole document.
+  const viewport = doc.scrollingElement || htmlOf(element);
   let observer: IntersectionObserver | undefined;
   let timer: ReturnType<typeof setTimeout>;
 
@@ -795,11 +798,11 @@ function observeMove(element: Element, onMove: () => void) {
         first = false;
       },
       {
-        root: html.ownerDocument,
+        root: doc,
         rootMargin: [
           y,
-          html.clientWidth - x - width,
-          html.clientHeight - y - height,
+          viewport.clientWidth - x - width,
+          viewport.clientHeight - y - height,
           x
         ]
           .map((inset) => `${-Math.floor(inset)}px`)
