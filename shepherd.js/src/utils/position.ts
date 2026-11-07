@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any --
-   This walks DOM nodes across realms and shadow roots, and implements Floating
-   UI's platform contract, whose inputs are unions of elements and windows. */
+   This walks DOM nodes across realms and shadow roots, whose types are unions
+   of elements and windows. */
 type Side = 'top' | 'right' | 'bottom' | 'left';
 type Axis = 'x' | 'y';
 type Coords = Record<Axis, number>;
-type Strategy = NonNullable<ComputePositionConfig['strategy']>;
+type Strategy = 'absolute' | 'fixed';
 
 /** The side of its target a step sits on, optionally aligned along that side. */
 export type Placement = Side | `${Side}-${Alignment}`;
@@ -12,32 +12,17 @@ export type Placement = Side | `${Side}-${Alignment}`;
 /** Which edge of its target a step lines up with. */
 export type Alignment = 'start' | 'end';
 
-/**
- * One positioning step. Middleware from your own install of `@floating-ui/dom`,
- * such as `offset()`, has this shape.
- */
+/** One positioning step, run in order and rerun from the start on a reset. */
 export interface Middleware {
-  /** Identifies the middleware, and keys the data it shares with later ones. */
+  /** Keys the data it shares with later ones. */
   name: string;
-  /** The options the middleware was created with. */
-  options?: any;
-  /** Receives Floating UI's `MiddlewareState` and returns its `MiddlewareReturn`. */
-  fn(state: any): any;
+  fn(state: MiddlewareState): MiddlewareResult;
 }
 
-/**
- * Positioning options, in the shape of Floating UI's `computePosition` config.
- * Shepherd sets these from `attachTo`, and these extend or override them.
- */
-export interface ComputePositionConfig {
-  /** Where the step sits relative to its target, overriding `attachTo.on`. */
-  placement?: Placement;
-  /** The CSS `position` of the step element. Defaults to `absolute`. */
-  strategy?: 'absolute' | 'fixed';
-  /** Runs in order after Shepherd's own middleware. Falsy entries are skipped. */
-  middleware?: Array<Middleware | null | undefined | false>;
-  /** Overrides how the DOM is measured, following Floating UI's `Platform`. */
-  platform?: Record<string, any>;
+export interface PositionConfig {
+  placement: Placement;
+  strategy: Strategy;
+  middleware: Middleware[];
 }
 
 interface Rect extends Coords {
@@ -50,23 +35,17 @@ interface ElementRects {
   floating: Rect;
 }
 
-/**
- * The state every middleware receives. It is Floating UI's `MiddlewareState`,
- * so middleware from a consumer's own `@floating-ui/dom` runs unchanged.
- */
-interface MiddlewareState extends Coords {
+/** Floating UI's `MiddlewareState`, less what only consumer middleware read. */
+interface MiddlewareState extends Coords, Measurements {
   initialPlacement: Placement;
   placement: Placement;
   strategy: Strategy;
   middlewareData: Record<string, any>;
-  rects: ElementRects;
-  elements: { reference: any; floating: HTMLElement };
-  platform: any;
 }
 
 interface MiddlewareResult extends Partial<Coords> {
   data?: Record<string, any>;
-  reset?: boolean | { placement?: Placement; rects?: boolean | ElementRects };
+  reset?: boolean | { placement: Placement };
 }
 
 export interface ComputePositionResult extends Coords {
@@ -282,7 +261,7 @@ function getScale(element: any): Coords {
 /**
  * Where `left: 0; top: 0` lands in client coordinates for an element with this
  * offset parent. Mapping through one origin and scale in both directions keeps
- * `getElementRects` and overflow detection in the same coordinate space.
+ * the measured rects and overflow detection in the same coordinate space.
  */
 function originOf(offsetParent: any, strategy: Strategy) {
   if (isHTMLElement(offsetParent)) {
@@ -341,35 +320,9 @@ function rectInWindow(element: any, targetWindow: Window) {
   return { x, y, width, height };
 }
 
-function rootRect(node: any, rootBoundary: string): Rect {
+function viewportRect(node: any): Rect {
   const html = htmlOf(node);
   const { x, width: rootWidth } = html.getBoundingClientRect();
-
-  if (rootBoundary === 'document') {
-    const { body } = getDocument(node);
-    const width = max(
-      html.scrollWidth,
-      html.clientWidth,
-      body.scrollWidth,
-      body.clientWidth
-    );
-    return {
-      x:
-        x +
-        (styleOf(body).direction === 'rtl'
-          ? max(html.clientWidth, body.clientWidth) - width
-          : 0),
-      y: -html.scrollTop,
-      width,
-      height: max(
-        html.scrollHeight,
-        html.clientHeight,
-        body.scrollHeight,
-        body.clientHeight
-      )
-    };
-  }
-
   const viewport = getWindow(node).visualViewport;
   // WebKit's client coordinates are relative to the visual viewport, others'
   // to the layout viewport.
@@ -408,10 +361,7 @@ function clippingAncestors(element: Element) {
   });
 }
 
-function clipRect(element: Element, clip: any): Rect {
-  if (typeof clip === 'string') return rootRect(element, clip);
-  if (!isElement(clip)) return clip;
-
+function clipRect(clip: Element): Rect {
   const scale = getScale(clip);
   const { x, y } = clip.getBoundingClientRect();
   return {
@@ -422,22 +372,12 @@ function clipRect(element: Element, clip: any): Rect {
   };
 }
 
-function getClippingRect({
-  element,
-  boundary,
-  rootBoundary
-}: {
-  element: Element;
-  boundary: any;
-  rootBoundary: any;
-}): Rect {
-  const clips: any[] =
-    boundary === 'clippingAncestors'
-      ? isTopLayer(element)
-        ? []
-        : clippingAncestors(element)
-      : [].concat(boundary);
-  const rects = [...clips, rootBoundary].map((clip) => clipRect(element, clip));
+/** The area visible through every clipping ancestor and the viewport. */
+function getClippingRect(element: Element): Rect {
+  const rects = [
+    ...(isTopLayer(element) ? [] : clippingAncestors(element).map(clipRect)),
+    viewportRect(element)
+  ];
   const x = max(...rects.map((rect) => rect.x));
   const y = max(...rects.map((rect) => rect.y));
 
@@ -449,93 +389,33 @@ function getClippingRect({
   };
 }
 
-async function detectOverflow(
-  state: MiddlewareState,
-  {
-    boundary = 'clippingAncestors',
-    rootBoundary = 'viewport',
-    elementContext = 'floating',
-    altBoundary = false,
-    padding = 0
-  }: Record<string, any> = {}
-): Promise<Record<Side, number>> {
-  const { x, y, platform, rects, elements, strategy } = state;
-  const pad = (side: Side) =>
-    (typeof padding === 'number' ? padding : padding[side]) || 0;
-  const clip: Rect = await platform.getClippingRect({
-    element:
-      elements[
-        altBoundary
-          ? elementContext === 'floating'
-            ? 'reference'
-            : 'floating'
-          : (elementContext as 'floating')
-      ],
-    boundary,
-    rootBoundary,
-    strategy
-  });
-  const offsetParent = await platform.getOffsetParent(elements.floating);
-  const scale: Coords = await platform.getScale(offsetParent);
-  const box: Rect =
-    await platform.convertOffsetParentRelativeRectToViewportRelativeRect({
-      elements,
-      rect:
-        elementContext === 'floating'
-          ? { ...rects.floating, x, y }
-          : rects.reference,
-      offsetParent,
-      strategy
-    });
-
-  return {
-    top: (clip.y - box.y + pad('top')) / scale.y,
-    bottom:
-      (box.y + box.height - clip.y - clip.height + pad('bottom')) / scale.y,
-    left: (clip.x - box.x + pad('left')) / scale.x,
-    right: (box.x + box.width - clip.x - clip.width + pad('right')) / scale.x
-  };
+/**
+ * Everything positioning reads from the DOM, read once per position. Nothing
+ * a middleware does moves the step's offset parent or clipping ancestors.
+ */
+export interface Measurements {
+  rects: ElementRects;
+  /** The visible area, in client coordinates. */
+  clip: Rect;
+  /** Where the offset parent's origin lands in client coordinates, and its scale. */
+  origin: Coords & { scale: Coords };
+  rtl: boolean;
+  floating: HTMLElement;
 }
 
-const platform = {
-  detectOverflow,
-  getClippingRect,
-  getOffsetParent,
-  getDimensions,
-  getScale,
-  isElement,
-  isRTL: (element: Element) => styleOf(element).direction === 'rtl',
-  getClientRects: (element: Element) => element.getClientRects(),
-  convertOffsetParentRelativeRectToViewportRelativeRect({
-    rect,
-    offsetParent,
-    strategy
-  }: {
-    rect: Rect;
-    offsetParent: Element | Window;
-    strategy: Strategy;
-  }): Rect {
-    const { x, y, scale } = originOf(offsetParent, strategy);
-    return {
-      x: rect.x * scale.x + x,
-      y: rect.y * scale.y + y,
-      width: rect.width * scale.x,
-      height: rect.height * scale.y
-    };
-  },
-  async getElementRects(
-    this: any,
-    {
-      reference,
-      floating,
-      strategy
-    }: { reference: any; floating: HTMLElement; strategy: Strategy }
-  ): Promise<ElementRects> {
-    const offsetParent = await this.getOffsetParent(floating);
-    const { x, y, scale } = originOf(offsetParent, strategy);
-    const rect = rectInWindow(reference, getWindow(offsetParent));
-    const { width, height } = await this.getDimensions(floating);
-    return {
+export function measure(
+  reference: Element,
+  floating: HTMLElement,
+  strategy: Strategy
+): Measurements {
+  const offsetParent = getOffsetParent(floating);
+  const origin = originOf(offsetParent, strategy);
+  const { x, y, scale } = origin;
+  const rect = rectInWindow(reference, getWindow(offsetParent));
+  const { width, height } = getDimensions(floating);
+
+  return {
+    rects: {
       reference: {
         x: (rect.x - x) / scale.x,
         y: (rect.y - y) / scale.y,
@@ -543,48 +423,55 @@ const platform = {
         height: rect.height / scale.y
       },
       floating: { x: 0, y: 0, width, height }
-    };
-  }
-};
+    },
+    clip: getClippingRect(floating),
+    origin,
+    rtl: styleOf(floating).direction === 'rtl',
+    floating
+  };
+}
 
-export async function computePosition(
-  reference: Element,
-  floating: HTMLElement,
-  config: ComputePositionConfig
-): Promise<ComputePositionResult> {
-  const {
-    placement: initialPlacement = 'bottom',
-    strategy = 'absolute',
-    middleware = []
-  } = config;
-  // `_c` is the per-call cache of a `platform` spread from `@floating-ui/dom`.
-  const merged: any = { ...platform, ...config.platform, _c: new Map() };
-  const elements = { reference, floating };
+function detectOverflow(
+  { x, y, rects: { floating }, clip, origin }: MiddlewareState,
+  padding = 0
+): Record<Side, number> {
+  const { scale } = origin;
+  const left = x * scale.x + origin.x;
+  const top = y * scale.y + origin.y;
+
+  return {
+    top: (clip.y - top + padding) / scale.y,
+    bottom:
+      (top + floating.height * scale.y - clip.y - clip.height + padding) /
+      scale.y,
+    left: (clip.x - left + padding) / scale.x,
+    right:
+      (left + floating.width * scale.x - clip.x - clip.width + padding) /
+      scale.x
+  };
+}
+
+/** Runs the middleware against measurements taken by `measure`. */
+export function place(
+  measurements: Measurements,
+  { placement: initialPlacement, strategy, middleware }: PositionConfig
+): ComputePositionResult {
+  const { rects, rtl } = measurements;
   const middlewareData: Record<string, any> = {};
-  const rtl = await merged.isRTL(floating);
-  let rects: ElementRects = await merged.getElementRects({
-    reference,
-    floating,
-    strategy
-  });
   let { x, y } = placementCoords(rects, initialPlacement, rtl);
   let placement = initialPlacement;
   let resets = 0;
 
   for (let i = 0; i < middleware.length; i++) {
-    const current = middleware[i];
-    if (!current) continue;
-
-    const result: MiddlewareResult = await current.fn({
+    const current = middleware[i] as Middleware;
+    const result = current.fn({
+      ...measurements,
       x,
       y,
       initialPlacement,
       placement,
       strategy,
-      middlewareData,
-      rects,
-      platform: merged,
-      elements
+      middlewareData
     });
     x = result.x ?? x;
     y = result.y ?? y;
@@ -597,13 +484,7 @@ export async function computePosition(
     if (reset && resets < 50) {
       resets++;
       if (typeof reset === 'object') {
-        placement = reset.placement || placement;
-        if (reset.rects) {
-          rects =
-            reset.rects === true
-              ? await merged.getElementRects({ reference, floating, strategy })
-              : reset.rects;
-        }
+        placement = reset.placement;
         ({ x, y } = placementCoords(rects, placement, rtl));
       }
       i = -1;
@@ -611,6 +492,14 @@ export async function computePosition(
   }
 
   return { x, y, placement, strategy, middlewareData };
+}
+
+export async function computePosition(
+  reference: Element,
+  floating: HTMLElement,
+  config: PositionConfig
+): Promise<ComputePositionResult> {
+  return place(measure(reference, floating, config.strategy), config);
 }
 
 function minBy<T>(list: T[], key: (item: T) => number) {
@@ -623,6 +512,42 @@ function minBy<T>(list: T[], key: (item: T) => number) {
 const fits = (overflow: number) => overflow <= 0;
 
 /**
+ * Moves the element away from its reference along the side it sits on, and
+ * along that side by `crossAxis`. Floating UI's `offset()`, which `shift`'s
+ * limit reads back from `middlewareData.offset`.
+ */
+export function offset(
+  value: number | { mainAxis?: number; crossAxis?: number }
+): Middleware {
+  const { mainAxis = 0, crossAxis = 0 } =
+    typeof value === 'number' ? { mainAxis: value } : value;
+
+  return {
+    name: 'offset',
+    fn({ x, y, placement, middlewareData, rtl }) {
+      // After the arrow's nudge resets, the offset is already in `x` and `y`.
+      if (
+        placement === middlewareData['offset']?.placement &&
+        middlewareData['arrow']?.alignmentOffset
+      ) {
+        return {};
+      }
+      const axis = sideAxis(placement);
+      const delta = {
+        [axis]: /^[tl]/.test(placement) ? -mainAxis : mainAxis,
+        [otherAxis(axis)]: rtl && axis === 'y' ? -crossAxis : crossAxis
+      } as Coords;
+
+      return {
+        x: x + delta.x,
+        y: y + delta.y,
+        data: { ...delta, placement }
+      };
+    }
+  };
+}
+
+/**
  * Tries candidate placements in order, one reset at a time, recording how each
  * overflows. `choose` picks among them once every candidate has been tried.
  * `flipping` stops at the first fit and defers to any placement another
@@ -630,17 +555,15 @@ const fits = (overflow: number) => overflow <= 0;
  */
 function placementSearch(
   name: string,
-  options: unknown,
+  padding: number | undefined,
   flipping: boolean,
   candidates: (initial: Placement) => Placement[],
   choose: (attempts: Attempt[]) => Attempt | undefined
 ): Middleware {
   return {
     name,
-    options,
-    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
-      const { placement, initialPlacement, middlewareData } = state;
-      const { platform, rects, elements } = state;
+    fn(state) {
+      const { placement, initialPlacement, middlewareData, rects, rtl } = state;
       const { index = 0, overflows: previous = [] } =
         middlewareData[name] || {};
       const placements = candidates(initialPlacement);
@@ -653,12 +576,8 @@ function placementSearch(
         return { reset: { placement: placements[0] as Placement } };
       }
 
-      const overflow = await platform.detectOverflow(state);
-      const [first, second] = alignmentSides(
-        placement,
-        rects,
-        await platform.isRTL(elements.floating)
-      );
+      const overflow = detectOverflow(state, padding);
+      const [first, second] = alignmentSides(placement, rects, rtl);
       const overflows: number[] = [
         overflow[sideOf(placement)],
         overflow[first],
@@ -681,10 +600,10 @@ function placementSearch(
   };
 }
 
-export function flip(): Middleware {
+export function flip(padding?: number): Middleware {
   return placementSearch(
     'flip',
-    undefined,
+    padding,
     true,
     (initial) => {
       const opposite = oppositeSide(initial);
@@ -708,10 +627,10 @@ export function flip(): Middleware {
   );
 }
 
-export function autoPlacement(options: {
-  alignment: Alignment | null;
-}): Middleware {
-  const { alignment } = options;
+export function autoPlacement(
+  alignment: Alignment | undefined,
+  padding?: number
+): Middleware {
   const placements = (
     alignment
       ? [alignment, OPPOSITES[alignment]].flatMap((align) =>
@@ -725,7 +644,7 @@ export function autoPlacement(options: {
 
   return placementSearch(
     'autoPlacement',
-    options,
+    padding,
     false,
     () => placements,
     (attempts) =>
@@ -744,15 +663,15 @@ export function autoPlacement(options: {
 /**
  * Keeps the element in view on both axes, stopping once it would detach from
  * the reference. Floating UI spells this `shift({ limiter: limitShift(),
- * crossAxis: true })`.
+ * crossAxis: true, padding })`.
  */
-export function shift(): Middleware {
+export function shift(padding?: number): Middleware {
   return {
     name: 'shift',
-    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
-      const { x, y, placement, rects, middlewareData, platform } = state;
+    fn(state) {
+      const { x, y, placement, rects, middlewareData } = state;
       const { reference, floating } = rects;
-      const overflow = await platform.detectOverflow(state);
+      const overflow = detectOverflow(state, padding);
       const cross = sideAxis(placement);
       const main = otherAxis(cross);
       const fromOrigin = /^[tl]/.test(placement);
@@ -777,34 +696,24 @@ export function shift(): Middleware {
 
       return {
         ...limited,
-        data: {
-          x: limited.x - x,
-          y: limited.y - y,
-          enabled: { x: true, y: true }
-        }
+        data: { x: limited.x - x, y: limited.y - y }
       };
     }
   };
 }
 
-export function arrow(options: {
-  element: Element;
-  padding?: number;
-}): Middleware {
+export function arrow(element: HTMLElement, padding = 0): Middleware {
   return {
     name: 'arrow',
-    options,
-    async fn(state: MiddlewareState): Promise<MiddlewareResult> {
-      const { placement, rects, platform, elements, middlewareData } = state;
-      const { element, padding = 0 } = options;
+    fn(state) {
+      const { placement, rects, floating, middlewareData } = state;
       const axis = otherAxis(sideAxis(placement));
       const length = lengthOf(axis);
       const start = state[axis];
-      const arrowLength = (await platform.getDimensions(element))[length];
+      const arrowLength = getDimensions(element)[length];
       const free =
-        (axis === 'y'
-          ? elements.floating.clientHeight
-          : elements.floating.clientWidth) - arrowLength;
+        (axis === 'y' ? floating.clientHeight : floating.clientWidth) -
+        arrowLength;
       // Padding large enough to push the arrow off center gets capped.
       const edge = min(padding, free / 2 - 1);
       const end = free - edge;

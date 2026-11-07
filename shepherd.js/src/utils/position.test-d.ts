@@ -1,37 +1,21 @@
-// Compile-time proof, checked by `tsc`, that a consumer's own Floating UI
-// middleware and config satisfy `floatingUIOptions` with no dependency on it.
-import {
-  arrow,
-  autoPlacement,
-  flip,
-  hide,
-  inline,
-  limitShift,
-  offset,
-  shift,
-  size,
-  type ComputePositionConfig as FloatingUIConfig
-} from '@floating-ui/dom';
-import type { StepOptions } from '../step.ts';
+// Compile-time checks, run by `tsc`, of what `positionOptions` accepts.
+import type { StepOptions, StepOptionsPosition } from '../step.ts';
 
-export const fromMiddleware: StepOptions['floatingUIOptions'] = {
+export const everyKey: StepOptionsPosition = {
+  offset: { mainAxis: 8, crossAxis: -4 },
+  padding: 16,
   strategy: 'fixed',
-  placement: 'left-start',
-  middleware: [
-    offset(8),
-    flip({ padding: 4 }),
-    shift({ limiter: limitShift() }),
-    arrow({ element: document.body }),
-    autoPlacement(),
-    hide(),
-    inline(),
-    size(),
-    false,
-    null,
-    undefined
-  ]
+  flip: false
 };
 
-export const fromConfig = (
-  config: FloatingUIConfig
-): StepOptions['floatingUIOptions'] => config;
+export const onAStep: StepOptions = { positionOptions: { offset: 12 } };
+
+export const removed: StepOptions = {
+  // @ts-expect-error `floatingUIOptions` was replaced by `positionOptions`.
+  floatingUIOptions: { strategy: 'fixed' }
+};
+
+export const badStrategy: StepOptionsPosition = {
+  // @ts-expect-error Only `absolute` and `fixed`.
+  strategy: 'sticky'
+};

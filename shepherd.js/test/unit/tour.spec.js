@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Shepherd from '../../src/shepherd';
 import ResizeObserver from 'resize-observer-polyfill';
 import { setupTooltip } from '../../src/utils/floating-ui';
-import { offset } from '@floating-ui/dom';
+import { place } from '../../src/utils/position';
 
 const { Step } = Shepherd;
 
@@ -24,14 +24,10 @@ describe('Tour | Top-Level Class', function () {
     show() {}
   };
 
-  const offsetMiddleware = offset({ crossAxis: 32 });
-
   const defaultStepOptions = {
     classes: DEFAULT_STEP_CLASS,
     scrollTo: true,
-    floatingUIOptions: {
-      middleware: [offsetMiddleware]
-    },
+    positionOptions: { offset: { crossAxis: 32 } },
     showOn,
     when
   };
@@ -60,9 +56,7 @@ describe('Tour | Top-Level Class', function () {
       expect(instance.options.defaultStepOptions).toEqual({
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [offsetMiddleware]
-        },
+        positionOptions: { offset: { crossAxis: 32 } },
         showOn,
         when
       });
@@ -926,83 +920,79 @@ describe('Tour | Top-Level Class', function () {
     });
   });
 
-  describe('floatingUIOptions', () => {
-    it('applies the default modifiers from defaultStepOptions', function () {
+  describe('positionOptions', () => {
+    const names = ({ middleware }) => middleware.map(({ name }) => name);
+    let target;
+
+    beforeEach(() => {
+      target = document.createElement('div');
+      target.classList.add('modifiers-test');
+      document.body.appendChild(target);
+    });
+
+    afterEach(() => {
+      target.remove();
+    });
+
+    it('applies positionOptions from defaultStepOptions', function () {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const step = instance.addStep({
+        attachTo: { element: '.modifiers-test', on: 'top' },
         id: 'test',
         title: 'This is a test step for our tour'
       });
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(1);
+      const config = setupTooltip(step);
+      expect(names(config)).toEqual(['offset', 'flip', 'shift', 'arrow']);
+      expect(config.strategy).toBe('absolute');
     });
 
-    it('adds a step modifer to default modifiers', function () {
+    it("combines a step's positionOptions with the defaults key by key", function () {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const step = instance.addStep({
+        attachTo: { element: '.modifiers-test', on: 'top' },
         id: 'test',
         title: 'This is a test step for our tour',
-        floatingUIOptions: {
-          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
-        }
+        positionOptions: { strategy: 'fixed', flip: false }
       });
 
       instance.start();
 
-      const floatingUIOptions = setupTooltip(step);
-      expect(floatingUIOptions.middleware.length).toBe(2);
+      const config = setupTooltip(step);
+      expect(names(config)).toEqual(['offset', 'shift', 'arrow']);
+      expect(config.strategy).toBe('fixed');
     });
 
-    it('correctly changes modifiers when going from centered to attached', function () {
-      const div = document.createElement('div');
-      div.classList.add('modifiers-test');
-      document.body.appendChild(div);
+    it('correctly changes middleware when going from centered to attached', function () {
       instance = new Shepherd.Tour({ defaultStepOptions });
 
       const centeredStep = instance.addStep({
         id: 'centered',
-        title: 'This is a centered step for our tour',
-        floatingUIOptions: {
-          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
-        }
+        title: 'This is a centered step for our tour'
       });
 
       const attachedStep = instance.addStep({
         attachTo: { element: '.modifiers-test', on: 'top' },
         id: 'attached',
-        title: 'This is an attached step for our tour',
-        floatingUIOptions: {
-          middleware: [{ name: 'foo', options: 'bar', fn: (args) => args }]
-        }
+        title: 'This is an attached step for our tour'
       });
 
       instance.start();
 
-      const centeredOptions = setupTooltip(centeredStep);
-      const centeredMiddlewareNames = centeredOptions.middleware.map(
-        ({ name }) => name
-      );
-      expect(centeredOptions.middleware.length).toBe(2);
-      expect(centeredMiddlewareNames.includes('offset')).toBe(true);
-      expect(centeredMiddlewareNames.includes('foo')).toBe(true);
-      expect(centeredMiddlewareNames.includes('arrow')).toBe(false);
+      expect(names(setupTooltip(centeredStep))).toEqual([]);
 
       instance.next();
 
-      const options = setupTooltip(attachedStep);
-      const middlewareNames = options.middleware.map(({ name }) => name);
-      expect(options.middleware.length).toBe(5);
-      expect(middlewareNames.includes('offset')).toBe(true);
-      expect(middlewareNames.includes('foo')).toBe(true);
-      expect(middlewareNames.includes('shift')).toBe(true);
-      expect(middlewareNames.includes('arrow')).toBe(true);
-
-      document.body.removeChild(div);
+      expect(names(setupTooltip(attachedStep))).toEqual([
+        'offset',
+        'flip',
+        'shift',
+        'arrow'
+      ]);
     });
 
     it('renders step in stepsContainer', () => {
@@ -1027,59 +1017,41 @@ describe('Tour | Top-Level Class', function () {
       expect(stepsContainer.contains(stepElement)).toBe(true);
     });
 
-    it('adds autoPlacement middleware when attachTo.on is set to auto', () => {
-      const div = document.createElement('div');
-      div.classList.add('modifiers-test');
-      document.body.appendChild(div);
-      instance = new Shepherd.Tour();
+    it.each([
+      ['auto', /^(top|right|bottom|left)$/],
+      ['auto-start', /-start$/],
+      ['auto-end', /-end$/]
+    ])(
+      'chooses a side with autoPlacement for %s, keeping its alignment',
+      (on, expected) => {
+        instance = new Shepherd.Tour();
 
-      const step1 = instance.addStep({
-        id: 'test',
-        title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto' }
-      });
+        const step = instance.addStep({
+          id: 'test',
+          title: 'This is a test step for our tour',
+          attachTo: { element: '.modifiers-test', on }
+        });
 
-      const step2 = instance.addStep({
-        id: 'test',
-        title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto-start' }
-      });
+        instance.start();
 
-      const step3 = instance.addStep({
-        id: 'test',
-        title: 'This is a test step for our tour',
-        attachTo: { element: '.modifiers-test', on: 'auto-end' }
-      });
-
-      instance.start();
-
-      const step1FloatingUIOptions = setupTooltip(step1);
-      const step1MiddlewareNames = step1FloatingUIOptions.middleware.map(
-        ({ name }) => name
-      );
-      const step1PlacementMiddleware = step1FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step1MiddlewareNames.includes('autoPlacement')).toBe(true);
-      expect(step1MiddlewareNames.includes('flip')).toBe(false);
-      expect(step1PlacementMiddleware.options.alignment).toBe(null);
-
-      instance.next();
-
-      const step2FloatingUIOptions = setupTooltip(step2);
-      const step2PlacementMiddleware = step2FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step2PlacementMiddleware.options.alignment).toBe('start');
-
-      instance.next();
-
-      const step3FloatingUIOptions = setupTooltip(step3);
-      const step3PlacementMiddleware = step3FloatingUIOptions.middleware.find(
-        ({ name }) => name === 'autoPlacement'
-      );
-      expect(step3PlacementMiddleware.options.alignment).toBe('end');
-    });
+        const config = setupTooltip(step);
+        expect(names(config)).toEqual(['autoPlacement', 'shift', 'arrow']);
+        const { placement } = place(
+          {
+            rects: {
+              reference: { x: 450, y: 330, width: 100, height: 40 },
+              floating: { x: 0, y: 0, width: 300, height: 120 }
+            },
+            clip: { x: 0, y: 0, width: 1000, height: 700 },
+            origin: { x: 0, y: 0, scale: { x: 1, y: 1 } },
+            rtl: false,
+            floating: step.el
+          },
+          config
+        );
+        expect(placement).toMatch(expected);
+      }
+    );
 
     describe('strategy', () => {
       let target;
@@ -1108,14 +1080,14 @@ describe('Tour | Top-Level Class', function () {
         await vi.waitFor(() => expect(step.el.style.position).toBe('absolute'));
       });
 
-      it('honors `strategy: fixed` from step floatingUIOptions', async () => {
+      it('honors `strategy: fixed` from step positionOptions', async () => {
         instance = new Shepherd.Tour();
 
         const step = instance.addStep({
           id: 'test',
           title: 'This is a test step for our tour',
           attachTo: { element: '.strategy-test', on: 'top' },
-          floatingUIOptions: { strategy: 'fixed' }
+          positionOptions: { strategy: 'fixed' }
         });
 
         instance.start();
@@ -1123,10 +1095,10 @@ describe('Tour | Top-Level Class', function () {
         await vi.waitFor(() => expect(step.el.style.position).toBe('fixed'));
       });
 
-      it('honors `strategy: fixed` from defaultStepOptions floatingUIOptions', async () => {
+      it('honors `strategy: fixed` from defaultStepOptions positionOptions', async () => {
         instance = new Shepherd.Tour({
           defaultStepOptions: {
-            floatingUIOptions: { strategy: 'fixed' }
+            positionOptions: { strategy: 'fixed' }
           }
         });
 
@@ -1153,7 +1125,7 @@ describe('Tour | Top-Level Class', function () {
           const step = instance.addStep({
             id: 'test',
             title: 'This is a test step for our tour',
-            floatingUIOptions: strategy ? { strategy } : {}
+            positionOptions: { strategy }
           });
 
           instance.start();

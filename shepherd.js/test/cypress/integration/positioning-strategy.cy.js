@@ -36,14 +36,14 @@ describe('positioning strategy', () => {
     });
   };
 
-  const startTour = (floatingUIOptions) => {
+  const startTour = (positionOptions) => {
     const tour = setupTour(Shepherd, { scrollTo: false }, () => [
       {
         attachTo: { element: '.page-target', on: 'bottom' },
         id: 'strategy',
         title: 'Strategy step',
         text: 'positioned against a target the page scrolls past',
-        floatingUIOptions
+        positionOptions
       }
     ]);
 

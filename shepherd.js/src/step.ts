@@ -13,17 +13,12 @@ import {
   uuid,
   parseExtraHighlights
 } from './utils/general.ts';
-import {
-  setupTooltip,
-  destroyTooltip,
-  mergeTooltipConfig
-} from './utils/floating-ui.ts';
+import { setupTooltip, destroyTooltip } from './utils/floating-ui.ts';
 import {
   createShepherdElement,
   type ShepherdElementResult
 } from './components/shepherd-element.ts';
 import { type Tour } from './tour.ts';
-import type { ComputePositionConfig } from './utils/position.ts';
 
 /**
  * The body of a step. Strings render as HTML, so escape untrusted input.
@@ -203,18 +198,17 @@ export interface StepOptions {
   modalOverlayOpeningYOffset?: number;
 
   /**
-   * Extra positioning options, in the shape of Floating UI's
-   * [computePosition config]{@link https://floating-ui.com/docs/computePosition}.
-   * Shepherd positions steps itself and does not depend on `@floating-ui/dom`,
-   * but middleware from your own install of it, such as `offset()`, runs as is.
+   * How the step is placed against its target: the gap, the distance kept from
+   * the edges, the CSS `position`, and whether it may flip. See
+   * {@link StepOptionsPosition}. Values from `defaultStepOptions` and the step
+   * combine key by key, so a step can change one and keep the rest.
    *
-   * This includes `strategy`, the CSS `position` used for the step element,
-   * which defaults to `'absolute'`. Centered steps are always `position: fixed`
-   * and ignore `strategy` -- a step counts as centered when it has no
-   * `attachTo` at all, or when its `attachTo` is missing either `element` or
-   * `on`.
+   * @example
+   * ```js
+   * positionOptions: { offset: 12, padding: 8 }
+   * ```
    */
-  floatingUIOptions?: ComputePositionConfig;
+  positionOptions?: StepOptionsPosition;
 
   /**
    * Should the element be scrolled to when this step is shown?
@@ -320,6 +314,58 @@ export type PopperPlacement =
   | 'left'
   | 'left-start'
   | 'left-end';
+
+/**
+ * How a step is placed against its target, set through
+ * {@link StepOptions.positionOptions}. Shepherd positions steps itself, with no
+ * dependency on Floating UI. These cover what its `offset()`, `flip()`,
+ * `shift()` and `strategy` were used for. A centered step, one whose `attachTo`
+ * lacks `element` or `on`, ignores all of them.
+ *
+ * @example
+ * ```js
+ * tour.addStep({
+ *   text: 'Sticks to the header while the page scrolls.',
+ *   attachTo: { element: '#header', on: 'bottom-start' },
+ *   positionOptions: { offset: 12, padding: 16, strategy: 'fixed' }
+ * });
+ * ```
+ */
+export interface StepOptionsPosition {
+  /**
+   * The gap between the step and its target, in pixels. A number moves the step
+   * away from the target. `crossAxis` moves it along the side it sits on, toward
+   * the end of that side, with left and right swapped in right-to-left pages
+   * for `top` and `bottom` placements. The same as Floating UI's `offset()`.
+   *
+   * @defaultValue `0`. The arrow, when shown, makes up the visible gap.
+   */
+  offset?: number | { mainAxis?: number; crossAxis?: number };
+  /**
+   * The least distance, in pixels, kept between the step and the edges of the
+   * viewport and of any scrolling or clipping ancestor. It applies both when
+   * choosing a side, so a step flips sooner, and when sliding the step along
+   * its side to keep it in view.
+   *
+   * @defaultValue `0`
+   */
+  padding?: number;
+  /**
+   * The CSS `position` of the step element. Use `'fixed'` when the target is
+   * itself `position: fixed`, such as a sticky header.
+   *
+   * @defaultValue `'absolute'`
+   */
+  strategy?: 'absolute' | 'fixed';
+  /**
+   * Whether the step may move to the opposite side, or the opposite alignment,
+   * when `attachTo.on` would not fit. `false` keeps `attachTo.on` even when the
+   * step overflows. `auto` placements always choose their own side.
+   *
+   * @defaultValue `true`
+   */
+  flip?: boolean;
+}
 
 /**
  * Options for the arrow pointing at the target.
@@ -847,8 +893,17 @@ export class Step extends Evented {
       arrow: true,
       ...tourOptions,
       ...options,
-      ...mergeTooltipConfig(tourOptions, options)
+      positionOptions: {
+        ...tourOptions.positionOptions,
+        ...options.positionOptions
+      }
     };
+
+    if ('floatingUIOptions' in this.options) {
+      console.warn(
+        'Shepherd: floatingUIOptions was removed. Use positionOptions: { offset, padding, strategy, flip }.'
+      );
+    }
 
     this.options.classes = this._getClassOptions(options);
 

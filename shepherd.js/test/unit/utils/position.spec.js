@@ -4,19 +4,18 @@ import {
   autoPlacement as floatingAutoPlacement,
   computePosition as floatingComputePosition,
   flip as floatingFlip,
-  hide,
   limitShift,
-  offset,
-  platform as floatingPlatform,
-  shift as floatingShift,
-  size
+  offset as floatingOffset,
+  shift as floatingShift
 } from '@floating-ui/dom';
 import {
   arrow,
   autoPlacement,
   autoUpdate,
-  computePosition,
   flip,
+  measure,
+  offset,
+  place,
   shift
 } from '../../../src/utils/position.ts';
 
@@ -54,9 +53,9 @@ const REFERENCES = [
 const ARROW_PADDINGS = [0, 4, 40, 500];
 
 /**
- * happy-dom has no layout, so geometry comes from a platform stub. Real
- * browsers are covered by the scorecard's parity goldens; this pins the
- * middleware logic against Floating UI's own for every placement.
+ * happy-dom has no layout, so the engine's math runs on given measurements and
+ * stock Floating UI on a platform returning the same ones. Real browsers are
+ * covered by the scorecard's parity goldens and `pnpm test:position`.
  */
 function stubPlatform(reference, rtl, viewport = VIEWPORTS[0]) {
   return {
@@ -75,6 +74,14 @@ function stubPlatform(reference, rtl, viewport = VIEWPORTS[0]) {
   };
 }
 
+const measurements = (floating, reference, rtl, viewport = VIEWPORTS[0]) => ({
+  rects: { reference, floating: { x: 0, y: 0, ...FLOATING } },
+  clip: viewport,
+  origin: { x: 0, y: 0, scale: { x: 1, y: 1 } },
+  rtl,
+  floating
+});
+
 function elements() {
   const reference = document.createElement('div');
   const floating = document.createElement('div');
@@ -83,6 +90,9 @@ function elements() {
   // The engine reads the free space for the arrow from `clientWidth`.
   Object.defineProperty(floating, 'clientWidth', { value: FLOATING.width });
   Object.defineProperty(floating, 'clientHeight', { value: FLOATING.height });
+  arrowElement.style.cssText = 'width: 16px; height: 16px';
+  Object.defineProperty(arrowElement, 'offsetWidth', { value: 16 });
+  Object.defineProperty(arrowElement, 'offsetHeight', { value: 16 });
   return { reference, floating, arrowElement };
 }
 
@@ -94,80 +104,125 @@ const outcome = ({ x, y, placement, middlewareData: { arrow: data } }) => ({
   arrowY: data?.y
 });
 
+/** Both engines, given the same geometry, with each side's own middleware. */
+async function bothWays({ reference, rtl, viewport, placement, ours, theirs }) {
+  const { reference: ref, floating, arrowElement } = elements();
+  const engine = place(measurements(floating, reference, rtl, viewport), {
+    placement: placement ?? 'bottom',
+    strategy: 'absolute',
+    middleware: ours(arrowElement)
+  });
+  const stock = await floatingComputePosition(ref, floating, {
+    placement,
+    platform: stubPlatform(reference, rtl, viewport),
+    middleware: theirs(arrowElement)
+  });
+  return [outcome(engine), outcome(stock)];
+}
+
+const stockShift = (options) =>
+  floatingShift({ limiter: limitShift(), crossAxis: true, ...options });
+
 describe('utils/position', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  describe('computePosition()', () => {
+  describe('place()', () => {
     describe.each([false, true])('with rtl %s', (rtl) => {
       describe.each(VIEWPORTS)('in a $width x $height viewport', (viewport) => {
         it.each(REFERENCES)(
           'matches Floating UI with flip, shift, and arrow for $x,$y',
           async (reference) => {
-            const { reference: ref, floating, arrowElement } = elements();
-            const platform = stubPlatform(reference, rtl, viewport);
-
             for (const placement of PLACEMENTS) {
               for (const padding of ARROW_PADDINGS) {
-                const ours = await computePosition(ref, floating, {
+                const [ours, theirs] = await bothWays({
+                  reference,
+                  rtl,
+                  viewport,
                   placement,
-                  platform,
-                  middleware: [
-                    flip(),
-                    shift(),
-                    arrow({ element: arrowElement, padding })
-                  ]
-                });
-                const theirs = await floatingComputePosition(ref, floating, {
-                  placement,
-                  platform,
-                  middleware: [
+                  ours: (element) => [flip(), shift(), arrow(element, padding)],
+                  theirs: (element) => [
                     floatingFlip(),
-                    floatingShift({ limiter: limitShift(), crossAxis: true }),
-                    floatingArrow({ element: arrowElement, padding })
+                    stockShift(),
+                    floatingArrow({ element, padding })
                   ]
                 });
-
-                expect(outcome(ours), `${placement} ${padding}`).toEqual(
-                  outcome(theirs)
-                );
+                expect(ours, `${placement} ${padding}`).toEqual(theirs);
               }
             }
           }
         );
 
         it.each(REFERENCES)(
-          'matches Floating UI with a consumer offset for $x,$y',
+          'matches Floating UI with offset first for $x,$y',
           async (reference) => {
-            const { reference: ref, floating, arrowElement } = elements();
-            const platform = stubPlatform(reference, rtl, viewport);
-            const padding = 40;
-
             for (const placement of PLACEMENTS) {
-              const distance = { mainAxis: 12, crossAxis: 7 };
-              const ours = await computePosition(ref, floating, {
-                placement,
-                platform,
-                middleware: [
-                  flip(),
-                  shift(),
-                  offset(distance),
-                  arrow({ element: arrowElement, padding })
-                ]
-              });
-              const theirs = await floatingComputePosition(ref, floating, {
-                placement,
-                platform,
-                middleware: [
-                  floatingFlip(),
-                  floatingShift({ limiter: limitShift(), crossAxis: true }),
-                  offset(distance),
-                  floatingArrow({ element: arrowElement, padding })
-                ]
-              });
+              for (const distance of [12, { mainAxis: 12, crossAxis: 7 }]) {
+                const [ours, theirs] = await bothWays({
+                  reference,
+                  rtl,
+                  viewport,
+                  placement,
+                  ours: (element) => [
+                    offset(distance),
+                    flip(),
+                    shift(),
+                    arrow(element, 40)
+                  ],
+                  theirs: (element) => [
+                    floatingOffset(distance),
+                    floatingFlip(),
+                    stockShift(),
+                    floatingArrow({ element, padding: 40 })
+                  ]
+                });
+                expect(
+                  ours,
+                  `${placement} ${JSON.stringify(distance)}`
+                ).toEqual(theirs);
+              }
+            }
+          }
+        );
 
-              expect(outcome(ours), placement).toEqual(outcome(theirs));
+        it.each(REFERENCES)(
+          'matches Floating UI with padding for $x,$y',
+          async (reference) => {
+            for (const placement of PLACEMENTS) {
+              const [ours, theirs] = await bothWays({
+                reference,
+                rtl,
+                viewport,
+                placement,
+                ours: (element) => [flip(24), shift(24), arrow(element, 4)],
+                theirs: (element) => [
+                  floatingFlip({ padding: 24 }),
+                  stockShift({ padding: 24 }),
+                  floatingArrow({ element, padding: 4 })
+                ]
+              });
+              expect(ours, placement).toEqual(theirs);
+            }
+          }
+        );
+
+        it.each(REFERENCES)(
+          'matches Floating UI without flip for $x,$y',
+          async (reference) => {
+            for (const placement of PLACEMENTS) {
+              const [ours, theirs] = await bothWays({
+                reference,
+                rtl,
+                viewport,
+                placement,
+                ours: (element) => [shift(), arrow(element, 4)],
+                theirs: (element) => [
+                  stockShift(),
+                  floatingArrow({ element, padding: 4 })
+                ]
+              });
+              expect(ours, placement).toEqual(theirs);
             }
           }
         );
@@ -176,137 +231,74 @@ describe('utils/position', () => {
       it.each(REFERENCES)(
         'matches Floating UI with autoPlacement for $x,$y',
         async (reference) => {
-          const { reference: ref, floating } = elements();
-          const platform = stubPlatform(reference, rtl);
-
-          for (const alignment of [null, 'start', 'end']) {
-            const ours = await computePosition(ref, floating, {
-              platform,
-              middleware: [autoPlacement({ alignment }), shift()]
-            });
-            const theirs = await floatingComputePosition(ref, floating, {
-              platform,
-              middleware: [
-                floatingAutoPlacement({ crossAxis: true, alignment }),
-                floatingShift({ limiter: limitShift(), crossAxis: true })
-              ]
-            });
-
-            expect(outcome(ours), String(alignment)).toEqual(outcome(theirs));
+          for (const alignment of [undefined, 'start', 'end']) {
+            for (const padding of [undefined, 24]) {
+              const [ours, theirs] = await bothWays({
+                reference,
+                rtl,
+                ours: () => [autoPlacement(alignment, padding), shift(padding)],
+                theirs: () => [
+                  floatingAutoPlacement({
+                    crossAxis: true,
+                    alignment,
+                    padding
+                  }),
+                  stockShift({ padding })
+                ]
+              });
+              expect(ours, `${alignment} ${padding}`).toEqual(theirs);
+            }
           }
         }
       );
     });
 
-    it('runs real Floating UI middleware unchanged', async () => {
-      const { reference: ref, floating } = elements();
-      const platform = stubPlatform(REFERENCES[1], false);
-      const middleware = () => [
-        offset({ mainAxis: 12, crossAxis: 3 }),
-        floatingFlip({ padding: 8, fallbackAxisSideDirection: 'start' }),
-        floatingShift({ padding: 24 }),
-        size({ padding: 4, apply() {} }),
-        hide()
-      ];
+    it('stops resetting a middleware that never settles', () => {
+      const { floating } = elements();
+      const fn = vi.fn(() => ({ reset: true }));
 
-      const ours = await computePosition(ref, floating, {
-        placement: 'top',
-        platform,
-        middleware: middleware()
-      });
-      const theirs = await floatingComputePosition(ref, floating, {
-        placement: 'top',
-        platform,
-        middleware: middleware()
+      place(measurements(floating, REFERENCES[0], false), {
+        placement: 'bottom',
+        strategy: 'absolute',
+        middleware: [{ name: 'restless', fn }]
       });
 
-      expect(ours).toEqual(theirs);
+      expect(fn).toHaveBeenCalledTimes(51);
     });
+  });
 
-    it("runs a platform spread from Floating UI's own", async () => {
-      const { reference: ref, floating } = elements();
-
-      const result = await computePosition(ref, floating, {
-        placement: 'top',
-        platform: { ...floatingPlatform },
-        middleware: [flip(), shift()]
+  describe('measure()', () => {
+    it('measures a modal dialog against the viewport where :popover-open is not supported', () => {
+      const { reference, floating } = elements();
+      const container = document.createElement('div');
+      container.style.transform = 'translateX(10px)';
+      container.append(floating);
+      document.body.append(container, reference);
+      vi.spyOn(container, 'getBoundingClientRect').mockReturnValue({
+        x: 100,
+        y: 100,
+        width: 500,
+        height: 500
       });
-
-      expect(result.x).toBe(0);
-      expect(result.y).toBe(0);
-    });
-
-    it('waits for a platform whose methods are async', async () => {
-      const { reference: ref, floating, arrowElement } = elements();
-      const sync = stubPlatform(REFERENCES[2], false);
-      const asyncPlatform = Object.fromEntries(
-        Object.entries(sync).map(([name, method]) => [
-          name,
-          async (...args) => method(...args)
-        ])
-      );
-      const position = (platform) =>
-        computePosition(ref, floating, {
-          placement: 'bottom-start',
-          platform,
-          middleware: [
-            flip(),
-            shift(),
-            arrow({ element: arrowElement, padding: 4 })
-          ]
-        });
-
-      expect(outcome(await position(asyncPlatform))).toEqual(
-        outcome(await position(sync))
-      );
-    });
-
-    it('recognizes a modal dialog where :popover-open is not supported', async () => {
-      const { reference: ref, floating } = elements();
+      vi.spyOn(reference, 'getBoundingClientRect').mockReturnValue({
+        x: 300,
+        y: 200,
+        width: 10,
+        height: 10
+      });
+      const inContainer = measure(reference, floating, 'absolute');
       vi.spyOn(floating, 'matches').mockImplementation((selector) => {
         if (selector.includes(':popover-open')) {
           throw new DOMException('Unknown selector', 'SyntaxError');
         }
         return selector === ':modal';
       });
-      let offsetParent;
+      const asModal = measure(reference, floating, 'absolute');
+      container.remove();
+      reference.remove();
 
-      await computePosition(ref, floating, {
-        middleware: [
-          {
-            name: 'probe',
-            fn({ platform }) {
-              offsetParent = platform.getOffsetParent(floating);
-              return {};
-            }
-          }
-        ]
-      });
-
-      expect(offsetParent).toBe(window);
-    });
-
-    it('skips falsy middleware entries', async () => {
-      const { reference: ref, floating } = elements();
-      const result = await computePosition(ref, floating, {
-        placement: 'bottom',
-        platform: stubPlatform(REFERENCES[0], false),
-        middleware: [false, null, undefined]
-      });
-
-      expect(result.placement).toBe('bottom');
-    });
-
-    it('stops resetting a middleware that never settles', async () => {
-      const { reference: ref, floating } = elements();
-      const fn = vi.fn(() => ({ reset: true }));
-
-      await computePosition(ref, floating, {
-        platform: stubPlatform(REFERENCES[0], false),
-        middleware: [{ name: 'restless', fn }]
-      });
-
-      expect(fn).toHaveBeenCalledTimes(51);
+      expect(inContainer.rects.reference).toMatchObject({ x: 200, y: 100 });
+      expect(asModal.rects.reference).toMatchObject({ x: 300, y: 200 });
     });
   });
 

@@ -7,7 +7,7 @@ import {
   resolveAttachToElement,
   waitForAttachToElement
 } from '../../../src/utils/general';
-import { getFloatingUIOptions } from '../../../src/utils/floating-ui';
+import { getPositionConfig } from '../../../src/utils/floating-ui';
 
 describe('General Utils', function () {
   let optionsElement;
@@ -353,51 +353,15 @@ describe('General Utils', function () {
     });
   });
 
-  describe('floatingUIOptions', function () {
-    it('middleware options are passed in last', function () {
+  describe('positionOptions', function () {
+    it('positioning strategy defaults to absolute', function () {
       const step = new Step(
         {},
-        {
-          attachTo: { element: '.options-test', on: 'right' },
-          floatingUIOptions: {
-            middleware: [
-              {
-                name: 'preventOverflow',
-                options: {
-                  altAxis: false
-                }
-              }
-            ]
-          }
-        }
+        { attachTo: { element: '.options-test', on: 'right' } }
       );
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-      // Shepherd pushes in flip and shift by default, so this is 3rd
-      expect(floatingUIOptions.middleware[2].options.altAxis).toBe(false);
-    });
-
-    it('positioning strategy is explicitly set', function () {
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.options-test', on: 'center' },
-          options: {
-            floatingUIOptions: {
-              strategy: 'absolute'
-            }
-          }
-        }
-      );
-
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-      expect(floatingUIOptions.strategy).toBe('absolute');
+      const config = getPositionConfig(step.options.attachTo, step);
+      expect(config.strategy).toBe('absolute');
     });
   });
 

@@ -68,7 +68,7 @@ export interface TourOptions {
    * Default options for Steps ({@link Step#constructor}), created through `addStep`.
    * A step's own value replaces the default for that option, even for objects such
    * as `cancelIcon` and arrays such as `buttons`. Only `classes` and
-   * `floatingUIOptions` combine.
+   * `positionOptions` combine, `positionOptions` key by key.
    */
   defaultStepOptions?: StepOptions;
   /**

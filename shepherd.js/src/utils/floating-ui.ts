@@ -1,19 +1,19 @@
 import { shouldCenterStep } from './general.ts';
-import { merge } from './merge.ts';
 import {
   autoUpdate,
   arrow,
   computePosition,
   flip,
   autoPlacement,
+  offset,
   shift,
-  type ComputePositionConfig,
   type ComputePositionResult,
   type Middleware,
+  type PositionConfig,
   type Placement,
   type Alignment
 } from './position.ts';
-import type { Step, StepOptions, StepOptionsAttachTo } from '../step.ts';
+import type { Step, StepOptionsAttachTo } from '../step.ts';
 import { isHTMLElement } from './type-check.ts';
 
 /**
@@ -21,7 +21,7 @@ import { isHTMLElement } from './type-check.ts';
  *
  * @param step The step instance
  */
-export function setupTooltip(step: Step): ComputePositionConfig {
+export function setupTooltip(step: Step): PositionConfig {
   if (step.cleanup) {
     step.cleanup();
   }
@@ -29,7 +29,7 @@ export function setupTooltip(step: Step): ComputePositionConfig {
   const attachToOptions = step._getResolvedAttachToOptions();
 
   let target = attachToOptions.element as HTMLElement;
-  const floatingUIOptions = getFloatingUIOptions(attachToOptions, step);
+  const config = getPositionConfig(attachToOptions, step);
   const shouldCenter = shouldCenterStep(attachToOptions);
   // Keep this function-local so every fresh step render gets one focus attempt.
   let shouldFocusAfterRender = true;
@@ -47,7 +47,7 @@ export function setupTooltip(step: Step): ComputePositionConfig {
       return;
     }
 
-    setPosition(target, step, floatingUIOptions, shouldCenter, {
+    setPosition(target, step, config, shouldCenter, {
       shouldFocusAfterRender
     });
     shouldFocusAfterRender = false;
@@ -55,27 +55,7 @@ export function setupTooltip(step: Step): ComputePositionConfig {
 
   step.target = attachToOptions.element as HTMLElement;
 
-  return floatingUIOptions;
-}
-
-/**
- * Merge tooltip options handling nested keys.
- *
- * @param tourOptions - The default tour options.
- * @param options - Step specific options.
- *
- * @return {floatingUIOptions: FloatingUIOptions}
- */
-export function mergeTooltipConfig(
-  tourOptions: StepOptions,
-  options: StepOptions
-): { floatingUIOptions: ComputePositionConfig } {
-  return {
-    floatingUIOptions: merge(
-      tourOptions.floatingUIOptions || {},
-      options.floatingUIOptions || {}
-    )
-  };
+  return config;
 }
 
 /**
@@ -94,16 +74,16 @@ export function destroyTooltip(step: Step) {
 function setPosition(
   target: HTMLElement,
   step: Step,
-  floatingUIOptions: ComputePositionConfig,
+  config: PositionConfig,
   shouldCenter: boolean,
   { shouldFocusAfterRender }: { shouldFocusAfterRender: boolean }
 ) {
   const positionPromise = computePosition(
     target,
     step.el as HTMLElement,
-    floatingUIOptions
+    config
   )
-    .then(floatingUIposition(step, shouldCenter))
+    .then(writePosition(step, shouldCenter))
     .catch((error: unknown) => {
       console.error('Shepherd: could not position a step.', error);
       return step;
@@ -125,7 +105,7 @@ function setPosition(
   });
 }
 
-function floatingUIposition(step: Step, shouldCenter: boolean) {
+function writePosition(step: Step, shouldCenter: boolean) {
   return ({
     x,
     y,
@@ -184,115 +164,47 @@ function placeArrow(
 }
 
 /**
- * Gets the `Floating UI` options from a set of base `attachTo` options
- * @param attachToOptions
+ * Builds the positioning config for a step from its `attachTo` and
+ * `positionOptions`.
+ *
+ * @param attachToOptions The step's resolved `attachTo`
  * @param step The step instance
  * @private
  */
-export function getFloatingUIOptions(
+export function getPositionConfig(
   attachToOptions: StepOptionsAttachTo,
   step: Step
-): ComputePositionConfig {
-  const options: ComputePositionConfig = {
-    strategy: 'absolute'
+): PositionConfig {
+  const {
+    offset: gap,
+    padding,
+    strategy = 'absolute',
+    flip: flips = true
+  } = step.options.positionOptions || {};
+  const on = attachToOptions.on || '';
+  const hasAutoPlacement = on.includes('auto');
+  const middleware: Middleware[] = [];
+  const config: PositionConfig = {
+    placement: on && !hasAutoPlacement ? (on as Placement) : 'bottom',
+    strategy,
+    middleware
   };
 
-  options.middleware = [];
+  if (shouldCenterStep(attachToOptions)) return config;
 
-  const arrowEl = addArrow(step);
+  const alignment = on.split('-')[1] as Alignment | undefined;
+  if (gap) middleware.push(offset(gap));
+  if (hasAutoPlacement) middleware.push(autoPlacement(alignment, padding));
+  else if (flips) middleware.push(flip(padding));
+  middleware.push(shift(padding));
 
-  const shouldCenter = shouldCenterStep(attachToOptions);
-
-  const hasAutoPlacement = attachToOptions.on?.includes('auto');
-
-  const hasEdgeAlignment =
-    attachToOptions?.on?.includes('-start') ||
-    attachToOptions?.on?.includes('-end');
-
-  if (!shouldCenter) {
-    if (hasAutoPlacement) {
-      options.middleware.push(
-        autoPlacement({
-          alignment: hasEdgeAlignment
-            ? (attachToOptions?.on?.split('-').pop() as Alignment)
-            : null
-        })
-      );
-    } else {
-      options.middleware.push(flip());
-    }
-
-    options.middleware.push(shift());
-
-    if (!hasAutoPlacement) options.placement = attachToOptions.on as Placement;
+  const arrowEl =
+    step.options.arrow && step.el?.querySelector('.shepherd-arrow');
+  if (isHTMLElement(arrowEl)) {
+    const arrowPadding =
+      typeof step.options.arrow === 'object' ? step.options.arrow.padding : 4;
+    middleware.push(arrow(arrowEl, alignment ? arrowPadding : 0));
   }
 
-  const mergedOptions: ComputePositionConfig = merge(
-    options,
-    step.options.floatingUIOptions || {}
-  );
-
-  // `arrow()` has to be the *last* middleware to run. `Floating UI` executes
-  // middleware sequentially, threading `x`/`y` from one to the next, and
-  // `arrow()` computes its offset from the coordinates as they stand on its own
-  // turn. Any middleware that runs after it (a user supplied `offset()`,
-  // `shift()`, etc.) moves the tooltip again and silently invalidates
-  // `middlewareData.arrow`, which `placeArrow()` writes straight to the DOM.
-  // Since user options are merged in above -- and `merge` concatenates
-  // arrays -- Shepherd's arrow is appended afterwards rather than pushed in
-  // before the merge.
-  if (
-    !shouldCenter &&
-    arrowEl &&
-    !hasArrowMiddleware(mergedOptions.middleware)
-  ) {
-    const arrowOptions =
-      typeof step.options.arrow === 'object'
-        ? step.options.arrow
-        : { padding: 4 };
-
-    mergedOptions.middleware = [
-      ...(mergedOptions.middleware ?? []),
-      arrow({
-        element: arrowEl,
-        padding: hasEdgeAlignment ? arrowOptions.padding : 0
-      })
-    ];
-  }
-
-  return mergedOptions;
-}
-
-/**
- * Type guard filtering out the falsy entries `Floating UI` allows in a
- * middleware array.
- *
- * @param middleware A single entry of a `middleware` array
- * @private
- */
-function isMiddleware(
-  middleware: Middleware | false | null | undefined
-): middleware is Middleware {
-  return Boolean(middleware);
-}
-
-/**
- * Determines whether a middleware array already contains an `arrow` middleware,
- * in which case the user's own arrow wins and Shepherd does not add its own.
- *
- * @param middleware The merged `middleware` array, which may contain falsy entries
- * @private
- */
-function hasArrowMiddleware(middleware: ComputePositionConfig['middleware']) {
-  return Boolean(
-    middleware?.some((item) => isMiddleware(item) && item.name === 'arrow')
-  );
-}
-
-function addArrow(step: Step) {
-  if (step.options.arrow && step.el) {
-    return step.el.querySelector('.shepherd-arrow');
-  }
-
-  return false;
+  return config;
 }

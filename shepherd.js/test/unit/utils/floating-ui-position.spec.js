@@ -124,7 +124,7 @@ describe('utils/floating-ui | position writing', function () {
     const step = instance.addStep({
       id: 'test',
       attachTo: { element: '.position-test', on: 'top' },
-      floatingUIOptions: { strategy: 'fixed' }
+      positionOptions: { strategy: 'fixed' }
     });
 
     instance.start();
@@ -152,10 +152,10 @@ describe('utils/floating-ui | position writing', function () {
   it('takes the strategy from the resolved payload rather than the step options', async () => {
     instance = new Shepherd.Tour();
 
-    // No `floatingUIOptions` on the step at all. The CSS `position` still has
-    // to follow what `computePosition` reports it used, because that payload —
-    // not the raw user option — is what the returned coordinates are relative
-    // to. Reading `step.options.floatingUIOptions.strategy` instead would write
+    // No `positionOptions.strategy` on the step at all. The CSS `position` still
+    // has to follow what `computePosition` reports it used, because that payload
+    // — not the raw user option — is what the returned coordinates are relative
+    // to. Reading `step.options.positionOptions.strategy` instead would write
     // `absolute` here and reintroduce the coordinate-space mismatch.
     const step = instance.addStep({
       id: 'test',
@@ -164,7 +164,7 @@ describe('utils/floating-ui | position writing', function () {
 
     instance.start();
 
-    expect(step.options.floatingUIOptions?.strategy).toBeUndefined();
+    expect(step.options.positionOptions?.strategy).toBeUndefined();
 
     await positionWith(step, {
       x: 13,
