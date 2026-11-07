@@ -52,10 +52,11 @@ tour.start();
 - **`defaultStepOptions`** applies to every step added to that tour. A step's own value
   replaces the default for that option, so a step's `buttons` replace the default
   buttons and its `cancelIcon` replaces the whole default object. Only `classes` and
-  `floatingUIOptions` combine.
-- **`floatingUIOptions`** takes Floating UI's `computePosition` config. Shepherd has its
-  own positioning and does not depend on Floating UI. To use middleware, install
-  `@floating-ui/dom` yourself: `floatingUIOptions: { middleware: [offset(12)] }`.
+  `positionOptions` combine, `positionOptions` key by key.
+- **`positionOptions`** tunes placement: `{ offset: 12 }` for a gap, `padding` for the
+  distance kept from the viewport edges, `strategy: 'fixed'` for a fixed target, and
+  `flip: false` to keep `attachTo.on`. Shepherd has its own positioning and runs no
+  Floating UI middleware, so there is no `floatingUIOptions` and no `middleware`.
 - **`scrollTo: true`** is needed to scroll a target into view. It is off by default.
 - **`title` and `text` render as HTML.** Escape untrusted input.
 - **`Shepherd.activeTour`** is empty until a tour starts. Do not read it while defining
@@ -172,7 +173,8 @@ the output schema when a model generates a tour. Functions, such as
 | `position: 'bottom'`, `on: 'below'`            | `on: 'bottom'`                               |
 | `on: 'bottom-left'`                            | `on: 'bottom-start'`                         |
 | `content`, `body`, `description`               | `text`                                       |
-| `tippyOptions`, `popperOptions`                | `floatingUIOptions`                          |
+| `tippyOptions`, `popperOptions`                | `positionOptions`                            |
+| `floatingUIOptions: { middleware: [offset(12)] }` | `positionOptions: { offset: 12 }`         |
 | Button `type: 'next'`                          | Button `action: 'next'`                      |
 | `shepherd-theme-*.css`                         | `dist/css/shepherd.css`                      |
 | `import { ShepherdTour } from 'react-shepherd'` | `useShepherd`, `ShepherdJourneyProvider`    |

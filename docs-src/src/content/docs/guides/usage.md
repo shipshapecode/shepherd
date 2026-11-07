@@ -342,15 +342,11 @@ function will be called in the `before-show` phase.
 - `modalOverlayOpeningRadius`: An amount of border radius to add around the
   modal overlay opening. It can be either a number or an object with properties
   `{ topLeft, bottomLeft, bottomRight, topRight }`
-- `floatingUIOptions`: Extra positioning options, in the shape of
-  [Floating UI's `computePosition` config](https://floating-ui.com/docs/computePosition).
-  Shepherd positions steps itself, but middleware from your own install of
-  `@floating-ui/dom` runs as is. This includes
-  `strategy`, which sets the CSS `position` of the step element and defaults to
-  `'absolute'`. It can be set per-step or on `defaultStepOptions`. See
-  [Floating UI's `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
-  for when `'fixed'` is the better choice. Note that steps without an `attachTo`
-  element are always centered with `position: fixed` and ignore `strategy`.
+- `positionOptions`: How the step is placed against its target: `offset`,
+  `padding`, `strategy` and `flip`. Values from `defaultStepOptions` and the
+  step combine key by key. See
+  [`StepOptionsPosition`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsposition/)
+  for each field, and the [cookbook](https://docs.shepherdjs.dev/recipes/cookbook/#offsets) for examples.
 - `showOn`: A function that, when it returns true, will show the step. If it
   returns false, the step will be skipped.
 - `skipMissingElement`: A boolean. When true, a step whose `attachTo.element`
@@ -482,8 +478,9 @@ myTour.addStep({
 ```
 
 You can also provide an options object, to configure the arrow's
-[padding](https://floating-ui.com/docs/arrow#padding). The padding is the
-closest the arrow will get to the edge of the step.
+[`padding`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsarrow/).
+The padding is the closest the arrow will get to the edge of the step, and only
+applies to `-start` and `-end` placements.
 
 ```js
 myTour.addStep({

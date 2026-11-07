@@ -61,6 +61,8 @@ tour.addStep({
 tour.start();
 ```
 
+Steps position themselves with a small built-in engine. Tune the gap, edge distance and flipping with `positionOptions: { offset, padding, strategy, flip }`. Upgrading from Shepherd 15, which took Floating UI middleware in `floatingUIOptions`? See [the upgrade notes](https://docs.shepherdjs.dev/guides/install/#upgrading-from-shepherd-15).
+
 Coding agents: read [`shepherd.js/AGENTS.md`](shepherd.js/AGENTS.md), which is also in the npm package.
 
 ### Shepherd Open Source Library

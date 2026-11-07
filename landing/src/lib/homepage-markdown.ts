@@ -27,7 +27,8 @@ element in the DOM, highlight it with a modal overlay, and walk the user through
 - **Framework ready**: works with React, Ember, Angular, Vue.js, ES Modules,
   or plain JavaScript.
 - **Smart positioning**: steps never end up off screen or cropped by an
-  overflow, from a small built-in engine with no dependencies.
+  overflow, from a small built-in engine with no dependencies. Tune the gap,
+  edge distance and flipping with \`positionOptions\`.
 
 ## Installation
 

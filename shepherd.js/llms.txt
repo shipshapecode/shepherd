@@ -21,6 +21,9 @@ tour.addStep({
 tour.start();
 ```
 
+Gaps and edge distance go in `positionOptions: { offset, padding, strategy, flip }`.
+Shepherd runs no Floating UI middleware, so there is no `floatingUIOptions`.
+
 ## Files in this package
 
 - `AGENTS.md`: how to use the library correctly

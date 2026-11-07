@@ -71,3 +71,27 @@ We strive to make it easy to use Shepherd in all the major frameworks, and have 
 - [ember-shepherd](https://github.com/shipshapecode/ember-shepherd)
 - [react-shepherd](https://github.com/shipshapecode/shepherd/tree/main/packages/react)
 - [vue-shepherd](https://github.com/shipshapecode/vue-shepherd)
+
+## Upgrading from Shepherd 15
+
+Shepherd positions steps with its own engine and no longer runs Floating UI
+middleware or platforms. `floatingUIOptions` is replaced by `positionOptions`,
+which takes four keys. A step that still passes `floatingUIOptions` logs a
+warning and is positioned as if it had none.
+
+| Shepherd 15                                                  | Now                                             |
+| ------------------------------------------------------------ | ----------------------------------------------- |
+| `floatingUIOptions: { strategy: 'fixed' }`                   | `positionOptions: { strategy: 'fixed' }`        |
+| `floatingUIOptions: { middleware: [offset(12)] }`            | `positionOptions: { offset: 12 }`               |
+| `offset({ mainAxis: 4, crossAxis: 8 })`                      | `positionOptions: { offset: { mainAxis: 4, crossAxis: 8 } }` |
+| `shift({ padding: 24 })` or `flip({ padding: 24 })`          | `positionOptions: { padding: 24 }`, for both    |
+| Removing `flip()` to keep a side                             | `positionOptions: { flip: false }`              |
+| `placement` in `floatingUIOptions`                           | `attachTo.on`                                   |
+| `hide()`, `size()`, `inline()`, custom middleware, `platform` | No replacement                                  |
+
+Shepherd 15 ran a consumer's `offset()` after its own `flip()` and `shift()`.
+`offset` now runs first, as Floating UI recommends, so flipping and shifting
+account for the gap. Remove `@floating-ui/dom` from your
+dependencies if nothing else uses it. See
+[`StepOptionsPosition`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsposition/)
+for each key.

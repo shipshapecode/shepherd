@@ -32,6 +32,9 @@ defines no global, so import it, including from a `<script type="module">`. Reac
 `useShepherd` and `ShepherdJourneyProvider` from `react-shepherd`. It runs entirely in
 the browser; no backend service is required.
 
+Gaps and edge distance go in `positionOptions: { offset, padding, strategy, flip }`.
+Shepherd runs no Floating UI middleware, so there is no `floatingUIOptions`.
+
 ## When to use Shepherd
 
 Use Shepherd when a project needs to guide users through a web interface:
