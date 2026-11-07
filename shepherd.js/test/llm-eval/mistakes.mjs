@@ -246,6 +246,18 @@ tour.start();
     }
   },
   {
+    id: 'floating-ui-options',
+    why: 'Shepherd 15 and earlier took Floating UI config in floatingUIOptions, which positionOptions replaced.',
+    code: program({ step1: `floatingUIOptions: { strategy: 'fixed' },` }),
+    fix: /positionOptions/,
+    extra: async (d) => {
+      const position = await d
+        .step('First')
+        .evaluate((el) => getComputedStyle(el).position);
+      if (position !== 'fixed') throw new Error('the step is not fixed');
+    }
+  },
+  {
     id: 'content-not-text',
     why: 'Most tour libraries call the body content or description.',
     code: program({ step1: `content: 'body copy',` }),
