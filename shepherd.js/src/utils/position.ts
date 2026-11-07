@@ -702,7 +702,7 @@ export function shift(padding?: number): Middleware {
   };
 }
 
-export function arrow(element: HTMLElement, padding = 0): Middleware {
+export function arrow(element: Element, padding = 0): Middleware {
   return {
     name: 'arrow',
     fn(state) {

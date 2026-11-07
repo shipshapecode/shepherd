@@ -173,6 +173,20 @@ describe('Floating UI Utils', function () {
       expect(arrowAt(config)).not.toEqual(arrowWithPadding('bottom-start', 0));
     });
 
+    it('positions an SVG arrow', function () {
+      const svgArrow = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      svgArrow.classList.add('shepherd-arrow');
+      stepElement.replaceChildren(svgArrow);
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'right' }
+      });
+
+      expect(middlewareNames(config)).toEqual(['flip', 'shift', 'arrow']);
+    });
+
     it('adds no middleware for a centered step', function () {
       const config = configFor({
         attachTo: { element: '.floating-ui-test' },

@@ -186,7 +186,7 @@ export function getPositionConfig(
 
   const arrowEl =
     step.options.arrow && step.el?.querySelector('.shepherd-arrow');
-  if (isHTMLElement(arrowEl)) {
+  if (arrowEl) {
     const arrowPadding =
       typeof step.options.arrow === 'object' ? step.options.arrow.padding : 4;
     middleware.push(arrow(arrowEl, alignment ? arrowPadding : 0));
