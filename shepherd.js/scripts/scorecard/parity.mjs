@@ -74,8 +74,6 @@ function buildCases() {
 
 async function runCase(cfg) {
   const { default: Shepherd } = await import('/dist/js/shepherd.mjs');
-  const { offset, shift } =
-    await import('/vendor/floating-ui-user-middleware.mjs');
   const page = document.getElementById('page');
   page.innerHTML = '';
   page.removeAttribute('style');
@@ -150,13 +148,13 @@ async function runCase(cfg) {
   if (cfg.context === 'noArrow') stepOptions.arrow = false;
   if (cfg.context === 'arrowPadding') stepOptions.arrow = { padding: 16 };
   if (cfg.context === 'strategyFixed') {
-    stepOptions.floatingUIOptions = { strategy: 'fixed' };
+    stepOptions.positionOptions = { strategy: 'fixed' };
   }
   if (cfg.context === 'userOffset') {
-    stepOptions.floatingUIOptions = { middleware: [offset(12)] };
+    stepOptions.positionOptions = { offset: 12 };
   }
   if (cfg.context === 'userShift') {
-    stepOptions.floatingUIOptions = { middleware: [shift({ padding: 24 })] };
+    stepOptions.positionOptions = { padding: 24 };
   }
   if (cfg.context === 'centeredNoOn')
     stepOptions.attachTo = { element: target };
