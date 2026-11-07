@@ -324,24 +324,50 @@ describe('utils/position', () => {
       }
     };
 
-    it('updates once immediately, then only when a rect changes', async () => {
+    it('updates once immediately, then only when a rect changes', () => {
       const { reference, floating, rect } = stubbedRects();
       const update = vi.fn();
 
       const stop = autoUpdate(reference, floating, update);
       expect(update).toHaveBeenCalledTimes(1);
 
-      await nextFrames(3);
+      window.dispatchEvent(new Event('resize'));
       const settled = update.mock.calls.length;
-
-      await nextFrames(3);
+      window.dispatchEvent(new Event('resize'));
       expect(update).toHaveBeenCalledTimes(settled);
 
       rect.y = 200;
-      await nextFrames(2);
+      window.dispatchEvent(new Event('resize'));
       expect(update).toHaveBeenCalledTimes(settled + 1);
 
       stop();
+    });
+
+    it('follows a layout shift that fires no event', () => {
+      const observers = [];
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(callback) {
+            observers.push(callback);
+          }
+          observe() {}
+          disconnect() {}
+        }
+      );
+      const { reference, floating, rect } = stubbedRects();
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      observers.forEach((notify) => notify([]));
+      const settled = update.mock.calls.length;
+
+      rect.width = 300;
+      observers.forEach((notify) => notify([]));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      vi.unstubAllGlobals();
     });
 
     it('wakes on a scroll anywhere in the document', async () => {
@@ -363,6 +389,9 @@ describe('utils/position', () => {
     });
 
     it('wakes on a scroll in a framed target document', async () => {
+      // A stand-in for a framed element, which neither observer accepts.
+      vi.stubGlobal('ResizeObserver', undefined);
+      vi.stubGlobal('IntersectionObserver', undefined);
       const { floating, rect } = stubbedRects();
       const targetWindow = new EventTarget();
       const reference = {
@@ -383,6 +412,7 @@ describe('utils/position', () => {
       rect.y = 600;
       targetWindow.dispatchEvent(new Event('scroll'));
       expect(update).toHaveBeenCalledTimes(settled + 1);
+      vi.unstubAllGlobals();
     });
 
     it('stops checking once cleaned up', async () => {
@@ -429,19 +459,19 @@ describe('utils/position', () => {
       removeListener.mockRestore();
     });
 
-    it('waits for a container that attaches late', async () => {
+    it('waits for a container that attaches late', () => {
       const { reference, floating, rect } = stubbedRects();
       floating.remove();
       const update = vi.fn();
 
       const stop = autoUpdate(reference, floating, update);
-      await nextFrames(2);
+      window.dispatchEvent(new Event('scroll'));
       document.body.append(floating);
-      await nextFrames(2);
+      window.dispatchEvent(new Event('scroll'));
       const settled = update.mock.calls.length;
 
       rect.y = 800;
-      await nextFrames(2);
+      window.dispatchEvent(new Event('scroll'));
 
       expect(update).toHaveBeenCalledTimes(settled + 1);
       stop();

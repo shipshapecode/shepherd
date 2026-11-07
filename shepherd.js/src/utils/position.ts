@@ -749,10 +749,83 @@ export function arrow(element: Element, padding = 0): Middleware {
 }
 
 /**
- * Repositions whenever what the placement depends on changes. Comparing rects
- * covers every scroller, shadow root and frame, layout shifts and transforms in
- * one code path. It runs every frame while anything moves and on a slow
- * heartbeat once settled, with scrolling waking it straight away.
+ * Reports when `element` moves without any scroll or resize event, by watching
+ * an intersection root shrunk to exactly its box.
+ * https://samthor.au/2021/observing-dom/
+ */
+function observeMove(element: Element, onMove: () => void) {
+  const html = htmlOf(element);
+  let observer: IntersectionObserver | undefined;
+  let timer: ReturnType<typeof setTimeout>;
+
+  const stop = () => {
+    clearTimeout(timer);
+    observer?.disconnect();
+    observer = undefined;
+  };
+
+  const refresh = (skip?: boolean, threshold = 1) => {
+    stop();
+
+    const { x, y, width, height } = element.getBoundingClientRect();
+    if (!skip) onMove();
+    if (!width || !height) return;
+
+    let first = true;
+    observer = new IntersectionObserver(
+      (entries) => {
+        const ratio = (entries[0] as IntersectionObserverEntry)
+          .intersectionRatio;
+        const now = element.getBoundingClientRect();
+        // The entry is a snapshot, so a moved element makes it stale.
+        if (
+          now.x !== x ||
+          now.y !== y ||
+          now.width !== width ||
+          now.height !== height
+        ) {
+          return refresh();
+        }
+        if (ratio !== threshold) {
+          if (!first) return refresh();
+          // Clipped in place reports 0; throttle or this loops forever.
+          if (ratio) refresh(false, ratio);
+          else timer = setTimeout(() => refresh(false, 1e-7), 1000);
+        }
+        first = false;
+      },
+      {
+        root: html.ownerDocument,
+        rootMargin: [
+          y,
+          html.clientWidth - x - width,
+          html.clientHeight - y - height,
+          x
+        ]
+          .map((inset) => `${-Math.floor(inset)}px`)
+          .join(' '),
+        threshold
+      }
+    );
+    observer.observe(element);
+  };
+
+  const onResize = () => refresh(true);
+  const win = getWindow(element);
+  win.addEventListener('resize', onResize);
+  refresh(true);
+
+  return () => {
+    win.removeEventListener('resize', onResize);
+    stop();
+  };
+}
+
+/**
+ * Repositions whenever what the placement depends on changes: a scroll or
+ * resize anywhere in either document, a resize of either element, or the
+ * reference moving with no event at all, which `observeMove` reports. Each of
+ * those reaches `check`, which updates only when a rect really changed.
  */
 export function autoUpdate(
   reference: Element,
@@ -761,58 +834,72 @@ export function autoUpdate(
 ) {
   const win = getWindow(floating);
   let last: string;
-  let quietFrames = 0;
-  let stopped = false;
-  let connected = false;
+  let connected = floating.isConnected;
 
   const check = () => {
-    const viewport = win.visualViewport;
-    const now = JSON.stringify([
-      rectInWindow(reference, win),
-      floating.getBoundingClientRect(),
-      viewport?.offsetLeft,
-      viewport?.offsetTop,
-      viewport?.width,
-      viewport?.height
-    ]);
-
-    if (now !== last) {
-      last = now;
-      quietFrames = 0;
-      update();
-    }
-  };
-
-  // jsdom only defines this when asked to, and consumers' tests run in jsdom.
-  const nextFrame = () => win.requestAnimationFrame?.(loop);
-  const loop = () => {
-    if (stopped) return;
     // A tour abandoned by a route change has no other way to stop this. A
     // container can attach late, so only leaving the page counts.
     if (floating.isConnected) connected = true;
     else if (connected) return stop();
-    check();
-    // A timer is the cheap heartbeat, since scheduling a frame makes one happen.
-    if (++quietFrames < 30) nextFrame();
-    // Nothing moves without layout, as in jsdom, and a consumer's test suite
-    // calling `runAllTimers` would throw on a timer that never stops.
-    else if (htmlOf(floating).clientWidth) setTimeout(loop, 100);
-  };
-  const stop = () => {
-    stopped = true;
-    windows.forEach((target) =>
-      target.removeEventListener('scroll', check, true)
-    );
+
+    const target = rectInWindow(reference, win);
+    const own = floating.getBoundingClientRect();
+    const viewport = win.visualViewport;
+    const now = [
+      target.x,
+      target.y,
+      target.width,
+      target.height,
+      own.left,
+      own.top,
+      own.width,
+      own.height,
+      win.innerWidth,
+      win.innerHeight,
+      viewport?.offsetLeft,
+      viewport?.offsetTop,
+      viewport?.width
+    ].join();
+
+    if (now !== last) {
+      last = now;
+      update();
+    }
   };
 
-  // Scroll events capture, so this hears the scrollers in these documents, but
-  // they are not composed. One in a shadow root or an iframe in between waits
-  // for the heartbeat. The same listener added twice is one listener when both
-  // are the same window.
-  const windows = [win, getWindow(reference)];
-  windows.forEach((target) => target.addEventListener('scroll', check, true));
+  // Scroll does not bubble but does capture, so this hears every scroller in
+  // these documents. A scroller inside a shadow root is left to `observeMove`.
+  const targets = [
+    win,
+    getWindow(reference),
+    ...(win.visualViewport ? [win.visualViewport] : [])
+  ];
+  targets.forEach((target) => {
+    target.addEventListener('scroll', check, true);
+    target.addEventListener('resize', check);
+  });
+
+  // jsdom has neither observer. Removing the step from the page resizes it to
+  // nothing, which is what tells an abandoned tour to stop.
+  const stopWatching =
+    typeof IntersectionObserver === 'function'
+      ? observeMove(reference, check)
+      : undefined;
+  const resizes =
+    typeof ResizeObserver === 'function' ? new ResizeObserver(check) : undefined;
+  resizes?.observe(reference);
+  resizes?.observe(floating);
+
+  const stop = () => {
+    targets.forEach((target) => {
+      target.removeEventListener('scroll', check, true);
+      target.removeEventListener('resize', check);
+    });
+    stopWatching?.();
+    resizes?.disconnect();
+  };
+
   update();
-  nextFrame();
 
   return stop;
 }
