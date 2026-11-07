@@ -34,7 +34,7 @@ const bundle = async (contents, globalName) => {
 const STOCK = await bundle(`export * from '@floating-ui/dom';`, 'STOCK');
 const ENGINE = await bundle(
   `export { computePosition, autoUpdate } from './src/utils/position.ts';
-   export { getFloatingUIOptions } from './src/utils/floating-ui.ts';`,
+   export { getPositionConfig } from './src/utils/floating-ui.ts';`,
   'ENGINE'
 );
 const FIXTURES = readFileSync(join(here, 'fixtures.js'), 'utf8');
@@ -70,7 +70,7 @@ const CORE_PLACEMENTS = [
   'auto-end'
 ];
 // Filled by the engine's own middleware only for what Shepherd reads, so stock's
-// bookkeeping under these names is not compared when the engine's ran.
+// bookkeeping under these names is not compared.
 const ENGINE_MIDDLEWARE = ['flip', 'autoPlacement', 'shift'];
 
 async function runFixture({
@@ -80,8 +80,7 @@ async function runFixture({
   CORE_PLACEMENTS,
   ENGINE_MIDDLEWARE
 }) {
-  const { STOCK, ENGINE, FIXTURES, USER_CONFIGS, RAW_CONFIGS, stockOptions } =
-    window;
+  const { STOCK, ENGINE, FIXTURES, POSITION_CONFIGS, stockOptions } = window;
   const round = (value) =>
     JSON.parse(
       JSON.stringify(value, (key, v) => {
@@ -102,13 +101,11 @@ async function runFixture({
       return { threw: String(error.message).slice(0, 100) };
     }
   };
-  const comparableData = (result, raw) => {
+  const comparableData = (result) => {
     if (result.threw) return result.threw;
     const data = { ...result.middlewareData };
-    if (!raw) for (const key of ENGINE_MIDDLEWARE) delete data[key];
-    if (data.arrow && !raw) {
-      data.arrow = { x: data.arrow.x, y: data.arrow.y };
-    }
+    for (const key of ENGINE_MIDDLEWARE) delete data[key];
+    if (data.arrow) data.arrow = { x: data.arrow.x, y: data.arrow.y };
     return JSON.stringify(data);
   };
 
@@ -116,7 +113,7 @@ async function runFixture({
   if (!fx) return { name, skipped: true };
   const { reference, floating, arrow } = fx;
   const out = { name, cases: 0, differences: [] };
-  const compare = (config, strategy, on, stock, engine, raw) => {
+  const compare = (config, strategy, on, stock, engine) => {
     out.cases++;
     if (stock.threw && engine.threw) return;
     const dx = Math.abs(stock.x - engine.x);
@@ -126,8 +123,8 @@ async function runFixture({
       dx > 0.01 ||
       dy > 0.01 ||
       stock.placement !== engine.placement;
-    const stockData = comparableData(stock, raw);
-    const engineData = comparableData(engine, raw);
+    const stockData = comparableData(stock);
+    const engineData = comparableData(engine);
     if (coords || stockData !== engineData) {
       out.differences.push({
         config,
@@ -161,54 +158,33 @@ async function runFixture({
   const strategies = fx.fixedOnly ? ['fixed'] : ['absolute', 'fixed'];
   for (const strategy of strategies) {
     if (!fx.keepPosition) floating.style.position = strategy;
-    for (const [config, make] of Object.entries(USER_CONFIGS)) {
+    for (const [config, position] of Object.entries(POSITION_CONFIGS)) {
       if (only && only !== config) continue;
       for (const on of config === 'none' ? ALL_PLACEMENTS : CORE_PLACEMENTS) {
         const stock = await attempt(() =>
           STOCK.computePosition(
             reference,
             floating,
-            stockOptions(STOCK, on, reference, arrow, strategy, make(STOCK, fx))
+            stockOptions(STOCK, on, arrow, strategy, position)
           )
         );
         const engine = await attempt(() =>
           ENGINE.computePosition(
             reference,
             floating,
-            ENGINE.getFloatingUIOptions(
+            ENGINE.getPositionConfig(
               { element: reference, on },
               {
                 options: {
                   arrow: true,
-                  floatingUIOptions: { strategy, ...make(STOCK, fx) }
+                  positionOptions: { strategy, ...position }
                 },
                 el: floating
               }
             )
           )
         );
-        compare(config, strategy, on, stock, engine, false);
-      }
-    }
-    for (const [config, make] of Object.entries(RAW_CONFIGS)) {
-      if (only && only !== config) continue;
-      for (const on of CORE_PLACEMENTS) {
-        const placement = on.startsWith('auto') ? undefined : on;
-        const stock = await attempt(() =>
-          STOCK.computePosition(reference, floating, {
-            placement,
-            strategy,
-            middleware: make(STOCK, on, fx)
-          })
-        );
-        const engine = await attempt(() =>
-          ENGINE.computePosition(reference, floating, {
-            placement,
-            strategy,
-            middleware: make(STOCK, on, fx)
-          })
-        );
-        compare(config, strategy, on, stock, engine, true);
+        compare(config, strategy, on, stock, engine);
       }
     }
   }

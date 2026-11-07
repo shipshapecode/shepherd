@@ -700,141 +700,38 @@ window.FIXTURES = {
   }
 };
 
-// Mirrors the baseline getFloatingUIOptions() using stock middleware.
-window.stockOptions = function (FUI, on, reference, arrowEl, strategy, user) {
+// What getPositionConfig() builds, in stock middleware.
+window.stockOptions = function (FUI, on, arrowEl, strategy, position) {
+  const { offset, padding, flip = true } = position;
   const hasAuto = on.includes('auto');
   const edge = on.includes('-start') || on.includes('-end');
   const middleware = [];
+  if (offset) middleware.push(FUI.offset(offset));
   if (hasAuto) {
     middleware.push(
       FUI.autoPlacement({
         crossAxis: true,
-        alignment: edge ? on.split('-').pop() : null
+        alignment: edge ? on.split('-').pop() : null,
+        padding
       })
     );
-  } else {
-    middleware.push(FUI.flip());
+  } else if (flip) {
+    middleware.push(FUI.flip({ padding }));
   }
-  middleware.push(FUI.shift({ limiter: FUI.limitShift(), crossAxis: true }));
-  const options = { strategy };
-  if (!hasAuto) options.placement = on;
-  if (user.placement) options.placement = user.placement;
-  if (user.platform) options.platform = user.platform;
-  options.middleware = [...middleware, ...(user.middleware ?? [])];
-  if (!options.middleware.some((m) => m && m.name === 'arrow')) {
-    options.middleware.push(
-      FUI.arrow({ element: arrowEl, padding: edge ? 4 : 0 })
-    );
-  }
-  return options;
+  middleware.push(
+    FUI.shift({ limiter: FUI.limitShift(), crossAxis: true, padding })
+  );
+  middleware.push(FUI.arrow({ element: arrowEl, padding: edge ? 4 : 0 }));
+  return { strategy, placement: hasAuto ? undefined : on, middleware };
 };
 
-window.USER_CONFIGS = {
-  none: () => ({}),
-  offset: (F) => ({ middleware: [F.offset(12)] }),
-  offsetCross: (F) => ({
-    middleware: [F.offset({ mainAxis: 4, crossAxis: 8, alignmentAxis: 5 })]
-  }),
-  shiftPadding: (F) => ({ middleware: [F.shift({ padding: 24 })] }),
-  hideRef: (F) => ({ middleware: [F.hide()] }),
-  hideEscaped: (F) => ({ middleware: [F.hide({ strategy: 'escaped' })] }),
-  flipFallback: (F) => ({
-    middleware: [F.flip({ fallbackPlacements: ['left', 'right-start'] })]
-  }),
-  flipAxis: (F) => ({
-    middleware: [
-      F.flip({ fallbackAxisSideDirection: 'start', crossAxis: 'alignment' })
-    ]
-  }),
-  autoAllowed: (F) => ({
-    middleware: [F.autoPlacement({ allowedPlacements: ['top', 'left'] })]
-  }),
-  size: (F) => ({
-    middleware: [
-      F.size({
-        apply({ availableWidth, availableHeight, middlewareData }) {
-          middlewareData.sizeProbe = { availableWidth, availableHeight };
-        }
-      })
-    ]
-  }),
-  inline: (F) => ({ middleware: [F.inline()] }),
-  boundaryElement: (F, fx) => ({
-    middleware: [
-      F.flip({ boundary: fx.floating.parentElement }),
-      F.shift({ boundary: [fx.floating.parentElement] })
-    ]
-  }),
-  boundaryRect: (F) => ({
-    middleware: [
-      F.flip({ boundary: { x: 10, y: 10, width: 400, height: 300 } })
-    ]
-  }),
-  rootDocument: (F) => ({
-    middleware: [F.shift({ rootBoundary: 'document' })]
-  }),
-  rootLayout: (F) => ({
-    middleware: [
-      F.flip({ rootBoundary: 'layoutViewport' }),
-      F.shift({ rootBoundary: 'layoutViewport' })
-    ]
-  }),
-  rootRect: (F) => ({
-    middleware: [
-      F.shift({ rootBoundary: { x: 0, y: 0, width: 500, height: 500 } })
-    ]
-  }),
-  altBoundary: (F) => ({ middleware: [F.flip({ altBoundary: true })] }),
-  userArrow: (F, fx) => ({
-    middleware: [F.arrow({ element: fx.arrow, padding: 6 }), F.offset(3)]
-  }),
-  falsyEntries: (F) => ({ middleware: [false, F.offset(9), null, undefined] }),
-  platformSpread: (F) => ({ platform: { ...F.platform } }),
-  platformRecipe: (F) => ({
-    platform: {
-      ...F.platform,
-      getOffsetParent: (element) => F.platform.getOffsetParent(element)
-    }
-  }),
-  platformAsync: (F) => ({
-    platform: Object.fromEntries(
-      Object.entries(F.platform).map(([name, method]) => [
-        name,
-        async function (...args) {
-          return method.apply(this, args);
-        }
-      ])
-    )
-  })
-};
-
-// Stock middleware only, through the engine's computePosition. Everything in middlewareData is compared.
-window.RAW_CONFIGS = {
-  allReal: (F, on, fx) => [
-    F.offset({ mainAxis: 8, crossAxis: 3, alignmentAxis: 5 }),
-    on.startsWith('auto')
-      ? F.autoPlacement({
-          padding: 5,
-          alignment: on.includes('-') ? on.split('-').pop() : undefined
-        })
-      : F.flip({ padding: 5, fallbackAxisSideDirection: 'start' }),
-    F.shift({
-      padding: 5,
-      crossAxis: true,
-      limiter: F.limitShift({ offset: 4 })
-    }),
-    F.size({ padding: 4, apply() {} }),
-    F.arrow({ element: fx.arrow, padding: 6 }),
-    F.hide(),
-    F.hide({ strategy: 'escaped' })
-  ],
-  options: (F, on, fx) => [
-    F.flip({ rootBoundary: 'document', padding: { top: 3, left: 9 } }),
-    F.shift({ boundary: fx.floating.parentElement, crossAxis: true }),
-    F.shift({
-      rootBoundary: { x: 10, y: 10, width: 800, height: 600 },
-      altBoundary: true
-    }),
-    F.hide({ elementContext: 'reference', rootBoundary: 'document' })
-  ]
+// Each `positionOptions` a consumer can pass, other than `strategy`, which
+// every fixture runs both ways.
+window.POSITION_CONFIGS = {
+  none: {},
+  offset: { offset: 12 },
+  offsetCross: { offset: { mainAxis: 4, crossAxis: 8 } },
+  padding: { padding: 24 },
+  noFlip: { flip: false },
+  combined: { offset: 8, padding: 12, flip: false }
 };
