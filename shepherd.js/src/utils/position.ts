@@ -167,7 +167,8 @@ const isStatic = (element: Element) => styleOf(element).position === 'static';
 
 let webKit: boolean | undefined;
 const isWebKit = () =>
-  (webKit ??=
+  webKit ??
+  (webKit =
     typeof CSS !== 'undefined' &&
     CSS.supports?.('-webkit-backdrop-filter', 'none'));
 
