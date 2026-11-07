@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ResizeObserver from 'resize-observer-polyfill';
 
 // happy-dom has no layout engine: every `getBoundingClientRect()` is 0x0 at the
-// origin, so a real `computePosition` call always resolves `{ x: 0, y: 0 }` and
+// origin, so a real `computePosition` call always returns `{ x: 0, y: 0 }` and
 // no assertion about coordinates can fail. These tests therefore stub the
 // positioning engine's boundary and assert what Shepherd writes to
 // `step.el.style` for a given resolved position payload.
@@ -22,7 +22,7 @@ vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
 
   return {
     ...actual,
-    computePosition: vi.fn(() => Promise.resolve({ ...floatingUI.position })),
+    computePosition: vi.fn(() => ({ ...floatingUI.position })),
     // Run the position callback once, synchronously, rather than wiring up the
     // scroll/resize observers that happy-dom cannot drive.
     autoUpdate: vi.fn((_target, _element, update) => {

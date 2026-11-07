@@ -78,75 +78,61 @@ function setPosition(
   shouldCenter: boolean,
   { shouldFocusAfterRender }: { shouldFocusAfterRender: boolean }
 ) {
-  const positionPromise = computePosition(
-    target,
-    step.el as HTMLElement,
-    config
-  )
-    .then(writePosition(step, shouldCenter))
-    .catch((error: unknown) => {
-      console.error('Shepherd: could not position a step.', error);
-      return step;
-    });
-
-  if (!shouldFocusAfterRender) {
-    return positionPromise;
+  try {
+    writePosition(
+      step,
+      shouldCenter,
+      computePosition(target, step.el as HTMLElement, config)
+    );
+  } catch (error) {
+    console.error('Shepherd: could not position a step.', error);
   }
 
-  return positionPromise.then((step: Step) => {
+  if (shouldFocusAfterRender) {
     // Focusing flushes layout, which the next frame does anyway. jsdom only has
     // frames when asked to.
     (window.requestAnimationFrame || setTimeout)(() => {
-      if (step?.el) {
+      if (step.el) {
         step.el.tabIndex = 0;
         step.el.focus({ preventScroll: true });
       }
     });
-  });
+  }
 }
 
-function writePosition(step: Step, shouldCenter: boolean) {
-  return ({
-    x,
-    y,
-    strategy,
-    placement,
-    middlewareData
-  }: ComputePositionResult) => {
-    if (!step.el) {
-      return step;
-    }
+function writePosition(
+  step: Step,
+  shouldCenter: boolean,
+  { x, y, strategy, placement, middlewareData }: ComputePositionResult
+) {
+  const el = step.el as HTMLElement;
+  if (shouldCenter) {
+    // `position: fixed` is intentional here and must NOT follow `strategy`.
+    // Centering relies on `left`/`top: 50%` plus a `translate(-50%, -50%)`,
+    // and those percentages have to resolve against the viewport. Under the
+    // default `absolute` strategy they would resolve against the document
+    // instead, placing the step at 50% of the *page* height so it scrolls
+    // off screen. A step centers when it has no `attachTo`, or when its
+    // `attachTo` is missing either `element` or `on` (see `shouldCenterStep`);
+    // all of those are modal dialogs, so viewport centering is the correct
+    // behavior regardless of `strategy`.
+    Object.assign(el.style, {
+      position: 'fixed',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)'
+    });
+  } else {
+    Object.assign(el.style, {
+      position: strategy,
+      left: `${x}px`,
+      top: `${y}px`
+    });
+  }
 
-    if (shouldCenter) {
-      // `position: fixed` is intentional here and must NOT follow `strategy`.
-      // Centering relies on `left`/`top: 50%` plus a `translate(-50%, -50%)`,
-      // and those percentages have to resolve against the viewport. Under the
-      // default `absolute` strategy they would resolve against the document
-      // instead, placing the step at 50% of the *page* height so it scrolls
-      // off screen. A step centers when it has no `attachTo`, or when its
-      // `attachTo` is missing either `element` or `on` (see `shouldCenterStep`);
-      // all of those are modal dialogs, so viewport centering is the correct
-      // behavior regardless of `strategy`.
-      Object.assign(step.el.style, {
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)'
-      });
-    } else {
-      Object.assign(step.el.style, {
-        position: strategy,
-        left: `${x}px`,
-        top: `${y}px`
-      });
-    }
+  el.dataset['popperPlacement'] = placement;
 
-    step.el.dataset['popperPlacement'] = placement;
-
-    placeArrow(step.el, middlewareData);
-
-    return step;
-  };
+  placeArrow(el, middlewareData);
 }
 
 function placeArrow(

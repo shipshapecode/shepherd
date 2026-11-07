@@ -494,11 +494,11 @@ export function place(
   return { x, y, placement, strategy, middlewareData };
 }
 
-export async function computePosition(
+export function computePosition(
   reference: Element,
   floating: HTMLElement,
   config: PositionConfig
-): Promise<ComputePositionResult> {
+): ComputePositionResult {
   return place(measure(reference, floating, config.strategy), config);
 }
 

@@ -196,7 +196,7 @@ describe('Floating UI Utils', function () {
           return vi.fn();
         }
       );
-      floatingUIMock.computePosition.mockResolvedValue({
+      floatingUIMock.computePosition.mockReturnValue({
         middlewareData: {},
         placement: 'bottom',
         strategy: 'absolute',
@@ -238,7 +238,9 @@ describe('Floating UI Utils', function () {
     it('reports a step it could not position, and still focuses it', async () => {
       const { step, stepElement } = createTooltipFixture();
       const cause = new Error('no platform');
-      floatingUIMock.computePosition.mockRejectedValueOnce(cause);
+      floatingUIMock.computePosition.mockImplementationOnce(() => {
+        throw cause;
+      });
       const consoleError = vi.spyOn(console, 'error');
 
       setupTooltip(step);
