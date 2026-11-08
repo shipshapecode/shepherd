@@ -889,7 +889,9 @@ export function autoUpdate(
       ? observeMove(reference, check)
       : undefined;
   const resizes =
-    typeof ResizeObserver === 'function' ? new ResizeObserver(check) : undefined;
+    typeof ResizeObserver === 'function'
+      ? new ResizeObserver(check)
+      : undefined;
   resizes?.observe(reference);
   resizes?.observe(floating);
 

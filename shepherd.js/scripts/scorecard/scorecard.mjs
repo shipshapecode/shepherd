@@ -248,7 +248,7 @@ if (has('--gates')) {
       'attw',
       `${bin}/attw --pack . --exclude-entrypoints ./dist/css/shepherd.css`
     ),
-    runGate('lint', `${bin}/eslint .`)
+    runGate('lint', `${bin}/eslint . && ${bin}/prettier --check '**/*.{js,ts}'`)
   ];
 }
 
