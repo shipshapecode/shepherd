@@ -39,6 +39,19 @@ describe('component/ShepherdButton', () => {
       }
     );
 
+    it('warns instead of throwing when the name is not a method', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const button = createShepherdButton(
+        { text: 'Next', action: 'steps' },
+        { tour: { steps: [] } }
+      );
+
+      expect(button.onclick).toBeNull();
+      expect(warn.mock.calls[0][0]).toContain('"Next" has no action');
+      warn.mockRestore();
+    });
+
     it('still binds a function to the tour', () => {
       const tour = { next: vi.fn() };
       const button = createShepherdButton(

@@ -34,19 +34,19 @@
   transition: opacity 0.24s;
 }
 
-.shepherd-element[data-popper-placement^='bottom'] {
+.shepherd-element:not(.shepherd-centered)[data-popper-placement^='bottom'] {
   margin-top: var(--shepherd-gap);
 }
 
-.shepherd-element[data-popper-placement^='top'] {
+.shepherd-element:not(.shepherd-centered)[data-popper-placement^='top'] {
   margin-top: calc(-1 * var(--shepherd-gap));
 }
 
-.shepherd-element[data-popper-placement^='right'] {
+.shepherd-element:not(.shepherd-centered)[data-popper-placement^='right'] {
   margin-left: var(--shepherd-gap);
 }
 
-.shepherd-element[data-popper-placement^='left'] {
+.shepherd-element:not(.shepherd-centered)[data-popper-placement^='left'] {
   margin-left: calc(-1 * var(--shepherd-gap));
 }
 
@@ -194,19 +194,19 @@
       scale: 0.96;
     }
 
-    .shepherd-enabled.shepherd-element[data-popper-placement^='bottom'] {
+    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='bottom'] {
       translate: 0 -8px;
     }
 
-    .shepherd-enabled.shepherd-element[data-popper-placement^='top'] {
+    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='top'] {
       translate: 0 8px;
     }
 
-    .shepherd-enabled.shepherd-element[data-popper-placement^='right'] {
+    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='right'] {
       translate: -8px 0;
     }
 
-    .shepherd-enabled.shepherd-element[data-popper-placement^='left'] {
+    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='left'] {
       translate: 8px 0;
     }
 

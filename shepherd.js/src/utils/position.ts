@@ -760,6 +760,7 @@ function observeMove(element: Element, onMove: () => void) {
   const viewport = doc.scrollingElement || htmlOf(element);
   let observer: IntersectionObserver | undefined;
   let timer: ReturnType<typeof setTimeout>;
+  let disposed = false;
 
   const stop = () => {
     clearTimeout(timer);
@@ -772,7 +773,9 @@ function observeMove(element: Element, onMove: () => void) {
 
     const { x, y, width, height } = element.getBoundingClientRect();
     if (!skip) onMove();
-    if (!width || !height) return;
+    // `onMove` can dispose of this tracker, and an observer made after that
+    // would never be disconnected.
+    if (disposed || !width || !height) return;
 
     let first = true;
     observer = new IntersectionObserver(
@@ -819,6 +822,7 @@ function observeMove(element: Element, onMove: () => void) {
   refresh(true);
 
   return () => {
+    disposed = true;
     win.removeEventListener('resize', onResize);
     stop();
   };
@@ -861,7 +865,8 @@ export function autoUpdate(
       win.innerHeight,
       viewport?.offsetLeft,
       viewport?.offsetTop,
-      viewport?.width
+      viewport?.width,
+      viewport?.height
     ].join();
 
     if (now !== last) {

@@ -40,13 +40,13 @@ export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
 
     openings +=
       `M${x + topLeft},${y}` +
-      `a${topLeft},${topLeft},0,0,0-${topLeft},${topLeft}` +
+      `a${topLeft},${topLeft},0,0,0,-${topLeft},${topLeft}` +
       `V${height + y - bottomLeft}` +
       `a${bottomLeft},${bottomLeft},0,0,0,${bottomLeft},${bottomLeft}` +
       `H${width + x - bottomRight}` +
-      `a${bottomRight},${bottomRight},0,0,0,${bottomRight}-${bottomRight}` +
+      `a${bottomRight},${bottomRight},0,0,0,${bottomRight},-${bottomRight}` +
       `V${y + topRight}` +
-      `a${topRight},${topRight},0,0,0-${topRight}-${topRight}` +
+      `a${topRight},${topRight},0,0,0,-${topRight},-${topRight}` +
       `Z`;
   });
 

@@ -10,9 +10,10 @@ export function createShepherdButton(
   const resolve = (option: unknown) =>
     isFunction(option) ? option.call(step) : option;
   const text = resolve(config.text);
-  const action = isString(config.action)
+  const found = isString(config.action)
     ? step.tour[config.action]
     : config.action;
+  const action = isFunction(found) ? found : undefined;
   if (!action) {
     console.warn(`Shepherd: button "${text}" has no action.`);
   }

@@ -13,12 +13,15 @@ import type { Step, Tour } from './shepherd.ts';
  */
 export function glideSteps(tour: Tour, duration = 420) {
   let from: DOMRect | undefined;
+  // A step's `show` can land after the stop, once its `beforeShowPromise` settles.
+  let stopped = false;
 
   const onShow = ({ step }: { step: Step }) => {
     step.once('show', () =>
       requestAnimationFrame(() => {
         const el = step.getElement();
         if (
+          !stopped &&
           el &&
           from?.width &&
           !matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -46,6 +49,7 @@ export function glideSteps(tour: Tour, duration = 420) {
   tour.on('start', onStart);
   tour.on('show', onShow);
   return () => {
+    stopped = true;
     tour.off('start', onStart);
     tour.off('show', onShow);
   };
@@ -60,8 +64,11 @@ export function glideSteps(tour: Tour, duration = 420) {
  * @returns A function that stops updating the properties.
  */
 export function stepProgress(tour: Tour) {
+  let stopped = false;
+
   const onShow = ({ step }: { step: Step }) => {
     step.once('show', () => {
+      if (stopped) return;
       const style = step.getElement()?.style;
       style?.setProperty('--shepherd-step', `${tour.steps.indexOf(step) + 1}`);
       style?.setProperty('--shepherd-steps', `${tour.steps.length}`);
@@ -70,6 +77,7 @@ export function stepProgress(tour: Tour) {
 
   tour.on('show', onShow);
   return () => {
+    stopped = true;
     tour.off('show', onShow);
   };
 }

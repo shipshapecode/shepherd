@@ -105,14 +105,13 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     let i = 0;
 
     // Consecutive paths share a shape, so tweening their numbers morphs the
-    // opening. Keeping `-0` as written keeps it apart from the arc flag before
-    // it, or an interrupted glide would misread `00` as one number.
+    // opening. `makeOverlayPath` puts a comma between every pair of numbers, so
+    // a sign that changes mid-glide cannot run two of them together.
     const d =
       left > 0
         ? to.replace(
             PATH_NUMBER,
-            (n) =>
-              `${+n + (+(glideFrom[i++] || n) - +n) * left ** 3 || (+n ? 0 : n)}`
+            (n) => `${+n + (+(glideFrom[i++] ?? n) - +n) * left ** 3}`
           )
         : to;
 
@@ -407,7 +406,8 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * target already has in `_styleForStep`.
    */
   function _cachedScrollParents(el?: HTMLElement | null): HTMLElement[] {
-    if (!(el instanceof HTMLElement)) return [];
+    // `nodeType`, not `instanceof`, so a target in a same-origin iframe counts.
+    if (el?.nodeType !== Node.ELEMENT_NODE) return [];
 
     const cached = _stepScrollParents.get(el);
     if (cached) return cached;

@@ -2,10 +2,15 @@ import { Shepherd, Tour as TourClass } from './tour.ts';
 import { Step as StepClass } from './step.ts';
 
 // Server rendering runs module-level tour setup, so every method must exist.
+// `isActive()` and `isOpen()` answer false, as they would before a tour starts,
+// so server and client markup agree.
 const NoOp = class {
   constructor() {
     const noOp: object = new Proxy(this, {
-      get: (_target, key) => (key === 'then' ? undefined : () => noOp)
+      get: (_target, key) =>
+        key === 'then'
+          ? undefined
+          : () => (String(key).startsWith('is') ? false : noOp)
     });
     return noOp;
   }

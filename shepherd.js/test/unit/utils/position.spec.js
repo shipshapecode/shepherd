@@ -370,6 +370,60 @@ describe('utils/position', () => {
       vi.unstubAllGlobals();
     });
 
+    it('updates when only the visual viewport gets shorter', () => {
+      const viewport = Object.assign(new EventTarget(), {
+        offsetLeft: 0,
+        offsetTop: 0,
+        width: 1024,
+        height: 768
+      });
+      Object.defineProperty(window, 'visualViewport', {
+        configurable: true,
+        value: viewport
+      });
+      const { reference, floating } = stubbedRects();
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      viewport.dispatchEvent(new Event('resize'));
+      const settled = update.mock.calls.length;
+
+      viewport.height = 400;
+      viewport.dispatchEvent(new Event('resize'));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      delete window.visualViewport;
+    });
+
+    it('leaves no observer behind when the step leaves the page mid-check', () => {
+      const observers = [];
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(callback) {
+            this.callback = callback;
+            this.live = true;
+            observers.push(this);
+          }
+          observe() {}
+          disconnect() {
+            this.live = false;
+          }
+        }
+      );
+      const { reference, floating, rect } = stubbedRects();
+      document.body.append(floating);
+
+      autoUpdate(reference, floating, () => {});
+      floating.remove();
+      rect.y = 400;
+      observers.at(-1).callback([{ intersectionRatio: 1 }]);
+
+      expect(observers.filter((observer) => observer.live)).toEqual([]);
+      vi.unstubAllGlobals();
+    });
+
     it('wakes on a scroll anywhere in the document', async () => {
       const { reference, floating, rect } = stubbedRects();
       const scroller = document.createElement('div');

@@ -107,5 +107,20 @@ describe('motion', () => {
       expect(style.getPropertyValue('--shepherd-step')).toBe('2');
       expect(style.getPropertyValue('--shepherd-steps')).toBe('2');
     });
+
+    it('does nothing for a step still waiting when it is stopped', async () => {
+      let release;
+      tour.steps[0].options.beforeShowPromise = () =>
+        new Promise((resolve) => (release = resolve));
+      const stop = stepProgress(tour);
+      const shown = tour.start();
+
+      stop();
+      release();
+      await shown;
+
+      const { style } = tour.getCurrentStep().getElement();
+      expect(style.getPropertyValue('--shepherd-step')).toBe('');
+    });
   });
 });
