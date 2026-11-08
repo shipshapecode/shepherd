@@ -262,10 +262,13 @@ export async function runParity({
     if (errors.length) throw new Error(`errors: ${errors.join('; ')}`);
     writeFileSync(goldenPath, `${JSON.stringify(results, null, 1)}\n`);
   }
-  const golden = existsSync(goldenPath)
-    ? JSON.parse(readFileSync(goldenPath, 'utf8'))
-    : {};
-  const mismatches = [];
+  if (!existsSync(goldenPath)) {
+    throw new Error(`no golden at ${goldenPath}, run with --update`);
+  }
+  const golden = JSON.parse(readFileSync(goldenPath, 'utf8'));
+  const mismatches = Object.keys(results)
+    .filter((id) => !(id in golden))
+    .map((id) => ({ id, changes: ['no golden'] }));
   const byContext = {};
   let inViewportLost = 0;
   let overlapGained = 0;

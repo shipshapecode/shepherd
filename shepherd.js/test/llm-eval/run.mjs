@@ -180,6 +180,10 @@ const pkgDir = resolve(options.pkg ?? defaultPkgDir);
 const tasks = options.task
   ? TASKS.filter((task) => task.id === options.task)
   : TASKS;
+if (!tasks.length) {
+  console.error(`no task named ${options.task}`);
+  process.exit(2);
+}
 
 const browser = await chromium.launch();
 const results = [];

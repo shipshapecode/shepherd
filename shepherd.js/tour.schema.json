@@ -29,7 +29,7 @@
     },
     "defaultStepOptions": {
       "$ref": "#/definitions/stepOptions",
-      "description": "Applied to every step. A step's own value replaces the default, except classes, which combine."
+      "description": "Applied to every step. A step's own value replaces the default, except classes, which combine, and positionOptions, which combines key by key."
     },
     "steps": {
       "type": "array",
@@ -203,7 +203,18 @@
           }
         },
         "scrollTo": {
-          "oneOf": [{ "type": "boolean" }, { "type": "object" }],
+          "oneOf": [
+            { "type": "boolean" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "behavior": { "enum": ["auto", "instant", "smooth"] },
+                "block": { "enum": ["start", "center", "end", "nearest"] },
+                "inline": { "enum": ["start", "center", "end", "nearest"] }
+              }
+            }
+          ],
           "description": "Scroll the target into view. Off by default. An object is passed to scrollIntoView."
         },
         "skipMissingElement": {

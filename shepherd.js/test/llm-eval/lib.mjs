@@ -5,6 +5,7 @@ import {
   mkdtempSync,
   readFileSync,
   realpathSync,
+  statSync,
   symlinkSync,
   writeFileSync
 } from 'node:fs';
@@ -150,7 +151,9 @@ export function serve({ html, files = {}, pkgDir }) {
     const prefix = '/node_modules/shepherd.js/';
     if (path.startsWith(prefix)) {
       const file = join(pkgDir, path.slice(prefix.length));
-      if (existsSync(file)) return send(readFileSync(file), extname(file));
+      if (existsSync(file) && statSync(file).isFile()) {
+        return send(readFileSync(file), extname(file));
+      }
     }
     res.writeHead(404);
     res.end();

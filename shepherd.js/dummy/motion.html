@@ -255,13 +255,10 @@
         document.documentElement.dataset.scheme = params.get('scheme');
       }
       document.getElementById('toggle-scheme').addEventListener('click', () => {
-        params.set(
-          'scheme',
-          matchMedia('(prefers-color-scheme: dark)').matches !==
-            (params.get('scheme') === 'light')
-            ? 'light'
-            : 'dark'
-        );
+        const current =
+          document.documentElement.dataset.scheme ??
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        params.set('scheme', current === 'dark' ? 'light' : 'dark');
         location.search = params;
       });
 

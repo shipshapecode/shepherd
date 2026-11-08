@@ -20,7 +20,7 @@ npm install --save react-shepherd
 ### Via Provider/Context
 
 ```tsx
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ShepherdJourneyProvider, useShepherd } from 'react-shepherd';
 import 'shepherd.js/dist/css/shepherd.css';
 
@@ -43,6 +43,14 @@ const tourOptions = {
 function Button() {
   const Shepherd = useShepherd();
   const tour = useMemo(() => new Shepherd.Tour(tourOptions), [Shepherd]);
+
+  // Ends the tour if this component unmounts while it is open.
+  useEffect(
+    () => () => {
+      if (tour.isActive()) tour.complete();
+    },
+    [tour]
+  );
 
   return (
     <button className="button dark" onClick={tour.start}>
