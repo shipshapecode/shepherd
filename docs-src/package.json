@@ -11,18 +11,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.4",
-    "astro": "^7.3.5",
+    "@astrojs/starlight": "^0.42.10",
+    "astro": "^7.4.7",
     "shepherd.js": "workspace:*",
-    "starlight-typedoc": "^0.23.1"
+    "starlight-typedoc": "^0.23.2"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@flydotio/dockerfile": "^0.7.10",
+    "@astrojs/check": "^0.9.12",
+    "@flydotio/dockerfile": "^0.7.15",
     "sharp": "^0.35.5",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "^4.13.1",
-    "typescript": "^5.9.3"
+    "typedoc-plugin-markdown": "^4.14.1",
+    "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@11.21.0"
 }

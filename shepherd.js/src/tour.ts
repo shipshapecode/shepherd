@@ -123,7 +123,7 @@ export class ShepherdBase extends Evented {
    * The running tour. It is `null` or `undefined` until a tour starts, so read it
    * when a button is clicked, not when defining the button.
    */
-  activeTour?: Tour | null;
+  declare activeTour?: Tour | null;
   /**
    * The `Step` class.
    */
@@ -159,50 +159,50 @@ export class Tour extends Evented {
   /**
    * The names of the events a tour fires most often.
    */
-  trackedEvents: string[];
+  declare trackedEvents: string[];
 
   /**
    * The `classPrefix` option, ending in `-`.
    */
-  classPrefix: string;
+  declare classPrefix: string;
   /**
    * The current step. Prefer `getCurrentStep()`.
    */
-  currentStep?: Step | null;
+  declare currentStep?: Step | null;
   /**
    * The element to return focus to when the tour ends.
    */
-  focusedElBeforeOpen?: HTMLElement | null;
+  declare focusedElBeforeOpen?: HTMLElement | null;
   /**
    * The tour's id: `${tourName}--${id}`.
    */
-  id?: string;
+  declare id?: string;
   /**
    * The overlay controller, once the tour has started.
    */
-  modal?: ShepherdModalAPI | null;
+  declare modal?: ShepherdModalAPI | null;
   /**
    * The options the tour was created with, plus defaults.
    */
-  options: TourOptions;
+  declare options: TourOptions;
   /**
    * The tour's steps, in order.
    */
-  steps: Array<Step>;
+  declare steps: Array<Step>;
 
   /**
    * Monotonically increasing id of `show()` calls and tour endings, used to
    * invalidate pending `waitForElement` and `beforeShowPromise` waits.
    * @internal
    */
-  _showGeneration: number;
+  declare _showGeneration: number;
 
   /**
    * Changes whenever a run of the tour begins or ends, used to invalidate
    * pending `confirmCancel` answers that belong to an earlier run.
    * @internal
    */
-  _runGeneration: number;
+  declare _runGeneration: number;
 
   constructor(options: TourOptions = {}) {
     super();
