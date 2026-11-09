@@ -1,18 +1,5 @@
-import { type Tour, type TourOptions } from '../tour.ts';
-import {
-  type StepOptionsAttachTo,
-  type Step,
-  type StepOptions
-} from '../step.ts';
+import { type StepOptionsAttachTo, type Step } from '../step.ts';
 import { isFunction, isString } from './type-check.ts';
-
-export class StepNoOp {
-  constructor(_options: StepOptions) {}
-}
-
-export class TourNoOp {
-  constructor(_tour: Tour, _options: TourOptions) {}
-}
 
 /**
  * Ensure class prefix ends in `-`
@@ -20,11 +7,34 @@ export class TourNoOp {
  * @return The prefix ending in `-`
  */
 export function normalizePrefix(prefix?: string) {
-  if (!isString(prefix) || prefix === '') {
+  if (!isString(prefix) || !prefix) {
     return '';
   }
 
-  return prefix.charAt(prefix.length - 1) !== '-' ? `${prefix}-` : prefix;
+  return prefix.endsWith('-') ? prefix : `${prefix}-`;
+}
+
+function locateAttachToElement(step: Step, logMissing?: boolean) {
+  const attachTo = step.options.attachTo || {};
+  let element = isFunction(attachTo.element)
+    ? attachTo.element.call(step)
+    : attachTo.element;
+
+  if (isString(element)) {
+    try {
+      element = document.querySelector(element) as HTMLElement | null;
+    } catch {
+      element = null;
+    }
+
+    if (!element && logMissing) {
+      console.error(
+        `Shepherd: attachTo.element not found: ${attachTo.element}. The step is centered instead. Fix the selector, or set waitForElement or skipMissingElement.`
+      );
+    }
+  }
+
+  return element as HTMLElement | null | undefined;
 }
 
 /**
@@ -34,63 +44,26 @@ export function normalizePrefix(prefix?: string) {
  * `element` is a qualified HTML Element
  * `on` is a string position value
  */
-export function parseAttachTo(step: Step) {
-  const options = step.options.attachTo || {};
-  const returnOpts = Object.assign({}, options);
-
-  if (isFunction(returnOpts.element)) {
-    // Bind the callback to step so that it has access to the object, to enable running additional logic
-    returnOpts.element = returnOpts.element.call(step);
-  }
-
-  if (isString(returnOpts.element)) {
-    // Can't override the element in user opts reference because we can't
-    // guarantee that the element will exist in the future.
-    try {
-      returnOpts.element = document.querySelector(
-        returnOpts.element
-      ) as HTMLElement;
-    } catch (_e) {
-      // TODO
-    }
-    if (!returnOpts.element && !step.options.skipMissingElement) {
-      console.error(
-        `The element for this Shepherd step was not found ${options.element}`
-      );
-    }
-  }
-
-  return returnOpts;
+export function parseAttachTo(step: Step): StepOptionsAttachTo {
+  return {
+    ...step.options.attachTo,
+    element: locateAttachToElement(step, !step.options.skipMissingElement)
+  };
 }
 
 /**
- * Resolves a step's `attachTo.element` to an HTMLElement, evaluating function
- * locators and querying selector strings. Unlike `parseAttachTo`, this never
- * logs and simply returns `null` when the element cannot be resolved.
+ * Resolves a step's `attachTo.element` to an HTMLElement. Unlike
+ * `parseAttachTo`, this never logs.
  * @param step - The step instance
  * @returns The resolved element, or `null` if it could not be found
  */
 export function resolveAttachToElement(step: Step): HTMLElement | null {
-  const attachTo = step.options.attachTo || {};
-  let element = isFunction(attachTo.element)
-    ? attachTo.element.call(step)
-    : attachTo.element;
-
-  if (isString(element)) {
-    try {
-      element = document.querySelector(element) as HTMLElement | null;
-    } catch (_e) {
-      element = null;
-    }
-  }
-
-  return element || null;
+  return locateAttachToElement(step) || null;
 }
 
 /**
  * Waits for a step's `attachTo.element` to be resolvable, watching the DOM
- * with a `MutationObserver` (falling back to polling when it is unavailable)
- * until `timeout` milliseconds have elapsed.
+ * with a `MutationObserver` until `timeout` milliseconds have elapsed.
  * @param step - The step instance
  * @param timeout - The maximum amount of time, in milliseconds, to wait
  * @returns A promise resolving to the element, or `null` if it did not appear
@@ -108,44 +81,26 @@ export function waitForAttachToElement(
       return;
     }
 
-    let observer: MutationObserver | null = null;
-    let pollTimer: ReturnType<typeof setInterval> | null = null;
-    let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
-
     const finish = (result: HTMLElement | null) => {
-      observer?.disconnect();
-
-      if (pollTimer !== null) {
-        clearInterval(pollTimer);
-      }
-
-      if (timeoutTimer !== null) {
-        clearTimeout(timeoutTimer);
-      }
-
+      observer.disconnect();
+      clearTimeout(timeoutTimer);
       resolve(result);
     };
 
-    const check = () => {
+    const observer = new MutationObserver(() => {
       const found = resolveAttachToElement(step);
 
       if (found) {
         finish(found);
       }
-    };
+    });
+    const timeoutTimer = setTimeout(() => finish(null), timeout);
 
-    timeoutTimer = setTimeout(() => finish(null), timeout);
-
-    if (typeof MutationObserver !== 'undefined') {
-      observer = new MutationObserver(check);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        childList: true,
-        subtree: true
-      });
-    } else {
-      pollTimer = setInterval(check, 50);
-    }
+    observer.observe(document.documentElement, {
+      attributes: true,
+      childList: true,
+      subtree: true
+    });
   });
 }
 
@@ -153,12 +108,9 @@ export function waitForAttachToElement(
  * Resolves the step's `extraHighlights` option, converting any locator values to HTMLElements.
  */
 export function parseExtraHighlights(step: Step): HTMLElement[] {
-  if (step.options.extraHighlights) {
-    return step.options.extraHighlights.flatMap((highlight) => {
-      return Array.from(document.querySelectorAll(highlight)) as HTMLElement[];
-    });
-  }
-  return [];
+  return (step.options.extraHighlights || []).flatMap((highlight) => [
+    ...document.querySelectorAll<HTMLElement>(highlight)
+  ]);
 }
 
 /**
@@ -166,24 +118,15 @@ export function parseExtraHighlights(step: Step): HTMLElement[] {
  * alternative for the deprecated step.isCentered() method.
  */
 export function shouldCenterStep(resolvedAttachToOptions: StepOptionsAttachTo) {
-  if (
-    resolvedAttachToOptions === undefined ||
-    resolvedAttachToOptions === null
-  ) {
-    return true;
-  }
-
-  return !resolvedAttachToOptions.element || !resolvedAttachToOptions.on;
+  return !resolvedAttachToOptions?.element || !resolvedAttachToOptions.on;
 }
 
 /**
  * Create a unique id for steps, tours, modals, etc
  */
 export function uuid() {
-  let d = Date.now();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = ((d + Math.random() * 16) % 16) | 0;
-    d = Math.floor(d / 16);
+    const r = (Math.random() * 16) | 0;
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
 }

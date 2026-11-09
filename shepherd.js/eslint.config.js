@@ -118,6 +118,7 @@ export default [
       'dummy/',
       'tmp/',
       'test/cypress/dummy/js/prism.js',
+      'test/llm-eval/reference/',
       'node_modules/',
       'coverage/',
       'test/coverage/',

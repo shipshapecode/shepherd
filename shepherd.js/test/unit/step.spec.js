@@ -3,7 +3,6 @@ import Shepherd from '../../src/shepherd';
 import { Step } from '../../src/step';
 import { Tour } from '../../src/tour';
 import ResizeObserver from 'resize-observer-polyfill';
-import { offset } from '@floating-ui/dom';
 
 // since importing non UMD, needs assignment
 window.Shepherd = Shepherd;
@@ -27,15 +26,13 @@ describe('Tour | Step', () => {
   });
 
   describe('Shepherd.Step()', () => {
-    const defaultOffsetMiddleware = offset({ mainAxis: 0, crossAxis: 32 });
-    const fooMiddleware = { name: 'foo', options: 'bar', fn: (args) => args };
-
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware]
+        positionOptions: {
+          offset: { mainAxis: 0, crossAxis: 32 },
+          padding: 8
         },
         showOn,
         when
@@ -53,9 +50,7 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      floatingUIOptions: {
-        middleware: [fooMiddleware]
-      }
+      positionOptions: { offset: 16 }
     });
 
     const showTestStep = instance.addStep({
@@ -87,10 +82,6 @@ describe('Tour | Step', () => {
       ]
     });
 
-    const stepWithoutNameWithoutIdOffsetMiddleware = offset({
-      mainAxis: 0,
-      crossAxis: -32
-    });
     const stepWithoutNameWithoutId = instance.addStep({
       attachTo: { element: 'body' },
       highlightClass: 'highlight',
@@ -101,9 +92,7 @@ describe('Tour | Step', () => {
           action: instance.next
         }
       ],
-      floatingUIOptions: {
-        middleware: [stepWithoutNameWithoutIdOffsetMiddleware]
-      }
+      positionOptions: { offset: { mainAxis: 0, crossAxis: -32 } }
     });
 
     const beforeShowPromise = () =>
@@ -129,7 +118,7 @@ describe('Tour | Step', () => {
         'arrow',
         'classes',
         'scrollTo',
-        'floatingUIOptions',
+        'positionOptions',
         'showOn',
         'when',
         'attachTo',
@@ -167,30 +156,27 @@ describe('Tour | Step', () => {
         id: 'test',
         scrollTo: true,
         text: 'This is a step for testing',
-        floatingUIOptions: {
-          middleware: [defaultOffsetMiddleware, fooMiddleware]
-        },
+        positionOptions: { offset: 16, padding: 8 },
         showOn,
         when
       });
     });
 
-    it('allows the step to override a previously defined modifier', () => {
-      stepWithoutNameWithoutId.show();
-      const offsetMiddleware =
-        stepWithoutNameWithoutId.options.floatingUIOptions.middleware.filter(
-          ({ name }) => name === 'offset'
-        );
-      const offsetResult = offsetMiddleware.reduce(
-        (agg, current) => {
-          agg.mainAxis += current.options.mainAxis;
-          agg.crossAxis += current.options.crossAxis;
-          return agg;
-        },
-        { mainAxis: 0, crossAxis: 0 }
-      );
+    it('lets a step override one positionOptions key and keep the rest', () => {
+      expect(stepWithoutNameWithoutId.options.positionOptions).toEqual({
+        offset: { mainAxis: 0, crossAxis: -32 },
+        padding: 8
+      });
+    });
 
-      expect(offsetResult).toEqual({ mainAxis: 0, crossAxis: 0 });
+    it('warns that floatingUIOptions was replaced', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      instance.addStep({ floatingUIOptions: { strategy: 'fixed' } });
+
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('positionOptions')
+      );
+      warn.mockRestore();
     });
 
     describe('.hide()', () => {
@@ -614,15 +600,11 @@ describe('Tour | Step', () => {
   });
 
   describe('correct operation of classes on body element when step not attached to an element', () => {
-    const offsetMiddleware = offset({ crossAxis: 32 });
-    const defaultCallback = (args) => args;
     const instance = new Shepherd.Tour({
       defaultStepOptions: {
         classes: DEFAULT_STEP_CLASS,
         scrollTo: true,
-        floatingUIOptions: {
-          middleware: [offsetMiddleware]
-        },
+        positionOptions: { offset: { crossAxis: 32 } },
         showOn,
         when
       }
@@ -638,9 +620,7 @@ describe('Tour | Step', () => {
         }
       ],
       id: 'test',
-      floatingUIOptions: {
-        middleware: [{ name: 'foo', options: 'bar', fn: defaultCallback }]
-      }
+      positionOptions: { flip: false }
     });
 
     afterEach(() => {
@@ -1280,6 +1260,96 @@ describe('Tour | Step', () => {
       instance.getById('first').hide();
 
       expect(testElement.getAttribute('tabindex')).toBe('2');
+    });
+
+    describe('position tracking', () => {
+      const liveWindowListeners = (type) => {
+        let live = 0;
+        vi.spyOn(window, 'addEventListener').mockImplementation(
+          function (listenerType) {
+            if (listenerType === type) live++;
+          }
+        );
+        vi.spyOn(window, 'removeEventListener').mockImplementation(
+          function (listenerType) {
+            if (listenerType === type) live--;
+          }
+        );
+        return () => live;
+      };
+
+      const threeStepTour = () =>
+        new Shepherd.Tour({
+          steps: ['first', 'second', 'third'].map((id) => ({
+            id,
+            text: id,
+            attachTo: { element: '#lifecycle-test-element', on: 'top' }
+          }))
+        });
+
+      afterEach(() => {
+        vi.restoreAllMocks();
+      });
+
+      it('tracks only the current step, however many steps were shown', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        expect(onOneStep, 'the shown step follows scrolling').toBeGreaterThan(
+          0
+        );
+
+        await instance.next();
+        await instance.next();
+        expect(live(), 'hidden steps stopped listening').toBe(onOneStep);
+
+        instance.complete();
+        expect(live(), 'nothing is left after the tour ends').toBe(0);
+      });
+
+      it('resumes tracking when going back to a hidden step', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        await instance.next();
+        await instance.back();
+
+        expect(instance.getCurrentStep().id).toBe('first');
+        expect(live(), 'the shown step is subscribed once').toBe(onOneStep);
+        expect(instance.getCurrentStep().cleanup).toBeTypeOf('function');
+      });
+
+      it('keeps a hidden step hidden when its options are updated', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        const onOneStep = live();
+        await instance.next();
+        const first = instance.getById('first');
+        first.updateStepOptions({ text: 'updated' });
+
+        expect(first.isOpen(), 'the update did not show it').toBe(false);
+        expect(live(), 'the update did not subscribe it').toBe(onOneStep);
+
+        await instance.back();
+        expect(first.el).toHaveTextContent('updated');
+      });
+
+      it('stops tracking when a step is hidden directly', async () => {
+        instance = threeStepTour();
+        const live = liveWindowListeners('scroll');
+
+        await instance.start();
+        instance.getCurrentStep().hide();
+
+        expect(live()).toBe(0);
+        expect(instance.getCurrentStep().cleanup).toBeNull();
+      });
     });
   });
 

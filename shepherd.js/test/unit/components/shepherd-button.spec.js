@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createShepherdButton } from '../../../src/components/shepherd-button.ts';
 
 describe('component/ShepherdButton', () => {
@@ -11,6 +11,77 @@ describe('component/ShepherdButton', () => {
 
   afterEach(() => {
     container.remove();
+  });
+
+  describe('action', () => {
+    it.each(['back', 'cancel', 'complete', 'next'])(
+      'runs the tour method named %s',
+      (name) => {
+        const tour = { [name]: vi.fn() };
+        const button = createShepherdButton({ action: name }, { tour });
+        container.appendChild(button);
+
+        button.click();
+
+        expect(tour[name]).toHaveBeenCalledTimes(1);
+      }
+    );
+
+    it.each([[{ text: 'Next' }], [{ text: 'Next', action: 'finish' }]])(
+      'warns about a button that would do nothing: %j',
+      (config) => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+        createShepherdButton(config, { tour: {} });
+
+        expect(warn.mock.calls[0][0]).toContain('"Next" has no action');
+        warn.mockRestore();
+      }
+    );
+
+    it('ignores a tour method outside the named actions', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const tour = { hide: vi.fn() };
+
+      const button = createShepherdButton(
+        { text: 'Hide', action: 'hide' },
+        { tour }
+      );
+
+      expect(button.onclick).toBeNull();
+      expect(warn.mock.calls[0][0]).toContain('"Hide" has no action');
+      warn.mockRestore();
+    });
+
+    it('warns instead of throwing when the name is not a method', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const button = createShepherdButton(
+        { text: 'Next', action: 'steps' },
+        { tour: { steps: [] } }
+      );
+
+      expect(button.onclick).toBeNull();
+      expect(warn.mock.calls[0][0]).toContain('"Next" has no action');
+      warn.mockRestore();
+    });
+
+    it('still binds a function to the tour', () => {
+      const tour = { next: vi.fn() };
+      const button = createShepherdButton(
+        {
+          action() {
+            this.next();
+          }
+        },
+        { tour }
+      );
+      container.appendChild(button);
+
+      button.click();
+
+      expect(tour.next).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('disabled', () => {

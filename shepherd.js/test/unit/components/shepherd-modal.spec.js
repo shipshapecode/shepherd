@@ -15,6 +15,193 @@ describe('components/ShepherdModal', () => {
     container.remove();
   });
 
+  describe('gliding between steps', () => {
+    const rect = (x, y, width, height) => ({
+      x,
+      y,
+      width,
+      height,
+      top: y,
+      left: x,
+      bottom: y + height,
+      right: x + width
+    });
+    let modal;
+    let now;
+
+    function makeStep(box, options = {}) {
+      const target = document.createElement('div');
+      target.getBoundingClientRect = () => box;
+      target.style.position = 'fixed';
+      document.body.append(target);
+      const tour = new Tour({ useModalOverlay: true });
+      const step = new Step(tour, { ...options });
+      step.target = target;
+      return step;
+    }
+
+    const path = () => modal.getElement().querySelector('path');
+    // `+ 0` reads `-0` and `0` as the same coordinate.
+    const numbers = (d) => d.match(/-?[\d.]+(e-\d+)?/g).map((n) => +n + 0);
+    const settled = (x, y, width, height) =>
+      `M1024,768H0V0H1024V768ZM${x},${y}a0,0,0,0,0,-0,0V${y + height}a0,0,0,0,0,0,0H${x + width}a0,0,0,0,0,0,-0V${y}a0,0,0,0,0,-0,-0Z`;
+
+    beforeEach(() => {
+      now = 1000;
+      vi.spyOn(Date, 'now').mockImplementation(() => now);
+      modal = createShepherdModal(container);
+    });
+
+    afterEach(() => {
+      modal.destroy();
+      vi.restoreAllMocks();
+    });
+
+    function setDuration(value) {
+      path().style.transitionDuration = value;
+    }
+
+    it('cuts straight to the target without a transition duration', () => {
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('does not glide into the first opening', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('starts from the previous opening and lands exactly on the target', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+
+      expect(numbers(path().getAttribute('d'))).toEqual(
+        numbers(settled(0, 0, 100, 100))
+      );
+
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      const [, x, y] = path()
+        .getAttribute('d')
+        .match(/ZM([\d.]+),([\d.]+)/);
+      // 1 - 0.5^3 of the way there
+      expect(Number(x)).toBeCloseTo(175);
+      expect(Number(y)).toBeCloseTo(262.5);
+
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+    });
+
+    it('writes the path on every frame of a glide, then stops', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+      const writePath = vi.spyOn(path(), 'setAttribute');
+      const frame = () => modal.positionModal(0, 0, 0, 0, null, to.target);
+
+      for (const expected of [1, 2, 3]) {
+        now += 250;
+        frame();
+        expect(writePath, 'mid glide').toHaveBeenCalledTimes(expected);
+      }
+
+      now += 250;
+      frame();
+      expect(writePath, 'landing').toHaveBeenCalledTimes(4);
+
+      now += 16;
+      frame();
+      frame();
+      expect(writePath, 'settled').toHaveBeenCalledTimes(4);
+    });
+
+    it('keeps every number apart at the start of a glide into a rounded opening', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      modal.setupForStep(
+        makeStep(rect(200, 300, 50, 50), { modalOverlayOpeningRadius: 8 })
+      );
+
+      expect(numbers(path().getAttribute('d'))).toEqual(
+        numbers(settled(0, 0, 100, 100))
+      );
+    });
+
+    it('does not glide back after the number of openings changes mid-glide', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+      const extra = document.createElement('div');
+      extra.getBoundingClientRect = () => rect(400, 100, 20, 20);
+      document.body.append(extra);
+
+      now += 250;
+      modal.positionModal(0, 0, 0, 0, null, to.target, [extra]);
+      now += 250;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+      extra.remove();
+    });
+
+    it('cuts instead of gliding when the number of openings changes', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      const extra = document.createElement('div');
+      extra.getBoundingClientRect = () => rect(400, 100, 20, 20);
+      document.body.append(extra);
+      to._resolvedExtraHighlightElements = [extra];
+
+      modal.setupForStep(to);
+      const first = path().getAttribute('d');
+      now += 1000;
+      modal.positionModal(0, 0, 0, 0, null, to.target, [extra]);
+
+      expect(first).toBe(path().getAttribute('d'));
+      extra.remove();
+    });
+
+    it('stays aligned when a zero-radius glide is interrupted', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const middle = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(middle);
+      now += 500;
+      modal.positionModal(0, 0, 0, 0, null, middle.target);
+      const interrupted = path().getAttribute('d');
+      expect(numbers(interrupted)).toHaveLength(
+        numbers(settled(0, 0, 0, 0)).length
+      );
+
+      const to = makeStep(rect(600, 500, 20, 20));
+      modal.setupForStep(to);
+      expect(path().getAttribute('d')).toBe(interrupted);
+
+      now += 1000;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+      expect(path().getAttribute('d')).toBe(settled(600, 500, 20, 20));
+    });
+
+    it('closes without gliding towards the origin', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+      modal.setupForStep(makeStep(rect(10, 10, 50, 50)));
+      modal.closeModalOpening();
+
+      expect(path().getAttribute('d')).toBe(settled(0, 0, 0, 0));
+    });
+  });
+
   describe('closeModalOpening()', function () {
     it('sets values back to 0', () => {
       const modal = createShepherdModal(container);
@@ -33,7 +220,7 @@ describe('components/ShepherdModal', () => {
       let modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0,-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0,-0V20a0,0,0,0,0,-0,-0Z'
       );
 
       modal.closeModalOpening();
@@ -41,19 +228,38 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
     });
   });
 
   describe('positionModal()', function () {
+    it('leaves the path alone when the opening has not moved', () => {
+      const modal = createShepherdModal(container);
+      const path = modal.getElement().querySelector('path');
+      let y = 20;
+      const target = {
+        getBoundingClientRect: () => ({ height: 250, x: 20, y, width: 500 })
+      };
+
+      modal.positionModal(0, 0, 0, 0, null, target);
+      const writePath = vi.spyOn(path, 'setAttribute');
+
+      modal.positionModal(0, 0, 0, 0, null, target);
+      expect(writePath, 'nothing moved').not.toHaveBeenCalled();
+
+      y = 28;
+      modal.positionModal(0, 0, 0, 0, null, target);
+      expect(writePath, 'the target moved').toHaveBeenCalledTimes(1);
+    });
+
     it('sets the correct attributes when positioning modal opening', () => {
       const modal = createShepherdModal(container);
 
       let modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.closeModalOpening();
@@ -61,7 +267,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(0, 0, 0, 0, null, {
@@ -78,7 +284,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0,-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0,-0V20a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -88,7 +294,7 @@ describe('components/ShepherdModal', () => {
       let modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(10, 0, 0, 0, null, {
@@ -105,7 +311,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0-0,0V280a0,0,0,0,0,0,0H530a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0,-0,0V280a0,0,0,0,0,0,0H530a0,0,0,0,0,0,-0V10a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -115,7 +321,7 @@ describe('components/ShepherdModal', () => {
       let modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.closeModalOpening();
@@ -123,7 +329,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(0, 10, 0, 0, null, {
@@ -140,7 +346,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM30,20a10,10,0,0,0-10,10V260a10,10,0,0,0,10,10H510a10,10,0,0,0,10-10V30a10,10,0,0,0-10-10Z'
+        'M1024,768H0V0H1024V768ZM30,20a10,10,0,0,0,-10,10V260a10,10,0,0,0,10,10H510a10,10,0,0,0,10,-10V30a10,10,0,0,0,-10,-10Z'
       );
     });
 
@@ -150,7 +356,7 @@ describe('components/ShepherdModal', () => {
       let modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.closeModalOpening();
@@ -158,7 +364,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0-0V0a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM0,0a0,0,0,0,0,-0,0V0a0,0,0,0,0,0,0H0a0,0,0,0,0,0,-0V0a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(
@@ -182,7 +388,7 @@ describe('components/ShepherdModal', () => {
       modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM21,20a1,1,0,0,0-1,1V268a2,2,0,0,0,2,2H517a3,3,0,0,0,3-3V20a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM21,20a1,1,0,0,0,-1,1V268a2,2,0,0,0,2,2H517a3,3,0,0,0,3,-3V20a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -219,7 +425,7 @@ describe('components/ShepherdModal', () => {
       const modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V100a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0,-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0,-0V100a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -256,7 +462,7 @@ describe('components/ShepherdModal', () => {
       const modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V100a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM10,100a0,0,0,0,0,-0,0V350a0,0,0,0,0,0,0H510a0,0,0,0,0,0,-0V100a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -278,7 +484,7 @@ describe('components/ShepherdModal', () => {
 
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM60,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H560a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM60,10a0,0,0,0,0,-0,0V260a0,0,0,0,0,0,0H560a0,0,0,0,0,0,-0V10a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(0, 0, 100, 0, null, {
@@ -296,7 +502,7 @@ describe('components/ShepherdModal', () => {
 
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM110,10a0,0,0,0,0-0,0V260a0,0,0,0,0,0,0H610a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM110,10a0,0,0,0,0,-0,0V260a0,0,0,0,0,0,0H610a0,0,0,0,0,0,-0V10a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -318,7 +524,7 @@ describe('components/ShepherdModal', () => {
 
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM10,45a0,0,0,0,0-0,0V295a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V45a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM10,45a0,0,0,0,0,-0,0V295a0,0,0,0,0,0,0H510a0,0,0,0,0,0,-0V45a0,0,0,0,0,-0,-0Z'
       );
 
       modal.positionModal(0, 0, 0, 75, null, {
@@ -336,7 +542,7 @@ describe('components/ShepherdModal', () => {
 
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM10,85a0,0,0,0,0-0,0V335a0,0,0,0,0,0,0H510a0,0,0,0,0,0-0V85a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM10,85a0,0,0,0,0,-0,0V335a0,0,0,0,0,0,0H510a0,0,0,0,0,0,-0V85a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -376,7 +582,7 @@ describe('components/ShepherdModal', () => {
       const modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0ZM50,50a0,0,0,0,0-0,0V150a0,0,0,0,0,0,0H150a0,0,0,0,0,0-0V50a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0,-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0,-0V20a0,0,0,0,0,-0,-0ZM50,50a0,0,0,0,0,-0,0V150a0,0,0,0,0,0,0H150a0,0,0,0,0,0,-0V50a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -426,7 +632,7 @@ describe('components/ShepherdModal', () => {
       const modalPath = modal.getElement().querySelector('path');
       expect(modalPath).toHaveAttribute(
         'd',
-        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0-0V20a0,0,0,0,0-0-0ZM50,50a0,0,0,0,0-0,0V150a0,0,0,0,0,0,0H150a0,0,0,0,0,0-0V50a0,0,0,0,0-0-0ZM200,200a0,0,0,0,0-0,0V250a0,0,0,0,0,0,0H250a0,0,0,0,0,0-0V200a0,0,0,0,0-0-0Z'
+        'M1024,768H0V0H1024V768ZM20,20a0,0,0,0,0,-0,0V270a0,0,0,0,0,0,0H520a0,0,0,0,0,0,-0V20a0,0,0,0,0,-0,-0ZM50,50a0,0,0,0,0,-0,0V150a0,0,0,0,0,0,0H150a0,0,0,0,0,0,-0V50a0,0,0,0,0,-0,-0ZM200,200a0,0,0,0,0,-0,0V250a0,0,0,0,0,0,0H250a0,0,0,0,0,0,-0V200a0,0,0,0,0,-0,-0Z'
       );
     });
 
@@ -834,7 +1040,7 @@ describe('components/ShepherdModal', () => {
 
         expect(modal.getElement().querySelector('path')).toHaveAttribute(
           'd',
-          'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0-0,0V60a0,0,0,0,0,0,0H110a0,0,0,0,0,0-0V10a0,0,0,0,0-0-0ZM200,150a0,0,0,0,0-0,0V200a0,0,0,0,0,0,0H300a0,0,0,0,0,0-0V150a0,0,0,0,0-0-0Z'
+          'M1024,768H0V0H1024V768ZM10,10a0,0,0,0,0,-0,0V60a0,0,0,0,0,0,0H110a0,0,0,0,0,0,-0V10a0,0,0,0,0,-0,-0ZM200,150a0,0,0,0,0,-0,0V200a0,0,0,0,0,0,0H300a0,0,0,0,0,0,-0V150a0,0,0,0,0,-0,-0Z'
         );
       });
 

@@ -20,5 +20,5 @@
 errors.json
 
 # Auto-generated from root during build
-README.md
-LICENSE.md
+/README.md
+/LICENSE.md

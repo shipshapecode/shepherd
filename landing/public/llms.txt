@@ -4,9 +4,36 @@
 > tours, user onboarding flows, trainings, and feature announcements on any
 > website or web app. Steps render as accessible dialogs (keyboard navigation,
 > focus trapping, aria attributes) that attach to DOM elements and are
-> positioned by Floating UI. Works with React, Ember, Angular, Vue.js,
+> positioned by a small built-in engine. Works with React, Ember, Angular, Vue.js,
 > ES Modules, or plain JavaScript. Free for open-source, personal, and
 > non-commercial use (AGPL-3.0); commercial licenses are available.
+
+## Writing Shepherd code
+
+If the package is installed, read `node_modules/shepherd.js/AGENTS.md` first. It has
+the rules that are easy to get wrong, and the names to avoid from older versions.
+
+```js
+import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css'; // Required. Not included by the JS import.
+
+const tour = new Shepherd.Tour({ useModalOverlay: true });
+tour.addStep({
+  title: 'Save',
+  text: 'Saves your work.',
+  attachTo: { element: '#save', on: 'bottom' }, // top, bottom, left, right, auto; optional -start or -end
+  buttons: [{ text: 'Done', action: 'complete' }] // 'next', 'back', 'cancel', 'complete', or a function
+});
+tour.start();
+```
+
+`import { Tour } from 'shepherd.js'` also works. `shepherd.mjs` is an ES module and
+defines no global, so import it, including from a `<script type="module">`. React uses
+`useShepherd` and `ShepherdJourneyProvider` from `react-shepherd`. It runs entirely in
+the browser; no backend service is required.
+
+Gaps and edge distance go in `positionOptions: { offset, padding, strategy, flip }`.
+Shepherd runs no Floating UI middleware, so there is no `floatingUIOptions`.
 
 ## When to use Shepherd
 
@@ -17,15 +44,6 @@ Use Shepherd when a project needs to guide users through a web interface:
 - Guiding users through complex forms, wizards, or multi-step workflows
 - Building in-app training or self-serve product education
 - Highlighting one or more DOM elements with a modal overlay while explaining them
-
-How to use it: install with `npm install shepherd.js`, then in a module
-`import Shepherd from 'shepherd.js'` and load the stylesheet
-`shepherd.js/dist/css/shepherd.css` (import it, or link it from a stylesheet
-tag). Create a `new Shepherd.Tour({ ... })`, add steps with
-`tour.addStep({ title, text, attachTo, buttons })`, then call `tour.start()`.
-`shepherd.mjs` is an ES module with a default export and does not define a
-global `Shepherd`, so import it rather than loading it from a plain script tag.
-It runs entirely in the browser; no backend service is required.
 
 Shepherd is not a native mobile (iOS/Android) tour library and is not an
 analytics product — it renders and orchestrates the tour UI itself.

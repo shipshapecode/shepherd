@@ -11,7 +11,12 @@ i.e.
 
 ```js
 import Shepherd from 'shepherd.js';
+import 'shepherd.js/dist/css/shepherd.css';
 ```
+
+`Tour` and `Step` are also named exports, so
+`import { Tour } from 'shepherd.js'` works too. The stylesheet is a separate
+import, and Shepherd logs a warning if it is missing.
 
 First create a new `Tour` instance for your tour:
 
@@ -42,7 +47,7 @@ tour.addStep({
   buttons: [
     {
       text: 'Next',
-      action: tour.next
+      action: 'next'
     }
   ]
 });
@@ -67,10 +72,12 @@ tour.removeStep('example-step');
 
 #### Global Shepherd Object
 
-Shepherd exposes a single object onto the window, `Shepherd`.
+The package's default export is a single object, `Shepherd`. It does not define a
+`window.Shepherd` global: `shepherd.mjs` is an ES module, so import it, including
+from a `<script type="module">`.
 
-That global object fires several events to let you link up actions with events
-occurring in _any_ tour:
+That object fires several events to let you link up actions with events occurring
+in _any_ tour:
 
 ##### Methods
 
@@ -87,7 +94,6 @@ to the instance which fired the event:
 
 - `complete`
 - `cancel`
-- `hide`
 - `show`
 - `start`
 - `active`
@@ -97,7 +103,7 @@ For multiple events, you can use something like:
 
 ```javascript
 ['complete', 'cancel'].forEach((event) =>
-  shepherd.on(event, () => {
+  Shepherd.on(event, () => {
     // some code here
   })
 );
@@ -185,9 +191,10 @@ can be called and ignored, as before.
 
 - `complete`: Triggered when the last step is advanced
 - `cancel`
-- `hide`
 - `show`: Triggered with a hash of the `step` and the `previous` step
 - `start`
+- `active`
+- `inactive`
 
 Steps are instances of the Step object. They are generally created by the
 `Tour::addStep` method, which returns the `Step` instance it created.
@@ -196,11 +203,13 @@ Steps are instances of the Step object. They are generally created by the
 
 ##### Step Options
 
-- `text`: The text in the body of the step. It can be one of three types:
+- `text`: The text in the body of the step. Strings render as HTML, so escape
+  untrusted input. It can be one of four types:
   - HTML string
+  - Array of HTML strings
   - `HTMLElement` object
-  - `Function` to be executed when the step is built. It must return one the two
-    options above.
+  - `Function` to be executed when the step is built. It must return one of the
+    three options above.
 - `title`: The step's title. It becomes an `h3` at the top of the step.
 - `label`: An `aria-label` for the step's dialog element. Use it to give a step
   an accessible name when it has no visible `title` — a step with neither gets
@@ -216,14 +225,14 @@ Steps are instances of the Step object. They are generally created by the
   with properties `element` and `on`.
   - `element`: An element selector string, a DOM element, or a function
     (returning a selector, a DOM element, `null` or `undefined`).
-  - `on`: The optional direction to place the Floating UI tooltip relative to
+  - `on`: The optional direction to place the step relative to
     the element.
     - Possible string values: 'auto', 'auto-start', 'auto-end', 'top',
       'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'right',
       'right-start', 'right-end', 'left', 'left-start', 'left-end'
 
 ```js
-const new Step(tour, {
+tour.addStep({
   attachTo: { element: '.some .selector-path', on: 'left' },
   ...moreOptions
 });
@@ -243,8 +252,9 @@ If the element to highlight does not yet exist while instantiating tour steps,
 you may use lazy evaluation by supplying a function to `attachTo.element`. The
 function will be called in the `before-show` phase.
 
-- `beforeShowPromise`: A function that returns a promise. When the promise
-  resolves, the rest of the `show` code for the step will execute. For example:
+- `beforeShowPromise`: A function that returns a promise. Pass the function, not a
+  promise, which would be ignored. When the promise resolves, the rest of the
+  `show` code for the step will execute. For example:
   ```javascript
   beforeShowPromise: function() {
     return new Promise(function(resolve) {
@@ -292,15 +302,17 @@ function will be called in the `before-show` phase.
     returns a string (useful with i18n solutions).
   - `disabled`: A boolean that controls the `disabled` attribute. It can also be
     a function that returns a boolean.
-  - `classes`: Extra classes to apply to the `<a>`
+  - `classes`: Extra classes to apply to the `<button>`
   - `secondary`: A boolean, that when true, adds a `shepherd-button-secondary`
     class to the button
   - `text`: The HTML text of the button. It can also be a function that returns
     a string (useful with i18n solutions).
-  - `action`: A function executed when the button is clicked on. It is
-    automatically bound to the `tour` the step is associated with, so things
-    like `this.next` will work inside the action. You can use action to skip
-    steps or navigate to specific steps, with something like:
+  - `action`: What the button does when clicked: the name of a tour method
+    (`'next'`, `'back'`, `'cancel'` or `'complete'`), or a function. A function
+    is automatically bound to the `tour` the step is associated with, so things
+    like `this.next` will work inside the action, but not inside an arrow
+    function. You can use action to skip steps or navigate to specific steps,
+    with something like:
   ```javascript
     action() {
       return this.show('some_step_name');
@@ -330,13 +342,11 @@ function will be called in the `before-show` phase.
 - `modalOverlayOpeningRadius`: An amount of border radius to add around the
   modal overlay opening. It can be either a number or an object with properties
   `{ topLeft, bottomLeft, bottomRight, topRight }`
-- `floatingUIOptions`: Extra options to pass to
-  [Floating UI](https://floating-ui.com/docs/getting-started). This includes
-  `strategy`, which sets the CSS `position` of the step element and defaults to
-  `'absolute'`. It can be set per-step or on `defaultStepOptions`. See
-  [Floating UI's `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
-  for when `'fixed'` is the better choice. Note that steps without an `attachTo`
-  element are always centered with `position: fixed` and ignore `strategy`.
+- `positionOptions`: How the step is placed against its target: `offset`,
+  `padding`, `strategy` and `flip`. Values from `defaultStepOptions` and the
+  step combine key by key. See
+  [`StepOptionsPosition`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsposition/)
+  for each field, and the [cookbook](https://docs.shepherdjs.dev/recipes/cookbook/#offsets) for examples.
 - `showOn`: A function that, when it returns true, will show the step. If it
   returns false, the step will be skipped.
 - `skipMissingElement`: A boolean. When true, a step whose `attachTo.element`
@@ -383,10 +393,9 @@ when: {
   be shown again later.
 - `cancel()`: Hide this step and trigger the `cancel` event
 - `complete()`: Hide this step and trigger the `complete` event
-- `scrollTo()`: Scroll to this step's element
 - `isOpen()`: Returns true if the step is currently shown
 - `destroy()`: Permanently tear the step down — removes its element from the
-  DOM, destroys the Floating UI instance, and triggers the `destroy` event
+  DOM, stops repositioning it, and triggers the `destroy` event
 - `updateStepOptions(options)`: Merge new options into the step and re-render
   its element in place
 - `getElement()`: Returns the step's element — `undefined` if the step has never
@@ -469,8 +478,9 @@ myTour.addStep({
 ```
 
 You can also provide an options object, to configure the arrow's
-[padding](https://floating-ui.com/docs/arrow#padding). The padding is the
-closest the arrow will get to the edge of the step.
+[`padding`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsarrow/).
+The padding is the closest the arrow will get to the edge of the step, and only
+applies to `-start` and `-end` placements.
 
 ```js
 myTour.addStep({

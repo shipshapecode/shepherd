@@ -1,7 +1,8 @@
-import { svgEl } from '../utils/dom.ts';
 import { makeOverlayPath } from '../utils/overlay-path.ts';
 import type { Step } from '../step.ts';
 import './shepherd-modal.css';
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
 
 interface OpeningProperty {
   width: number;
@@ -18,6 +19,9 @@ interface OpeningProperty {
       };
 }
 
+/**
+ * The corner radius of the overlay opening: one number, or one per corner.
+ */
 type ModalRadiusType =
   | number
   | {
@@ -27,10 +31,25 @@ type ModalRadiusType =
       topRight?: number;
     };
 
+/**
+ * Controls the overlay behind a tour. Reached through `tour.modal`.
+ */
 export interface ShepherdModalAPI {
+  /**
+   * Removes the opening, so the overlay covers the whole page.
+   */
   closeModalOpening: () => void;
+  /**
+   * Removes the overlay from the DOM.
+   */
   destroy: () => void;
+  /**
+   * Hides the overlay.
+   */
   hide: () => void;
+  /**
+   * Moves the opening to the given target and extra highlights.
+   */
   positionModal: (
     modalOverlayOpeningPadding?: number,
     modalOverlayOpeningRadius?: ModalRadiusType,
@@ -40,42 +59,79 @@ export interface ShepherdModalAPI {
     targetElement?: HTMLElement | null,
     extraHighlights?: HTMLElement[]
   ) => void;
+  /**
+   * Shows the overlay and keeps its opening on the step's target, or hides the
+   * overlay when the tour does not use `useModalOverlay`.
+   */
   setupForStep: (step: Step) => void;
+  /**
+   * Shows the overlay.
+   */
   show: () => void;
+  /**
+   * Returns the overlay's `<svg>` element.
+   */
   getElement: () => SVGElement;
 }
 
+const PATH_NUMBER = /-?[\d.]+(e-\d+)?/g;
+
 export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   let rafId: number | undefined;
+  let currentPath = '';
   // Memoizes the chain of scroll parents of a highlighted element for the
   // lifetime of a single step. Reset in `_cleanupStepEventListeners`.
   let _stepScrollParents = new WeakMap<HTMLElement, HTMLElement[]>();
-  let openingProperties: OpeningProperty[] = [
-    { width: 0, height: 0, x: 0, y: 0, r: 0 }
-  ];
+  let isClosed: boolean;
+  let glideFrom: string[];
+  let glideEnd: number;
+  let glideMs: number;
 
   // Build SVG elements
-  const pathEl = svgEl('path');
-  const element = svgEl(
-    'svg',
-    { class: 'shepherd-modal-overlay-container' },
-    pathEl
-  );
+  const pathEl = document.createElementNS(SVG_NS, 'path');
+  const element = document.createElementNS(SVG_NS, 'svg');
+  element.setAttribute('class', 'shepherd-modal-overlay-container');
+  element.append(pathEl);
 
   element.addEventListener('touchmove', _preventModalOverlayTouch);
 
-  // Initial render
-  _updatePath();
+  closeModalOpening();
 
   container.append(element);
 
-  function _updatePath() {
-    pathEl.setAttribute('d', makeOverlayPath(openingProperties));
+  function _updatePath(openings: OpeningProperty[]) {
+    const to = makeOverlayPath(openings);
+    const left = (glideEnd - Date.now()) / glideMs;
+    let i = 0;
+
+    // Consecutive paths share a shape, so tweening their numbers morphs the
+    // opening. `makeOverlayPath` puts a comma between every pair of numbers, so
+    // a sign that changes mid-glide cannot run two of them together.
+    // A different number of openings has no shape to morph from, so it cuts
+    // and ends the glide, or a later frame could morph back toward the old one.
+    if (left > 0 && to.match(PATH_NUMBER)!.length !== glideFrom.length) {
+      glideEnd = 0;
+    }
+    const d =
+      glideEnd > Date.now()
+        ? to.replace(
+            PATH_NUMBER,
+            (n) => `${+n + (+(glideFrom[i++] ?? n) - +n) * left ** 3}`
+          )
+        : to;
+
+    // Writing `d` invalidates layout even when the value is unchanged, and this
+    // runs every frame.
+    if (d !== currentPath) {
+      currentPath = d;
+      pathEl.setAttribute('d', d);
+    }
   }
 
   function closeModalOpening() {
-    openingProperties = [{ width: 0, height: 0, x: 0, y: 0, r: 0 }];
-    _updatePath();
+    isClosed = true;
+    glideEnd = 0;
+    _updatePath([{ width: 0, height: 0, x: 0, y: 0, r: 0 }]);
   }
 
   function hide() {
@@ -119,8 +175,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         el === targetElement ? targetScrollParents : _cachedScrollParents(el);
 
       for (const el of elementsToHighlight) {
-        if (!el) continue;
-
         // Skip duplicate elements
         if (
           elementsToHighlight.indexOf(el) !==
@@ -130,7 +184,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         }
 
         const { y, height } = _getVisibleHeight(el, scrollParentsFor(el));
-        const { x, width, left } = el.getBoundingClientRect();
+        const { x, width } = el.getBoundingClientRect();
 
         // Check if the element is contained by another element.
         // Use _getVisibleHeight for otherElement too so both sides compare
@@ -156,28 +210,27 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         newOpenings.push({
           width: width + modalOverlayOpeningPadding * 2,
           height: height + modalOverlayOpeningPadding * 2,
-          x:
-            (x || left) +
-            modalOverlayOpeningXOffset -
-            modalOverlayOpeningPadding,
+          x: x + modalOverlayOpeningXOffset - modalOverlayOpeningPadding,
           y: y + modalOverlayOpeningYOffset - modalOverlayOpeningPadding,
           r: modalOverlayOpeningRadius as OpeningProperty['r']
         });
       }
 
-      openingProperties = newOpenings;
+      isClosed = false;
+      _updatePath(newOpenings);
     } else {
       closeModalOpening();
-      return;
     }
-
-    _updatePath();
   }
 
   function setupForStep(step: Step) {
     _cleanupStepEventListeners();
 
     if (step.tour.options.useModalOverlay) {
+      glideFrom = currentPath.match(PATH_NUMBER)!;
+      glideMs = parseFloat(getComputedStyle(pathEl).transitionDuration) * 1e3;
+      // A closed opening sits at the origin, with nowhere to glide from.
+      glideEnd = isClosed ? 0 : Date.now() + glideMs;
       _styleForStep(step);
       show();
     } else {
@@ -205,24 +258,15 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     e.preventDefault();
   };
 
-  function _addStepEventListeners() {
-    window.addEventListener('touchmove', _preventModalBodyTouch, {
-      passive: false
-    });
-  }
-
   function _cleanupStepEventListeners() {
     if (rafId) {
       cancelAnimationFrame(rafId);
-      rafId = undefined;
     }
 
     // Scroll parents are only memoized for the duration of a single step.
     _stepScrollParents = new WeakMap();
 
-    window.removeEventListener('touchmove', _preventModalBodyTouch, {
-      passive: false
-    } as EventListenerOptions);
+    window.removeEventListener('touchmove', _preventModalBodyTouch);
   }
 
   function _styleForStep(step: Step) {
@@ -234,10 +278,9 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     } = step.options;
 
     const iframeOffset = _getIframeOffset(step.target);
-    const targetScrollParent = _getScrollParent(step.target);
+    const targetScrollParent = _cachedScrollParents(step.target)[0] ?? null;
 
     const rafLoop = () => {
-      rafId = undefined;
       positionModal(
         modalOverlayOpeningPadding,
         modalOverlayOpeningRadius,
@@ -251,7 +294,9 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     };
 
     rafLoop();
-    _addStepEventListeners();
+    window.addEventListener('touchmove', _preventModalBodyTouch, {
+      passive: false
+    });
   }
 
   function _isContained(style: CSSStyleDeclaration) {
@@ -325,9 +370,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * rather than from `offsetParent`, which happy-dom does not implement and the
    * unit tests therefore cannot exercise.
    */
-  function _getScrollParents(el?: HTMLElement | null): HTMLElement[] {
-    if (!(el instanceof HTMLElement)) return [];
-
+  function _getScrollParents(el: HTMLElement): HTMLElement[] {
     const { position } = window.getComputedStyle(el);
 
     // Laid out against the viewport, so no ancestor crops it.
@@ -357,10 +400,6 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     return scrollParents;
   }
 
-  function _getScrollParent(el?: HTMLElement | null): HTMLElement | null {
-    return _getScrollParents(el)[0] ?? null;
-  }
-
   /**
    * Memoized `_getScrollParents`, scoped to the current step.
    *
@@ -372,7 +411,8 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    * target already has in `_styleForStep`.
    */
   function _cachedScrollParents(el?: HTMLElement | null): HTMLElement[] {
-    if (!el) return [];
+    // `nodeType`, not `instanceof`, so a target in a same-origin iframe counts.
+    if (el?.nodeType !== Node.ELEMENT_NODE) return [];
 
     const cached = _stepScrollParents.get(el);
     if (cached) return cached;
@@ -402,7 +442,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         // nested under the modal's window at all.
         targetWindow !== targetWindow.parent
       ) {
-        const targetIframe = targetWindow?.frameElement;
+        const targetIframe = targetWindow.frameElement;
 
         if (targetIframe) {
           const rect = targetIframe.getBoundingClientRect();
@@ -420,21 +460,18 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   }
 
   function _getVisibleHeight(el: HTMLElement, scrollParents: HTMLElement[]) {
-    const elementRect = el.getBoundingClientRect();
-    let top = elementRect.y || elementRect.top;
-    let bottom = elementRect.bottom || top + elementRect.height;
+    const { y, height } = el.getBoundingClientRect();
+    let top = y;
+    let bottom = y + height;
 
     for (const scrollParent of scrollParents) {
       const scrollRect = scrollParent.getBoundingClientRect();
-      const scrollTop = scrollRect.y || scrollRect.top;
-      const scrollBottom = scrollRect.bottom || scrollTop + scrollRect.height;
 
-      top = Math.max(top, scrollTop);
-      bottom = Math.min(bottom, scrollBottom);
+      top = Math.max(top, scrollRect.y);
+      bottom = Math.min(bottom, scrollRect.y + scrollRect.height);
     }
 
-    const height = Math.max(bottom - top, 0);
-    return { y: top, height };
+    return { y: top, height: Math.max(bottom - top, 0) };
   }
 
   return {

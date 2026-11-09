@@ -36,7 +36,10 @@ export default defineConfig({
           tsconfig: './node_modules/shepherd.js/tsconfig.json',
           typeDoc: {
             entryPointStrategy: 'expand',
-            includeVersion: true
+            includeVersion: true,
+            // Without a readme, starlight-typedoc drops each module's index page
+            // while the API index still links to it.
+            readme: './api-readme.md'
           }
         })
       ],

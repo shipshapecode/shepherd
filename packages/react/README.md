@@ -20,9 +20,9 @@ npm install --save react-shepherd
 ### Via Provider/Context
 
 ```tsx
-import { Component, useContext } from 'react';
+import { useEffect, useMemo } from 'react';
 import { ShepherdJourneyProvider, useShepherd } from 'react-shepherd';
-import newSteps from './steps';
+import 'shepherd.js/dist/css/shepherd.css';
 
 const tourOptions = {
   defaultStepOptions: {
@@ -30,15 +30,27 @@ const tourOptions = {
       enabled: true
     }
   },
-  useModalOverlay: true
+  useModalOverlay: true,
+  steps: [
+    {
+      title: 'Welcome',
+      text: 'This is the only step.',
+      buttons: [{ text: 'Done', action: 'complete' as const }]
+    }
+  ]
 };
 
 function Button() {
   const Shepherd = useShepherd();
-  const tour = new Shepherd.Tour({
-    ...tourOptions,
-    steps: newSteps
-  });
+  const tour = useMemo(() => new Shepherd.Tour(tourOptions), [Shepherd]);
+
+  // Ends the tour if this component unmounts while it is open.
+  useEffect(
+    () => () => {
+      if (tour.isActive()) tour.complete();
+    },
+    [tour]
+  );
 
   return (
     <button className="button dark" onClick={tour.start}>
@@ -58,12 +70,31 @@ export default function App() {
 }
 ```
 
-## Configuration
+### Starting a tour when a component mounts
 
-The following configuration options for a tour can be set on the `useShepherd`
-hook to control the way that Shepherd is used. This is simply a POJO passed to
-Shepherd to use the options noted in the Shepherd Tour
-[options](https://docs.shepherdjs.dev/api/tour/classes/tour/).
+Create the tour in an effect and end it in the cleanup. React StrictMode runs
+effects twice, and a tour left open by the first run stays on screen next to the
+second. The cleanup fires the tour's `complete` event.
+
+```tsx
+useEffect(() => {
+  const tour = new Shepherd.Tour(tourOptions);
+  tour.start();
+  return () => {
+    tour.complete();
+  };
+}, [Shepherd]);
+```
+
+## API
+
+- `ShepherdJourneyProvider`: wrap your app in it.
+- `useShepherd()`: takes no arguments and returns the `Shepherd` object. Pass
+  [tour options](https://docs.shepherdjs.dev/api/tour/classes/tour/) to
+  `new Shepherd.Tour()`.
+
+Older versions exported `ShepherdTour` and `ShepherdTourContext`. They no longer
+exist.
 
 ## License
 

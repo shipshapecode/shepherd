@@ -7,7 +7,7 @@ import {
   resolveAttachToElement,
   waitForAttachToElement
 } from '../../../src/utils/general';
-import { getFloatingUIOptions } from '../../../src/utils/floating-ui';
+import { getPositionConfig } from '../../../src/utils/floating-ui';
 
 describe('General Utils', function () {
   let optionsElement;
@@ -92,6 +92,38 @@ describe('General Utils', function () {
         spy,
         'console.error is called when skipMissingElement is not set'
       ).toHaveBeenCalled();
+
+      spy.mockRestore();
+    });
+
+    it('names the selector and the fix when the target is missing', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        { attachTo: { element: '.element-does-not-exist', on: 'bottom' } }
+      );
+
+      parseAttachTo(step);
+
+      const [message] = spy.mock.calls[0];
+      expect(message).toContain('.element-does-not-exist');
+      expect(message).toContain('waitForElement');
+      expect(message).toContain('skipMissingElement');
+
+      spy.mockRestore();
+    });
+
+    it('treats an invalid selector as a missing target', function () {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const step = new Step(
+        {},
+        { attachTo: { element: '#not[valid', on: 'bottom' } }
+      );
+
+      const { element } = parseAttachTo(step);
+
+      expect(element).toBeNull();
+      expect(spy.mock.calls[0][0]).toContain('#not[valid');
 
       spy.mockRestore();
     });
@@ -289,53 +321,6 @@ describe('General Utils', function () {
       const element = await waitForAttachToElement(step, 0);
       expect(element).toBeNull();
     });
-
-    it('falls back to polling when MutationObserver is unavailable', async function () {
-      vi.stubGlobal('MutationObserver', undefined);
-
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.polled-for-xyz', on: 'center' }
-        }
-      );
-
-      const promise = waitForAttachToElement(step, 1000);
-      let addedElement;
-
-      setTimeout(() => {
-        addedElement = document.createElement('div');
-        addedElement.classList.add('polled-for-xyz');
-        document.body.appendChild(addedElement);
-      }, 20);
-
-      const element = await promise;
-
-      expect(
-        element,
-        'polling resolves with the element without a MutationObserver'
-      ).toBe(addedElement);
-
-      document.body.removeChild(addedElement);
-      vi.unstubAllGlobals();
-    });
-
-    it('resolves with null after timeout when polling and the element never appears', async function () {
-      vi.stubGlobal('MutationObserver', undefined);
-
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.never-appears-xyz', on: 'center' }
-        }
-      );
-
-      const element = await waitForAttachToElement(step, 80);
-
-      expect(element, 'polling gives up once the timeout expires').toBeNull();
-
-      vi.unstubAllGlobals();
-    });
   });
 
   describe('parseExtraHighlights()', function () {
@@ -368,51 +353,15 @@ describe('General Utils', function () {
     });
   });
 
-  describe('floatingUIOptions', function () {
-    it('middleware options are passed in last', function () {
+  describe('positionOptions', function () {
+    it('positioning strategy defaults to absolute', function () {
       const step = new Step(
         {},
-        {
-          attachTo: { element: '.options-test', on: 'right' },
-          floatingUIOptions: {
-            middleware: [
-              {
-                name: 'preventOverflow',
-                options: {
-                  altAxis: false
-                }
-              }
-            ]
-          }
-        }
+        { attachTo: { element: '.options-test', on: 'right' } }
       );
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-      // Shepherd pushes in flip and shift by default, so this is 3rd
-      expect(floatingUIOptions.middleware[2].options.altAxis).toBe(false);
-    });
-
-    it('positioning strategy is explicitly set', function () {
-      const step = new Step(
-        {},
-        {
-          attachTo: { element: '.options-test', on: 'center' },
-          options: {
-            floatingUIOptions: {
-              strategy: 'absolute'
-            }
-          }
-        }
-      );
-
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-      expect(floatingUIOptions.strategy).toBe('absolute');
+      const config = getPositionConfig(step.options.attachTo, step);
+      expect(config.strategy).toBe('absolute');
     });
   });
 

@@ -2,10 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ResizeObserver from 'resize-observer-polyfill';
 
 // happy-dom has no layout engine: every `getBoundingClientRect()` is 0x0 at the
-// origin, so a real `computePosition` call always resolves `{ x: 0, y: 0 }` and
+// origin, so a real `computePosition` call always returns `{ x: 0, y: 0 }` and
 // no assertion about coordinates can fail. These tests therefore stub the
-// Floating UI boundary and assert the one thing Shepherd actually owns: what it
-// writes to `step.el.style` for a given resolved position payload.
+// positioning engine's boundary and assert what Shepherd writes to
+// `step.el.style` for a given resolved position payload.
 const floatingUI = vi.hoisted(() => ({
   // Overwritten per test to control exactly what the positioning callback gets.
   position: {
@@ -17,12 +17,12 @@ const floatingUI = vi.hoisted(() => ({
   }
 }));
 
-vi.mock('@floating-ui/dom', async (importOriginal) => {
+vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
   const actual = await importOriginal();
 
   return {
     ...actual,
-    computePosition: vi.fn(() => Promise.resolve({ ...floatingUI.position })),
+    computePosition: vi.fn(() => ({ ...floatingUI.position })),
     // Run the position callback once, synchronously, rather than wiring up the
     // scroll/resize observers that happy-dom cannot drive.
     autoUpdate: vi.fn((_target, _element, update) => {
@@ -99,13 +99,32 @@ describe('utils/floating-ui | position writing', function () {
     destroyTooltip(step);
   });
 
+  it('stops repositioning a step once it is hidden', () => {
+    instance = new Shepherd.Tour();
+
+    const step = instance.addStep({
+      id: 'test',
+      attachTo: { element: '.position-test', on: 'top' }
+    });
+
+    instance.start();
+
+    const stopRepositioning = vi.fn();
+    step.cleanup = stopRepositioning;
+
+    step.hide();
+
+    expect(stopRepositioning).toHaveBeenCalledTimes(1);
+    expect(step.cleanup).toBeNull();
+  });
+
   it('writes coordinates unmodified while the page is scrolled', async () => {
     instance = new Shepherd.Tour();
 
     const step = instance.addStep({
       id: 'test',
       attachTo: { element: '.position-test', on: 'top' },
-      floatingUIOptions: { strategy: 'fixed' }
+      positionOptions: { strategy: 'fixed' }
     });
 
     instance.start();
@@ -133,10 +152,10 @@ describe('utils/floating-ui | position writing', function () {
   it('takes the strategy from the resolved payload rather than the step options', async () => {
     instance = new Shepherd.Tour();
 
-    // No `floatingUIOptions` on the step at all. The CSS `position` still has
-    // to follow what `computePosition` reports it used, because that payload —
-    // not the raw user option — is what the returned coordinates are relative
-    // to. Reading `step.options.floatingUIOptions.strategy` instead would write
+    // No `positionOptions.strategy` on the step at all. The CSS `position` still
+    // has to follow what `computePosition` reports it used, because that payload
+    // — not the raw user option — is what the returned coordinates are relative
+    // to. Reading `step.options.positionOptions.strategy` instead would write
     // `absolute` here and reintroduce the coordinate-space mismatch.
     const step = instance.addStep({
       id: 'test',
@@ -145,7 +164,7 @@ describe('utils/floating-ui | position writing', function () {
 
     instance.start();
 
-    expect(step.options.floatingUIOptions?.strategy).toBeUndefined();
+    expect(step.options.positionOptions?.strategy).toBeUndefined();
 
     await positionWith(step, {
       x: 13,

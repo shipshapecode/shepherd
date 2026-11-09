@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shepherd motion demo</title>
+    <link rel="stylesheet" href="../dist/css/shepherd.css" />
+    <link id="theme" rel="stylesheet" href="../dist/css/theme.css" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --page: light-dark(#f3f5f5, #101823);
+        --panel: light-dark(#fff, #18222f);
+        --ink: light-dark(#16202d, #eef1f5);
+        --muted: light-dark(#56616e, #a4afbc);
+        --line: light-dark(#dfe4e8, #2a3644);
+        --pink: #fa7fee;
+      }
+      :root[data-scheme='light'] {
+        color-scheme: light;
+        --shepherd-color-scheme: light;
+      }
+      :root[data-scheme='dark'] {
+        color-scheme: dark;
+        --shepherd-color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--page);
+        color: var(--ink);
+        font: 15px/1.5 ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 13rem 1fr;
+        min-height: 100vh;
+      }
+      nav {
+        border-right: 1px solid var(--line);
+        padding: 1.25rem 1rem;
+      }
+      nav h1 {
+        font-size: 1.125rem;
+        margin: 0 0 1.25rem;
+      }
+      nav a {
+        border-radius: 8px;
+        color: var(--muted);
+        display: block;
+        padding: 0.4rem 0.625rem;
+        text-decoration: none;
+      }
+      nav a[aria-current] {
+        background: var(--panel);
+        color: var(--ink);
+        font-weight: 600;
+      }
+      main {
+        padding: 1.5rem 2rem 4rem;
+      }
+      header.top {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+      header.top h2 {
+        font-size: 1.5rem;
+        margin: 0;
+      }
+      .controls {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      button.app-button {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        padding: 0.375rem 0.75rem;
+      }
+      button.app-button[aria-pressed='false'] {
+        color: var(--muted);
+      }
+      button.primary {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--page);
+        font-weight: 600;
+      }
+      .stats {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, 1fr);
+        margin-bottom: 1.5rem;
+      }
+      .stat {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      .stat strong {
+        display: block;
+        font-size: 1.75rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .stat span {
+        color: var(--muted);
+      }
+      table {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-collapse: separate;
+        border-radius: 12px;
+        border-spacing: 0;
+        width: 100%;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 0.625rem 1rem;
+        text-align: left;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      td:last-child,
+      th:last-child {
+        text-align: right;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .gate {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        margin-top: 70vh;
+        padding: 1rem;
+      }
+      @media (max-width: 640px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+        nav {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        main {
+          padding: 1rem 1rem 3rem;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        header.top {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <nav>
+        <h1>Flock</h1>
+        <div id="nav-links">
+          <a href="#" aria-current="page">Pastures</a>
+          <a href="#">Head count</a>
+          <a href="#">Shearing</a>
+          <a href="#">Vet visits</a>
+        </div>
+      </nav>
+      <main>
+        <header class="top">
+          <h2>North pasture</h2>
+          <div class="controls">
+            <button class="app-button" id="toggle-theme" aria-pressed="true">
+              Theme
+            </button>
+            <button class="app-button" id="toggle-motion" aria-pressed="true">
+              Dialog glide
+            </button>
+            <button class="app-button" id="toggle-scheme">Light or dark</button>
+            <button class="app-button primary" id="start">Start tour</button>
+          </div>
+        </header>
+        <section class="stats">
+          <div class="stat" id="head"><strong>212</strong><span>Head</span></div>
+          <div class="stat" id="grass">
+            <strong>41%</strong><span>Grazed this week</span>
+          </div>
+          <div class="stat" id="rain">
+            <strong>18 mm</strong><span>Rain since Monday</span>
+          </div>
+        </section>
+        <table id="moves">
+          <thead>
+            <tr>
+              <th>Next move</th>
+              <th>When</th>
+              <th>Head</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>River flat</td>
+              <td>Thursday</td>
+              <td>84</td>
+            </tr>
+            <tr>
+              <td>Top paddock</td>
+              <td>Saturday</td>
+              <td>128</td>
+            </tr>
+          </tbody>
+        </table>
+        <section class="gate" id="gate">
+          <p>South gate is closed. Nothing has passed it since Tuesday.</p>
+          <button class="app-button" id="open-gate">Open gate</button>
+        </section>
+      </main>
+    </div>
+
+    <script type="module">
+      import Shepherd from '../dist/js/shepherd.mjs';
+      import { glideSteps, stepProgress } from '../dist/js/motion.mjs';
+
+      const params = new URLSearchParams(location.search);
+      const themeLink = document.getElementById('theme');
+      const toggle = (id, key) => {
+        const button = document.getElementById(id);
+        const on = params.get(key) !== '0';
+        button.setAttribute('aria-pressed', String(on));
+        button.addEventListener('click', () => {
+          params.set(key, on ? '0' : '1');
+          location.search = params;
+        });
+        return on;
+      };
+
+      const themed = toggle('toggle-theme', 'theme');
+      const motion = toggle('toggle-motion', 'motion');
+      themeLink.disabled = !themed;
+      if (params.has('scheme')) {
+        document.documentElement.dataset.scheme = params.get('scheme');
+      }
+      document.getElementById('toggle-scheme').addEventListener('click', () => {
+        const current =
+          document.documentElement.dataset.scheme ??
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        params.set('scheme', current === 'dark' ? 'light' : 'dark');
+        location.search = params;
+      });
+
+      const tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+          arrow: true,
+          cancelIcon: { enabled: true },
+          modalOverlayOpeningPadding: 8,
+          modalOverlayOpeningRadius: 10,
+          scrollTo: { behavior: 'smooth', block: 'center' }
+        }
+      });
+      const next = { text: 'Next', action: () => tour.next() };
+      const back = {
+        text: 'Back',
+        secondary: true,
+        action: () => tour.back()
+      };
+
+      tour.addSteps([
+        {
+          title: 'Welcome to Flock',
+          text: 'Six stops, about a minute. Press Next to walk the pasture.',
+          buttons: [next]
+        },
+        {
+          title: 'Your pastures',
+          text: 'Everything here is grouped by where the sheep are standing.',
+          attachTo: { element: '#nav-links', on: 'right' },
+          buttons: [back, next]
+        },
+        {
+          title: 'The count that matters',
+          text: 'Head count updates whenever a gate tag is read.',
+          attachTo: { element: '#head', on: 'bottom' },
+          buttons: [back, next]
+        },
+        {
+          title: 'Rain since Monday',
+          text: 'Plan moves against rainfall, not the calendar.',
+          attachTo: { element: '#rain', on: 'bottom' },
+          buttons: [back, next]
+        },
+        {
+          title: 'Planned moves',
+          text: 'Drag a row to reorder the week.',
+          attachTo: { element: '#moves', on: 'top' },
+          buttons: [back, next]
+        },
+        {
+          title: 'Open the gate',
+          text: 'The spotlight follows the target while the page scrolls.',
+          attachTo: { element: '#open-gate', on: 'top' },
+          buttons: [back, { text: 'Done', action: () => tour.complete() }]
+        }
+      ]);
+
+      // `?ms=2400` slows both glides down to study them.
+      const ms = Number(params.get('ms')) || undefined;
+      if (ms) {
+        document.head.insertAdjacentHTML(
+          'beforeend',
+          `<style>.shepherd-modal-overlay-container path{transition-duration:${ms}ms}</style>`
+        );
+      }
+      if (motion) {
+        glideSteps(tour, ms);
+      }
+      stepProgress(tour);
+
+      document.getElementById('start').addEventListener('click', () => {
+        tour.start();
+      });
+
+      window.tour = tour;
+    </script>
+  </body>
+</html>

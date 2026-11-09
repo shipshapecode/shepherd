@@ -86,7 +86,13 @@ export const MUTANTS = {
   'teardown-keeps-target-classes': {
     file: 'src/step.ts',
     from: `    this._updateStepTargetOnHide();
-    this._originalTabIndexes.clear();`,
-    to: '    this._originalTabIndexes.clear();'
+  }
+
+  /**
+   * Returns the tour for the step`,
+    to: `  }
+
+  /**
+   * Returns the tour for the step`
   }
 };

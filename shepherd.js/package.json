@@ -20,8 +20,11 @@
   ],
   "files": [
     "dist",
+    "AGENTS.md",
     "LICENSE.md",
-    "README.md"
+    "README.md",
+    "llms.txt",
+    "tour.schema.json"
   ],
   "main": "./dist/cjs/shepherd.cjs",
   "module": "./dist/js/shepherd.mjs",
@@ -36,9 +39,23 @@
         "default": "./dist/cjs/shepherd.cjs"
       }
     },
-    "./dist/*": "./dist/*"
+    "./motion": {
+      "import": {
+        "types": "./dist/js/motion.d.mts",
+        "default": "./dist/js/motion.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/motion.d.cts",
+        "default": "./dist/cjs/motion.cjs"
+      }
+    },
+    "./dist/*": "./dist/*",
+    "./tour.schema.json": "./tour.schema.json"
   },
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "pnpm clean && rollup -c",
     "clean": "rimraf ./dist ./tmp",
@@ -57,6 +74,7 @@
     "test": "vitest",
     "test:all": "pnpm test:unit:ci && pnpm test:cy:ci",
     "test:ci": "pnpm test:unit:ci && pnpm test:cy:ci",
+    "test:position": "node test/position-differential/run.mjs",
     "test:cy:ci": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
     "test:cy:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open",
     "test:unit": "vitest",
@@ -68,16 +86,13 @@
     "view-coverage": "http-server -p 9003 ./test/coverage/lcov-report -o",
     "watch": "pnpm clean && rollup -c --environment DEVELOPMENT --watch"
   },
-  "dependencies": {
-    "@floating-ui/dom": "^1.8.0",
-    "deepmerge-ts": "^8.0.2"
-  },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@babel/core": "^7.29.7",
     "@babel/plugin-transform-typescript": "^8.0.6",
     "@babel/preset-env": "^7.29.7",
     "@babel/preset-typescript": "^7.29.7",
+    "@floating-ui/dom": "^1.8.0",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
@@ -85,13 +100,12 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/expect": "^4.1.11",
-    "autoprefixer": "^10.5.4",
     "chai": "^6.2.2",
-    "cssnano": "^8.0.7",
     "cypress": "^15.21.0",
     "cypress-plugin-tab": "^1.0.5",
     "del": "^8.0.1",
     "dts-bundle-generator": "^9.5.1",
+    "esbuild": "^0.28.2",
     "eslint": "^10.11.0",
     "eslint-plugin-cypress": "^5.3.0",
     "eslint-plugin-vitest": "^0.5.4",
@@ -99,7 +113,9 @@
     "globals": "^17.9.0",
     "happy-dom": "^21.0.4",
     "http-server": "^14.1.1",
+    "jsdom": "^27.4.0",
     "lodash": "^4.18.1",
+    "playwright-core": "^1.64.1",
     "postcss": "^8.5.26",
     "prettier": "^3.9.10",
     "replace": "^1.2.2",

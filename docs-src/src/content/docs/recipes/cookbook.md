@@ -35,71 +35,70 @@ Highlighted elements do not have to share a scroll container with the `attachTo`
 
 ### Offsets
 
-By default, FloatingUI instances are placed directly next to their target. However, if you need to apply some margin
-between them or if you need to fine tune the position according to some custom logic, you can use an offset middleware.
-
-For example:
+By default, steps are placed directly next to their target, with the arrow
+making up the gap. Set `positionOptions.offset` to add more space:
 
 ```js
-import { offset } from '@floating-ui/dom';
-
 const tour = new Shepherd.Tour({
   steps: [
     {
       ...
-      floatingUIOptions: {
-        middleware: [offset({ mainAxis: 0, crossAxis: 12 })]
-      }
+      positionOptions: { offset: 12 }
       ...
     }
   ]
 });
 ```
+
+A number moves the step away from its target. `{ mainAxis, crossAxis }` also
+slides it along the side it sits on. `padding` keeps the step that far from the
+edges of the viewport and of scrolling containers. See
+[`StepOptionsPosition`](https://docs.shepherdjs.dev/api/step/interfaces/stepoptionsposition/)
+for every field.
 
 ### Positioning strategy
 
-Steps are positioned with `position: absolute` by default. Shepherd repositions
-them through Floating UI's `autoUpdate`, so the default already keeps a step
-locked to its target while the page — or any scrolling ancestor of the target —
-scrolls.
+Steps are positioned with `position: absolute` by default. Shepherd keeps
+comparing a step's position with its target's, so the default already keeps a
+step locked to its target while the page — or any scrolling ancestor of the
+target — scrolls.
 
-If you need the step element to be `position: fixed` instead, set the Floating
-UI `strategy`. Floating UI recommends this when the target itself is
-`position: fixed`, or to escape a clipping ancestor; see
-[its `strategy` documentation](https://floating-ui.com/docs/computePosition#strategy)
-for the trade-offs.
-
-For example:
+Use `strategy: 'fixed'` when the target is itself `position: fixed`, such as a
+sticky header, so the step stays with it without being repositioned on every
+scroll:
 
 ```js
 const tour = new Shepherd.Tour({
   steps: [
     {
       ...
-      floatingUIOptions: {
-        strategy: 'fixed'
-      }
+      positionOptions: { strategy: 'fixed' }
       ...
     }
   ]
 });
 ```
 
-You can also set this once for every step via `defaultStepOptions`:
+You can also set this once for every step via `defaultStepOptions`. A step's own
+`positionOptions` change only the keys it sets:
 
 ```js
 const tour = new Shepherd.Tour({
   defaultStepOptions: {
-    floatingUIOptions: {
-      strategy: 'fixed'
-    }
+    positionOptions: { strategy: 'fixed', offset: 8 }
   }
 });
 ```
 
 Centered steps are always positioned in the viewport with `position: fixed`, so
-`strategy` has no effect on them. A step is centered when it has no `attachTo`
-at all, or when its `attachTo` is missing either `element` or `on`.
+`positionOptions` has no effect on them. A step is centered when it has no
+`attachTo` at all, or when its `attachTo` is missing either `element` or `on`.
+
+### Keeping a placement
+
+A step flips to the opposite side when `attachTo.on` would not fit. Set
+`positionOptions: { flip: false }` to keep the side you chose, for example when
+the opposite side would cover something the user needs to see.
 
 ### Progress Indicator
 

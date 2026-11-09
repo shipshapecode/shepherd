@@ -27,3 +27,10 @@
 .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
   pointer-events: all;
 }
+
+/* Read by the modal to glide the opening between steps; nothing transitions. */
+@media (prefers-reduced-motion: no-preference) {
+  .shepherd-modal-overlay-container path {
+    transition: none 0.42s;
+  }
+}

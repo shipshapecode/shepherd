@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createShepherdText } from '../../../src/components/shepherd-text.ts';
+import { createShepherdContent } from '../../../src/components/shepherd-content';
 
 describe('components/ShepherdText', () => {
   let container;
@@ -20,7 +20,11 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const el = createShepherdText('test-desc', step);
+    const el = createShepherdContent(
+      'test-desc',
+      'test-label',
+      step
+    ).querySelector('.shepherd-text');
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-text')).toHaveTextContent(
@@ -35,7 +39,11 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const el = createShepherdText('test-desc', step);
+    const el = createShepherdContent(
+      'test-desc',
+      'test-label',
+      step
+    ).querySelector('.shepherd-text');
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-text')).toContainHTML(
@@ -50,7 +58,11 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const el = createShepherdText('test-desc', step);
+    const el = createShepherdContent(
+      'test-desc',
+      'test-label',
+      step
+    ).querySelector('.shepherd-text');
     container.appendChild(el);
 
     expect(container.querySelector('.shepherd-text')).toHaveTextContent(
@@ -68,7 +80,11 @@ describe('components/ShepherdText', () => {
       }
     };
 
-    const el = createShepherdText('test-desc', step);
+    const el = createShepherdContent(
+      'test-desc',
+      'test-label',
+      step
+    ).querySelector('.shepherd-text');
     container.appendChild(el);
 
     const textEl = container.querySelector('.shepherd-text');

@@ -34,6 +34,7 @@
     // generating code with `tsc` instead of Babel, and could thereby
     // result in broken code at runtime.
     "emitDeclarationOnly": true,
+    "stripInternal": true,
     "declaration": true,
     "declarationMap": true,
     "declarationDir": "dist",

@@ -24,12 +24,12 @@ Run the check if you changed any of these. The check was last confirmed to descr
 | `shepherd.js/src/utils/general.ts` | `waitForAttachToElement`, `resolveAttachToElement` |
 | `shepherd.js/src/components/shepherd-modal.ts` | `hide`, `show`, `destroy`, `setupForStep` |
 
-**Sync commit:** `cba285a53dd85d87c185ee6b04070f87b834b14b`
+**Sync commit:** `e281838b3795be56639894861cd21a4f507424b9`
 
 To see what changed since then, run this from the repo root:
 
 ```sh
-git log --oneline cba285a53dd85d87c185ee6b04070f87b834b14b..HEAD -- shepherd.js/src/tour.ts shepherd.js/src/step.ts shepherd.js/src/utils/general.ts shepherd.js/src/components/shepherd-modal.ts
+git log --oneline e281838b3795be56639894861cd21a4f507424b9..HEAD -- shepherd.js/src/tour.ts shepherd.js/src/step.ts shepherd.js/src/utils/general.ts shepherd.js/src/components/shepherd-modal.ts
 ```
 
 Move the sync commit forward only after you confirm the scenarios and this table still describe the code at the new commit. A passing run alone does not confirm that.

@@ -5,18 +5,6 @@ module.exports = function (api) {
     presets: ['@babel/preset-typescript'],
     plugins: [
       ['@babel/plugin-transform-typescript', { allowDeclareFields: true }]
-    ],
-    env: {
-      development: {
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              loose: true
-            }
-          ]
-        ]
-      }
-    }
+    ]
   };
 };

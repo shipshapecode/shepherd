@@ -1,40 +1,40 @@
 import { h } from '../utils/dom.ts';
-import { isFunction } from '../utils/type-check.ts';
+import { isFunction, isString } from '../utils/type-check.ts';
 import type { Step, StepOptionsButton } from '../step.ts';
 import './shepherd-button.css';
-
-function getConfigOption(option: unknown, step: Step): unknown {
-  if (isFunction(option)) {
-    return option.call(step);
-  }
-  return option;
-}
 
 export function createShepherdButton(
   config: StepOptionsButton,
   step: Step
 ): HTMLButtonElement {
-  const action = config.action ? config.action.bind(step.tour) : null;
-  const disabled = config.disabled
-    ? getConfigOption(config.disabled, step)
-    : false;
-  const label = config.label ? getConfigOption(config.label, step) : null;
-  const text = config.text ? getConfigOption(config.text, step) : null;
+  const resolve = (option: unknown) =>
+    isFunction(option) ? option.call(step) : option;
+  const text = resolve(config.text);
+  // Only the names `StepButtonAction` and the schema allow, so JSON cannot call
+  // any other tour method.
+  const found = isString(config.action)
+    ? /^(back|cancel|complete|next)$/.test(config.action) &&
+      step.tour[config.action]
+    : config.action;
+  const action = isFunction(found) ? found : undefined;
+  if (!action) {
+    console.warn(`Shepherd: button "${text}" has no action.`);
+  }
 
   const btn = h('button', {
-    ...(config.attrs || {}),
-    'aria-label': label || null,
+    ...config.attrs,
+    'aria-label': resolve(config.label) || null,
     class: `${config.classes || ''} shepherd-button ${
       config.secondary ? 'shepherd-button-secondary' : ''
     }`,
-    disabled: disabled || null,
-    onclick: action,
+    disabled: resolve(config.disabled) || null,
+    onclick: action ? action.bind(step.tour) : null,
     tabindex: '0',
     type: 'button'
   }) as HTMLButtonElement;
 
   if (text) {
-    btn.innerHTML = text as string;
+    btn.innerHTML = text;
   }
 
   return btn;

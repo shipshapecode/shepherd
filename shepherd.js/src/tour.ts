@@ -7,7 +7,6 @@ import {
   isString,
   isUndefined
 } from './utils/type-check.ts';
-import { cleanupSteps } from './utils/cleanup.ts';
 import {
   normalizePrefix,
   resolveAttachToElement,
@@ -19,12 +18,27 @@ import {
   type ShepherdModalAPI
 } from './components/shepherd-modal.ts';
 
+/**
+ * What the `Shepherd` object's event handlers receive.
+ */
 export interface EventOptions {
+  /**
+   * The step shown before this one, for `show`.
+   */
   previous?: Step | null;
+  /**
+   * The step being shown, for `show`.
+   */
   step?: Step | null;
+  /**
+   * The tour that fired the event.
+   */
   tour: Tour;
 }
 
+/**
+ * Whether to confirm before cancelling. `true` uses `window.confirm`.
+ */
 export type TourConfirmCancel =
   boolean | (() => boolean) | Promise<boolean> | (() => Promise<boolean>);
 
@@ -52,6 +66,9 @@ export interface TourOptions {
   classPrefix?: string;
   /**
    * Default options for Steps ({@link Step#constructor}), created through `addStep`.
+   * A step's own value replaces the default for that option, even for objects such
+   * as `cancelIcon` and arrays such as `buttons`. Only `classes` and
+   * `positionOptions` combine, `positionOptions` key by key.
    */
   defaultStepOptions?: StepOptions;
   /**
@@ -88,91 +105,131 @@ export interface TourOptions {
    */
   tourName?: string;
   /**
+   * Set this on the tour, not on a step.
    * Whether or not steps should be placed above a darkened
    * modal overlay. If true, the overlay will create an opening around the target element so that it
-   * can remain interactive
+   * can remain interactive. The opening glides between steps for the `transition-duration` set on
+   * the overlay's path, unless the user prefers reduced motion.
    */
   useModalOverlay?: boolean;
 }
 
+/**
+ * The type of the package's default export. It re-fires each tour's `active`,
+ * `cancel`, `complete`, `inactive`, `show` and `start` events.
+ */
 export class ShepherdBase extends Evented {
+  /**
+   * The running tour. It is `null` or `undefined` until a tour starts, so read it
+   * when a button is clicked, not when defining the button.
+   */
   activeTour?: Tour | null;
+  /**
+   * The `Step` class.
+   */
   declare Step: typeof Step;
+  /**
+   * The `Tour` class.
+   */
   declare Tour: typeof Tour;
-
-  constructor() {
-    super();
-
-    autoBind(this);
-  }
 }
 
 /**
- * Class representing the site tour
- * @extends {Evented}
+ * Class representing the site tour.
+ *
+ * Fires `start`, `active`, `show`, `complete`, `cancel` and `inactive`. A `show`
+ * handler receives `{ step, previous }`.
+ *
+ * @example
+ * ```js
+ * import Shepherd from 'shepherd.js';
+ * import 'shepherd.js/dist/css/shepherd.css';
+ *
+ * const tour = new Shepherd.Tour({ useModalOverlay: true });
+ * tour.addStep({
+ *   title: 'Save',
+ *   text: 'Saves your work.',
+ *   attachTo: { element: '#save', on: 'bottom' },
+ *   buttons: [{ text: 'Done', action: 'complete' }]
+ * });
+ * tour.start();
+ * ```
  */
 export class Tour extends Evented {
-  trackedEvents = ['active', 'cancel', 'complete', 'show'];
+  /**
+   * The names of the events a tour fires most often.
+   */
+  trackedEvents: string[];
 
+  /**
+   * The `classPrefix` option, ending in `-`.
+   */
   classPrefix: string;
+  /**
+   * The current step. Prefer `getCurrentStep()`.
+   */
   currentStep?: Step | null;
+  /**
+   * The element to return focus to when the tour ends.
+   */
   focusedElBeforeOpen?: HTMLElement | null;
+  /**
+   * The tour's id: `${tourName}--${id}`.
+   */
   id?: string;
+  /**
+   * The overlay controller, once the tour has started.
+   */
   modal?: ShepherdModalAPI | null;
+  /**
+   * The options the tour was created with, plus defaults.
+   */
   options: TourOptions;
+  /**
+   * The tour's steps, in order.
+   */
   steps: Array<Step>;
 
   /**
    * Monotonically increasing id of `show()` calls and tour endings, used to
    * invalidate pending `waitForElement` and `beforeShowPromise` waits.
-   * @private
+   * @internal
    */
-  _showGeneration = 0;
+  _showGeneration: number;
 
   /**
    * Changes whenever a run of the tour begins or ends, used to invalidate
    * pending `confirmCancel` answers that belong to an earlier run.
-   * @private
+   * @internal
    */
-  _runGeneration = 0;
+  _runGeneration: number;
 
   constructor(options: TourOptions = {}) {
     super();
 
+    this.trackedEvents = ['active', 'cancel', 'complete', 'show'];
+    this._showGeneration = 0;
+    this._runGeneration = 0;
+
     autoBind(this);
 
-    const defaultTourOptions = {
-      exitOnEsc: true,
-      keyboardNavigation: true
-    };
-
-    this.options = Object.assign({}, defaultTourOptions, options);
+    this.options = { exitOnEsc: true, keyboardNavigation: true, ...options };
     this.classPrefix = normalizePrefix(this.options.classPrefix);
     this.steps = [];
     this.addSteps(this.options.steps);
 
     // Pass these events onto the global Shepherd object
-    const events = [
-      'active',
-      'cancel',
-      'complete',
-      'inactive',
-      'show',
-      'start'
-    ];
-    events.map((event) => {
-      ((e) => {
-        this.on(e, (opts?: { [key: string]: unknown }) => {
+    ['active', 'cancel', 'complete', 'inactive', 'show', 'start'].forEach(
+      (event) => {
+        this.on(event, (opts?: { [key: string]: unknown }) => {
           opts = opts || {};
           opts['tour'] = this;
-          Shepherd.trigger(e, opts);
+          Shepherd.trigger(event, opts);
         });
-      })(event);
-    });
+      }
+    );
 
-    this._setTourID(options.id);
-
-    return this;
+    this.id = `${this.options.tourName || 'tour'}--${options.id || uuid()}`;
   }
 
   /**
@@ -183,18 +240,13 @@ export class Tour extends Evented {
    * @return The newly added step
    */
   addStep(options: StepOptions | Step, index?: number) {
-    let step = options;
+    const step = options instanceof Step ? options : new Step(this, options);
+    step.tour = this;
 
-    if (!(step instanceof Step)) {
-      step = new Step(this, step);
+    if (isUndefined(index)) {
+      this.steps.push(step);
     } else {
-      step.tour = this;
-    }
-
-    if (!isUndefined(index)) {
-      this.steps.splice(index, 0, step as Step);
-    } else {
-      this.steps.push(step as Step);
+      this.steps.splice(index, 0, step);
     }
 
     return step;
@@ -226,31 +278,43 @@ export class Tour extends Evented {
    * Calls _done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
    * If `confirmCancel` is a function, will call it and wait for the return value,
-   * and only cancel when the value returned is true
+   * and only cancel when the value returned is true. A promise is waited on the
+   * same way.
    */
   async cancel() {
-    if (this.options.confirmCancel) {
-      const cancelMessage =
+    let stopTour = true;
+
+    const { confirmCancel } = this.options;
+    if (
+      isFunction(confirmCancel) ||
+      isFunction((confirmCancel as Promise<boolean> | undefined)?.then)
+    ) {
+      const run = this._runGeneration;
+      try {
+        stopTour = Boolean(
+          await (isFunction(confirmCancel) ? confirmCancel() : confirmCancel)
+        );
+      } catch (error) {
+        // Escape and the close icon do not await this, so nothing else would.
+        console.error(
+          'Shepherd: confirmCancel failed, so the tour stays open.',
+          error
+        );
+        return;
+      }
+
+      // The answer only applies to the run that asked for it.
+      if (run !== this._runGeneration) {
+        return;
+      }
+    } else if (confirmCancel) {
+      stopTour = window.confirm(
         this.options.confirmCancelMessage ||
-        'Are you sure you want to stop the tour?';
-      let stopTour;
+          'Are you sure you want to stop the tour?'
+      );
+    }
 
-      if (isFunction(this.options.confirmCancel)) {
-        const run = this._runGeneration;
-        stopTour = await this.options.confirmCancel();
-
-        // The answer only applies to the run that asked for it.
-        if (run !== this._runGeneration) {
-          return;
-        }
-      } else {
-        stopTour = window.confirm(cancelMessage);
-      }
-
-      if (stopTour) {
-        this._done('cancel');
-      }
-    } else {
+    if (stopTour) {
       this._done('cancel');
     }
   }
@@ -268,9 +332,7 @@ export class Tour extends Evented {
    * @return The step corresponding to the `id`
    */
   getById(id: number | string) {
-    return this.steps.find((step) => {
-      return step.id === id;
-    });
+    return this.steps.find((step) => step.id === id);
   }
 
   /**
@@ -287,11 +349,7 @@ export class Tour extends Evented {
     // A show still waiting on a promise or element must not undo this hide.
     this._showGeneration++;
 
-    const currentStep = this.getCurrentStep();
-
-    if (currentStep) {
-      return currentStep.hide();
-    }
+    return this.getCurrentStep()?.hide();
   }
 
   /**
@@ -321,20 +379,16 @@ export class Tour extends Evented {
    */
   removeStep(name: string) {
     const current = this.getCurrentStep();
+    const step = this.getById(name);
 
-    // Find the step, destroy it and remove it from this.steps
-    this.steps.some((step, i) => {
-      if (step.id === name) {
-        if (step.isOpen()) {
-          step.hide();
-        }
-
-        step.destroy();
-        this.steps.splice(i, 1);
-
-        return true;
+    if (step) {
+      if (step.isOpen()) {
+        step.hide();
       }
-    });
+
+      step.destroy();
+      this.steps.splice(this.steps.indexOf(step), 1);
+    }
 
     if (current && current.id === name) {
       // The removed step may still be waiting on its `beforeShowPromise`.
@@ -365,18 +419,14 @@ export class Tour extends Evented {
     // Invalidate any pending wait from a previous call.
     const generation = ++this._showGeneration;
 
-    const shouldSkipStep =
-      isFunction(step.options.showOn) && !step.options.showOn();
-
     // If `showOn` returns false, we want to skip the step, otherwise, show the step like normal
     // Return the result, since the step we skip to may itself be waiting on an element.
-    if (shouldSkipStep) {
+    if (isFunction(step.options.showOn) && !step.options.showOn()) {
       return this._skipStep(step, forward);
     }
 
     const { skipMissingElement, waitForElement } = step.options;
-    const attachToElement =
-      step.options.attachTo && step.options.attachTo.element;
+    const attachToElement = step.options.attachTo?.element;
     // `waitForElement` and `skipMissingElement` only apply to steps that
     // locate their target dynamically. Steps without an `attachTo` element
     // are intentionally centered and never treated as missing.
@@ -408,9 +458,7 @@ export class Tour extends Evented {
         });
       }
 
-      if (skipMissingElement) {
-        return this._skipStep(step, forward);
-      }
+      return this._skipStep(step, forward);
     }
 
     this._showStep(step);
@@ -419,7 +467,7 @@ export class Tour extends Evented {
   /**
    * Sets the given step as the current step and shows it
    * @param {Step} step - The step to show
-   * @private
+   * @internal
    */
   _showStep(step: Step) {
     // `currentStep` is `undefined` until a step has shown, so normalize to
@@ -427,10 +475,7 @@ export class Tour extends Evented {
     const previous = this.currentStep ?? null;
 
     this.currentStep = step;
-    this.trigger('show', {
-      step,
-      previous
-    });
+    this.trigger('show', { step, previous });
 
     step.show();
   }
@@ -467,7 +512,7 @@ export class Tour extends Evented {
   /**
    * Called whenever the tour is cancelled or completed, basically anytime we exit the tour
    * @param {string} event - The event name to trigger
-   * @private
+   * @internal
    */
   _done(event: string) {
     // Invalidate any pending `beforeShowPromise`, which could otherwise bring
@@ -476,11 +521,7 @@ export class Tour extends Evented {
     this._runGeneration++;
 
     const index = this.steps.indexOf(this.currentStep as Step);
-    if (Array.isArray(this.steps)) {
-      this.steps.forEach((step) => step.destroy());
-    }
-
-    cleanupSteps(this);
+    this.steps.forEach((step) => step.destroy());
 
     this.trigger(event, { index });
 
@@ -491,14 +532,8 @@ export class Tour extends Evented {
     this.trigger('inactive', { tour: this });
 
     if (this.modal) {
-      this.modal.hide();
-    }
-
-    if (event === 'cancel' || event === 'complete') {
-      if (this.modal) {
-        this.modal.destroy();
-        this.modal = null;
-      }
+      this.modal.destroy();
+      this.modal = null;
     }
 
     // Focus the element that was focused before the tour started
@@ -509,6 +544,7 @@ export class Tour extends Evented {
 
   /**
    * Make this tour "active"
+   * @internal
    */
   _setupActiveTour() {
     this._runGeneration++;
@@ -541,7 +577,7 @@ export class Tour extends Evented {
    * Called when `showOn` evaluates to false, to skip the step or complete/cancel the tour if there are no more steps
    * @param {Step} step - The step to skip
    * @param {boolean} forward - True if we are going forward, false if backward
-   * @private
+   * @internal
    */
   _skipStep(step: Step, forward: boolean) {
     const index = this.steps.indexOf(step);
@@ -559,7 +595,7 @@ export class Tour extends Evented {
   /**
    * Before showing, hide the current step and if the tour is not
    * already active, call `this._setupActiveTour`.
-   * @private
+   * @internal
    */
   _updateStateBeforeShow() {
     if (this.currentStep) {
@@ -569,18 +605,6 @@ export class Tour extends Evented {
     if (!this.isActive()) {
       this._setupActiveTour();
     }
-  }
-
-  /**
-   * Sets this.id to a provided tourName and id or `${tourName}--${uuid}`
-   * @param {string} optionsId - True if we are going forward, false if backward
-   * @private
-   */
-  _setTourID(optionsId: string | undefined) {
-    const tourName = this.options.tourName || 'tour';
-    const tourId = optionsId || uuid();
-
-    this.id = `${tourName}--${tourId}`;
   }
 }
 

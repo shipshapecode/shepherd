@@ -8,9 +8,7 @@
   opacity: 0;
   outline: none;
   padding: 0;
-  transition:
-    opacity 0.3s,
-    visibility 0.3s;
+  transition: opacity 0.3s;
   visibility: hidden;
   width: 100%;
   z-index: 9999;
@@ -19,12 +17,6 @@
 .shepherd-enabled.shepherd-element {
   opacity: 1;
   visibility: visible;
-}
-
-.shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
 }
 
 .shepherd-element,
@@ -80,7 +72,7 @@
 * Blocks clicks on the target of a step with `canClickTarget: false`.
 *
 * Keyed only on `shepherd-target-click-disabled`, which
-* `Step#_styleTargetElementForStep` adds unprefixed, and only when
+* `Step#_show` adds unprefixed, and only when
 * `canClickTarget === false`. The sibling
 * `shepherd-enabled`/`shepherd-target` classes cannot be part of this selector:
 * `classPrefix` prefixes them at runtime and a static stylesheet cannot know

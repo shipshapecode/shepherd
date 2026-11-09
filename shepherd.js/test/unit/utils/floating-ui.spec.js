@@ -6,7 +6,7 @@ const floatingUIMock = vi.hoisted(() => ({
   updateCallbacks: []
 }));
 
-vi.mock('@floating-ui/dom', async (importOriginal) => {
+vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
   const actual = await importOriginal();
 
   return {
@@ -16,30 +16,54 @@ vi.mock('@floating-ui/dom', async (importOriginal) => {
   };
 });
 
-import { arrow, offset, shift } from '@floating-ui/dom';
 import { Step } from '../../../src/step';
 import {
-  getFloatingUIOptions,
+  getPositionConfig,
   setupTooltip
 } from '../../../src/utils/floating-ui';
+import { arrow, flip, place, shift } from '../../../src/utils/position';
 
 describe('Floating UI Utils', function () {
   let targetElement;
   let stepElement;
 
-  /**
-   * Names of the middleware, in execution order. Falsy entries are preserved so
-   * that ordering assertions still line up when the user passes them in.
-   */
   const middlewareNames = ({ middleware }) =>
-    middleware.map((item) => (item ? item.name : item));
+    middleware.map(({ name }) => name);
 
   const createStep = (options) => {
     const step = new Step({}, { arrow: true, ...options });
-    // `addArrow()` only returns the arrow element when the step is rendered.
+    // The arrow middleware is only added once the step is rendered.
     step.el = stepElement;
     return step;
   };
+
+  const configFor = (options) => {
+    const step = createStep(options);
+    return getPositionConfig(step.options.attachTo, step);
+  };
+
+  /** Where the arrow lands for a narrow target by the viewport's left edge. */
+  const arrowAt = (config) =>
+    place(
+      {
+        rects: {
+          reference: { x: 2, y: 300, width: 4, height: 4 },
+          floating: { x: 0, y: 0, width: 300, height: 120 }
+        },
+        clip: { x: 0, y: 0, width: 1000, height: 700 },
+        origin: { x: 0, y: 0, scale: { x: 1, y: 1 } },
+        rtl: false,
+        floating: stepElement
+      },
+      config
+    ).middlewareData.arrow;
+
+  const arrowWithPadding = (placement, padding) =>
+    arrowAt({
+      placement,
+      strategy: 'absolute',
+      middleware: [flip(), shift(), arrow(stepElement.firstChild, padding)]
+    });
 
   beforeEach(() => {
     targetElement = document.createElement('div');
@@ -47,8 +71,11 @@ describe('Floating UI Utils', function () {
     document.body.appendChild(targetElement);
 
     stepElement = document.createElement('div');
+    Object.defineProperty(stepElement, 'clientWidth', { value: 300 });
+    Object.defineProperty(stepElement, 'clientHeight', { value: 120 });
     const arrowElement = document.createElement('div');
     arrowElement.classList.add('shepherd-arrow');
+    arrowElement.style.cssText = 'width: 16px; height: 16px';
     stepElement.appendChild(arrowElement);
     document.body.appendChild(stepElement);
   });
@@ -60,147 +87,134 @@ describe('Floating UI Utils', function () {
     vi.restoreAllMocks();
   });
 
-  describe('getFloatingUIOptions()', function () {
-    it('keeps user middleware and places the arrow middleware last', function () {
+  describe('getPositionConfig()', function () {
+    it('counts the theme gap as offset, on top of positionOptions', () => {
       const step = createStep({
-        attachTo: { element: '.floating-ui-test', on: 'right' },
-        floatingUIOptions: {
-          middleware: [offset(16), shift({ padding: 32 })]
-        }
+        attachTo: { element: 'body', on: 'bottom' },
+        positionOptions: { offset: 4 }
+      });
+      step.el.style.setProperty('--shepherd-gap', '16px');
+
+      const { middleware } = getPositionConfig(step.options.attachTo, step);
+      const offsetMiddleware = middleware.find((m) => m.name === 'offset');
+      const { y } = offsetMiddleware.fn({
+        x: 0,
+        y: 0,
+        placement: 'bottom',
+        middlewareData: {},
+        rects: { reference: {}, floating: {} }
       });
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      expect(middlewareNames(floatingUIOptions)).toEqual([
-        'flip',
-        'shift',
-        'offset',
-        'shift',
-        'arrow'
-      ]);
+      expect(y).toBe(20);
+      step.el.style.removeProperty('--shepherd-gap');
     });
 
-    it('does not append its own arrow when the user supplies one', function () {
-      const userArrowElement = document.createElement('div');
-      const step = createStep({
-        attachTo: { element: '.floating-ui-test', on: 'right' },
-        floatingUIOptions: {
-          middleware: [arrow({ element: userArrowElement }), offset(16)]
-        }
-      });
-
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      const names = middlewareNames(floatingUIOptions);
-      expect(names).toEqual(['flip', 'shift', 'arrow', 'offset']);
-      expect(names.filter((name) => name === 'arrow')).toHaveLength(1);
-
-      const arrowMiddleware = floatingUIOptions.middleware.find(
-        ({ name }) => name === 'arrow'
-      );
-      expect(arrowMiddleware.options.element).toBe(userArrowElement);
-    });
-
-    it('adds the default middleware when the user supplies none', function () {
-      const step = createStep({
+    it('flips, shifts, and places the arrow last by default', function () {
+      const config = configFor({
         attachTo: { element: '.floating-ui-test', on: 'right' }
       });
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
+      expect(middlewareNames(config)).toEqual(['flip', 'shift', 'arrow']);
+      expect(config.placement).toBe('right');
+      expect(config.strategy).toBe('absolute');
+    });
 
-      expect(middlewareNames(floatingUIOptions)).toEqual([
+    it('offsets before anything else measures the step', function () {
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'right' },
+        positionOptions: { offset: 12 }
+      });
+
+      expect(middlewareNames(config)).toEqual([
+        'offset',
         'flip',
         'shift',
         'arrow'
       ]);
-      expect(floatingUIOptions.placement).toBe('right');
-      expect(floatingUIOptions.strategy).toBe('absolute');
+    });
 
-      const arrowMiddleware = floatingUIOptions.middleware.at(-1);
-      expect(arrowMiddleware.options.element).toBe(
-        stepElement.querySelector('.shepherd-arrow')
-      );
-      // Padding only applies to edge aligned placements.
-      expect(arrowMiddleware.options.padding).toBe(0);
+    it('keeps attachTo.on when flip is false', function () {
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'top' },
+        positionOptions: { flip: false }
+      });
+
+      expect(middlewareNames(config)).toEqual(['shift', 'arrow']);
+      expect(config.placement).toBe('top');
+    });
+
+    it('chooses a side with autoPlacement for auto placements', function () {
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'auto-start' },
+        positionOptions: { flip: false }
+      });
+
+      expect(middlewareNames(config)).toEqual([
+        'autoPlacement',
+        'shift',
+        'arrow'
+      ]);
+    });
+
+    it('passes strategy through', function () {
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'right' },
+        positionOptions: { strategy: 'fixed' }
+      });
+
+      expect(config.strategy).toBe('fixed');
+    });
+
+    it('ignores the arrow padding for placements without an alignment', function () {
+      const config = configFor({
+        arrow: { padding: 40 },
+        attachTo: { element: '.floating-ui-test', on: 'bottom' }
+      });
+
+      expect(arrowAt(config)).toEqual(arrowWithPadding('bottom', 0));
+      expect(arrowAt(config)).not.toEqual(arrowWithPadding('bottom', 40));
     });
 
     it('passes the arrow padding through for edge aligned placements', function () {
-      const step = createStep({
-        arrow: { padding: 10 },
-        attachTo: { element: '.floating-ui-test', on: 'right-start' }
+      const config = configFor({
+        arrow: { padding: 40 },
+        attachTo: { element: '.floating-ui-test', on: 'bottom-start' }
       });
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      const arrowMiddleware = floatingUIOptions.middleware.at(-1);
-      expect(arrowMiddleware.name).toBe('arrow');
-      expect(arrowMiddleware.options.padding).toBe(10);
+      expect(arrowAt(config)).toEqual(arrowWithPadding('bottom-start', 40));
+      expect(arrowAt(config)).not.toEqual(arrowWithPadding('bottom-start', 4));
     });
 
     it('defaults the arrow padding for edge aligned placements', function () {
-      const step = createStep({
-        attachTo: { element: '.floating-ui-test', on: 'right-start' }
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'bottom-start' }
       });
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      expect(floatingUIOptions.middleware.at(-1).options.padding).toBe(4);
+      expect(arrowAt(config)).toEqual(arrowWithPadding('bottom-start', 4));
+      expect(arrowAt(config)).not.toEqual(arrowWithPadding('bottom-start', 0));
     });
 
-    it('does not add any middleware for a centered step', function () {
-      const step = createStep({
+    it('positions an SVG arrow', function () {
+      const svgArrow = document.createElementNS(
+        'http://www.w3.org/2000/svg',
+        'svg'
+      );
+      svgArrow.classList.add('shepherd-arrow');
+      stepElement.replaceChildren(svgArrow);
+      const config = configFor({
+        attachTo: { element: '.floating-ui-test', on: 'right' }
+      });
+
+      expect(middlewareNames(config)).toEqual(['flip', 'shift', 'arrow']);
+    });
+
+    it('adds no middleware for a centered step', function () {
+      const config = configFor({
         attachTo: { element: '.floating-ui-test' },
-        floatingUIOptions: {
-          middleware: [offset(16)]
-        }
+        positionOptions: { offset: 16 }
       });
 
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      expect(middlewareNames(floatingUIOptions)).toEqual(['offset']);
-      expect(floatingUIOptions.placement).toBeUndefined();
-    });
-
-    it('tolerates falsy entries in the user middleware', function () {
-      const step = createStep({
-        attachTo: { element: '.floating-ui-test', on: 'right' },
-        floatingUIOptions: {
-          middleware: [false, offset(16), null, undefined]
-        }
-      });
-
-      const floatingUIOptions = getFloatingUIOptions(
-        step.options.attachTo,
-        step
-      );
-
-      expect(middlewareNames(floatingUIOptions)).toEqual([
-        'flip',
-        'shift',
-        false,
-        'offset',
-        null,
-        undefined,
-        'arrow'
-      ]);
+      expect(config.middleware).toEqual([]);
     });
   });
 
@@ -217,13 +231,35 @@ describe('Floating UI Utils', function () {
           return vi.fn();
         }
       );
-      floatingUIMock.computePosition.mockResolvedValue({
+      floatingUIMock.computePosition.mockReturnValue({
         middlewareData: {},
         placement: 'bottom',
         strategy: 'absolute',
         x: 12,
         y: 34
       });
+    });
+
+    it('reads the theme gap again on every reposition', () => {
+      const { step, stepElement } = createTooltipFixture();
+      const gapOf = (call) =>
+        call[2].middleware
+          .find((m) => m.name === 'offset')
+          ?.fn({
+            x: 0,
+            y: 0,
+            placement: 'bottom',
+            middlewareData: {},
+            rects: { reference: {}, floating: {} }
+          }).y ?? 0;
+
+      setupTooltip(step);
+      stepElement.style.setProperty('--shepherd-gap', '24px');
+      floatingUIMock.updateCallbacks[0]();
+
+      const calls = floatingUIMock.computePosition.mock.calls;
+      expect(gapOf(calls.at(-1))).toBe(24);
+      stepElement.style.removeProperty('--shepherd-gap');
     });
 
     it('only focuses the step element after the first render', async () => {
@@ -245,6 +281,30 @@ describe('Floating UI Utils', function () {
 
       expect(focusSpy).toHaveBeenCalledTimes(1);
       expect(document.activeElement).toBe(input);
+    });
+
+    it('focuses the step in the frame after it is positioned', async () => {
+      const { step, stepElement } = createTooltipFixture();
+
+      setupTooltip(step);
+      await vi.advanceTimersByTimeAsync(20);
+
+      expect(document.activeElement).toBe(stepElement);
+    });
+
+    it('reports a step it could not position, and still focuses it', async () => {
+      const { step, stepElement } = createTooltipFixture();
+      const cause = new Error('no platform');
+      floatingUIMock.computePosition.mockImplementationOnce(() => {
+        throw cause;
+      });
+      const consoleError = vi.spyOn(console, 'error');
+
+      setupTooltip(step);
+      await vi.advanceTimersByTimeAsync(20);
+
+      expect(consoleError).toHaveBeenCalledWith(expect.any(String), cause);
+      expect(document.activeElement).toBe(stepElement);
     });
 
     it('focuses each fresh tooltip setup once', async () => {
@@ -289,8 +349,7 @@ function createTooltipFixture() {
     el: stepElement,
     options: {
       arrow: false,
-      attachTo: { element: target, on: 'bottom' },
-      floatingUIOptions: {}
+      attachTo: { element: target, on: 'bottom' }
     },
     shepherdElementComponent: {
       element: stepElement

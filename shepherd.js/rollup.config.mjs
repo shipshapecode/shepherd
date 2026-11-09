@@ -1,7 +1,5 @@
-import autoprefixer from 'autoprefixer';
 import { execaCommand } from 'execa';
 import fs from 'fs';
-import cssnanoPlugin from 'cssnano';
 import { babel } from '@rollup/plugin-babel';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
@@ -33,10 +31,10 @@ const plugins = [
     extensions: ['.cjs', '.js', '.ts', '.mjs'],
     babelHelpers: 'bundled',
     presets: ['@babel/preset-typescript'],
-    exclude: 'node_modules/**'
+    exclude: '**/node_modules/**'
   }),
   postcss({
-    plugins: isDev ? [autoprefixer] : [autoprefixer, cssnanoPlugin],
+    minimize: !isDev,
     extract: 'css/shepherd.css'
   }),
   license({
@@ -56,12 +54,15 @@ if (process.env.DEVELOPMENT) {
   plugins.push(
     terser({
       compress: {
-        drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.debug']
       },
       mangle: {
-        properties: false
+        properties: {
+          regex: /^_[a-zA-Z]/,
+          // Called by test/cypress/integration/test.acceptance.cy.js
+          reserved: ['_getResolvedAttachToOptions']
+        }
       }
     })
   );
@@ -156,7 +157,6 @@ export default [
       dir: 'tmp/cjs',
       entryFileNames: '[name].cjs',
       format: 'cjs',
-      sourcemap: true,
       exports: 'named'
     },
     plugins: [
@@ -171,7 +171,7 @@ export default [
           console.log('Move shepherd.cjs from tmp to dist');
 
           await execaCommand(
-            `mv ./tmp/cjs/shepherd.cjs ./tmp/cjs/shepherd.cjs.map ./dist/cjs/`,
+            `mv ./tmp/cjs/shepherd.cjs ./dist/cjs/`,
             {
               stdio: 'inherit'
             }
@@ -186,6 +186,51 @@ export default [
             }
           );
         }
+      }
+    ]
+  },
+  // Opt-in extras: neither ships unless a consumer imports it
+  {
+    input: 'src/motion.ts',
+    output: [
+      { file: 'dist/js/motion.mjs', format: 'es' },
+      { file: 'dist/cjs/motion.cjs', format: 'cjs', exports: 'named' }
+    ],
+    plugins: [
+      nodeResolve({ extensions: ['.ts'] }),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+        presets: ['@babel/preset-typescript']
+      }),
+      ...(isDev ? [] : [terser()]),
+      {
+        name: 'Motion declarations',
+        closeBundle: () => {
+          const types = fs
+            .readFileSync('tmp/js/motion.d.ts', 'utf8')
+            .replace(/\/\/# sourceMappingURL.*/, '');
+          fs.writeFileSync(
+            'dist/js/motion.d.mts',
+            types.replace('./shepherd.ts', './shepherd.mjs')
+          );
+          fs.writeFileSync(
+            'dist/cjs/motion.d.cts',
+            types.replace('./shepherd.ts', './shepherd.cjs')
+          );
+        }
+      }
+    ]
+  },
+  {
+    input: 'src/theme.css',
+    output: { dir: 'tmp/theme' },
+    plugins: [
+      postcss({ minimize: !isDev, extract: 'theme.css' }),
+      {
+        name: 'Copy the theme to dist',
+        closeBundle: () =>
+          fs.copyFileSync('tmp/theme/theme.css', 'dist/css/theme.css')
       }
     ]
   }

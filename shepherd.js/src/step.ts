@@ -1,7 +1,11 @@
-import { deepmerge } from 'deepmerge-ts';
 import { Evented } from './evented.ts';
 import autoBind from './utils/auto-bind.ts';
-import { isElement, isHTMLElement, isFunction } from './utils/type-check.ts';
+import {
+  isElement,
+  isHTMLElement,
+  isFunction,
+  isString
+} from './utils/type-check.ts';
 import { bindAdvance } from './utils/bind.ts';
 import {
   parseAttachTo,
@@ -9,24 +13,25 @@ import {
   uuid,
   parseExtraHighlights
 } from './utils/general.ts';
-import {
-  setupTooltip,
-  destroyTooltip,
-  mergeTooltipConfig
-} from './utils/floating-ui.ts';
+import { setupTooltip, destroyTooltip } from './utils/floating-ui.ts';
 import {
   createShepherdElement,
   type ShepherdElementResult
 } from './components/shepherd-element.ts';
 import { type Tour } from './tour.ts';
-import type { ComputePositionConfig } from '@floating-ui/dom';
 
+/**
+ * The body of a step. Strings render as HTML, so escape untrusted input.
+ */
 export type StepText =
   | string
   | ReadonlyArray<string>
   | HTMLElement
   | (() => string | ReadonlyArray<string> | HTMLElement);
 
+/**
+ * A string, or a function returning one when the step is built.
+ */
 export type StringOrStringFunction = string | (() => string);
 
 /**
@@ -72,17 +77,30 @@ export interface StepOptions {
   /**
    * A function that returns a promise.
    * When the promise resolves, the rest of the `show` code for the step will execute.
+   * Pass the function, not a promise: a promise starts its work when the tour is
+   * defined, and is ignored.
+   *
+   * @example
+   * ```js
+   * beforeShowPromise: () => openSettingsPanel()
+   * ```
    */
   beforeShowPromise?: () => Promise<unknown>;
 
   /**
    * An array of buttons to add to the step. These will be rendered in a
-   * footer below the main body text.
+   * footer below the main body text. A step's `buttons` replace the ones from
+   * `defaultStepOptions`; they are not merged.
    */
   buttons?: ReadonlyArray<StepOptionsButton>;
 
   /**
    * Should a cancel “✕” be shown in the header of the step?
+   *
+   * @example
+   * ```js
+   * cancelIcon: { enabled: true }
+   * ```
    */
   cancelIcon?: StepOptionsCancelIcon;
 
@@ -180,15 +198,17 @@ export interface StepOptions {
   modalOverlayOpeningYOffset?: number;
 
   /**
-   * Extra [options to pass to FloatingUI]{@link https://floating-ui.com/docs/tutorial/}
+   * How the step is placed against its target: the gap, the distance kept from
+   * the edges, the CSS `position`, and whether it may flip. See
+   * {@link StepOptionsPosition}. Values from `defaultStepOptions` and the step
+   * combine key by key, so a step can change one and keep the rest.
    *
-   * This includes `strategy`, the CSS `position` used for the step element,
-   * which defaults to `'absolute'`. Centered steps are always `position: fixed`
-   * and ignore `strategy` -- a step counts as centered when it has no
-   * `attachTo` at all, or when its `attachTo` is missing either `element` or
-   * `on`.
+   * @example
+   * ```js
+   * positionOptions: { offset: 12, padding: 8 }
+   * ```
    */
-  floatingUIOptions?: ComputePositionConfig;
+  positionOptions?: StepOptionsPosition;
 
   /**
    * Should the element be scrolled to when this step is shown?
@@ -226,7 +246,8 @@ export interface StepOptions {
   skipMissingElement?: boolean;
 
   /**
-   * The text in the body of the step. It can be one of four types:
+   * The text in the body of the step. Strings render as HTML, so escape
+   * untrusted input. It can be one of four types:
    * ```
    * - HTML string
    * - Array of HTML strings
@@ -237,7 +258,8 @@ export interface StepOptions {
   text?: StepText;
 
   /**
-   * The step's title. It becomes an `h3` at the top of the step.
+   * The step's title. It becomes an `h3` at the top of the step. Strings render
+   * as HTML, so escape untrusted input.
    * ```
    * - HTML string
    * - `Function` to be executed when the step is built. It must return HTML string.
@@ -248,10 +270,10 @@ export interface StepOptions {
   /**
    * The maximum amount of time, in milliseconds, to wait for the
    * `attachTo.element` to appear in the DOM before showing the step. The DOM
-   * is watched with a `MutationObserver` (falling back to polling when it is
-   * unavailable), so the step attaches as soon as the element appears. If the
-   * timeout expires, the step falls back to its default behavior: skipped
-   * when `skipMissingElement` is `true`, otherwise shown centered.
+   * is watched with a `MutationObserver`, so the step attaches as soon as the
+   * element appears. If the timeout expires, the step falls back to its default
+   * behavior: skipped when `skipMissingElement` is `true`, otherwise shown
+   * centered.
    *
    * The wait starts before the step's own `beforeShowPromise` and `before-show`
    * handlers run, so it cannot observe a target that those handlers create, and
@@ -272,6 +294,10 @@ export interface StepOptions {
   when?: StepOptionsWhen;
 }
 
+/**
+ * Where a step sits relative to its target. Other values, such as `'below'` or
+ * `'bottom-left'`, are invalid. `-start` and `-end` align the step to an edge.
+ */
 export type PopperPlacement =
   | 'auto'
   | 'auto-start'
@@ -289,41 +315,148 @@ export type PopperPlacement =
   | 'left-start'
   | 'left-end';
 
+/**
+ * How a step is placed against its target, set through
+ * {@link StepOptions.positionOptions}. Shepherd positions steps itself, with no
+ * dependency on Floating UI. These cover what its `offset()`, `flip()`,
+ * `shift()` and `strategy` were used for. A centered step, one whose `attachTo`
+ * lacks `element` or `on`, ignores all of them.
+ *
+ * @example
+ * ```js
+ * tour.addStep({
+ *   text: 'Sticks to the header while the page scrolls.',
+ *   attachTo: { element: '#header', on: 'bottom-start' },
+ *   positionOptions: { offset: 12, padding: 16, strategy: 'fixed' }
+ * });
+ * ```
+ */
+export interface StepOptionsPosition {
+  /**
+   * The gap between the step and its target, in pixels. A number moves the step
+   * away from the target. `crossAxis` moves it along the side it sits on, toward
+   * the end of that side, with left and right swapped in right-to-left pages
+   * for `top` and `bottom` placements. The same as Floating UI's `offset()`.
+   *
+   * @defaultValue `0`. The arrow, when shown, makes up the visible gap.
+   */
+  offset?: number | { mainAxis?: number; crossAxis?: number };
+  /**
+   * The least distance, in pixels, kept between the step and the edges of the
+   * viewport and of any scrolling or clipping ancestor. It applies both when
+   * choosing a side, so a step flips sooner, and when sliding the step along
+   * its side to keep it in view.
+   *
+   * @defaultValue `0`
+   */
+  padding?: number;
+  /**
+   * The CSS `position` of the step element. Use `'fixed'` when the target is
+   * itself `position: fixed`, such as a sticky header.
+   *
+   * @defaultValue `'absolute'`
+   */
+  strategy?: 'absolute' | 'fixed';
+  /**
+   * Whether the step may move to the opposite side, or the opposite alignment,
+   * when `attachTo.on` would not fit. `false` keeps `attachTo.on` even when the
+   * step overflows. `auto` placements always choose their own side.
+   *
+   * @defaultValue `true`
+   */
+  flip?: boolean;
+}
+
+/**
+ * Options for the arrow pointing at the target.
+ */
 export interface StepOptionsArrow {
-  /*
+  /**
    * The padding from the edge for the arrow.
    * Not used if this is not a -start or -end placement.
    */
   padding?: number;
 }
 
+/**
+ * What a step attaches to.
+ *
+ * @example
+ * ```js
+ * attachTo: { element: '#save', on: 'bottom' }
+ * ```
+ */
 export interface StepOptionsAttachTo {
+  /**
+   * A selector, an element, or a function returning either. A selector or
+   * function is resolved each time the step shows. A selector that matches
+   * nothing logs an error and centers the step; see `waitForElement` and
+   * `skipMissingElement`.
+   */
   element?:
     | HTMLElement
     | string
     | null
     | (() => HTMLElement | string | null | undefined);
+  /**
+   * Where the step sits relative to the element. Without it the element is
+   * highlighted, and the step is centered with no arrow.
+   */
   on?: PopperPlacement;
 }
 
+/**
+ * A page event that moves the tour to the next step.
+ *
+ * @example
+ * ```js
+ * advanceOn: { selector: '#menu', event: 'click' }
+ * ```
+ */
 export interface StepOptionsAdvanceOn {
+  /**
+   * The DOM event name, such as `click`.
+   */
   event: string;
+  /**
+   * The selector of the element to listen on. It must exist when the step shows.
+   */
   selector: string;
 }
 
+/**
+ * The tour methods a button can run by name.
+ */
+export type StepButtonAction = 'back' | 'cancel' | 'complete' | 'next';
+
+/**
+ * A button in the footer of a step.
+ */
 export interface StepOptionsButton {
   /**
-   * A function executed when the button is clicked on
-   * It is automatically bound to the `tour` the step is associated with, so things like `this.next` will
-   * work inside the action.
-   * You can use action to skip steps or navigate to specific steps, with something like:
+   * What the button does when clicked. Either the name of a tour method, which
+   * keeps a tour definition plain JSON and works before the tour exists, or a
+   * function.
+   *
+   * A function is bound to the tour, so `this.next()` works inside a `function`
+   * or method. An arrow function does not get that binding, so `() => this.next()`
+   * fails; use `() => tour.next()` there.
+   *
+   * @example
    * ```js
-   * action() {
-   *   return this.show('some_step_name');
-   * }
+   * buttons: [
+   *   { text: 'Back', action: 'back', secondary: true },
+   *   { text: 'Next', action: 'next' },
+   *   {
+   *     text: 'Skip to pricing',
+   *     action() {
+   *       return this.show('pricing');
+   *     }
+   *   }
+   * ]
    * ```
    */
-  action?: (this: Tour) => void;
+  action?: StepButtonAction | ((this: Tour) => void);
 
   /**
    * Additional HTML attributes to apply to the button element.
@@ -378,10 +511,16 @@ export interface StepOptionsButton {
   text?: StringOrStringFunction;
 }
 
+/**
+ * A map of event names to handlers for a button.
+ */
 export interface StepOptionsButtonEvent {
   [key: string]: () => void;
 }
 
+/**
+ * The close "×" in the header of a step. It is off unless `enabled` is `true`.
+ */
 export interface StepOptionsCancelIcon {
   /**
    * Additional HTML attributes to apply to the cancel icon button element.
@@ -417,38 +556,72 @@ export interface StepOptionsCancelIcon {
   label?: string;
 }
 
+/**
+ * Step event handlers by event name: `before-show`, `show`, `before-hide`,
+ * `hide`, `cancel`, `complete` or `destroy`. Each is called with `this` set to
+ * the step.
+ */
 export interface StepOptionsWhen {
   [key: string]: (this: Step) => void;
 }
+
+let stylesheetChecked = false;
 
 /**
  * A class representing steps to be added to a tour.
  * @extends {Evented}
  */
 export class Step extends Evented {
+  /** @internal */
   _advanceOnCleanup?: (() => void) | null;
+  /** @internal */
   _resolvedAttachTo: StepOptionsAttachTo | null;
+  /** @internal */
   _resolvedExtraHighlightElements?: HTMLElement[];
-  _originalTabIndexes: Map<Element, string>;
-  _showRequest = 0;
+  /** @internal */
+  _originalTabIndex?: string | null;
+  /** @internal */
+  _showRequest: number;
+  /**
+   * The tour's `classPrefix`, ending in `-`.
+   */
   classPrefix?: string;
+  /**
+   * Stops keeping the step positioned. Set while the step is rendered.
+   */
   declare cleanup: Function | null;
+  /**
+   * The step's element. Prefer `getElement()`.
+   */
   el?: HTMLElement | null;
+  /**
+   * The step's `id` option, or a generated one.
+   */
   declare id: string;
+  /**
+   * The step's options, merged with the tour's `defaultStepOptions`.
+   */
   declare options: StepOptions;
+  /**
+   * The step's rendered element and its teardown.
+   */
   shepherdElementComponent?: ShepherdElementResult;
+  /**
+   * The element the step attached to. Prefer `getTarget()`.
+   */
   target?: HTMLElement | null;
+  /**
+   * The tour the step belongs to.
+   */
   tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {
     super();
 
+    this._showRequest = 0;
+
     this.tour = tour;
-    this.classPrefix = this.tour.options
-      ? normalizePrefix(this.tour.options.classPrefix)
-      : '';
-    // @ts-expect-error TODO: investigate where styles comes from
-    this.styles = tour.styles;
+    this.classPrefix = normalizePrefix(tour.options?.classPrefix);
 
     /**
      * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
@@ -458,18 +631,9 @@ export class Step extends Evented {
      */
     this._resolvedAttachTo = null;
 
-    /**
-     * Map to store original tabIndex values of elements that are modified during the tour.
-     * @type {Map<Element, string | null>}
-     * @private
-     */
-    this._originalTabIndexes = new Map();
-
     autoBind(this);
 
     this._setOptions(options);
-
-    return this;
   }
 
   /**
@@ -491,7 +655,7 @@ export class Step extends Evented {
   }
 
   /**
-   * Remove the step, delete the step's element, and destroy the FloatingUI instance for the step.
+   * Remove the step, delete the step's element, and stop repositioning it.
    * Triggers `destroy` event
    */
   destroy() {
@@ -502,20 +666,16 @@ export class Step extends Evented {
   /**
    * Internal cleanup that tears down the tooltip, component, and DOM element
    * without emitting the public "destroy" event.
-   * @private
+   * @internal
    */
   _teardownElements() {
-    if (this._advanceOnCleanup) {
-      this._advanceOnCleanup();
-      this._advanceOnCleanup = null;
-    }
+    this._advanceOnCleanup?.();
+    this._advanceOnCleanup = null;
 
     destroyTooltip(this);
 
-    if (this.shepherdElementComponent) {
-      this.shepherdElementComponent.cleanup();
-      this.shepherdElementComponent = undefined;
-    }
+    this.shepherdElementComponent?.cleanup();
+    this.shepherdElementComponent = undefined;
 
     if (isHTMLElement(this.el)) {
       this.el.remove();
@@ -523,7 +683,6 @@ export class Step extends Evented {
     }
 
     this._updateStepTargetOnHide();
-    this._originalTabIndexes.clear();
   }
 
   /**
@@ -546,6 +705,10 @@ export class Step extends Evented {
       this.el.hidden = true;
     }
 
+    destroyTooltip(this);
+    // Another step can share the target, and would hear its keys twice.
+    this.shepherdElementComponent?.cleanup();
+
     this._updateStepTargetOnHide();
 
     this.trigger('hide');
@@ -554,6 +717,7 @@ export class Step extends Evented {
   /**
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
+   * @internal
    */
   _resolveExtraHiglightElements() {
     this._resolvedExtraHighlightElements = parseExtraHighlights(this);
@@ -563,6 +727,7 @@ export class Step extends Evented {
   /**
    * Resolves attachTo options.
    * @returns {{}|{element, on}}
+   * @internal
    */
   _resolveAttachToOptions() {
     this._resolvedAttachTo = parseAttachTo(this);
@@ -572,14 +737,10 @@ export class Step extends Evented {
   /**
    * A selector for resolved attachTo options.
    * @returns {{}|{element, on}}
-   * @private
+   * @internal
    */
   _getResolvedAttachToOptions() {
-    if (this._resolvedAttachTo === null) {
-      return this._resolveAttachToOptions();
-    }
-
-    return this._resolvedAttachTo;
+    return this._resolvedAttachTo || this._resolveAttachToOptions();
   }
 
   /**
@@ -615,20 +776,26 @@ export class Step extends Evented {
   }
 
   /**
-   * Updates the options of the step.
+   * Updates the options of the step. `positionOptions` combines key by key with
+   * the current ones, and `classes` with the tour's default classes, as when
+   * the step was created.
    *
    * @param {StepOptions} options The options for the step
    */
   updateStepOptions(options: StepOptions) {
-    Object.assign(this.options, options);
-
-    if (this.shepherdElementComponent) {
-      // Recreate the element with updated options
-      if (this.el) {
-        this._teardownElements();
-        this._setupElements();
-      }
+    // A hidden step picks up its new options the next time it is shown.
+    if (!this.isOpen()) {
+      this._mergeOptions(options);
+      return;
     }
+
+    // Unmark the old target with the options that marked it, before they change.
+    this._teardownElements();
+    this._mergeOptions(options);
+    this._resolveAttachToOptions();
+    this._resolveExtraHiglightElements();
+    this._setupElements();
+    this._reveal();
   }
 
   /**
@@ -648,57 +815,50 @@ export class Step extends Evented {
   }
 
   /**
-   * Stores the original tabIndex value of an element before modifying it.
-   * Only stores the value if the element has a tabindex attribute.
+   * Remembers the target's tabindex attribute before modifying it. The step
+   * only ever has one target, set just after this runs.
    * @param {Element} element The element whose tabIndex will be stored
-   * @private
+   * @internal
    */
   _storeOriginalTabIndex(element: Element): void {
-    const originalValue = element.getAttribute('tabindex');
-    if (originalValue !== null) {
-      this._originalTabIndexes.set(element, originalValue);
-    }
+    this._originalTabIndex = element.getAttribute('tabindex');
   }
 
   /**
-   * Restores the original tabIndex values for all elements that were modified during the tour.
-   * If an element is in the map, restores its original value.
-   * If an element is not in the map, removes the tabindex attribute (it didn't have one originally).
-   * Note: Does not clear the map to allow for multiple show/hide cycles.
-   * @private
+   * Puts back the target's tabindex attribute, removing it if it had none.
+   * Only once per show, so a later teardown leaves the app's own changes.
+   * @internal
    */
-  _restoreOriginalTabIndexes(): void {
-    const target = this.target;
-    if (target) {
-      if (this._originalTabIndexes.has(target)) {
-        target.setAttribute('tabindex', this._originalTabIndexes.get(target)!);
-      } else {
-        target.removeAttribute('tabindex');
-      }
+  _restoreOriginalTabIndex(): void {
+    if (this._originalTabIndex === undefined) return;
+
+    if (isString(this._originalTabIndex)) {
+      this.target?.setAttribute('tabindex', this._originalTabIndex);
+    } else {
+      this.target?.removeAttribute('tabindex');
     }
+    this._originalTabIndex = undefined;
   }
 
   /**
    * Creates Shepherd element for step based on options
    *
    * @return {HTMLElement} The DOM element for the step tooltip
-   * @private
+   * @internal
    */
   _createTooltipContent() {
-    const descriptionId = `${this.id}-description`;
-    const labelId = `${this.id}-label`;
-
     this.shepherdElementComponent = createShepherdElement({
       classPrefix: this.classPrefix,
-      descriptionId,
-      labelId,
+      descriptionId: `${this.id}-description`,
+      labelId: `${this.id}-label`,
       step: this
     });
 
+    const { element } = this.shepherdElementComponent;
     const target = this.tour.options.stepsContainer || document.body;
-    target.append(this.shepherdElementComponent.element);
+    target.append(element);
 
-    return this.shepherdElementComponent.element;
+    return element;
   }
 
   /**
@@ -707,7 +867,7 @@ export class Step extends Evented {
    *
    * @param {boolean | ScrollIntoViewOptions} scrollToOptions - If true, uses the default `scrollIntoView`,
    * if an object, passes that object as the params to `scrollIntoView` i.e. `{ behavior: 'smooth', block: 'center' }`
-   * @private
+   * @internal
    */
   _scrollTo(scrollToOptions: boolean | ScrollIntoViewOptions) {
     const { element } = this._getResolvedAttachToOptions();
@@ -726,65 +886,72 @@ export class Step extends Evented {
    * _getClassOptions gets all possible classes for the step
    * @param {StepOptions} stepOptions The step specific options
    * @returns {string} unique string from array of classes
+   * @internal
    */
   _getClassOptions(stepOptions: StepOptions) {
-    const defaultStepOptions =
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
-    const stepClasses = stepOptions.classes ? stepOptions.classes : '';
-    const defaultStepOptionsClasses =
-      defaultStepOptions && defaultStepOptions.classes
-        ? defaultStepOptions.classes
-        : '';
-    const allClasses = [
-      ...stepClasses.split(' '),
-      ...defaultStepOptionsClasses.split(' ')
-    ];
-    const uniqClasses = new Set(allClasses);
+    const defaultClasses = this.tour.options?.defaultStepOptions?.classes || '';
+    const allClasses = `${stepOptions.classes || ''} ${defaultClasses}`;
 
-    return Array.from(uniqClasses).join(' ').trim();
+    return [...new Set(allClasses.split(' '))].join(' ').trim();
+  }
+
+  /**
+   * Applies updated options, combining them as `_setOptions` does.
+   * @internal
+   */
+  _mergeOptions(options: StepOptions) {
+    Object.assign(this.options, {
+      ...options,
+      positionOptions: {
+        ...this.options.positionOptions,
+        ...options.positionOptions
+      },
+      ...(options.classes !== undefined && {
+        classes: this._getClassOptions(options)
+      })
+    });
   }
 
   /**
    * Sets the options for the step, maps `when` to events, sets up buttons
    * @param options - The options for the step
+   * @internal
    */
   _setOptions(options: StepOptions = {}) {
-    let tourOptions =
-      this.tour && this.tour.options && this.tour.options.defaultStepOptions;
+    const tourOptions = this.tour.options?.defaultStepOptions || {};
 
-    tourOptions = deepmerge({}, tourOptions || {});
+    this.options = {
+      arrow: true,
+      ...tourOptions,
+      ...options,
+      positionOptions: {
+        ...tourOptions.positionOptions,
+        ...options.positionOptions
+      }
+    };
 
-    this.options = Object.assign(
-      {
-        arrow: true
-      },
-      tourOptions,
-      options,
-      mergeTooltipConfig(tourOptions, options)
-    );
-
-    const { when } = this.options;
+    if ('floatingUIOptions' in this.options) {
+      console.warn(
+        'Shepherd: floatingUIOptions was removed. Use positionOptions: { offset, padding, strategy, flip }.'
+      );
+    }
 
     this.options.classes = this._getClassOptions(options);
 
-    this._teardownElements();
     this.id = this.options.id || `step-${uuid()}`;
 
-    if (when) {
-      Object.keys(when).forEach((event) => {
-        // @ts-expect-error TODO: fix this type error
-        this.on(event, when[event], this);
-      });
+    for (const [event, handler] of Object.entries(this.options.when || {})) {
+      this.on(event, handler, this);
     }
   }
 
   /**
-   * Create the element and set up the FloatingUI instance
+   * Create the element and start positioning it
    *
    * The element is recreated on every show, so any previously mounted element is
    * torn down first. That teardown is internal — it must not emit the public
    * `destroy` event, which means "this step is gone for good".
-   * @private
+   * @internal
    */
   _setupElements() {
     if (isHTMLElement(this.el)) {
@@ -792,6 +959,15 @@ export class Step extends Evented {
     }
 
     this.el = this._createTooltipContent();
+
+    if (!stylesheetChecked) {
+      stylesheetChecked = true;
+      if (getComputedStyle(this.el).zIndex === 'auto') {
+        console.warn(
+          "Shepherd: stylesheet not found. Add import 'shepherd.js/dist/css/shepherd.css'."
+        );
+      }
+    }
 
     if (this.options.advanceOn) {
       this._advanceOnCleanup = bindAdvance(this) ?? null;
@@ -804,8 +980,8 @@ export class Step extends Evented {
 
   /**
    * Triggers `before-show`, generates the tooltip DOM content,
-   * sets up a FloatingUI instance for the tooltip, then triggers `show`.
-   * @private
+   * starts positioning the tooltip, then triggers `show`.
+   * @internal
    */
   _show() {
     this.trigger('before-show');
@@ -819,14 +995,8 @@ export class Step extends Evented {
       this.tour.setupModal();
     }
 
-    this.tour.modal?.setupForStep(this);
-    this._styleTargetElementForStep(this);
+    this._reveal();
 
-    if (this.el) {
-      this.el.hidden = false;
-    }
-
-    // start scrolling to target before showing the step
     if (this.options.scrollTo) {
       setTimeout(() => {
         this._scrollTo(
@@ -835,90 +1005,71 @@ export class Step extends Evented {
       });
     }
 
-    if (this.el) {
-      this.el.hidden = false;
-    }
-
-    const content = this.shepherdElementComponent!.element;
-    const target = this.target || document.body;
-    const extraHighlightElements = this._resolvedExtraHighlightElements;
-
-    target.classList.add(`${this.classPrefix}shepherd-enabled`);
-    target.classList.add(`${this.classPrefix}shepherd-target`);
-    content.classList.add('shepherd-enabled');
-
-    extraHighlightElements?.forEach((el) => {
-      el.classList.add(`${this.classPrefix}shepherd-enabled`);
-      el.classList.add(`${this.classPrefix}shepherd-target`);
-    });
-
     this.trigger('show');
   }
 
   /**
-   * Modulates the styles of the passed step's target element, based on the step's options and
-   * the tour's `modal` option, to visually emphasize the element
-   *
-   * @param {Step} step The step object that attaches to the element
-   * @private
+   * Shows the rendered step and marks its target, as `_updateStepTargetOnHide`
+   * undoes.
+   * @internal
    */
-  _styleTargetElementForStep(step: Step) {
-    const targetElement = step.target;
-    const extraHighlightElements = step._resolvedExtraHighlightElements;
+  _reveal() {
+    this.tour.modal?.setupForStep(this);
+    this.el!.hidden = false;
+    this.el!.classList.add('shepherd-enabled');
 
-    if (!targetElement) {
-      return;
-    }
+    const { highlightClass, canClickTarget } = this.options;
 
-    const highlightClass = step.options.highlightClass;
-    if (highlightClass) {
-      targetElement.classList.add(highlightClass);
-      extraHighlightElements?.forEach((el) => el.classList.add(highlightClass));
-    }
-
-    targetElement.classList.remove('shepherd-target-click-disabled');
-    extraHighlightElements?.forEach((el) =>
-      el.classList.remove('shepherd-target-click-disabled')
-    );
-
-    if (step.options.canClickTarget === false) {
-      targetElement.classList.add('shepherd-target-click-disabled');
-      extraHighlightElements?.forEach((el) =>
-        el.classList.add('shepherd-target-click-disabled')
+    for (const { classList } of this._highlightedElements()) {
+      classList.add(
+        `${this.classPrefix}shepherd-enabled`,
+        `${this.classPrefix}shepherd-target`
       );
+
+      if (this.target) {
+        if (highlightClass) {
+          classList.add(highlightClass);
+        }
+
+        classList.toggle(
+          'shepherd-target-click-disabled',
+          canClickTarget === false
+        );
+      }
     }
+  }
+
+  /**
+   * The elements a showing step marks, which is `body` for a step without a target.
+   * @internal
+   */
+  _highlightedElements() {
+    return [
+      this.target || document.body,
+      ...(this._resolvedExtraHighlightElements || [])
+    ];
   }
 
   /**
    * When a step is hidden, remove the highlightClass and 'shepherd-enabled'
    * and 'shepherd-target' classes
-   * @private
+   * @internal
    */
   _updateStepTargetOnHide() {
-    const target = this.target || document.body;
-    const extraHighlightElements = this._resolvedExtraHighlightElements;
+    const { highlightClass } = this.options;
 
-    const highlightClass = this.options.highlightClass;
-    if (highlightClass) {
-      target.classList.remove(highlightClass);
-      extraHighlightElements?.forEach((el) =>
-        el.classList.remove(highlightClass)
-      );
-    }
+    for (const { classList } of this._highlightedElements()) {
+      if (highlightClass) {
+        classList.remove(highlightClass);
+      }
 
-    target.classList.remove(
-      'shepherd-target-click-disabled',
-      `${this.classPrefix}shepherd-enabled`,
-      `${this.classPrefix}shepherd-target`
-    );
-    extraHighlightElements?.forEach((el) => {
-      el.classList.remove(
+      classList.remove(
         'shepherd-target-click-disabled',
         `${this.classPrefix}shepherd-enabled`,
         `${this.classPrefix}shepherd-target`
       );
-    });
+    }
 
-    this._restoreOriginalTabIndexes();
+    this._restoreOriginalTabIndex();
   }
 }

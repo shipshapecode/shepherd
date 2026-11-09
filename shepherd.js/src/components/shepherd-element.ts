@@ -16,8 +16,17 @@ export interface ShepherdElementOptions {
   step: Step;
 }
 
+/**
+ * A step's rendered element, with its teardown.
+ */
 export interface ShepherdElementResult {
+  /**
+   * The step's `<dialog>` element.
+   */
   element: HTMLDialogElement;
+  /**
+   * Removes the listeners added to the element.
+   */
   cleanup: () => void;
 }
 
@@ -26,20 +35,8 @@ export function createShepherdElement(
 ): ShepherdElementResult {
   const { classPrefix, descriptionId, labelId, step } = options;
 
-  let attachToElement: HTMLElement | null | undefined;
-
-  // Focusable attachTo elements
-  let focusableAttachToElements: Element[] | undefined;
-  let firstFocusableAttachToElement: Element | undefined;
-  let lastFocusableAttachToElement: Element | undefined;
-
-  // Focusable dialog elements
-  let firstFocusableDialogElement: Element | undefined;
-  let focusableDialogElements: Element[] | undefined;
-  let lastFocusableDialogElement: Element | undefined;
-
-  const hasCancelIcon = step.options?.cancelIcon?.enabled ?? false;
-  const hasTitle = step.options?.title ?? false;
+  const { attachTo, arrow, cancelIcon, title, text, label, classes } =
+    step.options;
 
   // A step with no title has no naming attribute at all, so its dialog has no
   // accessible name. `label` supplies one via `aria-label`.
@@ -49,150 +46,117 @@ export function createShepherdElement(
   // comes first so a function-valued `label` is never invoked when it would
   // be discarded — a throwing or side-effecting one must not break a titled
   // step.
-  const resolvedLabel = hasTitle
+  const resolvedLabel = title
     ? undefined
-    : isFunction(step.options.label)
-      ? (step.options.label.call(step) as string)
-      : step.options.label;
+    : isFunction(label)
+      ? (label.call(step) as string)
+      : label;
   // Gate on the trimmed value so `''`, `() => ''` and whitespace-only names
   // omit the attribute instead of emitting an accessible name that assistive
   // technology treats as empty. The untrimmed value is what gets written.
   const ariaLabel =
     isString(resolvedLabel) && resolvedLabel.trim() ? resolvedLabel : null;
 
+  let focusableDialogElements: Element[] = [];
+  let focusableAttachToElements: Element[] = [];
+
   /**
-   * Setup keydown events to allow closing the modal with ESC
+   * Keeps tab focus cycling through the dialog and its target
    *
    * Borrowed from this great post! https://bitsofco.de/accessible-modal-dialog/
    */
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const { tour } = step;
-    switch (e.keyCode) {
-      case KEY_TAB:
-        if (
-          (!focusableAttachToElements ||
-            focusableAttachToElements.length === 0) &&
-          focusableDialogElements &&
-          focusableDialogElements.length === 0
-        ) {
-          e.preventDefault();
-          break;
-        }
-        // Backward tab
-        if (e.shiftKey) {
-          if (
-            document.activeElement === firstFocusableDialogElement ||
-            document.activeElement?.classList.contains('shepherd-element')
-          ) {
-            e.preventDefault();
-            (
-              (lastFocusableAttachToElement ??
-                lastFocusableDialogElement) as HTMLElement
-            )?.focus();
-          } else if (document.activeElement === firstFocusableAttachToElement) {
-            e.preventDefault();
-            (lastFocusableDialogElement as HTMLElement)?.focus();
-          }
-        } else {
-          if (document.activeElement === lastFocusableDialogElement) {
-            e.preventDefault();
-            (
-              (firstFocusableAttachToElement ??
-                firstFocusableDialogElement) as HTMLElement
-            )?.focus();
-          } else if (document.activeElement === lastFocusableAttachToElement) {
-            e.preventDefault();
-            (firstFocusableDialogElement as HTMLElement)?.focus();
-          }
-        }
-        break;
-      case KEY_ESC:
-        if (tour.options.exitOnEsc) {
-          e.preventDefault();
-          e.stopPropagation();
-          step.cancel();
-        }
-        break;
-      case LEFT_ARROW:
-        if (tour.options.keyboardNavigation) {
-          e.preventDefault();
-          e.stopPropagation();
-          tour.back();
-        }
-        break;
-      case RIGHT_ARROW:
-        if (tour.options.keyboardNavigation) {
-          e.preventDefault();
-          e.stopPropagation();
-          tour.next();
-        }
-        break;
-      default:
-        break;
+  const trapTab = (e: KeyboardEvent) => {
+    const firstDialog = focusableDialogElements[0];
+    const lastDialog =
+      focusableDialogElements[focusableDialogElements.length - 1];
+    const firstAttachTo = focusableAttachToElements[0];
+    const lastAttachTo =
+      focusableAttachToElements[focusableAttachToElements.length - 1];
+    const active = document.activeElement;
+    const moveFocus = (el?: Element) => {
+      e.preventDefault();
+      (el as HTMLElement | undefined)?.focus();
+    };
+
+    // Nothing to cycle through, so Tab stays put.
+    if (!firstAttachTo && firstDialog === element) {
+      moveFocus();
+    } else if (e.shiftKey) {
+      if (
+        active === firstDialog ||
+        active?.classList.contains('shepherd-element')
+      ) {
+        moveFocus(lastAttachTo ?? lastDialog);
+      } else if (active === firstAttachTo) {
+        moveFocus(lastDialog);
+      }
+    } else if (active === lastDialog) {
+      moveFocus(firstAttachTo ?? firstDialog);
+    } else if (active === lastAttachTo) {
+      moveFocus(firstDialog);
     }
   };
 
-  // Build the dialog element
-  const element = h('dialog', {
-    'aria-describedby': !isUndefined(step.options.text) ? descriptionId : null,
-    'aria-label': ariaLabel,
-    'aria-labelledby': step.options.title ? labelId : null,
-    class: [
-      'shepherd-element',
-      hasCancelIcon ? 'shepherd-has-cancel-icon' : '',
-      hasTitle ? 'shepherd-has-title' : ''
-    ]
-      .filter(Boolean)
-      .join(' '),
-    [`data-${classPrefix}shepherd-step-id`]: step.id,
-    onkeydown: handleKeyDown,
-    open: 'true'
-  }) as HTMLDialogElement;
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const { tour } = step;
+    const { exitOnEsc, keyboardNavigation } = tour.options;
+    const action = {
+      [KEY_ESC]: exitOnEsc && (() => step.cancel()),
+      [LEFT_ARROW]: keyboardNavigation && (() => tour.back()),
+      [RIGHT_ARROW]: keyboardNavigation && (() => tour.next())
+    }[e.keyCode];
 
-  // Add arrow if needed
-  if (
-    step.options.arrow &&
-    step.options.attachTo &&
-    step.options.attachTo.element &&
-    step.options.attachTo.on
-  ) {
-    element.append(
-      h('div', { class: 'shepherd-arrow', 'data-popper-arrow': '' })
-    );
-  }
-
-  // Add content
-  element.append(createShepherdContent(descriptionId, labelId, step));
-
-  // Dynamic class management
-  if (isString(step.options.classes)) {
-    const classes = step.options.classes.split(' ').filter((c) => !!c.length);
-    if (classes.length) {
-      element.classList.add(...classes);
+    if (action) {
+      e.preventDefault();
+      e.stopPropagation();
+      action();
+    } else if (e.keyCode === KEY_TAB) {
+      trapTab(e);
     }
-  }
+  };
 
-  // Setup focusable element tracking (equivalent of onMount)
+  const element = h(
+    'dialog',
+    {
+      'aria-describedby': !isUndefined(text) ? descriptionId : null,
+      'aria-label': ariaLabel,
+      'aria-labelledby': title ? labelId : null,
+      class: [
+        'shepherd-element',
+        cancelIcon?.enabled && 'shepherd-has-cancel-icon',
+        title && 'shepherd-has-title',
+        isString(classes) && classes
+      ]
+        .filter(Boolean)
+        .join(' '),
+      [`data-${classPrefix}shepherd-step-id`]: step.id,
+      onkeydown: handleKeyDown,
+      open: 'true'
+    },
+    arrow &&
+      attachTo?.element &&
+      attachTo.on &&
+      h('div', { class: 'shepherd-arrow', 'data-popper-arrow': '' }),
+    createShepherdContent(descriptionId, labelId, step)
+  ) as HTMLDialogElement;
+
   const focusableSelector =
     'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]';
 
-  focusableDialogElements = [...element.querySelectorAll(focusableSelector)];
-  firstFocusableDialogElement = focusableDialogElements[0];
-  lastFocusableDialogElement =
-    focusableDialogElements[focusableDialogElements.length - 1];
+  const dialogControls = [...element.querySelectorAll(focusableSelector)];
+  // With nothing to focus inside, the dialog itself is the stop in the cycle.
+  focusableDialogElements = dialogControls.length ? dialogControls : [element];
 
-  const attachTo = step._getResolvedAttachToOptions();
-  if (attachTo?.element) {
-    attachToElement = attachTo.element as HTMLElement;
+  const attachToElement = step._getResolvedAttachToOptions().element as
+    HTMLElement | null | undefined;
+
+  if (attachToElement) {
     step._storeOriginalTabIndex(attachToElement);
     attachToElement.tabIndex = 0;
     focusableAttachToElements = [
       attachToElement,
       ...attachToElement.querySelectorAll(focusableSelector)
     ];
-    firstFocusableAttachToElement = focusableAttachToElements[0];
-    lastFocusableAttachToElement =
-      focusableAttachToElements[focusableAttachToElements.length - 1];
     attachToElement.addEventListener('keydown', handleKeyDown);
   }
 

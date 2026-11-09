@@ -1,0 +1,124 @@
+{
+ "commit": "f2170c9c",
+ "size": {
+  "attachedTour": {
+   "eager": {
+    "min": 46735,
+    "gz": 16449,
+    "br": 14895
+   },
+   "total": {
+    "min": 46735,
+    "gz": 16449,
+    "br": 14895
+   },
+   "chunks": 1
+  },
+  "centeredTour": {
+   "eager": {
+    "min": 46668,
+    "gz": 16426,
+    "br": 14858
+   },
+   "total": {
+    "min": 46668,
+    "gz": 16426,
+    "br": 14858
+   },
+   "chunks": 1
+  }
+ },
+ "dist": {
+  "./dist/js/shepherd.mjs": {
+   "min": 47548,
+   "gz": 16003,
+   "br": 14443
+  },
+  "dist/css/shepherd.css": {
+   "min": 3504,
+   "gz": 993,
+   "br": 833
+  }
+ },
+ "api": {
+  "removed": [],
+  "added": 0,
+  "tsdocCoveragePct": 59,
+  "dtsApproxTokens": 6319
+ },
+ "pack": {
+  "tarballKb": 221,
+  "unpackedKb": 812,
+  "prodDependencies": 2,
+  "files": 10,
+  "agentDocsInPackage": []
+ },
+ "diagnostics": {
+  "missingElementMessageShips": false,
+  "consoleCalls": 0
+ },
+ "parity": [
+  {
+   "browser": "chromium",
+   "cases": 197,
+   "goldenCases": 197,
+   "errors": [],
+   "mismatchCount": 0,
+   "byContext": {},
+   "inViewportLost": 0,
+   "overlapGained": 0,
+   "sample": []
+  },
+  {
+   "browser": "firefox",
+   "cases": 197,
+   "goldenCases": 197,
+   "errors": [],
+   "mismatchCount": 0,
+   "byContext": {},
+   "inViewportLost": 0,
+   "overlapGained": 0,
+   "sample": []
+  },
+  {
+   "browser": "webkit",
+   "cases": 197,
+   "goldenCases": 197,
+   "errors": [],
+   "mismatchCount": 0,
+   "byContext": {},
+   "inViewportLost": 0,
+   "overlapGained": 0,
+   "sample": []
+  }
+ ],
+ "gates": [
+  {
+   "name": "unit",
+   "pass": true,
+   "seconds": 3,
+   "testsPassed": 338
+  },
+  {
+   "name": "lifecycle",
+   "pass": true,
+   "seconds": 15,
+   "testsPassed": 5
+  },
+  {
+   "name": "types",
+   "pass": true,
+   "seconds": 0
+  },
+  {
+   "name": "attw",
+   "pass": true,
+   "seconds": 14
+  },
+  {
+   "name": "lint",
+   "pass": true,
+   "seconds": 1
+  }
+ ]
+}

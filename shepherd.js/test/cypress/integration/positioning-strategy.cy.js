@@ -36,14 +36,14 @@ describe('positioning strategy', () => {
     });
   };
 
-  const startTour = (floatingUIOptions) => {
+  const startTour = (positionOptions) => {
     const tour = setupTour(Shepherd, { scrollTo: false }, () => [
       {
         attachTo: { element: '.page-target', on: 'bottom' },
         id: 'strategy',
         title: 'Strategy step',
         text: 'positioned against a target the page scrolls past',
-        floatingUIOptions
+        positionOptions
       }
     ]);
 
@@ -83,6 +83,47 @@ describe('positioning strategy', () => {
         // exactly the scroll delta.
         expect(after).to.deep.equal(before);
       });
+  });
+
+  it('places a `fixed` step right on its first position inside a moved container', () => {
+    cy.scrollTo(0, 700);
+
+    cy.document().then((doc) => {
+      const container = doc.createElement('div');
+      container.style.cssText = 'position: absolute; top: 150px; left: 200px';
+      doc.body.append(container);
+
+      const offset = (step) => {
+        const target = doc
+          .querySelector('.page-target')
+          .getBoundingClientRect();
+        const box = step.getElement().getBoundingClientRect();
+        return {
+          dx: Math.round(box.left - target.left),
+          dy: Math.round(box.top - target.top)
+        };
+      };
+
+      let first;
+      const tour = new Shepherd.Tour({ stepsContainer: container });
+      tour.addStep({
+        id: 'fixed-first',
+        text: 'Positioned once, before anything can correct it',
+        attachTo: { element: '.page-target', on: 'bottom' },
+        positionOptions: { strategy: 'fixed' },
+        when: {
+          show() {
+            first = offset(this);
+          }
+        }
+      });
+      tour.start();
+
+      cy.wait(250).then(() => {
+        expect(first).to.deep.equal(offset(tour.getCurrentStep()));
+        tour.complete();
+      });
+    });
   });
 
   it('keeps a default strategy step locked to its target while the page scrolls', () => {

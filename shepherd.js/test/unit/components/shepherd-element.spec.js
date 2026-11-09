@@ -129,6 +129,34 @@ describe('components/ShepherdElement', () => {
       cleanup();
     });
 
+    it('handles keys for subclasses, whose inherited methods are not auto-bound', async () => {
+      class CustomTour extends Tour {}
+      class CustomStep extends Step {}
+
+      const tour = new CustomTour();
+      const step = new CustomStep(tour, {});
+      const nextSpy = vi.spyOn(Tour.prototype, 'next');
+      const backSpy = vi.spyOn(Tour.prototype, 'back');
+
+      const { element, cleanup } = createShepherdElement({
+        descriptionId: 'test-desc',
+        labelId: 'test-label',
+        step
+      });
+      container.appendChild(element);
+
+      fireKeyDown(element, 39);
+      fireKeyDown(element, 37);
+      expect(nextSpy.mock.contexts).toEqual([tour]);
+      expect(backSpy.mock.contexts).toEqual([tour]);
+      fireKeyDown(element, 27);
+      await Promise.resolve();
+
+      nextSpy.mockRestore();
+      backSpy.mockRestore();
+      cleanup();
+    });
+
     it('exitOnEsc: false - ESC does not cancel the tour', () => {
       const tour = new Tour({ exitOnEsc: false });
       const step = new Step(tour, {});
