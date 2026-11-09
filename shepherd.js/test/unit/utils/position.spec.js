@@ -668,6 +668,39 @@ describe('utils/position', () => {
       vi.unstubAllGlobals();
     });
 
+    it('stops following an animation that only repaints', () => {
+      const frames = [];
+      vi.stubGlobal('requestAnimationFrame', (callback) =>
+        frames.push(callback)
+      );
+      vi.stubGlobal('cancelAnimationFrame', () => {});
+      const { reference, floating } = stubbedRects();
+      document.body.append(reference);
+      const animation = (keyframes, extra) => ({
+        playState: 'running',
+        effect: { target: document.body, getKeyframes: () => keyframes },
+        ...extra
+      });
+      let animations = [
+        animation([{ offset: 0, backgroundColor: '#fff', easing: 'ease' }]),
+        animation([], { transitionProperty: 'box-shadow' })
+      ];
+      document.getAnimations = () => animations;
+
+      const stop = autoUpdate(reference, floating, vi.fn());
+      document.body.dispatchEvent(new Event('animationstart'));
+      expect(frames, 'paint only').toEqual([]);
+
+      animations = [animation([{ offset: 0, offsetDistance: '10%' }])];
+      document.body.dispatchEvent(new Event('animationstart'));
+      expect(frames, 'moves along a path').toHaveLength(1);
+
+      stop();
+      reference.remove();
+      delete document.getAnimations;
+      vi.unstubAllGlobals();
+    });
+
     it('follows an animation that was already running when it started', () => {
       const frames = [];
       vi.stubGlobal('requestAnimationFrame', (callback) =>

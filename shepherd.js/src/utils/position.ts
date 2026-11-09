@@ -955,6 +955,21 @@ export function autoUpdate(
       ])
     )
   ];
+  // Keyframe bookkeeping and properties that only repaint cannot move the
+  // reference, so an endless background or color animation on the page does
+  // not keep tracking running. Anything unreadable counts as moving.
+  const moves = ({ effect, transitionProperty }: Animation & CSSTransition) =>
+    (transitionProperty
+      ? [transitionProperty]
+      : ((effect as KeyframeEffect | null)
+          ?.getKeyframes?.()
+          .flatMap(Object.keys) ?? [''])
+    ).some(
+      (property) =>
+        !/^((computed)?offset|easing|composite)$|^(background|color|opacity|box-?shadow|outline|border-?color|filter)/i.test(
+          property
+        )
+    );
   const animating = () =>
     roots.some((root) =>
       root
@@ -964,7 +979,8 @@ export function autoUpdate(
             animation.playState === 'running' &&
             carriers.has(
               (animation.effect as KeyframeEffect | null)?.target as Element
-            )
+            ) &&
+            moves(animation as Animation & CSSTransition)
         )
     );
   const follow = () => {
