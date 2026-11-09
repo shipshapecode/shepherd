@@ -88,6 +88,27 @@ describe('Floating UI Utils', function () {
   });
 
   describe('getPositionConfig()', function () {
+    it('counts the theme gap as offset, on top of positionOptions', () => {
+      const step = createStep({
+        attachTo: { element: 'body', on: 'bottom' },
+        positionOptions: { offset: 4 }
+      });
+      step.el.style.setProperty('--shepherd-gap', '16px');
+
+      const { middleware } = getPositionConfig(step.options.attachTo, step);
+      const offsetMiddleware = middleware.find((m) => m.name === 'offset');
+      const { y } = offsetMiddleware.fn({
+        x: 0,
+        y: 0,
+        placement: 'bottom',
+        middlewareData: {},
+        rects: { reference: {}, floating: {} }
+      });
+
+      expect(y).toBe(20);
+      step.el.style.removeProperty('--shepherd-gap');
+    });
+
     it('flips, shifts, and places the arrow last by default', function () {
       const config = configFor({
         attachTo: { element: '.floating-ui-test', on: 'right' }

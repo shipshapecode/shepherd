@@ -164,7 +164,7 @@ export function getPositionConfig(
   step: Step
 ): PositionConfig {
   const {
-    offset: gap,
+    offset: userOffset,
     padding,
     strategy = 'absolute',
     flip: flips = true
@@ -181,7 +181,21 @@ export function getPositionConfig(
   if (shouldCenterStep(attachToOptions)) return config;
 
   const alignment = on.split('-')[1] as Alignment | undefined;
-  if (gap) middleware.push(offset(gap));
+  // The theme's gap counts as offset, so flipping and shifting account for it.
+  const themeGap = step.el
+    ? parseFloat(
+        getComputedStyle(step.el).getPropertyValue('--shepherd-gap')
+      ) || 0
+    : 0;
+  if (userOffset || themeGap) {
+    middleware.push(
+      offset(
+        typeof userOffset === 'object'
+          ? { ...userOffset, mainAxis: (userOffset.mainAxis ?? 0) + themeGap }
+          : (userOffset ?? 0) + themeGap
+      )
+    );
+  }
   if (hasAutoPlacement) middleware.push(autoPlacement(alignment, padding));
   else if (flips) middleware.push(flip(padding));
   middleware.push(shift(padding));

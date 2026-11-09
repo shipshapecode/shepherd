@@ -10,8 +10,11 @@ export function createShepherdButton(
   const resolve = (option: unknown) =>
     isFunction(option) ? option.call(step) : option;
   const text = resolve(config.text);
+  // Only the names `StepButtonAction` and the schema allow, so JSON cannot call
+  // any other tour method.
   const found = isString(config.action)
-    ? step.tour[config.action]
+    ? /^(back|cancel|complete|next)$/.test(config.action) &&
+      step.tour[config.action]
     : config.action;
   const action = isFunction(found) ? found : undefined;
   if (!action) {

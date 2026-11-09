@@ -434,7 +434,10 @@ describe('utils/position', () => {
           getComputedStyle: () => ({ paddingLeft: '0', paddingTop: '0' })
         });
       const frameIn = (win) => ({
-        ownerDocument: Object.assign(new EventTarget(), { defaultView: win }),
+        ownerDocument: Object.assign(new EventTarget(), {
+          defaultView: win,
+          documentElement: document.documentElement
+        }),
         getBoundingClientRect: () => ({ x: 0, y: 0, width: 100, height: 100 }),
         clientLeft: 0,
         clientTop: 0
@@ -442,7 +445,10 @@ describe('utils/position', () => {
       const middle = windowWith(document.createElement('iframe'));
       const inner = windowWith(frameIn(middle));
       const reference = {
-        ownerDocument: Object.assign(new EventTarget(), { defaultView: inner }),
+        ownerDocument: Object.assign(new EventTarget(), {
+          defaultView: inner,
+          documentElement: document.documentElement
+        }),
         getBoundingClientRect: () => ({ ...rect })
       };
       const update = vi.fn();
@@ -530,6 +536,137 @@ describe('utils/position', () => {
       vi.unstubAllGlobals();
     });
 
+    it('ignores a movement notification queued before it stopped', () => {
+      const observers = [];
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          constructor(callback) {
+            this.callback = callback;
+            observers.push(this);
+          }
+          observe() {}
+          disconnect() {}
+        }
+      );
+      const { reference, floating, rect } = stubbedRects();
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      const settled = update.mock.calls.length;
+      stop();
+      rect.y = 400;
+      observers.at(-1).callback([{ intersectionRatio: 1 }]);
+
+      expect(update).toHaveBeenCalledTimes(settled);
+      vi.unstubAllGlobals();
+    });
+
+    it('watches a clipping panel that its container is attached to later', () => {
+      const observed = [];
+      const notify = [];
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(callback) {
+            notify.push(callback);
+          }
+          observe(element) {
+            observed.push(element);
+          }
+          disconnect() {}
+        }
+      );
+      const { reference, floating } = stubbedRects();
+      const panel = document.createElement('div');
+      panel.style.overflow = 'hidden';
+      let width = 300;
+      Object.defineProperty(panel, 'clientWidth', { get: () => width });
+      document.body.append(panel);
+      const container = document.createElement('div');
+      container.append(floating);
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      panel.append(container);
+      window.dispatchEvent(new Event('resize'));
+      expect(observed).toContain(panel);
+      const settled = update.mock.calls.length;
+
+      width = 100;
+      notify.forEach((callback) => callback([]));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      panel.remove();
+      vi.unstubAllGlobals();
+    });
+
+    it('follows a transition on the shadow host of a target', () => {
+      const frames = [];
+      vi.stubGlobal('requestAnimationFrame', (callback) =>
+        frames.push(callback)
+      );
+      vi.stubGlobal('cancelAnimationFrame', () => {});
+      const { floating, rect } = stubbedRects();
+      const host = document.createElement('div');
+      document.body.append(host);
+      const reference = document.createElement('div');
+      host.attachShadow({ mode: 'open' }).append(reference);
+      reference.getBoundingClientRect = () => ({ ...rect });
+      let running = false;
+      document.getAnimations = () =>
+        running ? [{ playState: 'running', effect: { target: host } }] : [];
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      running = true;
+      host.dispatchEvent(new Event('transitionrun', { bubbles: true }));
+      const settled = update.mock.calls.length;
+
+      rect.x = 50;
+      frames.shift()();
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      running = false;
+      frames.shift()();
+      stop();
+      host.remove();
+      delete document.getAnimations;
+      vi.unstubAllGlobals();
+    });
+
+    it('follows an animation that was already running when it started', () => {
+      const frames = [];
+      vi.stubGlobal('requestAnimationFrame', (callback) =>
+        frames.push(callback)
+      );
+      vi.stubGlobal('cancelAnimationFrame', () => {});
+      const { reference, floating, rect } = stubbedRects();
+      const parent = document.createElement('div');
+      parent.append(reference);
+      document.body.append(parent);
+      let running = true;
+      document.getAnimations = () =>
+        running ? [{ playState: 'running', effect: { target: parent } }] : [];
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      const settled = update.mock.calls.length;
+      expect(frames, 'following from the start').toHaveLength(1);
+
+      rect.x = 50;
+      frames.shift()();
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      running = false;
+      frames.shift()();
+      stop();
+      parent.remove();
+      delete document.getAnimations;
+      vi.unstubAllGlobals();
+    });
+
     it('keeps checking a target that has no size yet', () => {
       vi.useFakeTimers();
       vi.stubGlobal(
@@ -581,7 +718,8 @@ describe('utils/position', () => {
       const targetWindow = new EventTarget();
       const reference = {
         ownerDocument: Object.assign(new EventTarget(), {
-          defaultView: targetWindow
+          defaultView: targetWindow,
+          documentElement: document.documentElement
         }),
         getBoundingClientRect: () => ({ ...rect })
       };

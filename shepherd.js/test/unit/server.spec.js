@@ -19,6 +19,7 @@ describe('Server Side Render', function () {
     const tour = new Tour();
 
     expect(tour.isActive()).toBe(false);
+    expect(tour.steps).toEqual([]);
     expect(new Step(tour, {}).isOpen()).toBe(false);
   });
 

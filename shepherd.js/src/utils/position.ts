@@ -769,6 +769,8 @@ function observeMove(element: Element, onMove: () => void) {
   };
 
   const refresh = (skip?: boolean, threshold = 1) => {
+    // A notification queued before disposal must not reach `onMove`.
+    if (disposed) return;
     stop();
 
     const { x, y, width, height } = element.getBoundingClientRect();
@@ -839,8 +841,9 @@ function observeMove(element: Element, onMove: () => void) {
  * resize of either element or of what clips the floating element, the
  * reference or a frame holding it moving with no event at all, which
  * `observeMove` reports, and every frame of a CSS animation or transition on
- * the reference or its ancestors. Each of those reaches `check`, which updates
- * only when something it compares really changed.
+ * the reference, a frame holding it, or an ancestor of either. Each of those
+ * reaches `check`, which updates only when something it compares really
+ * changed.
  */
 export function autoUpdate(
   reference: Element,
@@ -849,7 +852,8 @@ export function autoUpdate(
 ) {
   const win = getWindow(floating);
   let last: string;
-  let connected = floating.isConnected;
+  let connected = false;
+  let clips: Element[] = [];
   let frame = 0;
   let stopped = false;
 
@@ -863,13 +867,27 @@ export function autoUpdate(
   ) {
     frames.push(host);
   }
-  const clips = clippingAncestors(floating);
+
+  const resizes =
+    typeof ResizeObserver === 'function'
+      ? new ResizeObserver(() => check())
+      : undefined;
+
+  // Clipping ancestors are known once the floating element is on the page,
+  // which a detached `stepsContainer` reaches only later.
+  const attach = () => {
+    connected = true;
+    clips = clippingAncestors(floating);
+    clips.forEach((clip) => resizes?.observe(clip));
+  };
 
   const check = () => {
-    // A tour abandoned by a route change has no other way to stop this. A
-    // container can attach late, so only leaving the page counts.
-    if (floating.isConnected) connected = true;
-    else if (connected) return stop();
+    // A tour abandoned by a route change has no other way to stop this.
+    if (floating.isConnected) {
+      if (!connected) attach();
+    } else if (connected) {
+      return stop();
+    }
 
     const target = rectInWindow(reference, win);
     const own = floating.getBoundingClientRect();
@@ -910,43 +928,57 @@ export function autoUpdate(
   });
 
   // A transform moves the reference without any event or resize, so follow it
-  // frame by frame while an animation or transition runs on it or an ancestor.
-  // Those events do not leave a shadow root, so listen at the reference's root.
-  const root = (reference.getRootNode?.() ?? getDocument(reference)) as
-    Document | ShadowRoot;
+  // frame by frame while an animation or transition runs on anything whose
+  // transform carries it: itself, a frame holding it, or an ancestor of either,
+  // across shadow boundaries.
+  const chain = [reference, ...frames];
+  const carriers = new Set<Element>(
+    chain.flatMap((element) => [element, ...ancestorsOf(element)])
+  );
+  // Those events and `getAnimations()` stay within their own shadow root or
+  // document, so both are read from every root a carrier lives in.
+  const roots = [
+    ...new Set(
+      [...carriers].flatMap((element) => [
+        (element.getRootNode?.() ?? getDocument(element)) as
+          Document | ShadowRoot,
+        getDocument(element)
+      ])
+    )
+  ];
   const animating = () =>
-    getDocument(reference)
-      .getAnimations?.()
-      .some(
-        (animation) =>
-          animation.playState === 'running' &&
-          (animation.effect as KeyframeEffect | null)?.target?.contains(
-            reference
-          )
-      );
+    roots.some((root) =>
+      root
+        .getAnimations?.()
+        .some(
+          (animation) =>
+            animation.playState === 'running' &&
+            carriers.has(
+              (animation.effect as KeyframeEffect | null)?.target as Element
+            )
+        )
+    );
   const follow = () => {
     check();
     frame = !stopped && animating() ? requestAnimationFrame(follow) : 0;
   };
   const onAnimate = (event: Event) => {
-    if (!frame && (event.target as Node).contains?.(reference)) follow();
+    if (!frame && carriers.has(event.target as Element)) follow();
   };
   const animationEvents = ['transitionrun', 'animationstart'];
-  animationEvents.forEach((type) =>
-    root.addEventListener(type, onAnimate, true)
+  roots.forEach((root) =>
+    animationEvents.forEach((type) =>
+      root.addEventListener(type, onAnimate, true)
+    )
   );
 
   // jsdom has neither observer. Removing the step from the page resizes it to
   // nothing, which is what tells an abandoned tour to stop.
   const stopWatching =
     typeof IntersectionObserver === 'function'
-      ? [reference, ...frames].map((element) => observeMove(element, check))
+      ? chain.map((element) => observeMove(element, check))
       : [];
-  const resizes =
-    typeof ResizeObserver === 'function'
-      ? new ResizeObserver(check)
-      : undefined;
-  [reference, floating, ...frames, ...clips].forEach((element) =>
+  [reference, floating, ...frames].forEach((element) =>
     resizes?.observe(element)
   );
 
@@ -956,15 +988,20 @@ export function autoUpdate(
       target.removeEventListener('scroll', check, true);
       target.removeEventListener('resize', check);
     });
-    animationEvents.forEach((type) =>
-      root.removeEventListener(type, onAnimate, true)
+    roots.forEach((root) =>
+      animationEvents.forEach((type) =>
+        root.removeEventListener(type, onAnimate, true)
+      )
     );
     if (frame) cancelAnimationFrame(frame);
     stopWatching.forEach((stopOne) => stopOne());
     resizes?.disconnect();
   };
 
+  if (floating.isConnected) attach();
   update();
+  // An animation that started before the step opened sent its event already.
+  if (animating()) follow();
 
   return stop;
 }

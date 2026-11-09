@@ -4,6 +4,7 @@
  * follows the OS colour scheme; set `--shepherd-color-scheme` on :root to pin it.
  * Pair it with `defaultStepOptions: { modalOverlayOpeningPadding: 8,
  * modalOverlayOpeningRadius: 10 }` so the opening matches the surface.
+ * Positioning reads `--shepherd-gap` as extra offset from the target.
  */
 .shepherd-element,
 .shepherd-modal-overlay-container,
@@ -32,22 +33,6 @@
   color-scheme: var(--shepherd-color-scheme, light dark);
   max-width: 22.5rem;
   transition: opacity 0.24s;
-}
-
-.shepherd-element:not(.shepherd-centered)[data-popper-placement^='bottom'] {
-  margin-top: var(--shepherd-gap);
-}
-
-.shepherd-element:not(.shepherd-centered)[data-popper-placement^='top'] {
-  margin-top: calc(-1 * var(--shepherd-gap));
-}
-
-.shepherd-element:not(.shepherd-centered)[data-popper-placement^='right'] {
-  margin-left: var(--shepherd-gap);
-}
-
-.shepherd-element:not(.shepherd-centered)[data-popper-placement^='left'] {
-  margin-left: calc(-1 * var(--shepherd-gap));
 }
 
 .shepherd-modal-overlay-container path {
