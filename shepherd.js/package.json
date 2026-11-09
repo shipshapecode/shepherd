@@ -98,7 +98,7 @@
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@testing-library/jest-dom": "^7.0.1",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^5.1.0",
     "@vitest/expect": "^4.1.11",
     "chai": "^6.2.2",
     "cypress": "^15.21.0",
