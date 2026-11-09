@@ -78,7 +78,8 @@ export function createShepherdElement(
       (el as HTMLElement | undefined)?.focus();
     };
 
-    if (!firstAttachTo && !firstDialog) {
+    // Nothing to cycle through, so Tab stays put.
+    if (!firstAttachTo && firstDialog === element) {
       moveFocus();
     } else if (e.shiftKey) {
       if (
@@ -142,7 +143,9 @@ export function createShepherdElement(
   const focusableSelector =
     'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex="0"]';
 
-  focusableDialogElements = [...element.querySelectorAll(focusableSelector)];
+  const dialogControls = [...element.querySelectorAll(focusableSelector)];
+  // With nothing to focus inside, the dialog itself is the stop in the cycle.
+  focusableDialogElements = dialogControls.length ? dialogControls : [element];
 
   const attachToElement = step._getResolvedAttachToOptions().element as
     HTMLElement | null | undefined;

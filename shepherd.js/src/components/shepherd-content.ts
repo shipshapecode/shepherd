@@ -22,7 +22,9 @@ export function createShepherdContent(
     if (isHTMLElement(resolved)) {
       el.append(resolved);
     } else {
-      el.innerHTML = resolved as string;
+      el.innerHTML = Array.isArray(resolved)
+        ? resolved.join('')
+        : (resolved as string);
     }
 
     return el;

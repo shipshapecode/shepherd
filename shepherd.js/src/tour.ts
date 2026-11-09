@@ -278,20 +278,27 @@ export class Tour extends Evented {
    * Calls _done() triggering the 'cancel' event
    * If `confirmCancel` is true, will show a window.confirm before cancelling
    * If `confirmCancel` is a function, will call it and wait for the return value,
-   * and only cancel when the value returned is true
+   * and only cancel when the value returned is true. A promise is waited on the
+   * same way.
    */
   async cancel() {
     let stopTour = true;
 
-    if (isFunction(this.options.confirmCancel)) {
+    const { confirmCancel } = this.options;
+    if (
+      isFunction(confirmCancel) ||
+      isFunction((confirmCancel as Promise<boolean> | undefined)?.then)
+    ) {
       const run = this._runGeneration;
-      stopTour = await this.options.confirmCancel();
+      stopTour = Boolean(
+        await (isFunction(confirmCancel) ? confirmCancel() : confirmCancel)
+      );
 
       // The answer only applies to the run that asked for it.
       if (run !== this._runGeneration) {
         return;
       }
-    } else if (this.options.confirmCancel) {
+    } else if (confirmCancel) {
       stopTour = window.confirm(
         this.options.confirmCancelMessage ||
           'Are you sure you want to stop the tour?'

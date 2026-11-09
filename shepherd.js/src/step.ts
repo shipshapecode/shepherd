@@ -706,6 +706,8 @@ export class Step extends Evented {
     }
 
     destroyTooltip(this);
+    // Another step can share the target, and would hear its keys twice.
+    this.shepherdElementComponent?.cleanup();
 
     this._updateStepTargetOnHide();
 
@@ -779,13 +781,19 @@ export class Step extends Evented {
    * @param {StepOptions} options The options for the step
    */
   updateStepOptions(options: StepOptions) {
-    Object.assign(this.options, options);
-
     // A hidden step picks up its new options the next time it is shown.
-    if (this.shepherdElementComponent && this.isOpen()) {
-      this._teardownElements();
-      this._setupElements();
+    if (!this.isOpen()) {
+      Object.assign(this.options, options);
+      return;
     }
+
+    // Unmark the old target with the options that marked it, before they change.
+    this._teardownElements();
+    Object.assign(this.options, options);
+    this._resolveAttachToOptions();
+    this._resolveExtraHiglightElements();
+    this._setupElements();
+    this._reveal();
   }
 
   /**
@@ -816,14 +824,18 @@ export class Step extends Evented {
 
   /**
    * Puts back the target's tabindex attribute, removing it if it had none.
+   * Only once per show, so a later teardown leaves the app's own changes.
    * @internal
    */
   _restoreOriginalTabIndex(): void {
+    if (this._originalTabIndex === undefined) return;
+
     if (isString(this._originalTabIndex)) {
       this.target?.setAttribute('tabindex', this._originalTabIndex);
     } else {
       this.target?.removeAttribute('tabindex');
     }
+    this._originalTabIndex = undefined;
   }
 
   /**
@@ -964,11 +976,8 @@ export class Step extends Evented {
       this.tour.setupModal();
     }
 
-    this.tour.modal?.setupForStep(this);
+    this._reveal();
 
-    this.el!.hidden = false;
-
-    // start scrolling to target before showing the step
     if (this.options.scrollTo) {
       setTimeout(() => {
         this._scrollTo(
@@ -977,6 +986,17 @@ export class Step extends Evented {
       });
     }
 
+    this.trigger('show');
+  }
+
+  /**
+   * Shows the rendered step and marks its target, as `_updateStepTargetOnHide`
+   * undoes.
+   * @internal
+   */
+  _reveal() {
+    this.tour.modal?.setupForStep(this);
+    this.el!.hidden = false;
     this.el!.classList.add('shepherd-enabled');
 
     const { highlightClass, canClickTarget } = this.options;
@@ -998,8 +1018,6 @@ export class Step extends Evented {
         );
       }
     }
-
-    this.trigger('show');
   }
 
   /**
