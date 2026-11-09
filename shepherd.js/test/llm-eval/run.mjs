@@ -177,9 +177,8 @@ if (!solutionsDir || !existsSync(solutionsDir)) {
   process.exit(2);
 }
 const pkgDir = resolve(options.pkg ?? defaultPkgDir);
-const tasks = options.task
-  ? TASKS.filter((task) => task.id === options.task)
-  : TASKS;
+const tasks =
+  'task' in options ? TASKS.filter((task) => task.id === options.task) : TASKS;
 if (!tasks.length) {
   console.error(`no task named ${options.task}`);
   process.exit(2);
