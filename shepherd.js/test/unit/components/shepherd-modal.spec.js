@@ -135,6 +135,24 @@ describe('components/ShepherdModal', () => {
       );
     });
 
+    it('does not glide back after the number of openings changes mid-glide', () => {
+      setDuration('1s');
+      modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+      const to = makeStep(rect(200, 300, 50, 50));
+      modal.setupForStep(to);
+      const extra = document.createElement('div');
+      extra.getBoundingClientRect = () => rect(400, 100, 20, 20);
+      document.body.append(extra);
+
+      now += 250;
+      modal.positionModal(0, 0, 0, 0, null, to.target, [extra]);
+      now += 250;
+      modal.positionModal(0, 0, 0, 0, null, to.target);
+
+      expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+      extra.remove();
+    });
+
     it('cuts instead of gliding when the number of openings changes', () => {
       setDuration('1s');
       modal.setupForStep(makeStep(rect(0, 0, 100, 100)));

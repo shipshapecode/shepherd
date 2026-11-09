@@ -932,8 +932,17 @@ export function autoUpdate(
   // transform carries it: itself, a frame holding it, or an ancestor of either,
   // across shadow boundaries.
   const chain = [reference, ...frames];
+  // `ancestorsOf` stops short of the root, which can animate too. A document
+  // still parsing has no body yet.
   const carriers = new Set<Element>(
-    chain.flatMap((element) => [element, ...ancestorsOf(element)])
+    chain
+      .flatMap((element) => [
+        element,
+        ...ancestorsOf(element),
+        getDocument(element).body,
+        htmlOf(element)
+      ])
+      .filter(Boolean)
   );
   // Those events and `getAnimations()` stay within their own shadow root or
   // document, so both are read from every root a carrier lives in.

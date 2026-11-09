@@ -107,9 +107,13 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     // Consecutive paths share a shape, so tweening their numbers morphs the
     // opening. `makeOverlayPath` puts a comma between every pair of numbers, so
     // a sign that changes mid-glide cannot run two of them together.
-    // A different number of openings has no shape to morph from, so it cuts.
+    // A different number of openings has no shape to morph from, so it cuts
+    // and ends the glide, or a later frame could morph back toward the old one.
+    if (left > 0 && to.match(PATH_NUMBER)!.length !== glideFrom.length) {
+      glideEnd = 0;
+    }
     const d =
-      left > 0 && to.match(PATH_NUMBER)!.length === glideFrom.length
+      glideEnd > Date.now()
         ? to.replace(
             PATH_NUMBER,
             (n) => `${+n + (+(glideFrom[i++] ?? n) - +n) * left ** 3}`

@@ -240,6 +240,28 @@ describe('Floating UI Utils', function () {
       });
     });
 
+    it('reads the theme gap again on every reposition', () => {
+      const { step, stepElement } = createTooltipFixture();
+      const gapOf = (call) =>
+        call[2].middleware
+          .find((m) => m.name === 'offset')
+          ?.fn({
+            x: 0,
+            y: 0,
+            placement: 'bottom',
+            middlewareData: {},
+            rects: { reference: {}, floating: {} }
+          }).y ?? 0;
+
+      setupTooltip(step);
+      stepElement.style.setProperty('--shepherd-gap', '24px');
+      floatingUIMock.updateCallbacks[0]();
+
+      const calls = floatingUIMock.computePosition.mock.calls;
+      expect(gapOf(calls.at(-1))).toBe(24);
+      stepElement.style.removeProperty('--shepherd-gap');
+    });
+
     it('only focuses the step element after the first render', async () => {
       const { input, step, stepElement } = createTooltipFixture();
       const focusSpy = vi.spyOn(stepElement, 'focus');

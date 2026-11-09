@@ -636,6 +636,38 @@ describe('utils/position', () => {
       vi.unstubAllGlobals();
     });
 
+    it('follows a transition on the body', () => {
+      const frames = [];
+      vi.stubGlobal('requestAnimationFrame', (callback) =>
+        frames.push(callback)
+      );
+      vi.stubGlobal('cancelAnimationFrame', () => {});
+      const { reference, floating, rect } = stubbedRects();
+      document.body.append(reference);
+      let running = false;
+      document.getAnimations = () =>
+        running
+          ? [{ playState: 'running', effect: { target: document.body } }]
+          : [];
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      running = true;
+      document.body.dispatchEvent(new Event('transitionrun'));
+      const settled = update.mock.calls.length;
+
+      rect.x = 50;
+      frames.shift()();
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      running = false;
+      frames.shift()();
+      stop();
+      reference.remove();
+      delete document.getAnimations;
+      vi.unstubAllGlobals();
+    });
+
     it('follows an animation that was already running when it started', () => {
       const frames = [];
       vi.stubGlobal('requestAnimationFrame', (callback) =>

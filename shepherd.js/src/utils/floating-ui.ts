@@ -47,9 +47,14 @@ export function setupTooltip(step: Step): PositionConfig {
       return;
     }
 
-    setPosition(target, step, config, shouldCenter, {
-      shouldFocusAfterRender
-    });
+    // Rebuilt each time, so a theme gap changed by a responsive rule applies.
+    setPosition(
+      target,
+      step,
+      getPositionConfig(attachToOptions, step),
+      shouldCenter,
+      { shouldFocusAfterRender }
+    );
     shouldFocusAfterRender = false;
   });
 

@@ -6,6 +6,13 @@
  * modalOverlayOpeningRadius: 10 }` so the opening matches the surface.
  * Positioning reads `--shepherd-gap` as extra offset from the target.
  */
+/* Registered so it computes to pixels, which positioning reads, from rem or calc(). */
+@property --shepherd-gap {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 .shepherd-element,
 .shepherd-modal-overlay-container,
 .shepherd-target {
@@ -179,19 +186,27 @@
       scale: 0.96;
     }
 
-    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='bottom'] {
+    .shepherd-enabled.shepherd-element:not(
+        .shepherd-centered
+      )[data-popper-placement^='bottom'] {
       translate: 0 -8px;
     }
 
-    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='top'] {
+    .shepherd-enabled.shepherd-element:not(
+        .shepherd-centered
+      )[data-popper-placement^='top'] {
       translate: 0 8px;
     }
 
-    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='right'] {
+    .shepherd-enabled.shepherd-element:not(
+        .shepherd-centered
+      )[data-popper-placement^='right'] {
       translate: -8px 0;
     }
 
-    .shepherd-enabled.shepherd-element:not(.shepherd-centered)[data-popper-placement^='left'] {
+    .shepherd-enabled.shepherd-element:not(
+        .shepherd-centered
+      )[data-popper-placement^='left'] {
       translate: 8px 0;
     }
 
