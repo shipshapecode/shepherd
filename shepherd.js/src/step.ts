@@ -776,20 +776,22 @@ export class Step extends Evented {
   }
 
   /**
-   * Updates the options of the step.
+   * Updates the options of the step. `positionOptions` combines key by key with
+   * the current ones, and `classes` with the tour's default classes, as when
+   * the step was created.
    *
    * @param {StepOptions} options The options for the step
    */
   updateStepOptions(options: StepOptions) {
     // A hidden step picks up its new options the next time it is shown.
     if (!this.isOpen()) {
-      Object.assign(this.options, options);
+      this._mergeOptions(options);
       return;
     }
 
     // Unmark the old target with the options that marked it, before they change.
     this._teardownElements();
-    Object.assign(this.options, options);
+    this._mergeOptions(options);
     this._resolveAttachToOptions();
     this._resolveExtraHiglightElements();
     this._setupElements();
@@ -891,6 +893,23 @@ export class Step extends Evented {
     const allClasses = `${stepOptions.classes || ''} ${defaultClasses}`;
 
     return [...new Set(allClasses.split(' '))].join(' ').trim();
+  }
+
+  /**
+   * Applies updated options, combining them as `_setOptions` does.
+   * @internal
+   */
+  _mergeOptions(options: StepOptions) {
+    Object.assign(this.options, {
+      ...options,
+      positionOptions: {
+        ...this.options.positionOptions,
+        ...options.positionOptions
+      },
+      ...(options.classes !== undefined && {
+        classes: this._getClassOptions(options)
+      })
+    });
   }
 
   /**

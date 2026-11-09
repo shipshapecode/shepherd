@@ -290,9 +290,18 @@ export class Tour extends Evented {
       isFunction((confirmCancel as Promise<boolean> | undefined)?.then)
     ) {
       const run = this._runGeneration;
-      stopTour = Boolean(
-        await (isFunction(confirmCancel) ? confirmCancel() : confirmCancel)
-      );
+      try {
+        stopTour = Boolean(
+          await (isFunction(confirmCancel) ? confirmCancel() : confirmCancel)
+        );
+      } catch (error) {
+        // Escape and the close icon do not await this, so nothing else would.
+        console.error(
+          'Shepherd: confirmCancel failed, so the tour stays open.',
+          error
+        );
+        return;
+      }
 
       // The answer only applies to the run that asked for it.
       if (run !== this._runGeneration) {

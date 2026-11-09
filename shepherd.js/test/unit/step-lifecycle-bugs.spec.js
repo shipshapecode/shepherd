@@ -82,6 +82,31 @@ describe('step and tour behavior found in review', () => {
     });
   });
 
+  it('combines updated positionOptions and classes as on creation', () => {
+    tour = new Tour({
+      defaultStepOptions: { classes: 'base', positionOptions: { padding: 8 } }
+    });
+    tour.addStep({ id: 'one', text: 'one', classes: 'own' });
+    const step = tour.getById('one');
+
+    step.updateStepOptions({ positionOptions: { offset: 12 }, classes: 'new' });
+
+    expect(step.options.positionOptions).toEqual({ padding: 8, offset: 12 });
+    expect(step.options.classes.split(' ').sort()).toEqual(['base', 'new']);
+  });
+
+  it('keeps the tour open and reports a rejected confirmCancel', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    tour = new Tour({ confirmCancel: () => Promise.reject(new Error('no')) });
+    tour.addStep({ id: 'one', text: 'one' });
+    tour.start();
+
+    await expect(tour.cancel()).resolves.toBeUndefined();
+
+    expect(tour.isActive()).toBe(true);
+    expect(error.mock.calls[0][0]).toContain('confirmCancel failed');
+  });
+
   it('leaves a tabindex the app set after the step was hidden', () => {
     const a = target('a');
     const b = target('b');
