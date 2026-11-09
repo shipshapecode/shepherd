@@ -424,6 +424,137 @@ describe('utils/position', () => {
       vi.unstubAllGlobals();
     });
 
+    it('wakes on a scroll in a frame between the target and the step', () => {
+      vi.stubGlobal('ResizeObserver', undefined);
+      vi.stubGlobal('IntersectionObserver', undefined);
+      const { floating, rect } = stubbedRects();
+      const windowWith = (frameElement) =>
+        Object.assign(new EventTarget(), {
+          frameElement,
+          getComputedStyle: () => ({ paddingLeft: '0', paddingTop: '0' })
+        });
+      const frameIn = (win) => ({
+        ownerDocument: Object.assign(new EventTarget(), { defaultView: win }),
+        getBoundingClientRect: () => ({ x: 0, y: 0, width: 100, height: 100 }),
+        clientLeft: 0,
+        clientTop: 0
+      });
+      const middle = windowWith(document.createElement('iframe'));
+      const inner = windowWith(frameIn(middle));
+      const reference = {
+        ownerDocument: Object.assign(new EventTarget(), { defaultView: inner }),
+        getBoundingClientRect: () => ({ ...rect })
+      };
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      const settled = update.mock.calls.length;
+
+      rect.y = 500;
+      middle.dispatchEvent(new Event('scroll'));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      vi.unstubAllGlobals();
+    });
+
+    it('updates when a container clipping the step shrinks', () => {
+      const observed = [];
+      const notify = [];
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(callback) {
+            notify.push(callback);
+          }
+          observe(element) {
+            observed.push(element);
+          }
+          disconnect() {}
+        }
+      );
+      const { reference, floating } = stubbedRects();
+      const container = document.createElement('div');
+      container.style.overflow = 'hidden';
+      let width = 300;
+      Object.defineProperty(container, 'clientWidth', { get: () => width });
+      container.append(floating);
+      document.body.append(container);
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      expect(observed).toContain(container);
+      const settled = update.mock.calls.length;
+
+      width = 100;
+      notify.forEach((callback) => callback([]));
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      container.remove();
+      vi.unstubAllGlobals();
+    });
+
+    it('follows a transition on an ancestor of the target frame by frame', () => {
+      const frames = [];
+      vi.stubGlobal('requestAnimationFrame', (callback) =>
+        frames.push(callback)
+      );
+      vi.stubGlobal('cancelAnimationFrame', () => {});
+      const { reference, floating, rect } = stubbedRects();
+      const parent = document.createElement('div');
+      parent.append(reference);
+      document.body.append(parent);
+      let running = true;
+      document.getAnimations = () =>
+        running ? [{ playState: 'running', effect: { target: parent } }] : [];
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      parent.dispatchEvent(new Event('transitionrun', { bubbles: true }));
+      const settled = update.mock.calls.length;
+
+      rect.x = 50;
+      frames.shift()();
+      expect(update, 'mid transition').toHaveBeenCalledTimes(settled + 1);
+
+      running = false;
+      rect.x = 60;
+      frames.shift()();
+      expect(update, 'last frame').toHaveBeenCalledTimes(settled + 2);
+      expect(frames, 'stops with the transition').toEqual([]);
+
+      stop();
+      parent.remove();
+      delete document.getAnimations;
+      vi.unstubAllGlobals();
+    });
+
+    it('keeps checking a target that has no size yet', () => {
+      vi.useFakeTimers();
+      vi.stubGlobal(
+        'IntersectionObserver',
+        class {
+          observe() {}
+          disconnect() {}
+        }
+      );
+      const { reference, floating, rect } = stubbedRects();
+      rect.width = 0;
+      const update = vi.fn();
+
+      const stop = autoUpdate(reference, floating, update);
+      const settled = update.mock.calls.length;
+
+      rect.width = 30;
+      vi.advanceTimersByTime(1000);
+      expect(update).toHaveBeenCalledTimes(settled + 1);
+
+      stop();
+      vi.useRealTimers();
+      vi.unstubAllGlobals();
+    });
+
     it('wakes on a scroll anywhere in the document', async () => {
       const { reference, floating, rect } = stubbedRects();
       const scroller = document.createElement('div');
@@ -449,7 +580,9 @@ describe('utils/position', () => {
       const { floating, rect } = stubbedRects();
       const targetWindow = new EventTarget();
       const reference = {
-        ownerDocument: { defaultView: targetWindow },
+        ownerDocument: Object.assign(new EventTarget(), {
+          defaultView: targetWindow
+        }),
         getBoundingClientRect: () => ({ ...rect })
       };
       const update = vi.fn();

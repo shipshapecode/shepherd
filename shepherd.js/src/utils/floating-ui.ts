@@ -79,6 +79,8 @@ function setPosition(
   { shouldFocusAfterRender }: { shouldFocusAfterRender: boolean }
 ) {
   try {
+    // Measured against the offset parent it will have once written.
+    if (!shouldCenter && step.el) step.el.style.position = config.strategy;
     writePosition(
       step,
       shouldCenter,

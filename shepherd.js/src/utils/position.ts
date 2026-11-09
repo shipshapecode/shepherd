@@ -775,7 +775,12 @@ function observeMove(element: Element, onMove: () => void) {
     if (!skip) onMove();
     // `onMove` can dispose of this tracker, and an observer made after that
     // would never be disconnected.
-    if (disposed || !width || !height) return;
+    if (disposed) return;
+    // A zero-size box cannot be observed, such as a target at `scale(0)`.
+    if (!width || !height) {
+      timer = setTimeout(refresh, 1000);
+      return;
+    }
 
     let first = true;
     observer = new IntersectionObserver(
@@ -830,9 +835,12 @@ function observeMove(element: Element, onMove: () => void) {
 
 /**
  * Repositions whenever what the placement depends on changes: a scroll or
- * resize anywhere in either document, a resize of either element, or the
- * reference moving with no event at all, which `observeMove` reports. Each of
- * those reaches `check`, which updates only when a rect really changed.
+ * resize in any document from the reference's up to the floating element's, a
+ * resize of either element or of what clips the floating element, the
+ * reference or a frame holding it moving with no event at all, which
+ * `observeMove` reports, and every frame of a CSS animation or transition on
+ * the reference or its ancestors. Each of those reaches `check`, which updates
+ * only when something it compares really changed.
  */
 export function autoUpdate(
   reference: Element,
@@ -842,6 +850,20 @@ export function autoUpdate(
   const win = getWindow(floating);
   let last: string;
   let connected = floating.isConnected;
+  let frame = 0;
+  let stopped = false;
+
+  // The frames between the reference and the floating element's window. A
+  // cross-origin frame hides its `frameElement`, which ends the chain.
+  const frames: Element[] = [];
+  for (
+    let current = getWindow(reference), host: Element | null;
+    current !== win && (host = current.frameElement);
+    current = getWindow(host)
+  ) {
+    frames.push(host);
+  }
+  const clips = clippingAncestors(floating);
 
   const check = () => {
     // A tour abandoned by a route change has no other way to stop this. A
@@ -866,7 +888,8 @@ export function autoUpdate(
       viewport?.offsetLeft,
       viewport?.offsetTop,
       viewport?.width,
-      viewport?.height
+      viewport?.height,
+      ...clips.flatMap((clip) => [clip.clientWidth, clip.clientHeight])
     ].join();
 
     if (now !== last) {
@@ -878,34 +901,66 @@ export function autoUpdate(
   // Scroll does not bubble but does capture, so this hears every scroller in
   // these documents. A scroller inside a shadow root is left to `observeMove`.
   const targets = [
-    win,
-    getWindow(reference),
-    ...(win.visualViewport ? [win.visualViewport] : [])
+    ...new Set([win, getWindow(reference), ...frames.map(getWindow)])
   ];
+  if (win.visualViewport) targets.push(win.visualViewport as any);
   targets.forEach((target) => {
     target.addEventListener('scroll', check, true);
     target.addEventListener('resize', check);
   });
 
+  // A transform moves the reference without any event or resize, so follow it
+  // frame by frame while an animation or transition runs on it or an ancestor.
+  // Those events do not leave a shadow root, so listen at the reference's root.
+  const root = (reference.getRootNode?.() ?? getDocument(reference)) as
+    Document | ShadowRoot;
+  const animating = () =>
+    getDocument(reference)
+      .getAnimations?.()
+      .some(
+        (animation) =>
+          animation.playState === 'running' &&
+          (animation.effect as KeyframeEffect | null)?.target?.contains(
+            reference
+          )
+      );
+  const follow = () => {
+    check();
+    frame = !stopped && animating() ? requestAnimationFrame(follow) : 0;
+  };
+  const onAnimate = (event: Event) => {
+    if (!frame && (event.target as Node).contains?.(reference)) follow();
+  };
+  const animationEvents = ['transitionrun', 'animationstart'];
+  animationEvents.forEach((type) =>
+    root.addEventListener(type, onAnimate, true)
+  );
+
   // jsdom has neither observer. Removing the step from the page resizes it to
   // nothing, which is what tells an abandoned tour to stop.
   const stopWatching =
     typeof IntersectionObserver === 'function'
-      ? observeMove(reference, check)
-      : undefined;
+      ? [reference, ...frames].map((element) => observeMove(element, check))
+      : [];
   const resizes =
     typeof ResizeObserver === 'function'
       ? new ResizeObserver(check)
       : undefined;
-  resizes?.observe(reference);
-  resizes?.observe(floating);
+  [reference, floating, ...frames, ...clips].forEach((element) =>
+    resizes?.observe(element)
+  );
 
   const stop = () => {
+    stopped = true;
     targets.forEach((target) => {
       target.removeEventListener('scroll', check, true);
       target.removeEventListener('resize', check);
     });
-    stopWatching?.();
+    animationEvents.forEach((type) =>
+      root.removeEventListener(type, onAnimate, true)
+    );
+    if (frame) cancelAnimationFrame(frame);
+    stopWatching.forEach((stopOne) => stopOne());
     resizes?.disconnect();
   };
 
