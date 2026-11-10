@@ -1,0 +1,20 @@
+diff --git a/src/index.js b/src/index.js
+index 431eb8622a4ef970969bfae024b4358bcdac2b7b..32f4442a50880b8107772bf6195d279de6f4e01f 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -65,8 +65,13 @@ const performTab = (el, options, searchAnchor = el, searchOptions = {}) => {
+     window.requestAnimationFrame(resolve)
+   })
+     .then(() => {
+-      return keydown(activeElement, options, simulatedDefault, () =>
+-        ensureFocused(activeElement),
++      // A cancelled keydown means the page handled Tab, so keep whatever it
++      // focused, as a browser does, instead of restoring the old element.
++      return keydown(
++        activeElement,
++        options,
++        simulatedDefault,
++        () => doc.activeElement,
+       )
+     })
+     .finally(() => {

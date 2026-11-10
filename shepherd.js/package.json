@@ -94,7 +94,7 @@
     "@vitest/expect": "^5.1.0",
     "chai": "^6.3.0",
     "cypress": "^16.2.1",
-    "cypress-plugin-tab": "^1.0.5",
+    "cypress-plugin-tab": "^2.0.0",
     "esbuild": "^0.28.2",
     "eslint": "^10.14.0",
     "eslint-plugin-cypress": "^7.0.4",

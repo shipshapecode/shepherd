@@ -19,6 +19,9 @@ overrides:
 
 packageExtensionsChecksum: sha256-QRbB427jafr2uug/EWFsqEu7c3tQtQOSJcLU8vaXoEA=
 
+patchedDependencies:
+  cypress-plugin-tab@2.0.0: 79ec31569664a6d01604a12255d4e0e07607538112767b485c173a4a111f4b06
+
 importers:
 
   .:
@@ -204,8 +207,8 @@ importers:
         specifier: ^16.2.1
         version: 16.2.1
       cypress-plugin-tab:
-        specifier: ^1.0.5
-        version: 1.0.5
+        specifier: ^2.0.0
+        version: 2.0.0(patch_hash=79ec31569664a6d01604a12255d4e0e07607538112767b485c173a4a111f4b06)(cypress@16.2.1)
       esbuild:
         specifier: ^0.28.2
         version: 0.28.2
@@ -2395,9 +2398,6 @@ packages:
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
 
-  ally.js@1.4.1:
-    resolution: {integrity: sha512-ZewdfuwP6VewtMN36QY0gmiyvBfMnmEaNwbVu2nTS6zRt069viTgkYgaDiqu6vRJ1VJCriNqV0jGMu44R8zNbA==}
-
   am-i-vibing@0.5.0:
     resolution: {integrity: sha512-KLcsDhqf1XRrJmJr+9I/C0EX2K+sGrAGZFgkmd84c8TJO9zJBu+/kFInjazu1KfJWFhWDKdRWkpBzEs7s35DVA==}
     hasBin: true
@@ -2827,8 +2827,10 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  cypress-plugin-tab@1.0.5:
-    resolution: {integrity: sha512-QtTJcifOVwwbeMP3hsOzQOKf3EqKsLyjtg9ZAGlYDntrCRXrsQhe4ZQGIthRMRLKpnP6/tTk6G0gJ2sZUfRliQ==}
+  cypress-plugin-tab@2.0.0:
+    resolution: {integrity: sha512-T4LKCeof7LNRBkiFvpr3loOiqdQ/73W09dL+0dZo0g+uGbm1N+qVwYUIEfjdRMt82aCO+cp6tddc4tJKNeDY3A==}
+    peerDependencies:
+      cypress: '>=10'
 
   cypress@16.2.1:
     resolution: {integrity: sha512-3Vqf1Krr92hKww/Owob9JrDO7TgBCR2ct+OQrvBOFGSnoGsikL4YF5arqDrJb+SM8Fzi7xXIeVmCeaOqJKPhRA==}
@@ -4329,9 +4331,6 @@ packages:
   pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
-
-  platform@1.3.3:
-    resolution: {integrity: sha512-VJK1SRmXBpjwsB4YOHYSturx48rLKMzHgCqDH2ZDa6ZbMS/N5huoNqyQdK5Fj/xayu3fqbXckn5SeCS1EbMDZg==}
 
   playwright-core@1.65.0:
     resolution: {integrity: sha512-vNSKgH6YqtN7cdT/L334zo0a+YwkrpicyrHJlWWPIm/Q+Nn2SWInil01oT0mbu96U4GgoRtCYQD9CzJQgju+lA==}
@@ -7610,11 +7609,6 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  ally.js@1.4.1:
-    dependencies:
-      css.escape: 1.5.1
-      platform: 1.3.3
-
   am-i-vibing@0.5.0:
     dependencies:
       process-ancestry: 0.1.0
@@ -8089,9 +8083,9 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  cypress-plugin-tab@1.0.5:
+  cypress-plugin-tab@2.0.0(patch_hash=79ec31569664a6d01604a12255d4e0e07607538112767b485c173a4a111f4b06)(cypress@16.2.1):
     dependencies:
-      ally.js: 1.4.1
+      cypress: 16.2.1
 
   cypress@16.2.1:
     dependencies:
@@ -9853,8 +9847,6 @@ snapshots:
   picomatch@4.0.7: {}
 
   pify@2.3.0: {}
-
-  platform@1.3.3: {}
 
   playwright-core@1.65.0: {}
 
