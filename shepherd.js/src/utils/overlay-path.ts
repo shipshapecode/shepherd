@@ -25,7 +25,12 @@ interface OverlayPathParams {
 export function makeOverlayPath(overlayPaths: OverlayPathParams[]) {
   let openings = '';
 
-  const { innerWidth: w, innerHeight: h } = window;
+  // The overlay is `position: fixed`, so it spans the layout viewport. Pinch
+  // zoom shrinks `innerWidth`/`innerHeight` to the visual viewport in some
+  // browsers, which would leave part of the page undimmed (#2495).
+  const { clientWidth, clientHeight } = document.documentElement;
+  const w = Math.max(window.innerWidth, clientWidth);
+  const h = Math.max(window.innerHeight, clientHeight);
 
   overlayPaths.forEach((overlayPath) => {
     const { width, height, x = 0, y = 0, r = 0 } = overlayPath;

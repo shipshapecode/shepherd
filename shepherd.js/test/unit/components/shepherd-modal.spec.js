@@ -1650,6 +1650,160 @@ describe('components/ShepherdModal', () => {
       modal.hide();
       rafSpy.mockRestore();
     });
+
+    describe('scrollable content', () => {
+      let modal;
+      let rafSpy;
+
+      // jsdom has no layout, so give an element room to scroll by hand.
+      function scroller(overflowY = 'auto') {
+        const el = document.createElement('div');
+        el.style.overflowY = overflowY;
+        Object.defineProperty(el, 'scrollHeight', { value: 500 });
+        Object.defineProperty(el, 'clientHeight', { value: 100 });
+        return el;
+      }
+
+      function showStep(options = {}, target = document.createElement('div')) {
+        container.appendChild(target);
+        const tour = new Tour({ useModalOverlay: true });
+        const step = new Step(tour, {
+          attachTo: { element: target, on: 'bottom' },
+          ...options
+        });
+        step._resolveAttachToOptions();
+        step.target = target;
+        step.el = document.createElement('dialog');
+        container.appendChild(step.el);
+        modal.setupForStep(step);
+        return step;
+      }
+
+      // Runs this modal's window listener on a real event, then stops the
+      // event, since modals other tests left open also listen on window.
+      function touchPrevented(el) {
+        const listener = addSpy.mock.calls
+          .filter(([type]) => type === 'touchmove')
+          .at(-1)[1];
+        let prevented;
+        el.addEventListener(
+          'touchmove',
+          (e) => {
+            listener(e);
+            prevented = e.defaultPrevented;
+            e.stopPropagation();
+          },
+          { once: true }
+        );
+        el.dispatchEvent(
+          new Event('touchmove', { bubbles: true, cancelable: true })
+        );
+        return prevented;
+      }
+
+      let addSpy;
+
+      beforeEach(() => {
+        modal = createShepherdModal(container);
+        rafSpy = vi
+          .spyOn(window, 'requestAnimationFrame')
+          .mockImplementation(() => 1);
+        addSpy = vi.spyOn(window, 'addEventListener');
+      });
+
+      afterEach(() => {
+        modal.hide();
+        rafSpy.mockRestore();
+        addSpy.mockRestore();
+      });
+
+      it('lets a scrollable target scroll', () => {
+        const target = scroller();
+        showStep({}, target);
+
+        expect(touchPrevented(target)).toBe(false);
+      });
+
+      it('lets content that scrolls inside the target scroll', () => {
+        const target = document.createElement('div');
+        const inner = scroller();
+        const leaf = document.createElement('span');
+        inner.appendChild(leaf);
+        target.appendChild(inner);
+        showStep({}, target);
+
+        expect(touchPrevented(leaf)).toBe(false);
+      });
+
+      it('keeps blocking a target with nothing to scroll', () => {
+        const target = document.createElement('div');
+        showStep({}, target);
+
+        expect(touchPrevented(target)).toBe(true);
+      });
+
+      it('keeps blocking a target whose overflow hides rather than scrolls', () => {
+        const target = scroller('hidden');
+        showStep({}, target);
+
+        expect(touchPrevented(target)).toBe(true);
+      });
+
+      it('keeps blocking a scrollable target when canClickTarget is false', () => {
+        const target = scroller();
+        showStep({ canClickTarget: false }, target);
+
+        expect(touchPrevented(target)).toBe(true);
+      });
+
+      it('keeps blocking a scrolling ancestor of the target', () => {
+        const page = scroller();
+        const target = document.createElement('div');
+        page.appendChild(target);
+        container.appendChild(page);
+        showStep({}, target);
+
+        expect(touchPrevented(page)).toBe(true);
+        expect(touchPrevented(target)).toBe(true);
+      });
+
+      it('lets content that scrolls inside the dialog scroll', () => {
+        const step = showStep();
+        const text = scroller();
+        step.el.appendChild(text);
+
+        expect(touchPrevented(text)).toBe(false);
+        expect(touchPrevented(step.el)).toBe(true);
+      });
+
+      it('lets a scrollable extra highlight scroll', () => {
+        const extra = scroller();
+        container.appendChild(extra);
+        const target = document.createElement('div');
+        container.appendChild(target);
+        const tour = new Tour({ useModalOverlay: true });
+        const step = new Step(tour, {
+          attachTo: { element: target, on: 'bottom' }
+        });
+        step.target = target;
+        step._resolvedExtraHighlightElements = [extra];
+        modal.setupForStep(step);
+
+        expect(touchPrevented(extra)).toBe(false);
+      });
+
+      it('never lets body through for a step without a target', () => {
+        const page = scroller();
+        container.appendChild(page);
+        const tour = new Tour({ useModalOverlay: true });
+        const step = new Step(tour, {});
+        step.el = document.createElement('dialog');
+        container.appendChild(step.el);
+        modal.setupForStep(step);
+
+        expect(touchPrevented(page)).toBe(true);
+      });
+    });
   });
 
   describe('_preventModalOverlayTouch', function () {

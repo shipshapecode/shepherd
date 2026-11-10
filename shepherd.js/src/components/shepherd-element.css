@@ -19,6 +19,14 @@
   visibility: visible;
 }
 
+/*
+* The dialog takes focus when a step shows. Keyboard users need to see that
+* (#3065), while a mouse click that starts the tour does not draw a ring.
+*/
+.shepherd-element:focus-visible {
+  outline: auto;
+}
+
 .shepherd-element,
 .shepherd-element *,
 .shepherd-element *:after,
