@@ -8,12 +8,21 @@ import { build } from 'esbuild';
 import * as playwright from 'playwright-core';
 
 const packageDir = join(dirname(fileURLToPath(import.meta.url)), '../..');
+const ALL_BROWSERS = ['chromium', 'firefox', 'webkit'];
 const args = process.argv.slice(2);
-const browserArg = args.includes('--browser')
-  ? args[args.indexOf('--browser') + 1]
-  : 'all';
-const browsers =
-  browserArg === 'all' ? ['chromium', 'firefox', 'webkit'] : [browserArg];
+const browserArg = args[0] === '--browser' ? args[1] : 'all';
+const browsers = browserArg === 'all' ? ALL_BROWSERS : [browserArg];
+// The old differential runner took --fixture, --config and --json. Fail on
+// them rather than pass without running what was asked for.
+if (
+  args.length !== (args[0] === '--browser' ? 2 : 0) ||
+  !browsers.every((name) => ALL_BROWSERS.includes(name))
+) {
+  console.error(
+    `Unsupported arguments: ${args.join(' ')}\nUsage: node test/position/tracker.mjs [--browser chromium|firefox|webkit|all]`
+  );
+  process.exit(2);
+}
 
 const ENGINE = (
   await build({
