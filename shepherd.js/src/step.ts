@@ -573,19 +573,19 @@ let stylesheetChecked = false;
  */
 export class Step extends Evented {
   /** @internal */
-  _advanceOnCleanup?: (() => void) | null;
+  declare _advanceOnCleanup?: (() => void) | null;
   /** @internal */
-  _resolvedAttachTo: StepOptionsAttachTo | null;
+  declare _resolvedAttachTo: StepOptionsAttachTo | null;
   /** @internal */
-  _resolvedExtraHighlightElements?: HTMLElement[];
+  declare _resolvedExtraHighlightElements?: HTMLElement[];
   /** @internal */
-  _originalTabIndex?: string | null;
+  declare _originalTabIndex?: string | null;
   /** @internal */
-  _showRequest: number;
+  declare _showRequest: number;
   /**
    * The tour's `classPrefix`, ending in `-`.
    */
-  classPrefix?: string;
+  declare classPrefix?: string;
   /**
    * Stops keeping the step positioned. Set while the step is rendered.
    */
@@ -593,7 +593,7 @@ export class Step extends Evented {
   /**
    * The step's element. Prefer `getElement()`.
    */
-  el?: HTMLElement | null;
+  declare el?: HTMLElement | null;
   /**
    * The step's `id` option, or a generated one.
    */
@@ -605,15 +605,15 @@ export class Step extends Evented {
   /**
    * The step's rendered element and its teardown.
    */
-  shepherdElementComponent?: ShepherdElementResult;
+  declare shepherdElementComponent?: ShepherdElementResult;
   /**
    * The element the step attached to. Prefer `getTarget()`.
    */
-  target?: HTMLElement | null;
+  declare target?: HTMLElement | null;
   /**
    * The tour the step belongs to.
    */
-  tour: Tour;
+  declare tour: Tour;
 
   constructor(tour: Tour, options: StepOptions = {}) {
     super();
