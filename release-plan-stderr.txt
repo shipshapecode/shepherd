@@ -30,3 +30,12 @@
 
 
 *Cannot plan release until the above changes are labeled*.
+# Unlabeled Changes
+
+* `react-shepherd`, `shepherd.js`
+  * [#3584](https://github.com/shipshapecode/shepherd/pull/3584) chore: update dependencies and fix audit findings ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `shepherd.js`
+  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+
+
+*Cannot plan release until the above changes are labeled*.
