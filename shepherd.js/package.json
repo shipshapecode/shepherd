@@ -99,7 +99,7 @@
     "@rollup/plugin-terser": "^1.0.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@vitest/coverage-v8": "^4.1.10",
-    "@vitest/expect": "^4.1.11",
+    "@vitest/expect": "^5.1.0",
     "chai": "^6.2.2",
     "cypress": "^15.21.0",
     "cypress-plugin-tab": "^1.0.5",
