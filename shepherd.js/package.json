@@ -74,7 +74,7 @@
     "test": "vitest",
     "test:all": "pnpm test:unit:ci && pnpm test:cy:ci",
     "test:ci": "pnpm test:unit:ci && pnpm test:cy:ci",
-    "test:position": "node test/position-differential/run.mjs",
+    "test:position": "node test/position/tracker.mjs",
     "test:cy:ci": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:run:chrome",
     "test:cy:watch": "start-server-and-test start-test-server http://127.0.0.1:9002 cy:open",
     "test:unit": "vitest",
@@ -88,7 +88,6 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
-    "@floating-ui/dom": "^1.8.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@tsdown/css": "^0.23.7",
     "@vitest/coverage-v8": "^5.1.0",

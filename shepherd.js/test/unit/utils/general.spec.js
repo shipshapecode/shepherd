@@ -7,7 +7,7 @@ import {
   resolveAttachToElement,
   waitForAttachToElement
 } from '../../../src/utils/general';
-import { getPositionConfig } from '../../../src/utils/floating-ui';
+import { getPositionConfig } from '../../../src/utils/tooltip';
 
 describe('General Utils', function () {
   let optionsElement;
