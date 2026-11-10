@@ -50,3 +50,8 @@ export default Shepherd;
 export type * from './evented.ts';
 export type * from './step.ts';
 export type * from './tour.ts';
+export type { ShepherdElementResult } from './components/shepherd-element.ts';
+export type {
+  ModalRadiusType,
+  ShepherdModalAPI
+} from './components/shepherd-modal.ts';

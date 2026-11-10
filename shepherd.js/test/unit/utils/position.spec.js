@@ -1,14 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
-  arrow as floatingArrow,
-  autoPlacement as floatingAutoPlacement,
-  computePosition as floatingComputePosition,
-  flip as floatingFlip,
-  limitShift,
-  offset as floatingOffset,
-  shift as floatingShift
-} from '@floating-ui/dom';
-import {
   arrow,
   autoPlacement,
   autoUpdate,
@@ -18,6 +9,7 @@ import {
   place,
   shift
 } from '../../../src/utils/position.ts';
+import STOCK from './position.stock.json' with { type: 'json' };
 
 const PLACEMENTS = [
   'top',
@@ -52,28 +44,6 @@ const REFERENCES = [
 ];
 const ARROW_PADDINGS = [0, 4, 40, 500];
 
-/**
- * happy-dom has no layout, so the engine's math runs on given measurements and
- * stock Floating UI on a platform returning the same ones. Real browsers are
- * covered by the scorecard's parity goldens and `pnpm test:position`.
- */
-function stubPlatform(reference, rtl, viewport = VIEWPORTS[0]) {
-  return {
-    getElementRects: () => ({
-      reference,
-      floating: { x: 0, y: 0, ...FLOATING }
-    }),
-    getDimensions: () => ({ width: 16, height: 16 }),
-    getClippingRect: () => viewport,
-    getOffsetParent: () => window,
-    getScale: () => ({ x: 1, y: 1 }),
-    convertOffsetParentRelativeRectToViewportRelativeRect: ({ rect }) => rect,
-    isElement: () => false,
-    isRTL: () => rtl,
-    getClientRects: () => []
-  };
-}
-
 const measurements = (floating, reference, rtl, viewport = VIEWPORTS[0]) => ({
   rects: { reference, floating: { x: 0, y: 0, ...FLOATING } },
   clip: viewport,
@@ -104,24 +74,43 @@ const outcome = ({ x, y, placement, middlewareData: { arrow: data } }) => ({
   arrowY: data?.y
 });
 
-/** Both engines, given the same geometry, with each side's own middleware. */
-async function bothWays({ reference, rtl, viewport, placement, ours, theirs }) {
-  const { reference: ref, floating, arrowElement } = elements();
+const fromStock = ([x, y, placement, arrowX, arrowY]) => ({
+  x,
+  y,
+  placement,
+  arrowX: arrowX ?? undefined,
+  arrowY: arrowY ?? undefined
+});
+
+/**
+ * The engine, and what stock Floating UI returned for the same geometry and
+ * middleware. happy-dom has no layout, so both run on given measurements.
+ * position.stock.json holds stock's results, recorded while Shepherd still
+ * depended on it. Real browsers are covered by the scorecard's parity goldens.
+ */
+function againstStock({
+  variant,
+  params,
+  reference,
+  rtl,
+  viewport,
+  placement,
+  ours
+}) {
+  const { floating, arrowElement } = elements();
   const engine = place(measurements(floating, reference, rtl, viewport), {
     placement: placement ?? 'bottom',
     strategy: 'absolute',
     middleware: ours(arrowElement)
   });
-  const stock = await floatingComputePosition(ref, floating, {
-    placement,
-    platform: stubPlatform(reference, rtl, viewport),
-    middleware: theirs(arrowElement)
-  });
-  return [outcome(engine), outcome(stock)];
+  const row = [
+    rtl ? 'rtl' : 'ltr',
+    VIEWPORTS.indexOf(viewport ?? VIEWPORTS[0]),
+    REFERENCES.indexOf(reference),
+    variant
+  ].join(' ');
+  return [outcome(engine), fromStock(STOCK[row][params])];
 }
-
-const stockShift = (options) =>
-  floatingShift({ limiter: limitShift(), crossAxis: true, ...options });
 
 describe('utils/position', () => {
   afterEach(() => {
@@ -136,17 +125,14 @@ describe('utils/position', () => {
           async (reference) => {
             for (const placement of PLACEMENTS) {
               for (const padding of ARROW_PADDINGS) {
-                const [ours, theirs] = await bothWays({
+                const [ours, theirs] = againstStock({
+                  variant: 'flip',
+                  params: `${placement} ${padding}`,
                   reference,
                   rtl,
                   viewport,
                   placement,
-                  ours: (element) => [flip(), shift(), arrow(element, padding)],
-                  theirs: (element) => [
-                    floatingFlip(),
-                    stockShift(),
-                    floatingArrow({ element, padding })
-                  ]
+                  ours: (element) => [flip(), shift(), arrow(element, padding)]
                 });
                 expect(ours, `${placement} ${padding}`).toEqual(theirs);
               }
@@ -159,7 +145,9 @@ describe('utils/position', () => {
           async (reference) => {
             for (const placement of PLACEMENTS) {
               for (const distance of [12, { mainAxis: 12, crossAxis: 7 }]) {
-                const [ours, theirs] = await bothWays({
+                const [ours, theirs] = againstStock({
+                  variant: 'offset',
+                  params: `${placement} ${JSON.stringify(distance)}`,
                   reference,
                   rtl,
                   viewport,
@@ -169,12 +157,6 @@ describe('utils/position', () => {
                     flip(),
                     shift(),
                     arrow(element, 40)
-                  ],
-                  theirs: (element) => [
-                    floatingOffset(distance),
-                    floatingFlip(),
-                    stockShift(),
-                    floatingArrow({ element, padding: 40 })
                   ]
                 });
                 expect(
@@ -190,17 +172,14 @@ describe('utils/position', () => {
           'matches Floating UI with padding for $x,$y',
           async (reference) => {
             for (const placement of PLACEMENTS) {
-              const [ours, theirs] = await bothWays({
+              const [ours, theirs] = againstStock({
+                variant: 'padding',
+                params: placement,
                 reference,
                 rtl,
                 viewport,
                 placement,
-                ours: (element) => [flip(24), shift(24), arrow(element, 4)],
-                theirs: (element) => [
-                  floatingFlip({ padding: 24 }),
-                  stockShift({ padding: 24 }),
-                  floatingArrow({ element, padding: 4 })
-                ]
+                ours: (element) => [flip(24), shift(24), arrow(element, 4)]
               });
               expect(ours, placement).toEqual(theirs);
             }
@@ -211,16 +190,14 @@ describe('utils/position', () => {
           'matches Floating UI without flip for $x,$y',
           async (reference) => {
             for (const placement of PLACEMENTS) {
-              const [ours, theirs] = await bothWays({
+              const [ours, theirs] = againstStock({
+                variant: 'noFlip',
+                params: placement,
                 reference,
                 rtl,
                 viewport,
                 placement,
-                ours: (element) => [shift(), arrow(element, 4)],
-                theirs: (element) => [
-                  stockShift(),
-                  floatingArrow({ element, padding: 4 })
-                ]
+                ours: (element) => [shift(), arrow(element, 4)]
               });
               expect(ours, placement).toEqual(theirs);
             }
@@ -233,18 +210,12 @@ describe('utils/position', () => {
         async (reference) => {
           for (const alignment of [undefined, 'start', 'end']) {
             for (const padding of [undefined, 24]) {
-              const [ours, theirs] = await bothWays({
+              const [ours, theirs] = againstStock({
+                variant: 'auto',
+                params: `${alignment} ${padding}`,
                 reference,
                 rtl,
-                ours: () => [autoPlacement(alignment, padding), shift(padding)],
-                theirs: () => [
-                  floatingAutoPlacement({
-                    crossAxis: true,
-                    alignment,
-                    padding
-                  }),
-                  stockShift({ padding })
-                ]
+                ours: () => [autoPlacement(alignment, padding), shift(padding)]
               });
               expect(ours, `${alignment} ${padding}`).toEqual(theirs);
             }

@@ -29,7 +29,7 @@ export default [
   // TypeScript files
   {
     files: ['**/*.ts'],
-    ignores: ['vitest.config.ts'],
+    ignores: ['*.config.ts'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -54,10 +54,11 @@ export default [
     }
   },
 
-  // Config files (vitest, babel, etc.)
+  // Config files (vitest, tsdown, etc.)
   {
-    files: ['vitest.config.ts', '**/*.config.*'],
+    files: ['**/*.config.*'],
     languageOptions: {
+      parser: tsParser,
       globals: {
         ...globals.node
       }

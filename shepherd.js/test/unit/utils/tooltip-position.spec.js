@@ -6,7 +6,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 // no assertion about coordinates can fail. These tests therefore stub the
 // positioning engine's boundary and assert what Shepherd writes to
 // `step.el.style` for a given resolved position payload.
-const floatingUI = vi.hoisted(() => ({
+const positionMock = vi.hoisted(() => ({
   // Overwritten per test to control exactly what the positioning callback gets.
   position: {
     x: 0,
@@ -22,7 +22,7 @@ vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
 
   return {
     ...actual,
-    computePosition: vi.fn(() => ({ ...floatingUI.position })),
+    computePosition: vi.fn(() => ({ ...positionMock.position })),
     // Run the position callback once, synchronously, rather than wiring up the
     // scroll/resize observers that happy-dom cannot drive.
     autoUpdate: vi.fn((_target, _element, update) => {
@@ -34,12 +34,12 @@ vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
 
 const Shepherd = (await import('../../../src/shepherd')).default;
 const { destroyTooltip, setupTooltip } =
-  await import('../../../src/utils/floating-ui');
+  await import('../../../src/utils/tooltip');
 
 window.Shepherd = Shepherd;
 window.ResizeObserver = ResizeObserver;
 
-describe('utils/floating-ui | position writing', function () {
+describe('utils/tooltip | position writing', function () {
   let instance, target;
 
   beforeEach(() => {
@@ -52,7 +52,7 @@ describe('utils/floating-ui | position writing', function () {
     instance?.complete();
     target.remove();
     window.scrollTo(0, 0);
-    floatingUI.position = {
+    positionMock.position = {
       x: 0,
       y: 0,
       strategy: 'absolute',
@@ -62,19 +62,19 @@ describe('utils/floating-ui | position writing', function () {
   });
 
   /**
-   * Re-runs positioning with a caller-supplied Floating UI payload and waits
+   * Re-runs positioning with a caller-supplied engine payload and waits
    * for it to land on the element. The payload is swapped in *after*
    * `tour.start()` has already positioned the step once, so an assertion on
    * these values can only be satisfied by this `setupTooltip` call.
    */
   async function positionWith(step, position) {
-    floatingUI.position = { ...floatingUI.position, ...position };
+    positionMock.position = { ...positionMock.position, ...position };
 
     setupTooltip(step);
 
     await vi.waitFor(() =>
       expect(step.el.dataset['popperPlacement']).toBe(
-        floatingUI.position.placement
+        positionMock.position.placement
       )
     );
   }
@@ -138,7 +138,7 @@ describe('utils/floating-ui | position writing', function () {
       placement: 'bottom'
     });
 
-    // This is the shape of #3269: Floating UI's payload is already in the
+    // This is the shape of #3269: the engine's payload is already in the
     // coordinate space its own `strategy` implies, so adding (or subtracting)
     // the scroll offset here re-separates the step from its target by exactly
     // the scroll delta.

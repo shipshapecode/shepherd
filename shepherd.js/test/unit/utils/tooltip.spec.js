@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const floatingUIMock = vi.hoisted(() => ({
+const positionMock = vi.hoisted(() => ({
   autoUpdate: vi.fn(),
   computePosition: vi.fn(),
   updateCallbacks: []
@@ -11,19 +11,16 @@ vi.mock('../../../src/utils/position.ts', async (importOriginal) => {
 
   return {
     ...actual,
-    autoUpdate: floatingUIMock.autoUpdate,
-    computePosition: floatingUIMock.computePosition
+    autoUpdate: positionMock.autoUpdate,
+    computePosition: positionMock.computePosition
   };
 });
 
 import { Step } from '../../../src/step';
-import {
-  getPositionConfig,
-  setupTooltip
-} from '../../../src/utils/floating-ui';
+import { getPositionConfig, setupTooltip } from '../../../src/utils/tooltip';
 import { arrow, flip, place, shift } from '../../../src/utils/position';
 
-describe('Floating UI Utils', function () {
+describe('utils/tooltip', function () {
   let targetElement;
   let stepElement;
 
@@ -67,7 +64,7 @@ describe('Floating UI Utils', function () {
 
   beforeEach(() => {
     targetElement = document.createElement('div');
-    targetElement.classList.add('floating-ui-test');
+    targetElement.classList.add('tooltip-test');
     document.body.appendChild(targetElement);
 
     stepElement = document.createElement('div');
@@ -111,7 +108,7 @@ describe('Floating UI Utils', function () {
 
     it('flips, shifts, and places the arrow last by default', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'right' }
+        attachTo: { element: '.tooltip-test', on: 'right' }
       });
 
       expect(middlewareNames(config)).toEqual(['flip', 'shift', 'arrow']);
@@ -121,7 +118,7 @@ describe('Floating UI Utils', function () {
 
     it('offsets before anything else measures the step', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'right' },
+        attachTo: { element: '.tooltip-test', on: 'right' },
         positionOptions: { offset: 12 }
       });
 
@@ -135,7 +132,7 @@ describe('Floating UI Utils', function () {
 
     it('keeps attachTo.on when flip is false', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'top' },
+        attachTo: { element: '.tooltip-test', on: 'top' },
         positionOptions: { flip: false }
       });
 
@@ -145,7 +142,7 @@ describe('Floating UI Utils', function () {
 
     it('chooses a side with autoPlacement for auto placements', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'auto-start' },
+        attachTo: { element: '.tooltip-test', on: 'auto-start' },
         positionOptions: { flip: false }
       });
 
@@ -158,7 +155,7 @@ describe('Floating UI Utils', function () {
 
     it('passes strategy through', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'right' },
+        attachTo: { element: '.tooltip-test', on: 'right' },
         positionOptions: { strategy: 'fixed' }
       });
 
@@ -168,7 +165,7 @@ describe('Floating UI Utils', function () {
     it('ignores the arrow padding for placements without an alignment', function () {
       const config = configFor({
         arrow: { padding: 40 },
-        attachTo: { element: '.floating-ui-test', on: 'bottom' }
+        attachTo: { element: '.tooltip-test', on: 'bottom' }
       });
 
       expect(arrowAt(config)).toEqual(arrowWithPadding('bottom', 0));
@@ -178,7 +175,7 @@ describe('Floating UI Utils', function () {
     it('passes the arrow padding through for edge aligned placements', function () {
       const config = configFor({
         arrow: { padding: 40 },
-        attachTo: { element: '.floating-ui-test', on: 'bottom-start' }
+        attachTo: { element: '.tooltip-test', on: 'bottom-start' }
       });
 
       expect(arrowAt(config)).toEqual(arrowWithPadding('bottom-start', 40));
@@ -187,7 +184,7 @@ describe('Floating UI Utils', function () {
 
     it('defaults the arrow padding for edge aligned placements', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'bottom-start' }
+        attachTo: { element: '.tooltip-test', on: 'bottom-start' }
       });
 
       expect(arrowAt(config)).toEqual(arrowWithPadding('bottom-start', 4));
@@ -202,7 +199,7 @@ describe('Floating UI Utils', function () {
       svgArrow.classList.add('shepherd-arrow');
       stepElement.replaceChildren(svgArrow);
       const config = configFor({
-        attachTo: { element: '.floating-ui-test', on: 'right' }
+        attachTo: { element: '.tooltip-test', on: 'right' }
       });
 
       expect(middlewareNames(config)).toEqual(['flip', 'shift', 'arrow']);
@@ -210,7 +207,7 @@ describe('Floating UI Utils', function () {
 
     it('adds no middleware for a centered step', function () {
       const config = configFor({
-        attachTo: { element: '.floating-ui-test' },
+        attachTo: { element: '.tooltip-test' },
         positionOptions: { offset: 16 }
       });
 
@@ -222,16 +219,16 @@ describe('Floating UI Utils', function () {
     beforeEach(() => {
       vi.useFakeTimers();
 
-      floatingUIMock.updateCallbacks.length = 0;
-      floatingUIMock.autoUpdate.mockImplementation(
+      positionMock.updateCallbacks.length = 0;
+      positionMock.autoUpdate.mockImplementation(
         (_target, _stepElement, update) => {
-          floatingUIMock.updateCallbacks.push(update);
+          positionMock.updateCallbacks.push(update);
           update();
 
           return vi.fn();
         }
       );
-      floatingUIMock.computePosition.mockReturnValue({
+      positionMock.computePosition.mockReturnValue({
         middlewareData: {},
         placement: 'bottom',
         strategy: 'absolute',
@@ -255,9 +252,9 @@ describe('Floating UI Utils', function () {
 
       setupTooltip(step);
       stepElement.style.setProperty('--shepherd-gap', '24px');
-      floatingUIMock.updateCallbacks[0]();
+      positionMock.updateCallbacks[0]();
 
-      const calls = floatingUIMock.computePosition.mock.calls;
+      const calls = positionMock.computePosition.mock.calls;
       expect(gapOf(calls.at(-1))).toBe(24);
       stepElement.style.removeProperty('--shepherd-gap');
     });
@@ -275,7 +272,7 @@ describe('Floating UI Utils', function () {
       input.focus();
       expect(document.activeElement).toBe(input);
 
-      floatingUIMock.updateCallbacks[0]();
+      positionMock.updateCallbacks[0]();
 
       await flushPositioning();
 
@@ -295,7 +292,7 @@ describe('Floating UI Utils', function () {
     it('reports a step it could not position, and still focuses it', async () => {
       const { step, stepElement } = createTooltipFixture();
       const cause = new Error('no platform');
-      floatingUIMock.computePosition.mockImplementationOnce(() => {
+      positionMock.computePosition.mockImplementationOnce(() => {
         throw cause;
       });
       const consoleError = vi.spyOn(console, 'error');
@@ -326,7 +323,7 @@ describe('Floating UI Utils', function () {
 
       expect(secondFocusSpy).toHaveBeenCalledTimes(1);
 
-      floatingUIMock.updateCallbacks[1]();
+      positionMock.updateCallbacks[1]();
 
       await flushPositioning();
 

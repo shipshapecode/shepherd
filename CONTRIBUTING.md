@@ -14,14 +14,14 @@ YOUR_USERNAME }/shepherd.git`
 
 ## Writing code!
 
-We use `rollup` to facilitate things like transpilation, minification, etc. so
-you can focus on writing relevant code. If there is a fix or feature you would like
-to contribute, we ask that you take the following steps:
+We use [`tsdown`](https://tsdown.dev) to bundle, minify, and generate type
+declarations, so you can focus on writing relevant code. If there is a fix or
+feature you would like to contribute, we ask that you take the following steps:
 
 1. Most of the _editable_ code lives in the `src` directory while built code
    will end up in the `dist` directory upon running `pnpm build`.
 
-2. The demo app is served out of the `landing` directory. Running `pnpm start` will open it in your browser and initiate a live-reloading session as you make changes.
+2. The demo page lives in `shepherd.js/dev`. Running `pnpm start` rebuilds on every change and opens the page in your browser; reload it to see your changes.
 
 ## Opening Pull Requests
 

@@ -9,13 +9,11 @@
     "noEmit": true,
     "composite": true,
     "strict": true,
-    "downlevelIteration": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "baseUrl": "."
+    "allowJs": true
   },
   "exclude": ["node_modules", "test", "vite.config.ts", "vitest.config.ts"],
   "include": ["**/*.ts", "**/*.tsx"],

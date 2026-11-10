@@ -13,7 +13,7 @@ import {
   uuid,
   parseExtraHighlights
 } from './utils/general.ts';
-import { setupTooltip, destroyTooltip } from './utils/floating-ui.ts';
+import { setupTooltip, destroyTooltip } from './utils/tooltip.ts';
 import {
   createShepherdElement,
   type ShepherdElementResult
