@@ -122,7 +122,8 @@ function publicApi() {
   };
   source.forEachChild((node) => {
     if (ts.isClassDeclaration(node) || ts.isInterfaceDeclaration(node)) {
-      const owner = node.name.text;
+      // Bundlers suffix one of two same-named declarations, as in `Step$1`.
+      const owner = node.name.text.replace(/\$\d+$/, '');
       add(owner, node);
       for (const member of node.members) {
         const name = member.name?.getText(source);
@@ -134,6 +135,13 @@ function publicApi() {
     } else if (ts.isExportDeclaration(node) && node.exportClause) {
       for (const element of node.exportClause.elements) {
         names.add(`export:${element.name.text}`);
+      }
+    } else if (
+      ts.isVariableStatement(node) &&
+      node.modifiers?.some((mod) => mod.kind === ts.SyntaxKind.ExportKeyword)
+    ) {
+      for (const decl of node.declarationList.declarations) {
+        names.add(`export:${decl.name.getText(source)}`);
       }
     } else if (ts.isExportAssignment(node)) {
       names.add('export:default');

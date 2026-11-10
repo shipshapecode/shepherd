@@ -22,7 +22,7 @@ interface OpeningProperty {
 /**
  * The corner radius of the overlay opening: one number, or one per corner.
  */
-type ModalRadiusType =
+export type ModalRadiusType =
   | number
   | {
       topLeft?: number;
