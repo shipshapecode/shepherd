@@ -7,14 +7,19 @@
     "type": "git",
     "url": "https://github.com/shipshapecode/shepherd.git"
   },
-  "main": "./dist/index.umd.cjs",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -25,7 +30,7 @@
     "LICENSE.md"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "tsdown",
     "prepack": "cp ../../LICENSE.md ./LICENSE.md && pnpm build",
     "test:ci": "vitest --run",
     "test:dev": "vitest"
@@ -42,9 +47,9 @@
     "happy-dom": "^21.0.4",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "tsdown": "^0.23.7",
     "typescript": "^6.0.3",
     "vite": "^8.3.6",
-    "vite-plugin-dts": "^5.1.2",
     "vitest": "^5.1.0"
   },
   "peerDependencies": {
