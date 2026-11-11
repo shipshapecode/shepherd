@@ -341,21 +341,23 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
 
     glide();
 
-    // Otherwise the opening only moves when a highlight does, which `autoUpdate`
-    // reports without polling, so an open tour on a still page does no work.
+    // Otherwise the opening only changes when a highlight moves or resizes, or a
+    // scroll parent does, which crops it without moving it. `autoUpdate` reports
+    // those without polling, so an open tour on a still page does no work.
+    // With nothing to highlight, the overlay itself is tracked, since its path
+    // still has to follow the viewport.
     const highlights = [
       ...new Set([step.target, ...(step._resolvedExtraHighlightElements ?? [])])
     ].filter((el): el is HTMLElement => el?.nodeType === Node.ELEMENT_NODE);
-    stopTracking = highlights.map((el) => autoUpdate(el, element, update));
-
-    // A scroll parent that resizes crops a highlight without moving it.
-    if (typeof ResizeObserver === 'function' && highlights.length) {
-      const resizes = new ResizeObserver(update);
-      highlights
-        .flatMap((el) => _cachedScrollParents(el))
-        .forEach((scrollParent) => resizes.observe(scrollParent));
-      stopTracking.push(() => resizes.disconnect());
-    }
+    const tracked = highlights.length
+      ? [
+          ...new Set([
+            ...highlights,
+            ...highlights.flatMap((el) => _cachedScrollParents(el))
+          ])
+        ]
+      : [element];
+    stopTracking = tracked.map((el) => autoUpdate(el, element, update));
 
     touchStep = step;
     window.addEventListener('touchmove', _preventModalBodyTouch, {

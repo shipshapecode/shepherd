@@ -264,6 +264,54 @@ describe('components/ShepherdModal', () => {
         extra.remove();
       });
 
+      it('follows a scroll parent that moves while its target stays put', () => {
+        const scroller = document.createElement('div');
+        // happy-dom reports '' for overflow, which would make every ancestor a
+        // scroll parent.
+        const computedStyle = window.getComputedStyle.bind(window);
+        vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+          const style = computedStyle(el);
+          const overflow = el === scroller ? 'auto' : 'visible';
+          return new Proxy(style, {
+            get: (target, key) =>
+              /^overflow[XY]?$/.test(key)
+                ? overflow
+                : typeof target[key] === 'function'
+                  ? target[key].bind(target)
+                  : target[key]
+          });
+        });
+        scroller.getBoundingClientRect = () => rect(0, 0, 1000, 1000);
+        document.body.append(scroller);
+        const step = makeStep(rect(200, 300, 50, 50));
+        step.target.style.position = '';
+        scroller.append(step.target);
+        modal.setupForStep(step);
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+        // The first check after setup always updates, so settle it first.
+        window.dispatchEvent(new Event('scroll'));
+
+        scroller.getBoundingClientRect = () => rect(0, 0, 1000, 320);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 20));
+        scroller.remove();
+      });
+
+      it('redraws a step with no target when the viewport resizes', () => {
+        const { innerWidth } = window;
+        const step = makeStep(rect(0, 0, 0, 0));
+        step.target = undefined;
+        modal.setupForStep(step);
+        expect(path().getAttribute('d')).toMatch(/^M1024,768/);
+
+        window.innerWidth = 1200;
+        window.dispatchEvent(new Event('resize'));
+        window.innerWidth = innerWidth;
+
+        expect(path().getAttribute('d')).toMatch(/^M1200,768/);
+      });
+
       it('stops following once hidden', () => {
         const step = makeStep(rect(200, 300, 50, 50));
         modal.setupForStep(step);
