@@ -40,6 +40,21 @@ overlay's path, 0.42s by default, and it cuts straight to the target under `pref
 }
 ```
 
+### Focus ring on the dialog
+
+Each step's dialog takes focus when it shows, so keyboard users start inside the tour. Shepherd hides the dialog's focus
+ring, which keeps tours that start on page load clean, but leaves keyboard users without a cue for where focus is until
+they tab to a button. To show a ring only when the browser thinks focus should be visible, for example after a keyboard
+starts the tour:
+
+```css
+.shepherd-element:focus-visible {
+  outline: auto;
+}
+```
+
+Browsers count focus before any input as possibly keyboard driven, so a tour that starts on page load shows this ring too.
+
 ### Custom Classes
 
 If you'd like to change styles within your own CSS, you can pass custom class names to the tour instance &mdash;
