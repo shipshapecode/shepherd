@@ -199,5 +199,6 @@ Each of those functions returns a function that stops it.
 
 ## Licensing
 
-Free under AGPL-3.0 for open source and non-commercial use. Commercial products need a
-commercial license: https://shepherdjs.dev/pricing. Tell the user if it applies.
+Free for noncommercial use under PolyForm Noncommercial 1.0.0, and free to evaluate
+for 30 days. Commercial use, including internal tools at for-profit companies, needs a
+one-time commercial license from $50: https://www.shepherdjs.dev/pricing. Tell the user if it applies.

@@ -15,7 +15,7 @@
 [![Code Coverage](https://qlty.sh/gh/shipshapecode/projects/shepherd/coverage.svg)](https://qlty.sh/gh/shipshapecode/projects/shepherd)
 [![StackShare](https://img.shields.io/badge/Follow%20on-StackShare-blue.svg?logo=stackshare&style=flat)](https://stackshare.io/shepherd-js)  
 
-[Shepherd](https://shepherdjs.dev/) is an open source, fully featured, digital adoption platform (DAP) and user on-boarding service.
+[Shepherd](https://shepherdjs.dev/) is a source-available, fully featured, digital adoption platform (DAP) and user on-boarding service.
 
 Supported Browsers
 ----------------------------------------------------------
@@ -65,9 +65,9 @@ Steps position themselves with a small built-in engine. Tune the gap, edge dista
 
 Coding agents: read [`shepherd.js/AGENTS.md`](shepherd.js/AGENTS.md), which is also in the npm package.
 
-### Shepherd Open Source Library
+### Shepherd Standalone Library
 
-The Shepherd Standalone Library has been open source since the very beginning. Check out our tutorials here:
+The Shepherd Standalone Library has been free for noncommercial use since the very beginning. Check out our tutorials here:
 
 #### [React Shepherd Wrapper](packages/react)
 #### [Angular Shepherd Wrapper](https://github.com/shipshapecode/angular-shepherd)
@@ -134,10 +134,11 @@ If you have a cool open-source library built on Shepherd, PR this doc.
 
 ## License
 
-Shepherd.js is dual-licensed under AGPL-3.0 and a Commercial License.
+Shepherd.js is source-available under the PolyForm Noncommercial License 1.0.0, with a commercial license for commercial use.
 
-- **Free for open source and non-commercial use** under AGPL-3.0
-- **Commercial license required** for commercial products and revenue-generating companies
+- **Free** for personal, hobby, educational, and other noncommercial use
+- **Free to evaluate** for 30 days in a commercial project
+- **Commercial license required** for commercial products, client work, and internal tools at for-profit companies. It is a one-time payment from $50.
 
 See [LICENSE.md](LICENSE.md) for complete details or visit [shepherdjs.dev/pricing](https://shepherdjs.dev/pricing) to purchase a commercial license.
 

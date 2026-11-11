@@ -31,6 +31,13 @@ feature you would like to contribute, we ask that you take the following steps:
 
 2. Open a Pull Request on GitHub with a description of your changes.
 
+## Contribution license
+
+Shepherd.js is offered under the PolyForm Noncommercial License 1.0.0 and under
+commercial licenses. By opening a pull request, you license your contribution to
+Ship Shape under the MIT License, so it can ship under both. You also confirm
+that you have the right to do so.
+
 ## Testing
 
 All PRs that change code functionality are required to have accompanying tests.

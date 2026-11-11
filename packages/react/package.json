@@ -2,7 +2,7 @@
   "name": "react-shepherd",
   "version": "8.0.0",
   "private": false,
-  "license": "AGPL-3.0",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/shipshapecode/shepherd.git"

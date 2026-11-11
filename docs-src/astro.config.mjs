@@ -36,7 +36,7 @@ export default defineConfig({
         starlightLlmsTxt({
           projectName: 'Shepherd.js',
           description:
-            'Shepherd is a JavaScript library for building guided product tours, user onboarding flows, and feature announcements. It works with React, Vue, Angular, Ember, or plain JavaScript. Free for open-source and non-commercial use under AGPL-3.0; commercial use needs a one-time license from $50 at https://www.shepherdjs.dev/pricing.'
+            'Shepherd is a JavaScript library for building guided product tours, user onboarding flows, and feature announcements. It works with React, Vue, Angular, Ember, or plain JavaScript. Free for noncommercial use under the PolyForm Noncommercial License 1.0.0 and free to evaluate for 30 days; commercial use needs a one-time license from $50 at https://www.shepherdjs.dev/pricing.'
         }),
         starlightTypeDoc({
           entryPoints: ['./node_modules/shepherd.js/src/*.ts'],

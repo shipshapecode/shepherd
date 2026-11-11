@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/shipshapecode/shepherd.git"
   },
-  "license": "AGPL-3.0",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "scripts": {
     "build": "pnpm -F shepherd.js build && pnpm -F '!shepherd.js' -F !landing -F !shepherd-docs build",
     "cypress:install": "pnpm -F shepherd.js cypress:install",
