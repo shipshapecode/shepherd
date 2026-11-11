@@ -22,6 +22,9 @@ export default defineConfig({
     })
   ],
 
+  // Astro 7's compressor drops the space between text and an inline
+  // element on the next line ("visit<a>"), so keep source whitespace.
+  compressHTML: false,
   output: 'static',
   adapter: vercel(),
   vite: {
