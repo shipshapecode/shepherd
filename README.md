@@ -9,7 +9,7 @@
 ![Download count all time](https://img.shields.io/npm/dt/shepherd.js.svg)
 ![npm](https://img.shields.io/npm/dm/shepherd.js.svg)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fshipshapecode%2Fshepherd.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%shipshapecode%2Fshepherd?ref=badge_shield)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/shepherd.js.svg)
+[![minzipped size](https://badgen.net/bundlejs/minzip/shepherd.js)](https://bundlejs.com/?q=shepherd.js)
 [![Test](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml/badge.svg)](https://github.com/shipshapecode/shepherd/actions/workflows/test.yml)
 [![Maintainability](https://qlty.sh/gh/shipshapecode/projects/shepherd/maintainability.svg)](https://qlty.sh/gh/shipshapecode/projects/shepherd)
 [![Code Coverage](https://qlty.sh/gh/shipshapecode/projects/shepherd/coverage.svg)](https://qlty.sh/gh/shipshapecode/projects/shepherd)
