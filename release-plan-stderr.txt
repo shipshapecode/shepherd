@@ -1,0 +1,6 @@
+# Unlabeled Changes
+
+* [#3594](https://github.com/shipshapecode/shepherd/pull/3594) Fix landing footer layout and add new brand logos ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+
+*Cannot plan release until the above changes are labeled*.
