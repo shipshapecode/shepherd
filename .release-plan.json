@@ -1,27 +1,35 @@
 {
   "solution": {
     "react-shepherd": {
-      "impact": "patch",
-      "oldVersion": "7.0.5",
-      "newVersion": "7.0.6",
+      "impact": "major",
+      "oldVersion": "7.0.6",
+      "newVersion": "8.0.0",
       "tagName": "latest",
       "constraints": [
         {
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
+        },
+        {
           "impact": "patch",
           "reason": "Has dependency `workspace:*` on shepherd.js"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./packages/react/package.json"
     },
     "shepherd.js": {
-      "impact": "minor",
-      "oldVersion": "15.2.3",
-      "newVersion": "15.3.0",
+      "impact": "major",
+      "oldVersion": "15.3.0",
+      "newVersion": "16.0.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "major",
+          "reason": "Appears in changelog section :boom: Breaking Change"
         },
         {
           "impact": "patch",
@@ -35,5 +43,5 @@
       "pkgJSONPath": "./shepherd.js/package.json"
     }
   },
-  "description": "## Release (2026-08-24)\n\n* react-shepherd 7.0.6 (patch)\n* shepherd.js 15.3.0 (minor)\n\n#### :rocket: Enhancement\n* `shepherd.js`\n  * [#3482](https://github.com/shipshapecode/shepherd/pull/3482) feat: add `label` step option for the dialog's accessible name ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3471](https://github.com/shipshapecode/shepherd/pull/3471) feat: add waitForElement and skipMissingElement step options ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3480](https://github.com/shipshapecode/shepherd/pull/3480) fix: honor the floatingUIOptions positioning strategy ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3481](https://github.com/shipshapecode/shepherd/pull/3481) fix: make canClickTarget work when a classPrefix is set ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3477](https://github.com/shipshapecode/shepherd/pull/3477) fix: keep the arrow middleware last when merging custom Floating UI options ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3476](https://github.com/shipshapecode/shepherd/pull/3476) fix: do not skip event handlers registered after a `once` handler ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3483](https://github.com/shipshapecode/shepherd/pull/3483) fix: clip each highlighted element by its own scroll containers ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3474](https://github.com/shipshapecode/shepherd/pull/3474) fix: only trigger the step `destroy` event on real teardown ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3472](https://github.com/shipshapecode/shepherd/pull/3472) fix: pass the actual previous step in the Tour `show` event ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#3475](https://github.com/shipshapecode/shepherd/pull/3475) chore: untrack cypress downloads run artifact ([@chuckcarpenter](https://github.com/chuckcarpenter))\n\n#### Committers: 1\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n"
+  "description": "## Release (2026-11-11)\n\n* react-shepherd 8.0.0 (major)\n* shepherd.js 16.0.0 (major)\n\n#### :boom: Breaking Change\n* `react-shepherd`\n  * [#3591](https://github.com/shipshapecode/shepherd/pull/3591) Build react-shepherd with tsdown ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`, `shepherd.js`\n  * [#3583](https://github.com/shipshapecode/shepherd/pull/3583) Drop all dependencies: an in-house positioning engine, 37% smaller, and docs for agents ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### :bug: Bug Fix\n* `shepherd.js`\n  * [#3593](https://github.com/shipshapecode/shepherd/pull/3593) Fix pinch-zoom overlay coverage, touch scrolling in steps, and invisible dialog focus ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3573](https://github.com/shipshapecode/shepherd/pull/3573) fix: resolve tour lifecycle races in beforeShowPromise, start, and confirmCancel ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3558](https://github.com/shipshapecode/shepherd/pull/3558) fix(modal): stop the iframe offset walk at the window the overlay renders into ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3557](https://github.com/shipshapecode/shepherd/pull/3557) fix(modal): treat overflow: hidden as cropping, skip inline and display: contents ancestors ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3556](https://github.com/shipshapecode/shepherd/pull/3556) fix(modal): don't clip highlights by root elements whose overflow applies to the viewport ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))\n\n#### :house: Internal\n* `shepherd.js`\n  * [#3592](https://github.com/shipshapecode/shepherd/pull/3592) Bump cypress-plugin-tab to 2.0.0 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* `react-shepherd`, `shepherd.js`\n  * [#3589](https://github.com/shipshapecode/shepherd/pull/3589) Build with tsdown and drop Floating UI from tests ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3584](https://github.com/shipshapecode/shepherd/pull/3584) chore: update dependencies and fix audit findings ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n* Other\n  * [#3572](https://github.com/shipshapecode/shepherd/pull/3572) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#3574](https://github.com/shipshapecode/shepherd/pull/3574) chore: add launch config for the landing dev server ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3498](https://github.com/shipshapecode/shepherd/pull/3498) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))\n  * [#3500](https://github.com/shipshapecode/shepherd/pull/3500) feat: add agent-friendly 404 page and llms.txt ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3554](https://github.com/shipshapecode/shepherd/pull/3554) fix(landing): pin Polar API version to 2026-10 on checkout ([@chuckcarpenter](https://github.com/chuckcarpenter))\n  * [#3499](https://github.com/shipshapecode/shepherd/pull/3499) feat: add about, contact, and privacy pages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3514](https://github.com/shipshapecode/shepherd/pull/3514) Upgrade Astro to v7 and update related dependencies ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3493](https://github.com/shipshapecode/shepherd/pull/3493) feat: serve markdown from the homepage via Accept negotiation ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3492](https://github.com/shipshapecode/shepherd/pull/3492) feat: complete landing metadata with www canonical, Open Graph, and JSON-LD ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n  * [#3491](https://github.com/shipshapecode/shepherd/pull/3491) test: add vitest harness for the landing site ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n\n#### Committers: 4\n- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))\n- GitHub Actions [Bot] ([@github-actions](https://github.com/apps/github-actions))\n- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))\n- serendipitous_syntax ([@serendipitous-syntax](https://github.com/serendipitous-syntax))\n"
 }

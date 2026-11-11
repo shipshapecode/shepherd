@@ -1,5 +1,49 @@
 # Changelog
 
+## Release (2026-11-11)
+
+* react-shepherd 8.0.0 (major)
+* shepherd.js 16.0.0 (major)
+
+#### :boom: Breaking Change
+* `react-shepherd`
+  * [#3591](https://github.com/shipshapecode/shepherd/pull/3591) Build react-shepherd with tsdown ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`, `shepherd.js`
+  * [#3583](https://github.com/shipshapecode/shepherd/pull/3583) Drop all dependencies: an in-house positioning engine, 37% smaller, and docs for agents ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### :bug: Bug Fix
+* `shepherd.js`
+  * [#3593](https://github.com/shipshapecode/shepherd/pull/3593) Fix pinch-zoom overlay coverage, touch scrolling in steps, and invisible dialog focus ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3573](https://github.com/shipshapecode/shepherd/pull/3573) fix: resolve tour lifecycle races in beforeShowPromise, start, and confirmCancel ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3558](https://github.com/shipshapecode/shepherd/pull/3558) fix(modal): stop the iframe offset walk at the window the overlay renders into ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3557](https://github.com/shipshapecode/shepherd/pull/3557) fix(modal): treat overflow: hidden as cropping, skip inline and display: contents ancestors ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3556](https://github.com/shipshapecode/shepherd/pull/3556) fix(modal): don't clip highlights by root elements whose overflow applies to the viewport ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3441](https://github.com/shipshapecode/shepherd/pull/3441) Fix mobile input focus loss during tooltip repositioning ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+
+#### :house: Internal
+* `shepherd.js`
+  * [#3592](https://github.com/shipshapecode/shepherd/pull/3592) Bump cypress-plugin-tab to 2.0.0 ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* `react-shepherd`, `shepherd.js`
+  * [#3589](https://github.com/shipshapecode/shepherd/pull/3589) Build with tsdown and drop Floating UI from tests ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3584](https://github.com/shipshapecode/shepherd/pull/3584) chore: update dependencies and fix audit findings ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+* Other
+  * [#3572](https://github.com/shipshapecode/shepherd/pull/3572) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#3574](https://github.com/shipshapecode/shepherd/pull/3574) chore: add launch config for the landing dev server ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3498](https://github.com/shipshapecode/shepherd/pull/3498) Prepare Release ([@github-actions[bot]](https://github.com/apps/github-actions))
+  * [#3500](https://github.com/shipshapecode/shepherd/pull/3500) feat: add agent-friendly 404 page and llms.txt ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3554](https://github.com/shipshapecode/shepherd/pull/3554) fix(landing): pin Polar API version to 2026-10 on checkout ([@chuckcarpenter](https://github.com/chuckcarpenter))
+  * [#3499](https://github.com/shipshapecode/shepherd/pull/3499) feat: add about, contact, and privacy pages ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3514](https://github.com/shipshapecode/shepherd/pull/3514) Upgrade Astro to v7 and update related dependencies ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3493](https://github.com/shipshapecode/shepherd/pull/3493) feat: serve markdown from the homepage via Accept negotiation ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3492](https://github.com/shipshapecode/shepherd/pull/3492) feat: complete landing metadata with www canonical, Open Graph, and JSON-LD ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+  * [#3491](https://github.com/shipshapecode/shepherd/pull/3491) test: add vitest harness for the landing site ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+
+#### Committers: 4
+- Chuck Carpenter ([@chuckcarpenter](https://github.com/chuckcarpenter))
+- GitHub Actions [Bot] ([@github-actions](https://github.com/apps/github-actions))
+- Robbie Wagner ([@RobbieTheWagner](https://github.com/RobbieTheWagner))
+- serendipitous_syntax ([@serendipitous-syntax](https://github.com/serendipitous-syntax))
+
 ## Release (2026-08-24)
 
 * react-shepherd 7.0.6 (patch)
