@@ -847,7 +847,7 @@ function observeMove(element: Element, onMove: () => void) {
  */
 export function autoUpdate(
   reference: Element,
-  floating: HTMLElement,
+  floating: Element,
   update: () => void
 ) {
   const win = getWindow(floating);

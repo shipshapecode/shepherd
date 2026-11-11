@@ -1,4 +1,5 @@
 import { makeOverlayPath } from '../utils/overlay-path.ts';
+import { autoUpdate } from '../utils/position.ts';
 import type { Step } from '../step.ts';
 import './shepherd-modal.css';
 
@@ -78,6 +79,7 @@ const PATH_NUMBER = /-?[\d.]+(e-\d+)?/g;
 
 export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   let rafId: number | undefined;
+  let stopTracking: (() => void)[] = [];
   let currentPath = '';
   // Memoizes the chain of scroll parents of a highlighted element for the
   // lifetime of a single step. Reset in `_cleanupStepEventListeners`.
@@ -122,7 +124,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         : to;
 
     // Writing `d` invalidates layout even when the value is unchanged, and this
-    // runs every frame.
+    // runs every frame of a glide, a scroll or an animation.
     if (d !== currentPath) {
       currentPath = d;
       pathEl.setAttribute('d', d);
@@ -300,6 +302,8 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     if (rafId) {
       cancelAnimationFrame(rafId);
     }
+    stopTracking.forEach((stop) => stop());
+    stopTracking = [];
 
     // Scroll parents are only memoized for the duration of a single step.
     _stepScrollParents = new WeakMap();
@@ -319,7 +323,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     const iframeOffset = _getIframeOffset(step.target);
     const targetScrollParent = _cachedScrollParents(step.target)[0] ?? null;
 
-    const rafLoop = () => {
+    const update = () =>
       positionModal(
         modalOverlayOpeningPadding,
         modalOverlayOpeningRadius,
@@ -329,10 +333,30 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
         step.target,
         step._resolvedExtraHighlightElements
       );
-      rafId = requestAnimationFrame(rafLoop);
+    // A glide tweens the path in script, so it needs every frame until it lands.
+    const glide = () => {
+      update();
+      rafId = glideEnd > Date.now() ? requestAnimationFrame(glide) : undefined;
     };
 
-    rafLoop();
+    glide();
+
+    // Otherwise the opening only moves when a highlight does, which `autoUpdate`
+    // reports without polling, so an open tour on a still page does no work.
+    const highlights = [
+      ...new Set([step.target, ...(step._resolvedExtraHighlightElements ?? [])])
+    ].filter((el): el is HTMLElement => el?.nodeType === Node.ELEMENT_NODE);
+    stopTracking = highlights.map((el) => autoUpdate(el, element, update));
+
+    // A scroll parent that resizes crops a highlight without moving it.
+    if (typeof ResizeObserver === 'function' && highlights.length) {
+      const resizes = new ResizeObserver(update);
+      highlights
+        .flatMap((el) => _cachedScrollParents(el))
+        .forEach((scrollParent) => resizes.observe(scrollParent));
+      stopTracking.push(() => resizes.disconnect());
+    }
+
     touchStep = step;
     window.addEventListener('touchmove', _preventModalBodyTouch, {
       passive: false
@@ -445,10 +469,11 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
    *
    * Resolving inline would be prohibitively expensive: the containment check in
    * `positionModal` is O(n^2) over the highlighted elements and runs on every
-   * animation frame, while each walk costs one `window.getComputedStyle` call
-   * per ancestor. The answer cannot change between frames of a step, so it is
-   * resolved once per element instead — matching the once-per-step contract the
-   * target already has in `_styleForStep`.
+   * frame of a glide or a scroll, while each walk costs one
+   * `window.getComputedStyle` call per ancestor. The answer cannot change
+   * between frames of a step, so it is resolved once per element instead —
+   * matching the once-per-step contract the target already has in
+   * `_styleForStep`.
    */
   function _cachedScrollParents(el?: HTMLElement | null): HTMLElement[] {
     // `nodeType`, not `instanceof`, so a target in a same-origin iframe counts.
