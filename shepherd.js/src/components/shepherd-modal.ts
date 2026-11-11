@@ -86,6 +86,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
   let glideFrom: string[];
   let glideEnd: number;
   let glideMs: number;
+  let touchStep: Step | undefined;
 
   // Build SVG elements
   const pathEl = document.createElementNS(SVG_NS, 'path');
@@ -254,9 +255,46 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     e.stopPropagation();
   }
 
+  // Keeps the page from moving under a touch, unless the touch is on content
+  // that scrolls inside the step's dialog or inside a target the user may
+  // interact with (#1717).
   const _preventModalBodyTouch = (e: Event) => {
-    e.preventDefault();
+    if (!touchStep || !_scrollsWithin(touchStep, e.composedPath())) {
+      e.preventDefault();
+    }
   };
+
+  /**
+   * Whether an element on the touch's path, up to the step's dialog or an
+   * interactive target, can scroll. Only those roots count, so a step with no
+   * target never lets `body` through. `composedPath` sees through shadow roots.
+   */
+  function _scrollsWithin(step: Step, path: EventTarget[]) {
+    const roots: unknown[] = [step.el];
+    if (step.options.canClickTarget !== false) {
+      roots.push(step.target, ...(step._resolvedExtraHighlightElements || []));
+    }
+
+    // `nodeType`, not `instanceof`, so an element created in another frame
+    // still counts, as in `position.ts`.
+    let scrolls = false;
+    for (const node of path) {
+      scrolls ||=
+        (node as Node).nodeType === Node.ELEMENT_NODE &&
+        _overflows(node as Element);
+      if (roots.includes(node)) return scrolls;
+    }
+    return false;
+  }
+
+  function _overflows(el: Element) {
+    const { overflowX, overflowY } = getComputedStyle(el);
+    const scrolls = (overflow: string) => /auto|scroll/.test(overflow);
+    return (
+      (scrolls(overflowY) && el.scrollHeight > el.clientHeight) ||
+      (scrolls(overflowX) && el.scrollWidth > el.clientWidth)
+    );
+  }
 
   function _cleanupStepEventListeners() {
     if (rafId) {
@@ -267,6 +305,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     _stepScrollParents = new WeakMap();
 
     window.removeEventListener('touchmove', _preventModalBodyTouch);
+    touchStep = undefined;
   }
 
   function _styleForStep(step: Step) {
@@ -294,6 +333,7 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
     };
 
     rafLoop();
+    touchStep = step;
     window.addEventListener('touchmove', _preventModalBodyTouch, {
       passive: false
     });
