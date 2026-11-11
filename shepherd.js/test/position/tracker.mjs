@@ -60,8 +60,23 @@ async function runTracker() {
   spacer.style.cssText = 'height:20px';
   inner.append(spacer);
   const reference = document.createElement('div');
-  reference.style.cssText = 'width:100px;height:40px;background:#ccd';
+  reference.style.cssText =
+    'width:100px;height:40px;background:#ccd;border:4px solid';
   inner.append(reference);
+  // An inline reference, whose size no ResizeObserver reports.
+  const line = document.createElement('div');
+  line.style.cssText =
+    'position:absolute;left:500px;top:100px;white-space:nowrap';
+  const lead = document.createTextNode('x');
+  const inline = document.createElement('span');
+  inline.textContent = 'a long inline reference';
+  line.append(lead, inline);
+  page.append(line);
+  const inlineFloating = document.createElement('div');
+  inlineFloating.style.cssText =
+    'position:absolute;left:0;top:0;width:10px;height:10px';
+  document.body.append(inlineFloating);
+  let inlineCount = 0;
   const floating = document.createElement('div');
   floating.style.cssText =
     'position:absolute;left:0;top:0;width:100px;height:50px;background:#fcc';
@@ -75,14 +90,19 @@ async function runTracker() {
     await new Promise((done) => setTimeout(done, 250));
   };
   const results = {};
-  const measure = async (name, act) => {
+  const measure = async (name, act, read = () => count) => {
     await tick();
-    const before = count;
+    const before = read();
     act();
     await tick();
-    results[name] = count - before;
+    results[name] = read() - before;
   };
   const cleanup = window.ENGINE.autoUpdate(reference, floating, () => count++);
+  const cleanupInline = window.ENGINE.autoUpdate(
+    inline,
+    inlineFloating,
+    () => inlineCount++
+  );
   results.initial = count;
   await measure('windowScroll', () => window.scrollTo(0, 37));
   await measure('ancestorScroll', () => {
@@ -108,7 +128,35 @@ async function runTracker() {
   await measure('settledShift', () => {
     scroller.style.top = '150px';
   });
+  await measure('shrink', () => {
+    reference.style.height = '20px';
+  });
+  // Stays within the box the reference had before it shrank.
+  await measure('shiftAfterShrink', () => {
+    scroller.style.top = '155px';
+  });
+  // Shrinks the border box and leaves the content box as it was.
+  await measure('borderShrink', () => {
+    reference.style.borderWidth = '0';
+  });
+  const readInline = () => inlineCount;
+  await measure(
+    'inlineTextShrink',
+    () => {
+      inline.textContent = 'short';
+    },
+    readInline
+  );
+  // Moves it within the box it had before its text shrank.
+  await measure(
+    'inlineShiftAfterShrink',
+    () => {
+      lead.data = 'xx';
+    },
+    readInline
+  );
   cleanup();
+  cleanupInline();
   await measure('afterCleanup', () => {
     window.scrollTo(0, 80);
     reference.style.width = '131px';
