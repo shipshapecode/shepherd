@@ -275,15 +275,19 @@ export function createShepherdModal(container: HTMLElement): ShepherdModalAPI {
       roots.push(step.target, ...(step._resolvedExtraHighlightElements || []));
     }
 
+    // `nodeType`, not `instanceof`, so an element created in another frame
+    // still counts, as in `position.ts`.
     let scrolls = false;
     for (const node of path) {
-      scrolls ||= node instanceof HTMLElement && _overflows(node);
+      scrolls ||=
+        (node as Node).nodeType === Node.ELEMENT_NODE &&
+        _overflows(node as Element);
       if (roots.includes(node)) return scrolls;
     }
     return false;
   }
 
-  function _overflows(el: HTMLElement) {
+  function _overflows(el: Element) {
     const { overflowX, overflowY } = getComputedStyle(el);
     const scrolls = (overflow: string) => /auto|scroll/.test(overflow);
     return (

@@ -1735,6 +1735,19 @@ describe('components/ShepherdModal', () => {
         expect(touchPrevented(leaf)).toBe(false);
       });
 
+      it('lets a scrollable element made in another frame scroll', () => {
+        // An element keeps the prototypes of the realm that made it, so it
+        // fails this realm's `instanceof HTMLElement` checks.
+        const inner = scroller();
+        Object.setPrototypeOf(inner, Element.prototype);
+        const target = document.createElement('div');
+        target.appendChild(inner);
+        showStep({}, target);
+
+        expect(inner instanceof HTMLElement).toBe(false);
+        expect(touchPrevented(inner)).toBe(false);
+      });
+
       it('keeps blocking a target with nothing to scroll', () => {
         const target = document.createElement('div');
         showStep({}, target);
