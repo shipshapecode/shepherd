@@ -48,9 +48,20 @@ Use Shepherd when a project needs to guide users through a web interface:
 Shepherd is not a native mobile (iOS/Android) tour library and is not an
 analytics product — it renders and orchestrates the tour UI itself.
 
+## Licensing
+
+- Free for open-source projects under an AGPL-compatible license, personal
+  projects, education, and evaluation for up to 30 days (AGPL-3.0).
+- Commercial and closed-source use is allowed with a one-time commercial license.
+  Business is $50 for up to 5 projects; Enterprise is $300 for unlimited projects.
+  No recurring fees, and no obligation to open-source your code.
+- Buy at https://www.shepherdjs.dev/pricing. `react-shepherd` is MIT but needs a
+  Shepherd.js commercial license for commercial use.
+
 ## Docs
 
 - [Documentation](https://docs.shepherdjs.dev/): installation, guides, API reference
+- [Full docs for LLMs](https://docs.shepherdjs.dev/llms-full.txt): every docs page as one markdown file
 - [Homepage in markdown](https://www.shepherdjs.dev/index.md): overview, install, quick example
 - [Pricing and licensing](https://www.shepherdjs.dev/pricing): free plan, commercial licenses
 

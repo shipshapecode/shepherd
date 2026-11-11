@@ -60,5 +60,17 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
-  }
+  },
+  "keywords": [
+    "react",
+    "react product tour",
+    "react tour",
+    "guided tour",
+    "user onboarding",
+    "onboarding",
+    "walkthrough",
+    "hooks",
+    "shepherd",
+    "shepherd.js"
+  ]
 }

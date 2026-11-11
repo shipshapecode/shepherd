@@ -26,4 +26,12 @@ describe('llms.txt', () => {
     expect(body).toContain('## When to use Shepherd');
     expect(body).toContain('https://docs.shepherdjs.dev/');
   });
+
+  it('states the commercial license price and path', async () => {
+    const body = await (await fetch(`${TEST_BASE_URL}/llms.txt`)).text();
+
+    expect(body).toContain('## Licensing');
+    expect(body).toMatch(/\$50/);
+    expect(body).toContain('https://www.shepherdjs.dev/pricing');
+  });
 });

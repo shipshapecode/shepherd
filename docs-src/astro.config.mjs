@@ -1,10 +1,12 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightTypeDoc, { typeDocSidebarGroup } from 'starlight-typedoc';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://docs.shepherdjs.dev',
   integrations: [
     starlight({
       title: 'Documentation',
@@ -31,6 +33,11 @@ export default defineConfig({
         Head: './src/components/HeadWithPosthog.astro'
       },
       plugins: [
+        starlightLlmsTxt({
+          projectName: 'Shepherd.js',
+          description:
+            'Shepherd is a JavaScript library for building guided product tours, user onboarding flows, and feature announcements. It works with React, Vue, Angular, Ember, or plain JavaScript. Free for open-source and non-commercial use under AGPL-3.0; commercial use needs a one-time license from $50 at https://www.shepherdjs.dev/pricing.'
+        }),
         starlightTypeDoc({
           entryPoints: ['./node_modules/shepherd.js/src/*.ts'],
           tsconfig: './node_modules/shepherd.js/tsconfig.json',
