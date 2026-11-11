@@ -7,7 +7,7 @@ import TwitterLogo from '../images/twitter.svg?raw';
 import ShepherdWink from '../images/shepherd-head-wink.svg';
 ---
 
-<footer class="flex justify-center mt-auto w-full">
+<footer class="flex justify-center mt-auto pt-24 w-full">
   <Image
     class="footer-logo absolute w-48"
     src={ShepherdWink}
@@ -16,51 +16,61 @@ import ShepherdWink from '../images/shepherd-head-wink.svg';
   />
 
   <div
-    class="bg-grey border-4 border-navy flex flex-wrap items-center justify-center md:justify-between max-w-8xl p-8 pt-20 w-full md:pt-8"
+    class="bg-grey border-4 border-navy flex flex-col items-center max-w-8xl px-8 pb-8 pt-24 w-full"
   >
-    <div
-      class="flex items-center justify-center w-full md:justify-between md:w-auto"
-    >
-      <img
-        class="inline mr-2 w-8"
-        src="/img/ship-shape-logo.svg"
-        alt="Ship Shape Logo"
-      />
-
-      <span class="font-heading text-xl uppercase">
-        Library by
-        <a class="underline hover:text-navy-light" href="https://shipshape.io">
-          Ship Shape
-        </a>
-      </span>
-    </div>
-
     <nav
-      class="flex flex-wrap font-heading items-center justify-center mt-4 text-sm uppercase w-full md:mt-0 md:w-auto"
+      aria-label="Site"
+      class="flex flex-wrap font-heading gap-x-8 gap-y-2 justify-center text-lg uppercase"
     >
-      <a class="mr-4 hover:text-navy-light" href="/about">About</a>
-      <a class="mr-4 hover:text-navy-light" href="/contact">Contact</a>
-      <a class="mr-4 hover:text-navy-light" href="/privacy">Privacy</a>
+      <a class="hover:text-navy-light" href="/about">About</a>
+      <a class="hover:text-navy-light" href="/pricing">Pricing</a>
+      <a class="hover:text-navy-light" href="/contact">Contact</a>
+      <a class="hover:text-navy-light" href="/privacy">Privacy</a>
     </nav>
 
-    <div class="flex items-center mt-4 md:mt-0">
-      <a
-        class="footer-icon mr-4 w-6"
-        href="https://github.com/shipshapecode/shepherd"
-      >
-        <Fragment set:html={GitHubLogo} />
-      </a>
+    <div
+      class="border-navy border-t-2 flex flex-col gap-4 items-center justify-between mt-6 pt-6 w-full md:flex-row"
+    >
+      <div class="flex items-center">
+        <img
+          class="inline mr-2 w-8"
+          src="/img/ship-shape-logo.svg"
+          alt="Ship Shape Logo"
+        />
 
-      <a class="footer-icon mr-4 w-6" href="https://twitter.com/whiskeywebfm">
-        <Fragment set:html={TwitterLogo} />
-      </a>
+        <span class="font-heading text-xl uppercase">
+          Library by{' '}
+          <a class="underline hover:text-navy-light" href="https://shipshape.io">
+            Ship Shape
+          </a>
+        </span>
+      </div>
 
-      <a
-        class="footer-icon mr-4 w-6"
-        href="https://www.linkedin.com/company/ship-shape/"
-      >
-        <Fragment set:html={LinkedInLogo} />
-      </a>
+      <div class="flex items-center">
+        <a
+          aria-label="GitHub"
+          class="footer-icon mr-4 w-6"
+          href="https://github.com/shipshapecode/shepherd"
+        >
+          <Fragment set:html={GitHubLogo} />
+        </a>
+
+        <a
+          aria-label="Twitter"
+          class="footer-icon mr-4 w-6"
+          href="https://twitter.com/whiskeywebfm"
+        >
+          <Fragment set:html={TwitterLogo} />
+        </a>
+
+        <a
+          aria-label="LinkedIn"
+          class="footer-icon w-6"
+          href="https://www.linkedin.com/company/ship-shape/"
+        >
+          <Fragment set:html={LinkedInLogo} />
+        </a>
+      </div>
     </div>
   </div>
 </footer>

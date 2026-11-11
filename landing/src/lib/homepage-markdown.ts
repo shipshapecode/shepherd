@@ -79,6 +79,11 @@ onboarding new users step by step, announcing or explaining new features,
 walking through complex forms or workflows, or building in-app training.
 It runs entirely in the browser with no backend service required.
 
+## Who uses Shepherd
+
+Shepherd is used by teams at Google, Cisco, Qualcomm, Ubisoft, Esri,
+ASSA ABLOY, Gallup, Avalara, Ally, and CodePen.
+
 ## Licensing
 
 Shepherd is free for open-source, personal, and non-commercial projects
