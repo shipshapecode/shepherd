@@ -7,7 +7,7 @@ import { SITE_URL } from '../consts';
  */
 export const homepageMarkdown = `# Shepherd.js — Guide your users through a tour of your app
 
-Shepherd is an open-source JavaScript library for building guided product
+Shepherd is a JavaScript library for building guided product
 tours, user onboarding flows, trainings, and feature announcements. Each tour
 is a sequence of steps rendered as accessible dialogs that can attach to any
 element in the DOM, highlight it with a modal overlay, and walk the user through your app.
@@ -86,8 +86,9 @@ ASSA ABLOY, Gallup, Avalara, Ally, and CodePen.
 
 ## Licensing
 
-Shepherd is free for open-source, personal, and non-commercial projects
-(AGPL-3.0). Commercial licenses are available at ${SITE_URL}/pricing.
+Shepherd is free for personal, hobby, educational, and other noncommercial
+projects (PolyForm Noncommercial 1.0.0), and free to evaluate for 30 days.
+Commercial use needs a one-time license from $50 at ${SITE_URL}/pricing.
 Shepherd is maintained by [Ship Shape](https://shipshape.io/).
 
 ## More

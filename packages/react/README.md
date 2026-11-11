@@ -98,12 +98,14 @@ exist.
 
 ## License
 
-`react-shepherd` is licensed under **AGPL-3.0** (for open source and
-non-commercial use) with a **Commercial License** available for commercial use.
+`react-shepherd` has the same license as `shepherd.js`: the **PolyForm
+Noncommercial License 1.0.0**, with a **commercial license** for commercial use.
 
-- **Free** for open source and non-commercial projects under AGPL-3.0
-- **Commercial license required** for commercial products and revenue-generating
-  companies
+- **Free** for personal, hobby, educational, and other noncommercial projects
+- **Free to evaluate** for 30 days in a commercial project
+- **Commercial license required** for commercial products, client work, and
+  internal tools at for-profit companies. One Shepherd license covers both
+  packages.
 
-📄 [Read License Details](../../LICENSE.md)  
+📄 [Read License Details](./LICENSE.md)  
 💳 [Purchase Commercial License](https://shepherdjs.dev/pricing)

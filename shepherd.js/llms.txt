@@ -1,8 +1,9 @@
 # Shepherd.js
 
 > Guided product tours for the web. Steps are accessible dialogs that attach to DOM
-> elements. Runs in the browser, with no backend. AGPL-3.0, or a commercial license
-> for commercial products.
+> elements. Runs in the browser, with no backend. Free for noncommercial use
+> (PolyForm Noncommercial 1.0.0) and a 30-day evaluation; commercial products need
+> a one-time commercial license.
 
 Read `AGENTS.md` in this package before writing code. It has a working example and the
 mistakes to avoid. Option docs are in `dist/js/shepherd.d.mts`.

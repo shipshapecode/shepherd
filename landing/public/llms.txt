@@ -1,12 +1,13 @@
 # Shepherd.js
 
-> Shepherd is an open-source JavaScript library for building guided product
+> Shepherd is a JavaScript library for building guided product
 > tours, user onboarding flows, trainings, and feature announcements on any
 > website or web app. Steps render as accessible dialogs (keyboard navigation,
 > focus trapping, aria attributes) that attach to DOM elements and are
 > positioned by a small built-in engine. Works with React, Ember, Angular, Vue.js,
-> ES Modules, or plain JavaScript. Free for open-source, personal, and
-> non-commercial use (AGPL-3.0); commercial licenses are available.
+> ES Modules, or plain JavaScript. Free for personal, hobby,
+> educational, and other noncommercial use (PolyForm Noncommercial 1.0.0), and
+> free to evaluate for 30 days; commercial use needs a one-time license.
 
 ## Writing Shepherd code
 
@@ -50,13 +51,15 @@ analytics product — it renders and orchestrates the tour UI itself.
 
 ## Licensing
 
-- Free for open-source projects under an AGPL-compatible license, personal
-  projects, education, and evaluation for up to 30 days (AGPL-3.0).
-- Commercial and closed-source use is allowed with a one-time commercial license.
-  Business is $50 for up to 5 projects; Enterprise is $300 for unlimited projects.
-  No recurring fees, and no obligation to open-source your code.
-- Buy at https://www.shepherdjs.dev/pricing. `react-shepherd` is MIT but needs a
-  Shepherd.js commercial license for commercial use.
+- License: PolyForm Noncommercial 1.0.0 (SPDX `PolyForm-Noncommercial-1.0.0`)
+  plus a 30-day free evaluation for any use.
+- Free for personal and hobby projects, noncommercial open-source projects,
+  education, charities, public research, and government.
+- Commercial use (products, SaaS, client work, internal tools at for-profit
+  companies) needs a one-time commercial license. Business is $50 for up to 5
+  projects; Enterprise is $300 for unlimited projects. No recurring fees.
+- Buy at https://www.shepherdjs.dev/pricing. `react-shepherd` has the same terms;
+  one Shepherd license covers both.
 
 ## Docs
 
