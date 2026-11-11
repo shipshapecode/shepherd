@@ -826,11 +826,19 @@ function observeMove(element: Element, onMove: () => void) {
   const onResize = () => refresh(true);
   const win = getWindow(element);
   win.addEventListener('resize', onResize);
+  // The observer watches the box the element had when it was made, so an element
+  // that shrinks could then move within that old box without being noticed.
+  const resizes =
+    typeof ResizeObserver === 'function'
+      ? new ResizeObserver(onResize)
+      : undefined;
+  resizes?.observe(element);
   refresh(true);
 
   return () => {
     disposed = true;
     win.removeEventListener('resize', onResize);
+    resizes?.disconnect();
     stop();
   };
 }

@@ -108,6 +108,13 @@ async function runTracker() {
   await measure('settledShift', () => {
     scroller.style.top = '150px';
   });
+  await measure('shrink', () => {
+    reference.style.height = '20px';
+  });
+  // Stays within the box the reference had before it shrank.
+  await measure('shiftAfterShrink', () => {
+    scroller.style.top = '155px';
+  });
   cleanup();
   await measure('afterCleanup', () => {
     window.scrollTo(0, 80);
