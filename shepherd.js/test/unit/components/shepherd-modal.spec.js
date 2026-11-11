@@ -2007,13 +2007,16 @@ describe('components/ShepherdModal', () => {
     // A target living in the document of `frameWindow`. Only the target's
     // ownerDocument is swapped: the modal container stays in the real
     // document, which is what decides where the frame walk has to stop.
-    // The opening follows the target by listening on its window and document.
+    // The opening follows the target by listening on its window and document,
+    // and reads its style from its window.
     const listens = { addEventListener() {}, removeEventListener() {} };
 
     function startStepInFrame(modal, frameWindow) {
       const targetEl = document.createElement('div');
       container.appendChild(targetEl);
-      Object.assign(frameWindow, listens);
+      Object.assign(frameWindow, listens, {
+        getComputedStyle: window.getComputedStyle.bind(window)
+      });
       Object.defineProperty(targetEl, 'ownerDocument', {
         value: { defaultView: frameWindow, ...listens },
         configurable: true

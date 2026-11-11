@@ -828,17 +828,32 @@ function observeMove(element: Element, onMove: () => void) {
   win.addEventListener('resize', onResize);
   // The observer watches the box the element had when it was made, so an element
   // that shrinks could then move within that old box without being noticed.
+  // `autoUpdate` reports the resize itself.
   const resizes =
     typeof ResizeObserver === 'function'
       ? new ResizeObserver(onResize)
       : undefined;
-  resizes?.observe(element);
+  resizes?.observe(element, { box: 'border-box' });
+  // An inline element has no box for a ResizeObserver, so new text or attributes
+  // are the only sign that it changed size, and nothing else reports it.
+  const mutations =
+    typeof MutationObserver === 'function' &&
+    styleOf(element).display === 'inline'
+      ? new MutationObserver(() => refresh())
+      : undefined;
+  mutations?.observe(element, {
+    attributes: true,
+    characterData: true,
+    childList: true,
+    subtree: true
+  });
   refresh(true);
 
   return () => {
     disposed = true;
     win.removeEventListener('resize', onResize);
     resizes?.disconnect();
+    mutations?.disconnect();
     stop();
   };
 }
@@ -1011,8 +1026,10 @@ export function autoUpdate(
     typeof IntersectionObserver === 'function'
       ? chain.map((element) => observeMove(element, check))
       : [];
+  // The border box, which is what `check` compares, so a border or padding change
+  // on a fixed-size element counts.
   [reference, floating, ...frames].forEach((element) =>
-    resizes?.observe(element)
+    resizes?.observe(element, { box: 'border-box' })
   );
 
   const stop = () => {
