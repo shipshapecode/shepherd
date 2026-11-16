@@ -117,7 +117,7 @@
     "globals": "^17.14.0",
     "happy-dom": "^21.0.4",
     "http-server": "^14.1.1",
-    "jsdom": "^31.0.0",
+    "jsdom": "^31.0.1",
     "lodash": "^4.18.1",
     "playwright-core": "^1.65.0",
     "prettier": "^3.9.10",
