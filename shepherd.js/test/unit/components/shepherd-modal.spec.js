@@ -200,6 +200,140 @@ describe('components/ShepherdModal', () => {
 
       expect(path().getAttribute('d')).toBe(settled(0, 0, 0, 0));
     });
+
+    describe('between glides', () => {
+      let frames;
+
+      beforeEach(() => {
+        frames = [];
+        vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+          (callback) => frames.push(callback)
+        );
+      });
+
+      function runFrames() {
+        const pending = frames;
+        frames = [];
+        pending.forEach((callback) => callback());
+      }
+
+      it('asks for no frames while the target stays still', () => {
+        modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+        expect(frames).toHaveLength(0);
+      });
+
+      it('asks for frames until a glide lands, then stops', () => {
+        setDuration('1s');
+        modal.setupForStep(makeStep(rect(0, 0, 100, 100)));
+        modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+        for (let i = 0; i < 4; i++) {
+          expect(frames, 'mid glide').toHaveLength(1);
+          now += 250;
+          runFrames();
+        }
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+        expect(frames, 'landed').toHaveLength(0);
+      });
+
+      it('follows a target that scrolls', () => {
+        const step = makeStep(rect(200, 300, 50, 50));
+        modal.setupForStep(step);
+
+        step.target.getBoundingClientRect = () => rect(200, 100, 50, 50);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 100, 50, 50));
+      });
+
+      it('follows an extra highlight that scrolls on its own', () => {
+        const step = makeStep(rect(200, 300, 50, 50));
+        const extra = document.createElement('div');
+        extra.getBoundingClientRect = () => rect(400, 100, 20, 20);
+        document.body.append(extra);
+        step._resolvedExtraHighlightElements = [extra];
+        modal.setupForStep(step);
+
+        extra.getBoundingClientRect = () => rect(400, 40, 20, 20);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toContain('M400,40');
+        extra.remove();
+      });
+
+      it('follows a scroll parent that moves while its target stays put', () => {
+        const scroller = document.createElement('div');
+        // happy-dom reports '' for overflow, which would make every ancestor a
+        // scroll parent.
+        const computedStyle = window.getComputedStyle.bind(window);
+        vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+          const style = computedStyle(el);
+          const overflow = el === scroller ? 'auto' : 'visible';
+          return new Proxy(style, {
+            get: (target, key) =>
+              /^overflow[XY]?$/.test(key)
+                ? overflow
+                : typeof target[key] === 'function'
+                  ? target[key].bind(target)
+                  : target[key]
+          });
+        });
+        scroller.getBoundingClientRect = () => rect(0, 0, 1000, 1000);
+        document.body.append(scroller);
+        const step = makeStep(rect(200, 300, 50, 50));
+        step.target.style.position = '';
+        scroller.append(step.target);
+        modal.setupForStep(step);
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+        // The first check after setup always updates, so settle it first.
+        window.dispatchEvent(new Event('scroll'));
+
+        scroller.getBoundingClientRect = () => rect(0, 0, 1000, 320);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 20));
+        scroller.remove();
+      });
+
+      it('redraws a step with no target when the viewport resizes', () => {
+        const { innerWidth } = window;
+        const step = makeStep(rect(0, 0, 0, 0));
+        step.target = undefined;
+        modal.setupForStep(step);
+        expect(path().getAttribute('d')).toMatch(/^M1024,768/);
+
+        window.innerWidth = 1200;
+        window.dispatchEvent(new Event('resize'));
+        window.innerWidth = innerWidth;
+
+        expect(path().getAttribute('d')).toMatch(/^M1200,768/);
+      });
+
+      it('stops following once hidden', () => {
+        const step = makeStep(rect(200, 300, 50, 50));
+        modal.setupForStep(step);
+        modal.hide();
+
+        step.target.getBoundingClientRect = () => rect(200, 100, 50, 50);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+      });
+
+      it('follows only the newest step', () => {
+        const first = makeStep(rect(0, 0, 100, 100));
+        modal.setupForStep(first);
+        modal.setupForStep(makeStep(rect(200, 300, 50, 50)));
+
+        first.target.getBoundingClientRect = () => rect(10, 10, 100, 100);
+        window.dispatchEvent(new Event('scroll'));
+
+        expect(path().getAttribute('d')).toBe(settled(200, 300, 50, 50));
+      });
+    });
   });
 
   describe('closeModalOpening()', function () {
@@ -1511,11 +1645,8 @@ describe('components/ShepherdModal', () => {
       expect(modal.getElement()).not.toHaveClass('shepherd-modal-is-visible');
     });
 
-    it('useModalOverlay: true shows the modal and calls _styleForStep', () => {
+    it('useModalOverlay: true shows the modal and draws the opening', () => {
       const modal = createShepherdModal(container);
-      const rafSpy = vi
-        .spyOn(window, 'requestAnimationFrame')
-        .mockImplementation(() => 1);
 
       const targetEl = document.createElement('div');
       container.appendChild(targetEl);
@@ -1531,10 +1662,11 @@ describe('components/ShepherdModal', () => {
       modal.setupForStep(step);
 
       expect(modal.getElement()).toHaveClass('shepherd-modal-is-visible');
-      // _styleForStep calls rafLoop which calls requestAnimationFrame
-      expect(rafSpy).toHaveBeenCalled();
+      expect(
+        modal.getElement().querySelector('path').getAttribute('d')
+      ).toContain('ZM');
 
-      rafSpy.mockRestore();
+      modal.destroy();
     });
   });
 
@@ -1875,11 +2007,18 @@ describe('components/ShepherdModal', () => {
     // A target living in the document of `frameWindow`. Only the target's
     // ownerDocument is swapped: the modal container stays in the real
     // document, which is what decides where the frame walk has to stop.
+    // The opening follows the target by listening on its window and document,
+    // and reads its style from its window.
+    const listens = { addEventListener() {}, removeEventListener() {} };
+
     function startStepInFrame(modal, frameWindow) {
       const targetEl = document.createElement('div');
       container.appendChild(targetEl);
+      Object.assign(frameWindow, listens, {
+        getComputedStyle: window.getComputedStyle.bind(window)
+      });
       Object.defineProperty(targetEl, 'ownerDocument', {
-        value: { defaultView: frameWindow },
+        value: { defaultView: frameWindow, ...listens },
         configurable: true
       });
 

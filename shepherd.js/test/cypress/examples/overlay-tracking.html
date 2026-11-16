@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../../dist/css/shepherd.css" />
+    <script type="module">
+      import Shepherd from '../../../dist/js/shepherd.mjs';
+      window.Shepherd = Shepherd;
+    </script>
+  </head>
+
+  <body>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .scroller {
+        position: fixed;
+        left: 100px;
+        top: 100px;
+        width: 300px;
+        height: 200px;
+        overflow: auto;
+        /* Anchoring would scroll the content back and fire a scroll event. */
+        overflow-anchor: none;
+      }
+
+      .content {
+        padding-top: 200px;
+        height: 600px;
+      }
+
+      .in-scroller {
+        width: 120px;
+        height: 40px;
+        background: #ccd;
+      }
+
+      .bordered {
+        position: fixed;
+        left: 500px;
+        top: 100px;
+        width: 120px;
+        height: 40px;
+        border: 6px solid #333;
+      }
+
+      .line {
+        position: fixed;
+        left: 500px;
+        top: 300px;
+        margin: 0;
+        white-space: nowrap;
+      }
+    </style>
+
+    <div class="scroller">
+      <div class="content"><div class="in-scroller"></div></div>
+    </div>
+    <div class="bordered"></div>
+    <p class="line">x<a class="inline" href="#">a long inline target</a></p>
+  </body>
+</html>
