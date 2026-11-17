@@ -22,7 +22,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.5",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.5",
     "sharp": "^0.35.5",
