@@ -42,7 +42,7 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/react": "^19.3.0",
-    "@vitejs/plugin-react": "^6.2.1",
+    "@vitejs/plugin-react": "^6.3.0",
     "@vitest/ui": "^5.1.0",
     "happy-dom": "^21.0.4",
     "react": "^19.3.1",
