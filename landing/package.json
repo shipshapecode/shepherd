@@ -13,7 +13,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@astrojs/mdx": "^8.1.3",
+    "@astrojs/mdx": "^8.1.6",
     "@astrojs/vercel": "^11.0.22",
     "@polar-sh/sdk": "^1.0.2",
     "@vercel/analytics": "^2.0.1",
