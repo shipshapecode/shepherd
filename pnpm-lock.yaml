@@ -106,8 +106,8 @@ importers:
         specifier: ^11.0.22
         version: 11.0.22(astro@7.4.11(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(encoding@0.1.14)(react@19.3.1)(rollup@4.68.0)(supports-color@10.2.2)(ws@8.22.2)
       '@polar-sh/sdk':
-        specifier: ^1.0.2
-        version: 1.0.2
+        specifier: ^1.1.0
+        version: 1.1.0
       '@vercel/analytics':
         specifier: ^2.0.1
         version: 2.0.1(react@19.3.1)
@@ -1488,9 +1488,29 @@ packages:
     resolution: {integrity: sha512-//0sR/cow/s4ICQaYoAobOl4aU8cjU6x/V24V7XkKotb9+O+3zySIYp146vpaobYHnxa4pZX8NkV54Z5AwbDKA==}
     engines: {node: '>=12'}
 
-  '@polar-sh/sdk@1.0.2':
-    resolution: {integrity: sha512-c3jdqYloVfcejKsAqYfYcW4bG7KkXj5bXkgdsdx4GHlJPzHFV5tysfeZGf9V7dJReLBirAluchsuHWiAIBco8w==}
-    engines: {node: '>=22'}
+  '@polar-sh/sdk@1.1.0':
+    resolution: {integrity: sha512-Nv999RRY7sE5XdBggCctVv8rYJQWwFk4Hq7yEtaRG6FQCzEyWYxn1Ksi9VGevZSEF7edwZSyOiYuJ9VaYAdpCw==}
+    engines: {node: '>=24'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.9.1
+      '@opentelemetry/otlp-transformer': ^0.223.0
+      '@opentelemetry/resources': ^2.12.0
+      '@opentelemetry/sdk-metrics': ^2.12.0
+      '@opentelemetry/sdk-trace': ^2.12.0
+      ioredis: ^5.11.0
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+      '@opentelemetry/otlp-transformer':
+        optional: true
+      '@opentelemetry/resources':
+        optional: true
+      '@opentelemetry/sdk-metrics':
+        optional: true
+      '@opentelemetry/sdk-trace':
+        optional: true
+      ioredis:
+        optional: true
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
@@ -7035,7 +7055,7 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@polar-sh/sdk@1.0.2': {}
+  '@polar-sh/sdk@1.1.0': {}
 
   '@polka/url@1.0.0-next.29': {}
 
