@@ -120,7 +120,7 @@
     "jsdom": "^31.0.1",
     "lodash": "^4.18.1",
     "playwright-core": "^1.65.0",
-    "prettier": "^3.9.10",
+    "prettier": "^3.10.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.4",
     "start-server-and-test": "^3.0.13",
