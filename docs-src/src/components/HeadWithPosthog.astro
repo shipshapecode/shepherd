@@ -1,7 +1,9 @@
 ---
 import Default from '@astrojs/starlight/components/Head.astro';
+import Analytics from '@vercel/analytics/astro';
 import PostHog from './Posthog.astro';
 ---
 
 <Default><slot /></Default>
 <PostHog />
+<Analytics />
