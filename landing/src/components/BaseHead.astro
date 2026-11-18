@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import Analytics from '@vercel/analytics/astro';
 import PostHog from './Posthog.astro';
 
 // Import the global.css file here so that it is included on
@@ -172,6 +173,7 @@ const structuredData = {
 <meta name="description" content={description} />
 
 <PostHog />
+<Analytics />
 
 <!-- Open Graph -->
 <meta property="og:type" content={ogType} />
