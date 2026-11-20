@@ -112,7 +112,7 @@
     "cypress": "^16.3.0",
     "cypress-plugin-tab": "^2.0.0",
     "esbuild": "^0.28.2",
-    "eslint": "^10.14.0",
+    "eslint": "^10.15.0",
     "eslint-plugin-cypress": "^7.0.4",
     "globals": "^17.14.0",
     "happy-dom": "^21.0.4",
