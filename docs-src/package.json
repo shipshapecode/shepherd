@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.10",
+    "@astrojs/starlight": "^0.43.1",
     "@vercel/analytics": "^2.0.1",
     "astro": "^7.4.12",
     "shepherd.js": "workspace:*",
