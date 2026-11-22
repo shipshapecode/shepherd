@@ -119,7 +119,7 @@
     "http-server": "^14.1.1",
     "jsdom": "^31.0.1",
     "lodash": "^4.18.1",
-    "playwright-core": "^1.65.0",
+    "playwright-core": "^1.65.1",
     "prettier": "^3.10.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.4",
