@@ -104,7 +104,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@tsdown/css": "^0.23.7",
     "@vitest/coverage-v8": "^5.1.0",
     "@vitest/expect": "^5.1.0",
