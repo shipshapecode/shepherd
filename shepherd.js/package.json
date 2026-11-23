@@ -106,7 +106,7 @@
     "@arethetypeswrong/cli": "^0.18.5",
     "@testing-library/jest-dom": "^7.0.1",
     "@tsdown/css": "^0.23.7",
-    "@vitest/coverage-v8": "^5.1.0",
+    "@vitest/coverage-v8": "^5.1.1",
     "@vitest/expect": "^5.1.0",
     "chai": "^6.3.0",
     "cypress": "^16.3.0",
