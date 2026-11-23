@@ -75,8 +75,8 @@ importers:
         specifier: 0.12.0
         version: 0.12.0(@astrojs/markdown-satteri@0.4.10)(@astrojs/starlight@0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)
       starlight-typedoc:
-        specifier: ^0.23.2
-        version: 0.23.2(@astrojs/starlight@0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(typedoc-plugin-markdown@4.14.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3))
+        specifier: ^0.23.3
+        version: 0.23.3(@astrojs/starlight@0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(typedoc-plugin-markdown@4.14.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3))
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.12
@@ -4920,8 +4920,8 @@ packages:
       '@astrojs/starlight': '>=0.41.0'
       astro: ^7.0.0
 
-  starlight-typedoc@0.23.2:
-    resolution: {integrity: sha512-aErehRvL12eAhRAL8n68A6HgEOTd1+loT+tRfeq5UxECzMsThvqdFZaKyCam8b01uhMUDcOcEnqJGh5VnPzxyA==}
+  starlight-typedoc@0.23.3:
+    resolution: {integrity: sha512-kXccDHDS90/sg5G4hZJuG2JgLAsOISEZS0donme8IvwD+rlaG3mMEnxTBo6gzjv1iPWOhgd0wDDuPSTtwZUGLA==}
     peerDependencies:
       '@astrojs/starlight': '>=0.39.0'
       astro: '>=6.0.0'
@@ -10837,7 +10837,7 @@ snapshots:
       - '@astrojs/markdown-satteri'
       - supports-color
 
-  starlight-typedoc@0.23.2(@astrojs/starlight@0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(typedoc-plugin-markdown@4.14.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3)):
+  starlight-typedoc@0.23.3(@astrojs/starlight@0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3))(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(typedoc-plugin-markdown@4.14.1(typedoc@0.28.20(typescript@6.0.3)))(typedoc@0.28.20(typescript@6.0.3)):
     dependencies:
       '@astrojs/starlight': 0.43.1(astro@7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(supports-color@10.2.2)(typescript@6.0.3)
       astro: 7.4.12(@types/node@26.6.6)(@vercel/functions@3.11.3(ws@8.22.2))(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)
