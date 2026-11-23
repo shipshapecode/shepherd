@@ -124,7 +124,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^6.1.4",
     "start-server-and-test": "^3.0.13",
-    "terser": "^5.51.2",
+    "terser": "^5.51.3",
     "tsdown": "^0.23.7",
     "typescript": "^6.0.3",
     "vite": "^8.3.8",
